@@ -1,0 +1,21 @@
+
+#filters {
+    margin-top: 18px;
+}
+
+.filter-box-title {
+    display: none;
+}
+
+.filter-opt-title {
+    font-size: 16px;
+    margin-bottom: 12px;
+}
+
+.filter-opt-col {
+    display : inline-block;
+    vertical-align : top;
+    margin-right: 18px;
+}
+
+

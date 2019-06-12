@@ -1,0 +1,14 @@
+Package: Racmacs
+Type: Package
+Title: Interface R with acmacs
+Version: 1.0.0
+Date: 2019-06-10
+Author: S. H. Wilks
+Maintainer: S. H. Wilks <sw463@cam.ac.uk>
+Description: A toolkit for making antigenic maps from assay data such as HI assays.
+Imports: jsonlite, stringr, MCMCpack, gdata, acmacs.r, Rcpp, geometry, gplots, ks, misc3d, shinyFiles, shinyjs, htmlwidgets
+License: What license is it under?
+LazyData: TRUE
+Suggests: testthat, plotly
+RoxygenNote: 6.1.1
+LinkingTo: Rcpp

@@ -1,0 +1,8 @@
+.Rproj.user
+.Rhistory
+.RData
+.Rapp.history
+.DS_Store
+*.sublime-project
+*.sublime-workspace
+debugging

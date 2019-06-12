@@ -1,0 +1,275 @@
+
+body {
+  font-family: sans-serif;
+  margin-top: 20px;
+}
+
+h2 {
+  font-size: 180%;
+}
+
+h3 {
+  font-size: 140%;
+}
+
+#header {
+  margin-top: 20px;
+  margin-bottom: 10px;
+}
+
+#title-div {
+  width: 100vw;
+  height: 100vh;
+  text-align: center;
+  padding-top: 20px;
+}
+
+#title-img {
+  max-width: 100%;
+  border-radius: 6px;
+  padding: 6px;
+  background-color:#fff;
+  max-height: 140px;
+}
+
+#viewer {
+  height: calc(100vh - 150px);
+}
+
+#hiTable td {
+  text-align: right;
+}
+
+.option-selectors .form-control {
+  display: none;
+}
+
+.option-selectors .form-group {
+  margin: 0;
+}
+
+.option-selectors .btn {
+  border-style: none;
+}
+
+.option-selectors span {
+  background-color: #f9f9f9;
+  text-align: left;
+  border-top-right-radius: 4px !important;
+  border-bottom-right-radius: 4px !important;
+  width: 100%;
+  padding: 4px 6px;
+  font-size: 12px;
+}
+
+.option-file-selector {
+  display: inline-block;
+  margin-bottom: 0;
+  padding: 8px;
+  background-color: #eee;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+.option-selectors {
+  position: absolute;
+  z-index: 10;
+  margin-top: 0px;
+  border-radius: 4px;
+}
+
+.file-options {
+  position: relative;
+}
+
+.progress {
+  display: none;
+}
+
+.row {
+  display: flex;
+}
+
+#control-panel{
+  min-height: 100vh;
+  background-color: #f4f4f4;
+  position: relative;
+}
+
+.batchRunsHolder {
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background-color: #eee;
+  height: 200px;
+  max-width: 300px;
+  width: 100%;
+  overflow-y: scroll;
+  box-sizing: border-box;
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+.batchRunsTable {
+  width: 100%;
+}
+
+.batchRunsTable .selected {
+  background-color: rgb(46, 91, 159);
+  color: #ffffff;
+}
+
+.batchRunsRow {
+  cursor: default;
+  color: #333333;
+}
+
+
+.batchRunsRow:hover {
+  background-color: lightblue;
+}
+
+.batchRunsCol {
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+#selectMap {
+  padding: 0;
+  box-sizing: border-box;
+  margin-top:    2px;
+  margin-bottom: 6px;
+}
+
+#hiTable {
+  font-size: 75%;
+  width: 100%;
+  overflow-x: scroll;
+}
+
+/* Styling the viewer buttons panel */
+#viewer-btns {
+  margin-bottom:10px !important;
+  margin-top:10px !important;
+}
+
+#viewer-btns > div {
+  display: inline-block;
+}
+
+#viewer-btns .dropdown-menu>li>a {
+  padding: 6px 12px;
+}
+
+.viewer-btn {
+  font-size: 32px;
+  background-color: #eee;
+  border-style: none;
+  border-radius: 4px;
+  width: 42px;
+  height: 42px;
+  padding: 0;
+  vertical-align: top;
+}
+
+.text-label {
+  white-space: normal;
+  line-height: 14px;
+  font-size: 12px;
+  vertical-align: center;
+}
+
+#viewer-btns .viewer-btn span {
+  background-color: inherit;
+  text-align: center;
+  line-height: 32px;
+}
+
+#viewer-btns .viewer-btn .btn {
+  padding: 0;
+  text-align: center;
+}
+
+#viewer-btns .viewer-btn .input-group input {
+  display: none;
+}
+
+#viewer-btns li a{
+  cursor: pointer;
+}
+
+#viewer-btns button:hover,
+#viewer-btns .viewer-btn:hover {
+  background-color: rgb(113, 130, 165);
+  color: #fff;
+}
+
+#viewer-btns .viewer-btn span:hover {
+  color: #fff;
+}
+
+#viewer-btns .open>button {
+  background-color: rgb(113, 130, 165);
+}
+
+#viewer-btns .file-input .form-control {
+  display: none;
+}
+
+#viewer-btns .btn {
+  width: 100%;
+  text-align: left;
+  border-style: none;
+  border-radius: 0;
+}
+
+#viewer-btns .form-group.shiny-input-container {
+  margin-bottom: 0;
+}
+
+#viewer-btns .active {
+  background-color: #006666;
+  color: #ffffff;
+}
+
+.dropdown.padded .dropdown-menu {
+  padding: 8px;
+  padding-top: 0;
+}
+
+.dropdown.padded li {
+  margin-top: 8px;
+}
+
+
+
+
+.radio {
+  margin: 0;
+}
+
+.radio label {
+  width: 100%;
+  padding: 0;
+}
+
+#selectMap input[type=radio][value=placeholder_radiobtn] + span {
+  display: none;
+}
+
+#selectMap input[type=radio]:checked + span {
+  background-color: #999999;
+  color: #ffffff;
+}
+
+#selectMap input[type=radio] + span {
+  margin-bottom: 4px;
+  padding-left:  4px;
+  padding-right: 4px;
+  display: inline-block;
+  width: inherit;
+}
+
+#selectMap input[type=radio] + span:hover {
+  background-color: lightblue;
+}

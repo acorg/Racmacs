@@ -25,7 +25,9 @@ print.rac <- function(map, all = FALSE){
   if(!all){
 
     # Print only a summary of optimizations
-    class(map$optimizations) <- "racoptimizations"
+    if(!is.null(map$optimizations)){
+      class(map$optimizations) <- "racoptimizations"
+    }
 
     # Work out which attributes not to print
     null_attributes <- vapply(map, is.null, logical(1))

@@ -3,21 +3,45 @@ library(Racmacs)
 
 testthat::context("Optimizing maps")
 
-acmap <- read.acmap(testthat::test_path("../testdata/testmap.ace"))
+racmap <- read.acmap(testthat::test_path("../testdata/testmap.ace"))
 chart <- read.acmap.cpp(testthat::test_path("../testdata/testmap.ace"))
+titertable <- read.titerTable(testthat::test_path("../testdata/titer_tables/titer_table1.csv"))
+
+testthat::test_that(paste("Optimizing a map with just a table acmap"), {
+  map <- acmap(table = titertable)
+  map <- optimizeMap(
+    map = map,
+    number_of_dimensions = 2,
+    number_of_optimizations = 1,
+    minimum_column_basis = "none"
+  )
+})
+
+testthat::test_that(paste("Optimizing a map with just a table acmap.cpp"), {
+  map <- acmap.cpp(table = titertable)
+  map <- optimizeMap(
+    map = map,
+    number_of_dimensions = 2,
+    number_of_optimizations = 1,
+    minimum_column_basis = "none"
+  )
+})
+
 
 for(maptype in c("racchart", "racmap")){
 
   if(maptype == "racmap")   {
-    map      <- acmap
+    map      <- racmap
     largemap <- read.acmap(testthat::test_path("../testdata/testmap_large.ace"))
+    newmap <- acmap
   }
   if(maptype == "racchart") {
     map <- chart
     largemap <- read.acmap.cpp(testthat::test_path("../testdata/testmap_large.ace"))
+    newmap <- acmap.cpp
   }
 
-  # Relaxe existing maps
+  # Relax existing maps
   map_relax      <- cloneMap(map)
   largemap_relax <- cloneMap(largemap)
 

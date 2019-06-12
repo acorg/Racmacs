@@ -1,6 +1,7 @@
 
 # Function to convert a optimization number
 convertOptimizationNum <- function(optimization_number, map){
+  if(numOptimizations(map) == 0) stop("Map has no optimizations")
   if(length(optimization_number) == 0){ optimization_number <- selectedOptimization(map) }
   if(optimization_number > numOptimizations(map) || optimization_number < 1){
     stop("The map object only has ", numOptimizations(map), " optimizations, but you specified optimization number ", optimization_number)

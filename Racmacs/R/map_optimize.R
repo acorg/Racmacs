@@ -72,6 +72,12 @@ optimizeMap <- function(map,
                          minimum_column_basis)
   vmessage(verbose, "done.")
 
+  # Set selected optimization to 1
+  if(!is.null(selectedOptimization(map)) && selectedOptimization(map) != 1){
+    warning("Selected optimization reset to 1")
+  }
+  selectedOptimization(map) <- 1
+
   # Record new optimization stresses
   new_optimization_stresses <- allMapStresses(map)[new_optimizations]
 

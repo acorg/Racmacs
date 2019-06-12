@@ -4,18 +4,11 @@
 \alias{RacViewer}
 \title{Create a RacViewer widget}
 \usage{
-RacViewer(map, controls = TRUE, selectable = controls,
-  stress = controls, rotation, translation, zoom, width = NULL,
-  height = NULL, elementId = NULL)
+RacViewer(map, rotation, translation, zoom, hide_control_panel = FALSE,
+  width = NULL, height = NULL, elementId = NULL)
 }
 \arguments{
 \item{map}{The map data object}
-
-\item{controls}{Should controls be shown}
-
-\item{selectable}{Should points be selectable}
-
-\item{stress}{Should stress be shown}
 
 \item{rotation}{Viewer rotation}
 
@@ -29,9 +22,15 @@ RacViewer(map, controls = TRUE, selectable = controls,
 
 \item{elementId}{DOM element ID}
 
+\item{controls}{Should controls be shown}
+
+\item{stress}{Should stress be shown}
+
 \item{show_ags}{Should antigens be shown}
 
 \item{show_sr}{Should sera be shown}
+
+\item{selectable}{Should points be selectable}
 }
 \description{
 This creates an html widget for viewing antigenic maps.

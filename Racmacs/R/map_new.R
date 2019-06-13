@@ -198,6 +198,11 @@ map.populate <- function(map,
   argument_values <- list(...)
   arguments_provided <- names(argument_values)
 
+  # Convert table to matrix
+  if("table" %in% arguments_provided){
+    argument_values[["table"]] <- as.matrix(argument_values[["table"]])
+  }
+
   # Set antigen and serum names from table column and row names if not provided
   if("table" %in% arguments_provided
      && !is.null(rownames(argument_values[["table"]]))

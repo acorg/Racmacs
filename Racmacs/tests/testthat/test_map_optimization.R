@@ -15,6 +15,29 @@ testthat::test_that(paste("Optimizing a map with just a table acmap"), {
     number_of_optimizations = 1,
     minimum_column_basis = "none"
   )
+  testthat::expect_equal(numOptimizations(map), 1)
+})
+
+testthat::test_that(paste("Optimizing a map with just a data frame acmap"), {
+  map <- acmap(table = as.data.frame(titertable))
+  map <- optimizeMap(
+    map = map,
+    number_of_dimensions = 2,
+    number_of_optimizations = 1,
+    minimum_column_basis = "none"
+  )
+  testthat::expect_equal(numOptimizations(map), 1)
+})
+
+testthat::test_that(paste("Optimizing a map with just a data frame acmap.cpp"), {
+  map <- acmap.cpp(table = as.data.frame(titertable))
+  map <- optimizeMap(
+    map = map,
+    number_of_dimensions = 2,
+    number_of_optimizations = 1,
+    minimum_column_basis = "none"
+  )
+  testthat::expect_equal(numOptimizations(map), 1)
 })
 
 testthat::test_that(paste("Optimizing a map with just a table acmap.cpp"), {
@@ -25,6 +48,7 @@ testthat::test_that(paste("Optimizing a map with just a table acmap.cpp"), {
     number_of_optimizations = 1,
     minimum_column_basis = "none"
   )
+  testthat::expect_equal(numOptimizations(map), 1)
 })
 
 

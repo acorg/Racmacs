@@ -96,6 +96,7 @@ titerTable.racmap <- function(map, names = TRUE){
 
 #' @export
 set_titerTable.racmap <- function(map, value){
+  value <- as.matrix(value)
   rownames(value) <- agNames(map)
   colnames(value) <- srNames(map)
   map$table <- value

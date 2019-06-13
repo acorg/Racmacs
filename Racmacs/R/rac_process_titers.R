@@ -13,32 +13,27 @@
 #'
 read.titerTable <- function(filepath, Fnum_to_SRname = FALSE){
 
-  # Read from csv
   if(grepl("\\.csv$", filepath)){
 
+    # Read from csv
     titer_table <- read.csv(file             = filepath,
                          row.names        = 1,
                          check.names      = FALSE,
                          stringsAsFactors = FALSE,
                          colClasses       = 'character')
 
-  }
+  } else if(grepl("\\.xls$", filepath) | grepl("\\.xlsx$", filepath)){
 
-  # Read from xls
-  if(grepl("\\.xls$", filepath) |
-     grepl("\\.xlsx$", filepath)){
-
+    # Read from xls
     titer_table <- gdata::read.xls(xls              = filepath,
                                 row.names        = 1,
                                 check.names      = FALSE,
                                 stringsAsFactors = FALSE,
                                 colClasses='character')
 
-  }
+  } else if(grepl("\\.txt$", filepath)){
 
-  # Read from tab delimted txt
-  if(grepl("\\.txt$", filepath)){
-
+    # Read from tab delimted txt
     fileLines <- readLines(filepath)
 
     # Ignore lines starting with ;
@@ -58,6 +53,11 @@ read.titerTable <- function(filepath, Fnum_to_SRname = FALSE){
 
     # Apply column names
     colnames(titer_table) <- rows[[header_rows[1]]]
+
+  } else {
+
+    # Unsupported filetype
+    stop("File type '", tools::file_ext(filepath),"' not supported.")
 
   }
 

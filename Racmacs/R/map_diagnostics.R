@@ -1,6 +1,4 @@
 
-
-
 #' Perform dimension testing on a map object
 #'
 #' Take a map object and perform cross-validation, seeing how well titers are
@@ -25,6 +23,17 @@ dimensionTestMap <- function(map,
                              minimum_column_basis     = "none",
                              column_bases_from_master = TRUE){
 
+  UseMethod("dimensionTestMap", map)
+
+}
+
+#' @export
+dimensionTestMap.racchart <- function(map,
+                                      dimensions_to_test       = 1:5,
+                                      test_proportion          = 0.1,
+                                      minimum_column_basis     = "none",
+                                      column_bases_from_master = TRUE){
+
   acmacs.r::acmacs.map_resolution_test(map$chart,
                                        number_of_dimensions     = dimensions_to_test,
                                        proportions_to_dont_care = test_proportion,
@@ -33,6 +42,18 @@ dimensionTestMap <- function(map,
                                        relax_from_full_table    = FALSE)
 
 }
+
+#' @export
+dimensionTestMap.racmap <- function(map,
+                                    dimensions_to_test       = 1:5,
+                                    test_proportion          = 0.1,
+                                    minimum_column_basis     = "none",
+                                    column_bases_from_master = TRUE){
+
+  dimensionTestMap(as.cpp(map))
+
+}
+
 
 
 

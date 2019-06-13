@@ -38,13 +38,30 @@ process_mapViewerData <- function(mapData){
       }
     }))
   }
-  mapData$ag_cols_fill    <- convertCol(mapData$ag_cols_fill)
-  mapData$ag_cols_outline <- convertCol(mapData$ag_cols_outline)
-  mapData$sr_cols_fill    <- convertCol(mapData$sr_cols_fill)
-  mapData$sr_cols_outline <- convertCol(mapData$sr_cols_outline)
+  agFill(mapData)    <- convertCol(agFill(mapData))
+  agOutline(mapData) <- convertCol(agOutline(mapData))
+  srFill(mapData)    <- convertCol(srFill(mapData))
+  srOutline(mapData) <- convertCol(srOutline(mapData))
   if(length(mapData$selected_optimization) == 1){
     mapData$selected_optimization <- jsonlite::unbox(mapData$selected_optimization - 1)
   }
+
+  # Set defaults
+  agAspect(mapData)       <- agAspect(mapData)
+  agRotation(mapData)     <- agRotation(mapData)
+  agOutlineWidth(mapData) <- agOutlineWidth(mapData)
+  agDrawingOrder(mapData) <- agDrawingOrder(mapData)
+  agShape(mapData)        <- agShape(mapData)
+  agSize(mapData)         <- agSize(mapData)
+  agShown(mapData)        <- agShown(mapData)
+
+  srAspect(mapData)       <- srAspect(mapData)
+  srRotation(mapData)     <- srRotation(mapData)
+  srOutlineWidth(mapData) <- srOutlineWidth(mapData)
+  srDrawingOrder(mapData) <- srDrawingOrder(mapData)
+  srShape(mapData)        <- srShape(mapData)
+  srSize(mapData)         <- srSize(mapData)
+  srShown(mapData)        <- srShown(mapData)
 
   # Mark unboxed json components
   unbox_map(mapData)

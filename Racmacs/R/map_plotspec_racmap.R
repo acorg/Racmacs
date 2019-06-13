@@ -51,12 +51,20 @@ applyPlotspec.racmap <- function(map, source_map){
 ## Antigen and sera fill colors
 #' @export
 agFill.racmap <- function(racmap){
-  racmap$ag_cols_fill
+  if(is.null(racmap$ag_cols_fill)){
+    rep_len("green", numAntigens(racmap))
+  } else {
+    racmap$ag_cols_fill
+  }
 }
 
 #' @export
 srFill.racmap <- function(racmap){
-  racmap$sr_cols_fill
+  if(is.null(racmap$sr_cols_fill)){
+    rep_len("transparent", numSera(racmap))
+  } else {
+    racmap$sr_cols_fill
+  }
 }
 
 #' @export
@@ -76,12 +84,20 @@ set_srFill.racmap <- function(racmap, value){
 ## Antigen and sera outline colors
 #' @export
 agOutline.racmap <- function(racmap){
-  racmap$ag_cols_outline
+  if(is.null(racmap$ag_cols_outline)){
+    rep_len("black", numAntigens(racmap))
+  } else {
+    racmap$ag_cols_outline
+  }
 }
 
 #' @export
 srOutline.racmap <- function(racmap){
-  racmap$sr_cols_outline
+  if(is.null(racmap$sr_cols_outline)){
+    rep_len("black", numSera(racmap))
+  } else {
+    racmap$sr_cols_outline
+  }
 }
 
 #' @export
@@ -102,12 +118,20 @@ set_srOutline.racmap <- function(racmap, value){
 ## Antigen and sera outline widths
 #' @export
 agOutlineWidth.racmap <- function(racmap){
-  racmap$ag_outline_width
+  if(is.null(racmap$ag_outline_width)){
+    rep_len(1, numAntigens(racmap))
+  } else {
+    racmap$ag_outline_width
+  }
 }
 
 #' @export
 srOutlineWidth.racmap <- function(racmap){
-  racmap$sr_outline_width
+  if(is.null(racmap$sr_outline_width)){
+    rep_len(1, numSera(racmap))
+  } else {
+    racmap$sr_outline_width
+  }
 }
 
 #' @export
@@ -126,12 +150,20 @@ set_srOutlineWidth.racmap <- function(racmap, value){
 ## Antigen and sera sizes
 #' @export
 agSize.racmap <- function(racmap){
-  racmap$ag_size
+  if(is.null(racmap$ag_size)){
+    rep_len(6, numAntigens(racmap))
+  } else {
+    racmap$ag_size
+  }
 }
 
 #' @export
 srSize.racmap <- function(racmap){
-  racmap$sr_size
+  if(is.null(racmap$sr_size)){
+    rep_len(6, numSera(racmap))
+  } else {
+    racmap$sr_size
+  }
 }
 
 #' @export
@@ -151,12 +183,20 @@ set_srSize.racmap <- function(racmap, value){
 ## Antigen and sera rotation
 #' @export
 agRotation.racmap <- function(racmap){
-  racmap$ag_rotation
+  if(is.null(racmap$ag_rotation)){
+    rep_len(0, numAntigens(racmap))
+  } else {
+    racmap$ag_rotation
+  }
 }
 
 #' @export
 srRotation.racmap <- function(racmap){
-  racmap$sr_rotation
+  if(is.null(racmap$sr_rotation)){
+    rep_len(0, numSera(racmap))
+  } else {
+    racmap$sr_rotation
+  }
 }
 
 #' @export
@@ -176,12 +216,20 @@ set_srRotation.racmap <- function(racmap, value){
 ## Antigen and sera aspect
 #' @export
 agAspect.racmap <- function(racmap){
-  racmap$ag_aspect
+  if(is.null(racmap$ag_aspect)){
+    rep_len(1, numAntigens(racmap))
+  } else {
+    racmap$ag_aspect
+  }
 }
 
 #' @export
 srAspect.racmap <- function(racmap){
-  racmap$sr_aspect
+  if(is.null(racmap$sr_aspect)){
+    rep_len(1, numSera(racmap))
+  } else {
+    racmap$sr_aspect
+  }
 }
 
 #' @export
@@ -201,12 +249,20 @@ set_srAspect.racmap <- function(racmap, value){
 ## Antigen and sera shapes
 #' @export
 agShape.racmap <- function(racmap){
-  racmap$ag_shape
+  if(is.null(racmap$ag_shape)){
+    rep_len("CIRCLE", numAntigens(racmap))
+  } else {
+    racmap$ag_shape
+  }
 }
 
 #' @export
 srShape.racmap <- function(racmap){
-  racmap$sr_shape
+  if(is.null(racmap$sr_shape)){
+    rep_len("BOX", numSera(racmap))
+  } else {
+    racmap$sr_shape
+  }
 }
 
 #' @export
@@ -225,12 +281,20 @@ set_srShape.racmap <- function(racmap, value){
 ## Antigen and sera visibility
 #' @export
 agShown.racmap <- function(racmap){
-  racmap$ag_shown
+  if(is.null(racmap$ag_shown)){
+    rep_len(TRUE, numAntigens(racmap))
+  } else {
+    racmap$ag_shown
+  }
 }
 
 #' @export
 srShown.racmap <- function(racmap){
-  racmap$sr_shown
+  if(is.null(racmap$sr_shown)){
+    rep_len(TRUE, numSera(racmap))
+  } else {
+    racmap$sr_shown
+  }
 }
 
 #' @export

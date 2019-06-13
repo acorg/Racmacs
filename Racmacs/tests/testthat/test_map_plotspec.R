@@ -5,7 +5,35 @@ library(Racmacs)
 racmap   <- read.acmap(filename = testthat::test_path("../testdata/testmap.ace"))
 racchart <- read.acmap.cpp(filename = testthat::test_path("../testdata/testmap.ace"))
 
-testthat::context("Test reading and editing of map data")
+testthat::context("Test reading and editing of plotspec data")
+
+## Test defaults
+testthat::test_that("Test acmap defaults", {
+
+  map <- acmap(table = matrix(2^(4:9), 3, 2)*10)
+  map <- optimizeMap(map, number_of_dimensions = 2, number_of_optimizations = 1, minimum_column_basis = "none")
+
+  testthat::expect_equal(agFill(map),         rep("green", 3)       )
+  testthat::expect_equal(agOutline(map),      rep("black", 3)       )
+  testthat::expect_equal(agAspect(map),       rep(1, 3)             )
+  testthat::expect_equal(agRotation(map),     rep(0, 3)             )
+  testthat::expect_equal(agOutlineWidth(map), rep(1, 3)             )
+  testthat::expect_equal(agDrawingOrder(map), 1:3                   )
+  testthat::expect_equal(agShape(map),        rep("CIRCLE", 3)      )
+  testthat::expect_equal(agSize(map),         rep(6, 3)             )
+  testthat::expect_equal(agShown(map),        rep(TRUE, 3)          )
+
+  testthat::expect_equal(srFill(map),         rep("transparent", 2) )
+  testthat::expect_equal(srOutline(map),      rep("black", 2)       )
+  testthat::expect_equal(srAspect(map),       rep(1, 2)             )
+  testthat::expect_equal(srRotation(map),     rep(0, 2)             )
+  testthat::expect_equal(srOutlineWidth(map), rep(1, 2)             )
+  testthat::expect_equal(srDrawingOrder(map), 4:5                   )
+  testthat::expect_equal(srShape(map),        rep("BOX", 2)         )
+  testthat::expect_equal(srSize(map),         rep(6, 2)             )
+  testthat::expect_equal(srShown(map),        rep(TRUE, 2)          )
+
+})
 
 ## Plotspec
 # property | chart supports setting | test value | mode

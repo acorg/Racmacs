@@ -60,8 +60,8 @@ plot.rac <- function(map,
   }
 
   # Plot points
-  pts <- mapPoints(map              = map,
-                   optimization_number       = optimization_number)
+  pts <- mapPoints(map                 = map,
+                   optimization_number = optimization_number)
 
   ## Hide antigens and sera
   if(!plot_ags || missing(ag_coords)) { pts$shown[map_pts$pt_type == "ag"] <- FALSE }

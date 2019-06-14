@@ -13,10 +13,19 @@ for(maptype in c("acmap", "chart")){
 
   test_that(paste("Plotting a bare bones", maptype), {
 
-    map <- mapmaker(
-      ag_coords = matrix(1:10, 5),
-      sr_coords = matrix(1:8,  4)
-    )
+    if(maptype == "chart"){
+      testthat::expect_warning({
+        map <- mapmaker(
+          ag_coords = matrix(1:10, 5),
+          sr_coords = matrix(1:8,  4)
+        )
+      })
+    } else {
+      map <- mapmaker(
+        ag_coords = matrix(1:10, 5),
+        sr_coords = matrix(1:8,  4)
+      )
+    }
 
     x <- plot(map)
     testthat::expect_null(x)
@@ -25,15 +34,5 @@ for(maptype in c("acmap", "chart")){
 
 }
 
-
-
-# chart <- racchart(ag_coords = as.matrix(expand.grid(1:4, 1:4, 1:4)),
-#                   sr_coords = as.matrix(expand.grid(1:4, 1:4, 1:4)))
-#
-# chart$ag_size <- chart$ag_size*2
-# chart$sr_size <- chart$sr_size*2
-#
-# view(chart)
-#
 
 

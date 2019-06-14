@@ -50,7 +50,11 @@ dimensionTestMap.racmap <- function(map,
                                     minimum_column_basis     = "none",
                                     column_bases_from_master = TRUE){
 
-  dimensionTestMap(as.cpp(map))
+  dimensionTestMap(map                      = as.cpp(map),
+                   dimensions_to_test       = dimensions_to_test,
+                   test_proportion          = test_proportion,
+                   minimum_column_basis     = minimum_column_basis,
+                   column_bases_from_master = column_bases_from_master)
 
 }
 

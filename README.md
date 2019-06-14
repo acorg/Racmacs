@@ -23,7 +23,7 @@ install.packages("https://github.com/acorg/acmacs.r/releases/download/v3.4/acmac
 Run the following
 
 ```R
-install.packages("https://github.com/acorg/Racmacs/releases/download/v1.0/Racmacs_1.0.2.tgz", repos = NULL)
+install.packages("https://github.com/acorg/Racmacs/releases/download/v1.0/Racmacs_1.0.3.tgz", repos = NULL)
 ```
 
 

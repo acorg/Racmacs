@@ -18,7 +18,8 @@ for(maptype in c("acmap", "chart")){
       sr_coords = matrix(1:8,  4)
     )
 
-    plot(map)
+    x <- plot(map)
+    testthat::expect_null(x)
 
   })
 

@@ -76,7 +76,7 @@ agDates.racmap <- function(map){
 
 #' @export
 set_agDates.racmap <- function(map, value){
-  map$ag_dates <- as.Date(value)
+  map$ag_dates <- as.Date(value, format = "%Y-%m-%d")
   map
 }
 

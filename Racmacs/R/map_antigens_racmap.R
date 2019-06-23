@@ -71,12 +71,12 @@ set_agNamesAbbreviated.racmap <- function(map, value){
 ## Antigen and sera dates -------
 #' @export
 agDates.racmap <- function(map){
-  map$ag_dates
+  map$ag_date
 }
 
 #' @export
 set_agDates.racmap <- function(map, value){
-  map$ag_dates <- as.Date(value, format = "%Y-%m-%d")
+  map$ag_date <- as.Date(value, format = "%Y-%m-%d")
   map
 }
 

@@ -61,7 +61,7 @@ getAntigenAttributes <- function(racchart,
     if(sum(output$agDates != "") == 0){
       output["agDates"] <- list(NULL)
     } else {
-      output[["agDates"]] <- as.Date(output$agDates)
+      output[["agDates"]] <- as.Date(output$agDates, format = "%Y-%m-%d")
     }
   }
 

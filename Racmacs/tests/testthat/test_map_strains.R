@@ -81,5 +81,29 @@ testthat::test_that("Edit map strain details", {
 })
 
 
+# Known and unknown dates
+testthat::test_that("Mix of know and unknown dates", {
+
+  map <- acmap(
+    table = matrix(c("<10", "40", "80", "160"), 2, 2),
+    ag_date = c("", "2018-01-01")
+  )
+
+  map.cpp <- acmap(
+    table = matrix(c("<10", "40", "80", "160"), 2, 2),
+    ag_date = c("", "2018-01-01")
+  )
+
+  testthat::expect_equal(
+    c(as.Date(NA), as.Date("2018-01-01")),
+    agDates(map)
+  )
+
+  testthat::expect_equal(
+    c(as.Date(NA), as.Date("2018-01-01")),
+    agDates(map.cpp)
+  )
+
+})
 
 

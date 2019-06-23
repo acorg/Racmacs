@@ -58,12 +58,12 @@ set_srNamesAbbreviated.racmap <- function(map, value){
 ## Antigen and sera dates -------
 #' @export
 srDates.racmap <- function(map){
-  map$sr_dates
+  map$sr_date
 }
 
 #' @export
 set_srDates.racmap <- function(map, value){
-  map$sr_dates <- value
+  map$sr_date <- as.Date(value, format = "%Y-%m-%d")
   map
 }
 

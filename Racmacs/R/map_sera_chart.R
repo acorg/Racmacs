@@ -41,7 +41,7 @@ getSerumAttributes <- function(racchart,
         sera <- racchart$chart$sera
         dates <- sapply(sera, function(x){ x$date })
         if(sum(dates != "") == 0){ return(NULL)           }
-        else                     { return(as.Date(dates)) }
+        else                     { return(as.Date(dates, format = "%Y-%m-%d")) }
       }
 
       # Return an error if no attribute matched

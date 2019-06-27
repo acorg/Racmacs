@@ -160,6 +160,7 @@ as.list.racchart <- function(map, verbose = FALSE){
   # Copy additional properties
   racmap$diagnostics <- map$diagnostics
   racmap$procrustes  <- map$procrustes
+  racmap$bootstrap   <- map$bootstrap
 
   # Return the updated racmap
   racmap
@@ -279,6 +280,8 @@ as.cpp <- function(map, warnings = TRUE){
 
   # Copy additional properties
   racchart$diagnostics <- map$diagnostics
+  racchart$procrustes  <- map$procrustes
+  racchart$bootstrap   <- map$bootstrap
 
   # Return the chart
   racchart

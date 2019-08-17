@@ -75,11 +75,37 @@ encode_base64 <- function(img){
 #'
 #' For usage debugging problems with the viewer.
 #'
-write2viewer_debug <- function(mapData){
+write2viewer_debug <- function(map){
 
-  mapData <- process_mapViewerData(mapData)
-  write(x    = paste0("json_data = '", jsonlite::toJSON(mapData), "';\n\nvar plotData = JSON.parse(json_data);"),
-        file = "~/Dropbox/LabBook/R-acmacs/Racmacs/inst/htmlwidgets/RacViewer/tests/data/bug.js")
+  # Read the yaml file
+  yaml    <- yaml::read_yaml("inst/htmlwidgets/RacViewer.yaml")
+  src     <- "../../lib"
+  styles  <- file.path(src, yaml$dependencies[[1]]$stylesheet)
+  scripts <- file.path(src, yaml$dependencies[[1]]$script)
+
+  # Setup the html file
+  html <- c(
+    "<html>",
+      "<head>",
+        paste0('<link rel="stylesheet" type="text/css" href="', styles, '">'),
+        paste0('<script src="', scripts, '"></script>'),
+        '<script>',
+          'window.onload = function() {',
+            'var container = document.getElementById("rac-viewer");',
+            paste0('var mapData = JSON.parse(`', as.json(map),'`);'),
+            'var viewer = new Racmacs.Viewer(container);',
+            'viewer.load(mapData);',
+          '};',
+        '</script>',
+      "</head>",
+      "<body>",
+        '<div id="rac-viewer" style="position: absolute; top: 0px; bottom: 0px; left:0px; right:0px;"></div>',
+      "</body>",
+    "</html>"
+  )
+
+  # Write the file
+  writeLines(html, "inst/htmlwidgets/RacViewer/tests/pages/bug.html")
 
 }
 

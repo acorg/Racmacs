@@ -19,12 +19,12 @@ Racmacs.Data = class Data {
     // Chart attributes
     tableName(){
         if(!this.data){ return("") }
-        return(this.data.table_name);
+        return(this.data.c.i.N);
     }
 
     numProjections(){
-        if(!this.data || !this.data.optimizations){ return(0) }
-        return(this.data.optimizations.length);
+        if(!this.data){ return(0) }
+        return(this.data.c.P.length);
     }
 
     setProjection(num){
@@ -46,64 +46,74 @@ Racmacs.Data = class Data {
 
     numAntigens(){
         if(!this.data){ return(0) }
-        return(this.data.ag_names.length);
+        return(this.data.c.a.length);
     }
 
     numSera(){
         if(!this.data){ return(0) }
-        return(this.data.sr_names.length);
+        return(this.data.c.s.length);
     }
 
     table(){
-        return(this.data.table.slice(0));
+
+        // Setup table
+        var table = Array(this.data.c.a.length);
+        for(var i=0; i<this.data.c.a.length; i++){
+            table[i] = Array(this.data.c.s.length).fill("*");
+        }
+
+        // Fill in table from json data
+        var tabledata = this.data.c.t.d;
+        for(var i=0; i<tabledata.length; i++){
+            for (let [key, value] of Object.entries(tabledata[i])) {
+              table[i][Number(key)] = value;
+            }
+        }
+        
+        // Return the table data
+        return(table);
+
     }
 
     // Projection attributes
     stress(num){
         var pnum = this.projection(num);
-        return(this.data.optimizations[pnum].stress);
+        return(this.data.c.P[pnum].s);
     }
 
     dimensions(num){
         var pnum = this.projection(num);
-        if(!this.data || !this.data.optimizations || !this.data.optimizations[pnum]){ return(2) }
-        return(this.data.optimizations[pnum].dimensions);
+        return(this.data.c.P[pnum].l[0].length);
     }
 
     minColBasis(num){
-        var pnum = this.projection(num);
-        return(this.data.optimizations[pnum].minimum_column_basis);
+        // var pnum = this.projection(num);
+        // return(this.data.optimizations[pnum].minimum_column_basis);
+        return("none");
     }
 
     agCoords(i){
         var pnum = this.projection();
-        if(this.numProjections() == 0
-            || !this.data.optimizations
-            || !this.data.optimizations[pnum].ag_coords){
-            return([0,0,0]);
-        }
-        return(this.data.optimizations[pnum].ag_coords[i].slice(0));
-    }
-    set_agCoords(i, coords){
-        var pnum = this.projection();
-        this.data.optimizations[pnum].ag_coords[i] = coords;
-    }
-
-    srCoords(i){
         if(this.numProjections() == 0){
             return([0,0,0]);
         }
+        return(this.data.c.P[pnum].l[i].slice(0));
+    }
+    set_agCoords(i, coords){
         var pnum = this.projection();
-        return(this.data.optimizations[pnum].sr_coords[i].slice(0));
+        this.data.c.P[pnum].l[i] = coords;
+    }
+
+    srCoords(i){
+        var pnum = this.projection();
+        if(this.numProjections() == 0){
+            return([0,0,0]);
+        }
+        return(this.data.c.P[pnum].l[i + this.numAntigens()].slice(0));
     }
     set_srCoords(i, coords){
         var pnum = this.projection();
-        this.data.optimizations[pnum].sr_coords[i] = coords;
-    }
-
-    table(){
-        if(!this.data){ return([]) }
-        return(this.data.table);
+        this.data.c.P[pnum].l[i + this.numAntigens()] = coords;
     }
     
     colbases(i){ 
@@ -111,71 +121,78 @@ Racmacs.Data = class Data {
             return(0);
         }
         var pnum = this.projection();
-        return(this.data.optimizations[pnum].colbases[i]) ;
+        return(this.data.c.P[pnum].C[i]) ;
     }
     
 
     // Plotspec
+    agPlotspec(i, attribute, base){
+        var value = this.data.c.p.P[this.data.c.p.p[i]][attribute];
+        if(typeof(value) === "undefined"){ value = base }
+        return(value);
+    }
+
+    srPlotspec(i, attribute, base){
+        var value = this.data.c.p.P[this.data.c.p.p[i + this.numAntigens()]][attribute];
+        if(typeof(value) === "undefined"){ value = base }
+        return(value);
+    }
+
     agNames(i){ 
         if(!this.data){ return([]) }
-        return(this.data.ag_names[i])
-    }
-    agSize(i){ 
-        if(!this.data.ag_size) return(1);
-        return(this.data.ag_size[i]);
-    }
-    agFill(i){ 
-        if(!this.data.ag_cols_fill) return("green");
-        return(this.data.ag_cols_fill[i]);
-    }
-    agOutline(i){ 
-        if(!this.data.ag_cols_outline) return("black");
-        return(this.data.ag_cols_outline[i])
-    }
-    agOutlineWidth(i){ 
-        if(!this.data.ag_outline_width) return(1);
-        return(this.data.ag_outline_width[i])
-    }
-    agAspect(i){ 
-        if(!this.data.ag_aspect) return(1);
-        return(this.data.ag_aspect[i])
-    }
-    agShape(i){ 
-        if(!this.data.ag_shape) return("CIRCLE");
-        return(this.data.ag_shape[i])
-    }
-    agDrawingOrder(i){ 
-        if(!this.data.ag_drawing_order) return(1);
-        return(this.data.ag_drawing_order[i])
+        return(this.data.c.a[i].N);
     }
     srNames(i){ 
-        return(this.data.sr_names[i])
+        return(this.data.c.s[i].N);
+    }
+
+    agSize(i){ 
+        return(this.agPlotspec(i, "s", 1)*6);
     }
     srSize(i){ 
-        if(!this.data.sr_size) return(1);
-        return(this.data.sr_size[i])
+        return(this.srPlotspec(i, "s", 1)*6);
+    }
+
+    agFill(i){ 
+        return(this.agPlotspec(i, "F", "green"));
     }
     srFill(i){ 
-        return(this.data.sr_cols_fill[i])
+        return(this.srPlotspec(i, "F", "transparent"));
+    }
+
+    agOutline(i){ 
+        return(this.agPlotspec(i, "O", "black"));
     }
     srOutline(i){ 
-        return(this.data.sr_cols_outline[i])
+        return(this.srPlotspec(i, "O", "black"));
+    }
+
+    agOutlineWidth(i){ 
+        return(this.agPlotspec(i, "?", 1));
     }
     srOutlineWidth(i){ 
-        if(!this.data.sr_outline_width) return(1);
-        return(this.data.sr_outline_width[i])
+        return(this.srPlotspec(i, "?", 1));
+    }
+
+    agAspect(i){ 
+        return(this.agPlotspec(i, "?", 1));
     }
     srAspect(i){ 
-        if(!this.data.sr_aspect) return(1);
-        return(this.data.sr_aspect[i])
+        return(this.srPlotspec(i, "?", 1));
+    }
+
+    agShape(i){ 
+        return(this.agPlotspec(i, "S", "CIRCLE"));
     }
     srShape(i){ 
-        if(!this.data.sr_shape) return("BOX");
-        return(this.data.sr_shape[i])
+        return(this.srPlotspec(i, "S", "CIRCLE"));
+    }
+
+    agDrawingOrder(i){ 
+        return(this.data.c.p.d[i]);
     }
     srDrawingOrder(i){ 
-        if(!this.data.sr_drawing_order) return(1);
-        return(this.data.sr_drawing_order[i])
+        return(this.data.c.p.d[i + this.numAntigens()]);
     }
 
 
@@ -212,6 +229,11 @@ Racmacs.Data = class Data {
         } else {
             return(this.data.procrustes[pnum])
         }
+    }
+
+    // Boostrap data
+    bootstrap(){
+        return(this.data.bootstrap);
     }
 
 

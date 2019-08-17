@@ -127,7 +127,8 @@ RacViewer <- function(map,
 
   # forward options using x
   x = list(
-    mapData  = map2json(map),
+    # mapData  = map2json(map),
+    mapData = as.json(map),
     settings = jsonlite::toJSON(
       settings,
       auto_unbox = TRUE

@@ -287,9 +287,35 @@ as.cpp <- function(map, warnings = TRUE){
 
 
 
+#' Convert map to json format
+#'
+#' @param map The map data object
+#'
+#' @return Returns map data as .ace json format
+#' @export
+#'
+as.json <- function(map){
+
+  UseMethod("as.json", map)
+
+}
 
 
+#' @export
+as.json.racmap <- function(map){
 
+  chart <- as.cpp(map)
+  as.json(chart)
+
+}
+
+
+#' @export
+as.json.racchart <- function(map){
+
+  map$chart$save()
+
+}
 
 
 

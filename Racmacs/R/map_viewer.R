@@ -32,7 +32,7 @@ view_map <- function(map,
 #'
 export_viewer <- function(map,
                           file,
-                          selfcontained,
+                          selfcontained = TRUE,
                           ...){
 
   # Check file has .html extension
@@ -44,9 +44,9 @@ export_viewer <- function(map,
   tmp_file <- tempfile(fileext = ".html")
   widget <- view_map(map, ...)
 
-  widget <- htmlwidgets::saveWidget(widget        = widget,
-                                    file          = tmp_file,
-                                    selfcontained = selfcontained)
+  htmlwidgets::saveWidget(widget        = widget,
+                          file          = tmp_file,
+                          selfcontained = selfcontained)
 
   # Move the file to the proper location
   file.copy(from = tmp_file,
@@ -56,8 +56,8 @@ export_viewer <- function(map,
   # Remove the temporary file
   unlink(tmp_file)
 
-  # Return the widget
-  widget
+  # Return NULL
+  invisible(NULL)
 
 }
 

@@ -4,12 +4,6 @@ body {
 	font-family: sans-serif;
 }
 
-/* Add glyph font */
-@font-face {
-    font-family: "viewerglyphs";
-    src: url(glyphs/glyphs.ttf);
-}
-
 /* Key div styles */
 #viewer {
 	width    : 100%;

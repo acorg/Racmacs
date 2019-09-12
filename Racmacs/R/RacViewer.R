@@ -114,6 +114,7 @@ RacViewer <- function(map,
                       rotation,
                       translation,
                       zoom,
+                      plotdata  = NULL,
                       hide_control_panel = FALSE,
                       width     = NULL,
                       height    = NULL,
@@ -127,8 +128,8 @@ RacViewer <- function(map,
 
   # forward options using x
   x = list(
-    # mapData  = map2json(map),
-    mapData = as.json(map),
+    mapData  = as.json(map),
+    plotdata = jsonlite::toJSON(map$plot),
     settings = jsonlite::toJSON(
       settings,
       auto_unbox = TRUE

@@ -10,6 +10,7 @@ R3JS.Renderer = class Renderer {
         });
         this.webglrenderer.localClippingEnabled = true;
         this.webglrenderer.setPixelRatio( window.devicePixelRatio );
+        // this.webglrenderer.setPixelRatio( 2 );
 
         // Add label renderer
         this.labelrenderer = new THREE.CSS2DRenderer();

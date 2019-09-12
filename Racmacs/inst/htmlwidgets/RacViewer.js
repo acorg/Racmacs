@@ -15,11 +15,15 @@ HTMLWidgets.widget({
       renderValue: function(x) {
 
         // TODO: code to render the widget, e.g.
-        viewer.load(x.mapData, x.settings);
+        viewer.load(
+          JSON.parse(x.mapData),
+          x.settings,
+          x.plotdata
+        );
 
       },
 
-      // A method to expose our chart to the outside
+      // A method to expose our viewer to the outside
       getViewer: function(){
           return viewer;
       },

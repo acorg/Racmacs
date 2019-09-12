@@ -23,7 +23,7 @@ R3JS.Material = function(properties){
 
     // Set object material properties
     Object.assign(mat, properties);
-    if(properties.doubleSided){
+    if(properties.doubleSide){
         mat.side = THREE.DoubleSide;
     }
 
@@ -43,6 +43,12 @@ R3JS.element.make = function(
     if(plotobj.type == "point"){
         // Point
         var element = this.constructors.point(
+            plotobj,
+            plotdims
+        );
+    } else if(plotobj.type == "line"){
+        // GL Points
+        var element = this.constructors.line(
             plotobj,
             plotdims
         );
@@ -87,8 +93,13 @@ R3JS.element.make = function(
     }
 
     // Apply renderOrder
-    if(plotobj.properties.renderOrder){
+    if(plotobj.properties && plotobj.properties.renderOrder){
         element.setRenderOrder(plotobj.properties.renderOrder);
+    }
+
+    // object = R3JS.utils.removeSelfTransparency(object);
+    if(element.object.material){
+        // element.object = R3JS.utils.separateSides(element.object);
     }
 
     // Return the object
@@ -101,6 +112,7 @@ R3JS.element.make = function(
 // General function to populate the plot
 R3JS.Scene.prototype.populatePlot = function(plotData){
 
+    // Add any plot data
     if(plotData.plot){
 
         // Add all the elements
@@ -139,10 +151,13 @@ R3JS.Scene.prototype.addPlotElement = function(
     scene
     ){
 
+    // Set blank default properties
+    if(!plotobj.properties) plotobj.properties = {};
+
     // Make the object
     var element = R3JS.element.make(
         plotobj,
-        this
+        this.viewer
     );
 
     // Add highlighted point
@@ -151,7 +166,7 @@ R3JS.Scene.prototype.addPlotElement = function(
         // Link plot and highlight objects
         var hlelement = R3JS.element.make(
             plotobj.highlight, 
-            this
+            this.viewer
         );
         hlelement.hide();
         element.highlight = hlelement;
@@ -236,18 +251,35 @@ R3JS.Scene.prototype.addPlotElement = function(
         var clippingPlanes = this.fetchClippingPlaneReference(
             plotobj.properties.clippingPlanes
         );
-        material.clippingPlanes = material.clippingPlanes.concat(
-            clippingPlanes
-        );
+
+        if(material){
+            material.clippingPlanes = material.clippingPlanes.concat(
+                clippingPlanes
+            );
+        } else {
+            for(var i=0; i<element.object.children.length; i++){
+                element.object.children[i].material.clippingPlanes = element.object.children[i].material.clippingPlanes.concat(
+                    clippingPlanes
+                );
+            }
+        }
 
     }
 
     // Add outer plot clipping planes
     if(!plotobj.properties.xpd){
 
-        material.clippingPlanes = material.clippingPlanes.concat(
-            this.plotPoints.clippingPlanes
-        );
+        if(material){
+            material.clippingPlanes = material.clippingPlanes.concat(
+                this.plotPoints.clippingPlanes
+            );
+        } else {
+            for(var i=0; i<element.object.children.length; i++){
+                element.object.children[i].material.clippingPlanes = element.object.children[i].material.clippingPlanes.concat(
+                    this.plotPoints.clippingPlanes
+                );
+            }
+        }
 
     }
 
@@ -455,82 +487,82 @@ function normalise_coords(coords,
 
 
 
-// Function for plotting an object such as a line or a shape
-function make_object(object, plotData, parent, scene){
+// // Function for plotting an object such as a line or a shape
+// function make_object(object, plotData, parent, scene){
 
-    // Set defaults
-    object.lims      = plotData.lims;
-    object.aspect    = plotData.aspect;
-    object.normalise = plotData.normalise;
-    object.parent    = parent;
-    object.scene     = scene;
+//     // Set defaults
+//     object.lims      = plotData.lims;
+//     object.aspect    = plotData.aspect;
+//     object.normalise = plotData.normalise;
+//     object.parent    = parent;
+//     object.scene     = scene;
 
-    // Check object type has been defined
-    if(typeof(object.type) === "undefined"){
-        throw("Object type undefined");
-    }
+//     // Check object type has been defined
+//     if(typeof(object.type) === "undefined"){
+//         throw("Object type undefined");
+//     }
 
-    // Create the plotting object
-    if(object.type == "point"){
-        var plotobject = make_point(object);
-    }
-    if(object.type == "glpoint"){
-        var plotobject = make_glpoint(object);
-    }
-    if(object.type == "line"){
-        var plotobject = make_line(object);
-    }
-    if(object.type == "glline"){
-        var plotobject = make_glline(object);
-    }
-    if(object.type == "arrow"){
-        var plotobject = make_arrow(object);
-    }
-    if(object.type == "surface"){
-        var plotobject = make_surface(object);
-    }
-    if(object.type == "grid"){
-        var plotobject = make_grid(object);
-    }
-    if(object.type == "sphere"){
-        var plotobject = make_sphere(object);
-    }
-    if(object.type == "shape"){
-        var plotobject = make_shape(object);
-    }
-    if(object.type == "triangle"){
-        var plotobject = make_triangle(object);
-    }
-    if(object.type == "text"){
-        var plotobject = make_textobject(object);
-    }
+//     // Create the plotting object
+//     if(object.type == "point"){
+//         var plotobject = make_point(object);
+//     }
+//     if(object.type == "glpoint"){
+//         var plotobject = make_glpoint(object);
+//     }
+//     if(object.type == "line"){
+//         var plotobject = make_line(object);
+//     }
+//     if(object.type == "glline"){
+//         var plotobject = make_glline(object);
+//     }
+//     if(object.type == "arrow"){
+//         var plotobject = make_arrow(object);
+//     }
+//     if(object.type == "surface"){
+//         var plotobject = make_surface(object);
+//     }
+//     if(object.type == "grid"){
+//         var plotobject = make_grid(object);
+//     }
+//     if(object.type == "sphere"){
+//         var plotobject = make_sphere(object);
+//     }
+//     if(object.type == "shape"){
+//         var plotobject = make_shape(object);
+//     }
+//     if(object.type == "triangle"){
+//         var plotobject = make_triangle(object);
+//     }
+//     if(object.type == "text"){
+//         var plotobject = make_textobject(object);
+//     }
     
-    // Apply any rotations
-    if(object.properties.rotation){
-        plotobject.geometry.rotateX(object.properties.rotation[0]);
-        plotobject.geometry.rotateY(object.properties.rotation[1]);
-        plotobject.geometry.rotateZ(object.properties.rotation[2]);
-    }
+//     // Apply any rotations
+//     if(object.properties.rotation){
+//         plotobject.geometry.rotateX(object.properties.rotation[0]);
+//         plotobject.geometry.rotateY(object.properties.rotation[1]);
+//         plotobject.geometry.rotateZ(object.properties.rotation[2]);
+//     }
 
-    // Apply renderOrder
-    if(object.properties.renderOrder){
-        plotobject.renderOrder = object.properties.renderOrder;
-    }
+//     // Apply renderOrder
+//     if(object.properties.renderOrder){
+//         plotobject.renderOrder = object.properties.renderOrder;
+//     }
 
-    // Apply any special transformations
-    if(object.properties.renderSidesSeparately){
-        plotobject = separate_sides(plotobject);
-    }
-    if(object.properties.removeSelfTransparency){
-        plotobject = remove_self_transparency(plotobject);
-    }
-    if(object.properties.breakupMesh){
-        plotobject = breakup_mesh(plotobject);
-    }
+    // // Apply any special transformations
+    // if(object.properties.renderSidesSeparately){
+    //     plotobject = separate_sides(plotobject);
+    // }
+    // if(object.properties.removeSelfTransparency){
+    //     plotobject = remove_self_transparency(plotobject);
+    // }
+//     if(object.properties.breakupMesh){
+//         plotobject = breakup_mesh(plotobject);
+//     }
     
-    return(plotobject);
+//     return(plotobject);
 
-}
+// }
 
 
 function make_triangle(object){
@@ -696,141 +728,141 @@ function make_arrow(object){
 
 
 
-function lineMeshSegments(geo, mat, lwd){
+// function lineMeshSegments(geo, mat, lwd){
     
-    var segments = new THREE.Geometry();
-    for(var i=0; i<geo.vertices.length; i+=2){
-        var linegeo = make_lineMeshGeo(geo.vertices[i].toArray(), 
-                                       geo.vertices[i+1].toArray(),
-                                       lwd, 
-                                       3);
-        segments.merge(linegeo);
-    }
-    segments = new THREE.BufferGeometry().fromGeometry( segments );
-    return(new THREE.Mesh(segments, mat));
+//     var segments = new THREE.Geometry();
+//     for(var i=0; i<geo.vertices.length; i+=2){
+//         var linegeo = make_lineMeshGeo(geo.vertices[i].toArray(), 
+//                                        geo.vertices[i+1].toArray(),
+//                                        lwd, 
+//                                        3);
+//         segments.merge(linegeo);
+//     }
+//     segments = new THREE.BufferGeometry().fromGeometry( segments );
+//     return(new THREE.Mesh(segments, mat));
 
-}
+// }
 
-function breakup_mesh(full_mesh){
+// function breakup_mesh(full_mesh){
 
-    // Make a group for the new broken mesh
-    var broken_mesh = new THREE.Group();
+//     // Make a group for the new broken mesh
+//     var broken_mesh = new THREE.Group();
 
-    // Get the geometry
-    var geo = full_mesh.geometry;
-    if(!geo.isBufferGeometry){
-        geo = new THREE.BufferGeometry().fromGeometry(geo);
-    }
+//     // Get the geometry
+//     var geo = full_mesh.geometry;
+//     if(!geo.isBufferGeometry){
+//         geo = new THREE.BufferGeometry().fromGeometry(geo);
+//     }
 
-    // Get the material
-    var mat = clone_material(full_mesh.material);
+//     // Get the material
+//     var mat = clone_material(full_mesh.material);
 
-    // Break apart the geometry
-    for(var i=0; i<(geo.attributes.position.count/3); i++){
+//     // Break apart the geometry
+//     for(var i=0; i<(geo.attributes.position.count/3); i++){
     
-        var x_mean = (geo.attributes.position.array[i*9] + geo.attributes.position.array[i*9+3] + geo.attributes.position.array[i*9+6])/3
-        var y_mean = (geo.attributes.position.array[i*9+1] + geo.attributes.position.array[i*9+4] + geo.attributes.position.array[i*9+7])/3
-        var z_mean = (geo.attributes.position.array[i*9+2] + geo.attributes.position.array[i*9+5] + geo.attributes.position.array[i*9+8])/3
-        var g = new THREE.BufferGeometry();
-        var v = new Float32Array( [
-            geo.attributes.position.array[i*9] - x_mean,
-            geo.attributes.position.array[i*9+1] - y_mean,
-            geo.attributes.position.array[i*9+2] - z_mean,
-            geo.attributes.position.array[i*9+3] - x_mean,
-            geo.attributes.position.array[i*9+4] - y_mean,
-            geo.attributes.position.array[i*9+5] - z_mean,
-            geo.attributes.position.array[i*9+6] - x_mean,
-            geo.attributes.position.array[i*9+7] - y_mean,
-            geo.attributes.position.array[i*9+8] - z_mean
-        ] );
-        g.addAttribute( 'position', new THREE.BufferAttribute( v, 3 ) );
-        var c = new Float32Array( [
-            geo.attributes.color.array[i*9],
-            geo.attributes.color.array[i*9+1],
-            geo.attributes.color.array[i*9+2],
-            geo.attributes.color.array[i*9+3],
-            geo.attributes.color.array[i*9+4],
-            geo.attributes.color.array[i*9+5],
-            geo.attributes.color.array[i*9+6],
-            geo.attributes.color.array[i*9+7],
-            geo.attributes.color.array[i*9+8]
-        ] );
-        g.addAttribute( 'color', new THREE.BufferAttribute( c, 3 ) );
-        var n = new Float32Array( [
-            geo.attributes.normal.array[i*9],
-            geo.attributes.normal.array[i*9+1],
-            geo.attributes.normal.array[i*9+2],
-            geo.attributes.normal.array[i*9+3],
-            geo.attributes.normal.array[i*9+4],
-            geo.attributes.normal.array[i*9+5],
-            geo.attributes.normal.array[i*9+6],
-            geo.attributes.normal.array[i*9+7],
-            geo.attributes.normal.array[i*9+8]
-        ] );
-        g.addAttribute( 'normal', new THREE.BufferAttribute( n, 3 ) );
+//         var x_mean = (geo.attributes.position.array[i*9] + geo.attributes.position.array[i*9+3] + geo.attributes.position.array[i*9+6])/3
+//         var y_mean = (geo.attributes.position.array[i*9+1] + geo.attributes.position.array[i*9+4] + geo.attributes.position.array[i*9+7])/3
+//         var z_mean = (geo.attributes.position.array[i*9+2] + geo.attributes.position.array[i*9+5] + geo.attributes.position.array[i*9+8])/3
+//         var g = new THREE.BufferGeometry();
+//         var v = new Float32Array( [
+//             geo.attributes.position.array[i*9] - x_mean,
+//             geo.attributes.position.array[i*9+1] - y_mean,
+//             geo.attributes.position.array[i*9+2] - z_mean,
+//             geo.attributes.position.array[i*9+3] - x_mean,
+//             geo.attributes.position.array[i*9+4] - y_mean,
+//             geo.attributes.position.array[i*9+5] - z_mean,
+//             geo.attributes.position.array[i*9+6] - x_mean,
+//             geo.attributes.position.array[i*9+7] - y_mean,
+//             geo.attributes.position.array[i*9+8] - z_mean
+//         ] );
+//         g.addAttribute( 'position', new THREE.BufferAttribute( v, 3 ) );
+//         var c = new Float32Array( [
+//             geo.attributes.color.array[i*9],
+//             geo.attributes.color.array[i*9+1],
+//             geo.attributes.color.array[i*9+2],
+//             geo.attributes.color.array[i*9+3],
+//             geo.attributes.color.array[i*9+4],
+//             geo.attributes.color.array[i*9+5],
+//             geo.attributes.color.array[i*9+6],
+//             geo.attributes.color.array[i*9+7],
+//             geo.attributes.color.array[i*9+8]
+//         ] );
+//         g.addAttribute( 'color', new THREE.BufferAttribute( c, 3 ) );
+//         var n = new Float32Array( [
+//             geo.attributes.normal.array[i*9],
+//             geo.attributes.normal.array[i*9+1],
+//             geo.attributes.normal.array[i*9+2],
+//             geo.attributes.normal.array[i*9+3],
+//             geo.attributes.normal.array[i*9+4],
+//             geo.attributes.normal.array[i*9+5],
+//             geo.attributes.normal.array[i*9+6],
+//             geo.attributes.normal.array[i*9+7],
+//             geo.attributes.normal.array[i*9+8]
+//         ] );
+//         g.addAttribute( 'normal', new THREE.BufferAttribute( n, 3 ) );
         
-        // Set clipping
-        var mesh = new THREE.Mesh( g, mat );
-        mesh.position.set(x_mean, y_mean, z_mean);
-        broken_mesh.add(mesh);
+//         // Set clipping
+//         var mesh = new THREE.Mesh( g, mat );
+//         mesh.position.set(x_mean, y_mean, z_mean);
+//         broken_mesh.add(mesh);
 
-    }
+//     }
     
-    // Return the mesh as a new group
-    return(broken_mesh);
+//     // Return the mesh as a new group
+//     return(broken_mesh);
 
-}
+// }
 
 
-function separate_sides(full_mesh){
+// function separate_sides(full_mesh){
     
-    var mat = full_mesh.material;
-    var geo = full_mesh.geometry;
+//     var mat = full_mesh.material;
+//     var geo = full_mesh.geometry;
 
-    // mat.colorWrite = false;
-    mat.side = THREE.FrontSide;
-    var mat_cw = clone_material(mat);
-    // mat_cw.colorWrite = true;
-    mat_cw.side = THREE.BackSide;
+//     // mat.colorWrite = false;
+//     mat.side = THREE.FrontSide;
+//     var mat_cw = clone_material(mat);
+//     // mat_cw.colorWrite = true;
+//     mat_cw.side = THREE.BackSide;
 
-    var mesh  = THREE.SceneUtils.createMultiMaterialObject( 
-        geo,[mat,mat_cw]
-    );
+//     var mesh  = THREE.SceneUtils.createMultiMaterialObject( 
+//         geo,[mat,mat_cw]
+//     );
 
-    return(mesh);
+//     return(mesh);
 
-}
+// }
 
 
-function remove_self_transparency(full_mesh){
+// function remove_self_transparency(full_mesh){
     
-    var mat = full_mesh.material;
-    var geo = full_mesh.geometry;
+//     var mat = full_mesh.material;
+//     var geo = full_mesh.geometry;
 
-    mat.colorWrite = false;
-    // mat.side = THREE.FrontSide;
-    var mat_cw = clone_material(mat);
-    mat_cw.colorWrite = true;
-    // mat_cw.side = THREE.BackSide;
+//     mat.colorWrite = false;
+//     // mat.side = THREE.FrontSide;
+//     var mat_cw = clone_material(mat);
+//     mat_cw.colorWrite = true;
+//     // mat_cw.side = THREE.BackSide;
 
-    var mesh  = THREE.SceneUtils.createMultiMaterialObject( 
-        geo,[mat,mat_cw]
-    );
+//     var mesh  = THREE.SceneUtils.createMultiMaterialObject( 
+//         geo,[mat,mat_cw]
+//     );
 
-    return(mesh);
+//     return(mesh);
 
-}
+// }
 
 
-function clone_material(material){
+// function clone_material(material){
     
-    var mat = material.clone();
-    if(material.clippingPlanes){
-        mat.clippingPlanes = material.clippingPlanes;
-    }
+//     var mat = material.clone();
+//     if(material.clippingPlanes){
+//         mat.clippingPlanes = material.clippingPlanes;
+//     }
 
-    return(mat);
+//     return(mat);
 
-}
+// }
 
 

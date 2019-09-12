@@ -139,6 +139,11 @@ Racmacs.utils.InputWell = class InputWell {
 
 }
 
+
+
+
+
+
 //     inputs: [
 //         { id: "numruns",     label : "Number of optimisations" },
 //         { id: "mincolbasis", label : "Minimum column basis" }

@@ -173,6 +173,11 @@ Racmacs.Point.prototype.select = function(){
 
         }
 
+        // Show bootstrap
+        if(viewer.bootstrap_shown){
+            this.showBootstrap();
+        }
+
         // Mark browser record
         if(this.browserRecord){
             this.browserRecord.select();
@@ -224,6 +229,9 @@ Racmacs.Point.prototype.deselect = function(){
             }
             viewer.updatePointStyles();
         }
+
+        // Hide bootstrap
+        this.hideBootstrap();
 
         // Mark browser record
         if(this.browserRecord){

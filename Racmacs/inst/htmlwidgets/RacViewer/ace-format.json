@@ -1,0 +1,126 @@
+{ "_":"-*- js-indent-level: 2 -*-",
+  "  version": "acmacs-ace-v1",
+  "?created": "comment field",
+  "c": {                 // single chart data
+    "i": {
+      "v": "virus, e.g. INFLUENZA (default, if omitted), HPV, generic, DENGE",
+      "V": "virus type and subtype, e.g. B or A(H3N2) or serotype",
+      "A": "assay: HI, FOCUST REDUCTION, PRNT",
+      "D": "table/assay date, e.g. 20160602.002",
+      "N": "user supplied name",
+      "l": "lab",
+      "r": "rbc species, e.g. turkey",
+      "s": "subset/lineage, e.g. 2009PDM",
+      "T": "table type: A(NTIGENIC) - default, G(ENETIC)",
+      "S": [],                    // source table info list, each entry is like "i"
+    },
+    "a": [               // antigen list
+      // all antigen fields except "N" are optional
+      {
+        "N": "mandatory name: TYPE(SUBTYPE)/[HOST/]LOCATION/ISOLATION/YEAR or CDC_ABBR NAME or UNRECOGNIZED NAME",
+        "D": "date, e.g. 2016-04-04",
+        "L": "lineage: Y[AMAGATA] or V[ICTORIA]",
+        "P": "passage, e.g. MDCK2/SIAT1 (2016-05-12)",
+        "R": "reassortant, e.g. NYMC-51C",
+        "l": ["CDC#2013706008"], // lab ids, e.g. CDC#2013706008",
+        "S": "R", // string of single letter semantic boolean attributes: R - reference, E - egg, V - current vaccine, v - previous vaccine, S - vaccine surrogate
+        "a": ["DISTINCT", "HA-Y156T", "extra"], // annotations: DISTINCT for control duplicate, mutation information, unrecognized extra data preventing merging
+        "c": ["5.2.1"],                         // clades, either provided in the original table (e.g. H5) or extracted from sequence database
+        "C": "NORTH-AMERICA",                   // continent: ASIA, AUSTRALIA-OCEANIA, NORTH-AMERICA, EUROPE, RUSSIA, AFRICA, MIDDLE-EAST, SOUTH-AMERICA, CENTRAL-AMERICA
+      }
+    ],
+    "s": [                      // serum list
+      // all serum fields except "N" are optional
+      {
+        "N": "mandatory name: [TYPE(SUBTYPE)/]{HOST/]LOCATION/ISOLATION/YEAR or UNRECOGNIZED NAME",
+        "L": "lineage: Y[AMAGATA] or V[ICTORIA]",
+        "P": "passage, e.g. MDCK2/SIAT1 (2016-05-12)",
+        "R": "reassortant, e.g. NYMC-51C",
+        "I": "serum id, e.g. CDC 2016-045",
+        "S": "", // string of single letter semantic boolean attributes: E - egg
+        "h": [0],                 // homologous antigen indices
+        "a": ["BOOSTED", "CONC 2:1", "HA-Y156T", "extra"], // annotations: boosted, conc, mutation information, unrecognized extra data preventing merging
+        "s": "serum species, e.g FERRET"
+      }
+    ],
+    "t": {                      // titer data
+      // either "l" or "d" must be present (not both)
+      "l": [["2560", ">2560", "<10", "~40", "*"]], // titers as list of lists
+      "d": [{"1": "160", "2": "320"}, {"2": "640"}], // titers as list of objects, each list element correspond to the antigen, object key is serum index, dont-care titers omitted
+      "L": [[{}, {}], [{}, {}]],                   // layers, for each layer data as in "d"
+    },
+    "C": [7.0, 6.0],            // forced column bases for new projections
+    "P": [                      // projections
+      {
+        "c": "comment",
+        "l": [[]],                 // layout, list of lists of doubles, if point is disconnected: emtpy list or ?[NaN, NaN]
+        "i": 600,                  // number of iterations?
+        "s": 100.1001,             // stress
+        "m": "1280",               // minimum column basis, "none" (default), "1280"
+        "C": [6.0, 7.0],           // forced column bases
+        "t": [1.0, 0.0, 0.0, 1.0], // transformation matrix, 2D only
+        "g": [],                   // antigens_sera_gradient_multipliers, double for each point
+        "f": [],                   // avidity adjusts (antigens_sera_titers_multipliers), double for each point
+        "d": false,                // dodgy_titer_is_regular, false is default
+        "e": 0.0,                  // stress_diff_to_stop
+        "U": [],                   // list of indices of unmovable points (antigen/serum attribute for stress evaluation)
+        "D": [],                   // list of indices of disconnected points (antigen/serum attribute for stress evaluation)
+        "u": [],                   // list of indices of points unmovable in the last dimension (antigen/serum attribute for stress evaluation)
+      }
+    ],
+    "p": {                      // plot spec
+      "d": [],                  // drawing order, point indices
+      "E": {                    // error line positive (default: {"c": "red"})
+        "c": "color: #FF0000"
+      },
+      "e": {},                  // error line negative, same as "E" (default: {"c": "blue"})
+      "g": {},                  // ? grid data
+      "p": [],                  // for each point (antigens followed by sera) index in the "P" list
+      "P": [                    // list of point styles
+        {
+          "+": true,            // if point is shown, default is true, disconnected points are usually not shown and having NaN coordinates in layout
+          "F": "fill color: #FF0000 or T[RANSPARENT] or color name (red, green, blue, etc.), default is transparent",
+          "O": "outline color: #000000 or T[RANSPARENT] or color name (red, green, blue, etc.), default is black",
+          "o": 1.0,             // outline width, default 1.0
+          "S": "shape: C[IRCLE], B[OX], T[RIANGLE], E[GG}, U[GLYEGG], default is circle",
+          "s": 1.0,             // size, default is 1.0
+          "r": 0.0,             // rotation in radians, default is 0.0
+          "a": 1.0,              // aspect ratio, default is 1.0
+          "l": {                 // label style
+            "+": false,         // if label is shown
+            "p": [0.0, 1.0],    // label position (2D only), list of two doubles, default is [0, 1] means under point
+            "t": "label text if forced by user",
+            "f": "font face",
+            "S": "normal OR italic", // font slant, default normal
+            "W": "normal OR bold", // font weight, default normal
+            "s": 1.0,           // size, default 1.0
+            "c": "black",   // color, default black
+            "r": 0.0,       // rotation, default 0.0
+            "i": 0.2, // addtional interval between lines as a fraction of line height, default - 0.2
+          },
+        }
+      ],
+      "l": [],                  // ? for each procrustes line, index in the "L" list
+      "L": [                    // ? list of procrustes lines styles
+      ],
+      "s": [],                  // list of point indices for point shown on all maps in the time series
+      "t": {                    // title style?
+      }
+    },
+    "x": {                      // extensions
+      "vaccines": [
+        {
+          "type": "previous", // "previous", "current", "surrogate"
+          "passage": "cell", // "cell", "egg", "reassortant"
+          "antigens": [
+            {
+              "index": 0, // in "a"
+              "tables": 134, // total number of tables from hidb
+              "recent": "CDC:HI:guinea-pig:20141009", // most recent table id from hidb
+            }
+          ]
+        }
+      ]
+    }
+  }
+}

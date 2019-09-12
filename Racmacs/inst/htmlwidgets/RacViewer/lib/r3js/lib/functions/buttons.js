@@ -18,9 +18,9 @@ R3JS.Viewport.prototype.addButtons = function(){
 
     // Add mouseover events to show and hide buttons
     this.div.addEventListener("mouseover", function(){
-    	if(viewer.contentLoaded){
+    	// if(viewer.contentLoaded){
     		btn_holder.style.display = "block";
-    	}
+    	// }
     });
     this.div.addEventListener("mouseout", function(){
     	btn_holder.style.display = "none";
@@ -28,9 +28,9 @@ R3JS.Viewport.prototype.addButtons = function(){
 
 
 	// Create button to show viewer info
+	var viewport = this;
 	function show_info(){
-		// this.infoDiv.toggle();
-		console.log("info");
+		viewport.transform_info.toggle();
 	}
 	this.addButton({
 		name  : "info",

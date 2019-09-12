@@ -77,6 +77,14 @@ encode_base64 <- function(img){
 #'
 write2viewer_debug <- function(map){
 
+  # # Create a placeholder image file
+  # tmp <- tempfile()
+  # png(tmp, 400, 400)
+  #   par(mar = c(0,0,0,0))
+  #   plot(map)
+  # dev.off()
+  # placeholder <- encode_base64(tmp)
+
   # Read the yaml file
   yaml    <- yaml::read_yaml("inst/htmlwidgets/RacViewer.yaml")
   src     <- "../../lib"
@@ -89,17 +97,23 @@ write2viewer_debug <- function(map){
       "<head>",
         paste0('<link rel="stylesheet" type="text/css" href="', styles, '">'),
         paste0('<script src="', scripts, '"></script>'),
+        '<script src="../../tests/tests.js"></script>',
         '<script>',
           'window.onload = function() {',
-            'var container = document.getElementById("rac-viewer");',
+            'var container   = document.getElementById("rac-viewer");',
+            # paste0('var placeholder = "', placeholder, '"'),
             paste0('var mapData = JSON.parse(`', as.json(map),'`);'),
+            paste0('var plotdata = ', jsonlite::toJSON(map$plot)),
+            #'var viewer = new Racmacs.Viewer(container, { placeholder: placeholder });',
             'var viewer = new Racmacs.Viewer(container);',
-            'viewer.load(mapData);',
+            'viewer.load(mapData, { hide_control_panel:true }, plotdata);',
+            #'viewertest(viewer)',
           '};',
         '</script>',
       "</head>",
       "<body>",
-        '<div id="rac-viewer" style="position: absolute; top: 0px; bottom: 0px; left:0px; right:0px;"></div>',
+        '<div id="rac-viewer" style="width: 1000px; height: 800px;"></div>',
+        #'<div id="rac-viewer" style="position:absolute; top:0; left:0; right:0; bottom:0;"></div>',
       "</body>",
     "</html>"
   )

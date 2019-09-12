@@ -14,19 +14,6 @@ document.addEventListener("keyup", function(event){
     };
 });
 
-// Function for getting mouse position
-R3JS.utils.getMousePos = function(event, container){
-    var offsets = container.getBoundingClientRect();
-    var top     = offsets.top;
-    var left    = offsets.left;
-    var mouseX  = ( (event.clientX-left) / container.offsetWidth ) * 2 - 1;
-    var mouseY  = -( (event.clientY-top) / container.offsetHeight ) * 2 + 1;
-    return({
-        x:mouseX,
-        y:mouseY
-    });
-}
-
 
 
 // Window focus event listener

@@ -4,8 +4,13 @@
 \alias{write2viewer_debug}
 \title{Write map data to the viewer debug file}
 \usage{
-write2viewer_debug(mapData)
+write2viewer_debug(map)
 }
 \description{
 For usage debugging problems with the viewer.
+}
+\details{
+var viewer = new Racmacs.Viewer(container, { placeholder: placeholder });',
+viewertest(viewer)',
+<div id="rac-viewer" style="position:absolute; top:0; left:0; right:0; bottom:0;"></div>',
 }

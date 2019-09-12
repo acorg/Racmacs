@@ -56,18 +56,30 @@ Racmacs.Data = class Data {
 
     table(){
 
-        // Setup table
-        var table = Array(this.data.c.a.length);
-        for(var i=0; i<this.data.c.a.length; i++){
-            table[i] = Array(this.data.c.s.length).fill("*");
-        }
+        // If table data provided as a list of objects
+        if(this.data.c.t.d){
 
-        // Fill in table from json data
-        var tabledata = this.data.c.t.d;
-        for(var i=0; i<tabledata.length; i++){
-            for (let [key, value] of Object.entries(tabledata[i])) {
-              table[i][Number(key)] = value;
+            // Setup table
+            var table = Array(this.data.c.a.length);
+            for(var i=0; i<this.data.c.a.length; i++){
+                table[i] = Array(this.data.c.s.length).fill("*");
             }
+
+            // Fill in table from json data
+            var tabledata = this.data.c.t.d;
+            for(var i=0; i<tabledata.length; i++){
+                for (let [key, value] of Object.entries(tabledata[i])) {
+                  table[i][Number(key)] = value;
+                }
+            }
+
+        } 
+        // If table data provided as a list of lists
+        else {
+
+            // Simply return the array
+            var table = this.data.c.t.l;
+
         }
         
         // Return the table data
@@ -121,7 +133,23 @@ Racmacs.Data = class Data {
             return(0);
         }
         var pnum = this.projection();
-        return(this.data.c.P[pnum].C[i]) ;
+
+        if(this.data.c.P[pnum].C){
+            // Forced column bases
+            var colbases = this.data.c.P[pnum].C[i];
+        } else {
+            // Minimum column bases
+            if(this.data.c.P[pnum].m){
+                var mincolbasis = this.data.c.P[pnum].m;
+            } else {
+                var mincolbasis = "none";
+            }
+            var colbases = Racmacs.utils.calcColBases({
+                titers: this.table(),
+                mincolbasis: mincolbasis
+            });
+        }
+        return(colbases[i]);
     }
     
 

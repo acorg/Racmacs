@@ -31,5 +31,15 @@ testthat::test_that("Converting empty chart", {
 })
 
 
+# Converting to the json format
+testthat::test_that("Converting to json format", {
+
+  chart_json  <- as.json(chart)
+  racmap_json <- as.json(map)
+
+  testthat::expect_equal(chart_json, racmap_json)
+
+})
+
 # Clean up
 rm(list = ls()[!ls() %in% environment_objects])

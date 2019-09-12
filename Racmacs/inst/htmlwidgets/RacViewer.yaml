@@ -14,6 +14,7 @@ dependencies:
       - styles/blobs.css
       - styles/procrustes.css
       - styles/load.css
+      - styles/drag.css
       - styles/hitable.css
     script:
       - r3js/lib/threejs/three.min.js
@@ -97,4 +98,5 @@ dependencies:
       - functions/buttons.js
       - functions/projections.js
       - functions/icons.js
+      - functions/bootstrap.js
 

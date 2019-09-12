@@ -2,23 +2,47 @@
 // GL line constructor
 R3JS.element.constructors.point = function(
     plotobj,
-    scene
+    viewer
     ){
 
     // Generate the point object
-    var element = new R3JS.element.point({
+    if(plotobj.shape[0].substring(0,1) == "o"){
+      plotobj.properties.outlinecolor = plotobj.properties.color;
+    } else {
+      plotobj.properties.fillcolor = plotobj.properties.color;
+    }
+
+    // Decide on the shape
+    var shape;
+    if(plotobj.properties.dimensions == 2){
+      if(plotobj.shape[0] == "circle" || plotobj.shape[0] == "ocircle"){
+        shape = "circle2d";
+      }
+      if(plotobj.shape[0] == "square" || plotobj.shape[0] == "osquare"){
+        shape = "square2d";
+      }
+    } else {
+      if(plotobj.shape[0] == "circle" || plotobj.shape[0] == "ocircle"){
+        shape = "circle3d";
+      }
+      if(plotobj.shape[0] == "square" || plotobj.shape[0] == "osquare"){
+        shape = "square3d";
+      }
+    }
+
+    var element = new R3JS.element.Point({
         coords : plotobj.position,
-        size : plotobj.size*0.2,
-        shape : plotobj.shape,
+        size : plotobj.size[0]*0.025,
+        shape : shape,
         properties : plotobj.properties,
         dimensions : plotobj.properties.dimensions
     });
 
     // Scale geometry
     element.scaleGeo([
-      scene.plotdims.size[0] / scene.plotdims.aspect[0],
-      scene.plotdims.size[1] / scene.plotdims.aspect[1],
-      scene.plotdims.size[2] / scene.plotdims.aspect[2]
+      viewer.scene.plotdims.size[0] / viewer.scene.plotdims.aspect[0],
+      viewer.scene.plotdims.size[0] / viewer.scene.plotdims.aspect[1],
+      viewer.scene.plotdims.size[0] / viewer.scene.plotdims.aspect[2]
     ]);
 
     return(element);
@@ -76,6 +100,23 @@ R3JS.element.Point = class Point extends R3JS.element.base {
       this.object.scale.multiplyScalar(val);
     }
 
+    scaleGeo(val){
+      if(this.fill){
+        this.fill.geometry.scale(
+          val[0],
+          val[1],
+          val[2]
+        );
+      }
+      if(this.outline){
+        this.outline.geometry.scale(
+          val[0],
+          val[1],
+          val[2]
+        );
+      }
+    }
+
     setOutlineColor(color){
       this.outline.material.color.set(color);
     }
@@ -93,7 +134,9 @@ R3JS.element.Point = class Point extends R3JS.element.base {
     }
 
     raycast(ray, intersected){
-      this.fill.raycast(ray,intersected);
+      if(this.fill){
+        this.fill.raycast(ray,intersected);
+      }
     }
 
 }
@@ -182,7 +225,30 @@ R3JS.Geometries.square3d = {
 }
 
 
+// 2D point geometries
+R3JS.Geometries.circle2d = {
+  fill : function(lwd){
+    return(new THREE.CircleBufferGeometry(0.2, 32));
+  },
+  outline : function(lwd){
+    return(new THREE.RingGeometry( 0.2-lwd/25, 0.2, 32 ));
+  }
+}
 
+R3JS.Geometries.square2d = {
+  fill : function(lwd){
+    return(new THREE.PlaneBufferGeometry(0.3, 0.3));
+  },
+  outline : function(lwd){
+    lwd  = lwd/12;
+    var size = 0.3;
+    var inner = Math.sqrt((Math.pow(size,2))/2);
+    var outer = Math.sqrt((Math.pow(size+lwd,2))/2);
+    var geo = new THREE.RingBufferGeometry(inner, outer, 4, 1);
+    geo.rotateZ( Math.PI/4 );
+    return(geo);
+  }
+}
 
 // // Geometries for each point type
 // R3JS.get_pointGeos = function(dimensions, lwd){

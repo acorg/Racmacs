@@ -16,8 +16,10 @@ R3JS.Scene = class Scene {
             names : [],
             objects : []
         }
-        this.elements = [];
-        this.onrotate = [];
+        this.elements    = [];
+        this.onrotate    = [];
+        this.ontranslate = [];
+        this.lights      = [];
 
         // Create scene
         this.scene = new THREE.Scene();
@@ -155,14 +157,17 @@ R3JS.Scene = class Scene {
             this.onrotate[i]();
         }
 
+        // Do any dynamic showing and hiding
+        if(this.dynamic) this.showhideDynamics(this.viewer.camera.camera);
+
     }
 
     // Rotate by euclidean coordinates
     rotateEuclidean(rotation){
         
-        this.rotateOnAxis(new THREE.Vector3(1,0,0), rotation[0]);
-        this.rotateOnAxis(new THREE.Vector3(0,1,0), rotation[1]);
         this.rotateOnAxis(new THREE.Vector3(0,0,1), rotation[2]);
+        this.rotateOnAxis(new THREE.Vector3(0,1,0), rotation[1]);
+        this.rotateOnAxis(new THREE.Vector3(1,0,0), rotation[0]);
 
     }
 
@@ -234,6 +239,11 @@ R3JS.Scene = class Scene {
             this.clippingPlanes[i].constant -= offset;
         }
 
+        // Run any translation events
+        for(var i=0; i<this.ontranslate.length; i++){
+            this.ontranslate[i]();
+        }
+
      }
 
     setTranslation(translation){
@@ -255,6 +265,7 @@ R3JS.Scene = class Scene {
 
         // Pan the scene by the difference
         this.panScene(newtranslation);
+        this.showhideDynamics(this.viewer.camera.camera);
 
     }
 
@@ -407,6 +418,28 @@ R3JS.Scene = class Scene {
         while(this.plotPoints.children.length > 0){
             this.plotPoints.remove(this.plotPoints.children[0]);
         }
+
+    }
+
+    // Clear all lights
+    clearLights(){
+
+        for(var i=0; i<this.lights.length; i++){
+            this.scene.remove(this.lights[i]);
+        }
+        this.lights = [];
+
+    }
+
+    addLight(args){
+
+        var light = new R3JS.element.Light(args);
+
+        this.scene.add( light.object );
+        this.lights.push( light.object );
+
+        // var helper = new THREE.DirectionalLightHelper( light.object, 0.2, 0xFF0000 );
+        // this.scene.add( helper );
 
     }
 

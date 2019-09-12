@@ -11,6 +11,48 @@ Racmacs.Viewer.prototype.toggleDragMode = function(){
 
 }
 
+Racmacs.DragPanel = class DragPanel {
+
+    constructor(viewer){
+
+        this.div = document.createElement("div");
+	    this.div.id = "drag-controls";
+
+	    var header = document.createElement("div");
+	    header.id = "drag-header";
+	    header.innerHTML = "Moving points";
+	    this.div.appendChild(header);
+
+	    var buttons = document.createElement("div");
+        this.div.appendChild(buttons);
+
+        var accept = new Racmacs.utils.Button({
+        	label:"Accept",
+        	fn: function(){ viewer.exitDragMode(true) }
+        });
+        accept.div.classList.add("accept-btn");
+        buttons.appendChild(accept.div);
+
+        var cancel = new Racmacs.utils.Button({
+        	label:"Cancel",
+        	fn: function(){ viewer.exitDragMode(false) }
+        });
+        cancel.div.style.marginLeft = "6px";
+        cancel.div.classList.add("cancel-btn");
+        buttons.appendChild(cancel.div);
+
+    }
+
+    show(){
+    	this.div.style.display = "block";
+    }
+
+    hide(){
+    	this.div.style.display = "none";
+    }
+
+}
+
 Racmacs.Viewer.prototype.enterDragMode = function(){
 
 	// Check some points have been selected
@@ -20,10 +62,21 @@ Racmacs.Viewer.prototype.enterDragMode = function(){
 	}
 
 	// Trigger drag event and highlight any buttons
-	console.log("Drag mode on");
 	this.dragMode = true;
     if(this.onDragOn){ this.onDragOn() }
     if(this.btns.toggleDragMode){ this.btns.toggleDragMode.highlight() }
+
+    // Show the drag mode div
+    if(!this.dragpanel){
+	    this.dragpanel = new Racmacs.DragPanel(this);
+	    this.viewport.div.appendChild(this.dragpanel.div);
+    }
+    this.dragpanel.show();
+
+    // Keep a record of the starting coords for all points
+    for(var i=0; i<this.selected_pts.length; i++){
+    	this.selected_pts[i].dragStartPosition = this.selected_pts[i].getPosition();
+    }
 
     // Function for starting a drag
 	var viewer = this;
@@ -48,10 +101,6 @@ Racmacs.Viewer.prototype.enterDragMode = function(){
 		viewer.navigable = true;
 		viewer.primaryDragPoint = null;
 		viewer.viewport.div.removeEventListener("mousemove", viewer.dragPoints);
-
-		// Trigger events
-	    viewer.onCoordsChange()
-	    
 
 	}
 
@@ -104,19 +153,47 @@ Racmacs.Viewer.prototype.enterDragMode = function(){
 	
 }
 
-Racmacs.Viewer.prototype.exitDragMode = function(){
+Racmacs.Viewer.prototype.exitDragMode = function(accept = true){
 
-	console.log("Drag mode off");
-	this.dragMode = false;
+    this.dragMode = false;
 
-	// Trigger drag end event and dehighlight any buttons
+    // Trigger drag end event and dehighlight any buttons
 	if(this.onDragOff){ this.onDragOff() }
 	if(this.btns.toggleDragMode){ this.btns.toggleDragMode.dehighlight() }
 
-    // Remove event listeners
+	// Remove event listeners
 	this.viewport.div.removeEventListener("mousedown", this.startDrag);
 	this.viewport.div.removeEventListener("mouseup",   this.endDrag);
-	// this.viewport.div.removeEventListener("mousemove", this.cursorChange);
+
+	// Hide the drag panel
+	this.dragpanel.hide();
+
+	if(accept){
+        
+		// Accepted ----
+
+        // Trigger events
+	    this.onCoordsChange();
+
+	} else {
+		
+		// Cancelled ----
+
+		// Restore points to their original positions
+		for(var i=0; i<this.selected_pts.length; i++){
+			var orig_position = this.selected_pts[i].dragStartPosition;
+			this.selected_pts[i].setPosition(
+				orig_position[0],
+				orig_position[1],
+				orig_position[2]
+			);
+		}
+
+	};
+
+	// Update the stress
+	this.updateStress();
+	this.render();
 
 }
 

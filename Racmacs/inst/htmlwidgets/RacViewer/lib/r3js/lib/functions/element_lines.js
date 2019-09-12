@@ -1,8 +1,81 @@
 
+// GL line constructor
+R3JS.element.constructors.line = function(
+    plotobj,
+    viewer
+    ){
+
+    // Take colors from plot object
+    plotobj.properties.color.r = plotobj.properties.color.r[0];
+    plotobj.properties.color.g = plotobj.properties.color.g[0];
+    plotobj.properties.color.b = plotobj.properties.color.b[0];
+
+    // Make the line
+    var element = new R3JS.element.Line({
+        from:    plotobj.position[0],
+        to:      plotobj.position[1],
+        lwd:     plotobj.properties.lwd / viewer.scene.plotdims.size[0],
+        properties : plotobj.properties,
+        dimensions : plotobj.properties.dimensions
+    });
+
+    // Scale geometry
+    // element.scaleGeo([
+    //   viewer.scene.plotdims.size[0] / viewer.scene.plotdims.aspect[0],
+    //   viewer.scene.plotdims.size[0] / viewer.scene.plotdims.aspect[1],
+    //   viewer.scene.plotdims.size[0] / viewer.scene.plotdims.aspect[2]
+    // ]);
+
+    return(element);
+
+}
+
+
+R3JS.element.Line = class Line extends R3JS.element.base {
+
+  constructor(args){
+
+      super();
+
+      // Make line object
+      var mat = R3JS.Material(args.properties);
+
+      if(args.from[0] == args.to[0] && 
+         args.from[1] == args.to[1] && 
+         args.from[2] == args.to[2]){
+        
+        var geo = new THREE.BufferGeometry();
+
+      } else {
+      
+        if(args.dimensions == 2){
+          var geo = R3JS.Geometries.line2d({
+            from: args.from,
+            to: args.to,
+            lwd: args.lwd
+          });
+        } else {
+          var geo = R3JS.Geometries.line3d({
+            from: args.from,
+            to: args.to,
+            lwd: args.lwd
+          });
+        }
+
+      }
+
+      this.object = new THREE.Mesh(geo, mat);
+      this.object.element = this;
+
+    }
+
+}
+
+
 R3JS.Geometries.line2d = function(args){
 
-	var from      = args.from;
-	var to        = args.to;
+  	var from      = args.from;
+  	var to        = args.to;
     var lwd       = args.lwd;
     var cap       = args.cap;
     var shrinkage = args.shrinkage;

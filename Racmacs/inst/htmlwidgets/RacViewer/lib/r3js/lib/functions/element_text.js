@@ -3,12 +3,12 @@
 // GL line constructor
 R3JS.element.constructors.text = function(
     plotobj,
-    scene
+    viewer
     ){
 
 
     // Apply any additional offset
-    var plotdims = scene.plotdims;
+    var plotdims = viewer.scene.plotdims;
     if(plotobj.properties.poffset){
         plotobj.position[0] = plotobj.position[0] + plotobj.properties.poffset[0]*plotdims.size[0]/plotdims.aspect[0];
         plotobj.position[1] = plotobj.position[1] + plotobj.properties.poffset[1]*plotdims.size[1]/plotdims.aspect[1];
@@ -16,20 +16,34 @@ R3JS.element.constructors.text = function(
     }
 
     // Create the object
-    var element = new R3JS.element.htmltext({
-    	text   : plotobj.text,
-        coords : plotobj.position,
-        alignment : plotobj.alignment,
-        offest     : plotobj.offset,
-        properties : R3JS.Material(plotobj.properties)
-    });
+    if(plotobj.rendering == "geometry"){
+        
+        var element = new R3JS.element.text({
+            text   : plotobj.text[0],
+            coords : plotobj.position,
+            alignment : plotobj.alignment,
+            offest     : plotobj.offset,
+            properties : R3JS.Material(plotobj.properties)
+        });
+    
+    } else {
+
+        var element = new R3JS.element.htmltext({
+            text   : plotobj.text,
+            coords : plotobj.position,
+            alignment : plotobj.alignment,
+            offest     : plotobj.offset,
+            properties : R3JS.Material(plotobj.properties)
+        });
+
+    }
     
     return(element);
 
 }
 
 
-// Make a thin line object
+// Make some html text
 R3JS.element.htmltext = class htmltext extends R3JS.element.base {
 
     constructor(args){
@@ -89,6 +103,63 @@ R3JS.element.htmltext = class htmltext extends R3JS.element.base {
 }
 
 
+// Make geometric text
+R3JS.element.text = class htmltext extends R3JS.element.base {
+
+    constructor(args){
+
+        super();
+
+        // Set defaults
+        if(!args.alignment)  args.alignment  = [0, 0];
+        if(!args.offset)     args.offset     = [0, 0];
+        if(!args.properties) args.properties = {};
+
+        // Adjust alignment
+        args.alignment[0] = -args.alignment[0]/2 + 0.5;
+        args.alignment[1] = -args.alignment[1]/2 + 0.5;
+
+        // function make_text(string, pos, size, alignment, offset, color){
+
+        var shapes    = R3JS.fonts.helvetiker.generateShapes( args.text, 1, 4 );
+        var geometry  = new THREE.ShapeGeometry( shapes );
+        var textShape = new THREE.BufferGeometry();
+        textShape.fromGeometry( geometry );
+
+        var color = new THREE.Color(
+                args.properties.color.r, 
+                args.properties.color.g, 
+                args.properties.color.b
+        );
+        
+        var matLite = new THREE.MeshBasicMaterial( {
+            color: color,
+            side: THREE.DoubleSide
+        });
+        matLite.opacity = args.properties.opacity;
+
+        // Align text
+        textShape.computeBoundingBox();
+        var xMid = - 0.5 * ( textShape.boundingBox.max.x - textShape.boundingBox.min.x );
+        var yMid = - 0.5 * ( textShape.boundingBox.max.y - textShape.boundingBox.min.y );
+        textShape.translate( xMid*2*args.alignment[0], yMid*2*args.alignment[1], 0 );
+
+        // Offset text
+        if(args.offset){
+            textShape.translate( args.offset[0], args.offset[1], 0 );
+        }
+
+        var text = new THREE.Mesh( textShape, matLite );
+        text.position.set(args.coords[0], args.coords[1], args.coords[2]);
+
+        this.object = text;
+        text.element = this;
+
+    }
+
+}
+
+
 // function make_textobject(object){
 
 //     if(object.normalise){
@@ -111,12 +182,12 @@ R3JS.element.htmltext = class htmltext extends R3JS.element.base {
 //             object.offset[1] = object.offset[1]*0.025;
 //             object.size = object.size*0.025
 //         }
-//         var textobject = make_text(object.text,
-//                                    object.position,
-//                                    object.size,
-//                                    object.alignment,
-//                                    object.offset,
-//                                    object.properties.color);
+        // var textobject = make_text(object.text,
+        //                            object.position,
+        //                            object.size,
+        //                            object.alignment,
+        //                            object.offset,
+        //                            object.properties.color);
 //         object.scene.labels.push(textobject);
 //     }
 //     if(object.rendering == "html"){

@@ -5,7 +5,8 @@ R3JS.Viewer = class R3JSviewer {
 
     // Constructor function
     constructor(container, settings = {
-        startAnimation : true
+        startAnimation : true,
+        initiate : true
     }){
 
         // Set settings
@@ -22,6 +23,16 @@ R3JS.Viewer = class R3JSviewer {
         // Create viewport
         this.viewport = new R3JS.Viewport(this);
 
+        // Initiate the viewer
+        if(settings.initiate){ 
+            this.initiate( settings.startAnimation );
+        }
+
+    }
+
+    // Function to initiate webgl
+    initiate(startAnimation = true){
+
         // Create scene
         this.scene = new R3JS.Scene();
         this.scene.setBackgroundColor({
@@ -30,6 +41,22 @@ R3JS.Viewer = class R3JSviewer {
             b : 1
         })
         this.scene.viewer = this;
+
+        // Bind scene rotation events
+        var viewer = this;
+        this.scene.onrotate.push(function(){
+            var rotation = viewer.scene.getRotation();
+            viewer.viewport.transform_info.rotation.x.value = rotation[0].toFixed(4);
+            viewer.viewport.transform_info.rotation.y.value = rotation[1].toFixed(4);
+            viewer.viewport.transform_info.rotation.z.value = rotation[2].toFixed(4);
+        });
+
+        this.scene.ontranslate.push(function(){
+            var translation = viewer.scene.getTranslation();
+            viewer.viewport.transform_info.translation.x.value = translation[0].toFixed(4);
+            viewer.viewport.transform_info.translation.y.value = translation[1].toFixed(4);
+            viewer.viewport.transform_info.translation.z.value = translation[2].toFixed(4);
+        });
 
         // Create renderer and append to dom
         this.renderer = new R3JS.Renderer();
@@ -44,6 +71,12 @@ R3JS.Viewer = class R3JSviewer {
         this.orthocamera = new R3JS.OrthoCamera();
         this.camera = this.perspcamera;
 
+        // Add zoom events
+        this.camera.zoom_events.push(function(){
+            var zoom = viewer.camera.getZoom();
+            viewer.viewport.transform_info.zoom.input.value = zoom.toFixed(4);
+        });
+
         // Add raytracer
         this.raytracer = new R3JS.Raytracer();
 
@@ -51,12 +84,12 @@ R3JS.Viewer = class R3JSviewer {
         this.bindNavigation();
 
         // Add rectangular selection
-        if(settings.rectangularSelection){
+        if(this.settings.rectangularSelection){
             this.addRectangleSelection();
         }
 
         // Start animation loop
-        if(settings.startAnimation){
+        if(startAnimation){
             var viewer = this;
             function animate() {
 
@@ -110,7 +143,7 @@ R3JS.Viewer = class R3JSviewer {
         this.scene.setPlotDims(plotdims);
 
         // Rebind navigation depending upon 2D or 3D plot
-        this.navigation_bind(plotdims.dimensions);
+        //this.navigation_bind(plotdims.dimensions);
 
         // Set camera
         if(plotdims.dimensions == 2){

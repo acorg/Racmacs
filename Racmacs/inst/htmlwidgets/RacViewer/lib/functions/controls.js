@@ -23,7 +23,7 @@ Racmacs.ControlPanel = class ControlPanel {
         // Add holder div
         this.div = document.createElement( 'div' );
         this.div.classList.add("control-panel");
-        this.viewer.container.appendChild( this.div );
+        this.viewer.wrapper.appendChild( this.div );
 
         // Create title div
         viewer.viewerTitle = new Racmacs.ViewerTitle(viewer);
@@ -139,6 +139,14 @@ Racmacs.ControlPanel = class ControlPanel {
             id : "procrustes",
             name: "Procrustes",
             content: procrustesPanel.div
+        });
+
+        // Add bootstrap
+        var bootstrapPanel = new Racmacs.BootstrapPanel(this.viewer);
+        this.tabset.addTab({
+            id : "bootstrap",
+            name: "Bootstrap",
+            content: bootstrapPanel.div
         });
 
         // Set the width
@@ -592,7 +600,6 @@ Racmacs.TableList = class TableList {
 
 Racmacs.Viewer.prototype.setTitle = function(title){
 
-    document.title = title;
     if(this.viewerTitle){
         this.viewerTitle.setTitle(title);
     }

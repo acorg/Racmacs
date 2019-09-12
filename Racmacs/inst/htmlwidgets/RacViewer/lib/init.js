@@ -4,14 +4,59 @@ Racmacs.utils = {};
 Racmacs.Viewer = class RacViewer extends R3JS.Viewer {
 
     // Constructor function
-    constructor(container, settings){
+    constructor(container, settings = {}){
 
         // Initiate the base R3JS viewer
         var r3jssettings = {
             rectangularSelection : true,
-            startAnimation : false
+            startAnimation : false,
+            initiate : false
         }
         super(container, r3jssettings);
+
+        // Generate any placeholders
+        if(settings.placeholder){
+            
+            var placeholder = document.createElement("div");
+            placeholder.id  = "placeholder";
+            
+            var holderimg = document.createElement("img");
+            holderimg.src = settings.placeholder;
+            holderimg.id  = "placeholder-img";
+            placeholder.appendChild(holderimg);
+
+            var holderoverlay = document.createElement("div");
+            holderoverlay.id = "placeholder-overlay";
+            holderoverlay.innerHTML = "Click to activate viewer";
+            placeholder.appendChild(holderoverlay);
+
+            var viewer = this;
+            placeholder.addEventListener("mouseup", function(){
+                placeholder.style.display = "none";
+                viewer.initiateWebGL();
+            });
+
+            this.wrapper.appendChild(placeholder);
+
+        } else {
+
+            this.initiateWebGL();
+
+        }
+
+        // Initiate the webgl
+        //this.initiateWebGL();
+
+    }
+
+    // Function to intiate webgl components of viewer
+    initiateWebGL(){
+
+        // Set status as initiated
+        this.initiated = true;
+
+        // Initiate the r3js viewer but don't start the animation loop
+        this.initiate(false);
 
         // Add a data object
         new Racmacs.Data(this);
@@ -85,7 +130,10 @@ Racmacs.Viewer = class RacViewer extends R3JS.Viewer {
         }
         animate();
 
-        
+        // Load map data if present
+        if(this.mapData){
+            this.loadMapData();
+        }
 
     }
 

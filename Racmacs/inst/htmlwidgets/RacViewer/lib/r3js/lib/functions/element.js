@@ -6,8 +6,17 @@ R3JS.element.base = class Element {
 
 	show(){ this.object.visible = true  }
     hide(){ this.object.visible = false }
-    showMat(){ this.object.material.visible = true  }
-    hideMat(){ this.object.material.visible = false }
+    showMat(){ 
+        if(this.object.material){
+            this.object.material.visible = true
+        }
+    }
+    
+    hideMat(){ 
+        if(this.object.material){
+            this.object.material.visible = false 
+        }
+    }
 
     showHighlight(){
     	if(this.highlight){

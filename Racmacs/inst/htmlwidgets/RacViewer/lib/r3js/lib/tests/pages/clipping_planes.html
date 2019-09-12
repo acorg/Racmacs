@@ -57,7 +57,7 @@
 			var container = document.getElementById("r3js-viewer");
 			var mapData = JSON.parse(json_data);
 			
-			var viewport = new R3JS.Viewer(container);
+			viewport = new R3JS.Viewer(container);
             viewport.load(mapData);
 			//racViewer("rac-viewer-2", json_data);
 		};

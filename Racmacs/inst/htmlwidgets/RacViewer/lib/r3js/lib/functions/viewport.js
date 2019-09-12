@@ -16,6 +16,11 @@ R3JS.Viewport = class Viewport{
         viewer.viewport = this;
         this.viewer = viewer;
 
+        // Create the overall div parent to fill the container div
+        this.wrapper = document.createElement( 'div' );
+        this.wrapper.classList.add("r3jsviewer");
+        viewer.wrapper = this.wrapper;
+
         // Create holder
         this.holder = document.createElement( 'div' );
         this.holder.id = "viewport";
@@ -31,7 +36,8 @@ R3JS.Viewport = class Viewport{
 
         // Clear container and style it
         viewer.container.innerHTML = null;
-        viewer.container.appendChild(this.holder);
+        viewer.container.appendChild(this.wrapper);
+        this.wrapper.appendChild(this.holder);
 
         // Set width and height
         this.width  = this.div.offsetWidth;
@@ -45,7 +51,7 @@ R3JS.Viewport = class Viewport{
           viewport.onkeyup(event)
         });
 
-        window.addEventListener("resize",    function(event){ viewport.onwindowresize(event) });
+        window.addEventListener("resize", function(event){ viewport.onwindowresize(event) });
 
         // Add buttons
         this.addButtons();
@@ -63,15 +69,67 @@ R3JS.Viewport = class Viewport{
         this.canvas.addEventListener("mouseover", function(event){ this.viewport.onmouseover(event)   });
         this.canvas.addEventListener("mouseout",  function(event){ this.viewport.onmouseout(event)    });
 
+        // Create transformation info div
+        this.transform_info = new R3JS.Info("transform-info-div");
+        this.div.appendChild( this.transform_info.div );
+        
+        // Create rotation and translation info
+        for (const transform of ["rotation", "translation"]){
+
+            this.transform_info[transform] = { div: document.createElement("div") };
+            this.transform_info[transform].div.id = transform+"-info-div";
+            this.transform_info.div.appendChild(this.transform_info[transform].div);
+
+            var oninputfn = function(){
+                var rotation = [
+                    Number(viewer.viewport.transform_info[transform].x.value),
+                    Number(viewer.viewport.transform_info[transform].y.value),
+                    Number(viewer.viewport.transform_info[transform].z.value)
+                ];
+                if(transform == "rotation"){
+                    viewer.scene.setRotation(rotation);
+                }
+                if(transform == "translation"){
+                    viewer.scene.setTranslation(rotation);
+                }
+                viewer.render();
+            }
+
+            for (const axis of ["x", "y", "z"]){
+              var input = document.createElement("input");
+              input.classList.add("transform-input");
+              input.classList.add("axis-"+transform);
+              input.classList.add("axis-"+transform+"-"+axis);
+              this.transform_info[transform][axis] = input;
+              this.transform_info[transform].div.appendChild(input);
+              input.addEventListener("change", oninputfn);
+            }
+
+        }
+
+        // Create zoom info
+        this.transform_info.zoom = { div: document.createElement("div") };
+        this.transform_info.zoom.div.id = "zoom-info-div";
+        this.transform_info.div.appendChild(this.transform_info.zoom.div);
+        
+        var input = document.createElement("input");
+        input.classList.add("transform-input");
+        this.transform_info.zoom.input = input;
+        this.transform_info.zoom.div.appendChild(input);
+        input.addEventListener("change", function(){
+            viewer.camera.setZoom(Number(this.value));
+            viewer.render();
+        });
+
         // Create selection info div
-        this.hover_info = new R3JS.HoverInfo();
+        this.hover_info = new R3JS.Info("hover-info-div");
         this.div.appendChild( this.hover_info.div );
 
         // Add placeholder
         this.placeholder = document.createElement("div");
         this.placeholder.classList.add("viewport-placeholder");
         this.placeholder.innerHTML = this.placeholderContent;
-        this.div.appendChild(this.placeholder);
+        //this.div.appendChild(this.placeholder);
 
     }
 
@@ -104,12 +162,13 @@ R3JS.Viewport.prototype.placeholderContent = "Loading";
 
 
 
-R3JS.HoverInfo = class HoverInfo{
+R3JS.Info = class Info{
 
-    constructor(){
+    constructor(id){
 
         this.div = document.createElement("div");
-        this.div.id = "hover-info-div";
+        this.div.id = id;
+        this.hide();
 
     }
 
@@ -129,8 +188,21 @@ R3JS.HoverInfo = class HoverInfo{
 
     }
 
-    show(){ this.div.style.display = "block" }
-    hide(){ this.div.style.display = "none"  }
+    show(){ 
+        this.div.style.display = "block";
+        this.shown = true;
+    }
+    hide(){ 
+        this.div.style.display = "none"
+        this.shown = false;
+    }
+    toggle(){
+        if(this.shown){
+            this.hide();
+        } else {
+            this.show();
+        }
+    }
 
 }
 

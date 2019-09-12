@@ -2,7 +2,7 @@
 // GL line constructor
 R3JS.element.constructors.glline = function(
     plotobj,
-    scene
+    viewer
     ){
 
     // Setup object
@@ -10,7 +10,7 @@ R3JS.element.constructors.glline = function(
         var element = new R3JS.element.gllines_fat({
             coords : plotobj.position,
             properties : plotobj.properties,
-            viewer : viewer.viewport
+            viewer : viewer
         });
     } else {
         var element = new R3JS.element.gllines_thin({

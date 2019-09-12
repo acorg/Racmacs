@@ -70,7 +70,7 @@ R3JS.element.surface = class Surface extends R3JS.element.base {
         // Set vertices
         var n = 0;
         var nas = [];
-        for(var i=0; i<args.x.length; i++){
+        for(var i=args.x.length - 1; i >= 0; i--){
             for(var j=0; j<args.x[0].length; j++){
                 if(!isNaN(args.z[i][j])){
                     var coords = [args.x[i][j], args.y[i][j], args.z[i][j]];
@@ -109,7 +109,8 @@ R3JS.element.surface = class Surface extends R3JS.element.base {
         geo = new THREE.BufferGeometry().fromGeometry( geo );
 
         // Make object
-        this.object = new THREE.Mesh(geo, material);
+        var object = new THREE.Mesh(geo, material);
+        this.object = object;
         this.object.element = this;
 
     }

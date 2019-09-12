@@ -1,5 +1,24 @@
 
-Racmacs.Viewer.prototype.load = function(mapData, settings = {}){
+
+Racmacs.Viewer.prototype.load = function(mapData, settings = {}, plotdata){
+
+    // Set map data and settings
+    this.mapData     = mapData;
+    this.mapSettings = settings;
+    this.mapPlotdata = plotdata;
+    
+    // If initated load the map data
+    if(this.initiated){
+      this.loadMapData();
+    }
+
+}
+
+Racmacs.Viewer.prototype.loadMapData = function(){
+
+    var mapData  = this.mapData;
+    var settings = this.mapSettings;
+    var plotdata = this.mapPlotdata;
 
     this.clearDiagnostics();
 
@@ -82,6 +101,13 @@ Racmacs.Viewer.prototype.load = function(mapData, settings = {}){
         this.camera.setZoom(zoom);
         this.scene.setTranslation(translation);
         this.selectByPointIndices(selected_points);
+    }
+
+    // Populate the plot with any plotting data
+    if(plotdata.length){
+        this.scene.populatePlot({
+            plot: plotdata
+        });
     }
 
     // Render the plot

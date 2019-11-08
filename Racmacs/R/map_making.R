@@ -42,7 +42,7 @@ make.acmap.cpp <- function(number_of_dimensions    = 2,
   }
 
   # Make the chart
-  chart <- acmap(...)
+  chart <- acmap.cpp(...)
 
   # Run the optimizations
   optimizeMap(map = chart,

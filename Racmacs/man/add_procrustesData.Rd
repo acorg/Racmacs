@@ -4,29 +4,12 @@
 \alias{add_procrustesData}
 \title{Add procrustes data to a map}
 \usage{
-add_procrustesData(map, target_map, antigens = TRUE, sera = TRUE,
-  translation = TRUE, scaling = FALSE, optimization_number = NULL,
-  target_optimization_number = NULL, passage_matching = "ignore",
-  description = "")
+add_procrustesData(map, procrustes_data)
 }
 \arguments{
 \item{map}{The acmap data object}
 
-\item{target_map}{The acmap data object to procrustes against}
-
-\item{antigens}{Antigens to include in the procrustes, specified either by name or index or FALSE for excluding all.}
-
-\item{sera}{Sera to include in the procrustes, specified either by name or index or FALSE for excluding all.}
-
-\item{translation}{Should translation be performed?}
-
-\item{scaling}{Should scaling be performed?}
-
-\item{optimization_number}{The map optimization to use in the procrustes calculation (defaults to the currently selected optimization)}
-
-\item{target_optimization_number}{The target map optimization to use in the procrustes calculation (defaults to the currently selected optimization)}
-
-\item{passage_matching}{Should passage matching be performed}
+\item{procrustes_data}{The procrustes data}
 }
 \value{
 Returns the map data with additional diagnostic information on hemisphering points included.

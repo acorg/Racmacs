@@ -1,95 +1,4 @@
 
-#' Converting map data to the json format
-#' Function to define what parts of the map data should be unboxed when exporting to json format.
-unbox_map <- function(mapData){
-  mapData$table_name <- jsonlite::unbox(mapData$table_name)
-  mapData$comment    <- jsonlite::unbox(mapData$comment)
-  mapData$caption    <- jsonlite::unbox(mapData$caption)
-
-  if(!is.null(mapData$optimizations)){
-      mapData$optimizations <- lapply(mapData$optimizations, function(brun){
-        brun$dimensions           <- jsonlite::unbox(brun$dimensions)
-        brun$stress               <- jsonlite::unbox(brun$stress)
-        brun$comment              <- jsonlite::unbox(brun$comment)
-        brun$minimum_column_basis <- jsonlite::unbox(brun$minimum_column_basis)
-        brun
-      })
-  }
-
-  mapData
-}
-
-
-#' Process map data for the viewer
-process_mapViewerData <- function(mapData){
-
-  # Convert to racmap if needed
-  if("racchart" %in% class(mapData)){
-    mapData <- as.list(mapData)
-  }
-
-  # Convert colors
-  convertCol <- function(cols){
-    as.vector(sapply(cols, function(col){
-      if(tolower(col) == "transparent"){
-        return("transparent")
-      } else {
-        return(gplots::col2hex(col))
-      }
-    }))
-  }
-  agFill(mapData)    <- convertCol(agFill(mapData))
-  agOutline(mapData) <- convertCol(agOutline(mapData))
-  srFill(mapData)    <- convertCol(srFill(mapData))
-  srOutline(mapData) <- convertCol(srOutline(mapData))
-  if(length(mapData$selected_optimization) == 1){
-    mapData$selected_optimization <- jsonlite::unbox(mapData$selected_optimization - 1)
-  }
-
-  # Set defaults
-  agAspect(mapData)       <- agAspect(mapData)
-  agRotation(mapData)     <- agRotation(mapData)
-  agOutlineWidth(mapData) <- agOutlineWidth(mapData)
-  agDrawingOrder(mapData) <- agDrawingOrder(mapData)
-  agShape(mapData)        <- agShape(mapData)
-  agSize(mapData)         <- agSize(mapData)
-  agShown(mapData)        <- agShown(mapData)
-
-  srAspect(mapData)       <- srAspect(mapData)
-  srRotation(mapData)     <- srRotation(mapData)
-  srOutlineWidth(mapData) <- srOutlineWidth(mapData)
-  srDrawingOrder(mapData) <- srDrawingOrder(mapData)
-  srShape(mapData)        <- srShape(mapData)
-  srSize(mapData)         <- srSize(mapData)
-  srShown(mapData)        <- srShown(mapData)
-
-  # Mark unboxed json components
-  unbox_map(mapData)
-
-}
-
-
-#' Convert a map to json data
-#'
-#' @param map The acmap data
-#'
-#' @return Returns json as a string
-#' @export
-#'
-map2json <- function(map){
-
-  if(is.null(map)){
-    return(NULL)
-  }
-
-  jsonlite::toJSON(
-    process_mapViewerData(map),
-    null = "list"
-  )
-
-}
-
-
 #' Create a RacViewer widget
 #'
 #' This creates an html widget for viewing antigenic maps.
@@ -115,6 +24,7 @@ RacViewer <- function(map,
                       translation,
                       zoom,
                       plotdata  = NULL,
+                      show_procrustes = FALSE,
                       hide_control_panel = FALSE,
                       width     = NULL,
                       height    = NULL,
@@ -123,14 +33,16 @@ RacViewer <- function(map,
 
   # create a list that contains the settings
   settings <- list(
-    hide_control_panel = hide_control_panel
+    hide_control_panel = hide_control_panel,
+    show_procrustes    = show_procrustes
   )
 
   # forward options using x
   x = list(
-    mapData  = as.json(map),
-    plotdata = jsonlite::toJSON(map$plot),
-    settings = jsonlite::toJSON(
+    mapData    = as.json(map),
+    procrustes = map$procrustes,
+    plotdata   = jsonlite::toJSON(map$plot),
+    settings   = jsonlite::toJSON(
       settings,
       auto_unbox = TRUE
     )
@@ -200,4 +112,52 @@ RacViewerProxy <- function(id, session = shiny::getDefaultReactiveDomain()){
 }
 
 
+#' Create a map snapshot
+#'
+#' @param map The map data file
+#' @param width Snapshot width
+#' @param height Snapshot height
+#' @param filename File to save image to
+#' @param ... Further parameters to pass to view
+#'
+#' @export
+#'
+snapshotMap <- function(map, width = 800, height = 800, filename = NULL, ...){
 
+  # Generate the widget
+  widget   <- view(map, ...)
+
+  # Save the widget to a temporary file
+  tmpdir  <- tempdir()
+  tmppage <- file.path(tmpdir, "RacmapSnaphot.html")
+  htmlwidgets::saveWidget(widget, file = tmppage)
+  pagepath <- normalizePath(tmppage)
+
+  # Set the path to chrome
+  chrome   <- "/Applications/Google\\ Chrome.app/Contents/MacOS/Google\\ Chrome"
+
+  # Run the screenshot command
+  command <- paste0(
+    "cd ", tmpdir, "; ",
+    chrome, " --headless --disable-gpu --screenshot --window-size=", width,",", height," ", pagepath
+  )
+  system(command, ignore.stdout = TRUE, ignore.stderr = TRUE)
+
+  # Get the path to the screenshot generated
+  screenshot <- file.path(tmpdir, "screenshot.png")
+
+  # Save the screenshot to a file or output the base64 img data
+  if(is.null(filename)){
+
+    system2("base64", screenshot, TRUE)
+
+  } else {
+
+    file.rename(
+      from = screenshot,
+      to   = filename
+    )
+
+  }
+
+}

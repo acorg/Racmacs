@@ -93,7 +93,6 @@ dependencies:
       - functions/filters.js
       - functions/browser.js
       - functions/graphics.js
-      - functions/raytrace.js
       - functions/shortcuts.js
       - functions/buttons.js
       - functions/projections.js

@@ -99,7 +99,7 @@ Racmacs.Point = class Point {
 
         // Calculate coords vector
         var coords3 = args.coords;
-        if(coords3.length < 3){ coords3.push(0) }
+        while(coords3.length < 3){ coords3.push(0) }
         var coordsVector = new THREE.Vector3();
 
         // Deal with na coords
@@ -282,6 +282,18 @@ Racmacs.Point = class Point {
         if(this.errorLinesShown){
             this.updateErrorLines();
         }
+
+    }
+
+    // Reset the point position based on map data
+    resetPosition(){
+
+        if(this.type == "ag"){
+            var position = this.viewer.data.agCoords(this.typeIndex);
+        } else {
+            var position = this.viewer.data.srCoords(this.typeIndex);
+        }
+        this.setPosition(position[0], position[1], 0);
 
     }
 
@@ -616,6 +628,24 @@ Racmacs.Point = class Point {
         }
 
         return(this.connectedPoints);
+
+    }
+
+    // Get the point drawing order
+    drawingOrder(){
+        return(this.viewer.data.ptDrawingOrder().indexOf(this.pIndex));
+    }
+
+    // Bring the point to the top
+    moveToTop(){
+
+        this.element.setIndex(this.element.parent.elements().length-1);
+
+    }
+
+    moveFromTop(){
+
+        this.element.setIndex(this.drawingOrder());
 
     }
 

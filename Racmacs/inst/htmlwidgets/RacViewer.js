@@ -15,8 +15,10 @@ HTMLWidgets.widget({
       renderValue: function(x) {
 
         // TODO: code to render the widget, e.g.
+        var mapdata = JSON.parse(x.mapData);
+        mapdata.procrustes = x.procrustes;
         viewer.load(
-          JSON.parse(x.mapData),
+          mapdata,
           x.settings,
           x.plotdata
         );

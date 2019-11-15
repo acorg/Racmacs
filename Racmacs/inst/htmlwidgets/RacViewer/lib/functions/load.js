@@ -1,6 +1,6 @@
 
 
-Racmacs.Viewer.prototype.load = function(mapData, settings = {}, plotdata){
+Racmacs.Viewer.prototype.load = function(mapData, settings = {}, plotdata, placeholder){
 
     // Set map data and settings
     this.mapData     = mapData;
@@ -114,6 +114,14 @@ Racmacs.Viewer.prototype.loadMapData = function(){
     if(this.data.numProjections() > 0) {
         this.render();
     }
+
+    // Show any procrustes
+    if(settings.show_procrustes){
+        this.showProcrustes(mapData.procrustes[0][0]);
+    }
+
+    // this.controlpanel.show();
+    // this.controlpanel.tabset.showTab("browser");
 
 }
 

@@ -16,3 +16,20 @@ reflectMap.racmap <- function(map, axis = "x", optimization_number = NULL){
   srCoords(map, optimization_number) <- reflect_coords_in_axis(srCoords(map, optimization_number), axis)
   map
 }
+
+#' @export
+bakeTransformation.racmap <- function(map, optimization_number){
+
+  optimization_number <- convertOptimizationNum(optimization_number, map)
+
+  ag_coords <- agCoords(map, optimization_number)
+  sr_coords <- srCoords(map, optimization_number)
+
+  mapTransformation(map, optimization_number) <- NULL
+  mapTranslation(map, optimization_number)    <- NULL
+
+  map$optimizations[[optimization_number]]$ag_coords <- ag_coords
+  map$optimizations[[optimization_number]]$sr_coords <- sr_coords
+  map
+
+}

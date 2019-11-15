@@ -48,7 +48,7 @@ h1 {
 }
 
 h2 {
-  
+
 }
 
 h3 {
@@ -94,12 +94,6 @@ h3 {
     bottom: 0;
     background-color: #ffffff;
     z-index: 100;
-}
-
-/* Add glyph font */
-@font-face {
-    font-family: "viewerglyphs";
-    src: url(glyphs/glyphs.ttf);
 }
 
 /* Classes for control btns */
@@ -206,11 +200,11 @@ h3 {
   right : 8px;
 }
 .graphic-box {
-  
+
 }
 
 .filter-box {
-  
+
 }
 
 .filter-opt-title {

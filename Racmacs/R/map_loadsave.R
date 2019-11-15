@@ -261,6 +261,7 @@ list_property_function_bindings <- function(chart_object = NULL){
     c("sr_aspect",            "srAspect",           "plotspec",    TRUE,  "vector",  "Sera aspect"),
     c("sr_shape",             "srShape",            "plotspec",    TRUE,  "vector",  "Sera shape"),
     c("sr_drawing_order",     "srDrawingOrder",     "plotspec",    TRUE,  "vector",  "Sera drawing order"),
+    c("pt_drawing_order",     "ptDrawingOrder",     "plotspec",    TRUE,  "vector",  "Point drawing order"),
     c("ag_coords",            "agCoords",           "optimization",  TRUE,  "matrix",  "Antigen coordinates"),
     c("sr_coords",            "srCoords",           "optimization",  TRUE,  "matrix",  "Sera coordinates"),
     c("stress",               "mapStress",          "optimization",  FALSE, "vector",  "Map stress"),

@@ -6,7 +6,8 @@
 \usage{
 procrustesMap(map, target_map, antigens = TRUE, sera = TRUE,
   translation = TRUE, scaling = FALSE, optimization_number = NULL,
-  target_optimization_number = NULL, passage_matching = "ignore")
+  target_optimization_number = NULL, passage_matching = "ignore",
+  description = NULL)
 }
 \arguments{
 \item{map}{The acmap data object}

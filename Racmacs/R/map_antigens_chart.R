@@ -100,8 +100,8 @@ setAntigenAttributes <- function(racchart,
       # Antigen isolation dates
       if(antigen_attribute == "agDates"){
         value <- values[[antigen_attribute]][n]
-        if(is.null(value)) value <- ""
-        antigen$set_date(value)
+        if(is.null(value) || is.na(value)) value <- ""
+        antigen$set_date(as.character(value))
         return()
       }
 

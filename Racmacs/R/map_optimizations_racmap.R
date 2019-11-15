@@ -65,23 +65,55 @@ srCoords.racmap <- function(racmap, optimization_number = NULL, names = TRUE){
   sr_coords
 }
 
+
 #' @export
 set_agCoords.racmap <- function(racmap, value, optimization_number = NULL){
+
+  # Label the coordinate rows with antigen names
   rownames(value) <- agNames(racmap)
+
+  # Get the specified optimization number
   optimization_number <- convertOptimizationNum(optimization_number, racmap)
+
+  # Bake any current transformation
+  racmap <- bakeTransformation(racmap, optimization_number)
+
+  # Set the coordinates
   racmap$optimizations[[optimization_number]]$ag_coords <- value
+
+  # Set the main map details to the new antigen coordinates
   if(selectedOptimization(racmap) == optimization_number){ racmap$ag_coords <- value }
+
+  # Return the updated map
   racmap
+
 }
+
 
 #' @export
 set_srCoords.racmap <- function(racmap, value, optimization_number = NULL){
+
+  # Label the coordinate rows with serum names
   rownames(value) <- srNames(racmap)
+
+  # Get the specified optimization number
   optimization_number <- convertOptimizationNum(optimization_number, racmap)
+
+  # Bake any current transformation
+  racmap <- bakeTransformation(racmap, optimization_number)
+
+  # Set the coordinates
   racmap$optimizations[[optimization_number]]$sr_coords <- value
+
+  # Set the main map details to the new serum coordinates
   if(selectedOptimization(racmap) == optimization_number){ racmap$sr_coords <- value }
+
+  # Return the updated map
   racmap
+
 }
+
+
 
 #' @export
 mapTransformation.racmap <- function(racmap, optimization_number = NULL){
@@ -97,6 +129,23 @@ mapTransformation.racmap <- function(racmap, optimization_number = NULL){
 set_mapTransformation.racmap <- function(racmap, value, optimization_number = NULL){
   optimization_number <- convertOptimizationNum(optimization_number, racmap)
   racmap$optimizations[[optimization_number]]$transformation <- value
+  racmap
+}
+
+#' @export
+mapTranslation.racmap <- function(racmap, optimization_number = NULL){
+  optimization_number <- convertOptimizationNum(optimization_number, racmap)
+  translation <- racmap$optimizations[[optimization_number]]$translation
+  if(is.null(translation)){
+    translation <- rep(0, mapDimensions(racmap))
+  }
+  translation
+}
+
+#' @export
+set_mapTranslation.racmap <- function(racmap, value, optimization_number = NULL){
+  optimization_number <- convertOptimizationNum(optimization_number, racmap)
+  racmap$optimizations[[optimization_number]]$translation <- value
   racmap
 }
 
@@ -153,8 +202,6 @@ set_colBases.racmap <- function(racmap, value, optimization_number = NULL){
   racmap
 
 }
-
-
 
 #' @export
 mapStress.racmap <- function(racmap, optimization_number = NULL){

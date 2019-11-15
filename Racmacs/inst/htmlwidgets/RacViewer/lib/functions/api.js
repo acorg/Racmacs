@@ -96,3 +96,22 @@ Racmacs.Viewer.prototype.selectByPointIndices = function(indices){
     }
     
 }
+
+Racmacs.Viewer.prototype.reflect = function(axis){
+
+    // this.scene.reflect(axis);
+
+    // Adjust the transformation
+    var t1 = this.data.transformation();
+    var t2 = [1,0,0,-1];
+    this.data.setTransformation(Racmacs.utils.matrixMultiply(t1, t2));
+
+    // Reset the point coordinates
+    for(var i=0; i<this.points.length; i++){
+        this.points[i].resetPosition();
+    }
+
+    // Rerender the scene
+    this.render();
+
+}

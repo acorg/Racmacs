@@ -75,7 +75,13 @@ encode_base64 <- function(img){
 #'
 #' For usage debugging problems with the viewer.
 #'
-write2viewer_debug <- function(map){
+write2viewer_debug <- function(map, snapshot = FALSE){
+
+  if(snapshot){
+    snaphottxt <- sprintf("var placeholder = '%s';", snapshotMap(map))
+  } else {
+    snaphottxt <- "var placeholder = false;"
+  }
 
   # # Create a placeholder image file
   # tmp <- tempfile()
@@ -101,12 +107,13 @@ write2viewer_debug <- function(map){
         '<script>',
           'window.onload = function() {',
             'var container   = document.getElementById("rac-viewer");',
-            # paste0('var placeholder = "', placeholder, '"'),
+            snaphottxt,
             paste0('var mapData = JSON.parse(`', as.json(map),'`);'),
+            paste0('mapData.procrustes = ', jsonlite::toJSON(map$procrustes)),
             paste0('var plotdata = ', jsonlite::toJSON(map$plot)),
             #'var viewer = new Racmacs.Viewer(container, { placeholder: placeholder });',
             'var viewer = new Racmacs.Viewer(container);',
-            'viewer.load(mapData, { hide_control_panel:true }, plotdata);',
+            'viewer.load(mapData, { hide_control_panel:true }, plotdata, placeholder);',
             #'viewertest(viewer)',
           '};',
         '</script>',

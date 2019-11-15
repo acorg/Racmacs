@@ -4,7 +4,7 @@
 \alias{write2viewer_debug}
 \title{Write map data to the viewer debug file}
 \usage{
-write2viewer_debug(map)
+write2viewer_debug(map, snapshot = FALSE)
 }
 \description{
 For usage debugging problems with the viewer.

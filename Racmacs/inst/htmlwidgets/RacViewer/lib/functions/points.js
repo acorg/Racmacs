@@ -50,8 +50,10 @@ Racmacs.Viewer.prototype.addAgSrPoints = function(){
             var size   = points.map( p => p.size / 10 );
             var shape  = points.map( function(p){
                 var shape = p.shape.toLowerCase();
-                if(shape == "circle") return("bcircle")
-                if(shape == "box")    return("bsquare")
+                if(shape == "circle")  return("bcircle")
+                if(shape == "box")     return("bsquare")
+                if(shape == "egg")     return("begg")
+                if(shape == "uglyegg") return("buglyegg")
             });
             var fillcols    = points.map( p => p.getFillColorRGBA()    );
             var outlinecols = points.map( p => p.getOutlineColorRGBA() );
@@ -81,10 +83,15 @@ Racmacs.Viewer.prototype.addAgSrPoints = function(){
             }
 
             // Plot points by drawing order
-            var order = Array(points.length).fill(0).map((x,i) => i);
-            order.sort(function(a,b){
-              return(points[a].drawing_order - points[b].drawing_order);
-            });
+            // var order = Array(points.length).fill(0).map((x,i) => i);
+            // order.sort(function(a,b){
+            //   return(points[a].drawing_order - points[b].drawing_order);
+            // });
+            // var order = [];
+            // for(var i=this.data.data.c.p.d.length-1; i>=0; i--){
+            //     order.push(this.data.data.c.p.d[i]);
+            // }
+            var order = this.data.ptDrawingOrder();
 
             // Generate the point objects
             var glpoints = new R3JS.element.glpoints({

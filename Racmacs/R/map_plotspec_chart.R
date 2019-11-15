@@ -490,3 +490,17 @@ srDrawingOrder.racchart <- ptAttributeGetter('srDrawingOrder')
 set_srDrawingOrder.racchart <- ptAttributeSetter('srDrawingOrder')
 
 
+
+# Point drawing order
+#' @export
+ptDrawingOrder.racchart <- function(map){
+  map$chart$plot_spec$drawing_order
+}
+
+#' @export
+set_ptDrawingOrder.racchart <- function(map){
+  warning("Setting drawing order on cpp maps not yet supported")
+  map
+}
+
+

@@ -90,7 +90,21 @@ Racmacs.Data = class Data {
     // Projection attributes
     stress(num){
         var pnum = this.projection(num);
-        return(this.data.c.P[pnum].s);
+        if(this.data.c.P[pnum].s){
+          return(this.data.c.P[pnum].s);
+        } else {
+          return(0);
+        }
+    }
+
+    transformation(num){
+        var pnum = this.projection(num);
+        return(this.data.c.P[pnum].t);
+    }
+
+    setTransformation(t, num){
+        var pnum = this.projection(num);
+        this.data.c.P[pnum].t = t;
     }
 
     dimensions(num){
@@ -109,7 +123,15 @@ Racmacs.Data = class Data {
         if(this.numProjections() == 0){
             return([0,0,0]);
         }
-        return(this.data.c.P[pnum].l[i].slice(0));
+        var coords = this.data.c.P[pnum].l[i].slice();
+        // if(this.transformation()){
+        //     var t = this.transformation();
+        //     coords = [
+        //         coords[0]*t[0] + coords[1]*t[2],
+        //         coords[0]*t[1] + coords[1]*t[3]
+        //     ]
+        // }
+        return(coords);
     }
     set_agCoords(i, coords){
         var pnum = this.projection();
@@ -121,7 +143,15 @@ Racmacs.Data = class Data {
         if(this.numProjections() == 0){
             return([0,0,0]);
         }
-        return(this.data.c.P[pnum].l[i + this.numAntigens()].slice(0));
+        var coords = this.data.c.P[pnum].l[i + this.numAntigens()].slice();
+        // if(this.transformation()){
+        //     var t = this.transformation();
+        //     coords = [
+        //         coords[0]*t[0] + coords[1]*t[2],
+        //         coords[0]*t[1] + coords[1]*t[3]
+        //     ]
+        // }
+        return(coords);
     }
     set_srCoords(i, coords){
         var pnum = this.projection();
@@ -133,10 +163,9 @@ Racmacs.Data = class Data {
             return(0);
         }
         var pnum = this.projection();
-
         if(this.data.c.P[pnum].C){
             // Forced column bases
-            var colbases = this.data.c.P[pnum].C[i];
+            var colbases = this.data.c.P[pnum].C;
         } else {
             // Minimum column bases
             if(this.data.c.P[pnum].m){
@@ -196,10 +225,10 @@ Racmacs.Data = class Data {
     }
 
     agOutlineWidth(i){ 
-        return(this.agPlotspec(i, "?", 1));
+        return(this.agPlotspec(i, "?", 1)*1);
     }
     srOutlineWidth(i){ 
-        return(this.srPlotspec(i, "?", 1));
+        return(this.srPlotspec(i, "?", 1)*1);
     }
 
     agAspect(i){ 
@@ -209,18 +238,31 @@ Racmacs.Data = class Data {
         return(this.srPlotspec(i, "?", 1));
     }
 
-    agShape(i){ 
-        return(this.agPlotspec(i, "S", "CIRCLE"));
+    agShape(i){
+        var shape = this.agPlotspec(i, "S", "CIRCLE");
+        return(shape);
     }
     srShape(i){ 
         return(this.srPlotspec(i, "S", "CIRCLE"));
     }
 
-    agDrawingOrder(i){ 
-        return(this.data.c.p.d[i]);
+    agDrawingOrder(i){
+        // var pt_order = 0;
+        // while(i != this.data.c.p.d[pt_order]){
+        //     pt_order++;
+        // }
+        // return(-pt_order);
     }
     srDrawingOrder(i){ 
-        return(this.data.c.p.d[i + this.numAntigens()]);
+        // var pt_order = 0;
+        // while(i+this.numAntigens() != this.data.c.p.d[pt_order]){
+        //     pt_order++;
+        // }
+        // return(-pt_order);
+    }
+
+    ptDrawingOrder(){
+        return(this.data.c.p.d);
     }
 
 

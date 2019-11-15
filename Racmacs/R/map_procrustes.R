@@ -110,7 +110,12 @@ procrustesMap <- function(map,
                           scaling     = FALSE,
                           optimization_number = NULL,
                           target_optimization_number = NULL,
-                          passage_matching = "ignore"){
+                          passage_matching = "ignore",
+                          description = NULL){
+
+  # Process optimization numbers
+  optimization_number        <- convertOptimizationNum(optimization_number, map)
+  target_optimization_number <- convertOptimizationNum(target_optimization_number, target_map)
 
   # Convert antigen and sera to indices
   antigens <- get_ag_indices(antigens, map)
@@ -121,16 +126,16 @@ procrustesMap <- function(map,
 
   # Realign map 2 to match map 1
   target_map <- realignMap(map,
-                            target_map,
-                            antigens = antigens,
-                            sera     = sera,
-                            translation = translation,
-                            scaling     = scaling,
-                            optimization_number = optimization_number,
-                            target_optimization_number = target_optimization_number,
-                            passage_matching = passage_matching,
-                            alignTargetToMain = TRUE,
-                            warnings = FALSE)
+                           target_map,
+                           antigens = antigens,
+                           sera     = sera,
+                           translation = translation,
+                           scaling     = scaling,
+                           optimization_number = optimization_number,
+                           target_optimization_number = target_optimization_number,
+                           passage_matching = passage_matching,
+                           alignTargetToMain = TRUE,
+                           warnings = FALSE)
 
 
   # Get coordinates of map 1
@@ -171,84 +176,31 @@ procrustesMap <- function(map,
   sr_dists <- dist_coord_pairs(sr_coords1, sr_coords2)
 
   # Return output
-  list(
-    ag_dists   = ag_dists,
-    sr_dists   = sr_dists,
-    ag_rmsd    = sqrt(mean(ag_dists^2, na.rm = TRUE)),
-    sr_rmsd    = sqrt(mean(sr_dists^2, na.rm = TRUE)),
-    total_rmsd = sqrt(mean(c(ag_dists, sr_dists)^2, na.rm = TRUE)),
-    pc_coords = list(
-      ag = ag_coords2,
-      sr = sr_coords2
-    )
-  )
-
-}
-
-
-#' Add procrustes data to a map
-#'
-#' @param map The acmap data object
-#' @param target_map The acmap data object to procrustes against
-#' @param antigens Antigens to include in the procrustes, specified either by name or index or FALSE for excluding all.
-#' @param sera Sera to include in the procrustes, specified either by name or index or FALSE for excluding all.
-#' @param translation Should translation be performed?
-#' @param scaling Should scaling be performed?
-#' @param optimization_number The map optimization to use in the procrustes calculation (defaults to the currently selected optimization)
-#' @param target_optimization_number The target map optimization to use in the procrustes calculation (defaults to the currently selected optimization)
-#' @param passage_matching Should passage matching be performed
-#'
-#' @return Returns the map data with additional diagnostic information on hemisphering points included.
-#' @export
-#'
-add_procrustesData <- function(map,
-                               target_map,
-                               antigens = TRUE,
-                               sera     = TRUE,
-                               translation = TRUE,
-                               scaling     = FALSE,
-                               optimization_number = NULL,
-                               target_optimization_number = NULL,
-                               passage_matching = "ignore",
-                               description      = ""){
-
-  # Calculate procrustes data
-  procrustes_data <- procrustesMap(map               = map,
-                                   target_map        = target_map,
-                                   antigens          = antigens,
-                                   sera              = sera,
-                                   translation       = translation,
-                                   scaling           = scaling,
-                                   optimization_number        = optimization_number,
-                                   target_optimization_number = target_optimization_number,
-                                   passage_matching  = passage_matching)
-
-  # Process optimizations
-  optimization_number <- convertOptimizationNum(optimization_number, map)
-  target_optimization_number <- convertOptimizationNum(target_optimization_number, target_map)
-
-  # Keep a record
-  if(length(map$procrustes) < optimization_number) {
-    map$procrustes[[optimization_number]] <- list()
-  }
-  map$procrustes[[optimization_number]] <- c(
-    map$procrustes[[optimization_number]],
-    list(
-      list(
-        target_map        = name(target_map),
-        target_optimization_number = target_optimization_number,
-        description       = description,
-        translation       = translation,
-        scaling           = scaling,
-        antigens          = antigens,
-        sera              = sera,
-        data              = procrustes_data
+  object <- list(
+    map                        = map,
+    target_map                 = jsonlite::unbox(name(target_map)),
+    optimization_number        = jsonlite::unbox(optimization_number),
+    target_optimization_number = jsonlite::unbox(target_optimization_number),
+    description                = jsonlite::unbox(description),
+    translation                = jsonlite::unbox(translation),
+    scaling                    = jsonlite::unbox(scaling),
+    antigens                   = antigens,
+    sera                       = sera,
+    data                       = list(
+      ag_dists   = ag_dists,
+      sr_dists   = sr_dists,
+      ag_rmsd    = jsonlite::unbox(sqrt(mean(ag_dists^2, na.rm = TRUE))),
+      sr_rmsd    = jsonlite::unbox(sqrt(mean(sr_dists^2, na.rm = TRUE))),
+      total_rmsd = jsonlite::unbox(sqrt(mean(c(ag_dists, sr_dists)^2, na.rm = TRUE))),
+      pc_coords = list(
+        ag = ag_coords2,
+        sr = sr_coords2
       )
     )
   )
 
-  # Return the updated map
-  map
+  class(object) <- c("racprocrustes", "list")
+  object
 
 }
 
@@ -356,4 +308,66 @@ realignOptimizations.racchart <- function(map,
   map
 
 }
+
+
+#' Add procrustes data to a map
+#'
+#' @param map The acmap data object
+#' @param procrustes_data The procrustes data
+#'
+#' @return Returns the map data with additional diagnostic information on hemisphering points included.
+#' @export
+#'
+add_procrustesData <- function(map,
+                               procrustes_data){
+
+  # Process optimizations
+  optimization_number <- procrustes_data$optimization_number
+
+  # Remove map
+  procrustes_data$map <- NULL
+
+  # Keep a record
+  procrustes <- map$procrustes
+  if(length(procrustes) < optimization_number) {
+    procrustes[[optimization_number]] <- list()
+  }
+  procrustes[[optimization_number]] <- c(
+    procrustes[[optimization_number]],
+    list(procrustes_data)
+  )
+
+  # Return the updated map
+  map$procrustes <- procrustes
+  map
+
+}
+
+
+
+#' Viewing procrustes data
+#'
+#' View procrustes data in an interactive viewer.
+#'
+#' @param map The primary map
+#' @param target_map The target map
+#' @param ... Arguments to be passed to \code{\link{view_map}}
+#'
+#' @export
+#'
+view.racprocrustes <- function(object, ...){
+
+  # Add the procrustes data to the map
+  map <- add_procrustesData(
+    map             = object$map,
+    procrustes_data = object
+  )
+
+  view_map(map,
+           show_procrustes = TRUE,
+           ...)
+
+}
+
+
 

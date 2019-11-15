@@ -4,7 +4,8 @@ Racmacs.Viewer.prototype.graphics = {
 
   noneSelected : {
     selected         : {
-        opacity : 1.0
+        opacity : 1.0,
+        outlineColor : "#ff0066"
     },
     selected_hover   : {
         opacity : 0.8
@@ -81,6 +82,8 @@ Racmacs.Point.prototype.hover = function(){
     // Show the point info
     this.showInfo();
 
+    this.moveToTop();
+
 }
 
 Racmacs.Point.prototype.dehover = function(){
@@ -97,6 +100,8 @@ Racmacs.Point.prototype.dehover = function(){
 
     // Show the point info
     this.hideInfo();
+
+    this.moveFromTop();
 
 }
 
@@ -265,7 +270,7 @@ Racmacs.Point.prototype.updateDisplay = function(){
         this.hide();
       }
 
-      if(this.selected){
+      if(this.selected || this.hovered){
         this.setOutlineColorTemp(selectionMat.selected.outlineColor);
       } else {
         this.restoreOutlineColor();

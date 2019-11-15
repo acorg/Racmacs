@@ -214,7 +214,7 @@ Racmacs.BrowserRecord = class BrowserRecord {
 
         // Make red if na_coords
         if(point.coords_na){
-            this.name_box.style.color = "#ff0000";
+            this.name_box.classList.add("na-coords");
         }
 
         // Update the box

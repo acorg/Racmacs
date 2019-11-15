@@ -269,6 +269,22 @@ mapTransformation <- function(map, optimization_number = NULL){
 
 
 
+# Map translation ----------
+check_mapTranslation <- function(value, map) value
+
+#' @rdname mapTransformation
+#' @export
+mapTranslation <- function(map, optimization_number = NULL){
+  UseMethod("mapTranslation", map)
+}
+
+#' @rdname mapTransformation
+#' @export
+`mapTranslation<-` <- optimizationAttributeSetter("mapTranslation")
+
+
+
+
 # Map comments -------
 check_mapComment <- function(value, map) value
 

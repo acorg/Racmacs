@@ -4,8 +4,9 @@
 \alias{RacViewer}
 \title{Create a RacViewer widget}
 \usage{
-RacViewer(map, rotation, translation, zoom, hide_control_panel = FALSE,
-  width = NULL, height = NULL, elementId = NULL)
+RacViewer(map, rotation, translation, zoom, plotdata = NULL,
+  show_procrustes = FALSE, hide_control_panel = FALSE, width = NULL,
+  height = NULL, elementId = NULL)
 }
 \arguments{
 \item{map}{The map data object}

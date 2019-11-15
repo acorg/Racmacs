@@ -3,6 +3,8 @@
 \name{mapTransformation}
 \alias{mapTransformation}
 \alias{mapTransformation<-}
+\alias{mapTranslation}
+\alias{mapTranslation<-}
 \alias{rotateMap}
 \alias{reflectMap}
 \title{Get or set acmap transformation}
@@ -10,6 +12,10 @@
 mapTransformation(map, optimization_number = NULL)
 
 mapTransformation(map, optimization_number = NULL) <- value
+
+mapTranslation(map, optimization_number = NULL)
+
+mapTranslation(map, optimization_number = NULL) <- value
 
 rotateMap(map, degrees, axis = NULL, optimization_number = NULL)
 

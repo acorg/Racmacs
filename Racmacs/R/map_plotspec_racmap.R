@@ -330,6 +330,23 @@ srDrawingOrder.racmap <- function(racmap){
   }
 }
 
+# Point drawing order
+#' @export
+ptDrawingOrder.racmap <- function(map){
+  if(!is.null(map$pt_drawing_order)) {
+    return(map$pt_drawing_order)
+  } else {
+    return(seq_len(numPoints(map)))
+  }
+}
+
+#' @export
+set_ptDrawingOrder.racmap <- function(racmap, value){
+  racmap$pt_drawing_order <- value
+  racmap
+}
+
+
 #' @export
 set_agDrawingOrder.racmap <- function(racmap, value){
   racmap$ag_drawing_order <- rep_len(value, numAntigens(racmap))

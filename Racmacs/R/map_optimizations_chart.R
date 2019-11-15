@@ -309,6 +309,12 @@ setOptimizationAttributes <- function(racchart,
       return()
     }
 
+    # Map transformation
+    if(optimization_attribute == "mapTranslation"){
+      optimization$set_transformation(values[[optimization_attribute]])
+      return()
+    }
+
     # Minimum column basis
     if(optimization_attribute == "minColBasis"){
       return()
@@ -419,6 +425,14 @@ mapTransformation.racchart <- optimizationAttributeGetter('mapTransformation')
 
 #' @export
 set_mapTransformation.racchart <- optimizationAttributeSetter('mapTransformation')
+
+
+# Map translation
+#' @export
+mapTranslation.racchart <- optimizationAttributeGetter('mapTranslation')
+
+#' @export
+set_mapTranslation.racchart <- optimizationAttributeSetter('mapTranslation')
 
 
 # Map column bases

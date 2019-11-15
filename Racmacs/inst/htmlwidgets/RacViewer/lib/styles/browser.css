@@ -70,4 +70,6 @@
   /*min-height: 120px;*/
 }
 
-
+.na-coords {
+  opacity: 0.5;
+}

@@ -36,6 +36,8 @@
 \alias{srShown<-}
 \alias{agDrawingOrder}
 \alias{srDrawingOrder}
+\alias{ptDrawingOrder}
+\alias{ptDrawingOrder<-}
 \alias{agDrawingOrder<-}
 \alias{srDrawingOrder<-}
 \alias{mapPoints}
@@ -108,6 +110,10 @@ srShown(map) <- value
 agDrawingOrder(map)
 
 srDrawingOrder(map)
+
+ptDrawingOrder(map)
+
+ptDrawingOrder(map) <- value
 
 agDrawingOrder(map) <- value
 

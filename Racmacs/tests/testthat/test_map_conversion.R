@@ -41,5 +41,20 @@ testthat::test_that("Converting to json format", {
 
 })
 
+# Converting to the json format
+testthat::test_that("Converting a mixture of date formats", {
+
+  map <- acmap(
+    ag_names = c("ag 1", "ag 2"),
+    sr_names = c("sr 1", "sr 2"),
+    ag_date  = c("2015-09-06", NA)
+  )
+
+  mapcpp <- as.cpp(map)
+
+  testthat::expect_equal(agDates(mapcpp), c(as.Date("2015-09-06"), NA))
+
+})
+
 # Clean up
 rm(list = ls()[!ls() %in% environment_objects])

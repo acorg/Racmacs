@@ -25,3 +25,9 @@ rotateMap <- function(map, degrees, axis = NULL, optimization_number = NULL) {
 #' @rdname mapTransformation
 #' @export
 reflectMap <- function(map, axis = "x", optimization_number = NULL) UseMethod('reflectMap')
+
+
+# Fix a map transformation
+bakeTransformation <- function(map, optimization_number){
+  UseMethod('bakeTransformation')
+}

@@ -117,14 +117,14 @@ Racmacs.Viewer.prototype.showProcrustes = function(data){
         if(data.data.ag_rmsd == "NaN"){
             this.procrustesTable.agrmsd.innerHTML = "NA";
         } else {
-            this.procrustesTable.agrmsd.innerHTML = data.data.ag_rmsd[0].toFixed(2);
+            this.procrustesTable.agrmsd.innerHTML = data.data.ag_rmsd.toFixed(2);
         }
         if(data.data.sr_rmsd == "NaN"){
             this.procrustesTable.srrmsd.innerHTML = "NA";
         } else {
-            this.procrustesTable.srrmsd.innerHTML = data.data.sr_rmsd[0].toFixed(2);
+            this.procrustesTable.srrmsd.innerHTML = data.data.sr_rmsd.toFixed(2);
         }
-        this.procrustesTable.rmsd.innerHTML   = data.data.total_rmsd[0].toFixed(2);
+        this.procrustesTable.rmsd.innerHTML   = data.data.total_rmsd.toFixed(2);
 
         this.procrustesTable.details_panel.style.display = null;
 
@@ -136,6 +136,25 @@ Racmacs.Viewer.prototype.showProcrustes = function(data){
     var ag_dists     = data.data.ag_dists;
     var sr_dists     = data.data.sr_dists;
 
+    // if(this.data.transformation()){
+    //     var t = this.data.transformation();
+    //     for(var i=0; i<ag_pc_coords.length; i++){
+    //         var coords = ag_pc_coords[i].slice();
+    //         ag_pc_coords[i] = [
+    //             coords[0]*t[0] + coords[1]*t[2],
+    //             coords[0]*t[1] + coords[1]*t[3]
+    //         ];
+    //     }
+        
+    //     for(var i=0; i<sr_pc_coords.length; i++){
+    //         var coords = sr_pc_coords[i].slice();
+    //         sr_pc_coords[i] = [
+    //             coords[0]*t[0] + coords[1]*t[2],
+    //             coords[0]*t[1] + coords[1]*t[3]
+    //         ];
+    //     }
+    // }
+
     // Check data
     if(this.antigens.length !== ag_pc_coords.length
         || this.sera.length !== sr_pc_coords.length){
@@ -143,10 +162,11 @@ Racmacs.Viewer.prototype.showProcrustes = function(data){
     }
 
     // Set arrow coordinates
+    console.log(ag_pc_coords);
     var arrow_coords = [];
     for(var i=0; i<this.antigens.length; i++){
-        if(ag_pc_coords[i][0] !== "NA" 
-            && ag_pc_coords[i][1] !== "NA"){
+        if(ag_pc_coords[i][0] !== "NA" && ag_pc_coords[i][0] !== null
+            && ag_pc_coords[i][1] !== "NA" && ag_pc_coords[i][1] !== null){
 
             if(ag_dists[i] > 0.01){
                 arrow_coords.push([
@@ -164,8 +184,8 @@ Racmacs.Viewer.prototype.showProcrustes = function(data){
     }
 
     for(var i=0; i<this.sera.length; i++){
-        if(sr_pc_coords[i][0] !== "NA" 
-            && sr_pc_coords[i][1] !== "NA"){
+        if(sr_pc_coords[i][0] !== "NA" && sr_pc_coords[i][0] !== null
+            && sr_pc_coords[i][1] !== "NA" && sr_pc_coords[i][1] !== null){
 
             if(sr_dists[i] > 0.01){
                 arrow_coords.push([

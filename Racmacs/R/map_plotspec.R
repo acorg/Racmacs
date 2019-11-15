@@ -383,6 +383,22 @@ srDrawingOrder <- function(map) {
 
 #' @rdname mapPlotspec
 #' @export
+ptDrawingOrder <- function(map) {
+  UseMethod("ptDrawingOrder", map)
+}
+
+#' @rdname mapPlotspec
+#' @export
+`ptDrawingOrder<-` <- function(map, value) {
+  set_ptDrawingOrder(map, value)
+}
+
+set_ptDrawingOrder <- function(map, value){
+  UseMethod("set_ptDrawingOrder", map)
+}
+
+#' @rdname mapPlotspec
+#' @export
 `agDrawingOrder<-` <- function(map, value) {
   value <- checkDrawingOrder(value)
   set_agDrawingOrder(map, value)
@@ -419,7 +435,7 @@ mapPoints <- function(map, optimization_number = NULL){
     rotation      = c(agRotation(map), srRotation(map)),
     aspect        = c(agAspect(map), srAspect(map)),
     shape         = c(agShape(map), srShape(map)),
-    drawing_order = c(agDrawingOrder(map), srDrawingOrder(map))
+    drawing_order = ptDrawingOrder(map)
   )
 
 }

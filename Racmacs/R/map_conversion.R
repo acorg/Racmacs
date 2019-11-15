@@ -108,6 +108,8 @@ as.list.racchart <- function(map, verbose = FALSE){
   names(srPointAttributes) <- paste0("sr_", point_properties)
   racmap[names(srPointAttributes)] <- srPointAttributes
 
+  ## Drawing order
+  ptDrawingOrder(racmap) <- ptDrawingOrder(map)
 
   ## Get the chart properties
   if(verbose) message("Getting chart properties.")

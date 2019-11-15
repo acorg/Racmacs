@@ -25,8 +25,8 @@ plot.rac <- function(map,
   if(plot_ags){ plot_coords <- rbind(plot_coords, ag_coords) }
   if(plot_sr) { plot_coords <- rbind(plot_coords, sr_coords) }
 
-  if(is.null(xlim)){ xlim <- c(floor(min(plot_coords[,1]))-padding, ceiling(max(plot_coords[,1]))+padding) }
-  if(is.null(ylim)){ ylim <- c(floor(min(plot_coords[,2]))-padding, ceiling(max(plot_coords[,2]))+padding) }
+  if(is.null(xlim)){ xlim <- c(floor(min(plot_coords[,1], na.rm = TRUE))-padding, ceiling(max(plot_coords[,1], na.rm = TRUE))+padding) }
+  if(is.null(ylim)){ ylim <- c(floor(min(plot_coords[,2], na.rm = TRUE))-padding, ceiling(max(plot_coords[,2], na.rm = TRUE))+padding) }
 
   # Setup plot
   plot.new()
@@ -56,6 +56,8 @@ plot.rac <- function(map,
     shapes[tolower(shapes) == "circle"]   <- 21
     shapes[tolower(shapes) == "box"]      <- 22
     shapes[tolower(shapes) == "triangle"] <- 24
+    shapes[tolower(shapes) == "egg"]      <- 23
+    shapes[tolower(shapes) == "uglyegg"]  <- 23
     as.numeric(shapes)
   }
 
@@ -73,7 +75,7 @@ plot.rac <- function(map,
   if(!is.null(outline.alpha)){ pts$outline <- grDevices::adjustcolor(pts$outline, alpha.f = outline.alpha) }
 
   ## Plot the points
-  pt_order <- order(pts$drawing_order)
+  pt_order <- ptDrawingOrder(map)
   pt_order <- pt_order[pts$shown[pt_order] == TRUE]
   points(x   = pts$coords[pt_order,,drop=F],
          pch = get_pch(pts$shape[pt_order]),

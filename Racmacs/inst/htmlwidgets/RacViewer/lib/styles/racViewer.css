@@ -175,7 +175,7 @@ h3 {
     position: absolute;
     left: 8px;
     bottom: 8px;
-    font-family: monospace;
+    font-family: monospace, "Courier";
     font-size: 18px;
 }
 
@@ -190,7 +190,7 @@ h3 {
 /* Popup boxes */
 .popup-box {
   position : absolute;
-  font-family : sans-serif;
+  font-family : sans-serif, "Arial";
   font-size : 12px;
   background-color : #333333;
   color : #ffffff;

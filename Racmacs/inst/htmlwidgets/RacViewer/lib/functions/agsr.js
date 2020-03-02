@@ -229,6 +229,12 @@ Racmacs.Point = class Point {
 
     }
 
+    getSize(size){
+        
+        this.size;
+
+    }
+
     // Scale the point
     scale(scaling){
         
@@ -374,7 +380,7 @@ Racmacs.Point = class Point {
         if(color == "transparent"){
             var col = "#ffffff";
         } else {
-            var col = this.outlineColor;
+            var col = color;
         }
         var rgb = new THREE.Color(col).toArray();
         if(color == "transparent"){
@@ -638,14 +644,22 @@ Racmacs.Point = class Point {
 
     // Bring the point to the top
     moveToTop(){
-
-        this.element.setIndex(this.element.parent.elements().length-1);
+        
+        if(this.viewer.mapdims.dimensions == 2){
+            if(this.element.setIndex !== undefined){
+                this.element.setIndex(this.element.parent.elements().length-1);
+            }
+        }
 
     }
 
     moveFromTop(){
-
-        this.element.setIndex(this.drawingOrder());
+        
+        if(this.viewer.mapdims.dimensions == 2){
+            if(this.element.setIndex !== undefined){
+                this.element.setIndex(this.drawingOrder());
+            }
+        }
 
     }
 

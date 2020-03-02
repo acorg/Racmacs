@@ -5,11 +5,6 @@
 \alias{sortOptimizations}
 \alias{allMapStresses}
 \alias{allMapDimensions}
-\alias{allMapProperties}
-\alias{name}
-\alias{name<-}
-\alias{titerTable}
-\alias{titerTable<-}
 \alias{removeOptimizations}
 \alias{keepSingleOptimization}
 \alias{keepBestOptimization}
@@ -21,16 +16,6 @@ sortOptimizations(map)
 allMapStresses(map)
 
 allMapDimensions(map)
-
-allMapProperties(map, properties = NULL)
-
-name(map)
-
-name(map) <- value
-
-titerTable(map, names = TRUE)
-
-titerTable(map) <- value
 
 removeOptimizations(map)
 

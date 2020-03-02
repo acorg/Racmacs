@@ -131,8 +131,6 @@ Racmacs.Viewer.prototype.showProcrustes = function(data){
     }
     
     // Create the procrustes data
-    var ag_pc_coords = data.data.pc_coords.ag;
-    var sr_pc_coords = data.data.pc_coords.sr;
     var ag_dists     = data.data.ag_dists;
     var sr_dists     = data.data.sr_dists;
 
@@ -155,68 +153,6 @@ Racmacs.Viewer.prototype.showProcrustes = function(data){
     //     }
     // }
 
-    // Check data
-    if(this.antigens.length !== ag_pc_coords.length
-        || this.sera.length !== sr_pc_coords.length){
-        throw("Number of points does not match procrustes data");
-    }
-
-    // Set arrow coordinates
-    console.log(ag_pc_coords);
-    var arrow_coords = [];
-    for(var i=0; i<this.antigens.length; i++){
-        if(ag_pc_coords[i][0] !== "NA" && ag_pc_coords[i][0] !== null
-            && ag_pc_coords[i][1] !== "NA" && ag_pc_coords[i][1] !== null){
-
-            if(ag_dists[i] > 0.01){
-                arrow_coords.push([
-                    this.antigens[i].coords,
-                    ag_pc_coords[i]
-                ]);
-            }
-
-        } else {
-
-            this.antigens[i].setOpacity(0.2);
-            this.antigens[i].transparency_fixed = true;
-
-        }
-    }
-
-    for(var i=0; i<this.sera.length; i++){
-        if(sr_pc_coords[i][0] !== "NA" && sr_pc_coords[i][0] !== null
-            && sr_pc_coords[i][1] !== "NA" && sr_pc_coords[i][1] !== null){
-
-            if(sr_dists[i] > 0.01){
-                arrow_coords.push([
-                    this.sera[i].coords,
-                    sr_pc_coords[i]
-                ]);
-            }
-
-        } else {
-
-            this.sera[i].setOpacity(0.2);
-            this.sera[i].transparency_fixed = true;
-
-        }
-    }
-
-    // Make sure everything is 3D
-    arrow_coords = arrow_coords.map( function(x){ 
-        if(x[0].length === 2) x[0].push(0); 
-        if(x[1].length === 2) x[1].push(0); 
-        return(x)
-    });
-
-    // Add the arrows to the scene
-    this.procrustes = new this.mapElements.procrustes({
-        coords : arrow_coords,
-        viewer : this
-    });
-
-    this.scene.add(this.procrustes.object);
-
 }
 
 Racmacs.Viewer.prototype.removeProcrustes = function(){
@@ -236,6 +172,82 @@ Racmacs.Viewer.prototype.removeProcrustes = function(){
         p.transparency_fixed = false;
         p.updateDisplay()
     });
+
+}
+
+
+Racmacs.Viewer.prototype.addProcrustesToBaseCoords = function(data){
+
+    // Remove any current procrustes data
+    this.removeProcrustes();
+
+    // Fetch the data
+    var pc_data = [].concat(data.ag, data.sr);
+
+    // Check data
+    if(this.points.length !== pc_data.length){
+        throw("Number of points does not match procrustes data");
+    }
+
+    // Convert plot to 3d if procrustes is to 3 dimensions
+    if(this.scene.plotdims.dimensions == 2 && pc_data[0].length == 3){
+        this.resetDims(3);
+    };
+
+    // Set arrow coordinates
+    var arrow_coords = [];
+    for(var i=0; i<this.points.length; i++){
+        
+        // Set coords
+        var pc_coords = pc_data[i];
+        var pt_coords = this.points[i].coords;
+
+        // Apply any map transformation
+        pc_coords = Racmacs.utils.transformTranslateCoords(
+            pc_coords,
+            this.data.transformation(),
+            this.data.translation()
+        );
+
+        // Set to 3D
+        while(pc_coords.length < 3) pc_coords.push(0);
+
+        // Plot the arrow
+        if(pc_coords[0] !== "NA" && pc_coords[0] !== null
+            && pc_coords[1] !== "NA" && pc_coords[1] !== null
+            && pc_coords[2] !== "NA" && pc_coords[2] !== null){
+
+
+            // Get distances
+            pc_vector = new THREE.Vector3().fromArray(pc_coords);
+            pt_vector = new THREE.Vector3().fromArray(pt_coords);
+            var pt_dist = pc_vector.distanceTo(pt_vector);
+
+
+            if(pt_dist > 0.01){
+                arrow_coords.push([
+                    pt_coords,
+                    pc_coords
+                ]);
+            }
+
+        } else {
+
+            this.points[i].setOpacity(0.2);
+            this.points[i].transparency_fixed = true;
+
+        }
+    }
+
+    // Add the arrows to the scene
+    this.procrustes = new this.mapElements.procrustes({
+        coords : arrow_coords,
+        size   : 4,
+        properties : { lwd : 2 },
+        viewer : this
+    });
+
+    this.scene.add(this.procrustes.object);
 
 }
 

@@ -126,9 +126,36 @@ view.default <- function(x,
 #' @export
 #'
 view.rac <- function(map,
-                     ...){
+                     ...,
+                     .jsCode = NULL,
+                     .jsData = NULL,
+                     selected_ags = NULL){
 
-  view_map(map, ...)
+  # View the map data in the viewer
+  widget <- RacViewer(map = map,
+                      hide_control_panel = TRUE,
+                      ...)
+
+  # Make any antigen and serum selections
+  if(!is.null(selected_ags)){
+    widget <- htmlwidgets::onRender(
+      x      = widget,
+      jsCode = "function(el, x, data) { console.log(data); el.viewer.selectAntigensByIndices(data) }",
+      data   = I(selected_ags)
+    )
+  }
+
+  # Execute any additional javascript code
+  if(!is.null(.jsCode)){
+    widget <- htmlwidgets::onRender(
+      x      = widget,
+      jsCode = .jsCode,
+      data   = .jsData
+    )
+  }
+
+  # Return the widget as an output
+  widget
 
 }
 

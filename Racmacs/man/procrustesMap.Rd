@@ -4,15 +4,15 @@
 \alias{procrustesMap}
 \title{Return procrustes information}
 \usage{
-procrustesMap(map, target_map, antigens = TRUE, sera = TRUE,
+procrustesMap(map, comparison_map, antigens = TRUE, sera = TRUE,
   translation = TRUE, scaling = FALSE, optimization_number = NULL,
-  target_optimization_number = NULL, passage_matching = "ignore",
+  comparison_optimization_number = NULL, passage_matching = "ignore",
   description = NULL)
 }
 \arguments{
 \item{map}{The acmap data object}
 
-\item{target_map}{The acmap data object to procrustes against}
+\item{comparison_map}{The acmap data object to procrustes against}
 
 \item{antigens}{Antigens to include in the procrustes, specified either by name or index or FALSE for excluding all.}
 
@@ -24,9 +24,9 @@ procrustesMap(map, target_map, antigens = TRUE, sera = TRUE,
 
 \item{optimization_number}{The map optimization to use in the procrustes calculation (defaults to the currently selected optimization)}
 
-\item{target_optimization_number}{The target map optimization to use in the procrustes calculation (defaults to the currently selected optimization)}
-
 \item{passage_matching}{Should passage matching be performed}
+
+\item{target_optimization_number}{The target map optimization to use in the procrustes calculation (defaults to the currently selected optimization)}
 }
 \value{
 Returns procrustes information from the map to the target.

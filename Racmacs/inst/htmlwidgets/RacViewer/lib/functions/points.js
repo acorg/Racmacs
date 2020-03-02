@@ -47,7 +47,7 @@ Racmacs.Viewer.prototype.addAgSrPoints = function(){
 
             // Extract values
             var coords = points.map( p => p.coordsNoNA() );
-            var size   = points.map( p => p.size / 10 );
+            var size   = points.map( p => p.size );
             var shape  = points.map( function(p){
                 var shape = p.shape.toLowerCase();
                 if(shape == "circle")  return("bcircle")
@@ -112,7 +112,15 @@ Racmacs.Viewer.prototype.addAgSrPoints = function(){
 
             // Set function to scale all point sizes up
             this.scalePoints = function(val){
+
                 glpoints.setSize(glpoints.getSize()*val);
+                this.render();
+            }
+
+            // Slightly different function for scaling up points but not changing outline width
+            this.resizePoints = function(val){
+
+                this.points.map( point => point.setSize(point.size*val) );
                 this.render();
             }
 
@@ -143,7 +151,7 @@ Racmacs.Viewer.prototype.addAgSrPoints = function(){
 
             var element = new R3JS.element.Point({
                 coords : points[i].coords,
-                size : points[i].size/2.5,
+                size : points[i].size / 10,
                 shape : shape,
                 properties : {
                     mat : "lambert",
@@ -180,6 +188,7 @@ Racmacs.Viewer.prototype.addAgSrPoints = function(){
             }
             this.render();
         }
+        this.resizePoints = this.scalePoints;
 
         // Add event to camera to scale points on zoom
         var viewer = this;
@@ -206,153 +215,4 @@ Racmacs.Viewer.prototype.addAgSrPoints = function(){
 }
 
 
-// function generate_agsr_points(viewport, performance_mode){
 
-//     // Set the points
-//     var points = viewport.points;
-//     viewport.pixelratio = window.devicePixelRatio;
-
-//     // Work out the plotting order
-//     var order    = [];
-//     for (var i = 0; i < points.length; i++) {
-//         order.push(i);
-//     }
-//     order.sort(function(a,b){
-//       return(points[a].drawing_order - points[b].drawing_order);
-//     })
-
-//     // Empty the selectable objects
-//     viewport.scene.selectable_objects = [];
-
-//     // For highly performant graphics
-//     if(performance_mode){
-        
-//         // Plot map data
-//         var positions    = new Float32Array( points.length * 3 );
-//         var fillColor    = new Float32Array( points.length * 4 );
-//         var outlineColor = new Float32Array( points.length * 4 );
-//         var outlineWidth = new Float32Array( points.length );
-//         var sizes        = new Float32Array( points.length );
-//         var aspect       = new Float32Array( points.length );
-//         var shape        = new Float32Array( points.length );
-//         var pIndex       = new Float32Array( points.length );
-//         var visible      = new Float32Array( points.length );
-
-//         var vertex = new THREE.Vector3();
-//         var color  = new THREE.Color();
-//         var alpha;
-
-//         // Add the point order information
-//         for ( var i = 0; i < order.length; i ++ ) {
-
-//             var n     = order[i];
-//             pIndex[i] = n;
-
-//             // Record plot index
-//             points[n].plotIndex = i;
-
-//             // Make points visible by default
-//             visible[i] = 1;
-
-//         }
-
-//         // Create buffer geometry
-//         var geometry = new THREE.BufferGeometry();
-//         geometry.addAttribute( 'position',     new THREE.BufferAttribute( positions,    3 ) );
-//         geometry.addAttribute( 'fillColor',    new THREE.BufferAttribute( fillColor,    4 ) );
-//         geometry.addAttribute( 'outlineColor', new THREE.BufferAttribute( outlineColor, 4 ) );
-//         geometry.addAttribute( 'outlineWidth', new THREE.BufferAttribute( outlineWidth, 1 ) );
-//         geometry.addAttribute( 'size',         new THREE.BufferAttribute( sizes,        1 ) );
-//         geometry.addAttribute( 'aspect',       new THREE.BufferAttribute( aspect,       1 ) );
-//         geometry.addAttribute( 'shape',        new THREE.BufferAttribute( shape,        1 ) );
-//         geometry.addAttribute( 'pIndex',       new THREE.BufferAttribute( pIndex,       1 ) );
-//         geometry.addAttribute( 'visible',      new THREE.BufferAttribute( visible,      1 ) );
-
-//         // Create the material
-//         var viewport_size = viewport.renderer.getSize();
-
-//         if(viewport.dimensions == 2){
-//             var material = new THREE.ShaderMaterial( {
-//                 uniforms: {
-//                     scale:   { value: 3.0*window.devicePixelRatio },
-//                     opacity: { value: 1.0 },
-//                     viewportWidth:      { value: viewport_size.width  }, 
-//                     viewportHeight:     { value: viewport_size.height },
-//                     viewportPixelRatio: { value: window.devicePixelRatio }
-//                 },
-//                 vertexShader:   get_vertex_shader2D(),
-//                 fragmentShader: get_fragment_shader2D(),
-//                 alphaTest: 0.9,
-//                 transparent: true,
-//                 blending: THREE.NormalBlending,
-//             } );
-//         } else {
-
-//             var material = new THREE.ShaderMaterial( {
-//                 uniforms: {
-//                     scale:   { value: 3.0*window.devicePixelRatio },
-//                     opacity: { value: 1.0 },
-//                     innerHeight: { value: viewport_size.height },
-//                     circleTexture: { value: new THREE.TextureLoader().load( "lib/textures/sprites/ball.png" ) }
-//                 },
-//                 vertexShader:   get_vertex_shader3D(),
-//                 fragmentShader: get_fragment_shader3D(),
-//                 alphaTest: 0.9,
-//                 transparent: true,
-//                 blending: THREE.NormalBlending,
-//             } );
-//         }
-
-//         // Generate the points
-//         var pointGeos = new THREE.Points( geometry, material );
-//         pointGeos.frustumCulled = false;
-
-//     }
-
-//     // For less performant (but 3D nicer looking) graphics
-//     else {
-
-//         var pointGeos = new THREE.Group();
-
-//         // Add all the point information
-//         for ( var i = 0; i < order.length; i ++ ) {
-
-//             var n     = order[i];
-
-//             // Record plot index
-//             points[n].plotIndex = i;
-
-//             // Generate the point object
-//             pointObject  = new THREE.Object3D();
-//             pointGeos.add(pointObject);
-
-//             pointFill    = new THREE.Mesh( 
-//                 new THREE.BufferGeometry(), 
-//                 new THREE.MeshLambertMaterial({
-//                     transparent : true
-//                 })
-//             );
-//             pointObject.add(pointFill);
-
-//             pointOutline = new THREE.Mesh( 
-//                 new THREE.BufferGeometry(), 
-//                 new THREE.MeshLambertMaterial({
-//                     transparent : true
-//                 })
-//             );
-//             pointObject.add(pointOutline);
-
-//             // Add some properties
-//             pointObject.pIndex = n;
-            
-//             // Add the fill to the selectable objects
-//             viewport.scene.selectable_objects.push(pointFill);
-
-//         }
-
-//     }
-
-//     // Return the point geometries
-//     return(pointGeos);
-
-// }

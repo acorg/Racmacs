@@ -26,21 +26,26 @@ read.titerTable <- function(filepath, Fnum_to_SRname = FALSE){
 
     # Read from xls
     titer_table <- gdata::read.xls(xls              = filepath,
-                                row.names        = 1,
-                                check.names      = FALSE,
-                                stringsAsFactors = FALSE,
-                                colClasses='character')
+                                   row.names        = 1,
+                                   check.names      = FALSE,
+                                   stringsAsFactors = FALSE,
+                                   colClasses='character')
 
   } else if(grepl("\\.txt$", filepath)){
 
     # Read from tab delimted txt
-    fileLines <- readLines(filepath)
+    fileLines <- readLines(filepath, warn = FALSE)
 
     # Ignore lines starting with ;
     fileLines <- fileLines[!grepl("^;", fileLines)]
 
+    # Read line content
     rows <- lapply(fileLines, function(x){ scan(text = x, what="c", quiet=TRUE) })
 
+    # Remove empty rows
+    rows <- rows[sapply(rows, length) > 0]
+
+    # Identify any header rows
     rowlengths  <- sapply(rows, length)
     header_rows <- which(rowlengths < max(rowlengths))
 

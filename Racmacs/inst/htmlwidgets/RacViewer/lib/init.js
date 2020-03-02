@@ -13,6 +13,7 @@ Racmacs.Viewer = class RacViewer extends R3JS.Viewer {
             initiate : false
         }
         super(container, r3jssettings);
+        container.viewer = this;
 
         // Generate any placeholders
         if(settings.placeholder){

@@ -1,32 +1,45 @@
 
 library(Racmacs)
+library(testthat)
 
-# Get a record of the start environment
-environment_objects <- ls()
-
-# Load the map and the chart
-testthat::context("Subsetting maps")
+# Set test context
+context("Subsetting maps")
 
 # Fetch test charts
-chart <- read.acmap.cpp(testthat::test_path("../testdata/testmap.ace"))
-acmap <- read.acmap(testthat::test_path("../testdata/testmap.ace"))
+run.maptests(
+  bothclasses = TRUE,
+  loadlocally = FALSE,
+  {
 
-# Check initial number of antigens and sera
-num_antigens <- numAntigens(chart)
-num_sera     <- numSera(chart)
+    map <- read.map(testthat::test_path("../testdata/testmap.ace"))
 
-# Subset the maps
-chart_subset <- subsetMap(chart, antigens = seq_len(num_antigens - 1), sera = 1 + seq_len(num_sera - 1))
-acmap_subset <- subsetMap(acmap, antigens = seq_len(num_antigens - 1), sera = 1 + seq_len(num_sera - 1))
+    # Check initial number of antigens and sera
+    num_antigens <- numAntigens(map)
+    num_sera     <- numSera(map)
 
-testthat::test_that("Original map unaffected",{
-  testthat::expect_equal(numAntigens(chart), num_antigens)
-  testthat::expect_equal(numAntigens(acmap), num_antigens)
-  testthat::expect_equal(numSera(chart), num_sera)
-  testthat::expect_equal(numSera(acmap), num_sera)
+    # Subset the maps
+    map_subset <- subsetMap(map, antigens = seq_len(num_antigens - 1), sera = 1 + seq_len(num_sera - 1))
+
+    testthat::test_that("Original map unaffected",{
+      testthat::expect_equal(numAntigens(map), num_antigens)
+      testthat::expect_equal(numSera(map), num_sera)
+    })
+
+    testthat::test_that("Subset of map is correct",{
+
+      testthat::expect_equal(numAntigens(map_subset), num_antigens-1)
+      testthat::expect_equal(numSera(map_subset), num_sera-1)
+
+      testthat::expect_equal(length(agNames(map_subset)), num_antigens-1)
+      testthat::expect_equal(length(srNames(map_subset)), num_sera-1)
+
+      testthat::expect_equal(length(agDates(map_subset)), num_antigens-1)
+
+      testthat::expect_equal(dim(titerTable(map_subset)), c(9,4))
+
+    })
+
 })
 
-# Clean up
-rm(list = ls()[!ls() %in% environment_objects])
 
 

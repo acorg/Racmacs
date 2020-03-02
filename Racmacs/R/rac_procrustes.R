@@ -32,7 +32,7 @@ calc_procrustes <- function(source_coords,
 
   # Set up a procrustes object
   pc_object <- list()
-  pc_object$translation <- result$tt
+  pc_object$translation <- t(result$tt)
   pc_object$rotation    <- result$R
   pc_object$scaling     <- result$s
   pc_object

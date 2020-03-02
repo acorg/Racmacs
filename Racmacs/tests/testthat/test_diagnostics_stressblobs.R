@@ -25,8 +25,8 @@ testthat::test_that("Default stress blob calculation", {
 })
 
 # NA coords
-map$ag_coords[3,] <- NA
-map$sr_coords[2,] <- NA
+agCoords(map)[3,] <- NA
+srCoords(map)[2,] <- NA
 
 testthat::test_that("Default stress blob calculation with NA coords", {
 

@@ -18,8 +18,8 @@ plot.rac <- function(map,
   if(mapDimensions(map, optimization_number) != 2){ stop("Plotting is only supported for 2D maps, please try view()") }
 
   # Get coords
-  ag_coords <- agCoords(map, optimization_number, name = FALSE)
-  sr_coords <- srCoords(map, optimization_number, name = FALSE)
+  ag_coords <- agCoords(map, optimization_number, .name = FALSE)
+  sr_coords <- srCoords(map, optimization_number, .name = FALSE)
 
   plot_coords <- c()
   if(plot_ags){ plot_coords <- rbind(plot_coords, ag_coords) }
@@ -75,7 +75,7 @@ plot.rac <- function(map,
   if(!is.null(outline.alpha)){ pts$outline <- grDevices::adjustcolor(pts$outline, alpha.f = outline.alpha) }
 
   ## Plot the points
-  pt_order <- ptDrawingOrder(map)
+  pt_order <- draw_priority_to_order(pts$drawing_order)
   pt_order <- pt_order[pts$shown[pt_order] == TRUE]
   points(x   = pts$coords[pt_order,,drop=F],
          pch = get_pch(pts$shape[pt_order]),

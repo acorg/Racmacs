@@ -1,4 +1,8 @@
 
+# Functions for getting and setting
+# arbitrary additional map attributes
+
+
 # General getter and setter methods
 set_optimizationAttribute <- function(map, optimization_number = NULL, attribute, value){
   UseMethod("set_optimizationAttribute", map)
@@ -6,6 +10,29 @@ set_optimizationAttribute <- function(map, optimization_number = NULL, attribute
 
 get_optimizationAttribute <- function(map, optimization_number = NULL, attribute){
   UseMethod("get_optimizationAttribute", map)
+}
+
+get_chartAttribute <- function(map, attribute){
+  txt <- map$chart$extension_field(attribute)
+  if(is.na(txt)) return(NULL)
+  jsonlite::fromJSON(
+    txt               = txt,
+    simplifyVector    = FALSE,
+    simplifyDataFrame = FALSE,
+    simplifyMatrix    = FALSE
+  )
+}
+
+set_chartAttribute <- function(map, attribute, value){
+  map$chart$set_extension_field(
+    attribute,
+    jsonlite::toJSON(
+      x          = value,
+      auto_unbox = TRUE,
+      digits     = 8
+    )
+  )
+  map
 }
 
 
@@ -59,12 +86,22 @@ get_extensionField <- function(map, field){
 
 set_extensionField <- function(map, field, value){
 
-  map$chart$set_extension_field(field, jsonlite::toJSON(value, null = "null"))
+  map$chart$set_extension_field(field, jsonlite::toJSON(value, null = "null", digits = 8))
   map
 
 }
 
 
+
+# Get and set general attributes
+getMapAttribute <- function(map, attribute) {
+  map[[attribute]]
+}
+
+setMapAttribute <- function(map, attribute, value) {
+  map[[attribute]] <- value
+  map
+}
 
 
 

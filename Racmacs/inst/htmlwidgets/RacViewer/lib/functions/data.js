@@ -56,18 +56,20 @@ Racmacs.Data = class Data {
 
     table(){
 
+        let table;
+
         // If table data provided as a list of objects
         if(this.data.c.t.d){
 
             // Setup table
-            var table = Array(this.data.c.a.length);
-            for(var i=0; i<this.data.c.a.length; i++){
+            table = Array(this.data.c.a.length);
+            for(let i=0; i<this.data.c.a.length; i++){
                 table[i] = Array(this.data.c.s.length).fill("*");
             }
 
             // Fill in table from json data
-            var tabledata = this.data.c.t.d;
-            for(var i=0; i<tabledata.length; i++){
+            tabledata = this.data.c.t.d;
+            for(let i=0; i<tabledata.length; i++){
                 for (let [key, value] of Object.entries(tabledata[i])) {
                   table[i][Number(key)] = value;
                 }
@@ -78,7 +80,7 @@ Racmacs.Data = class Data {
         else {
 
             // Simply return the array
-            var table = this.data.c.t.l;
+            table = this.data.c.t.l;
 
         }
         
@@ -89,7 +91,7 @@ Racmacs.Data = class Data {
 
     // Projection attributes
     stress(num){
-        var pnum = this.projection(num);
+        let pnum = this.projection(num);
         if(this.data.c.P[pnum].s){
           return(this.data.c.P[pnum].s);
         } else {
@@ -97,64 +99,81 @@ Racmacs.Data = class Data {
         }
     }
 
-    transformation(num){
-        var pnum = this.projection(num);
-        return(this.data.c.P[pnum].t);
+    transformation(){
+        let pnum = this.projection();
+        if(this.data.c.x.transformation[pnum]){
+            return(this.data.c.x.transformation[pnum]);
+        } else {
+            return(this.data.c.P[pnum].t);
+        }
+    }
+
+    translation(){
+        let pnum = this.projection();
+        if(this.data.c.x.translation[pnum]){
+            return(this.data.c.x.translation[pnum]);
+        } else {
+            return(new Array(this.dimensions(pnum)).fill(0));
+        }
     }
 
     setTransformation(t, num){
-        var pnum = this.projection(num);
-        this.data.c.P[pnum].t = t;
+        raise("cannot set transformation");
+        // let pnum = this.projection(num);
+        // if(!this.data.c.x) this.data.c.x = {};
+        // if(!this.data.c.x.transformation) this.data.c.x.transformation = [];
+        // while(this.data.c.x.transformation.length < pnum - 1) this.data.c.x.transformation.push([]);
+        // this.data.c.x.transformation[pnum] = t;
     }
 
     dimensions(num){
-        var pnum = this.projection(num);
+        let pnum = this.projection(num);
         return(this.data.c.P[pnum].l[0].length);
     }
 
     minColBasis(num){
-        // var pnum = this.projection(num);
+        // let pnum = this.projection(num);
         // return(this.data.optimizations[pnum].minimum_column_basis);
         return("none");
     }
 
-    agCoords(i){
-        var pnum = this.projection();
-        if(this.numProjections() == 0){
-            return([0,0,0]);
-        }
-        var coords = this.data.c.P[pnum].l[i].slice();
-        // if(this.transformation()){
-        //     var t = this.transformation();
-        //     coords = [
-        //         coords[0]*t[0] + coords[1]*t[2],
-        //         coords[0]*t[1] + coords[1]*t[3]
-        //     ]
-        // }
-        return(coords);
+    agBaseCoords(i){
+        let pnum = this.projection();
+        return(this.data.c.P[pnum].l[i].slice());
     }
+
+    agCoords(i){
+        return(
+            Racmacs.utils.transformTranslateCoords(
+                this.agBaseCoords(i),
+                this.transformation(),
+                this.translation()
+            )
+        )
+    }
+
     set_agCoords(i, coords){
-        var pnum = this.projection();
+        let pnum = this.projection();
         this.data.c.P[pnum].l[i] = coords;
     }
 
-    srCoords(i){
-        var pnum = this.projection();
-        if(this.numProjections() == 0){
-            return([0,0,0]);
-        }
-        var coords = this.data.c.P[pnum].l[i + this.numAntigens()].slice();
-        // if(this.transformation()){
-        //     var t = this.transformation();
-        //     coords = [
-        //         coords[0]*t[0] + coords[1]*t[2],
-        //         coords[0]*t[1] + coords[1]*t[3]
-        //     ]
-        // }
-        return(coords);
+    srBaseCoords(i){
+        let pnum = this.projection();
+        return(this.data.c.P[pnum].l[i + this.numAntigens()].slice());
     }
+
+    srCoords(i){
+        return(
+            Racmacs.utils.transformTranslateCoords(
+                this.srBaseCoords(i),
+                this.transformation(),
+                this.translation()
+            )
+        );
+    }
+
     set_srCoords(i, coords){
-        var pnum = this.projection();
+        let pnum = this.projection();
         this.data.c.P[pnum].l[i + this.numAntigens()] = coords;
     }
     
@@ -162,18 +181,22 @@ Racmacs.Data = class Data {
         if(this.numProjections() == 0){
             return(0);
         }
-        var pnum = this.projection();
+        
+        let pnum = this.projection();
+        let colbases;
+        let mincolbasis;
+
         if(this.data.c.P[pnum].C){
             // Forced column bases
-            var colbases = this.data.c.P[pnum].C;
+            colbases = this.data.c.P[pnum].C;
         } else {
             // Minimum column bases
             if(this.data.c.P[pnum].m){
-                var mincolbasis = this.data.c.P[pnum].m;
+                mincolbasis = this.data.c.P[pnum].m;
             } else {
-                var mincolbasis = "none";
+                mincolbasis = "none";
             }
-            var colbases = Racmacs.utils.calcColBases({
+            colbases = Racmacs.utils.calcColBases({
                 titers: this.table(),
                 mincolbasis: mincolbasis
             });
@@ -184,13 +207,13 @@ Racmacs.Data = class Data {
 
     // Plotspec
     agPlotspec(i, attribute, base){
-        var value = this.data.c.p.P[this.data.c.p.p[i]][attribute];
+        let value = this.data.c.p.P[this.data.c.p.p[i]][attribute];
         if(typeof(value) === "undefined"){ value = base }
         return(value);
     }
 
     srPlotspec(i, attribute, base){
-        var value = this.data.c.p.P[this.data.c.p.p[i + this.numAntigens()]][attribute];
+        let value = this.data.c.p.P[this.data.c.p.p[i + this.numAntigens()]][attribute];
         if(typeof(value) === "undefined"){ value = base }
         return(value);
     }
@@ -204,10 +227,10 @@ Racmacs.Data = class Data {
     }
 
     agSize(i){ 
-        return(this.agPlotspec(i, "s", 1)*6);
+        return(this.agPlotspec(i, "s", 1));
     }
     srSize(i){ 
-        return(this.srPlotspec(i, "s", 1)*6);
+        return(this.srPlotspec(i, "s", 1));
     }
 
     agFill(i){ 
@@ -239,7 +262,7 @@ Racmacs.Data = class Data {
     }
 
     agShape(i){
-        var shape = this.agPlotspec(i, "S", "CIRCLE");
+        let shape = this.agPlotspec(i, "S", "CIRCLE");
         return(shape);
     }
     srShape(i){ 
@@ -247,14 +270,14 @@ Racmacs.Data = class Data {
     }
 
     agDrawingOrder(i){
-        // var pt_order = 0;
+        // let pt_order = 0;
         // while(i != this.data.c.p.d[pt_order]){
         //     pt_order++;
         // }
         // return(-pt_order);
     }
     srDrawingOrder(i){ 
-        // var pt_order = 0;
+        // let pt_order = 0;
         // while(i+this.numAntigens() != this.data.c.p.d[pt_order]){
         //     pt_order++;
         // }
@@ -269,7 +292,7 @@ Racmacs.Data = class Data {
 
     // Diagnostics
     stressBlobs(num){
-        var pnum = this.projection(num);
+        let pnum = this.projection(num);
         if(!this.data.diagnostics
             || !this.data.diagnostics[pnum]
             || !this.data.diagnostics[pnum].stress_blobs){ 
@@ -280,7 +303,7 @@ Racmacs.Data = class Data {
     }
 
     hemisphering(num){
-        var pnum = this.projection(num);
+        let pnum = this.projection(num);
         if(!this.data.diagnostics
             || !this.data.diagnostics[pnum]
             || !this.data.diagnostics[pnum].hemisphering){ 
@@ -290,20 +313,14 @@ Racmacs.Data = class Data {
         }
     }
 
-    // Procrustes
-    procrustes(num){
-        var pnum = this.projection(num);
-        if(!this.data.procrustes
-            || !this.data.procrustes[pnum]){ 
-            return(null) 
-        } else {
-            return(this.data.procrustes[pnum])
-        }
-    }
-
     // Boostrap data
     bootstrap(){
-        return(this.data.bootstrap);
+        return(this.data.c.x.bootstrap);
+    }
+
+    // Procrustes data
+    procrustes(){
+        return(this.data.procrustes);
     }
 
 

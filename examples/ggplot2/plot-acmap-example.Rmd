@@ -1,0 +1,122 @@
+---
+title: "Examples of using plot.acmap"
+author: "Guangchuang Yu"
+date: "`r Sys.Date()`"
+output:
+  prettydoc::html_pretty:
+    toc: false
+    theme: cayman
+    highlight: github
+  pdf_document:
+    toc: true
+---
+
+
+The function is written by `ggplot2` and take the advantages of using `scale` or `theme` to modify the details.
+
+## Loading the `plot.acmap` function 
+
+```{r}
+source("plot-acmap.R")
+```
+
+## Load the H3 AC map
+
+```{r}
+library(Racmacs)
+h3map <- read.acmap("Day1/files/h3map2004.ace")
+```
+
+## Plotting examples
+
+Plot the map is easy, just using `plot.acmap(your_acmap)`:
+
+```{r}
+p <- plot.acmap(h3map)
+print(p)
+```
+
+### Change size of points
+
+```{r warning=F, message=F}
+p + scale_size(range = 6)
+```
+
+### Show color legend
+
+```{r}
+p <- p + theme(legend.position='right')
+print(p)
+```
+
+Oops, this is not what we want. `ggplot2` does the right thing as we map the color to the actual color vector.
+
+How if we want to label these groups with representative strains?
+
+```{r message=F}
+## get the first strain of each group
+cols <- agFill(h3map)
+i <- which(!duplicated(cols))
+strain <- rownames(agCoords(h3map))[i]
+print(strain)
+
+## a simplify version
+sstrain <- sub("/\\d+", "", strain)
+print(sstrain)
+
+### Changing the label of color legend
+p + scale_color_identity("Antigenic group",
+                         labels = sstrain,
+                         breaks = cols[i],
+                         guide = "legend")
+```
+
+### Changing color scheme
+
+```{r message=F}
+p <- p + scale_color_viridis_d("Antigenic group",
+                          labels = sstrain,
+                          breaks = cols[i],
+                          guide = "legend")
+print(p)
+```
+
+### Change point shapes
+
+```{r message=F}
+p + scale_shape_manual(values = c(3, 4))
+```
+
+
+### Remove `type` legend
+
+```{r}
+p + guides(shape =  FALSE) 
+```
+
+## Bonus: easy to put several figures in one page
+
+
+The following example build a quick-and-dirty tree from the aligned sequences, and visualize the tree using ggtree with tip points colored by antigenic grouping information. We can therefore check whether the antigenic group information is consistent with genetic distance or not.
+
+
+```{r fig.width=7.5, fig.height=5, warning=F}
+sequence <- read.csv("Day2/files/h3_2004/sequences.csv",
+                     colClasses='character',
+                     row.names=1,
+                     check.names = FALSE,
+                     stringsAsFactors=FALSE)
+
+aaseq <- apply(sequence, 1, paste0, collapse='')
+aaseq <- Biostrings::AAStringSet(aaseq)
+
+tree <- ape::bionj(Biostrings::stringDist(aaseq, method='hamming'))
+
+d <- data.frame(label = rownames(agCoords(h3map)),
+                color = agFill(h3map)
+                )
+
+require(ggtree)
+p2 <- ggtree(tree) %<+% d + geom_point(aes(color = I(color)))
+cowplot::plot_grid(p2, plot.acmap(h3map), ncol=2, rel_widths=c(1, .4))
+```

@@ -59,6 +59,7 @@ optimizeMap <- function(map,
 
   # Discard previous optimizations
   if(discard_previous_optimizations){
+    if(numOptimizations(map) > 0) vmessage(verbose, "Discarding previous optimization runs.")
     map <- removeOptimizations(map)
   }
 

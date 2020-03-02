@@ -1,0 +1,82 @@
+---
+title: "Merging maps"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{merging-maps}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup, include = FALSE}
+library(Racmacs)
+```
+
+There are several ways of merging maps together in Racmacs, each uses the function `mergeMaps()` function. e.g.
+
+```{r, eval=FALSE}
+merged_map <- mergeMaps(
+  map1,
+  map2,
+  map3,
+  method                  = "incremental-merge",
+  minimum_column_basis    = "none",
+  number_of_optimizations = 500,
+  number_of_dimensions    = 2
+)
+```
+
+`mergeMaps` is ultimately a wrapper for merging methods Eugene has implemented in `acmacs.r` but it is integrated into Racmacs and includes some iterative code to allow for several maps to merged together in one go.
+
+Eugene has created his own descriptions of the merge types found [here](https://github.com/acorg/acmacs-chart-2/blob/master/doc/merge-types.org), but I've include my own descriptions and names below.
+
+Note that I haven't yet included [acmacs.r merge type 4](https://github.com/acorg/acmacs-chart-2/blob/master/doc/merge-types.org#merge-type-4) - as far as I can work out this is the same as [acmacs.r merge type 5](https://github.com/acorg/acmacs-chart-2/blob/master/doc/merge-types.org#merge-type-5) or what I've called the "frozen-merge", but instead of positions for common points being taken from the map 1, they're fixed at the average position between map 1 and map 2.
+
+## Merge types
+Currently there are 6 merge types that I've named:
+
+1. table
+2. reoptimized-merge
+3. incremental-merge
+4. frozen-overlay
+5. relaxed-overlay
+5. frozen-merge
+
+### 'table'
+As you would expect, this merges the tables of the two maps but does not attempt to create any new optimizations and any existing optimizations are of course lost.
+
+[acmacs.r merge type 1](https://github.com/acorg/acmacs-chart-2/blob/master/doc/merge-types.org#merge-type-1)
+
+### 'reoptimized-merge'
+This merges the tables and then does a specified number of fresh optimizations from random starting coordinates, ignoring any pre-existing optimization runs. It's exactly the same as doing a 'table' merge and running `optimizeMap()` on the merged table.
+
+### 'incremental-merge'
+This takes the currently selected optimization in the first map and then merges in the additional maps in turn. Each time any points not already found in the first map (or the last map in the incremental merge chain) are randomised and everything is relaxed, this is repeated the specified number of times and the process is repeated. Sometimes when extending a map over time this can find a lower-stress solution than simply reoptimizing from scratch, particularly if the better solution is a long spindly one. Normally this would be performed alongside a 'reoptimized-merge' to see which found the best result.
+
+[acmacs.r merge type 2](https://github.com/acorg/acmacs-chart-2/blob/master/doc/merge-types.org#merge-type-2) followed by a call to the method `$relax_incremental()`.
+
+### 'frozen-overlay'
+This fixes the positions of points in each map and tries to best match them simply through re-orientation. Once the best re-orientation is found, points that are in common between the maps are moved to the average position. In theory this can be useful if you have two maps that you independently trust and you just want to quickly see how they relate to each other. In practise this would only really be used for a rough look, before maps are integrated more carefully, sometimes this has been referred to as "Frankensteining".
+
+[acmacs.r merge type 3](https://github.com/acorg/acmacs-chart-2/blob/master/doc/merge-types.org#merge-type-3)
+
+### 'relaxed-overlay'
+This performs a 'frozen-overlay' then relaxes the result. It's exactly the same as doing a 'frozen-overlay' and then calling `relaxMap()` on the result.
+
+[acmacs.r merge type 3](https://github.com/acorg/acmacs-chart-2/blob/master/doc/merge-types.org#merge-type-3) followed by a call to the acmacs.r method `$relax()`.
+
+### 'frozen-merge'
+In this version, positions of all points in the first map are fixed and remain fixed, so the original map
+does not change. The second map is then realigned to the first as closely as possible and then all the new
+points appearing in the second map are allowed to relax into their new positions. This is a way to merge in
+new antigens and sera into a map without affecting the first one at all (and was first implemented in lispmds).
+
+[acmacs.r merge type 5](https://github.com/acorg/acmacs-chart-2/blob/master/doc/merge-types.org#merge-type-5)
+
+

@@ -141,13 +141,13 @@ Racmacs.ControlPanel = class ControlPanel {
             content: procrustesPanel.div
         });
 
-        // Add bootstrap
-        var bootstrapPanel = new Racmacs.BootstrapPanel(this.viewer);
-        this.tabset.addTab({
-            id : "bootstrap",
-            name: "Bootstrap",
-            content: bootstrapPanel.div
-        });
+        // // Add bootstrap
+        // var bootstrapPanel = new Racmacs.BootstrapPanel(this.viewer);
+        // this.tabset.addTab({
+        //     id : "bootstrap",
+        //     name: "Bootstrap",
+        //     content: bootstrapPanel.div
+        // });
 
         // Set the width
         this.setWidth(this.fullwidth);

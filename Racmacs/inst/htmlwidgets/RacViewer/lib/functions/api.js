@@ -97,6 +97,18 @@ Racmacs.Viewer.prototype.selectByPointIndices = function(indices){
     
 }
 
+Racmacs.Viewer.prototype.selectAntigensByIndices = function(indices){
+
+    indices.map( i => this.antigens[i].select() );
+    
+}
+
+Racmacs.Viewer.prototype.selectSeraByIndices = function(indices){
+
+    indices.map( i => this.sera[i].select() );
+    
+}
+
 Racmacs.Viewer.prototype.reflect = function(axis){
 
     // this.scene.reflect(axis);

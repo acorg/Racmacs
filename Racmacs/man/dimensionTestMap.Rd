@@ -5,7 +5,9 @@
 \title{Perform dimension testing on a map object}
 \usage{
 dimensionTestMap(map, dimensions_to_test = 1:5, test_proportion = 0.1,
-  minimum_column_basis = "none", column_bases_from_master = TRUE)
+  minimum_column_basis = "none", column_bases_from_master = TRUE,
+  number_of_optimizations = 1000, replicates_per_proportion = 100,
+  storage_directory = NULL)
 }
 \arguments{
 \item{map}{The acmap data object}
@@ -19,6 +21,12 @@ dimensionTestMap(map, dimensions_to_test = 1:5, test_proportion = 0.1,
 \item{column_bases_from_master}{Should column bases be calculated based on
 the full data set? If false, they will be recalculated based on the
 training set used for each run.}
+
+\item{number_of_optimizations}{The number of optimizations to perform when creating each map for the dimension test}
+
+\item{replicates_per_proportion}{The number of random replicates to do per missing proportion tested}
+
+\item{storage_directory}{Optionally the path to a directory where all the maps made in the dimension test will be saved}
 }
 \value{
 Returns a table of results, including the dimensions tested and the standard deviation of predicted vs residual error.

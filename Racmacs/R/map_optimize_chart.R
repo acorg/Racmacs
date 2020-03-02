@@ -5,13 +5,31 @@ runOptimization.racchart <- function(map,
                                      number_of_optimizations,
                                      minimum_column_basis){
 
-  # Optimize the new optimizations
-  map$chart$relax_many(
-    as.character(minimum_column_basis),
-    number_of_dimensions,
-    number_of_optimizations,
-    FALSE
-  )
+  # relax_many is only safe if there are no existing projections since it reorders by stress
+  if(map$chart$number_of_projections > 0){
+
+    # Optimize the new optimizations
+    map$chart$relax_many(
+      as.character(minimum_column_basis),
+      number_of_dimensions,
+      number_of_optimizations,
+      FALSE
+    )
+
+  } else {
+
+    for(i in seq_len(number_of_optimizations)){
+
+      # Optimize the new optimizations
+      map$chart$relax(
+        as.character(minimum_column_basis),
+        number_of_dimensions,
+        FALSE
+      )
+
+    }
+
+  }
 
   # Return the new chart
   map

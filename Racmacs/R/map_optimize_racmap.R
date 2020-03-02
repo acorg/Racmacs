@@ -21,6 +21,9 @@ runOptimization.racmap <- function(map,
   # Add optimizations to the racmap
   map$optimizations <- c(map$optimizations, as.list(racchart)$optimizations)
 
+  # Select the new optimization if it's the first one
+  if(is.null(selectedOptimization(map))) selectedOptimization(map) <- 1
+
   # Return the new chart
   map
 
@@ -38,7 +41,7 @@ relaxMap.racmap <- function(map,
                        ag_coords = agCoords(map, optimization_number),
                        sr_coords = srCoords(map, optimization_number),
                        minimum_column_basis = minColBasis(map, optimization_number),
-                       colbases = colBases(map, optimization_number))
+                       column_bases = colBases(map, optimization_number))
 
   # Relax the optimization
   acchart <- relaxMap(acchart)
@@ -56,7 +59,7 @@ relaxMap.racmap <- function(map,
 #' @export
 checkHemisphering.racmap <- function(map, optimization_number = NULL){
 
-  chart <- as.cpp(map, warnings = FALSE)
+  chart <- as.cpp(map)
   checkHemisphering(chart, optimization_number)
 
 }
@@ -65,7 +68,7 @@ checkHemisphering.racmap <- function(map, optimization_number = NULL){
 #' @export
 moveTrappedPoints.racmap <- function(map, optimization_number = NULL){
 
-  chart <- as.cpp(map, warnings = FALSE)
+  chart <- as.cpp(map)
   chart <- moveTrappedPoints(chart, optimization_number)
   agCoords(map, optimization_number) <- agCoords(chart, optimization_number)
   map <- relaxMap(map, optimization_number)

@@ -1,11 +1,10 @@
 
-
 #' Make an antigenic map from scratch
 #'
 #' @param number_of_dimensions The number of dimensions in the map
 #' @param number_of_optimizations The number of optimization runs to perform
 #' @param minimum_column_basis The minimum column basis for the map
-#' @param remove_trapped_points How should removal of trapped points be performed (see details)
+#' @param move_trapped_points How should removal of trapped points be performed (see details)
 #' @param ...
 #'
 #' @details
@@ -18,9 +17,19 @@
 #' @example examples/example_make_map_from_scratch.R
 #' @export
 #'
-make.acmap <- function(...){
+make.acmap <- function(number_of_dimensions    = 2,
+                       number_of_optimizations = 100,
+                       minimum_column_basis    = "none",
+                       move_trapped_points     = "best",
+                       ...){
 
-  chart <- make.acmap.cpp(...)
+  chart <- make.acmap.cpp(
+    number_of_dimensions    = number_of_dimensions,
+    number_of_optimizations = number_of_optimizations,
+    minimum_column_basis    = minimum_column_basis,
+    move_trapped_points     = move_trapped_points,
+    ...
+  )
   as.list(chart)
 
 }
@@ -29,25 +38,28 @@ make.acmap <- function(...){
 make.acmap.cpp <- function(number_of_dimensions    = 2,
                            number_of_optimizations = 100,
                            minimum_column_basis    = "none",
-                           remove_trapped_points   = "best",
-                           check_for_hemisphering  = TRUE,
+                           move_trapped_points     = "best",
                            ...){
 
   # Only allow arguments that don't refer to creating optimizations
   arguments <- list(...)
   property_function_bindings <- list_property_function_bindings()
-  allowed_arguments <- property_function_bindings$property[property_function_bindings$object != "optimization"]
-  if(sum(!names(arguments) %in% allowed_arguments) > 0) {
-    stop("Cannot set property '", paste(names(arguments)[!names(arguments) %in% allowed_arguments], collapse = "', '"), "'.")
+  optimization_arguments <- property_function_bindings$property[property_function_bindings$object == "optimization"]
+  if(sum(names(arguments) %in% optimization_arguments) > 0) {
+    stop("Cannot set property '", paste(names(arguments)[names(arguments) %in% optimization_arguments], collapse = "', '"), "'.")
   }
 
   # Make the chart
-  chart <- acmap(...)
+  chart <- acmap.cpp(...)
 
   # Run the optimizations
-  optimizeMap(map = chart,
+  optimizeMap(map                     = chart,
               number_of_dimensions    = number_of_dimensions,
               number_of_optimizations = number_of_optimizations,
-              minimum_column_basis    = minimum_column_basis)
+              minimum_column_basis    = minimum_column_basis,
+              move_trapped_points     = move_trapped_points)
 
 }
+
+
+

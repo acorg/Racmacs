@@ -6,9 +6,9 @@
 \alias{as.cpp}
 \title{Converting between map formats}
 \usage{
-\method{as.list}{racchart}(map, verbose = FALSE)
+\method{as.list}{racchart}(map)
 
-as.cpp(map, warnings = TRUE)
+as.cpp(map)
 }
 \arguments{
 \item{map}{The map object to be converted.}

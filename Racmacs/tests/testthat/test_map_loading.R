@@ -1,10 +1,11 @@
 
 library(Racmacs)
 testthat::context("Loading map data")
+# invisible(lapply(rev(list.files("R", full.names = T)), source))
 
 save_file <- testthat::test_path("../testdata/testmap.ace")
 
-for(maptype in c("racmap", "racchart")){
+for(maptype in c("racmap")){
 
   if(maptype == "racmap")   read.map <- read.acmap
   if(maptype == "racchart") read.map <- read.acmap.cpp
@@ -23,7 +24,6 @@ for(maptype in c("racmap", "racchart")){
   testthat::test_that(paste("Reading in", maptype), {
     testthat::expect_equal(numOptimizations(map_full), 3)
   })
-
 
   # Loading stress ordered
   map_stress_ordered <- read.map(filename = save_file, sort_optimizations = TRUE)

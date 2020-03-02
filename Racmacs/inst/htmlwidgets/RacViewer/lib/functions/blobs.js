@@ -144,6 +144,10 @@ Racmacs.Point.prototype.addBlob = function(blob){
 
     // Hide the normal element
     this.pointElement.hide();
+
+    // Get transformation and translation
+    let transformation = this.viewer.data.transformation();
+    let translation = this.viewer.data.translation();
     
     if(this.viewer.data.dimensions() == 2){
     
@@ -151,8 +155,19 @@ Racmacs.Point.prototype.addBlob = function(blob){
         for(var i=0; i<blob.length; i++){
 
             var coords = blob[i].x.map(
-                (x,j) => [blob[i].x[j], blob[i].y[j], 1]
+                (x,j) => [blob[i].x[j], blob[i].y[j], 0]
             );
+
+            // Apply map transformation to coordinates
+            coords = coords.map(
+                coord => Racmacs.utils.transformTranslateCoords(
+                    coord,
+                    transformation,
+                    translation
+                )
+            );
+
+
             var fillcolor    = this.getFillColorRGBA();
             var outlinecolor = this.getOutlineColorRGBA();
 
@@ -184,40 +199,95 @@ Racmacs.Point.prototype.addBlob = function(blob){
 
     } else {
 
+        // Get vertices and faces
+        let vertices = blob.vertices;
+        let faces    = blob.faces;
+
         // 3D blobs
-        var color = this.getPrimaryColorRGBA();
+        var fillcolor    = this.getFillColorRGBA();
+        var outlinecolor = this.getOutlineColorRGBA();
+
+        // Get transformation and translation
+        let transformation = this.viewer.data.transformation();
+        let translation = this.viewer.data.translation();
+
+        // Apply the map transformation to the blob coordinates
+        vertices = vertices.map(
+            coord => Racmacs.utils.transformTranslateCoords(
+                coord,
+                transformation,
+                translation
+            )
+        );
 
         // Generate the blob element
         this.blob = new R3JS.element.Polygon3d({
-            faces    : blob.faces,
-            vertices : blob.vertices,
+            faces    : faces,
+            vertices : vertices,
             properties : {
                 mat : "phong",
                 transparent : true,
-                color : {
-                    r:color[0],
-                    g:color[1],
-                    b:color[2],
-                    a:color[3]
+                fillcolor : {
+                    r:fillcolor[0],
+                    g:fillcolor[1],
+                    b:fillcolor[2],
+                    a:fillcolor[3]
+                },
+                outlinecolor : {
+                    r:outlinecolor[0],
+                    g:outlinecolor[1],
+                    b:outlinecolor[2],
+                    a:outlinecolor[3]
                 }
             },
-            viewport : this.viewer.viewport
+            viewport : this.viewer.viewport,
+            outline : this.fillColor == "transparent"
         });
 
     }
     
-
-    // Add to selectable elements
-    this.viewer.scene.addSelectableElement(this.blob);
-    this.bindElement(this.blob);
-
-    // Add to the scene
-    this.viewer.scene.add(this.blob.object);
+    // Show the blob
+    this.showBlob();
 
 }
 
 // Remove blob and show point
 Racmacs.Point.prototype.removeBlob = function(){
+    
+    // Hide the blob
+    this.hideBlob();
+
+    // Set blobs to null
+    this.blob = null;
+
+}
+
+
+// Remove blob and show point
+Racmacs.Point.prototype.showBlob = function(){
+    
+    // Set blob
+    if(this.blob){
+
+        // Add to selectable elements
+        this.viewer.scene.addSelectableElement(this.blob);
+
+        // Add to the scene
+        this.viewer.scene.add(this.blob.object);
+
+        // Hide the point element again
+        this.pointElement.hide();
+
+        // Bind the blob element
+        this.bindElement(this.blob);
+
+    }
+
+}
+
+
+// Remove blob and show point
+Racmacs.Point.prototype.hideBlob = function(){
     
     // Set blob
     if(this.blob){
@@ -231,13 +301,10 @@ Racmacs.Point.prototype.removeBlob = function(){
         // Show the point element again
         this.pointElement.show();
 
-        // Rebind the point element
+        // Bind the point element
         this.bindElement(this.pointElement);
 
     }
-
-    // Set blobs to null
-    this.blob = null;
 
 }
 

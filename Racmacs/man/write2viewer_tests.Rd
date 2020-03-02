@@ -4,7 +4,7 @@
 \alias{write2viewer_tests}
 \title{Write map data to the viewer test file}
 \usage{
-write2viewer_tests(mapData, filename)
+write2viewer_tests(map, filename)
 }
 \description{
 Write map data to the viewer test file

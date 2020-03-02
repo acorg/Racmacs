@@ -11,9 +11,7 @@ testthat::context("Test reading and editing of strain details")
 ## Plotspec
 # property | map supports setting | test value | mode
 plotspec_features <- rbind(
-  c("NamesAbbreviated" , FALSE),
-  c("NamesFull"        , FALSE),
-  c("Names"            , TRUE )
+  c("Names", TRUE )
 )
 
 testthat::test_that("Edit map strain details", {
@@ -22,13 +20,13 @@ testthat::test_that("Edit map strain details", {
   for(n in seq_len(nrow(plotspec_features))){
 
     property       <- plotspec_features[n,1]
-    edit_supported <- plotspec_features[n,2]
+    edit_supported <- as.logical(plotspec_features[n,2])
 
     agGetterFunction <- get(paste0("ag", property))
     srGetterFunction <- get(paste0("sr", property))
 
-    agSetterFunction <- get(paste0("ag", property, "<-"))
-    srSetterFunction <- get(paste0("sr", property, "<-"))
+    `agGetterFunction<-` <- get(paste0("ag", property, "<-"))
+    `srGetterFunction<-` <- get(paste0("sr", property, "<-"))
 
     # Test getting
     testthat::expect_equal(
@@ -41,25 +39,25 @@ testthat::test_that("Edit map strain details", {
     )
 
     # Test setting
-    ag_names_new <- paste0(agGetterFunction(racmap), "_new")
-    sr_names_new <- paste0(srGetterFunction(racmap), "_new")
+    ag_names_new <- paste0(agGetterFunction(racmap), "_NEW")
+    sr_names_new <- paste0(srGetterFunction(racmap), "_NEW")
 
     if(edit_supported){
-      racmap <- agSetterFunction(racmap, ag_names_new)
-      racmap <- srSetterFunction(racmap, sr_names_new)
+      agGetterFunction(racmap) <- ag_names_new
+      srGetterFunction(racmap) <- sr_names_new
       testthat::expect_equal(agGetterFunction(racmap), ag_names_new)
       testthat::expect_equal(srGetterFunction(racmap), sr_names_new)
 
-      racchart <- agSetterFunction(racchart, ag_names_new)
-      racchart <- srSetterFunction(racchart, sr_names_new)
+      agGetterFunction(racchart) <- ag_names_new
+      srGetterFunction(racchart) <- sr_names_new
       testthat::expect_equal(agGetterFunction(racchart), ag_names_new)
       testthat::expect_equal(srGetterFunction(racchart), sr_names_new)
     } else {
-      testthat::expect_error(racmap <- agSetterFunction(racmap, ag_names_new))
-      testthat::expect_error(racmap <- srSetterFunction(racmap, sr_names_new))
+      testthat::expect_error(agGetterFunction(racmap) <- ag_names_new)
+      testthat::expect_error(srGetterFunction(racmap) <- sr_names_new)
 
-      testthat::expect_error(racchart <- agSetterFunction(racchart, ag_names_new))
-      testthat::expect_error(racchart <- srSetterFunction(racchart, sr_names_new))
+      testthat::expect_error(agGetterFunction(racchart) <- ag_names_new)
+      testthat::expect_error(srGetterFunction(racchart) <- sr_names_new)
     }
 
   }
@@ -82,16 +80,16 @@ testthat::test_that("Edit map strain details", {
 
 
 # Known and unknown dates
-testthat::test_that("Mix of know and unknown dates", {
+testthat::test_that("Mix of known and unknown dates", {
 
   map <- acmap(
     table = matrix(c("<10", "40", "80", "160"), 2, 2),
-    ag_date = c("", "2018-01-01")
+    ag_dates = c("", "2018-01-01")
   )
 
   map.cpp <- acmap(
     table = matrix(c("<10", "40", "80", "160"), 2, 2),
-    ag_date = c("", "2018-01-01")
+    ag_dates = c("", "2018-01-01")
   )
 
   testthat::expect_equal(

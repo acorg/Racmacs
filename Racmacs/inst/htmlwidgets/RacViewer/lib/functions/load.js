@@ -82,7 +82,7 @@ Racmacs.Viewer.prototype.loadMapData = function(){
     this.browsers.antigens.populate();
     this.browsers.sera.populate();
 
-    // Update filers
+    // Update filters
     this.filter.update();
 
     // Update list of projections
@@ -104,20 +104,21 @@ Racmacs.Viewer.prototype.loadMapData = function(){
     }
 
     // Populate the plot with any plotting data
-    if(plotdata.length){
+    if(plotdata && plotdata.length){
         this.scene.populatePlot({
             plot: plotdata
         });
     }
 
+    // Add any boostrap info
+    var bootstrap = this.data.bootstrap();
+    if(bootstrap !== undefined){
+        this.showBootstrapPoints(bootstrap);
+    }
+
     // Render the plot
     if(this.data.numProjections() > 0) {
         this.render();
-    }
-
-    // Show any procrustes
-    if(settings.show_procrustes){
-        this.showProcrustes(mapData.procrustes[0][0]);
     }
 
     // this.controlpanel.show();

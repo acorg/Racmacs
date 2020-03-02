@@ -1,14 +1,4 @@
 
-# For generating documentation
-# property_list <- list_property_function_bindings()
-# cat(paste(
-#   "#' @param",
-#   property_list$property[property_list$settable == TRUE],
-#   property_list$description[property_list$settable == TRUE]
-# ), sep = "\n")
-
-
-
 #' Generate a new acmap object
 #'
 #' This function generates a new acmap object, the base object for storing map
@@ -84,7 +74,7 @@ acmap.cpp <- function(...){
 
   # Generate a new racmap object
   num_points <- infer_num_points(...)
-  map <- acmap.new(
+  map <- racchart.new(
     num_antigens = num_points$num_antigens,
     num_sera     = num_points$num_sera
   )
@@ -103,8 +93,8 @@ racmap.new <- function(num_antigens = NULL,
   racmap <- list()
   class(racmap) <- c("racmap", "rac", "list")
 
-  if(!is.null(num_antigens)) agNames(racmap) <- paste("Antigen", seq_len(num_antigens))
-  if(!is.null(num_sera))     srNames(racmap) <- paste("Serum", seq_len(num_sera))
+  if(!is.null(num_antigens)) agNames(racmap, .check = FALSE) <- paste("ANTIGEN", seq_len(num_antigens))
+  if(!is.null(num_sera))     srNames(racmap, .check = FALSE) <- paste("SERUM", seq_len(num_sera))
   if(!is.null(num_antigens) && !is.null(num_sera)) titerTable(racmap) <- matrix("*", num_antigens, num_sera)
 
   racmap
@@ -113,7 +103,7 @@ racmap.new <- function(num_antigens = NULL,
 
 
 # Generate a new, empty acmap object
-acmap.new <- function(num_antigens = NULL,
+racchart.new <- function(num_antigens = NULL,
                       num_sera = NULL,
                       chart = NULL){
 
@@ -139,8 +129,8 @@ acmap.new <- function(num_antigens = NULL,
                          num_sera)
 
     # Reset default antigen and sera names
-    agNames(acchart) <- paste("Antigen", seq_len(num_antigens))
-    srNames(acchart) <- paste("Serum",    seq_len(num_sera))
+    agNames(acchart) <- paste("ANTIGEN", seq_len(num_antigens))
+    srNames(acchart) <- paste("SERUM", seq_len(num_sera))
 
   } else if(!isFALSE(chart)) {
 
@@ -150,39 +140,39 @@ acmap.new <- function(num_antigens = NULL,
 
   # Create active bindings so that you can get and set features dynamically
   # using the dollar symbol, as you would with a list or standard racmap object
-  property_function_bindings <- list_property_function_bindings()
-  lapply(seq_len(nrow(property_function_bindings)), function(x){
-
-    name        <- property_function_bindings[["property"]][x]
-    method      <- property_function_bindings[["method"]][x]
-    settable    <- property_function_bindings[["settable"]][x]
-    description <- property_function_bindings[["description"]][x]
-
-    getter <- get(method)
-    if(settable){
-      setter <- get(paste0(method, "<-"))
-      fun <- function(val){
-        if(missing(val)){
-          getter(acchart)
-        } else {
-          setter(acchart, value = val)
-        }
-      }
-    } else {
-      fun <- function(val){
-        if(missing(val)){
-          getter(acchart)
-        } else {
-          stop("Setting of ", description," is not allowed")
-        }
-      }
-    }
-
-    makeActiveBinding(sym = name,
-                      fun = fun,
-                      env = acchart)
-
-  })
+  # property_function_bindings <- list_property_function_bindings()
+  # lapply(seq_len(nrow(property_function_bindings)), function(x){
+  #
+  #   name        <- property_function_bindings[["property"]][x]
+  #   method      <- property_function_bindings[["method"]][x]
+  #   settable    <- property_function_bindings[["settable"]][x]
+  #   description <- property_function_bindings[["description"]][x]
+  #
+  #   getter <- get(method)
+  #   if(settable){
+  #     setter <- get(paste0(method, "<-"))
+  #     fun <- function(val){
+  #       if(missing(val)){
+  #         getter(acchart)
+  #       } else {
+  #         setter(acchart, value = val)
+  #       }
+  #     }
+  #   } else {
+  #     fun <- function(val){
+  #       if(missing(val)){
+  #         getter(acchart)
+  #       } else {
+  #         stop("Setting of ", description," is not allowed")
+  #       }
+  #     }
+  #   }
+  #
+  #   makeActiveBinding(sym = name,
+  #                     fun = fun,
+  #                     env = acchart)
+  #
+  # })
 
   # Return the chart
   acchart
@@ -195,13 +185,19 @@ map.populate <- function(map,
                          ...){
 
   # Get arguments provided
-  argument_values <- list(...)
-  arguments_provided <- names(argument_values)
+  argument_values    <- list(...)
 
-  # Convert table to matrix
-  if("table" %in% arguments_provided){
-    argument_values[["table"]] <- as.matrix(argument_values[["table"]])
+  # Convert ag_coords and sr_coords to ag_base_coords etc.
+  names(argument_values)[names(argument_values) == "ag_coords"] <- "ag_base_coords"
+  names(argument_values)[names(argument_values) == "sr_coords"] <- "sr_base_coords"
+
+  # Error if both table and table layers is provided
+  if("table" %in% names(argument_values) && "table_layers" %in% names(argument_values)){
+    stop("Only one of 'table' and 'table_layers' should be provided")
   }
+
+  # Get all the arguments that were provided
+  arguments_provided <- names(argument_values)
 
   # Set antigen and serum names from table column and row names if not provided
   if("table" %in% arguments_provided
@@ -220,7 +216,7 @@ map.populate <- function(map,
 
   # Get the property to function bindings
   property_function_bindings <- list_property_function_bindings()
-  recognised_arguments <- c(property_function_bindings$property, "optimizations")
+  recognised_arguments <- c(property_function_bindings$property, "optimizations", "table")
 
   # Check all arguments match a property
   if(sum(!arguments_provided %in% recognised_arguments) > 0){
@@ -238,13 +234,18 @@ map.populate <- function(map,
   non_optimization_properties_provided <- properties_provided[properties_provided$object != "optimization",,drop=FALSE]
   optimization_properties_provided     <- properties_provided[properties_provided$object == "optimization",,drop=FALSE]
 
+  # Add any tables
+  if("table" %in% arguments_provided){
+    titerTable(map) <- argument_values$table
+  }
+
   # Populate it
   for(x in seq_len(nrow(non_optimization_properties_provided))){
 
     value  <- argument_values[[non_optimization_properties_provided$property[x]]]
     method <- non_optimization_properties_provided$method[x]
     setter <- get(paste0(method, "<-"))
-    map    <- setter(map, value)
+    map    <- setter(map = map, value = value)
 
   }
 
@@ -256,6 +257,8 @@ map.populate <- function(map,
   # If optimizations are specified as a list then add them
   if("optimizations" %in% arguments_provided){
     for(x in seq_along(argument_values$optimizations)){
+      names(argument_values$optimizations[[x]])[names(argument_values$optimizations[[x]]) == "ag_coords"] <- "ag_base_coords"
+      names(argument_values$optimizations[[x]])[names(argument_values$optimizations[[x]]) == "sr_coords"] <- "sr_base_coords"
       map <- do.call(addOptimization, c(list(map = map), argument_values$optimizations[[x]]))
     }
   }
@@ -297,7 +300,7 @@ cloneMap.racmap <- function(map){
 cloneMap.racchart <- function(map){
 
   # Create a new empty racchart with no chart
-  mapclone <- acmap.new(chart = FALSE)
+  mapclone <- racchart.new(chart = FALSE)
 
   # Clone the old map chart into the new one
   mapclone$chart <- map$chart$clone()
@@ -322,7 +325,10 @@ infer_num_points <- function(...){
   # Try and guess number of antigens and sera
   num_antigens <- NULL
   num_sera     <- NULL
-  if("table" %in% argument_names) {
+  if("table_layers" %in% argument_names) {
+    num_antigens <- nrow(arguments$table_layers[[1]])
+    num_sera     <- ncol(arguments$table_layers[[1]])
+  } else if("table" %in% argument_names) {
     num_antigens <- nrow(arguments$table)
     num_sera     <- ncol(arguments$table)
   } else {

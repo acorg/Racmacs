@@ -1,23 +1,7 @@
 
 
-#' View map in the interactive viewer
-#'
-#' @param map The acmap data object
-#'
-#' @export
-#'
-view_map <- function(map,
-                     ...) {
-
-  # View the map data in the viewer
-  widget <- RacViewer(map = map,
-                      hide_control_panel = TRUE,
-                      ...)
-
-  # Return the widget as an output
-  widget
-
-}
+# @export view_map
+# view_map <- view.rac
 
 
 #' Export the map viewer
@@ -133,11 +117,46 @@ write2viewer_debug <- function(map, snapshot = FALSE){
 
 #' Write map data to the viewer test file
 #'
-write2viewer_tests <- function(mapData, filename){
+write2viewer_tests <- function(map, filename){
 
-  mapData <- process_mapViewerData(mapData)
-  write(x    = paste0("json_data = '", jsonlite::toJSON(mapData), "';\n\nvar plotData = JSON.parse(json_data);"),
-        file = file.path("~/Dropbox/LabBook/R-acmacs/Racmacs/inst/htmlwidgets/RacViewer/tests/data/", filename))
+  # Read the yaml file
+  yaml    <- yaml::read_yaml("inst/htmlwidgets/RacViewer.yaml")
+  src     <- "../../lib"
+  styles  <- file.path(src, yaml$dependencies[[1]]$stylesheet)
+  scripts <- file.path(src, yaml$dependencies[[1]]$script)
+
+  # Setup the html file
+  html <- c(
+    "<html>",
+    "<head>",
+    paste0('<link rel="stylesheet" type="text/css" href="', styles, '">'),
+    paste0('<script src="', scripts, '"></script>'),
+    '<script src="../../tests/tests.js"></script>',
+    '<script>',
+    'window.onload = function() {',
+    'var container   = document.getElementById("rac-viewer");',
+    paste0('var mapData = JSON.parse(`', as.json(map),'`);'),
+    'var viewer = new Racmacs.Viewer(container);',
+    'viewer.load(mapData, { hide_control_panel:true });',
+    '};',
+    '</script>',
+    "</head>",
+    "<body>",
+    # '<div id="rac-viewer" style="width: 1000px; height: 800px;"></div>',
+    '<div id="rac-viewer" style="position:absolute; top:0; left:0; right:0; bottom:0;"></div>',
+    "</body>",
+    "</html>"
+  )
+
+  # Write the file
+  writeLines(html, file.path("inst/htmlwidgets/RacViewer/tests/pages", filename))
+
+}
+
+write2testdata <- function(variable, data, filename){
+
+  html <- sprintf("var %s = JSON.parse(`%s`);", variable, data)
+  writeLines(html, file.path("inst/htmlwidgets/RacViewer/tests/data", filename))
 
 }
 

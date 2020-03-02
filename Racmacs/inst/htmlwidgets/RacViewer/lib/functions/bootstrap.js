@@ -1,55 +1,52 @@
 
 
-Racmacs.BootstrapPanel = class ProcrustesPanel {
+// Racmacs.BootstrapPanel = class ProcrustesPanel {
 
-    constructor(viewer){
+//     constructor(viewer){
 
-        // Create holder div
-        this.div = document.createElement("div");
-        this.div.classList.add("bootstrap-tab");
+//         // Create holder div
+//         this.div = document.createElement("div");
+//         this.div.classList.add("bootstrap-tab");
 
-        this.checkbox = new Racmacs.utils.Checkbox({
-            check_fn   : function(){ viewer.bootstrapOn()  },
-            uncheck_fn : function(){ viewer.bootstrapOff() },
-            text : "Show bootstrap on selection"
-        });
+//         this.checkbox = new Racmacs.utils.Checkbox({
+//             check_fn   : function(){ viewer.bootstrapOn()  },
+//             uncheck_fn : function(){ viewer.bootstrapOff() },
+//             text : "Show bootstrap on selection"
+//         });
 
-        this.div.appendChild(this.checkbox.div);
+//         this.div.appendChild(this.checkbox.div);
 
-        // var procrustesTable = new Racmacs.ProcrustesTable(viewer);
-        // this.div.appendChild(procrustesTable.div);
+//         // var procrustesTable = new Racmacs.ProcrustesTable(viewer);
+//         // this.div.appendChild(procrustesTable.div);
         
-        // var newProcrustesWell = new Racmacs.utils.InputWell({
-        //     inputs: [
-        //         { id: "optimization", value: 1, label : "Optimization number" },
-        //     ],
-        //     submit: "Calculate procrustes to file",
-        //     fn : function(args){ viewer.onProcrustes(args) }
-        // });
-        // this.div.appendChild(newProcrustesWell.div);
-        // newProcrustesWell.div.classList.add("shiny-element");
+//         // var newProcrustesWell = new Racmacs.utils.InputWell({
+//         //     inputs: [
+//         //         { id: "optimization", value: 1, label : "Optimization number" },
+//         //     ],
+//         //     submit: "Calculate procrustes to file",
+//         //     fn : function(args){ viewer.onProcrustes(args) }
+//         // });
+//         // this.div.appendChild(newProcrustesWell.div);
+//         // newProcrustesWell.div.classList.add("shiny-element");
 
-    }
+//     }
 
 
-}
+// }
 
-Racmacs.Viewer.prototype.bootstrapOn = function(){
+// Racmacs.Viewer.prototype.bootstrapOn = function(){
 
-	this.bootstrap_shown = true;
+// 	this.bootstrap_shown = true;
 
-}
+// }
 
-Racmacs.Viewer.prototype.bootstrapOff = function(){
+// Racmacs.Viewer.prototype.bootstrapOff = function(){
 
-    this.bootstrap_shown = false;
+//     this.bootstrap_shown = false;
 	
-}
+// }
 
 Racmacs.Point.prototype.showBootstrap = function(){
-
-    var bootstrapdata = this.viewer.data.bootstrap();
-    var bootstrap_coords = bootstrapdata.data.map( x => x[this.type+"_coords"][this.typeIndex] );
 
     if(bootstrap_coords[0].length < 3){
 	    for(var i=0; i<bootstrap_coords.length; i++){
@@ -96,6 +93,215 @@ Racmacs.Point.prototype.hideBootstrap = function(){
 
 	this.viewer.scene.remove(this.bootstrap_points);
 	
+}
+
+
+Racmacs.Viewer.prototype.showBootstrapPoints = function(bootstrapdata){
+
+    // Add bootstrap points
+    for(var i=0; i<this.points.length; i++){
+        this.points[i].addBootstrapPoints({
+            ag_noise : bootstrapdata.ag_noise.map(x => x[i]),
+            coords : bootstrapdata.coords.map(x => x[i])
+        });
+    }
+
+}
+
+
+// Show blob instead of a point
+Racmacs.Point.prototype.removeBootstrapPoints = function(){
+
+    // Remove any current blobs
+    for(var i=0; i<this.points.length; i++){
+        this.points[i].removeBootstrapPoints();
+    }
+    
+
+}
+
+
+// Show bootstrap points instead of a point
+Racmacs.Point.prototype.addBootstrapPoints = function(data){
+
+    // Get coords
+    let coords = data.coords;
+
+    // Get transformation and translation
+    let transformation = this.viewer.data.transformation();
+    let translation = this.viewer.data.translation();
+
+    // Apply map transformation to coordinates
+    coords = coords.map(
+        coord => Racmacs.utils.transformTranslateCoords(
+            coord,
+            transformation,
+            translation
+        )
+    );
+
+    // Make 3d
+    for(var i=0; i<coords.length; i++){
+        while(coords[i].length < 3){
+            coords[i].push(-0.2);
+        }
+    }
+
+    // Create a points object
+    this.bootstrapPoints = new R3JS.element.glpoints({
+        coords : coords,
+        size : Array(coords.length).fill(0.4),
+        properties : {
+            color : {
+                r:Array(coords.length).fill(0),
+                g:Array(coords.length).fill(0),
+                b:Array(coords.length).fill(0),
+                a:Array(coords.length).fill(0.3)
+            }
+        },
+        dimensions : 2,
+        viewer : this.viewer
+    });
+    
+    // Show the blob
+    if(this.selected) this.showBootstrapPoints();
+
+}
+
+// Remove blob and show point
+Racmacs.Point.prototype.removeBootstrapPoints = function(){
+    
+    // Hide the blob
+    this.hideBootstrapPoints();
+
+    // Set blobs to null
+    this.bootstrapPoints = null;
+
+}
+
+
+// Remove bootstrapPoints and show point
+Racmacs.Point.prototype.showBootstrapPoints = function(){
+    
+    // Set bootstrapPoints
+    if(this.bootstrapPoints){
+
+        // Add to the scene
+        this.viewer.scene.add(this.bootstrapPoints.object);
+
+    }
+
+}
+
+
+// Remove bootstrapPoints and show point
+Racmacs.Point.prototype.hideBootstrapPoints = function(){
+    
+    // Set bootstrapPoints
+    if(this.bootstrapPoints){
+        
+        // Remove the blob from the scene
+        this.viewer.scene.remove(this.bootstrapPoints.object);
+
+    }
+
+}
+
+
+
+
+Racmacs.Viewer.prototype.showBootstrapContours = function(bootstrapdata){
+
+    // Add bootstrap points
+    this.points.map((p,i) => { p.addBootstrapContours(bootstrapdata[i]) });
+
+}
+
+
+// Show blob instead of a point
+Racmacs.Point.prototype.removeBootstrapContours = function(){
+
+    // Remove any current blobs
+    this.points[i].map(p => p.removeBootstrapContours());
+
+}
+
+
+// Show bootstrap points instead of a point
+Racmacs.Point.prototype.addBootstrapContours = function(data){
+
+    // Get coords
+    let contourdata = data[0];
+    let coords = contourdata.x.map((x,i) => [contourdata.x[i], contourdata.y[i]]);
+
+    // Get transformation and translation
+    let transformation = this.viewer.data.transformation();
+    let translation = this.viewer.data.translation();
+
+    // Apply map transformation to coordinates
+    coords = coords.map(
+        coord => Racmacs.utils.transformTranslateCoords(
+            coord,
+            transformation,
+            translation
+        )
+    );
+
+    // Make 3d
+    for(var i=0; i<coords.length; i++){
+        while(coords[i].length < 3){
+            coords[i].push(0);
+        }
+    }
+
+    // Create a contour object
+    this.bootstrapContours = new R3JS.element.Polygon2d({
+        coords : coords,
+        viewport : this.viewer.viewport
+    });
+    
+    // Show the blob
+    if(this.selected) this.showBootstrapContours();
+
+}
+
+// Remove blob and show point
+Racmacs.Point.prototype.removeBootstrapContours = function(){
+    
+    // Hide the blob
+    this.hideBootstrapContours();
+
+    // Set blobs to null
+    this.bootstrapContours = null;
+
+}
+
+
+// Remove bootstrapContours and show point
+Racmacs.Point.prototype.showBootstrapContours = function(){
+    
+    // Set bootstrapContours
+    if(this.bootstrapContours){
+
+        // Add to the scene
+        this.viewer.scene.add(this.bootstrapContours.object);
+
+    }
+
+}
+
+
+// Remove bootstrapContours and show point
+Racmacs.Point.prototype.hideBootstrapContours = function(){
+    
+    // Set bootstrapContours
+    if(this.bootstrapContours){
+        
+        // Remove the blob from the scene
+        this.viewer.scene.remove(this.bootstrapContours.object);
+
+    }
+
 }
 
 

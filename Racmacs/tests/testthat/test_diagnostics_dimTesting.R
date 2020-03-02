@@ -2,32 +2,50 @@
 library(testthat)
 context("Dimension testing")
 
-# Read in test map
-map     <- read.acmap(testthat::test_path("../testdata/testmap.ace"))
-map.cpp <- read.acmap.cpp(testthat::test_path("../testdata/testmap.ace"))
+run.maptests(
+  bothclasses = TRUE,
+  loadlocally = FALSE,
+  {
 
-# List case
-testthat::test_that("Dimension testing acmap.cpp", {
+    map <- read.map(testthat::test_path("../testdata/testmap.ace"))
+    testthat::test_that("Dimension testing acmap.cpp", {
 
-  results <- dimensionTestMap(map = map,
-                              dimensions_to_test = 2,
-                              test_proportion = 0.1,
-                              minimum_column_basis = "none",
-                              column_bases_from_master = TRUE)
+      results <- dimensionTestMap(
+        map                       = map,
+        dimensions_to_test        = 2,
+        test_proportion           = 0.1,
+        minimum_column_basis      = "none",
+        column_bases_from_master  = TRUE,
+        number_of_optimizations   = 10,
+        replicates_per_proportion = 20
+      )
 
-  testthat::expect_equal(nrow(results), 1)
+      testthat::expect_equal(nrow(results), 1)
 
-})
+    })
 
-# C++ case
-testthat::test_that("Dimension testing acmap.cpp", {
+    testthat::test_that("Dimension testing acmap.cpp and saving intermediate maps", {
 
-  results <- dimensionTestMap(map = map.cpp,
-                              dimensions_to_test = 2,
-                              test_proportion = 0.1,
-                              minimum_column_basis = "none",
-                              column_bases_from_master = TRUE)
+      tdir <- tempdir()
+      results <- dimensionTestMap(
+        map                       = map,
+        dimensions_to_test        = 2,
+        test_proportion           = 0.1,
+        minimum_column_basis      = "none",
+        column_bases_from_master  = TRUE,
+        number_of_optimizations   = 10,
+        replicates_per_proportion = 20,
+        storage_directory         = tdir
+      )
 
-  testthat::expect_equal(nrow(results), 1)
+      expect_equal(nrow(results), 1)
+      expect_gt(
+        length(list.files(tdir)),
+        0
+      )
 
-})
+    })
+
+  }
+)
+

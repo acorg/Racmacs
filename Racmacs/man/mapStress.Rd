@@ -19,10 +19,5 @@ Gets the stress associated with the currently selected or user-specifed optimiza
 }
 \seealso{
 See \link{pointStress} for getting the stress of individual points.
-
-Other functions to get and set acmap optimization attributes: \code{\link{acmapCoords}},
-  \code{\link{mapComments}}, \code{\link{mapDimensions}},
-  \code{\link{mapTransformation}},
-  \code{\link{minColBasis}}
 }
 \concept{functions to get and set acmap optimization attributes}

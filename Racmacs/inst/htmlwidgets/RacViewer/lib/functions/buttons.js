@@ -38,7 +38,7 @@ R3JS.Viewport.prototype.addMapButtons = function(){
 					viewer.getGridLineWidth()*1.2
 				);
 			} else {
-				viewer.scalePoints(1.2);
+				viewer.resizePoints(1.2);
 			}
 		}
 	}, 0);
@@ -54,7 +54,7 @@ R3JS.Viewport.prototype.addMapButtons = function(){
 					viewer.getGridLineWidth()/1.2
 				);
 			} else {
-				viewer.scalePoints(0.8);
+				viewer.resizePoints(0.8);
 			}
 		}
 	}, 0);

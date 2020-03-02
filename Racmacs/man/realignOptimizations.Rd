@@ -4,7 +4,8 @@
 \alias{realignOptimizations}
 \title{Realigns optimizations in the map to the current optimization}
 \usage{
-realignOptimizations(map, antigens = TRUE, sera = TRUE)
+realignOptimizations(map, antigens = TRUE, sera = TRUE,
+  optimization_number = NULL)
 }
 \arguments{
 \item{map}{The acmap data}

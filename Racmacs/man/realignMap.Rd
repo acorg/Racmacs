@@ -7,7 +7,7 @@
 realignMap(map, target_map, antigens = TRUE, sera = TRUE,
   translation = TRUE, scaling = FALSE, optimization_number = NULL,
   target_optimization_number = NULL, passage_matching = "ignore",
-  alignTargetToMain = FALSE, warnings = TRUE)
+  warnings = TRUE, .alignToTargetBaseCoords = FALSE)
 }
 \arguments{
 \item{map}{The acmap to realign.}

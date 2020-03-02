@@ -4,8 +4,9 @@
 \alias{addOptimization}
 \title{Add a new optimization to an acmap object}
 \usage{
-addOptimization(map, ag_coords, sr_coords, number_of_dimensions,
-  minimum_column_basis = NULL, warnings = TRUE, ...)
+addOptimization(map, ag_coords = NULL, sr_coords = NULL,
+  number_of_dimensions, minimum_column_basis = NULL, warnings = TRUE,
+  ...)
 }
 \arguments{
 \item{map}{The acmap data object}
@@ -17,8 +18,6 @@ addOptimization(map, ag_coords, sr_coords, number_of_dimensions,
 \item{number_of_dimensions}{The number of dimensions of the new optimization}
 
 \item{minimum_column_basis}{The minimum column basis to use for the new optimization}
-
-\item{warnings}{Should warnings be given when default arguments are assumed (e.g. for minimum column basis)}
 
 \item{...}{Further optimization parameters}
 }

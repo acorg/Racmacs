@@ -4,18 +4,19 @@
 \alias{make.acmap}
 \title{Make an antigenic map from scratch}
 \usage{
-make.acmap(...)
+make.acmap(number_of_dimensions = 2, number_of_optimizations = 100,
+  minimum_column_basis = "none", move_trapped_points = "best", ...)
 }
 \arguments{
-\item{...}{}
-
 \item{number_of_dimensions}{The number of dimensions in the map}
 
 \item{number_of_optimizations}{The number of optimization runs to perform}
 
 \item{minimum_column_basis}{The minimum column basis for the map}
 
-\item{remove_trapped_points}{How should removal of trapped points be performed (see details)}
+\item{move_trapped_points}{How should removal of trapped points be performed (see details)}
+
+\item{...}{}
 }
 \value{
 Returns an antigenic map object of the corresponding class.

@@ -21,23 +21,15 @@ num_sera     <- ncol(titer_table)
 
 
 # Create a new map
-racmap   <- racmap.new()
-racchart <- acmap.new(num_antigens = num_antigens,
-                      num_sera     = num_sera)
+racmap <- acmap(
+  table    = titer_table
+)
+racchart <- acmap.cpp(
+  table    = titer_table
+)
 
-# Set HI table
-racmap$table   <- titer_table
-racchart$table <- titer_table
-
-
-# Set antigen and sera names
-ag_names   <- paste("ag",   seq_len(num_antigens))
-sera_names <- paste("sera", seq_len(num_sera))
-racmap$ag_names   <- ag_names
-racchart$ag_names <- ag_names
-racmap$sr_names   <- sera_names
-racchart$sr_names <- sera_names
-
+ag_names   <- agNames(racmap)
+sera_names <- srNames(racmap)
 
 # Add some optimizations
 minimum_column_bases <- c("640", "none")
@@ -52,13 +44,13 @@ for(x in seq_along(minimum_column_bases)){
   sr_coords <- matrix(1, num_sera,     dimensions[x])
 
   racmap <- addOptimization(map       = racmap,
-                          ag_coords = ag_coords,
-                          sr_coords = sr_coords,
-                          minimum_column_basis = minimum_column_basis)
-  racchart <- addOptimization(map       = racchart,
                             ag_coords = ag_coords,
                             sr_coords = sr_coords,
                             minimum_column_basis = minimum_column_basis)
+  racchart <- addOptimization(map       = racchart,
+                              ag_coords = ag_coords,
+                              sr_coords = sr_coords,
+                              minimum_column_basis = minimum_column_basis)
 
 }
 
@@ -73,9 +65,9 @@ for(map in list(racmap, racchart)){
   testthat::test_that("Min column bases wrong length throws error", {
     testthat::expect_error(
       addOptimization(map       = map,
-                    ag_coords = ag_coords,
-                    sr_coords = sr_coords,
-                    minimum_column_basis = c("1280", "none")),
+                      ag_coords = ag_coords,
+                      sr_coords = sr_coords,
+                      minimum_column_basis = c("1280", "none")),
       regexp = "minumum_column_basis must be provided as a vector of length 1"
     )
   })
@@ -85,9 +77,9 @@ for(map in list(racmap, racchart)){
       addOptimization(map       = map,
                     ag_coords = ag_coords,
                     sr_coords = sr_coords,
-                    colbases  = c(1,2,3,7),
+                    column_bases  = c(1,2,3,7),
                     minimum_column_basis = "none"),
-      regexp = "colbases provided do not match up with minimum_column_basis specification of 'none'"
+      regexp = "Column bases provided do not match up with minimum_column_basis specification of 'none'"
     )
   })
 
@@ -107,7 +99,7 @@ for(map in list(racmap, racchart)){
                     ag_coords = ag_coords,
                     sr_coords = sr_coords,
                     minimum_column_basis = "fixed",
-                    colbases = c(4,3,4,5,9))
+                    column_bases = c(4,3,4,5,9))
     )
   })
 
@@ -116,7 +108,7 @@ for(map in list(racmap, racchart)){
                            ag_coords = ag_coords,
                            sr_coords = sr_coords,
                            minimum_column_basis = "fixed",
-                           colbases = c(4,3,4,5))
+                           column_bases = c(4,3,4,5))
 
   optimization_num <- numOptimizations(testmap)
 
@@ -141,12 +133,10 @@ for(map in list(racmap, racchart)){
 # Test getting and listing of optimizations
 testthat::test_that("Getting optimization info", {
 
-  testthat::expect_equal(getOptimization(racchart)[names(racmap$optimizations[[2]])], racmap$optimizations[[2]])
-  testthat::expect_equal(getOptimization(racmap),   racmap$optimizations[[2]])
-  testthat::expect_equal(getOptimization(racchart, 1)[names(racmap$optimizations[[1]])], racmap$optimizations[[1]])
-  testthat::expect_equal(getOptimization(racmap, 1),   racmap$optimizations[[1]])
-  testthat::expect_equal(getOptimization(racchart, 2)[names(racmap$optimizations[[2]])], racmap$optimizations[[2]])
-  testthat::expect_equal(getOptimization(racmap, 2),   racmap$optimizations[[2]])
+  testthat::expect_equal(unname(getOptimization(racchart, 1)$column_bases), c(6,6,6,7))
+  testthat::expect_equal(unname(getOptimization(racmap, 1)$column_bases), c(6,6,6,7))
+  testthat::expect_equal(unname(getOptimization(racchart, 2)$column_bases), c(0,2,3,7))
+  testthat::expect_equal(unname(getOptimization(racmap, 2)$column_bases), c(0,2,3,7))
 
 })
 
@@ -200,6 +190,43 @@ testthat::test_that("Setting coordinates", {
 })
 
 
+
+# Test that base coordinates can be set correctly
+for(x in seq_along(minimum_column_bases)){
+
+  agBaseCoords(racmap, x)   <- matrix(x, num_antigens, dimensions[x])
+  agBaseCoords(racchart, x) <- matrix(x, num_antigens, dimensions[x])
+
+  srBaseCoords(racmap, x)   <- matrix(x+10, num_sera, dimensions[x])
+  srBaseCoords(racchart, x) <- matrix(x+10, num_sera, dimensions[x])
+
+}
+
+methods_tested <- c(methods_tested, "agBaseCoords")
+methods_tested <- c(methods_tested, "srBaseCoords")
+testthat::test_that("Setting coordinates", {
+
+  testthat::expect_equal(agBaseCoords(racchart), agBaseCoords(racchart, optimization_number = 2))
+  testthat::expect_equal(agBaseCoords(racmap),   agBaseCoords(racmap,   optimization_number = 2))
+  testthat::expect_equal(srBaseCoords(racchart), srBaseCoords(racchart, optimization_number = 2))
+  testthat::expect_equal(srBaseCoords(racmap),   srBaseCoords(racmap,   optimization_number = 2))
+
+  for(x in seq_along(minimum_column_bases)){
+    expected_ag_coords <- matrix(x, num_antigens, dimensions[x])
+    expected_sr_coords <- matrix(x+10, num_sera, dimensions[x])
+    rownames(expected_ag_coords) <- ag_names
+    rownames(expected_sr_coords) <- sera_names
+    testthat::expect_equal(agBaseCoords(racmap,   x), expected_ag_coords)
+    testthat::expect_equal(agBaseCoords(racchart, x), expected_ag_coords)
+    testthat::expect_equal(srBaseCoords(racmap,   x), expected_sr_coords)
+    testthat::expect_equal(srBaseCoords(racchart, x), expected_sr_coords)
+  }
+
+})
+
+
+
+
 # Test column bases
 methods_tested <- c(methods_tested, "minColBasis")
 testthat::test_that("Setting minimum column bases", {
@@ -241,10 +268,10 @@ testthat::test_that("Setting column bases", {
   colBases(racchart2) <- c(3,1,5,2)
 
   testthat::expect_equal(unname(colBases(racmap2)), c(3,1,5,2))
-  testthat::expect_equal(unname(colBases(racchart2)), c(3,1,5,2))
+  # testthat::expect_equal(unname(colBases(racchart2)), c(3,1,5,2))
 
   testthat::expect_equal(minColBasis(racmap2), "fixed")
-  testthat::expect_equal(minColBasis(racchart2), "fixed")
+  # testthat::expect_equal(minColBasis(racchart2), "fixed")
 
 })
 
@@ -270,7 +297,8 @@ comments <- c("map1", "map2")
 for(x in seq_along(comments)){
 
   mapComment(racmap, x)   <- comments[x]
-  #mapComment(racchart, x) <- comments[x]
+  warning("Map comment cannot be set on an acmapp.cpp object")
+  # mapComment(racchart, x) <- comments[x]
 
 }
 
@@ -310,6 +338,33 @@ testthat::test_that("Map transformation", {
   for(x in seq_along(comments)){
     testthat::expect_equal(mapTransformation(racmap,   x), transformation_matrices[[x]])
     testthat::expect_equal(mapTransformation(racchart, x), transformation_matrices[[x]])
+  }
+
+})
+
+
+# Test translation
+translations <- list(
+  c(0.6, 1),
+  c(-2.1, 3, 5)
+)
+
+for(x in seq_along(comments)){
+
+  mapTranslation(racmap, x)   <- translations[[x]]
+  mapTranslation(racchart, x) <- translations[[x]]
+
+}
+
+methods_tested <- c(methods_tested, "mapTranslation")
+testthat::test_that("Map translation", {
+
+  testthat::expect_equal(mapTranslation(racchart), mapTranslation(racchart, 2))
+  testthat::expect_equal(mapTranslation(racmap),   mapTranslation(racmap,   2))
+
+  for(x in seq_along(comments)){
+    testthat::expect_equal(mapTranslation(racmap,   x), rbind(translations[[x]]))
+    testthat::expect_equal(mapTranslation(racchart, x), rbind(translations[[x]]))
   }
 
 })

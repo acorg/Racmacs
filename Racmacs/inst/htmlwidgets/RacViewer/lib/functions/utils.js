@@ -153,6 +153,109 @@ Racmacs.utils.matrixMultiply = function(t1, t2){
 
 
 
+Racmacs.utils.transformCoords = function(
+	coords, 
+	transformation
+){
+
+    if(coords.length == 2){
+    	
+ 		if(transformation.length == 4){
+	    	// Standard 2D transform
+	    	return([
+                coords[0]*transformation[0] + coords[1]*transformation[2],
+                coords[0]*transformation[1] + coords[1]*transformation[3]
+	        ]);
+	    } else {
+	    	// 2D to 3D transform
+	    	return([
+	    		coords[0]*transformation[0] + coords[1]*transformation[3],
+                coords[0]*transformation[1] + coords[1]*transformation[4],
+                coords[0]*transformation[2] + coords[1]*transformation[5]
+	    	]);
+	    }
+
+    } else {
+
+    	if(transformation.length == 9){
+	    	// Standard 3D transform
+	    	return([
+                coords[0]*transformation[0] + coords[1]*transformation[3] + coords[2]*transformation[6],
+                coords[0]*transformation[1] + coords[1]*transformation[4] + coords[2]*transformation[7],
+                coords[0]*transformation[2] + coords[1]*transformation[5] + coords[2]*transformation[8]
+	        ]);
+	    } else {
+	    	// Standard 3D coords with 2D transform
+	    	return([
+                coords[0]*transformation[0] + coords[1]*transformation[2],
+                coords[0]*transformation[1] + coords[1]*transformation[3],
+                coords[2]
+	        ]);
+	    }
+
+    }
+
+}
+
+
+Racmacs.utils.translateCoords = function(
+	coords, 
+	translation
+){
+
+    if(coords.length == 2){
+    	
+    	if(translation.length == 2){
+	    	// Standard 2D translation
+	    	return([
+	                coords[0]+translation[0],
+	                coords[1]+translation[1]
+	        ]);
+    	} else {
+    		// 3D translation on 2D coords
+    		return([
+	                coords[0]+translation[0],
+	                coords[1]+translation[1],
+	                translation[2]
+	        ]);
+    	}
+
+    } else {
+
+    	if(translation.length == 3){
+	    	// Standard 3D translation
+	    	return([
+	                coords[0]+translation[0],
+	                coords[1]+translation[1],
+	                coords[2]+translation[2]
+	        ]);
+	    } else {
+	    	// 2D translation on 3D coords
+	    	return([
+	                coords[0]+translation[0],
+	                coords[1]+translation[1],
+	                coords[2]
+	        ]);
+	    }
+
+    }
+
+}
+
+
+Racmacs.utils.transformTranslateCoords = function(
+	coords, 
+	transformation,
+	translation
+){
+    
+    coords = Racmacs.utils.transformCoords(coords, transformation);
+    coords = Racmacs.utils.translateCoords(coords, translation);
+    return(coords);
+
+}
+
+
 
 //     inputs: [
 //         { id: "numruns",     label : "Number of optimisations" },

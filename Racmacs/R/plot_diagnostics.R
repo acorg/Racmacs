@@ -7,8 +7,10 @@
 #' @param ylim The y limits of the plot
 #'
 #' @return Silently returns information on the map and table distances
+#' @name map-table-distances
+
 #' @export
-#'
+#' @rdname map-table-distances
 plot_map_table_distance <- function(map,
                                     optimization_number = NULL,
                                     xlim,
@@ -98,5 +100,70 @@ plot_map_table_distance <- function(map,
        table_dists = table_distances)
   )
 
+
+}
+
+
+#' @export
+#' @rdname map-table-distances
+plotly_map_table_distance <- function(map,
+                                      optimization_number = NULL,
+                                      xlim,
+                                      ylim){
+
+  # Calculate map distances
+  map_distances <- mapDistances(map, optimization_number)
+
+  # Calculate table distances
+  table_distances <- tableDistances(map, optimization_number)
+
+  # Format data
+  map_dists   <- as.vector(map_distances)
+  table_dists <- as.vector(table_distances$distances)
+  lessthans   <- as.vector(table_distances$lessthans)
+  dist_pairs  <- expand.grid(rownames(table_distances$distances),
+                             colnames(table_distances$distances))
+  dist_names  <- paste0("SR: ", dist_pairs[,2], ", AG: ", dist_pairs[,1])
+
+  # Remove NAs
+  na_vals     <- is.na(map_dists) | is.na(table_dists)
+  map_dists   <- map_dists[!na_vals]
+  table_dists <- table_dists[!na_vals]
+  lessthans   <- lessthans[!na_vals]
+  dist_names  <- dist_names[!na_vals]
+
+  ggplot2::ggplot(
+    data = data.frame(
+      map_dists   = map_dists,
+      table_dists = table_dists,
+      lessthans   = lessthans,
+      text        = dist_names
+    ),
+    ggplot2::aes(
+      text = text
+    )
+  ) +
+    ggplot2::geom_point(
+      mapping = ggplot2::aes(
+        x = table_dists,
+        y = map_dists,
+        color = lessthans
+      ),
+      alpha = 0.4
+    ) +
+    ggplot2::geom_abline(
+      slope     = 1,
+      intercept = 0,
+      linetype  = "dashed",
+      color     = "black"
+    ) +
+    ggplot2::xlab("Table distances") +
+    ggplot2::ylab("Map distances") +
+    ggplot2::theme(
+      panel.background = ggplot2:: element_blank(),
+      axis.line = ggplot2::element_line(size = 0.5, color = "grey80")
+    ) -> gp
+
+  plotly::ggplotly(gp, tooltip = "text")
 
 }

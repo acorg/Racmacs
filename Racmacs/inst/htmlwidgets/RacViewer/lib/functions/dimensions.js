@@ -46,13 +46,17 @@ Racmacs.Viewer.prototype.setPlotDims = function(plotdims){
 
 }
 
-Racmacs.Viewer.prototype.setDims = function(){
+Racmacs.Viewer.prototype.setDims = function(
+    mapdims = {}
+){
 
     // Clear map dims
-    this.mapdims = {};
+    this.mapdims = mapdims;
 
     // Set dimensions
-    this.mapdims.dimensions = this.data.dimensions();
+    if(this.mapdims.dimensions === undefined){
+        this.mapdims.dimensions = this.data.dimensions();
+    }
 
     // Fetch non na coordinates without nas
     var coords   = [];
@@ -146,7 +150,35 @@ Racmacs.Viewer.prototype.mapElements3D = {
 
 
 
+Racmacs.Viewer.prototype.resetDims = function(dims){
 
+    // Empty the scene
+    this.scene.empty();
+
+    // Set dims from map data
+    this.setDims({
+        dimensions : dims
+    });
+
+    // Set the grid
+    this.setGrid();
+
+    // Add points to the plot
+    this.addAgSrPoints();
+
+    // Fire any resize event listeners (necessary for setting pixel ratio)
+    this.viewport.onwindowresize();
+
+    // Update filters
+    this.filter.update();
+
+    // Render the plot
+    this.render();
+
+    // Reset the camera transformation
+    this.resetTransformation();
+
+}
 
 
 

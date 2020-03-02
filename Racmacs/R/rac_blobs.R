@@ -35,11 +35,11 @@ calculate_stressBlob <- function(
   sera     <- get_sr_indices(sera, map)
 
   # Get necessary values
-  ag_coords <- agCoords(map, optimization_number, name = FALSE)
-  sr_coords <- srCoords(map, optimization_number, name = FALSE)
+  ag_coords <- agBaseCoords(map, optimization_number, .name = FALSE)
+  sr_coords <- srBaseCoords(map, optimization_number, .name = FALSE)
   pt_coords <- rbind(ag_coords, sr_coords)
-  titer_table  <- titerTable(map, name = FALSE)
-  colbases  <- colBases(map, name = FALSE)
+  titer_table  <- titerTable(map, .name = FALSE)
+  colbases     <- colBases(map, .name = FALSE)
   num_antigens <- nrow(ag_coords)
   num_sera     <- nrow(sr_coords)
   num_dimensions <- ncol(ag_coords)
@@ -135,7 +135,7 @@ calculate_stressBlob <- function(
 
       # Get start stress
       start_stress <- grid_search(test_coords = test_sr_coords,
-                                  pair_coords = map$ag_coords[!na_coords,,drop=FALSE],
+                                  pair_coords = agBaseCoords(map)[!na_coords,,drop=FALSE],
                                   table_dist  = table_dist$distances[!na_coords,sr_num],
                                   lessthans   = table_dist$lessthans[!na_coords,sr_num],
                                   morethans   = table_dist$morethans[!na_coords,sr_num],
@@ -143,7 +143,7 @@ calculate_stressBlob <- function(
 
       # Define the function for testing if a point falls in or out of the blob
       grid_stresses <- grid_search(test_coords = coord_grid,
-                                   pair_coords = map$ag_coords[!na_coords,,drop=FALSE],
+                                   pair_coords = agBaseCoords(map)[!na_coords,,drop=FALSE],
                                    table_dist  = table_dist$distances[!na_coords,sr_num],
                                    lessthans   = table_dist$lessthans[!na_coords,sr_num],
                                    morethans   = table_dist$morethans[!na_coords,sr_num],

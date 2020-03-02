@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+
+<title>Merging maps</title>
+
+
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css" data-origin="pandoc">
+code.sourceCode > span { display: inline-block; line-height: 1.25; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    for (var j = 0; j < rules.length; j++) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') continue;
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+<style type="text/css">body {
+background-color: #fff;
+margin: 1em auto;
+max-width: 700px;
+overflow: visible;
+padding-left: 2em;
+padding-right: 2em;
+font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+font-size: 14px;
+line-height: 1.35;
+}
+#header {
+text-align: center;
+}
+#TOC {
+clear: both;
+margin: 0 0 10px 10px;
+padding: 4px;
+width: 400px;
+border: 1px solid #CCCCCC;
+border-radius: 5px;
+background-color: #f6f6f6;
+font-size: 13px;
+line-height: 1.3;
+}
+#TOC .toctitle {
+font-weight: bold;
+font-size: 15px;
+margin-left: 5px;
+}
+#TOC ul {
+padding-left: 40px;
+margin-left: -1.5em;
+margin-top: 5px;
+margin-bottom: 5px;
+}
+#TOC ul ul {
+margin-left: -2em;
+}
+#TOC li {
+line-height: 16px;
+}
+table {
+margin: 1em auto;
+border-width: 1px;
+border-color: #DDDDDD;
+border-style: outset;
+border-collapse: collapse;
+}
+table th {
+border-width: 2px;
+padding: 5px;
+border-style: inset;
+}
+table td {
+border-width: 1px;
+border-style: inset;
+line-height: 18px;
+padding: 5px 5px;
+}
+table, table th, table td {
+border-left-style: none;
+border-right-style: none;
+}
+table thead, table tr.even {
+background-color: #f7f7f7;
+}
+p {
+margin: 0.5em 0;
+}
+blockquote {
+background-color: #f6f6f6;
+padding: 0.25em 0.75em;
+}
+hr {
+border-style: solid;
+border: none;
+border-top: 1px solid #777;
+margin: 28px 0;
+}
+dl {
+margin-left: 0;
+}
+dl dd {
+margin-bottom: 13px;
+margin-left: 13px;
+}
+dl dt {
+font-weight: bold;
+}
+ul {
+margin-top: 0;
+}
+ul li {
+list-style: circle outside;
+}
+ul ul {
+margin-bottom: 0;
+}
+pre, code {
+background-color: #f7f7f7;
+border-radius: 3px;
+color: #333;
+white-space: pre-wrap; 
+}
+pre {
+border-radius: 3px;
+margin: 5px 0px 10px 0px;
+padding: 10px;
+}
+pre:not([class]) {
+background-color: #f7f7f7;
+}
+code {
+font-family: Consolas, Monaco, 'Courier New', monospace;
+font-size: 85%;
+}
+p > code, li > code {
+padding: 2px 0px;
+}
+div.figure {
+text-align: center;
+}
+img {
+background-color: #FFFFFF;
+padding: 2px;
+border: 1px solid #DDDDDD;
+border-radius: 3px;
+border: 1px solid #CCCCCC;
+margin: 0 5px;
+}
+h1 {
+margin-top: 0;
+font-size: 35px;
+line-height: 40px;
+}
+h2 {
+border-bottom: 4px solid #f7f7f7;
+padding-top: 10px;
+padding-bottom: 2px;
+font-size: 145%;
+}
+h3 {
+border-bottom: 2px solid #f7f7f7;
+padding-top: 10px;
+font-size: 120%;
+}
+h4 {
+border-bottom: 1px solid #f7f7f7;
+margin-left: 8px;
+font-size: 105%;
+}
+h5, h6 {
+border-bottom: 1px solid #ccc;
+font-size: 105%;
+}
+a {
+color: #0033dd;
+text-decoration: none;
+}
+a:hover {
+color: #6666ff; }
+a:visited {
+color: #800080; }
+a:visited:hover {
+color: #BB00BB; }
+a[href^="http:"] {
+text-decoration: underline; }
+a[href^="https:"] {
+text-decoration: underline; }
+
+code > span.kw { color: #555; font-weight: bold; } 
+code > span.dt { color: #902000; } 
+code > span.dv { color: #40a070; } 
+code > span.bn { color: #d14; } 
+code > span.fl { color: #d14; } 
+code > span.ch { color: #d14; } 
+code > span.st { color: #d14; } 
+code > span.co { color: #888888; font-style: italic; } 
+code > span.ot { color: #007020; } 
+code > span.al { color: #ff0000; font-weight: bold; } 
+code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61717; background-color: #e3d2d2; } 
+</style>
+
+
+
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">Merging maps</h1>
+
+
+
+<p>There are several ways of merging maps together in Racmacs, each uses the function <code>mergeMaps()</code> function. e.g.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a>merged_map &lt;-<span class="st"> </span><span class="kw">mergeMaps</span>(</span>
+<span id="cb1-2"><a href="#cb1-2"></a>  map1,</span>
+<span id="cb1-3"><a href="#cb1-3"></a>  map2,</span>
+<span id="cb1-4"><a href="#cb1-4"></a>  map3,</span>
+<span id="cb1-5"><a href="#cb1-5"></a>  <span class="dt">method                  =</span> <span class="st">&quot;incremental-merge&quot;</span>,</span>
+<span id="cb1-6"><a href="#cb1-6"></a>  <span class="dt">minimum_column_basis    =</span> <span class="st">&quot;none&quot;</span>,</span>
+<span id="cb1-7"><a href="#cb1-7"></a>  <span class="dt">number_of_optimizations =</span> <span class="dv">500</span>,</span>
+<span id="cb1-8"><a href="#cb1-8"></a>  <span class="dt">number_of_dimensions    =</span> <span class="dv">2</span></span>
+<span id="cb1-9"><a href="#cb1-9"></a>)</span></code></pre></div>
+<p><code>mergeMaps</code> is ultimately a wrapper for merging methods Eugene has implemented in <code>acmacs.r</code> but it is integrated into Racmacs and includes some iterative code to allow for several maps to merged together in one go.</p>
+<p>Eugene has created his own descriptions of the merge types found <a href="https://github.com/acorg/acmacs-chart-2/blob/master/doc/merge-types.org">here</a>, but I’ve include my own descriptions and names below.</p>
+<p>Note that I haven’t yet included <a href="https://github.com/acorg/acmacs-chart-2/blob/master/doc/merge-types.org#merge-type-4">acmacs.r merge type 4</a> - as far as I can work out this is the same as <a href="https://github.com/acorg/acmacs-chart-2/blob/master/doc/merge-types.org#merge-type-5">acmacs.r merge type 5</a> or what I’ve called the “frozen-merge”, but instead of positions for common points being taken from the map 1, they’re fixed at the average position between map 1 and map 2.</p>
+<div id="merge-types" class="section level2">
+<h2>Merge types</h2>
+<p>Currently there are 6 merge types that I’ve named:</p>
+<ol style="list-style-type: decimal">
+<li>table</li>
+<li>reoptimized-merge</li>
+<li>incremental-merge</li>
+<li>frozen-overlay</li>
+<li>relaxed-overlay</li>
+<li>frozen-merge</li>
+</ol>
+<div id="table" class="section level3">
+<h3>‘table’</h3>
+<p>As you would expect, this merges the tables of the two maps but does not attempt to create any new optimizations and any existing optimizations are of course lost.</p>
+<p><a href="https://github.com/acorg/acmacs-chart-2/blob/master/doc/merge-types.org#merge-type-1">acmacs.r merge type 1</a></p>
+</div>
+<div id="reoptimized-merge" class="section level3">
+<h3>‘reoptimized-merge’</h3>
+<p>This merges the tables and then does a specified number of fresh optimizations from random starting coordinates, ignoring any pre-existing optimization runs. It’s exactly the same as doing a ‘table’ merge and running <code>optimizeMap()</code> on the merged table.</p>
+</div>
+<div id="incremental-merge" class="section level3">
+<h3>‘incremental-merge’</h3>
+<p>This takes the currently selected optimization in the first map and then merges in the additional maps in turn. Each time any points not already found in the first map (or the last map in the incremental merge chain) are randomised and everything is relaxed, this is repeated the specified number of times and the process is repeated. Sometimes when extending a map over time this can find a lower-stress solution than simply reoptimizing from scratch, particularly if the better solution is a long spindly one. Normally this would be performed alongside a ‘reoptimized-merge’ to see which found the best result.</p>
+<p><a href="https://github.com/acorg/acmacs-chart-2/blob/master/doc/merge-types.org#merge-type-2">acmacs.r merge type 2</a> followed by a call to the method <code>$relax_incremental()</code>.</p>
+</div>
+<div id="frozen-overlay" class="section level3">
+<h3>‘frozen-overlay’</h3>
+<p>This fixes the positions of points in each map and tries to best match them simply through re-orientation. Once the best re-orientation is found, points that are in common between the maps are moved to the average position. In theory this can be useful if you have two maps that you independently trust and you just want to quickly see how they relate to each other. In practise this would only really be used for a rough look, before maps are integrated more carefully, sometimes this has been referred to as “Frankensteining”.</p>
+<p><a href="https://github.com/acorg/acmacs-chart-2/blob/master/doc/merge-types.org#merge-type-3">acmacs.r merge type 3</a></p>
+</div>
+<div id="relaxed-overlay" class="section level3">
+<h3>‘relaxed-overlay’</h3>
+<p>This performs a ‘frozen-overlay’ then relaxes the result. It’s exactly the same as doing a ‘frozen-overlay’ and then calling <code>relaxMap()</code> on the result.</p>
+<p><a href="https://github.com/acorg/acmacs-chart-2/blob/master/doc/merge-types.org#merge-type-3">acmacs.r merge type 3</a> followed by a call to the acmacs.r method <code>$relax()</code>.</p>
+</div>
+<div id="frozen-merge" class="section level3">
+<h3>‘frozen-merge’</h3>
+<p>In this version, positions of all points in the first map are fixed and remain fixed, so the original map does not change. The second map is then realigned to the first as closely as possible and then all the new points appearing in the second map are allowed to relax into their new positions. This is a way to merge in new antigens and sera into a map without affecting the first one at all (and was first implemented in lispmds).</p>
+<p><a href="https://github.com/acorg/acmacs-chart-2/blob/master/doc/merge-types.org#merge-type-5">acmacs.r merge type 5</a></p>
+</div>
+</div>
+
+
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

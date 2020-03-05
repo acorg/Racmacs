@@ -118,7 +118,7 @@ R3JS.element.glpoints = class GLPoints {
             if(args.shape[n] == "ouglyegg")  { shape[i] = 4 }
             if(args.shape[n] == "buglyegg")  { shape[i] = 4 }
 
-            sizes[i]   = args.size[n];
+            sizes[i]   = args.size[n]*0.2;
             visible[i] = args.properties.visible[n];
             aspect[i]  = args.properties.aspect[n];
 
@@ -257,7 +257,7 @@ R3JS.element.glpoint = class GLPoint extends R3JS.element.base {
 
         var pointsizes = this.object.geometry.attributes.size.array;
         this.object.geometry.attributes.size.needsUpdate = true;
-        pointsizes[this.index] = size;
+        pointsizes[this.index] = size*0.2;
         this.size = size;
 
     }

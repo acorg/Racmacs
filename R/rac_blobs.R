@@ -53,7 +53,6 @@ calculate_stressBlob <- function(
                               colbases = colbases)
 
   # Create the prediction grid
-  grid_margin <- 4
   grid_points <- lapply(as.data.frame(pt_coords), function(x){
     seq(from = floor(min(x, na.rm = TRUE))   - grid_margin,
         to   = ceiling(max(x, na.rm = TRUE)) + grid_margin,

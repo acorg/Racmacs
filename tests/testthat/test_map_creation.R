@@ -5,7 +5,7 @@ context("Test local map creation")
 
 run.maptests(
   bothclasses = TRUE,
-  loadlocally = TRUE,
+  loadlocally = FALSE,
   {
 
     # Bare bones creation

@@ -2,28 +2,31 @@
 # Racmacs package
 
 ## Installation instructions
-### Install dependencies
-The easiest way to install the package dependencies is to run the script in `install_dependencies.R`.
+### Install the devtools package
+```R
+install.packages("devtools")
+```
 
 ### Install acmacs.r
 Depending upon you operating system run one of the commands below
 
 ```R
-# Mac OS 10.14
-install.packages("https://github.com/acorg/acmacs.r/releases/download/v3.4/acmacs.r_3.4_R_macOS-10.14.tgz", repos = NULL)
-
-# Mac OS 10.12
-install.packages("https://github.com/acorg/acmacs.r/releases/download/v3.4/acmacs.r_3.4_R_macOS-10.12.tgz", repos = NULL)
+# Mac
+remotes::install_url("https://github.com/acorg/acmacs.r/releases/download/v4.0/acmacs.r_4.0_R_macOS-10.14.tgz", build = FALSE)
 
 # Linux
-install.packages("https://github.com/acorg/acmacs.r/releases/download/v3.4/acmacs.r_3.4_R_x86_64-pc-linux-gnu.tar.gz", repos = NULL)
+remotes::install_url("https://github.com/acorg/acmacs.r/releases/download/v4.0/acmacs.r_4.0_R_x86_64-pc-linux-gnu.tar.gz", build = FALSE)
 ```
 
 ### Install Racmacs
-Run the following
+Run one of the following
 
 ```R
-install.packages("https://github.com/acorg/Racmacs/releases/download/v1.0/Racmacs_1.0.3.tgz", repos = NULL)
+# Install compiled binary package
+remotes::install_url("https://github.com/acorg/Racmacs/releases/download/v1.0.5/Racmacs_1.0.5.tgz", build = FALSE)
+
+# Building from github source
+devtools::install_github("acorg/Racmacs")
 ```
 
 

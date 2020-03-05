@@ -23,14 +23,23 @@ make.acmap <- function(number_of_dimensions    = 2,
                        move_trapped_points     = NULL,
                        ...){
 
-  chart <- make.acmap.cpp(
-    number_of_dimensions    = number_of_dimensions,
-    number_of_optimizations = number_of_optimizations,
-    minimum_column_basis    = minimum_column_basis,
-    move_trapped_points     = move_trapped_points,
-    ...
-  )
-  as.list(chart)
+  # Only allow arguments that don't refer to creating optimizations
+  arguments <- list(...)
+  property_function_bindings <- list_property_function_bindings()
+  optimization_arguments <- property_function_bindings$property[property_function_bindings$object == "optimization"]
+  if(sum(names(arguments) %in% optimization_arguments) > 0) {
+    stop("Cannot set property '", paste(names(arguments)[names(arguments) %in% optimization_arguments], collapse = "', '"), "'.")
+  }
+
+  # Make the chart
+  map <- acmap(...)
+
+  # Run the optimizations
+  optimizeMap(map                     = map,
+              number_of_dimensions    = number_of_dimensions,
+              number_of_optimizations = number_of_optimizations,
+              minimum_column_basis    = minimum_column_basis,
+              move_trapped_points     = move_trapped_points)
 
 }
 

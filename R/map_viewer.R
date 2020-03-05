@@ -16,7 +16,7 @@
 #'
 export_viewer <- function(map,
                           file,
-                          selfcontained,
+                          selfcontained = TRUE,
                           ...){
 
   # Check file has .html extension
@@ -26,7 +26,7 @@ export_viewer <- function(map,
 
   # Export the widget to a temporary file first
   tmp_file <- tempfile(fileext = ".html")
-  widget <- view_map(map, ...)
+  widget <- view(map, ...)
 
   widget <- htmlwidgets::saveWidget(widget        = widget,
                                     file          = tmp_file,
@@ -41,7 +41,7 @@ export_viewer <- function(map,
   unlink(tmp_file)
 
   # Return the widget
-  widget
+  invisible(widget)
 
 }
 
@@ -55,10 +55,7 @@ encode_base64 <- function(img){
 }
 
 
-#' Write map data to the viewer debug file
-#'
-#' For usage debugging problems with the viewer.
-#'
+# Write map data to the viewer debug file
 write2viewer_debug <- function(map, snapshot = FALSE){
 
   if(snapshot){

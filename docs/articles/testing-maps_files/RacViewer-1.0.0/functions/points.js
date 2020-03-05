@@ -122,6 +122,7 @@ Racmacs.Viewer.prototype.addAgSrPoints = function(){
 
                 this.points.map( point => point.setSize(point.size*val) );
                 this.render();
+
             }
 
             // Add event to camera to scale points on zoom
@@ -151,7 +152,7 @@ Racmacs.Viewer.prototype.addAgSrPoints = function(){
 
             var element = new R3JS.element.Point({
                 coords : points[i].coords,
-                size : points[i].size / 10,
+                size : points[i].size,
                 shape : shape,
                 properties : {
                     mat : "lambert",

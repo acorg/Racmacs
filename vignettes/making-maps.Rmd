@@ -95,7 +95,7 @@ Note that there is also a small utility function provided to allow you to create
 map3d <- make.acmap(
   table                   = titer_table,
   number_of_dimensions    = 3,
-  number_of_optimizations = 10,
+  number_of_optimizations = 500,
   minimum_column_basis    = "none"
 )
 

@@ -8,7 +8,7 @@ install.packages("devtools")
 ```
 
 ### Install acmacs.r
-Depending upon you operating system run one of the commands below
+Depending upon your operating system run one of the commands below
 
 ```R
 # Mac

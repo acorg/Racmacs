@@ -38,7 +38,7 @@ make.acmap <- function(number_of_dimensions    = 2,
 make.acmap.cpp <- function(number_of_dimensions    = 2,
                            number_of_optimizations = 100,
                            minimum_column_basis    = "none",
-                           move_trapped_points     = "best",
+                           move_trapped_points     = NULL,
                            ...){
 
   # Only allow arguments that don't refer to creating optimizations

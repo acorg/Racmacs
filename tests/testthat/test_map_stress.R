@@ -2,13 +2,13 @@
 library(testthat)
 context("Test stress calculations")
 
-# Setup an expect close function
-expect_close <- function(a, b) expect_equal(a, b)
-
 run.maptests(
   bothclasses = TRUE,
-  loadlocally = TRUE,
+  loadlocally = FALSE,
   {
+
+    # Setup an expect close function
+    expect_close <- function(a, b) expect_equal(a, b)
 
     map   <- read.map(system.file("extdata/h3map2004.ace", package = "Racmacs"))
     chart <- new(acmacs.r::acmacs.Chart, system.file("extdata/h3map2004.ace", package = "Racmacs"))

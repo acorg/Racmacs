@@ -1,0 +1,20 @@
+
+.projections-tab {
+
+	display: flex;
+	flex-direction: column;
+	flex-grow: 1;
+
+}
+
+.projections-tab .buttons-div {
+
+	margin-bottom: 8px;
+
+}
+
+.projections-tab .optim-controls {
+
+	margin-top: 8px;
+
+}

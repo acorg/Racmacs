@@ -1,0 +1,30 @@
+---
+title: "Performing map diagnostics"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Performing map diagnostics}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+Once you have a map it's useful to know how much you should be trusting it, any titer data could be run through the software and you could get a map, but it wouldn't necessarily be useful or at all representative of patterns of reactivity in the data.
+
+There are several approached that can be taken to try and determine the utility of an antigenic map and any potential problems or problematic data. This includes:
+
+- Examining map stress, especially per point
+- Comparing table and map distances
+- Looking at plots of titer vs antigenic distance from serum point
+- Looking at coordination of antigens and serum positions using stress blobs
+- Looking at confidence of antigen and serum positions using noisy bootstrapping
+- Testing for potential differences in antigen avidity
+
+
+
+

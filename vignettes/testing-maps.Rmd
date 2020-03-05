@@ -1,0 +1,94 @@
+---
+title: "Testing maps"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{map-testing}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+Once you have a map it's useful to know how much you should be trusting it, any titer data could be run through the software and you could get a map, but it wouldn't necessarily be useful or at all representative of patterns of reactivity in the data.
+
+There are several approached that can be taken to try and determine the utility of an antigenic map and any potential problems or problematic data. This includes:
+
+- Examining map stress, especially per point
+- Comparing table and map distances
+- Looking at plots of titer vs antigenic distance from serum point
+- Looking at coordination of antigens and serum positions using stress blobs
+- Looking at confidence of antigen and serum positions using noisy bootstrapping
+- Testing for potential differences in antigen avidity
+
+Ultimately the aim is to include a function that produces a diagnostic web page where all these features can be analysed at once alongside others, but for now, I'll concentrate on a subset that is currently available.
+
+## The example map
+First we'll get an example map using a subset of the data from H3N2 map published in 2004.
+
+```{r, out.height=500, out.width=500}
+library(Racmacs)
+
+# Read in the map from the test data files
+map <- read.acmap("../tests/testdata/testmap_h3subset.ace")
+
+# Scale down the point size a little
+agSize(map) <- 2
+srSize(map) <- 2
+
+# View the map
+view(map)
+```
+
+## Plotting table vs map distances
+This is a good first check of map accuracy, ideally you want the detectable values to follow the x = y dashed line, with no biases.
+
+```{r, fig.height=5, fig.width=6}
+# Simply call the function plot_map_table_distance()
+plotly_map_table_distance(map)
+```
+
+
+## Performing a noisy bootstrap
+A good way to see how confidently points are positioned in a map is to peturb the underlying titers with some noise and then to remake the map and see how similar the positions are in the map, then to repeat this process multiple times. This is the idea of a noisy bootstrap, implemented using the `bootstrapMap()` function.
+
+The function takes a number of arguments namely:
+
+- `map`: The antigenic map object to bootstrap
+- `bootstrap_repeats`: The number of bootstrap repeats to perform
+- `optimizations_per_repeat`: How many times the map should be reoptimized from scratch when searching for the best map for each noisy bootstrap repeat.
+- `ag_noise_sd`: The standard deviation for the amount of noise to apply randomly on a per-antigen basis, this type of per antigen bias is often seen in titrations, perhaps due to variation in HAUs used for example.
+- `titer_noise_sd`: The standard deviation for the amount of noise to apply randomly to every titer individually, this is the normal type of noise that people tend to consider.
+
+As you can imagine, a noisy bootstrap is a computationally intensive thing to do since you have to perform bootstrap_repeats * optimizations_per_repeat number of fresh optimizations, alongside all the other processing.
+
+In the example below I've used 100 bootstrap repeats and 10 optimizations per repeat to keep things running a bit quicker but it wouldn't be unreasonable to do 1000 bootstrap repeats and 500 optimizations per repeat, depending on the complexity of the map. Typically you'd just do this once and then save the resulting map along with bootstraps with the `save.acmap()` function.
+
+```{r, out.height=500, out.width=500, message=FALSE}
+# First of all run a series of bootstrap repeats on the map
+map <- bootstrapMap(
+  map                      = map,
+  bootstrap_repeats        = 100,
+  optimizations_per_repeat = 10,
+  ag_noise_sd              = 0.7,
+  titer_noise_sd           = 0.7
+)
+
+# Data on these bootstrap repeats is accessible with additional functions once it has been run on the map
+boostrap_ag_coords_list <- mapBootstrap_agCoords(map)
+boostrap_sr_coords_list <- mapBootstrap_srCoords(map)
+```
+
+If you view a map that has been bootstrapped, any points you click on will show how their position varies 
+in each of the bootstrap repeats performed
+
+```{r, out.height=500, out.width=500}
+view(map, selected_ags = 4)
+```
+
+
+

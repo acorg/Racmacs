@@ -1,0 +1,29 @@
+
+#color-by-div {
+  font-size: 14px;
+  margin-bottom: 10px;
+}
+
+.search-box,
+.name-list {
+  background: #eeeeee;
+  color: #000000;
+}
+
+.name-list .hover {
+	background: #cce5ff;
+}
+
+.name-list .selected {
+	background: #66b0ff;
+	color: #ffffff;
+}
+
+.name-list .selected.hover {
+  background: #66b0ff;
+	color: #000000;
+}
+
+label {
+  font-weight: normal;
+}

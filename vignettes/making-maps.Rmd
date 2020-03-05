@@ -60,16 +60,15 @@ The resulting object, that we've given the name `map` in this case, only has pro
 ## Running optimizations
 Although we now have the acmap object there is no "map" yet as such, since we need to invoke the optimiser function to try and determine the antigenic map that best represents the patterns of reactivity seen in the titer table. To do this we call the function `optimizeMap()` on the acmap object we've made, specifying the number of optimization runs and other parameters like the minimum column basis and number of dimensions.
 
-In this case we're going to try and find the best 2-dimensional solution for the map data, using 100 optimization runs.
+In this case we're going to try and find the best 2-dimensional solution for the map data, using 10 optimization runs, just for the sake of speed.
 
 ```{r optimizing_an_acmap}
 # Perform some optimization runs on the map object to try and determine a best map
 map <- optimizeMap(
   map                     = map,
   number_of_dimensions    = 2,
-  number_of_optimizations = 1,
-  minimum_column_basis    = "none",
-  move_trapped_points     = "none"
+  number_of_optimizations = 10,
+  minimum_column_basis    = "none"
 )
 ```
 

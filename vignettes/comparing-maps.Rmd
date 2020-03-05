@@ -1,0 +1,56 @@
+---
+title: "Comparing maps"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{map-comparisons}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(Racmacs)
+```
+
+Different maps can be compared using the `procrustesMap()` function where one map is compared to another.
+
+## The example map
+We'll read in the H3N2 2004 map as an example map
+
+```{r out.height=600, out.width=600}
+map <- read.acmap(system.file("extdata/h3map2004.ace", package = "Racmacs"))
+view(map)
+```
+
+
+## Comparing optimization runs
+We can use the `procrustesMap()` function to compare the top 3 optimization runs.
+
+```{r out.height=600, out.width=600}
+pc_run12 <- procrustesMap(
+  map                            = map,
+  comparison_map                 = map,
+  optimization_number            = 1,
+  comparison_optimization_number = 2
+)
+
+view(pc_run12)
+```
+
+```{r out.height=600, out.width=600}
+pc_run13 <- procrustesMap(
+  map                            = map,
+  comparison_map                 = map,
+  optimization_number            = 1,
+  comparison_optimization_number = 3
+)
+
+view(pc_run13)
+```
+

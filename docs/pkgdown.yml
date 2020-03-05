@@ -1,0 +1,10 @@
+pandoc: 2.7.3
+pkgdown: 1.4.1
+pkgdown_sha: ~
+articles:
+  comparing-maps: comparing-maps.html
+  making-maps: making-maps.html
+  map-diagnostics: map-diagnostics.html
+  merging-maps: merging-maps.html
+  testing-maps: testing-maps.html
+

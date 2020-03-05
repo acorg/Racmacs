@@ -1,0 +1,87 @@
+
+.hitable-holder {
+
+	position: absolute;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	top: 0;
+	overflow: scroll;
+	font-family: sans-serif;
+	background-color: #ffffff;
+
+}
+
+/* General table */
+.hitable-holder table {
+
+	table-layout: fixed;
+
+}
+
+.hitable-holder table, 
+.hitable-holder th, 
+.hitable-holder td {
+
+	border-collapse: collapse;
+  	border: 1px solid hsl(211, 10%, 94%);
+	font-size: 10px;
+
+}
+
+.hitable-holder tr:nth-of-type(even) {
+
+	background-color: hsl(211, 100%, 98%);
+
+}
+
+/* Row names and col names */
+.hitable-holder td:first-of-type,
+.hitable-holder tr:first-of-type {
+
+	font-weight: bolder;
+	background-color: hsl(211, 10%, 97%);
+
+}
+
+/* Col names */
+.hitable-holder tr:first-of-type td {
+
+	word-break: break-all;
+	/*transform: 
+		translate(25px, 51px)
+    	rotate(315deg);*/
+
+}
+
+/* Row names */
+.hitable-holder td:first-of-type {
+
+	max-width: 100%;
+	white-space: nowrap;
+
+}
+
+.hitable-holder tr:nth-of-type(even) td:first-of-type {
+
+	background-color: hsl(211, 10%, 95%);
+
+}
+
+/* Cells */
+.hitable-holder td {
+
+    min-width: 50px;
+	max-width: 50px;
+	overflow-x: hidden;
+	padding: 4px;
+
+}
+
+.hitable-holder tr:hover,
+.hitable-holder tr:hover td:first-of-type {
+
+	background-color: hsl(211, 10%, 90%);
+
+}
+

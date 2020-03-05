@@ -6,3 +6,7 @@
 *.sublime-project
 *.sublime-workspace
 debugging
+.DS_Store
+doc
+inst/doc
+Meta

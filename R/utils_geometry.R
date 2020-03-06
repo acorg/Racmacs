@@ -5,7 +5,7 @@
 #' @param V Vector 2
 #'
 #' @return Returns the cross product
-#'
+#' @noRd
 CrossProduct3D <- function(U, V) {
 
   c(U[2]*V[3]-U[3]*V[2],
@@ -23,7 +23,7 @@ CrossProduct3D <- function(U, V) {
 #' @param mesh_indices Mesh indices
 #' @param check_fn Checking function
 #' @param ... Additional parameters
-#'
+#' @noRd
 surface_tri_norm <- function(coords, mesh_indices, check_fn, ...){
 
   # Get indices of outer triangles

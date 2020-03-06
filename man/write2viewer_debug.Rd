@@ -7,10 +7,5 @@
 write2viewer_debug(map, snapshot = FALSE)
 }
 \description{
-For usage debugging problems with the viewer.
-}
-\details{
-var viewer = new Racmacs.Viewer(container, { placeholder: placeholder });',
-viewertest(viewer)',
-<div id="rac-viewer" style="position:absolute; top:0; left:0; right:0; bottom:0;"></div>',
+Write map data to the viewer debug file
 }

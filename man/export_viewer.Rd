@@ -4,7 +4,7 @@
 \alias{export_viewer}
 \title{Export the map viewer}
 \usage{
-export_viewer(map, file, selfcontained, ...)
+export_viewer(map, file, selfcontained = TRUE, ...)
 }
 \arguments{
 \item{map}{The acmap object}

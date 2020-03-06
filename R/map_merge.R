@@ -50,7 +50,7 @@
 #' @return Returns the merged map object
 #'
 #' @family merging_maps
-#'
+#' @export
 mergeMaps <- function(...,
                       method                  = "table",
                       passage_matching        = "auto",

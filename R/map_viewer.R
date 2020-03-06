@@ -54,8 +54,8 @@ encode_base64 <- function(img){
 
 }
 
-
-# Write map data to the viewer debug file
+#' Write map data to the viewer debug file
+#' @noRd
 write2viewer_debug <- function(map, snapshot = FALSE){
 
   if(snapshot){
@@ -113,7 +113,7 @@ write2viewer_debug <- function(map, snapshot = FALSE){
 
 
 #' Write map data to the viewer test file
-#'
+#' @noRd
 write2viewer_tests <- function(map, filename){
 
   # Read the yaml file

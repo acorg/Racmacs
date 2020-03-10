@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8"/>
+<style>body{background-color:white;}</style>
+<script src=".lib/htmlwidgets-1.5.1/htmlwidgets.js"></script>
+<link href="../../inst/htmlwidgets/RacViewer/lib/r3js/lib/styles/r3js.css" rel="stylesheet" />
+<link href="../../inst/htmlwidgets/RacViewer/lib/styles/racViewer.css" rel="stylesheet" />
+<link href="../../inst/htmlwidgets/RacViewer/lib/styles/checkbox.css" rel="stylesheet" />
+<link href="../../inst/htmlwidgets/RacViewer/lib/styles/browser.css" rel="stylesheet" />
+<link href="../../inst/htmlwidgets/RacViewer/lib/styles/controlpanel.css" rel="stylesheet" />
+<link href="../../inst/htmlwidgets/RacViewer/lib/styles/projections.css" rel="stylesheet" />
+<link href="../../inst/htmlwidgets/RacViewer/lib/styles/diagnostics.css" rel="stylesheet" />
+<link href="../../inst/htmlwidgets/RacViewer/lib/styles/blobs.css" rel="stylesheet" />
+<link href="../../inst/htmlwidgets/RacViewer/lib/styles/procrustes.css" rel="stylesheet" />
+<link href="../../inst/htmlwidgets/RacViewer/lib/styles/load.css" rel="stylesheet" />
+<link href="../../inst/htmlwidgets/RacViewer/lib/styles/drag.css" rel="stylesheet" />
+<link href="../../inst/htmlwidgets/RacViewer/lib/styles/hitable.css" rel="stylesheet" />
+<script src="../../inst/htmlwidgets/RacViewer/lib/r3js/lib/threejs/three.min.js"></script>
+<script src="../../inst/htmlwidgets/RacViewer/lib/r3js/lib/threejs/plugins/Detector.js"></script>
+<script src="../../inst/htmlwidgets/RacViewer/lib/r3js/lib/threejs/plugins/PLYExporter.js"></script>
+<script src="../../inst/htmlwidgets/RacViewer/lib/r3js/lib/threejs/plugins/THREE.MeshLine.js"></script>
+<script src="../../inst/htmlwidgets/RacViewer/lib/r3js/lib/threejs/renderers/CSS2DRenderer_r3js.js"></script>
+<script src="../../inst/htmlwidgets/RacViewer/lib/r3js/lib/threejs/fonts/helvetiker_regular.typeface.js"></script>
+<script src="../../inst/htmlwidgets/RacViewer/lib/r3js/lib/threejs/utils/SceneUtils.js"></script>
+<script src="../../inst/htmlwidgets/RacViewer/lib/r3js/lib/threejs/utils/BufferGeometryUtils.js"></script>
+<script src="../../inst/htmlwidgets/RacViewer/lib/r3js/lib/threejs/lines/LineSegmentsGeometry.js"></script>
+<script src="../../inst/htmlwidgets/RacViewer/lib/r3js/lib/threejs/lines/LineGeometry.js"></script>
+<script src="../../inst/htmlwidgets/RacViewer/lib/r3js/lib/threejs/lines/WireframeGeometry2.js"></script>
+<script src="../../inst/htmlwidgets/RacViewer/lib/r3js/lib/threejs/lines/LineMaterial.js"></script>
+<script src="../../inst/htmlwidgets/RacViewer/lib/r3js/lib/threejs/lines/LineSegments2.js"></script>
+<script src="../../inst/htmlwidgets/RacViewer/lib/r3js/lib/threejs/lines/Line2.js"></script>
+<script src="../../inst/htmlwidgets/RacViewer/lib/r3js/lib/threejs/lines/Wireframe.js"></script>
+<script src="../../inst/htmlwidgets/RacViewer/lib/r3js/lib/init.js"></script>
+<script src="../../inst/htmlwidgets/RacViewer/lib/r3js/lib/functions/utils.js"></script>
+<script src="../../inst/htmlwidgets/RacViewer/lib/r3js/lib/functions/element.js"></script>
+<script src="../../inst/htmlwidgets/RacViewer/lib/r3js/lib/functions/element_points.js"></script>
+<script src="../../inst/htmlwidgets/RacViewer/lib/r3js/lib/functions/element_lines.js"></script>
+<script src="../../inst/htmlwidgets/RacViewer/lib/r3js/lib/functions/element_gllines.js"></script>
+<script src="../../inst/htmlwidgets/RacViewer/lib/r3js/lib/functions/element_arrow.js"></script>
+<script src="../../inst/htmlwidgets/RacViewer/lib/r3js/lib/functions/element_glarrow.js"></script>
+<script src="../../inst/htmlwidgets/RacViewer/lib/r3js/lib/functions/element_glpoints.js"></script>
+<script src="../../inst/htmlwidgets/RacViewer/lib/r3js/lib/functions/element_gllines.js"></script>
+<script src="../../inst/htmlwidgets/RacViewer/lib/r3js/lib/functions/element_sphere.js"></script>
+<script src="../../inst/htmlwidgets/RacViewer/lib/r3js/lib/functions/element_surface.js"></script>
+<script src="../../inst/htmlwidgets/RacViewer/lib/r3js/lib/functions/element_grid.js"></script>
+<script src="../../inst/htmlwidgets/RacViewer/lib/r3js/lib/functions/element_text.js"></script>
+<script src="../../inst/htmlwidgets/RacViewer/lib/r3js/lib/functions/element_polygon.js"></script>
+<script src="../../inst/htmlwidgets/RacViewer/lib/r3js/lib/functions/selection.js"></script>
+<script src="../../inst/htmlwidgets/RacViewer/lib/r3js/lib/functions/viewport.js"></script>
+<script src="../../inst/htmlwidgets/RacViewer/lib/r3js/lib/functions/buttons.js"></script>
+<script src="../../inst/htmlwidgets/RacViewer/lib/r3js/lib/functions/navigation.js"></script>
+<script src="../../inst/htmlwidgets/RacViewer/lib/r3js/lib/functions/save_img.js"></script>
+<script src="../../inst/htmlwidgets/RacViewer/lib/r3js/lib/functions/camera.js"></script>
+<script src="../../inst/htmlwidgets/RacViewer/lib/r3js/lib/functions/scene.js"></script>
+<script src="../../inst/htmlwidgets/RacViewer/lib/r3js/lib/functions/plotting.js"></script>
+<script src="../../inst/htmlwidgets/RacViewer/lib/r3js/lib/functions/legend.js"></script>
+<script src="../../inst/htmlwidgets/RacViewer/lib/r3js/lib/functions/events.js"></script>
+<script src="../../inst/htmlwidgets/RacViewer/lib/r3js/lib/functions/move.js"></script>
+<script src="../../inst/htmlwidgets/RacViewer/lib/r3js/lib/functions/raytrace.js"></script>
+<script src="../../inst/htmlwidgets/RacViewer/lib/r3js/lib/functions/renderer.js"></script>
+<script src="../../inst/htmlwidgets/RacViewer/lib/r3js/lib/functions/lines.js"></script>
+<script src="../../inst/htmlwidgets/RacViewer/lib/r3js/lib/functions/dynamic.js"></script>
+<script src="../../inst/htmlwidgets/RacViewer/lib/r3js/lib/functions/toggle.js"></script>
+<script src="../../inst/htmlwidgets/RacViewer/lib/r3js/lib/functions/api.js"></script>
+<script src="../../inst/htmlwidgets/RacViewer/lib/r3js/lib/functions/shaders.js"></script>
+<script src="../../inst/htmlwidgets/RacViewer/lib/r3js/lib/functions/sprites.js"></script>
+<script src="../../inst/htmlwidgets/RacViewer/lib/r3js/lib/functions/highlight.js"></script>
+<script src="../../inst/htmlwidgets/RacViewer/lib/r3js/lib/functions/icons.js"></script>
+<script src="../../inst/htmlwidgets/RacViewer/lib/r3js/lib/functions/load.js"></script>
+<script src="../../inst/htmlwidgets/RacViewer/lib/init.js"></script>
+<script src="../../inst/htmlwidgets/RacViewer/lib/functions/utils.js"></script>
+<script src="../../inst/htmlwidgets/RacViewer/lib/functions/data.js"></script>
+<script src="../../inst/htmlwidgets/RacViewer/lib/functions/controls.js"></script>
+<script src="../../inst/htmlwidgets/RacViewer/lib/functions/diagnostics.js"></script>
+<script src="../../inst/htmlwidgets/RacViewer/lib/functions/agsr.js"></script>
+<script src="../../inst/htmlwidgets/RacViewer/lib/functions/animation.js"></script>
+<script src="../../inst/htmlwidgets/RacViewer/lib/functions/dimensions.js"></script>
+<script src="../../inst/htmlwidgets/RacViewer/lib/functions/hemisphering.js"></script>
+<script src="../../inst/htmlwidgets/RacViewer/lib/functions/save.js"></script>
+<script src="../../inst/htmlwidgets/RacViewer/lib/functions/hitable.js"></script>
+<script src="../../inst/htmlwidgets/RacViewer/lib/functions/grid.js"></script>
+<script src="../../inst/htmlwidgets/RacViewer/lib/functions/points.js"></script>
+<script src="../../inst/htmlwidgets/RacViewer/lib/functions/api.js"></script>
+<script src="../../inst/htmlwidgets/RacViewer/lib/functions/blobs.js"></script>
+<script src="../../inst/htmlwidgets/RacViewer/lib/functions/load.js"></script>
+<script src="../../inst/htmlwidgets/RacViewer/lib/functions/procrustes.js"></script>
+<script src="../../inst/htmlwidgets/RacViewer/lib/functions/selections.js"></script>
+<script src="../../inst/htmlwidgets/RacViewer/lib/functions/connections.js"></script>
+<script src="../../inst/htmlwidgets/RacViewer/lib/functions/stress.js"></script>
+<script src="../../inst/htmlwidgets/RacViewer/lib/functions/drag.js"></script>
+<script src="../../inst/htmlwidgets/RacViewer/lib/functions/filters.js"></script>
+<script src="../../inst/htmlwidgets/RacViewer/lib/functions/browser.js"></script>
+<script src="../../inst/htmlwidgets/RacViewer/lib/functions/graphics.js"></script>
+<script src="../../inst/htmlwidgets/RacViewer/lib/functions/shortcuts.js"></script>
+<script src="../../inst/htmlwidgets/RacViewer/lib/functions/buttons.js"></script>
+<script src="../../inst/htmlwidgets/RacViewer/lib/functions/projections.js"></script>
+<script src="../../inst/htmlwidgets/RacViewer/lib/functions/icons.js"></script>
+<script src="../../inst/htmlwidgets/RacViewer/lib/functions/bootstrap.js"></script>
+<script src=".lib/RacViewer-binding-1.0.5/RacViewer.js"></script>
+  <title>RacViewer</title>
+</head>
+<body>
+<div id="htmlwidget_container">
+  <div id="htmlwidget-9404780a76a1ac1624e8" style="width:960px;height:500px;" class="RacViewer html-widget"></div>
+</div>
+<script type="application/json" data-for="htmlwidget-9404780a76a1ac1624e8">{"x":{"mapData":"{\"_\": \"-*- js-indent-level: 1 -*-\",\n \"  version\": \"acmacs-ace-v1\",\n \"?created\": \"AD acmacs.r on 2020-03-10 15:18 AEDT\",\n \"c\": {\n  \"P\": [\n   {\n    \"l\": [\n     [9.659898639656603336334228515625, 3.523871689103543758392333984375],\n     [0.376723264344036579132080078125, 0.284740128554403781890869140625],\n     [9.1640643216669559478759765625, 9.9508793465793132781982421875],\n     [7.26226578466594219207763671875, 9.575584591366350650787353515625],\n     [2.007762142457067966461181640625, 5.5165117629803717136383056640625],\n     [8.4020074643194675445556640625, 1.0195395746268332004547119140625],\n     [3.9666234725154936313629150390625, 2.37915148027241230010986328125],\n     [3.9270225935615599155426025390625, 8.600976648740470409393310546875],\n     [4.7255688696168363094329833984375, 7.3826128640212118625640869140625],\n     [5.83656914532184600830078125, 4.9731226451694965362548828125],\n     [4.800628828816115856170654296875, 4.37265819869935512542724609375],\n     [1.613701176829636096954345703125, 4.1713644680567085742950439453125],\n     [0.8925623190589249134063720703125, 5.856494903564453125],\n     [1.6268237493932247161865234375, 8.24967580847442150115966796875],\n     [0.26728450320661067962646484375, 7.9313922743313014507293701171875],\n     [7.096294756047427654266357421875, 3.261525700800120830535888671875],\n     [7.610181770287454128265380859375, 9.5793194347061216831207275390625],\n     [8.5747477947734296321868896484375, 6.5301960962824523448944091796875]\n    ],\n    \"s\": 0\n   }\n  ],\n  \"a\": [\n   {\"N\": \"MATCHED ANTIGEN 2\"},\n   {\"N\": \"MAP1 ANTIGEN 2\"},\n   {\"N\": \"MATCHED ANTIGEN 3\"},\n   {\"N\": \"MATCHED ANTIGEN 5\"},\n   {\"N\": \"MAP1 ANTIGEN 5\"},\n   {\"N\": \"MATCHED ANTIGEN 4\"},\n   {\"N\": \"MAP1 ANTIGEN 7\"},\n   {\"N\": \"MAP1 ANTIGEN 8\"},\n   {\"N\": \"MAP1 ANTIGEN 9\"},\n   {\"N\": \"MATCHED ANTIGEN 1\"}\n  ],\n  \"i\": {},\n  \"p\": {\n   \"E\": {\"c\": \"blue\"},\n   \"P\": [\n    {\"F\": \"#00ff00\"},\n    {\"S\": \"BOX\"}\n   ],\n   \"d\": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17],\n   \"e\": {\"c\": \"gmap1\"},\n   \"p\": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1]\n  },\n  \"s\": [\n   {\"N\": \"MATCHED SERA 2\"},\n   {\"N\": \"MATCHED SERA 4\"},\n   {\"N\": \"MATCHED SERA 1\"},\n   {\"N\": \"MAP1 SERA 4\"},\n   {\"N\": \"MAP1 SERA 5\"},\n   {\"N\": \"MAP1 SERA 6\"},\n   {\"N\": \"MAP1 SERA 7\"},\n   {\"N\": \"MATCHED SERA 3\"}\n  ],\n  \"t\": {\n   \"l\": [\n    [\"*\", \"*\", \"*\", \"*\", \"*\", \"*\", \"*\", \"*\"],\n    [\"*\", \"*\", \"*\", \"*\", \"*\", \"*\", \"*\", \"*\"],\n    [\"*\", \"*\", \"*\", \"*\", \"*\", \"*\", \"*\", \"*\"],\n    [\"*\", \"*\", \"*\", \"*\", \"*\", \"*\", \"*\", \"*\"],\n    [\"*\", \"*\", \"*\", \"*\", \"*\", \"*\", \"*\", \"*\"],\n    [\"*\", \"*\", \"*\", \"*\", \"*\", \"*\", \"*\", \"*\"],\n    [\"*\", \"*\", \"*\", \"*\", \"*\", \"*\", \"*\", \"*\"],\n    [\"*\", \"*\", \"*\", \"*\", \"*\", \"*\", \"*\", \"*\"],\n    [\"*\", \"*\", \"*\", \"*\", \"*\", \"*\", \"*\", \"*\"],\n    [\"*\", \"*\", \"*\", \"*\", \"*\", \"*\", \"*\", \"*\"]\n   ]\n  },\n  \"x\": {\n   \"selected_optimization\": [1]\n  }\n }\n}","procrustes":null,"plotdata":{},"settings":{"hide_control_panel":true,"show_procrustes":false}},"evals":[],"jsHooks":{"render":[{"code":"function(el, x, data) {\n    el.viewer.addProcrustesToBaseCoords(data);\n  }","data":{"ag":[[8.77992381680261,7.97692377023289],[null,null],[12.1266679514942,6.70610191553969],[3.36615572410433,9.20157058334284],[null,null],[6.88500094392923,1.95762427595004],[null,null],[null,null],[null,null],[5.42788335219072,9.5510734105992]],"sr":[[3.74793510478522,7.27591964642226],[3.10795947150928,0.725008132484417],[3.72328361479314,5.46554511765964],[null,null],[null,null],[null,null],[null,null],[9.04163573716392,1.11394458780233]]}}]}}</script>
+<script type="application/htmlwidget-sizing" data-for="htmlwidget-9404780a76a1ac1624e8">{"viewer":{"width":450,"height":350,"padding":0,"fill":true},"browser":{"width":960,"height":500,"padding":0,"fill":true}}</script>
+</body>
+</html>

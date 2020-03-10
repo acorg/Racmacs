@@ -21,6 +21,31 @@ run.maptests(
     expect_equal(numOptimizations(map), 1)
   })
 
+  test_that(paste("Optimizing a map with a random seed"), {
+
+    map <- make.map(table = titertable)
+    set.seed(100)
+    map1 <- optimizeMap(
+      map = map,
+      number_of_dimensions = 2,
+      number_of_optimizations = 1,
+      minimum_column_basis = "none",
+      parallel_optimization = FALSE
+    )
+
+    set.seed(100)
+    map2 <- optimizeMap(
+      map = map,
+      number_of_dimensions = 2,
+      number_of_optimizations = 1,
+      minimum_column_basis = "none",
+      parallel_optimization = FALSE
+    )
+    expect_equal(agCoords(map1), agCoords(map2))
+    expect_equal(srCoords(map1), srCoords(map2))
+
+  })
+
   test_that(paste("Optimizing a map with just a data frame"), {
     map <- make.map(table = as.data.frame(titertable))
     map <- optimizeMap(

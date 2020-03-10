@@ -50,6 +50,8 @@ export.viewer.test <- function(widget, filename){
     libdir        = ".lib"
   )
 
+  unlink("tests/testoutput/.lib/RacViewer-1.0.0/")
+
   plotdata <- readLines(testfile)
   plotdata <- gsub(
     pattern     = ".lib/RacViewer-1.0.0/",

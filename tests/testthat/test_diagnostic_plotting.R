@@ -5,7 +5,7 @@ context("Diagnostic plotting")
 
 run.maptests(
   bothclasses = TRUE,
-  loadlocally = TRUE,
+  loadlocally = FALSE,
   {
 
     map <- read.map(system.file("extdata/h3map2004.ace", package = "Racmacs"))

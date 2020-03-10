@@ -117,16 +117,17 @@ run.maptests(
     test_that("Procrustes a map to itself", {
 
       pc1 <- procrustesMap(map1, map1)
-      view(pc1)
+      export.viewer.test(view(pc1), "map_procrustes_to_itself.html")
 
     })
 
     test_that("Procrustes a map to another map", {
 
       pc12 <- expect_warning(procrustesMap(map1, map2))
-      view(pc1)
+      export.viewer.test(view(pc12), "map_procrustes_with_mismatches.html")
 
     })
 
 })
+
 

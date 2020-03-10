@@ -22,10 +22,10 @@ remotes::install_url("https://github.com/acorg/acmacs.r/releases/download/v4.0/a
 Run one of the following
 
 ```R
-# Install compiled binary package
+# To install compiled binary package
 remotes::install_url("https://github.com/acorg/Racmacs/releases/download/v1.0.5/Racmacs_1.0.5.tgz", build = FALSE)
 
-# Building from github source
+# To build from github source
 devtools::install_github("acorg/Racmacs")
 ```
 

@@ -7,7 +7,7 @@ run.maptests(
   loadlocally = FALSE,
   {
 
-  test_that(paste("Plotting a bare bones", maptype), {
+  test_that("Plotting a bare bones", {
 
     map <- make.map(
       ag_coords = matrix(1:10, 5),

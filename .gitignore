@@ -11,3 +11,4 @@ doc
 inst/doc
 Meta
 dev
+tests/testoutput/*

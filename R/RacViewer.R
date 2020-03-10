@@ -161,3 +161,23 @@ snapshotMap <- function(map, width = 800, height = 800, filename = NULL, ...){
   }
 
 }
+
+
+copyR3JSlib <- function(){
+  unlink("inst/htmlwidgets/RacViewer/lib/r3js/lib", recursive = TRUE)
+  file.copy(
+    from = "../../packages/r3js/package/inst/htmlwidgets/lib",
+    to   = "inst/htmlwidgets/RacViewer/lib/r3js",
+    recursive = TRUE
+  )
+}
+linkR3JSlib <- function(){
+  unlink("inst/htmlwidgets/RacViewer/lib/r3js/lib", recursive = TRUE)
+  file.symlink(
+    from = path.expand("~/Dropbox/LabBook/packages/r3js/package/inst/htmlwidgets/lib"),
+    to   = "inst/htmlwidgets/RacViewer/lib/r3js/lib"
+  )
+}
+
+
+

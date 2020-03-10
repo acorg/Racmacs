@@ -46,7 +46,8 @@ optimizeMap <- function(map,
                         discard_previous_optimizations = TRUE,
                         sort_optimizations = TRUE,
                         realign_optimizations = TRUE,
-                        verbose = TRUE) {
+                        verbose         = TRUE,
+                        use_random_seed = FALSE) {
 
   # Set default for moving trapped points
   if(is.null(move_trapped_points)){
@@ -70,7 +71,8 @@ optimizeMap <- function(map,
   map <- runOptimization(map,
                          number_of_dimensions,
                          number_of_optimizations,
-                         minimum_column_basis)
+                         minimum_column_basis,
+                         use_random_seed)
   vmessage(verbose, "done.")
 
   # Set selected optimization to 1
@@ -126,7 +128,8 @@ optimizeMap <- function(map,
 runOptimization <- function(map,
                             number_of_dimensions,
                             number_of_optimizations,
-                            minimum_column_basis) {
+                            minimum_column_basis,
+                            use_random_seed = FALSE) {
   UseMethod("runOptimization", map)
 }
 

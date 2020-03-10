@@ -4,7 +4,8 @@
 runOptimization.racmap <- function(map,
                                    number_of_dimensions,
                                    number_of_optimizations,
-                                   minimum_column_basis){
+                                   minimum_column_basis,
+                                   use_random_seed = FALSE){
 
   # Get the HI table
   titer_table = titerTable(map)
@@ -16,7 +17,8 @@ runOptimization.racmap <- function(map,
   racchart <- runOptimization(map                     = racchart,
                               number_of_dimensions    = number_of_dimensions,
                               number_of_optimizations = number_of_optimizations,
-                              minimum_column_basis    = minimum_column_basis)
+                              minimum_column_basis    = minimum_column_basis,
+                              use_random_seed         = use_random_seed)
 
   # Add optimizations to the racmap
   map$optimizations <- c(map$optimizations, as.list(racchart)$optimizations)

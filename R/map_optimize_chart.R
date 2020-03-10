@@ -3,10 +3,11 @@
 runOptimization.racchart <- function(map,
                                      number_of_dimensions,
                                      number_of_optimizations,
-                                     minimum_column_basis){
+                                     minimum_column_basis,
+                                     use_random_seed = FALSE){
 
   # relax_many is only safe if there are no existing projections since it reorders by stress
-  if(map$chart$number_of_projections > 0){
+  if(map$chart$number_of_projections == 0 && !use_random_seed){
 
     # Optimize the new optimizations
     map$chart$relax_many(
@@ -21,11 +22,20 @@ runOptimization.racchart <- function(map,
     for(i in seq_len(number_of_optimizations)){
 
       # Optimize the new optimizations
-      map$chart$relax(
-        as.character(minimum_column_basis),
-        number_of_dimensions,
-        FALSE
-      )
+      if(use_random_seed){
+        map$chart$relax(
+          as.character(minimum_column_basis),
+          number_of_dimensions,
+          FALSE,
+          runif(1, 0, 100000000)
+        )
+      } else {
+        map$chart$relax(
+          as.character(minimum_column_basis),
+          number_of_dimensions,
+          FALSE
+        )
+      }
 
     }
 

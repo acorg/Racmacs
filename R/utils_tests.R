@@ -9,6 +9,8 @@ run.maptests <- function(expr, bothclasses = FALSE, loadlocally = FALSE){
   if(bothclasses){
     for(maptype in c("racmap", "racmap.cpp")){
 
+      set.seed(100)
+
       if(maptype == "racmap")     {
         read.map <- read.acmap
         make.map <- acmap
@@ -50,7 +52,7 @@ export.viewer.test <- function(widget, filename){
     libdir        = ".lib"
   )
 
-  unlink("tests/testoutput/.lib/RacViewer-1.0.0", recursive = T)
+  unlink("~/Dropbox/LabBook/packages/Racmacs/tests/testoutput/.lib/RacViewer-1.0.0", recursive = T)
 
   plotdata <- readLines(testfile)
   plotdata <- gsub(

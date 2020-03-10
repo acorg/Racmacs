@@ -50,7 +50,7 @@ export.viewer.test <- function(widget, filename){
     libdir        = ".lib"
   )
 
-  unlink("tests/testoutput/.lib/RacViewer-1.0.0/")
+  unlink("tests/testoutput/.lib/RacViewer-1.0.0", recursive = T)
 
   plotdata <- readLines(testfile)
   plotdata <- gsub(

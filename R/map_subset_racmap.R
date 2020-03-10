@@ -2,6 +2,8 @@
 #' @export
 removeAntigens.racmap <- function(map, antigen_indices){
 
+  antigen_indices <- get_ag_indices(antigen_indices, map)
+  if(length(antigen_indices) == 0) return(map)
   property_bindings <- list_property_function_bindings()
   property_bindings <- property_bindings[substr(property_bindings$property, 1, 3) == "ag_",,drop=F]
 
@@ -50,6 +52,9 @@ removeAntigens.racmap <- function(map, antigen_indices){
 
 #' @export
 removeSera.racmap <- function(map, sera_indices){
+
+  sera_indices <- get_sr_indices(sera_indices, map)
+  if(length(sera_indices) == 0) return(map)
 
   property_bindings <- list_property_function_bindings()
   property_bindings <- property_bindings[substr(property_bindings$property, 1, 3) == "sr_",,drop=F]

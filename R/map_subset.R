@@ -99,8 +99,8 @@ get_sr_indices <- function(sera = TRUE, map, warnings = TRUE){
 #' @example examples/example_map_subset.R
 #'
 subsetMap <- function(map,
-                      antigens = NULL,
-                      sera     = NULL){
+                      antigens = TRUE,
+                      sera     = TRUE){
 
   # Match by antigen and sera name if character vectors are specified
   antigens <- na.omit(get_ag_indices(antigens, map))

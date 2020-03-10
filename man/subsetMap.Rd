@@ -4,7 +4,7 @@
 \alias{subsetMap}
 \title{Subset an antigenic map}
 \usage{
-subsetMap(map, antigens = NULL, sera = NULL)
+subsetMap(map, antigens = TRUE, sera = TRUE)
 }
 \arguments{
 \item{map}{The antigenic map object}

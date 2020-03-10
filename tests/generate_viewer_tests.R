@@ -11,12 +11,6 @@ h3map <- read.acmap("tests/testdata/testmap_h3subset.ace")
 h3map3d <- removeOptimizations(h3map)
 h3map3d <- runOptimization(h3map3d, 3, 1, "none")
 
-# Generate the blob data
-# blobdata2d <- calculate_stressBlob(h3map, progress_fn = function(x){})
-# blobdata3d <- calculate_stressBlob(h3map3d, progress_fn = function(x){ message(x) })
-# save(blobdata2d, blobdata3d, file = "../tests/blobdata.RData")
-load("../tests/blobdata.RData")
-
 # Rotate the h3 map
 h3map <- rotateMap(h3map, 90)
 h3map3d <- rotateMap(h3map3d, 120,  axis = "x")
@@ -43,6 +37,9 @@ pcmap1 <- acmap(
   minimum_column_basis = "none"
 )
 
+agNames(pcmap1)[1] <- "mismatchAG1"
+srNames(pcmap1)[1] <- "mismatchSR1"
+
 # Setup procrustes test maps
 pcmap2 <- acmap(
   ag_coords = cbind(1:10, -1),
@@ -56,6 +53,9 @@ pcmap3d1 <- acmap(
   sr_coords = as.matrix(expand.grid(1:10, 1:10, 3)),
   minimum_column_basis = "none"
 )
+
+agNames(pcmap3d1)[1] <- "mismatchAG1"
+srNames(pcmap3d1)[1] <- "mismatchSR1"
 
 # Setup procrustes test maps
 pcmap3d2 <- acmap(
@@ -105,8 +105,6 @@ Racmacs:::write2testdata(
   "pcdata3d.js"
 )
 
-stop()
-
 # Testing 2d to 3d
 # Setup procrustes test maps
 pcmap2d3d_2d <- acmap(
@@ -152,18 +150,23 @@ Racmacs:::write2testdata(
 )
 
 
-# Test blobs
-Racmacs:::write2testdata(
-  "blobdata2d",
-  jsonlite::toJSON(blobdata2d$blob_data[c("antigens", "sera")]),
-  "blobdata2d.js"
-)
-
-Racmacs:::write2testdata(
-  "blobdata3d",
-  jsonlite::toJSON(blobdata3d$blob_data[c("antigens", "sera")]),
-  "blobdata3d.js"
-)
+# # Generate the blob data
+# blobdata2d <- calculate_stressBlob(h3map, progress_fn = function(x){})
+# blobdata3d <- calculate_stressBlob(h3map3d, progress_fn = function(x){ message(x) })
+# # save(blobdata2d, blobdata3d, file = "../tests/blobdata.RData")
+#
+# # Test blobs
+# Racmacs:::write2testdata(
+#   "blobdata2d",
+#   jsonlite::toJSON(blobdata2d$blob_data[c("antigens", "sera")]),
+#   "blobdata2d.js"
+# )
+#
+# Racmacs:::write2testdata(
+#   "blobdata3d",
+#   jsonlite::toJSON(blobdata3d$blob_data[c("antigens", "sera")]),
+#   "blobdata3d.js"
+# )
 
 
 # Test bootstrap points

@@ -1,7 +1,6 @@
 
 library(Racmacs)
 library(testthat)
-set.seed(100)
 
 # Load the map and the chart
 context("Test procrustes methods")

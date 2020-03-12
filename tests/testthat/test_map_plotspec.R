@@ -120,11 +120,14 @@ testthat::test_that("Edit plotspec details", {
 
 
 run.maptests(
-  bothclasses = FALSE,
+  bothclasses = TRUE,
   loadlocally = FALSE,
   {
 
   test_that("Applying a plotspec", {
+
+    map <- make.map(table = matrix(2^(4:9), 3, 2)*10)
+    map <- optimizeMap(map, number_of_dimensions = 2, number_of_optimizations = 1, minimum_column_basis = "none")
 
     map1 <- cloneMap(map)
     map2 <- cloneMap(map)

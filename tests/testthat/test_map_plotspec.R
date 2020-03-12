@@ -121,7 +121,7 @@ testthat::test_that("Edit plotspec details", {
 
 run.maptests(
   bothclasses = FALSE,
-  loadlocally = TRUE,
+  loadlocally = FALSE,
   {
 
   test_that("Applying a plotspec", {

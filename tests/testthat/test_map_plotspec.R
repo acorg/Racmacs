@@ -1,5 +1,6 @@
 
 library(Racmacs)
+library(testthat)
 
 # Load the map and the chart
 racmap   <- read.acmap(filename = testthat::test_path("../testdata/testmap.ace"))
@@ -11,13 +12,13 @@ testthat::context("Test reading and editing of plotspec data")
 testthat::test_that("Draw priority to order conversion", {
 
   drawing_order <- c(6, 1, 7, 4, 2, 3, 9, 5, 10, 8)
-  expect_equal(drawing_order, draw_priority_to_order(draw_order_to_priority(drawing_order)))
+  expect_equal(drawing_order, Racmacs:::draw_priority_to_order(Racmacs:::draw_order_to_priority(drawing_order)))
 
   drawing_order <- c(1,2,5,3,4)
-  expect_equal(drawing_order, draw_priority_to_order(draw_order_to_priority(drawing_order)))
+  expect_equal(drawing_order, Racmacs:::draw_priority_to_order(Racmacs:::draw_order_to_priority(drawing_order)))
 
   drawing_order <- c(1,2,3,4,5)
-  expect_equal(drawing_order, draw_priority_to_order(draw_order_to_priority(drawing_order)))
+  expect_equal(drawing_order, Racmacs:::draw_priority_to_order(Racmacs:::draw_order_to_priority(drawing_order)))
 
 })
 
@@ -118,20 +119,43 @@ testthat::test_that("Edit plotspec details", {
 })
 
 
-for(map in list(racmap, racchart)){
-  testthat::test_that("Applying a plotspec", {
+run.maptests(
+  bothclasses = TRUE,
+  loadlocally = FALSE,
+  {
+
+  test_that("Applying a plotspec", {
+
+    map <- make.map(table = matrix(2^(4:9), 3, 2)*10)
+    map <- optimizeMap(map, number_of_dimensions = 2, number_of_optimizations = 1, minimum_column_basis = "none")
 
     map1 <- cloneMap(map)
     map2 <- cloneMap(map)
+    map3 <- cloneMap(map)
 
     agFill(map1) <- "blue"
     srFill(map1) <- "purple"
 
     map2 <- applyPlotspec(map2, map1)
+    Racmacs:::export.viewer.test(view(map2), "apply_plotspec1.html")
 
-    testthat::expect_equal(agFill(map2), agFill(map1))
-    testthat::expect_equal(srFill(map2), srFill(map1))
+    expect_equal(agFill(map2), agFill(map1))
+    expect_equal(srFill(map2), srFill(map1))
+
+    agNames(map3) <- rev(agNames(map3))
+    srNames(map3) <- rev(srNames(map3))
+
+    agNames(map3)[1:2] <- paste("mismatch ag", 1:2)
+    srNames(map3)[1:2] <- paste("mismatch sr", 1:2)
+
+    map3ps <- applyPlotspec(map3, map1)
+    export.viewer.test(view(map3ps), "apply_plotspec2.html")
+
+    expect_equal(agFill(map3ps), c(agFill(map3)[1:2], agFill(map1)[-(1:2)]))
+    expect_equal(srFill(map3ps), c(srFill(map3)[1:2], srFill(map1)[-(1:2)]))
 
   })
-}
+
+})
+
 

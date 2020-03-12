@@ -1,7 +1,7 @@
 Package: Racmacs
 Type: Package
 Title: Interface R with acmacs
-Version: 1.0.6
+Version: 1.0.7
 Date: 2019-06-10
 Author: S. H. Wilks
 Maintainer: S. H. Wilks <sw463@cam.ac.uk>

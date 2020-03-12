@@ -22,7 +22,7 @@ applyPlotspec <- function(map,
       else                             pt_match <- sr_match
       getter     <- get(method)
       `getter<-` <- get(paste0(method, "<-"))
-      getter(map)[!is.na(pt_match)] <- getter(source_map)[pt_match]
+      getter(map)[!is.na(pt_match)] <- getter(source_map)[pt_match[!is.na(pt_match)]]
     }
   }
 

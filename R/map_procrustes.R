@@ -293,8 +293,7 @@ realignOptimizations.racmap <- function(map,
 #'
 #' View procrustes data in an interactive viewer.
 #'
-#' @param map The primary map
-#' @param target_map The target map
+#' @param map The map object to which procrustesMap() has been applied
 #' @param ... Arguments to be passed to \code{\link{view_map}}
 #'
 #' @export

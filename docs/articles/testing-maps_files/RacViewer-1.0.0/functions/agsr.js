@@ -133,6 +133,7 @@ Racmacs.Point = class Point {
         this.highlighted  = 0;
         this.rayTraceable = true;
         this.opacity      = 1;
+        this.scaling      = 1;
 
         this.stress   = 0;
         this.stresses = new Float32Array(new Array(args.titers.length).fill(0));
@@ -225,7 +226,7 @@ Racmacs.Point = class Point {
     setSize(size){
         
         this.size = size;
-        this.element.setSize(size);
+        this.element.setSize(size*this.scaling);
 
     }
 

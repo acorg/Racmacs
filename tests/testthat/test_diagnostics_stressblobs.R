@@ -35,3 +35,22 @@ testthat::test_that("Default stress blob calculation with NA coords", {
   )
 
 })
+
+
+run.maptests(
+  bothclasses = TRUE,
+  loadlocally = FALSE,
+  {
+
+    map <- read.map(testthat::test_path("../testdata/testmap.ace"))
+    expect_error(stressBlobs(map, progress_fn = function(x){}))
+
+    # General stress blob viewing
+    map <- relaxMap(map)
+    export.viewer.test(
+      view(stressBlobs(map, progress_fn = function(x){})),
+      filename = "map_with_stressblobs.html"
+    )
+
+  }
+)

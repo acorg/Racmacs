@@ -25,6 +25,15 @@ There are several approached that can be taken to try and determine the utility 
 - Looking at confidence of antigen and serum positions using noisy bootstrapping
 - Testing for potential differences in antigen avidity
 
-
-
-
+## Using stress blobs
+```{r, message=FALSE, out.width="100%", out.height=800}
+library(Racmacs)
+map_file <- system.file("extdata/h3map2004_subset.ace", package = "Racmacs")
+map      <- read.acmap(map_file)
+view(
+  stressBlobs(
+    map        = map,
+    stress_lim = 2
+  )
+)
+```

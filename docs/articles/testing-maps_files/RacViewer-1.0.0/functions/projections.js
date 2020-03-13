@@ -203,13 +203,13 @@ Racmacs.Viewer.prototype.switchToProjection = function(num){
         this.addHemispheringData(hemisphering);
     }
 
-    // Add procrustes info
-    var procrustes = this.data.procrustes();
-    if(procrustes !== null){
+    // // Add procrustes info
+    // var procrustes = this.data.procrustes();
+    // if(procrustes !== null){
 
-        this.addProcrustesData(procrustes);
+    //     this.addProcrustesData(procrustes);
 
-    }
+    // }
 
 
     // Render viewer

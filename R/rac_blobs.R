@@ -204,10 +204,10 @@ contour_blob <- function(grid_values,
   ## 2D
   if(length(grid_points) == 2){
 
-    blob <- contourLines(x = grid_points[[1]],
-                         y = grid_points[[2]],
-                         z = grid_values,
-                         levels = value_lim)
+    blob <- grDevices::contourLines(x = grid_points[[1]],
+                                    y = grid_points[[2]],
+                                    z = grid_values,
+                                    levels = value_lim)
 
   }
 
@@ -247,49 +247,67 @@ contour_blob <- function(grid_values,
 #' @return Returns the acmap data object with stress blob information added
 #' @export
 #'
-add_stressBlobData <- function(map,
-                               data         = NULL,
-                               optimization_number   = NULL,
-                               stress_lim   = 1,
-                               antigens     = TRUE,
-                               sera         = TRUE,
-                               grid_spacing = 0.25,
-                               grid_margin  = 4,
-                               progress_fn  = message){
+stressBlobs <- function(map,
+                        optimization_number   = NULL,
+                        stress_lim   = 1,
+                        antigens     = TRUE,
+                        sera         = TRUE,
+                        grid_spacing = 0.25,
+                        grid_margin  = 4,
+                        progress_fn  = message){
+
+  # Check map has been fully relaxed
+  if(!mapRelaxed(map, optimization_number)){
+    stop("Map is not fully relaxed, please relax the map first.")
+  }
 
   # Process optimization
   optimization_number <- convertOptimizationNum(optimization_number, map)
 
   # Calculate blob data
-  if(is.null(data)){
-    data <- calculate_stressBlob(map,
-                                 optimization_number = optimization_number,
-                                 stress_lim   = stress_lim,
-                                 antigens     = antigens,
-                                 sera         = sera,
-                                 grid_spacing = grid_spacing,
-                                 grid_margin  = grid_margin,
-                                 progress_fn  = progress_fn)
-  }
+  data <- calculate_stressBlob(map,
+                               optimization_number = optimization_number,
+                               stress_lim   = stress_lim,
+                               antigens     = antigens,
+                               sera         = sera,
+                               grid_spacing = grid_spacing,
+                               grid_margin  = grid_margin,
+                               progress_fn  = progress_fn)
 
-  # Keep a record
-  if(length(map$diagnostics) < optimization_number) {
-    map$diagnostics[[optimization_number]] <- list()
-  }
-  map$diagnostics[[optimization_number]]$stress_blobs <- c(
-    map$diagnostics[[optimization_number]]$stress_blobs,
-    list(data)
+  # Return the map with blob data
+  blobmap <- list(
+    map      = map,
+    blobdata = data
   )
 
-  # Return the updated map
-  map
+  class(blobmap) <- c("racblobs", "list")
+  blobmap
 
 }
 
 
 
+#' Viewing map stress blob data
+#'
+#' View stress blob data in an interactive viewer.
+#'
+#' @param map The map after stressBlobs() has been applied
+#' @param ... Arguments to be passed to \code{\link{view.rac}}
+#'
+#' @export
+#'
+view.racblobs <- function(object, ...){
 
+  # Javascript code to run upon viewing the map
+  jsCode <- "function(el, x, data) {
+    el.viewer.showBlobs(data);
+  }"
 
+  # View the map and show the procrustes data
+  view(object$map,
+       .jsCode = jsCode,
+       .jsData = object$blobdata$blob_data,
+       ...)
 
-
+}
 

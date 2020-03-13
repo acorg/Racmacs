@@ -9,9 +9,7 @@
 \arguments{
 \item{...}{Arguments to be passed to \code{\link{view_map}}}
 
-\item{map}{The primary map}
-
-\item{target_map}{The target map}
+\item{map}{The map object to which procrustesMap() has been applied}
 }
 \description{
 View procrustes data in an interactive viewer.

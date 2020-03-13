@@ -139,7 +139,7 @@ view.rac <- function(map,
   if(!is.null(selected_ags)){
     widget <- htmlwidgets::onRender(
       x      = widget,
-      jsCode = "function(el, x, data) { console.log(data); el.viewer.selectAntigensByIndices(data) }",
+      jsCode = "function(el, x, data) { el.viewer.selectAntigensByIndices(data) }",
       data   = I(selected_ags)
     )
   }

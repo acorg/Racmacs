@@ -1,0 +1,19 @@
+
+.load-tab {
+
+}
+
+.load-tab .control-btn:first-child {
+
+	margin-top: 0;
+
+}
+
+.load-tab .control-btn {
+
+	margin-top: 8px;
+	display : block;
+	font-size: 90%;
+	padding: 10px 14px 10px 10px;
+
+}

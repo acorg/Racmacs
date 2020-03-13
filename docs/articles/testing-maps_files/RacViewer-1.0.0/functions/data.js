@@ -101,16 +101,31 @@ Racmacs.Data = class Data {
 
     transformation(){
         let pnum = this.projection();
-        if(this.data.c.x.transformation[pnum]){
+        if(this.data.c.x.transformation && this.data.c.x.transformation[pnum]){
             return(this.data.c.x.transformation[pnum]);
         } else {
-            return(this.data.c.P[pnum].t);
+            if(this.data.c.P[pnum].t !== undefined){
+                return(this.data.c.P[pnum].t);
+            } else {
+                var dim = this.dimensions(pnum);
+                var transform = new Array(dim*dim).fill(0);
+                if(dim == 2){
+                    transform[0] = 1;
+                    transform[3] = 1;
+                }
+                if(dim == 3){
+                    transform[0] = 1;
+                    transform[4] = 1;
+                    transform[8] = 1;
+                }
+                return(transform);
+            }
         }
     }
 
     translation(){
         let pnum = this.projection();
-        if(this.data.c.x.translation[pnum]){
+        if(this.data.c.x.transformation && this.data.c.x.translation[pnum]){
             return(this.data.c.x.translation[pnum]);
         } else {
             return(new Array(this.dimensions(pnum)).fill(0));
@@ -227,10 +242,10 @@ Racmacs.Data = class Data {
     }
 
     agSize(i){ 
-        return(this.agPlotspec(i, "s", 1));
+        return(this.agPlotspec(i, "s", 5));
     }
     srSize(i){ 
-        return(this.srPlotspec(i, "s", 1));
+        return(this.srPlotspec(i, "s", 5));
     }
 
     agFill(i){ 

@@ -20,6 +20,7 @@
 make.acmap <- function(number_of_dimensions    = 2,
                        number_of_optimizations = 100,
                        minimum_column_basis    = "none",
+                       fixed_column_bases      = NULL,
                        move_trapped_points     = NULL,
                        parallel_optimization   = TRUE,
                        ...){
@@ -36,12 +37,15 @@ make.acmap <- function(number_of_dimensions    = 2,
   map <- acmap(...)
 
   # Run the optimizations
-  optimizeMap(map                     = map,
-              number_of_dimensions    = number_of_dimensions,
-              number_of_optimizations = number_of_optimizations,
-              minimum_column_basis    = minimum_column_basis,
-              move_trapped_points     = move_trapped_points,
-              parallel_optimization   = parallel_optimization)
+  optimizeMap(
+    map                     = map,
+    number_of_dimensions    = number_of_dimensions,
+    number_of_optimizations = number_of_optimizations,
+    minimum_column_basis    = minimum_column_basis,
+    fixed_column_bases      = fixed_column_bases,
+    move_trapped_points     = move_trapped_points,
+    parallel_optimization   = parallel_optimization
+  )
 
 }
 
@@ -49,6 +53,7 @@ make.acmap <- function(number_of_dimensions    = 2,
 make.acmap.cpp <- function(number_of_dimensions    = 2,
                            number_of_optimizations = 100,
                            minimum_column_basis    = "none",
+                           fixed_column_bases      = NULL,
                            move_trapped_points     = NULL,
                            parallel_optimization   = TRUE,
                            ...){
@@ -65,12 +70,15 @@ make.acmap.cpp <- function(number_of_dimensions    = 2,
   chart <- acmap.cpp(...)
 
   # Run the optimizations
-  optimizeMap(map                     = chart,
-              number_of_dimensions    = number_of_dimensions,
-              number_of_optimizations = number_of_optimizations,
-              minimum_column_basis    = minimum_column_basis,
-              move_trapped_points     = move_trapped_points,
-              parallel_optimization   = parallel_optimization)
+  optimizeMap(
+    map                     = chart,
+    number_of_dimensions    = number_of_dimensions,
+    number_of_optimizations = number_of_optimizations,
+    minimum_column_basis    = minimum_column_basis,
+    fixed_column_bases      = fixed_column_bases,
+    move_trapped_points     = move_trapped_points,
+    parallel_optimization   = parallel_optimization
+  )
 
 }
 

@@ -59,6 +59,16 @@ R3JS.Viewport.prototype.addMapButtons = function(){
 		}
 	}, 0);
 
+	// Create button to scale points down
+	this.addButton({
+		name  : "downloadMap",
+		title : "Download map file",
+		icon  : Racmacs.icons.save(),
+		fn    : function(e){
+			viewer.saveMap();
+		}
+	});
+
 }
 
 

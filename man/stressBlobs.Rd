@@ -6,7 +6,7 @@
 \usage{
 stressBlobs(map, optimization_number = NULL, stress_lim = 1,
   antigens = TRUE, sera = TRUE, grid_spacing = 0.25,
-  grid_margin = 4, progress_fn = message)
+  grid_margin = 4, progress_fn = message, .check_relaxation = TRUE)
 }
 \arguments{
 \item{map}{The acmap data object}

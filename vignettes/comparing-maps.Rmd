@@ -14,17 +14,15 @@ knitr::opts_chunk$set(
 )
 ```
 
-```{r setup}
-library(Racmacs)
-```
-
 Different maps can be compared using the `procrustesMap()` function where one map is compared to another.
 
 ## The example map
 We'll read in the H3N2 2004 map as an example map
 
 ```{r out.height=600, out.width=600}
-map <- read.acmap(system.file("extdata/h3map2004.ace", package = "Racmacs"))
+library(Racmacs)
+map_file <- system.file("extdata/h3map2004.ace", package = "Racmacs")
+map <- read.acmap(map_file)
 view(map)
 ```
 

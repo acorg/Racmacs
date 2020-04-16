@@ -5,8 +5,8 @@
 \title{Make an antigenic map from scratch}
 \usage{
 make.acmap(number_of_dimensions = 2, number_of_optimizations = 100,
-  minimum_column_basis = "none", move_trapped_points = NULL,
-  parallel_optimization = TRUE, ...)
+  minimum_column_basis = "none", fixed_column_bases = NULL,
+  move_trapped_points = NULL, parallel_optimization = TRUE, ...)
 }
 \arguments{
 \item{number_of_dimensions}{The number of dimensions in the map}

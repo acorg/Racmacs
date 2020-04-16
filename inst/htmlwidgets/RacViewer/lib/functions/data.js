@@ -143,7 +143,9 @@ Racmacs.Data = class Data {
 
     dimensions(num){
         let pnum = this.projection(num);
-        return(this.data.c.P[pnum].l[0].length);
+        return(
+            Math.max(...this.data.c.P[pnum].l.map( p => p.length ))
+        );
     }
 
     minColBasis(num){
@@ -241,6 +243,13 @@ Racmacs.Data = class Data {
         return(this.data.c.s[i].N);
     }
 
+    agShown(i){ 
+        return(this.agPlotspec(i, "+", true));
+    }
+    srShown(i){
+        return(this.srPlotspec(i, "+", true));
+    }
+
     agSize(i){ 
         return(this.agPlotspec(i, "s", 5));
     }
@@ -262,18 +271,18 @@ Racmacs.Data = class Data {
         return(this.srPlotspec(i, "O", "black"));
     }
 
-    agOutlineWidth(i){ 
-        return(this.agPlotspec(i, "?", 1)*1);
+    agOutlineWidth(i){
+        return(this.agPlotspec(i, "o", 1)*1);
     }
     srOutlineWidth(i){ 
-        return(this.srPlotspec(i, "?", 1)*1);
+        return(this.srPlotspec(i, "o", 1)*1);
     }
 
     agAspect(i){ 
-        return(this.agPlotspec(i, "?", 1));
+        return(this.agPlotspec(i, "a", 1));
     }
     srAspect(i){ 
-        return(this.srPlotspec(i, "?", 1));
+        return(this.srPlotspec(i, "a", 1));
     }
 
     agShape(i){
@@ -336,6 +345,11 @@ Racmacs.Data = class Data {
     // Procrustes data
     procrustes(){
         return(this.data.procrustes);
+    }
+
+    // Output the ace format
+    outputAce(){
+        return(JSON.stringify(this.data));
     }
 
 

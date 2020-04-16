@@ -5,7 +5,7 @@
 \title{Viewing racmap objects}
 \usage{
 \method{view}{rac}(map, ..., .jsCode = NULL, .jsData = NULL,
-  selected_ags = NULL)
+  select_ags = NULL, select_sr = NULL, show_procrustes = NULL)
 }
 \arguments{
 \item{...}{Arguments to be passed to \code{\link{view_map}}}

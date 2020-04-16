@@ -63,19 +63,26 @@ R3JS.Viewport.prototype.addButtons = function(){
 	})
 
 	// Pop out viewer
-	if (window!=window.top) {
-		function popOutViewer(){
-			window.open(window.location.href);
-		}
-		this.addButton({
-			name  : "openInNewWindow",
-			title : "Open in new window",
-			icon  : icon_open(),
-			fn    : popOutViewer
-		})
-    }
+	// if (window!=window.top) {
+	// 	this.addButton({
+	// 		name  : "openInNewWindow",
+	// 		title : "Open in new window",
+	// 		icon  : icon_open(),
+	// 		fn    : e => this.popOutViewer()
+	// 	})
+    // }
 
+ 	this.addButton({
+		name  : "openInNewWindow",
+		title : "Open in new window",
+		icon  : icon_open(),
+		fn    : e => this.popOutViewer()
+	});
 
+}
+
+R3JS.Viewport.prototype.popOutViewer = function(){
+	window.open(window.location.href);
 }
 
 R3JS.Viewport.prototype.addButton = function(args, position){

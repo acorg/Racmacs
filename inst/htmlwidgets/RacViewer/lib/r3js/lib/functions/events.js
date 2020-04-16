@@ -25,7 +25,7 @@ R3JS.Viewport.prototype.onwindowblur = function(event){
 
 
 // Add window resize events
-R3JS.Viewport.prototype.onwindowresize = function(event){ 
+R3JS.Viewport.prototype.onwindowresize = function(){ 
     
     // Resize camera
     this.viewer.camera.setSize(this.getWidth(), this.getHeight());

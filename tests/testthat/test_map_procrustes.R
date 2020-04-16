@@ -12,7 +12,7 @@ context("Test procrustes methods")
 # Test for raccharts and racmaps
 run.maptests(
   bothclasses = TRUE,
-  loadlocally = FALSE,
+  loadlocally = TRUE,
   {
 
     # Setup rotation and translation matrices
@@ -135,12 +135,12 @@ run.maptests(
       expected_ag_dists <- rep(0, num_ags[1])
       expected_sr_dists <- rep(0, num_sr[1])
 
-      expect_equal(pc1$ag_dists, expected_ag_dists)
-      expect_equal(pc1$sr_dists, expected_sr_dists)
-      expect_equal(pc1$ag_rmsd, 0)
-      expect_equal(pc1$sr_rmsd, 0)
-      expect_equal(pc1$pc_coords$ag, unname(ag_coords1))
-      expect_equal(pc1$pc_coords$sr, unname(sr_coords1))
+      expect_equal(pc1$procrustes$ag_dists, expected_ag_dists)
+      expect_equal(pc1$procrustes$sr_dists, expected_sr_dists)
+      expect_equal(pc1$procrustes$ag_rmsd, 0)
+      expect_equal(pc1$procrustes$sr_rmsd, 0)
+      expect_equal(pc1$procrustes$pc_coords$ag, unname(ag_coords1))
+      expect_equal(pc1$procrustes$pc_coords$sr, unname(sr_coords1))
 
     })
 
@@ -167,12 +167,12 @@ run.maptests(
       expected_pc_coords_ag[ag_mismatches1rot,] <- NA
       expected_pc_coords_sr[sr_mismatches1rot,] <- NA
 
-      expect_equal(round(pc1$ag_dists, 5), expected_ag_dists)
-      expect_equal(round(pc1$sr_dists, 5), expected_sr_dists)
-      expect_equal(round(pc1$ag_rmsd, 5), 0)
-      expect_equal(round(pc1$sr_rmsd, 5), 0)
-      expect_equal(unname(pc1$pc_coords$ag), unname(expected_pc_coords_ag))
-      expect_equal(unname(pc1$pc_coords$sr), unname(expected_pc_coords_sr))
+      expect_equal(round(pc1$procrustes$ag_dists, 5), expected_ag_dists)
+      expect_equal(round(pc1$procrustes$sr_dists, 5), expected_sr_dists)
+      expect_equal(round(pc1$procrustes$ag_rmsd, 5), 0)
+      expect_equal(round(pc1$procrustes$sr_rmsd, 5), 0)
+      expect_equal(unname(pc1$procrustes$pc_coords$ag), unname(expected_pc_coords_ag))
+      expect_equal(unname(pc1$procrustes$pc_coords$sr), unname(expected_pc_coords_sr))
 
     })
 
@@ -206,12 +206,12 @@ run.maptests(
 
       ## Check equivalence
       ### rmsd
-      expect_equal(racmacs_pc$total_rmsd,             acmacs_pc$rms             )
-      expect_equal(racmacs_pc_ags$total_rmsd,         acmacs_pc_ags$rms         )
-      expect_equal(racmacs_pc_sr$total_rmsd,          acmacs_pc_sr$rms          )
-      expect_equal(racmacs_pc_scaling$total_rmsd,     acmacs_pc_scaling$rms     )
-      expect_equal(racmacs_pc_ags_scaling$total_rmsd, acmacs_pc_ags_scaling$rms )
-      expect_equal(racmacs_pc_sr_scaling$total_rmsd,  acmacs_pc_sr_scaling$rms  )
+      expect_equal(racmacs_pc$procrustes$total_rmsd,             acmacs_pc$rms             )
+      expect_equal(racmacs_pc_ags$procrustes$total_rmsd,         acmacs_pc_ags$rms         )
+      expect_equal(racmacs_pc_sr$procrustes$total_rmsd,          acmacs_pc_sr$rms          )
+      expect_equal(racmacs_pc_scaling$procrustes$total_rmsd,     acmacs_pc_scaling$rms     )
+      expect_equal(racmacs_pc_ags_scaling$procrustes$total_rmsd, acmacs_pc_ags_scaling$rms )
+      expect_equal(racmacs_pc_sr_scaling$procrustes$total_rmsd,  acmacs_pc_sr_scaling$rms  )
 
       ### Transformed coordinate positions
       acmacs_matched_optimization <- function(agnames1,
@@ -240,12 +240,12 @@ run.maptests(
              sr = sr_coords)
       }
 
-      expect_equal(racmacs_pc$pc_coords,     acmacs_matched_optimization(ag_names1, ag_names2, sr_names1, sr_names2, optimization1, optimization2, "both", acmacs_pc))
-      expect_equal(racmacs_pc_ags$pc_coords, acmacs_matched_optimization(ag_names1, ag_names2, sr_names1, sr_names2, optimization1, optimization2, "antigens", acmacs_pc_ags))
-      expect_equal(racmacs_pc_sr$pc_coords,  acmacs_matched_optimization(ag_names1, ag_names2, sr_names1, sr_names2, optimization1, optimization2, "sera", acmacs_pc_sr))
-      expect_equal(racmacs_pc_scaling$pc_coords,     acmacs_matched_optimization(ag_names1, ag_names2, sr_names1, sr_names2, optimization1, optimization2, "both", acmacs_pc_scaling))
-      expect_equal(racmacs_pc_ags_scaling$pc_coords, acmacs_matched_optimization(ag_names1, ag_names2, sr_names1, sr_names2, optimization1, optimization2, "antigens", acmacs_pc_ags_scaling))
-      expect_equal(racmacs_pc_sr_scaling$pc_coords,  acmacs_matched_optimization(ag_names1, ag_names2, sr_names1, sr_names2, optimization1, optimization2, "sera", acmacs_pc_sr_scaling))
+      expect_equal(racmacs_pc$procrustes$pc_coords,     acmacs_matched_optimization(ag_names1, ag_names2, sr_names1, sr_names2, optimization1, optimization2, "both", acmacs_pc))
+      expect_equal(racmacs_pc_ags$procrustes$pc_coords, acmacs_matched_optimization(ag_names1, ag_names2, sr_names1, sr_names2, optimization1, optimization2, "antigens", acmacs_pc_ags))
+      expect_equal(racmacs_pc_sr$procrustes$pc_coords,  acmacs_matched_optimization(ag_names1, ag_names2, sr_names1, sr_names2, optimization1, optimization2, "sera", acmacs_pc_sr))
+      expect_equal(racmacs_pc_scaling$procrustes$pc_coords,     acmacs_matched_optimization(ag_names1, ag_names2, sr_names1, sr_names2, optimization1, optimization2, "both", acmacs_pc_scaling))
+      expect_equal(racmacs_pc_ags_scaling$procrustes$pc_coords, acmacs_matched_optimization(ag_names1, ag_names2, sr_names1, sr_names2, optimization1, optimization2, "antigens", acmacs_pc_ags_scaling))
+      expect_equal(racmacs_pc_sr_scaling$procrustes$pc_coords,  acmacs_matched_optimization(ag_names1, ag_names2, sr_names1, sr_names2, optimization1, optimization2, "sera", acmacs_pc_sr_scaling))
 
     })
 
@@ -278,8 +278,8 @@ run.maptests(
         map2d
       )
 
-      expect_equal(round(pc2d3d$total_rmsd, 5), 0)
-      expect_equal(round(pc3d2d$total_rmsd, 5), 0)
+      expect_equal(round(pc2d3d$procrustes$total_rmsd, 5), 0)
+      expect_equal(round(pc3d2d$procrustes$total_rmsd, 5), 0)
 
     })
 
@@ -324,8 +324,8 @@ run.maptests(
         map3d
       )
 
-      expect_equal(pc2d3d$total_rmsd, 0)
-      expect_equal(pc3d2d$total_rmsd, 0)
+      expect_equal(pc2d3d$procrustes$total_rmsd, 0)
+      expect_equal(pc3d2d$procrustes$total_rmsd, 0)
       expect_equal(mapTransformation(map3d), diag(nrow = 3))
       expect_equal(mapTranslation(map3d), matrix(0, nrow = 1, ncol = 3))
       expect_equal(ncol(agBaseCoords(map3d)), 2)
@@ -381,6 +381,17 @@ run.maptests(
       expect_lt(
         sum(calc_coord_dist(agCoords(mapB, 1), agCoords(mapB, 2))^2),
         sum(calc_coord_dist(agCoords(mapA, 1), agCoords(mapA, 2))^2)
+      )
+
+    })
+
+    test_that("Procrustes maps with na coords", {
+
+      map1na <- cloneMap(map1)
+      agCoords(map1na)[1,] <- NA
+      export.viewer.test(
+        view(map1na),
+        "na_map.html"
       )
 
     })

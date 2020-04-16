@@ -72,7 +72,7 @@ mergeTiterTables <- function(titer_tables){
       acmap.cpp(table = titers)
     })
     merged_chart <- do.call(mergeMaps, charts)
-    titers       <- unname(titerTable(merged_chart))
+    titers       <- titerTable(merged_chart)
   } else {
     titers <- titer_tables[[1]]
   }

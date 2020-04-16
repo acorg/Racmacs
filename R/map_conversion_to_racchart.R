@@ -46,9 +46,13 @@ as.json.racmap <- function(map){
   # Antigen attributes
   antigens <- data.frame(
     N = agNames(map),
-    D = agDates(map),
     stringsAsFactors = FALSE
   )
+  ag_dates <- as.character(agDates(map))
+  ag_dates[is.na(ag_dates)] <- ""
+  if(sum(ag_dates != "") > 0){
+    antigens$D <- ag_dates
+  }
   json$c$a <- apply(antigens, 1, function(ag){
     as.list(ag)
   })
@@ -110,9 +114,8 @@ as.json.racmap <- function(map){
         }
       )
 
-      base_coords_list[
-        rowSums(is.na(base_coords)) > 0
-      ] <- list()
+      na_coords <- which(rowSums(is.na(base_coords)) > 0)
+      base_coords_list[na_coords] <- lapply(seq_along(na_coords), function(x){ list() })
 
       # Save the optimization data
       optimization_json <- list(

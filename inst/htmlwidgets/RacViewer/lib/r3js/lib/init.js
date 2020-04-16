@@ -165,8 +165,6 @@ R3JS.Viewer = class R3JSviewer {
     getAspect(){
         return(this.viewport.getAspect());
     }
-
-    
     
     // // Set render function
     // this.render = function(){};

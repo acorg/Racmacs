@@ -51,8 +51,6 @@ R3JS.Viewport = class Viewport{
           viewport.onkeyup(event)
         });
 
-        window.addEventListener("resize", function(event){ viewport.onwindowresize(event) });
-
         // Add buttons
         this.addButtons();
 
@@ -181,7 +179,7 @@ R3JS.Info = class Info{
 
     remove(element){
 
-        if(element !== null){
+        if(element !== null && element !== undefined){
             this.div.removeChild(element);
         }
         if(this.div.children.length === 0){

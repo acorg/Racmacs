@@ -23,7 +23,7 @@ Racmacs.Viewer.prototype.loadMapData = function(){
     this.clearDiagnostics();
 
     // Show or hide control panels
-    if(settings.hide_control_panel){
+    if(settings.hide_control_panel || settings.hide_control_panel === undefined){
         this.controlpanel.hide();
     }
 

@@ -25,6 +25,11 @@ HTMLWidgets.widget({
 
       },
 
+      // A resize function
+      resize: function(width, height) {
+        viewer.viewport.onwindowresize();
+      },
+
       // A method to expose our viewer to the outside
       getViewer: function(){
           return viewer;

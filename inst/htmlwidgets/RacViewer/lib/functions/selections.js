@@ -69,20 +69,24 @@ Racmacs.Point.prototype.click = function(){
 // Set prototypes
 Racmacs.Point.prototype.hover = function(){
     
-    this.hovered = true;
-    
-    // Show a fill for transparent objects
-    if(this.fillColor == "transparent"){
-        this.element.setFillColor(this.outlineColor);
-        this.element.setFillOpacity(0.3);
+    if(this.shown){
+
+        this.hovered = true;
+        
+        // Show a fill for transparent objects
+        if(this.fillColor == "transparent"){
+            this.element.setFillColor(this.outlineColor);
+            this.element.setFillOpacity(0.3);
+        }
+
+        this.updateDisplay();
+
+        // Show the point info
+        this.showInfo();
+
+        this.moveToTop();
+
     }
-
-    this.updateDisplay();
-
-    // Show the point info
-    this.showInfo();
-
-    this.moveToTop();
 
 }
 
@@ -136,7 +140,7 @@ Racmacs.Point.prototype.toggleSelection = function(){
 
 Racmacs.Point.prototype.select = function(){
 
-    if(!this.selected){
+    if(this.shown && !this.selected){
 
         var viewer = this.viewer;
         

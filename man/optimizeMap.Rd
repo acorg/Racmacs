@@ -5,10 +5,10 @@
 \title{Optimize an acmap}
 \usage{
 optimizeMap(map, number_of_dimensions, number_of_optimizations,
-  minimum_column_basis, move_trapped_points = NULL,
-  discard_previous_optimizations = TRUE, sort_optimizations = TRUE,
-  realign_optimizations = TRUE, verbose = TRUE,
-  parallel_optimization = TRUE)
+  minimum_column_basis, fixed_column_bases = NULL,
+  move_trapped_points = NULL, discard_previous_optimizations = TRUE,
+  sort_optimizations = TRUE, realign_optimizations = TRUE,
+  verbose = TRUE, parallel_optimization = TRUE)
 }
 \arguments{
 \item{map}{The acmap data object}

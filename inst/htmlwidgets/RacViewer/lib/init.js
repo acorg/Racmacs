@@ -87,6 +87,52 @@ Racmacs.Viewer = class RacViewer extends R3JS.Viewer {
         // Add additional buttons to viewport
         this.viewport.addMapButtons();
 
+        // Add the function to popout a new version of the viewer
+        this.viewport.popOutViewer = function(){
+            
+            // Fetch the container
+            var viewer    = this.viewer;
+            var container = this.viewer.container;
+            var viewerdiv = container.children[0];
+            var data = document.querySelectorAll('[data-for='+container.id+']');
+
+            // Popout a new window
+            // var popout = window.open("", "", "height=800,width=800");
+            var popout = window.open("", "", "height=800,width=800");
+
+            // Copy style and scripts
+            popout.document.write(
+                `<head>` +
+                document.head.innerHTML + 
+                `</head>` +
+                `<body style='margin:0'></body>`
+            );
+
+            // When the other document is ready move the viewer across
+            var switchpopout = function(){
+                if(popout.document.body === null){
+                    window.setTimeout(switchpopout, 100);
+                } else {
+                    container.style.backgroundColor = "#fafafa";
+                    popout.document.body.appendChild(viewerdiv);
+                    viewer.viewport.onwindowresize();
+                }
+            }
+            switchpopout();
+            
+            // Link resize events
+            popout.onresize = function(){
+                viewer.viewport.onwindowresize();
+            }
+
+            // Add an event to switch back to the main viewer on window close
+            popout.onbeforeunload = function(){
+                container.appendChild(viewerdiv);
+                viewer.viewport.onwindowresize();
+            }
+
+        }
+
         // Add stress and a stress div
         this.stress = new Racmacs.StressElement();
         this.stress.bindToViewport(this.viewport);

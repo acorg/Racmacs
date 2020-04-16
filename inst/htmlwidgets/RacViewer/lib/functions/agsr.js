@@ -40,6 +40,7 @@ Racmacs.Viewer.prototype.addAntigensAndSera = function(mapData){
             outlineWidth  : this.data.agOutlineWidth(i),
             aspect        : this.data.agAspect(i),
             shape         : this.data.agShape(i),
+            shown         : this.data.agShown(i),
             drawing_order : this.data.agDrawingOrder(i),
             typeIndex     : i,
             pIndex        : pIndex
@@ -66,6 +67,7 @@ Racmacs.Viewer.prototype.addAntigensAndSera = function(mapData){
             outlineWidth  : this.data.srOutlineWidth(i),
             aspect        : this.data.srAspect(i),
             shape         : this.data.srShape(i),
+            shown         : this.data.srShown(i),
             drawing_order : this.data.srDrawingOrder(i),
             typeIndex     : i,
             pIndex        : pIndex
@@ -124,6 +126,7 @@ Racmacs.Point = class Point {
         this.outlineWidth  = args.outlineWidth;
         this.aspect        = args.aspect;
         this.shape         = args.shape;
+        this.shown         = args.shown;
         this.drawing_order = args.drawing_order;
         this.typeIndex     = args.typeIndex;
         this.pIndex        = args.pIndex;

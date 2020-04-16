@@ -128,7 +128,12 @@ view.rac <- function(map,
                      ...,
                      .jsCode = NULL,
                      .jsData = NULL,
-                     selected_ags = NULL){
+                     select_ags = NULL,
+                     select_sr  = NULL,
+                     show_procrustes = NULL){
+
+  # Pass on only the selected optimization
+  map <- keepSingleOptimization(map)
 
   # View the map data in the viewer
   widget <- RacViewer(map = map,
@@ -136,11 +141,28 @@ view.rac <- function(map,
                       ...)
 
   # Make any antigen and serum selections
-  if(!is.null(selected_ags)){
+  if(!is.null(select_ags)){
     widget <- htmlwidgets::onRender(
       x      = widget,
       jsCode = "function(el, x, data) { el.viewer.selectAntigensByIndices(data) }",
-      data   = I(selected_ags)
+      data   = I(select_ags)
+    )
+  }
+
+  if(!is.null(select_sr)){
+    widget <- htmlwidgets::onRender(
+      x      = widget,
+      jsCode = "function(el, x, data) { el.viewer.selectSeraByIndices(data) }",
+      data   = I(select_sr)
+    )
+  }
+
+  # Add any procrustes lines
+  if(!is.null(map$procrustes) && !isFALSE(show_procrustes)){
+    widget <- htmlwidgets::onRender(
+      x      = widget,
+      jsCode = "function(el, x, data) { el.viewer.addProcrustesToBaseCoords(data) }",
+      data   = I(map$procrustes$pc_coords)
     )
   }
 
@@ -150,6 +172,20 @@ view.rac <- function(map,
       x      = widget,
       jsCode = .jsCode,
       data   = .jsData
+    )
+  }
+
+  # Add any map legends
+  if(!is.null(map$legend)){
+    widget <- htmlwidgets::onRender(
+      x      = widget,
+      jsCode = sprintf("function(el, x, data) {
+        var div = document.createElement('div');
+        div.innerHTML      = `%s`;
+        div.racviewer      = el.viewer;
+        el.viewer.viewport.div.appendChild(div);
+      }", as.character(map$legend)),
+      data   = I(map$procrustes$pc_coords)
     )
   }
 

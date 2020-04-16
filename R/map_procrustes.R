@@ -190,7 +190,7 @@ procrustesMap <- function(map,
   sr_dists <- dist_coord_pairs(sr_coords1, sr_coords2)
 
   # Return output
-  object <- list(
+  map$procrustes <- list(
     map                        = map,
     comparison_map             = name(comparison_map),
     optimization_number        = optimization_number,
@@ -211,8 +211,8 @@ procrustesMap <- function(map,
     )
   )
 
-  class(object) <- c("racprocrustes", "list")
-  object
+  # Return the map
+  map
 
 }
 
@@ -288,30 +288,6 @@ realignOptimizations.racmap <- function(map,
 }
 
 
-
-#' Viewing procrustes data
-#'
-#' View procrustes data in an interactive viewer.
-#'
-#' @param map The map object to which procrustesMap() has been applied
-#' @param ... Arguments to be passed to \code{\link{view_map}}
-#'
-#' @export
-#'
-view.racprocrustes <- function(object, ...){
-
-  # Javascript code to run upon viewing the map
-  jsCode <- "function(el, x, data) {
-    el.viewer.addProcrustesToBaseCoords(data);
-  }"
-
-  # View the map and show the procrustes data
-  view(object$map,
-       .jsCode = jsCode,
-       .jsData = object$pc_coords,
-       ...)
-
-}
 
 
 

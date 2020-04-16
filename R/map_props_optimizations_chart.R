@@ -112,7 +112,9 @@ setProperty_optimization.racchart <- function(map, optimization_number, attribut
     },
 
     colBases = {
-      optimization$set_column_bases(value)
+      for(x in which(!is.na(value))){
+        optimization$set_column_basis(x, value[x])
+      }
     },
 
     # Return an error if no attribute matched

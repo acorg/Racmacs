@@ -4,7 +4,36 @@ runOptimization.racchart <- function(map,
                                      number_of_dimensions,
                                      number_of_optimizations,
                                      minimum_column_basis,
+                                     fixed_column_bases = NULL,
                                      parallel_optimization = TRUE){
+
+  # Set fixed column bases if provided
+  if(!is.null(fixed_column_bases)){
+
+    # Check column bases are the right length
+    if(length(fixed_column_bases) != map$chart$number_of_sera){
+      stop("'fixed_column_bases' must be a vector of the same length as the number of sera", call. = FALSE)
+    }
+
+    # Set a filler for minimum column basis
+    if(missing(minimum_column_basis)) minimum_column_basis <- "none"
+
+    # Set fixed column bases on the chart
+    if(sum(is.na(fixed_column_bases)) == 0){
+
+      # Either as the vector provided
+      map$chart$set_column_bases(fixed_column_bases)
+
+    } else {
+
+      # Or only fix those where a non-NA value was provided
+      for(x in which(!is.na(fixed_column_bases))){
+        map$chart$set_column_basis(x, fixed_column_bases[x])
+      }
+
+    }
+
+  }
 
   # relax_many is only safe if there are no existing projections since it reorders by stress
   if(map$chart$number_of_projections == 0 && parallel_optimization){

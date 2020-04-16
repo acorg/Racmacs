@@ -171,6 +171,8 @@ copyR3JSlib <- function(){
     recursive = TRUE
   )
 }
+
+
 linkR3JSlib <- function(){
   unlink("inst/htmlwidgets/RacViewer/lib/r3js/lib", recursive = TRUE)
   file.symlink(

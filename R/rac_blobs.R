@@ -249,15 +249,16 @@ contour_blob <- function(grid_values,
 #'
 stressBlobs <- function(map,
                         optimization_number   = NULL,
-                        stress_lim   = 1,
-                        antigens     = TRUE,
-                        sera         = TRUE,
-                        grid_spacing = 0.25,
-                        grid_margin  = 4,
-                        progress_fn  = message){
+                        stress_lim            = 1,
+                        antigens              = TRUE,
+                        sera                  = TRUE,
+                        grid_spacing          = 0.25,
+                        grid_margin           = 4,
+                        progress_fn           = message,
+                        .check_relaxation     = TRUE){
 
   # Check map has been fully relaxed
-  if(!mapRelaxed(map, optimization_number)){
+  if(.check_relaxation && !mapRelaxed(map, optimization_number)){
     stop("Map is not fully relaxed, please relax the map first.")
   }
 

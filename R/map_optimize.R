@@ -42,6 +42,7 @@ optimizeMap <- function(map,
                         number_of_dimensions,
                         number_of_optimizations,
                         minimum_column_basis,
+                        fixed_column_bases = NULL,
                         move_trapped_points = NULL,
                         discard_previous_optimizations = TRUE,
                         sort_optimizations = TRUE,
@@ -68,11 +69,14 @@ optimizeMap <- function(map,
   new_optimizations  <- numOptimizations(map) + seq_len(number_of_optimizations)
 
   vmessage(verbose, "Performing ", number_of_optimizations, " optimization runs...", appendLF = F)
-  map <- runOptimization(map,
-                         number_of_dimensions,
-                         number_of_optimizations,
-                         minimum_column_basis,
-                         parallel_optimization)
+  map <- runOptimization(
+    map                     = map,
+    number_of_dimensions    = number_of_dimensions,
+    number_of_optimizations = number_of_optimizations,
+    minimum_column_basis    = minimum_column_basis,
+    fixed_column_bases      = fixed_column_bases,
+    parallel_optimization   = parallel_optimization
+  )
   vmessage(verbose, "done.")
 
   # Set selected optimization to 1
@@ -129,6 +133,7 @@ runOptimization <- function(map,
                             number_of_dimensions,
                             number_of_optimizations,
                             minimum_column_basis,
+                            fixed_column_bases = NULL,
                             parallel_optimization = TRUE) {
   UseMethod("runOptimization", map)
 }

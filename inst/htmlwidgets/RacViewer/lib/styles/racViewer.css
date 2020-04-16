@@ -1,4 +1,8 @@
 
+.r3jsviewer {
+  border: solid 4px #eeeeee;
+}
+
 /* Placeholder styling */
 #placeholder,
 #placeholder-overlay {

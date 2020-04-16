@@ -238,7 +238,6 @@ Racmacs.Viewer.prototype.addProcrustesToBaseCoords = function(data){
     }
 
     // Add the arrows to the scene
-    console.log(arrow_coords);
     this.procrustes = new this.mapElements.procrustes({
         coords : arrow_coords,
         size   : 4,

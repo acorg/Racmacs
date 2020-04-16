@@ -5,6 +5,7 @@ runOptimization.racmap <- function(map,
                                    number_of_dimensions,
                                    number_of_optimizations,
                                    minimum_column_basis,
+                                   fixed_column_bases    = NULL,
                                    parallel_optimization = FALSE){
 
   # Get the HI table
@@ -18,6 +19,7 @@ runOptimization.racmap <- function(map,
                               number_of_dimensions    = number_of_dimensions,
                               number_of_optimizations = number_of_optimizations,
                               minimum_column_basis    = minimum_column_basis,
+                              fixed_column_bases      = fixed_column_bases,
                               parallel_optimization   = parallel_optimization)
 
   # Add optimizations to the racmap

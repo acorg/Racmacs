@@ -48,20 +48,21 @@ Racmacs.Viewer.prototype.addAgSrPoints = function(){
             points.map( p => p.scaling = 0.2 );
 
             // Extract values
-            var coords = points.map( p => p.coordsNoNA() );
-            var size   = points.map( p => p.size*p.scaling );
+            var coords  = points.map( p => p.coordsNoNA() );
+            var size    = points.map( p => p.size*p.scaling );
             var shape  = points.map( function(p){
                 var shape = p.shape.toLowerCase();
-                if(shape == "circle")  return("bcircle")
-                if(shape == "box")     return("bsquare")
-                if(shape == "egg")     return("begg")
-                if(shape == "uglyegg") return("buglyegg")
+                if(shape == "circle")   return("bcircle")
+                if(shape == "triangle") return("btriangle")
+                if(shape == "box")      return("bsquare")
+                if(shape == "egg")      return("begg")
+                if(shape == "uglyegg")  return("buglyegg")
             });
             var fillcols    = points.map( p => p.getFillColorRGBA()    );
             var outlinecols = points.map( p => p.getOutlineColorRGBA() );
             var visible = points.map( function(p){
-                if(p.na_coords){ return(false) }
-                else           { return(true)  }
+                if(p.na_coords || !p.shown){ return(false) }
+                else                       { return(true)  }
             });
 
             // Set properties
@@ -100,6 +101,7 @@ Racmacs.Viewer.prototype.addAgSrPoints = function(){
                 coords : coords,
                 size : size,
                 shape : shape,
+                visible : visible,
                 dimensions : this.mapdims.dimensions,
                 properties : properties,
                 viewer : this.scene.viewer,

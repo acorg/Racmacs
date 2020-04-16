@@ -42,8 +42,12 @@ run.maptests <- function(expr, bothclasses = FALSE, loadlocally = FALSE){
 export.viewer.test <- function(widget, filename){
 
   maptype <- get0("maptype", parent.frame())
-  if(!is.null(maptype)){ filename <- gsub("\\.html$", paste0("_", maptype, ".html"), filename) }
-  testfile <- file.path("~/Dropbox/LabBook/packages/Racmacs/tests/testoutput", filename)
+  if(is.null(maptype) || maptype == "racmap"){
+    rootdir <- "~/Dropbox/LabBook/packages/Racmacs/tests/testoutput/viewer/racmap"
+  } else {
+    rootdir <- "~/Dropbox/LabBook/packages/Racmacs/tests/testoutput/viewer/racmap.cpp"
+  }
+  testfile <- file.path(rootdir, filename)
 
   htmlwidgets::saveWidget(
     widget,
@@ -52,12 +56,12 @@ export.viewer.test <- function(widget, filename){
     libdir        = ".lib"
   )
 
-  unlink("~/Dropbox/LabBook/packages/Racmacs/tests/testoutput/.lib/RacViewer-1.0.0", recursive = T)
+  unlink(file.path(rootdir, ".lib/RacViewer-1.0.0"), recursive = T)
 
   plotdata <- readLines(testfile)
   plotdata <- gsub(
     pattern     = ".lib/RacViewer-1.0.0/",
-    replacement = "../../inst/htmlwidgets/RacViewer/lib/",
+    replacement = "../../../../inst/htmlwidgets/RacViewer/lib/",
     x           = plotdata,
     fixed       = TRUE
   )

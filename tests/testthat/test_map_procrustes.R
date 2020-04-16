@@ -388,11 +388,23 @@ run.maptests(
     test_that("Procrustes maps with na coords", {
 
       map1na <- cloneMap(map1)
-      agCoords(map1na)[1,] <- NA
+      agCoords(map1na)[1:2,] <- NA
+      srCoords(map1na)[1,] <- NA
       export.viewer.test(
         view(map1na),
         "na_map.html"
       )
+
+      export.viewer.test(
+        view(
+          procrustesMap(
+            map1na,
+            map2
+          )
+        ),
+        "na_map_procrustes.html"
+      )
+
 
     })
 

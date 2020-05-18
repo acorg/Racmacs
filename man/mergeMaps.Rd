@@ -4,9 +4,14 @@
 \alias{mergeMaps}
 \title{Merging maps}
 \usage{
-mergeMaps(..., method = "table", passage_matching = "auto",
-  minimum_column_basis = "none", number_of_optimizations = 100,
-  number_of_dimensions)
+mergeMaps(
+  ...,
+  method = "table",
+  passage_matching = "auto",
+  minimum_column_basis = "none",
+  number_of_optimizations = 100,
+  number_of_dimensions
+)
 }
 \arguments{
 \item{...}{Antigenic map objects to merge}
@@ -66,6 +71,8 @@ new antigens and sera into a map without affecting the first one at all (and was
 }
 }
 \seealso{
-Other merging_maps: \code{\link{mergeReport}}
+Other {map merging functions}: 
+\code{\link{mergeReport}()},
+\code{\link{mergeTiterTables}()}
 }
-\concept{merging_maps}
+\concept{{map merging functions}}

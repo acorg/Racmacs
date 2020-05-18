@@ -37,10 +37,12 @@ Racmacs.SavePanel = class SavePanel {
 }
 
 
-Racmacs.Viewer.prototype.saveMap = function(){
+Racmacs.App.prototype.saveMap = function(){
 
     var data     = this.data.outputAce();
-    var filename = "test.ace";
+    var filename = this.data.tableName();
+    if(filename === "") filename = "map"
+    filename += ".ace";
     var blob = new Blob([data], {type: 'text/ace'});
 
     if(window.navigator.msSaveOrOpenBlob) {

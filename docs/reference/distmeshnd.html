@@ -74,7 +74,7 @@ region are projected back to the boundary." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">Racmacs</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.7</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.9</span>
       </span>
     </div>
 
@@ -100,7 +100,13 @@ region are projected back to the boundary." />
       <a href="../articles/comparing-maps.html">Comparing maps</a>
     </li>
     <li>
-      <a href="../articles/making-maps.html">Making antigenic maps</a>
+      <a href="../articles/getting-and-setting-map-attributes.html">Getting and setting map attributes</a>
+    </li>
+    <li>
+      <a href="../articles/loading-map-data.html">Reading a map file</a>
+    </li>
+    <li>
+      <a href="../articles/making-a-map-from-scratch.html">Making an antigenic map from scratch</a>
     </li>
     <li>
       <a href="../articles/map-diagnostics.html">Performing map diagnostics</a>
@@ -143,9 +149,20 @@ function (fd) indicates if a given node is inside or outside the region. Points 
 region are projected back to the boundary.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>distmeshnd</span>(<span class='no'>fdist</span>, <span class='no'>fh</span>, <span class='no'>h</span>, <span class='no'>box</span>, <span class='kw'>pfix</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/array.html'>array</a></span>(<span class='kw'>dim</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0</span>, <span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>ncol</a></span>(<span class='no'>box</span>))),
-  <span class='kw'>ptol</span> <span class='kw'>=</span> <span class='fl'>0.001</span>, <span class='kw'>ttol</span> <span class='kw'>=</span> <span class='fl'>0.1</span>, <span class='kw'>deltat</span> <span class='kw'>=</span> <span class='fl'>0.1</span>, <span class='kw'>geps</span> <span class='kw'>=</span> <span class='fl'>0.1</span> * <span class='no'>h</span>,
-  <span class='kw'>deps</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/MathFun.html'>sqrt</a></span>(<span class='no'>.Machine</span>$<span class='no'>double.eps</span>) * <span class='no'>h</span>, <span class='kw'>max_delauney</span> <span class='kw'>=</span> <span class='fl'>10</span>, <span class='no'>...</span>)</pre>
+    <pre class="usage"><span class='fu'>distmeshnd</span>(
+  <span class='no'>fdist</span>,
+  <span class='no'>fh</span>,
+  <span class='no'>h</span>,
+  <span class='no'>box</span>,
+  <span class='kw'>pfix</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/array.html'>array</a></span>(<span class='kw'>dim</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0</span>, <span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>ncol</a></span>(<span class='no'>box</span>))),
+  <span class='kw'>ptol</span> <span class='kw'>=</span> <span class='fl'>0.001</span>,
+  <span class='kw'>ttol</span> <span class='kw'>=</span> <span class='fl'>0.1</span>,
+  <span class='kw'>deltat</span> <span class='kw'>=</span> <span class='fl'>0.1</span>,
+  <span class='kw'>geps</span> <span class='kw'>=</span> <span class='fl'>0.1</span> * <span class='no'>h</span>,
+  <span class='kw'>deps</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/MathFun.html'>sqrt</a></span>(<span class='no'>.Machine</span>$<span class='no'>double.eps</span>) * <span class='no'>h</span>,
+  <span class='kw'>max_delauney</span> <span class='kw'>=</span> <span class='fl'>10</span>,
+  <span class='no'>...</span>
+)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">

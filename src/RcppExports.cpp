@@ -179,17 +179,6 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// convert2logCpp
-Rcpp::List convert2logCpp(StringMatrix titers);
-RcppExport SEXP _Racmacs_convert2logCpp(SEXP titersSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< StringMatrix >::type titers(titersSEXP);
-    rcpp_result_gen = Rcpp::wrap(convert2logCpp(titers));
-    return rcpp_result_gen;
-END_RCPP
-}
 
 static const R_CallMethodDef CallEntries[] = {
     {"_Racmacs_ac_pointLogLik", (DL_FUNC) &_Racmacs_ac_pointLogLik, 4},
@@ -204,7 +193,6 @@ static const R_CallMethodDef CallEntries[] = {
     {"_Racmacs_ac_optimizationStress", (DL_FUNC) &_Racmacs_ac_optimizationStress, 6},
     {"_Racmacs_grid_search", (DL_FUNC) &_Racmacs_grid_search, 6},
     {"_Racmacs_ac_mapCoordStress", (DL_FUNC) &_Racmacs_ac_mapCoordStress, 8},
-    {"_Racmacs_convert2logCpp", (DL_FUNC) &_Racmacs_convert2logCpp, 1},
     {NULL, NULL, 0}
 };
 

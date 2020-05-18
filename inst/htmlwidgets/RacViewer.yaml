@@ -21,6 +21,8 @@ dependencies:
       - r3js/lib/threejs/plugins/Detector.js
       - r3js/lib/threejs/plugins/PLYExporter.js
       - r3js/lib/threejs/plugins/THREE.MeshLine.js
+      - r3js/lib/threejs/renderers/SVGRenderer.js
+      - r3js/lib/threejs/renderers/Projector.js
       - r3js/lib/threejs/renderers/CSS2DRenderer_r3js.js
       - r3js/lib/threejs/fonts/helvetiker_regular.typeface.js
       - r3js/lib/threejs/utils/SceneUtils.js
@@ -70,23 +72,23 @@ dependencies:
       - r3js/lib/functions/icons.js
       - r3js/lib/functions/load.js
       - init.js
+      - functions/agsr.js
+      - functions/points.js
+      - functions/selections.js
       - functions/utils.js
       - functions/data.js
       - functions/controls.js
       - functions/diagnostics.js
-      - functions/agsr.js
       - functions/animation.js
       - functions/dimensions.js
       - functions/hemisphering.js
       - functions/save.js
-      - functions/hitable.js
+      - functions/table.js
       - functions/grid.js
-      - functions/points.js
       - functions/api.js
       - functions/blobs.js
       - functions/load.js
       - functions/procrustes.js
-      - functions/selections.js
       - functions/connections.js
       - functions/stress.js
       - functions/drag.js

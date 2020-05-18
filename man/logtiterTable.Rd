@@ -18,8 +18,12 @@ Returns a list of matrices with the logged titers and whether the titers were di
 Get the log titers from an acmap
 }
 \seealso{
-Other functions relating to map stress calculation: \code{\link{mapDistances}},
-  \code{\link{mapResiduals}}, \code{\link{stressTable}},
-  \code{\link{tableDistances}}
+Other {map diagnostic functions}{functions relating to map stress calculation}: 
+\code{\link{mapDistances}()},
+\code{\link{mapResiduals}()},
+\code{\link{pointStress}},
+\code{\link{recalculateStress}()},
+\code{\link{stressTable}()},
+\code{\link{tableDistances}()}
 }
-\concept{functions relating to map stress calculation}
+\concept{{map diagnostic functions}{functions relating to map stress calculation}}

@@ -64,6 +64,7 @@ R3JS.element.glpoints = class GLPoints {
             positions[i*3+1] = coords[n][1];
             positions[i*3+2] = coords[n][2];
 
+
             // Set color
             if(args.shape[n].charAt(0) == "b"){ 
 
@@ -246,9 +247,10 @@ R3JS.element.glpoint = class GLPoint extends R3JS.element.base {
             pointobjcoords[this.index*3+1],
             pointobjcoords[this.index*3+2]
         ];
-        this.size   = this.object.geometry.attributes.size.array[this.index];
-        this.shape  = this.object.geometry.attributes.shape.array[this.index];
-        this.aspect = this.object.geometry.attributes.aspect.array[this.index];
+        this.size    = this.object.geometry.attributes.size.array[this.index];
+        this.shape   = this.object.geometry.attributes.shape.array[this.index];
+        this.aspect  = this.object.geometry.attributes.aspect.array[this.index];
+        this.visible = this.object.geometry.attributes.visible.array[this.index];
 
     }
 
@@ -394,65 +396,98 @@ R3JS.element.glpoint = class GLPoint extends R3JS.element.base {
         // Reset the index
         this.index = index;
 
-    }   
+    }
 
 
     // Method for raycasting to this point
     raycast(raycaster, intersects){
         
-        // 2D
-        // Fetch ray and project into camera space [-1, 1] for x and y
-        var ray = raycaster.ray.origin.clone().project(raycaster.camera);
-        
-        // Project coords into camera space [-1, 1] for x and y
-        var coords = new THREE.Vector3()
-                              .fromArray(this.coords)
-                              .applyMatrix4(this.object.matrixWorld)
-                              .project(raycaster.camera);
+        if(this.visible == 1){
+
+            // 2D
+            // Fetch ray and project into camera space [-1, 1] for x and y
+            var ray = raycaster.ray.origin.clone().project(raycaster.camera);
+            
+            // Project coords into camera space [-1, 1] for x and y
+            var coords = new THREE.Vector3()
+                                  .fromArray(this.coords)
+                                  .applyMatrix4(this.object.matrixWorld)
+                                  .project(raycaster.camera);
 
 
-        // // Project coords into camera space [-1, 1] for x and y
-        // var coords = new THREE.Vector3()
-        //                       .fromArray(this.coords)
-        //                       .applyMatrix4(this.object.matrixWorld)
-        //                       .project(raycaster.camera);
+            // // Project coords into camera space [-1, 1] for x and y
+            // var coords = new THREE.Vector3()
+            //                       .fromArray(this.coords)
+            //                       .applyMatrix4(this.object.matrixWorld)
+            //                       .project(raycaster.camera);
 
-        // // 3D
-        // var ray = raycaster.ray.direction.clone().project(raycaster.camera);
-        
-        // Correct distance for viewport aspect
-        var aspect = raycaster.aspect;
-        coords.x   = coords.x/aspect;
-        ray.x      = ray.x/aspect;
+            // // 3D
+            // var ray = raycaster.ray.direction.clone().project(raycaster.camera);
+            
+            // Correct distance for viewport aspect
+            var aspect = raycaster.aspect;
+            coords.x   = coords.x/aspect;
+            ray.x      = ray.x/aspect;
 
-        // Work out point radius
-        var size       = this.size;
-        var aspect     = this.aspect;
-        var uniscale   = this.object.material.uniforms.scale.value;
-        var pixelratio = this.object.material.uniforms.viewportPixelRatio.value;
-        var ptRadius   = 0.025*size*uniscale;
+            // Work out point radius
+            var size       = this.size;
+            var aspect     = this.aspect;
+            var uniscale   = this.object.material.uniforms.scale.value;
+            var pixelratio = this.object.material.uniforms.viewportPixelRatio.value;
+            var ptRadius   = 0.025*size*uniscale;
 
-        // Work out whether the point is intersected or not
-        var ptIntersected;
-        if(this.shape == 1){
-            ptIntersected = ray.x < coords.x + ptRadius/aspect
-                            && ray.x > coords.x - ptRadius/aspect
-                            && ray.y < coords.y + ptRadius
-                            && ray.y > coords.y - ptRadius
-        } else {
-            var dist2point = Math.sqrt(
-                ((coords.x - ray.x)*(coords.x - ray.x))/(aspect*aspect)
-                + (coords.y - ray.y)*(coords.y - ray.y)
-            );
-            ptIntersected = dist2point < ptRadius;
-        }
+            // Work out whether the point is intersected or not
+            var ptIntersected;
+            var p = { x:ray.x - coords.x, y: ray.y - coords.y };
 
-        // If intersected then add to intersects
-        if(ptIntersected){
-            intersects.push({
-                object   : this,
-                distance : -this.index
-            });
+            if(aspect > 1){ p.y = p.y*aspect }
+            else          { p.x = p.x/aspect }
+
+            if(this.shape == 1){
+                
+                // Square
+                ptIntersected = p.x < ptRadius
+                                && p.x > -ptRadius
+                                && p.y < ptRadius
+                                && p.y > -ptRadius
+
+            } else if(this.shape == 2) {
+
+                // Triangle
+                var p1 = {x:0.8660254*ptRadius,  y:-0.5*ptRadius};
+                var p2 = {x:-0.8660254*ptRadius, y:-0.5*ptRadius};
+                var p3 = {x:0,                   y:1*ptRadius};
+                
+                var alpha = ((p2.y - p3.y)*(p.x - p3.x) + (p3.x - p2.x)*(p.y - p3.y)) /
+                        ((p2.y - p3.y)*(p1.x - p3.x) + (p3.x - p2.x)*(p1.y - p3.y));
+                var beta = ((p3.y - p1.y)*(p.x - p3.x) + (p1.x - p3.x)*(p.y - p3.y)) /
+                       ((p2.y - p3.y)*(p1.x - p3.x) + (p3.x - p2.x)*(p1.y - p3.y));
+                var gamma = 1.0 - alpha - beta;
+                
+                // if(alpha < 0 || beta < 0 || gamma < 0){
+                //     discard;
+                // }
+                ptIntersected = alpha > 0 && beta > 0 && gamma > 0;
+
+            } else {
+
+                // Circle
+                var dist2point = Math.sqrt(
+                    ((p.x)*(p.x))
+                    + (p.y)*(p.y)
+                );
+                ptIntersected = dist2point < ptRadius;
+
+            }
+
+            // If intersected then add to intersects
+            if(ptIntersected){
+                intersects.push({
+                    object   : this,
+                    distance : -this.index
+                });
+            }
+
         }
         
     }
@@ -464,25 +499,29 @@ R3JS.element.glpoint = class GLPoint extends R3JS.element.base {
         camera
     ){
 
-        var projectedPosition = new THREE.Vector3()
-                                         .fromArray(this.coords)
-                                         .applyMatrix4(this.object.matrixWorld)
-                                         .project(camera.camera);
+        if(this.visible == 1){
 
-        var aspect = camera.aspect;
-        
-        var size       = this.size;
-        var uniscale   = this.object.material.uniforms.scale.value;
-        var pixelratio = this.object.material.uniforms.viewportPixelRatio.value;
-        var ptRadius   = (0.05*size*uniscale)/pixelratio;
+            var projectedPosition = new THREE.Vector3()
+                                             .fromArray(this.coords)
+                                             .applyMatrix4(this.object.matrixWorld)
+                                             .project(camera.camera);
 
-        // var ptRadius = (this.object.material.uniforms.scale.value*0.0032*this.size)/
-        //                (3*this.object.material.uniforms.viewportPixelRatio.value);
+            var aspect = camera.aspect;
+            
+            var size       = this.size;
+            var uniscale   = this.object.material.uniforms.scale.value;
+            var pixelratio = this.object.material.uniforms.viewportPixelRatio.value;
+            var ptRadius   = (0.048*size*uniscale)/pixelratio;
 
-        return(projectedPosition.x + ptRadius/aspect > Math.min(corner1.x, corner2.x) &&
-               projectedPosition.x - ptRadius/aspect < Math.max(corner1.x, corner2.x) &&
-               projectedPosition.y + ptRadius > Math.min(corner1.y, corner2.y) &&
-               projectedPosition.y - ptRadius < Math.max(corner1.y, corner2.y));
+            // var ptRadius = (this.object.material.uniforms.scale.value*0.0032*this.size)/
+            //                (3*this.object.material.uniforms.viewportPixelRatio.value);
+
+            return(projectedPosition.x + ptRadius/aspect > Math.min(corner1.x, corner2.x) &&
+                   projectedPosition.x - ptRadius/aspect < Math.max(corner1.x, corner2.x) &&
+                   projectedPosition.y + ptRadius > Math.min(corner1.y, corner2.y) &&
+                   projectedPosition.y - ptRadius < Math.max(corner1.y, corner2.y));
+
+        }
 
     }
 

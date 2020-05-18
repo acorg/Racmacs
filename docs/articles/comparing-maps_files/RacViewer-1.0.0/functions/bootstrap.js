@@ -1,4 +1,23 @@
 
+Racmacs.Point.prototype.onselect.push(
+    function(point){
+
+        // Show bootstrap
+        point.showBootstrapPoints();
+        point.showBootstrapContours();
+
+    }
+);
+
+Racmacs.Point.prototype.ondeselect.push(
+    function(point){
+
+        // Show bootstrap
+        point.hideBootstrapPoints();
+        point.hideBootstrapContours();
+
+    }
+);
 
 // Racmacs.BootstrapPanel = class ProcrustesPanel {
 

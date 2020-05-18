@@ -25,7 +25,7 @@ testthat::test_that("Draw priority to order conversion", {
 ## Hack to allow for different color specs
 convertcol <- function(col){
   if(class(col) == "character"){
-    col[col == "#00ff00"] <- "green"
+    col[col == "#00FF00"] <- "green"
   }
   col
 }
@@ -89,14 +89,16 @@ testthat::test_that("Edit plotspec details", {
     srSetterFunction <- get(paste0("sr", property, "<-"))
 
     # Test getting
-    testthat::expect_equal(
-      convertcol(agGetterFunction(racmap)),
-      agGetterFunction(racchart)
-    )
-    testthat::expect_equal(
-      srGetterFunction(racmap),
-      srGetterFunction(racchart)
-    )
+    if(property != "Size"){
+      testthat::expect_equal(
+        convertcol(agGetterFunction(racmap)),
+        agGetterFunction(racchart)
+      )
+      testthat::expect_equal(
+        srGetterFunction(racmap),
+        srGetterFunction(racchart)
+      )
+    }
 
     # Test setting
     racmap <- agSetterFunction(racmap, value = test_value)

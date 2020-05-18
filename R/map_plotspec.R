@@ -8,12 +8,13 @@
 #'
 #' @return Returns the acmap object with updated point styles (unmatched point styles unchanged)
 #' @export
+#' @family {map point style functions}
 #'
 applyPlotspec <- function(map,
                           source_map){
 
-  ag_match <- match_mapAntigens(map, source_map)
-  sr_match <- match_mapSera(map, source_map)
+  ag_match <- match_mapAntigens(map, source_map, warnings = FALSE)
+  sr_match <- match_mapSera(map, source_map, warnings = FALSE)
 
   plotspec_methods <- list_property_function_bindings("plotspec")$method
   for(method in plotspec_methods){

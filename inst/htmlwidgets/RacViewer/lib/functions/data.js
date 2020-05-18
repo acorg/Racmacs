@@ -57,6 +57,7 @@ Racmacs.Data = class Data {
     table(){
 
         let table;
+        let tabledata;
 
         // If table data provided as a list of objects
         if(this.data.c.t.d){
@@ -89,6 +90,10 @@ Racmacs.Data = class Data {
 
     }
 
+    logtable(){
+        return(Racmacs.utils.logTiters(this.table()));
+    }
+
     // Projection attributes
     stress(num){
         let pnum = this.projection(num);
@@ -100,6 +105,7 @@ Racmacs.Data = class Data {
     }
 
     transformation(){
+        if(this.data.c.P.length == 0) return(null)
         let pnum = this.projection();
         if(this.data.c.x.transformation && this.data.c.x.transformation[pnum]){
             return(this.data.c.x.transformation[pnum]);
@@ -125,7 +131,7 @@ Racmacs.Data = class Data {
 
     translation(){
         let pnum = this.projection();
-        if(this.data.c.x.transformation && this.data.c.x.translation[pnum]){
+        if(this.data.c.x.transformation && this.data.c.x.translation && this.data.c.x.translation[pnum]){
             return(this.data.c.x.translation[pnum]);
         } else {
             return(new Array(this.dimensions(pnum)).fill(0));
@@ -142,6 +148,7 @@ Racmacs.Data = class Data {
     }
 
     dimensions(num){
+        if(this.data.c.P.length == 0) return(null)
         let pnum = this.projection(num);
         return(
             Math.max(...this.data.c.P[pnum].l.map( p => p.length ))
@@ -154,12 +161,34 @@ Racmacs.Data = class Data {
         return("none");
     }
 
+    transformedCoords(){
+        let pnum           = this.projection();
+        let coords         = this.data.c.P[pnum].l.slice();
+        return(this.transformCoords(coords));
+    }
+
+    transformCoords(coords){
+        let transformation = this.transformation();
+        let translation    = this.translation()
+        return(
+            coords.map(
+                coord => Racmacs.utils.transformTranslateCoords(
+                    coord,
+                    transformation,
+                    translation
+                )
+            )
+        )
+    }
+
     agBaseCoords(i){
+        if(this.data.c.P.length == 0) return(null)
         let pnum = this.projection();
         return(this.data.c.P[pnum].l[i].slice());
     }
 
     agCoords(i){
+        if(this.data.c.P.length == 0) return(null)
         return(
             Racmacs.utils.transformTranslateCoords(
                 this.agBaseCoords(i),
@@ -175,11 +204,13 @@ Racmacs.Data = class Data {
     }
 
     srBaseCoords(i){
+        if(this.data.c.P.length == 0) return(null)
         let pnum = this.projection();
         return(this.data.c.P[pnum].l[i + this.numAntigens()].slice());
     }
 
     srCoords(i){
+        if(this.data.c.P.length == 0) return(null)
         return(
             Racmacs.utils.transformTranslateCoords(
                 this.srBaseCoords(i),
@@ -194,9 +225,14 @@ Racmacs.Data = class Data {
         this.data.c.P[pnum].l[i + this.numAntigens()] = coords;
     }
     
-    colbases(i){ 
+    colbases(i=null){ 
         if(this.numProjections() == 0){
-            return(0);
+            return(
+                Racmacs.utils.calcColBases({
+                    titers: this.table(),
+                    mincolbasis: "none"
+                })
+            );
         }
         
         let pnum = this.projection();
@@ -218,7 +254,12 @@ Racmacs.Data = class Data {
                 mincolbasis: mincolbasis
             });
         }
-        return(colbases[i]);
+
+        if(i === null){
+            return(colbases);
+        } else {
+            return(colbases[i]);
+        }
     }
     
 

@@ -43,3 +43,29 @@ There are two map data formats supported within Racmacs termed an
   particularly slow when you think it shouldn't be (often the 'acchart') format,
   you may consider using or converting to the other.
 }
+\seealso{
+Other {functions for working with map data}: 
+\code{\link{acmap}()},
+\code{\link{as.json}()},
+\code{\link{cloneMap}()},
+\code{\link{read.acmap}()},
+\code{\link{read.titerTable}()},
+\code{\link{save.acmap}()},
+\code{\link{save.coords}()},
+\code{\link{save.titerTable}()},
+\code{\link{selectedOptimization}()},
+\code{\link{subsetMap}()}
+
+Other {functions for working with map data}: 
+\code{\link{acmap}()},
+\code{\link{as.json}()},
+\code{\link{cloneMap}()},
+\code{\link{read.acmap}()},
+\code{\link{read.titerTable}()},
+\code{\link{save.acmap}()},
+\code{\link{save.coords}()},
+\code{\link{save.titerTable}()},
+\code{\link{selectedOptimization}()},
+\code{\link{subsetMap}()}
+}
+\concept{{functions for working with map data}}

@@ -1,6 +1,7 @@
 
 // Setup object
-R3JS = {};
+if(typeof R3JS === "undefined") R3JS = {};
+
 R3JS.Viewer = class R3JSviewer {
 
     // Constructor function
@@ -19,6 +20,7 @@ R3JS.Viewer = class R3JSviewer {
 
         // Set the container
         this.container = container;
+        container.viewer = this;
 
         // Create viewport
         this.viewport = new R3JS.Viewport(this);
@@ -165,8 +167,6 @@ R3JS.Viewer = class R3JSviewer {
     getAspect(){
         return(this.viewport.getAspect());
     }
-
-    
     
     // // Set render function
     // this.render = function(){};

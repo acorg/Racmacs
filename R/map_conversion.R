@@ -35,6 +35,7 @@ NULL
 
 
 #' @rdname convertingMaps
+#' @family {functions for working with map data}
 #' @export
 as.list.racchart <- function(map){
 
@@ -48,6 +49,7 @@ as.list.racchart <- function(map){
 
 
 #' @rdname convertingMaps
+#' @family {functions for working with map data}
 #' @export
 as.cpp <- function(map){
 
@@ -68,6 +70,7 @@ as.cpp <- function(map){
 #' @param map The map data object
 #'
 #' @return Returns map data as .ace json format
+#' @family {functions for working with map data}
 #' @export
 #'
 as.json <- function(map){

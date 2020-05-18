@@ -50,7 +50,7 @@
 #'
 #' @export
 #'
-#' @family functions to create and save acmap objects
+#' @family {functions for working with map data}
 #' @seealso See \code{\link{optimizeMap}} for generating new optimizations
 #'   estimating antigen similarity from the acmap titer data.
 #'
@@ -275,14 +275,16 @@ map.populate <- function(map,
 
 #' Clone an acmap object
 #'
-#' Creates a copy of an acmap object. This is needed, because acmap
-#' objects, being environments rather than lists are not copy-on-modify, i.e.
-#' if you change one reference to the acmap, all references to it will be changed.
-#' To avoid this behaviour you can use the cloneMap function.
+#' Creates a copy of an acmap object. This is needed when working with
+#' the acmap.cpp map types since these are environments rather than lists
+#' and are not copy-on-modify, i.e. if you change one reference to the
+#' acmap, all references to it will be changed. To avoid this behaviour
+#' you can use the cloneMap function.
 #'
 #' @param map The map object
 #'
 #' @return Returns a copy of the map object
+#' @family {functions for working with map data}
 #' @export
 #'
 cloneMap <- function(map){

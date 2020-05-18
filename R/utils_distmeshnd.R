@@ -21,6 +21,8 @@
 #' @param ... parameters that are passed to fdist and fh
 #' @param max_delauney Maximum delauney
 #'
+#' @noRd
+#'
 distmeshnd <- function (fdist, fh, h, box, pfix = array(dim = c(0, ncol(box))),
                         ptol = 0.001, ttol = 0.1, deltat = 0.1,
                         geps = 0.1 * h, deps = sqrt(.Machine$double.eps) * h,

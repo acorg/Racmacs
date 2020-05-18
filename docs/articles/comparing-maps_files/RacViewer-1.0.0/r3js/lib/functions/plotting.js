@@ -88,6 +88,12 @@ R3JS.element.make = function(
             plotobj,
             plotdims
         );
+    } else if(plotobj.type == "shape"){
+        // 3d shape
+        var element = this.constructors.polygon3d(
+            plotobj,
+            plotdims
+        );
     } else {
         throw("Plot object type '"+plotobj.type+"' not recognised.");
     }
@@ -97,7 +103,7 @@ R3JS.element.make = function(
         element.setRenderOrder(plotobj.properties.renderOrder);
     }
 
-    // object = R3JS.utils.removeSelfTransparency(object);
+
     if(element.object.material){
         // element.object = R3JS.utils.separateSides(element.object);
     }
@@ -258,9 +264,11 @@ R3JS.Scene.prototype.addPlotElement = function(
             );
         } else {
             for(var i=0; i<element.object.children.length; i++){
-                element.object.children[i].material.clippingPlanes = element.object.children[i].material.clippingPlanes.concat(
-                    clippingPlanes
-                );
+                if(element.object.children[i].material && element.object.children[i].material.clippingPlanes){
+                    element.object.children[i].material.clippingPlanes = element.object.children[i].material.clippingPlanes.concat(
+                        clippingPlanes
+                    );
+                }
             }
         }
 
@@ -281,6 +289,10 @@ R3JS.Scene.prototype.addPlotElement = function(
             }
         }
 
+    }
+
+    if(plotobj.properties.breakupMesh){
+        element.breakupMesh();
     }
 
     // Add group reference

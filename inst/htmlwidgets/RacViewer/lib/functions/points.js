@@ -13,8 +13,8 @@ Racmacs.Viewer.prototype.toggleLockPointSize = function(){
 Racmacs.Viewer.prototype.lockPointSize = function(){
 
     this.pointSizeLocked = true;
-    if(this.viewport.btns["toggleLockPointSize"]){
-        this.viewport.btns["toggleLockPointSize"].updateIcon(Racmacs.icons.unlocksize());
+    if(this.btns["toggleLockPointSize"]){
+        this.btns["toggleLockPointSize"].updateIcon(Racmacs.icons.unlocksize());
     }
 
 }
@@ -22,8 +22,8 @@ Racmacs.Viewer.prototype.lockPointSize = function(){
 Racmacs.Viewer.prototype.unlockPointSize = function(){
 
     this.pointSizeLocked = false;
-    if(this.viewport.btns["toggleLockPointSize"]){
-        this.viewport.btns["toggleLockPointSize"].updateIcon(Racmacs.icons.locksize());
+    if(this.btns["toggleLockPointSize"]){
+        this.btns["toggleLockPointSize"].updateIcon(Racmacs.icons.locksize());
     }
 
 }
@@ -171,7 +171,8 @@ Racmacs.Viewer.prototype.addAgSrPoints = function(){
                         b : outlinecolor[2]
                     },
                     transparent : true,
-                    lwd : points[i].outlineWidth
+                    lwd : points[i].outlineWidth,
+                    visible: points[i].shown
                 }
             });
 

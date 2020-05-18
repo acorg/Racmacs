@@ -243,11 +243,30 @@ Racmacs.Viewer.prototype.addProcrustesToBaseCoords = function(data){
 
     }
 
+    var arrowheadend;
+    var arrowheadlength;
+    if(this.data.dimensions() == 3 && data.dim == 2){
+        arrowheadend    = "circle";
+        arrowheadlength = 0.15;
+        // var pc_grid = new R3JS.element.grid({
+            
+        // });
+        // this.scene.add(pc_grid);
+    } else {
+        arrowheadend    = "arrow";
+        arrowheadlength = 0.5;
+    }
+
+
     // Add the arrows to the scene
     this.procrustes = new this.mapElements.procrustes({
         coords : arrow_coords,
         size   : 4,
-        properties : { lwd : 2 },
+        properties : { 
+            lwd : 2, 
+            arrowheadend : arrowheadend,
+            arrowheadlength : arrowheadlength
+        },
         viewer : this
     });
 

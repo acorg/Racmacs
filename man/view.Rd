@@ -14,3 +14,9 @@ view(x, ...)
 \description{
 Generic function for viewing objects interactively.
 }
+\seealso{
+Other {functions to view maps}: 
+\code{\link{plot.rac}()},
+\code{\link{snapshotMap}()}
+}
+\concept{{functions to view maps}}

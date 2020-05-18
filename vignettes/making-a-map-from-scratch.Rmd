@@ -1,0 +1,105 @@
+---
+title: "Making an antigenic map from scratch"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Making an antigenic map from scratch}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+In this vignette we're going to go through the process of making an antigenic map using Racmacs and viewing and saving the resulting map and images and interactive plots of the map.
+
+The steps will be:
+
+- Reading in the titer data
+- Creating the acmap object
+- Running a set of optimizations to try and find the best map to represent the data
+- Viewing the map
+- Saving the map
+
+## Reading in the titer data
+First of all we need to read in the titer data from a file, exactly how you do this depends on the format of your data but ultimately you need to end up with a matrix or dataframe of titers where _rows represent antigens_ and _columns represent sera_.
+
+If your titer data is in a simple format where you just have a single header for serum names and a single first column of antigen names you can try using the function `read.titerTable()`, as in the example below.
+
+For this example we will be reading the titer data from the first antigenic map of H3N2 antigenic evolution, published in 2004 and included with the Racmacs package.
+
+```{r reading_titers}
+# Load the Racmacs package
+library(Racmacs)
+
+# Read in the titer table
+path_to_titer_file <- system.file("extdata/h3map2004_hitable.csv", package = "Racmacs")
+titer_table        <- read.titerTable(path_to_titer_file)
+```
+
+The resulting titer table is a matrix of titers with column and row names:
+```{r}
+print(titer_table[1:5,1:7])
+```
+
+## Creating the acmap object
+Now we have the titers in the correct format we can use it create an antigenic map object or "acmap" object. For this we use the constructor function `acmap()`, akin to how `data.frame()` is used to make a data frame object or `matrix()` for a matrix.
+
+```{r making_an_acmap}
+# Create the acmap object, specifying the titer table
+map <- acmap(
+  table = titer_table
+)
+```
+
+The resulting object, that we've given the name `map` in this case, only has properties associated with the table. If the table had column names and row names, serum and antigen names are inferred from these. Alternatively, you can set these explicitely when creating the map with the `ag_names` and `sr_names` arguments.
+
+## Running optimizations
+Although we now have the acmap object there is no "map" yet as such, since we need to invoke the optimiser function to try and determine the antigenic map that best represents the patterns of reactivity seen in the titer table. To do this we call the function `optimizeMap()` on the acmap object we've made, specifying the number of optimization runs and other parameters like the minimum column basis and number of dimensions.
+
+In this case we're going to try and find the best 2-dimensional solution for the map data, using 10 optimization runs, just for the sake of speed.
+
+```{r optimizing_an_acmap}
+# Perform some optimization runs on the map object to try and determine a best map
+map <- optimizeMap(
+  map                     = map,
+  number_of_dimensions    = 2,
+  number_of_optimizations = 10,
+  minimum_column_basis    = "none"
+)
+```
+
+By default the resulting map optimizations are sorted by their stress, so that the optimization that resulted in the lowest map stress (i.e. usually thought of as the best solution), will be first and will be the default optimization run selected and therefore will be the one used when querying anything like antigen and serum coordinates, map stress etc. unless otherwise specified.
+
+## Viewing the map
+The lowest stress optimization run will also be the one used by default when viewing the map. To view the map, you can either do a simple plot of the map using the `plot()` function
+
+```{r plotting_an_acmap, fig.width=10, fig.height=6, out.width="100%", fig.retina=TRUE}
+plot(map)
+```
+
+or you can view the map interactively using the `view()` function
+
+```{r viewing_an_acmap, out.width = '100%'}
+view(map)
+```
+
+### Using `make.acmap()`
+Note that there is also a small utility function provided to allow you to create the acmap object and run optimizations on it all in one step. In the example below we use it to create a 3d version of the antigenic map and then use `view()` map to view the result (`plot()` will not work with 3 dimensional maps).
+
+```{r making_a_3d_map, out.width = '100%'}
+# Make the acmap object and run optimizations
+map3d <- make.acmap(
+  table                   = titer_table,
+  number_of_dimensions    = 3,
+  number_of_optimizations = 500,
+  minimum_column_basis    = "none"
+)
+
+# View the result
+view(map3d)
+```
+

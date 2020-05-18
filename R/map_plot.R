@@ -1,5 +1,10 @@
 
+#' Plot an antigenic map
+#'
+#' Method for plotting an antigenic map
+#'
 #' @export
+#' @family {functions to view maps}
 plot.rac <- function(map,
                      optimization_number = NULL,
                      xlim = NULL,
@@ -9,6 +14,7 @@ plot.rac <- function(map,
                      plot_sr  = TRUE,
                      plot_labels = FALSE,
                      grid.col = "grey90",
+                     grid.margin.col = grid.col,
                      fill.alpha    = 0.8,
                      outline.alpha = 0.8,
                      padding = 1,
@@ -38,16 +44,20 @@ plot.rac <- function(map,
 
   # Plot grid
   for(x in seq(from = xlim[1], to = xlim[2], by = 1)){
+    if(x == xlim[1] | x == xlim[2]) col <- grid.margin.col
+    else                            col <- grid.col
     lines(x = c(x,x),
           y = ylim,
-          col = grid.col,
+          col = col,
           xpd = TRUE)
   }
 
   for(y in seq(from = ylim[1], to = ylim[2], by = 1)){
+    if(y == ylim[1] | y == ylim[2]) col <- grid.margin.col
+    else                            col <- grid.col
     lines(x = xlim,
           y = c(y,y),
-          col = grid.col,
+          col = col,
           xpd = TRUE)
   }
 
@@ -142,15 +152,70 @@ setup_acmap <- function(all_coords,
 }
 
 
+#' @export
+mapLims <- function(...){
+
+  all_coords <- c()
+  for(map in list(...)){
+    all_coords <- rbind(
+      all_coords,
+      agCoords(map),
+      srCoords(map)
+    )
+    if(!is.null(map$procrustes)){
+      all_coords <- rbind(
+        all_coords,
+        applyMapTransform(map$procrustes$pc_coords$ag, map),
+        applyMapTransform(map$procrustes$pc_coords$sr, map)
+      )
+    }
+  }
+  coord_lims(all_coords)
+
+}
+
+#' @export
+mapPlotLims <- function(..., padding = 1, round_even = TRUE){
+
+  maplims <- mapLims(...)
+  expand_lims(
+    maplims,
+    padding    = padding,
+    round_even = round_even
+  )
+
+}
 
 
+coord_lims <- function(coords){
+  list(
+    xlim = range(coords[,1], na.rm = T),
+    ylim = range(coords[,2], na.rm = T)
+  )
+}
 
 
+expand_lims <- function(lims, padding = 1, round_even = TRUE){
+  lapply(lims, function(l){
+    l[1] <- l[1] - padding
+    l[2] <- l[2] + padding
+    if(round_even){
+      d  <- diff(l)
+      dd <- ceiling(d) - d
+      l[1] <- l[1] - dd/2
+      l[2] <- l[2] + dd/2
+    }
+    l
+  })
+}
 
 
-
-
-
-
+plot_lims <- function(coords, padding = 1, round_even = TRUE){
+  expand_lims(
+    lims       = coord_lims(coords),
+    padding    = padding,
+    round_even = round_even
+  )
+}
 
 

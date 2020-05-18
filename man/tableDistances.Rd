@@ -21,8 +21,12 @@ currently selected or specifed optimization, returns the table distances
 calculated from the titer data.
 }
 \seealso{
-Other functions relating to map stress calculation: \code{\link{logtiterTable}},
-  \code{\link{mapDistances}}, \code{\link{mapResiduals}},
-  \code{\link{stressTable}}
+Other {map diagnostic functions}{functions relating to map stress calculation}: 
+\code{\link{logtiterTable}()},
+\code{\link{mapDistances}()},
+\code{\link{mapResiduals}()},
+\code{\link{pointStress}},
+\code{\link{recalculateStress}()},
+\code{\link{stressTable}()}
 }
-\concept{functions relating to map stress calculation}
+\concept{{map diagnostic functions}{functions relating to map stress calculation}}

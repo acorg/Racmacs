@@ -29,6 +29,19 @@ getProperty_optimization.racchart <- function(map, optimization_number, attribut
       optimization$number_of_dimensions
     },
 
+    mapStress = {
+      stress <- optimization$stress
+      if(is.na(stress)){
+        stress <- ac_calcStress(
+          ag_coords   = optimization$layout[seq_len(map$chart$number_of_antigens),,drop=F],
+          sr_coords   = optimization$layout[-seq_len(map$chart$number_of_antigens),,drop=F],
+          titer_table = map$chart$titers$all(),
+          colbases    = map$chart$column_bases(optimization_number)
+        )
+      }
+      stress
+    },
+
     minColBasis = {
       if(length(optimization$forced_column_bases) > 1 ||
          !is.na(optimization$forced_column_bases)){
@@ -64,7 +77,7 @@ getProperty_optimization.racchart <- function(map, optimization_number, attribut
 
 
 # Setting point plotspec attributes ----
-setProperty_optimization.racchart <- function(map, optimization_number, attribute, value){
+setProperty_optimization.racchart <- function(map, optimization_number, attribute, value, .check = TRUE){
 
   # Get the optimization
   optimization <- map$chart$projections[[optimization_number]]
@@ -95,6 +108,10 @@ setProperty_optimization.racchart <- function(map, optimization_number, attribut
 
     mapDimensions = {
       stop("Map dimensions cannot be set")
+    },
+
+    mapStress = {
+      stop("Map stress cannot be set")
     },
 
     minColBasis = {

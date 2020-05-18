@@ -4,10 +4,19 @@
 \alias{realignMap}
 \title{Realign map to match another}
 \usage{
-realignMap(map, target_map, antigens = TRUE, sera = TRUE,
-  translation = TRUE, scaling = FALSE, optimization_number = NULL,
-  target_optimization_number = NULL, passage_matching = "ignore",
-  warnings = TRUE, .alignToTargetBaseCoords = FALSE)
+realignMap(
+  map,
+  target_map,
+  antigens = TRUE,
+  sera = TRUE,
+  translation = TRUE,
+  scaling = FALSE,
+  optimization_number = NULL,
+  target_optimization_number = NULL,
+  passage_matching = "ignore",
+  warnings = TRUE,
+  .alignToBaseCoords = FALSE
+)
 }
 \arguments{
 \item{map}{The acmap to realign.}
@@ -34,3 +43,9 @@ Returns the map aligned to the target map (or the target map aligned to the main
 \description{
 Realigns the coordinates of a map to match a target map as closely as possible.
 }
+\seealso{
+Other {functions to compare maps}: 
+\code{\link{procrustesMap}()},
+\code{\link{realignOptimizations}()}
+}
+\concept{{functions to compare maps}}

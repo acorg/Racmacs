@@ -19,6 +19,8 @@ run.maptests(
 
     # Subset the maps
     map_subset <- subsetMap(map, antigens = seq_len(num_antigens - 1), sera = 1 + seq_len(num_sera - 1))
+    map_subset_ags <- subsetMap(map, antigens = seq_len(num_antigens - 1))
+    map_subset_sr  <- subsetMap(map, sera = 1 + seq_len(num_sera - 1))
 
     testthat::test_that("Original map unaffected",{
       testthat::expect_equal(numAntigens(map), num_antigens)

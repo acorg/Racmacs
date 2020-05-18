@@ -4,9 +4,14 @@
 \alias{bootstrapMap}
 \title{Perform a noisy bootstrap}
 \usage{
-bootstrapMap(map, bootstrap_repeats = 1000,
-  optimizations_per_repeat = 100, ag_noise_sd = 0.7,
-  titer_noise_sd = 0.7, progress_fn = message)
+bootstrapMap(
+  map,
+  bootstrap_repeats = 1000,
+  optimizations_per_repeat = 100,
+  ag_noise_sd = 0.7,
+  titer_noise_sd = 0.7,
+  progress_fn = message
+)
 }
 \arguments{
 \item{map}{The map object}
@@ -26,6 +31,9 @@ Returns the updated map object
 Perform a noisy bootstrap on a map, adding random noise and reoptimizing from scratch.
 }
 \seealso{
-Other bootstrapping maps: \code{\link{mapBootstrapCoords}}
+Other {map diagnostic functions}: 
+\code{\link{checkHemisphering}()},
+\code{\link{dimensionTestMap}()},
+\code{\link{mapRelaxed}()}
 }
-\concept{bootstrapping maps}
+\concept{{map diagnostic functions}}

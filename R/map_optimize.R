@@ -36,6 +36,7 @@
 #'
 #' @seealso See \code{\link{relaxMap}} for optimizing a given optimization starting from its current coordinates.
 #'
+#' @family {map optimization functions}
 #' @export
 #'
 optimizeMap <- function(map,
@@ -47,7 +48,9 @@ optimizeMap <- function(map,
                         discard_previous_optimizations = TRUE,
                         sort_optimizations = TRUE,
                         realign_optimizations = TRUE,
+                        stepsize = 0.1,
                         verbose  = TRUE,
+                        vverbose = FALSE,
                         parallel_optimization = TRUE) {
 
   # Set default for moving trapped points
@@ -80,20 +83,27 @@ optimizeMap <- function(map,
   vmessage(verbose, "done.")
 
   # Set selected optimization to 1
+  vmessage(vverbose, "Selecting first optimization run...", appendLF = F)
   if(!is.null(selectedOptimization(map)) && selectedOptimization(map) != 1){
     warning("Selected optimization reset to 1")
   }
   selectedOptimization(map) <- 1
+  vmessage(vverbose, "done.")
 
   # Record new optimization stresses
+  vmessage(vverbose, "Setting new optimization stresses...", appendLF = F)
   new_optimization_stresses <- allMapStresses(map)[new_optimizations]
+  vmessage(vverbose, "done.")
 
   if(move_trapped_points == "all"){
     # If trapped points must be hunted for in all optimizations
     vmessage(verbose, "Moving trapped points in each optimization...", appendLF = F)
     for(optimization_num in new_optimizations) {
-      map <- moveTrappedPoints(map,
-                               optimization_number = optimization_num)
+      map <- moveTrappedPoints(
+        map                 = map,
+        optimization_number = optimization_num,
+        stepsize            = stepsize
+      )
     }
     vmessage(verbose, "done.")
   }
@@ -102,8 +112,11 @@ optimizeMap <- function(map,
     # If trapped points must be hunted for in the best optimization
     vmessage(verbose, "Moving trapped points in the lowest stress optimization...", appendLF = F)
     best_optimization <- new_optimizations[which.min(new_optimization_stresses)]
-    map <- moveTrappedPoints(map,
-                             optimization_number = best_optimization)
+    map <- moveTrappedPoints(
+      map                 = map,
+      optimization_number = best_optimization,
+      stepsize            = stepsize
+    )
     vmessage(verbose, "done.")
   }
 
@@ -152,6 +165,7 @@ runOptimization <- function(map,
 #'
 #' @seealso See \code{\link{optimizeMap}} for performing new optimization runs from random starting coordinates.
 #'
+#' @family {map optimization functions}
 #' @export
 #'
 relaxMap <- function(map,
@@ -166,6 +180,7 @@ relaxMap <- function(map,
 #'
 #' @return Returns an updated map object
 #'
+#' @family {map optimization functions}
 #' @export
 #'
 relaxMapOneStep <- function(map,
@@ -183,6 +198,7 @@ relaxMapOneStep <- function(map,
 #'
 #' @return Returns an updated map object
 #'
+#' @family {map optimization functions}
 #' @export
 #'
 randomizeCoords <- function(map,
@@ -198,6 +214,7 @@ randomizeCoords <- function(map,
 #'
 #' @return Returns TRUE or FALSE
 #' @export
+#' @family {map diagnostic functions}
 #'
 mapRelaxed <- function(map,
                        optimization_number = NULL){
@@ -227,13 +244,14 @@ mapRelaxed <- function(map,
 #' @return Returns a data frame with information on any points that were found
 #'   to be hemisphering or trapped.
 #' @export
+#' @family {map diagnostic functions}
 #'
-checkHemisphering <- function(map, optimization_number = NULL){
+checkHemisphering <- function(map, stepsize = 0.1, optimization_number = NULL){
   UseMethod("checkHemisphering")
 }
 
 
-#' Remove trapped points
+#' Move trapped points
 #'
 #' Iteratively searches for and moves points that are found to be trapped in a
 #' optimization, stopping when no more trapped points are found.
@@ -242,9 +260,10 @@ checkHemisphering <- function(map, optimization_number = NULL){
 #' @param optimization_number The map optimization number (defaults to the currently selected optimization)
 #'
 #' @return Returns the acmap object with updated coordinates
+#' @family {map optimization functions}
 #' @export
 #'
-moveTrappedPoints <- function(map, optimization_number = NULL){
+moveTrappedPoints <- function(map, stepsize = 0.1, optimization_number = NULL, vverbose = FALSE){
   UseMethod("moveTrappedPoints")
 }
 
@@ -255,6 +274,8 @@ moveTrappedPoints <- function(map, optimization_number = NULL){
 #' @param optimization_number The map optimization number (defaults to the currently selected optimization)
 #'
 #' @return Returns the map data with additional diagnostic information on hemisphering points included.
+#'
+#' @noRd
 #' @export
 #'
 add_hemispheringData <- function(map, data = NULL, optimization_number = NULL){

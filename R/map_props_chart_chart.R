@@ -39,7 +39,8 @@ getProperty_chart.racchart <- function(
 setProperty_chart.racchart <- function(
   map,
   attribute,
-  value
+  value,
+  .check = TRUE
 ){
 
   switch(

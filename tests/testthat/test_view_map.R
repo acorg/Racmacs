@@ -4,10 +4,40 @@ context("Viewing a map")
 
 run.maptests(
   bothclasses = TRUE,
-  loadlocally = TRUE,
+  loadlocally = FALSE,
   {
 
     map <- read.map(test_path("../testdata/testmap.ace"))
+
+    # Viewing a map with the plotter
+    test_that("RacPlotting a map", {
+
+      map <- read.acmap(test_path("../testdata/testmap.ace"))
+      map <- setLegend(
+        map,
+        legend = paste("Group", 1:5),
+        fill   = rainbow(5)
+      )
+
+      export.viewer.test(
+        RacPlotter(map),
+        filename   = "map_plotter.html",
+        widgetname = "RacPlotter"
+      )
+
+    })
+
+    # Viewing a map with the plotter
+    test_that("Viewing a table", {
+
+      map <- read.acmap(test_path("../testdata/testmap.ace"))
+      export.viewer.test(
+        RacTable(map),
+        filename   = "map_table.html",
+        widgetname = "RacTable"
+      )
+
+    })
 
     # Viewing maps
     test_that("Viewing a map", {
@@ -32,6 +62,17 @@ run.maptests(
       export.viewer.test(
         x,
         filename = "map_pointstyles.html"
+      )
+
+    })
+
+    # 3D map
+    test_that("Viewing a 3D map", {
+
+      map <- read.map(test_path("../testdata/testmap_h3subset3d.ace"))
+      export.viewer.test(
+        view(map),
+        filename = "map_3d.html"
       )
 
     })
@@ -104,6 +145,26 @@ run.maptests(
       export.viewer.test(
         view(stylemap),
         filename = "map_with_pointstyles.html"
+      )
+
+    })
+
+
+    # Rotated map
+    test_that("Viewing map rotation", {
+
+      map <- acmap(
+        ag_coords = cbind(0, 1:5),
+        sr_coords = cbind(1:5, 0)
+      )
+
+      maprot <- rotateMap(
+        map, 45
+      )
+
+      export.viewer.test(
+        view(maprot),
+        "map45degreeclockwise.html"
       )
 
     })

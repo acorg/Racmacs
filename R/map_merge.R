@@ -49,7 +49,7 @@
 #'
 #' @return Returns the merged map object
 #'
-#' @family merging_maps
+#' @family {map merging functions}
 #' @export
 mergeMaps <- function(...,
                       method                  = "table",
@@ -208,7 +208,7 @@ mergeMaps <- function(...,
 #'
 #' Prints a raw text merge report from merging two map tables.
 #'
-#' @family merging_maps
+#' @family {map merging functions}
 #' @export
 mergeReport <- function(map1,
                         map2,

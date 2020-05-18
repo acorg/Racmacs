@@ -1,10 +1,4 @@
 
-ggplot_theme <- ggplot2::theme(
-  panel.background = ggplot2:: element_blank(),
-  axis.line = ggplot2::element_line(size = 0.5, color = "grey80"),
-  legend.justification = "top"
-)
-
 #' Plot map vs table distances
 #'
 #' @param map The acmap data object
@@ -84,7 +78,7 @@ plot_map_table_distance <- function(
         `non-detectable` = "grey80"
       )
     ) +
-    ggplot_theme +
+    ggplot_theme() +
     ggplot2::xlab("Table distances") +
     ggplot2::ylab("Map distances")
 
@@ -118,7 +112,8 @@ plot_sr_titers <- function(
   serum,
   xlim = NULL,
   ylim = NULL,
-  optimization_number = NULL
+  optimization_number = NULL,
+  .plot = TRUE
 ){
 
   serum <- get_sr_indices(map = map, sera = serum)
@@ -138,7 +133,7 @@ plot_sr_titers <- function(
   if(is.null(ylim)) ylim <- c(-1, max(c(ag_logtiters, sr_colbase), na.rm = T)+1)
 
   # Plot the result
-  ggplot2::ggplot(
+  gp <- ggplot2::ggplot(
     data = na.omit(
         data.frame(
         ag_distances = ag_distances,
@@ -176,7 +171,10 @@ plot_sr_titers <- function(
       breaks = ylim[1]:ylim[2],
       labels = 2^(ylim[1]:ylim[2])*10
     ) +
-    ggplot_theme
+    ggplot_theme()
+
+  if(.plot) plot(gp)
+  gp
 
 }
 
@@ -207,51 +205,134 @@ plotly_sr_titers <- function(
 #' @family Map Diagnostics
 
 #' @export
-#' @rdname plot_stress_per_titer
-plot_srStressPerTiter <- function(
-  map,
-  optimization_number = NULL
-){
+agMeanResiduals <- function(map, exclude_nd = TRUE){
 
-  # Get data
-  sr_names            <- srNames(map)
-  sr_stress_per_titer <- srStressPerTiter(map, optimization_number = optimization_number)
-
-  ggplot2::ggplot(
-    data = data.frame(
-      name             = sr_names
-    ),
-    ggplot2::aes(
-      text = name
-    )
-  ) +
-    ggplot2::geom_histogram(
-      ggplot2::aes(
-        x = sr_stress_per_titer
-      ),
-      fill  = "lightblue",
-      color = "#3366cc",
-      size  = 0.4
-    ) +
-    ggplot2::xlab("Serum stress per titer") +
-    ggplot2::ylab(NULL)
+  residuals <- mapResiduals(map)
+  if(exclude_nd) residuals[titerTypes(map) != "measured"] <- NA
+  rowMeans(residuals, na.rm = T)
 
 }
 
 #' @export
-#' @rdname plot_stress_per_titer
-plotly_srStressPerTiter <- function(
-  map,
-  optimization_number = NULL
-){
+srMeanResiduals <- function(map, exclude_nd = TRUE){
 
-  gp <- plot_srStressPerTiter(
-    map                 = map,
-    optimization_number = optimization_number
-  )
-
-  plotly::ggplotly(gp, tooltip = "text")
+  residuals <- mapResiduals(map)
+  if(exclude_nd) residuals[titerTypes(map) != "measured"] <- NA
+  colMeans(residuals, na.rm = T)
 
 }
 
+#' @export
+plot_agMeanResiduals <- function(map, exclude_nd = TRUE, .plot = TRUE){
+  hist_ggplot(
+    names  = agNames(map),
+    values = agMeanResiduals(map, exclude_nd),
+    title  = "Antigen mean residual error",
+    subtitle = switch(
+      exclude_nd,
+      "TRUE"  = "(nd excluded)",
+      "FALSE" = "(nd excluded)"
+    ),
+    vline = 0,
+    .plot = .plot
+  )
+}
+
+#' @export
+plot_srMeanResiduals <- function(map, exclude_nd = TRUE, .plot = TRUE){
+  hist_ggplot(
+    names  = srNames(map),
+    values = srMeanResiduals(map, exclude_nd),
+    title  = "Serum mean residual error",
+    subtitle = switch(
+      exclude_nd,
+      "TRUE"  = "(nd excluded)",
+      "FALSE" = "(nd excluded)"
+    ),
+    vline = 0,
+    .plot = .plot
+  )
+}
+
+#' @export
+plotly_agMeanResiduals <- function(...){ plotlyfn(plot_agMeanResiduals)(...) }
+
+
+#' @export
+plot_agStressPerTiter <- function(map, exclude_nd = TRUE, .plot = TRUE){
+  hist_ggplot(
+    names  = agNames(map),
+    values = agStressPerTiter(map, exclude_nd = exclude_nd),
+    title  = "Antigen stress per titer",
+    subtitle = switch(
+      exclude_nd,
+      "TRUE"  = "(nd excluded)",
+      "FALSE" = "(nd excluded)"
+    ),
+    vline = 0,
+    .plot = .plot
+  )
+}
+
+#' @export
+plotly_agStressPerTiter <- function(...){ plotlyfn(plotly_agStressPerTiter)(...) }
+
+
+#' @export
+plot_srStressPerTiter <- function(map, exclude_nd = TRUE, .plot = TRUE){
+  hist_ggplot(
+    names  = srNames(map),
+    values = srStressPerTiter(map, exclude_nd = exclude_nd),
+    title  = "Serum stress per titer",
+    subtitle = switch(
+      exclude_nd,
+      "TRUE"  = "(nd excluded)",
+      "FALSE" = "(nd excluded)"
+    ),
+    vline = 0,
+    .plot = .plot
+  )
+}
+
+#' @export
+plotly_srStressPerTiter <- function(...){ plotlyfn(plotly_srStressPerTiter)(...) }
+
+
+
+# Generic function to output a histogram
+hist_ggplot <- function(names, values, title, subtitle = "", vline = NULL, .plot = TRUE){
+
+  gp <- ggplot2::ggplot(
+    data = data.frame(names, values),
+    ggplot2::aes(
+      x    = values,
+      text = names
+    )
+  ) +
+    ggplot2::geom_histogram(
+      fill  = "lightblue",
+      color = "#3366cc",
+      size  = 0.25
+    ) +
+    ggplot2::xlab(NULL) +
+    ggplot2::ylab(NULL) +
+    ggplot2::labs(
+      title    = title,
+      subtitle = subtitle
+    ) +
+    Racmacs:::ggplot_theme() -> gp
+
+  if(!is.null(vline)){
+    gp <- gp + ggplot2::geom_vline(
+      xintercept = vline,
+      linetype = "dashed",
+      color = "grey20",
+      size = 0.25
+    )
+  }
+
+  if(.plot) plot(gp)
+  gp
+
+}
 

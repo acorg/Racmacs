@@ -27,9 +27,9 @@ set_chartAttribute <- function(map, attribute, value){
   map$chart$set_extension_field(
     attribute,
     jsonlite::toJSON(
-      x          = value,
-      auto_unbox = TRUE,
-      digits     = 8
+      x              = value,
+      auto_unbox     = TRUE,
+      digits         = 8
     )
   )
   map

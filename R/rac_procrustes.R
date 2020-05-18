@@ -8,6 +8,7 @@
 #' @param dim_match Should automatic dimension matching be done?
 #'
 #' @return Returns a procrustes object.
+#' @noRd
 #' @export
 calc_procrustes <- function(source_coords,
                             target_coords,
@@ -47,6 +48,8 @@ calc_procrustes <- function(source_coords,
 #' @param pc_object Procrustes object to be applied.
 #'
 #' @return Returns the coordinates with the procrustes transformation applied
+#'
+#' @noRd
 #' @export
 #'
 apply_procrustes <- function(coords,

@@ -5,6 +5,7 @@
 #'
 #' @param racmap The map object
 #' @export
+#' @noRd
 #'
 #' @examples
 #' # Print subset of information about a map
@@ -92,6 +93,7 @@ print.racoptimizations <- function(optimizations){
 #' @param x The object
 #' @param ... Objects to pass to the method
 #'
+#' @family {functions to view maps}
 #' @export
 #'
 view <- function (x, ...) {
@@ -106,6 +108,7 @@ view <- function (x, ...) {
 #' @param ... Arguments to pass to \code{\link{plot}}.
 #'
 #' @export
+#' @noRd
 #'
 view.default <- function(x,
                          ...){
@@ -124,13 +127,19 @@ view.default <- function(x,
 #' @param ... Arguments to be passed to \code{\link{view_map}}
 #'
 #' @export
+#' @noRd
+#'
 view.rac <- function(map,
                      ...,
                      .jsCode = NULL,
                      .jsData = NULL,
                      select_ags = NULL,
                      select_sr  = NULL,
-                     show_procrustes = NULL){
+                     show_procrustes = NULL,
+                     show_stressblobs = NULL){
+
+  # Clone the map
+  map <- cloneMap(map)
 
   # Pass on only the selected optimization
   map <- keepSingleOptimization(map)
@@ -166,12 +175,12 @@ view.rac <- function(map,
     )
   }
 
-  # Execute any additional javascript code
-  if(!is.null(.jsCode)){
+  # Show any blob data
+  if(hasStressBlobs(map) && !isFALSE(show_stressblobs)){
     widget <- htmlwidgets::onRender(
       x      = widget,
-      jsCode = .jsCode,
-      data   = .jsData
+      jsCode = "function(el, x, data) { el.viewer.addStressBlobs(data) }",
+      data   = I(map$stressblobs)
     )
   }
 
@@ -184,8 +193,17 @@ view.rac <- function(map,
         div.innerHTML      = `%s`;
         div.racviewer      = el.viewer;
         el.viewer.viewport.div.appendChild(div);
-      }", as.character(map$legend)),
-      data   = I(map$procrustes$pc_coords)
+      }", as.character(make_html_legend(map$legend))),
+      data   = NULL
+    )
+  }
+
+  # Execute any additional javascript code
+  if(!is.null(.jsCode)){
+    widget <- htmlwidgets::onRender(
+      x      = widget,
+      jsCode = .jsCode,
+      data   = .jsData
     )
   }
 

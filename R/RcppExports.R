@@ -25,6 +25,7 @@ ac_mapCoordNegLogLik <- function(coord_par, num_ags, num_sr, num_dims, max_table
 #'
 #' This calculates the euclidean distance, row by row, of two sets of coordinates.
 #'
+#' @noRd
 #' @export
 calc_coord_dist <- function(coords1, coords2) {
     .Call('_Racmacs_calc_coord_dist', PACKAGE = 'Racmacs', coords1, coords2)
@@ -63,9 +64,5 @@ grid_search <- function(test_coords, pair_coords, table_dist, lessthans, moretha
 #' @export
 ac_mapCoordStress <- function(coord_par, num_ags, num_sr, num_dims, table_dist, lessthans, morethans, na_vals) {
     .Call('_Racmacs_ac_mapCoordStress', PACKAGE = 'Racmacs', coord_par, num_ags, num_sr, num_dims, table_dist, lessthans, morethans, na_vals)
-}
-
-convert2logCpp <- function(titers) {
-    .Call('_Racmacs_convert2logCpp', PACKAGE = 'Racmacs', titers)
 }
 

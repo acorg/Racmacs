@@ -124,6 +124,10 @@ R3JS.element.base = class Element {
     rectangleSelect(){
     }
 
+    breakupMesh(){
+        this.object = R3JS.utils.breakupMesh(this.object);
+    }
+
 }
 
 

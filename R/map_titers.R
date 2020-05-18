@@ -1,14 +1,26 @@
 
+#' Getting and setting map titers
+#'
+#' Functions to get and set the map titer table.
+#'
+#' @name titerTable
+#' @family {map attribute functions}
+#'
+
 #' @export
+#' @rdname titerTable
 titerTable <- function(map, .name = TRUE){
   UseMethod("titerTable", map)
 }
 
 
 #' @export
+#' @rdname titerTable
 `titerTable<-` <- function(map, .check = TRUE, value){
-  titerTableLayers(map, .check = .check) <- list(value)
+  if(class(value) == "data.frame") value <- as.matrix(value)
+  mode(value) <- "character"
   if("racmap" %in% class(map)) titerTableFlat(map) <- unname(value)
+  titerTableLayers(map, .check = .check) <- list(value)
   map
 }
 
@@ -28,11 +40,13 @@ titerTable.racmap <- function(map, .name = TRUE){
 }
 
 #' @export
+#' @noRd
 titerTableFlat <- function(map){
   map$titerTableFlat
 }
 
 #' @export
+#' @noRd
 `titerTableFlat<-` <- function(map, value){
   if(class(value) == "data.frame") value <- as.matrix(value)
   map$titerTableFlat       <- value
@@ -62,6 +76,7 @@ titerTable.racchart <- function(map, .name = TRUE){
 #'
 #' @param titer_tables A list of titer tables
 #'
+#' @family {map merging functions}
 #' @return Returns a single merged titer table
 #' @export
 #'

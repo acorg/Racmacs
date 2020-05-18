@@ -47,7 +47,7 @@ Racmacs.ButtonPanel = class ButtonPanel {
 
         // Setup
         this.viewer = viewer;
-        this.viewer.btns = {};
+        this.viewer.controlbtns = {};
         this.div = document.createElement("div");
         this.div.classList.add("button-panel");
 

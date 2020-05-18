@@ -8,11 +8,27 @@ setLegend <- function(
   style.right = "8px"
 ){
 
+  # Return the map with legend added
+  map$legend <- list(
+    legend       = unname(legend),
+    fill         = unname(fill),
+    style.bottom = style.bottom,
+    style.right  = style.right
+  )
+
+  map
+
+}
+
+make_html_legend <- function(
+  args
+){
+
   # Set variables
-  box.width      <- "14px"
-  box.height     <- "14px"
-  font.size      <- "14px"
-  legend.spacing <- "4px"
+  args$box.width      <- "14px"
+  args$box.height     <- "14px"
+  args$font.size      <- "14px"
+  args$legend.spacing <- "4px"
 
   # "this.parentElement.parentElement.parentElement.racviewer.selectPointsByIndices([0,1])"
 
@@ -20,32 +36,32 @@ setLegend <- function(
   div.legend <- htmltools::div(
     style = sprintf(
       "position:absolute; bottom:%s; right:%s;",
-      style.bottom,
-      style.right
+      args$style.bottom,
+      args$style.right
     )
   )
 
   # Add the legend entries
-  for(x in seq_along(legend)){
+  for(x in seq_along(args$legend)){
 
     # Create the entry
     div.entry <- htmltools::div(
-      style = sprintf("line-height:%s; margin:%s;", font.size, legend.spacing),
+      style = sprintf("line-height:%s; margin:%s;", args$font.size, args$legend.spacing),
       htmltools::div(
         style = sprintf(
           "line-height:%s;width:%s;height:%s;background-color:%s;display:inline-block;",
-          font.size,
-          box.width,
-          box.height,
-          fill[x]
+          args$font.size,
+          args$box.width,
+          args$box.height,
+          args$fill[x]
         ),
         onClick = NULL
       ),
       htmltools::div(
-        legend[x],
+        args$legend[x],
         style = sprintf(
           "font-size:%s;display:inline-block;",
-          font.size
+          args$font.size
         )
       )
     )
@@ -58,11 +74,8 @@ setLegend <- function(
 
   }
 
-  # Return the map with legend added
-  map$legend <- div.legend
-  map
+  # Return the div legend
+  div.legend
 
 }
-
-
 

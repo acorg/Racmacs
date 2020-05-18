@@ -5,6 +5,22 @@ library(testthat)
 context("Bootstrapping maps")
 warning("Need bootstrap map tests")
 
+# map <- read.acmap("tests/testdata/testmap_h3subset.ace")
+# map <- optimizeMap(
+#   map,
+#   number_of_dimensions    = 4,
+#   number_of_optimizations = 100,
+#   minimum_column_basis    = "none",
+#   move_trapped_points     = "none"
+# )
+#
+# map <- bootstrapMap(
+#   map,
+#   bootstrap_repeats = 10
+# )
+#
+# map$bootstrap$coords
+
 # # map <- read.acmap(test_path("../testdata/testmap_1000bootstrap.ace"))
 #
 # map <- read.acmap("tests/testdata/testmap_h3subset3d.ace")

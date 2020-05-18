@@ -22,7 +22,4 @@ numOptimizations(map)
 \description{
 Functions to get various attributes about an acmap object.
 }
-\seealso{
-Other functions to get and set map attributes: \code{\link{selectedOptimization}}
-}
 \concept{functions to get and set map attributes}

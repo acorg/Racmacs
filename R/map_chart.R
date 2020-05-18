@@ -113,8 +113,7 @@ numOptimizations <- function(map) {
 #'   be performed on the selected optimization by default.
 #'
 #' @name selectedOptimization
-#'
-#' @family functions to get and set map attributes
+#' @family {functions for working with map data}
 #'
 
 

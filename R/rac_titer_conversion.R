@@ -1,6 +1,6 @@
 
 #' @export
-titerTypes <- function(titers){
+titer_types <- function(titers){
 
   titer_types  <- titers
   titer_types[]                              <- "measured"
@@ -15,7 +15,7 @@ titerTypes <- function(titers){
 titer_to_logtiter <- function(titers){
 
   # Get titer types
-  titer_types <- titerTypes(titers)
+  titer_types <- titer_types(titers)
 
   # Get log titers
   threshold_titers <- titer_types == "lessthan" | titer_types == "morethan"
@@ -61,7 +61,7 @@ aadjustTiters <- function(titers, adjustment, detection_limit = "<10"){
   adjusted_log_titers <- log_titers + adjustment
 
   # Anything that falls below threshold gets set to the threshold and becomes a lessthan
-  titer_types                                  <- titerTypes(titers)
+  titer_types                                  <- titer_types(titers)
   titers_below_threshold                       <- adjusted_log_titers < log_detection_limit + 1 & titer_types != "omitted"
   adjusted_log_titers[titers_below_threshold]  <- log_detection_limit
   titer_types[titers_below_threshold]          <- "lessthan"

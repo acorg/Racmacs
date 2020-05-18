@@ -18,3 +18,12 @@ Returns an updated map object
 Moves map coordinates back into random starting conditions, as performed
 before each optimization run.
 }
+\seealso{
+Other {map optimization functions}: 
+\code{\link{make.acmap}()},
+\code{\link{moveTrappedPoints}()},
+\code{\link{optimizeMap}()},
+\code{\link{relaxMapOneStep}()},
+\code{\link{relaxMap}()}
+}
+\concept{{map optimization functions}}

@@ -1,4 +1,21 @@
 
+Racmacs.Point.prototype.onselect.push(
+    function(point){
+
+        // Mark browser record
+        point.browserRecord.select();
+
+    }
+);
+
+Racmacs.Point.prototype.ondeselect.push(
+    function(point){
+
+        // Mark browser record
+        point.browserRecord.deselect();
+
+    }
+);
 
 Racmacs.NameBrowser = class NameBrowser {
 

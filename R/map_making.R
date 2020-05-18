@@ -15,6 +15,8 @@
 #' @return Returns an antigenic map object of the corresponding class.
 #'
 #' @example examples/example_make_map_from_scratch.R
+#'
+#' @family {map optimization functions}
 #' @export
 #'
 make.acmap <- function(number_of_dimensions    = 2,
@@ -23,6 +25,8 @@ make.acmap <- function(number_of_dimensions    = 2,
                        fixed_column_bases      = NULL,
                        move_trapped_points     = NULL,
                        parallel_optimization   = TRUE,
+                       verbose                 = TRUE,
+                       vverbose                = FALSE,
                        ...){
 
   # Only allow arguments that don't refer to creating optimizations
@@ -44,7 +48,9 @@ make.acmap <- function(number_of_dimensions    = 2,
     minimum_column_basis    = minimum_column_basis,
     fixed_column_bases      = fixed_column_bases,
     move_trapped_points     = move_trapped_points,
-    parallel_optimization   = parallel_optimization
+    parallel_optimization   = parallel_optimization,
+    verbose                 = verbose,
+    vverbose                = vverbose
   )
 
 }

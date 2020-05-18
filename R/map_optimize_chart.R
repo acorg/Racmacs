@@ -114,11 +114,14 @@ randomizeCoords.racchart <- function(map,
 
 
 #' @export
-checkHemisphering.racchart <- function(map,
-                                       optimization_number = NULL){
+checkHemisphering.racchart <- function(
+  map,
+  stepsize = 0.1,
+  optimization_number = NULL
+){
 
   # Set optimization number
-  if(is.null(optimization_number)){ optimization_number <- selectedOptimization(map) }
+  optimization_number <- convertOptimizationNum(optimization_number, map)
 
   # Check map has been fully relaxed
   if(!mapRelaxed(map, optimization_number)){
@@ -126,7 +129,12 @@ checkHemisphering.racchart <- function(map,
   }
 
   # Make grid test object
-  gridtest <- new(acmacs.r::acmacs.GridTest, map$chart, optimization_number-1)
+  gridtest <- new(
+    acmacs.r::acmacs.GridTest,
+    map$chart,
+    as.integer(optimization_number-1),
+    as.double(stepsize)
+  )
 
   # Run the grid test
   if(isTRUE(options("Racmacs.parallel"))){
@@ -184,7 +192,7 @@ checkHemisphering.racchart <- function(map,
 
 
 #' @export
-moveTrappedPoints.racchart <- function(map, optimization_number = NULL){
+moveTrappedPoints.racchart <- function(map, stepsize = 0.1, optimization_number = NULL, vverbose = FALSE){
 
   # Get optimization num
   optimization_number <- convertOptimizationNum(optimization_number, map)
@@ -194,11 +202,11 @@ moveTrappedPoints.racchart <- function(map, optimization_number = NULL){
   chart$remove_all_projections_except(optimization_number)
 
   # Perform the gridtest
-  result <- chart_gridtest(chart)
+  result <- chart_gridtest(chart, stepsize = 0.1)
 
   # Give a message if no trapped points found
   if(result$num_trapped_points == 0){
-    message("No trapped points found.")
+    message("no trapped points found...", appendLF = F)
   }
 
   # Move points, optimise and reperform grid test
@@ -227,10 +235,10 @@ moveTrappedPoints.racchart <- function(map, optimization_number = NULL){
 
 
 # Run a grid test on a chart object
-chart_gridtest <- function(chart){
+chart_gridtest <- function(chart, stepsize = 0.1){
 
   # Perform the gridtest
-  gridtest <- new(acmacs.r::acmacs.GridTest, chart)
+  gridtest <- new(acmacs.r::acmacs.GridTest, chart, as.integer(0), as.double(stepsize))
   if(isTRUE(getOption("Racmacs.parallel"))) test_result <- gridtest$test()
   else                                      test_result <- gridtest$test_single_thread()
 

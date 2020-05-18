@@ -10,23 +10,27 @@
 
 
 <!-- jquery -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
-<link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.7/flatly/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.4.0/flatly/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
 
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script>
+
+<!-- bootstrap-toc -->
+<link rel="stylesheet" href="../bootstrap-toc.css">
+<script src="../bootstrap-toc.js"></script>
 
 <!-- Font Awesome icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous" />
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script>
 
 <!-- headroom.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
@@ -38,7 +42,6 @@
 <meta property="og:title" content="Racmacs: A package for performing antigenic cartography — Racmacs" />
 <meta property="og:description" content="The Racmacs package provides a toolkit for making antigenic maps from assay
 data such as HI assays, as described in Smith et al. 2004 (1)." />
-<meta name="twitter:card" content="summary" />
 
 
 
@@ -56,7 +59,7 @@ data such as HI assays, as described in Smith et al. 2004 (1)." />
 
   </head>
 
-  <body>
+  <body data-spy="scroll" data-target="#toc">
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -70,7 +73,7 @@ data such as HI assays, as described in Smith et al. 2004 (1)." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">Racmacs</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.7</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.9</span>
       </span>
     </div>
 
@@ -96,7 +99,13 @@ data such as HI assays, as described in Smith et al. 2004 (1)." />
       <a href="../articles/comparing-maps.html">Comparing maps</a>
     </li>
     <li>
-      <a href="../articles/making-maps.html">Making antigenic maps</a>
+      <a href="../articles/getting-and-setting-map-attributes.html">Getting and setting map attributes</a>
+    </li>
+    <li>
+      <a href="../articles/loading-map-data.html">Reading a map file</a>
+    </li>
+    <li>
+      <a href="../articles/making-a-map-from-scratch.html">Making an antigenic map from scratch</a>
     </li>
     <li>
       <a href="../articles/map-diagnostics.html">Performing map diagnostics</a>
@@ -155,7 +164,7 @@ Typically these measurements are HI assay measurements, but it is also
 possible to use other similar assays as input data.</p>
 <p>For the table of data it is always assumed that sera form the <em>columns</em> and
 antigens form the <em>rows</em>, as below. You can get and set titer data with
-titerTable.</p>
+<a href='titerTable.html'>titerTable</a>.</p>
 
 <h3>Optimizations</h3>
 <p>Another key component of the <a href='acmap.html'>acmap</a> object is a list of optimizations.
@@ -179,7 +188,7 @@ random starting conditions in the optimizer, or perhaps giving the map
 optimization in different numbers of dimensions.</p>
 <p>At any one time a map object has one of the optimizations <em>selected</em> (by
 default the first one). Any information you read from this map that comes
-from a optimization (for example agCoords ) and any functions that you
+from a optimization (for example <a href='ptCoords.html'>agCoords</a> ) and any functions that you
 perform that relate to a optimization (for example <a href='relaxMap.html'>relaxMap</a>), will be
 performed on the selected optimization by default. You can get and set the
 selected optimization with selectOptimization.</p>
@@ -213,7 +222,7 @@ plotted, the main ones include:</p><ul>
 </ul>
 
 <p><strong>Get and set acmap information</strong></p><ul>
-<li><p>titerTable</p></li>
+<li><p><a href='titerTable.html'>titerTable</a></p></li>
 <li><p><a href='acmapAttributes.html'>numAntigens</a></p></li>
 <li><p><a href='acmapAttributes.html'>numSera</a></p></li>
 <li><p><a href='acmapAttributes.html'>numPoints</a></p></li>
@@ -222,26 +231,26 @@ plotted, the main ones include:</p><ul>
 </ul>
 
 <p><strong>Get and set plotting information</strong></p><ul>
-<li><p>agFill</p></li>
-<li><p>srFill</p></li>
-<li><p>agOutline</p></li>
-<li><p>srOutline</p></li>
-<li><p>agOutlineWidth</p></li>
-<li><p>srOutlineWidth</p></li>
-<li><p>agSize</p></li>
-<li><p>srSize</p></li>
-<li><p>agShape</p></li>
-<li><p>srShape</p></li>
+<li><p><a href='mapStrains.html'>agFill</a></p></li>
+<li><p><a href='mapStrains.html'>srFill</a></p></li>
+<li><p><a href='mapStrains.html'>agOutline</a></p></li>
+<li><p><a href='mapStrains.html'>srOutline</a></p></li>
+<li><p><a href='mapStrains.html'>agOutlineWidth</a></p></li>
+<li><p><a href='mapStrains.html'>srOutlineWidth</a></p></li>
+<li><p><a href='mapStrains.html'>agSize</a></p></li>
+<li><p><a href='mapStrains.html'>srSize</a></p></li>
+<li><p><a href='mapStrains.html'>agShape</a></p></li>
+<li><p><a href='mapStrains.html'>srShape</a></p></li>
 </ul>
 
 <p><strong>Get and set optimization information</strong></p><ul>
 <li><p><a href='addOptimization.html'>addOptimization</a></p></li>
-<li><p>agCoords</p></li>
-<li><p>srCoords</p></li>
-<li><p>colBases</p></li>
-<li><p>minColBasis</p></li>
+<li><p><a href='ptCoords.html'>agCoords</a></p></li>
+<li><p><a href='ptCoords.html'>srCoords</a></p></li>
+<li><p><a href='colBases.html'>colBases</a></p></li>
+<li><p><a href='colBases.html'>minColBasis</a></p></li>
 <li><p><a href='mapStress.html'>mapStress</a></p></li>
-<li><p>mapDimensions</p></li>
+<li><p><a href='mapDimensions.html'>mapDimensions</a></p></li>
 </ul>
 
 <p><strong>Procrustes and realignment</strong></p><ul>
@@ -265,12 +274,10 @@ plotted, the main ones include:</p><ul>
 
 
   </div>
-  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
-    <h2>Contents</h2>
-    <ul class="nav nav-pills nav-stacked">
-      <li><a href="#details">Details</a></li>
-    </ul>
-
+  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
+    <nav id="toc" data-toggle="toc" class="sticky-top">
+      <h2 data-toc-skip>Contents</h2>
+    </nav>
   </div>
 </div>
 
@@ -281,7 +288,7 @@ plotted, the main ones include:</p><ul>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
 </div>
 
       </footer>

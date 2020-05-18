@@ -17,3 +17,8 @@ Returns the acmap object with updated point styles (unmatched point styles uncha
 \description{
 Copy point style from matching antigens and sera in another acmap
 }
+\seealso{
+Other {map point style functions}: 
+\code{\link{ptStyles}}
+}
+\concept{{map point style functions}}

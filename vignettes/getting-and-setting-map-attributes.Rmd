@@ -1,0 +1,83 @@
+---
+title: "Getting and setting map attributes"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Getting and setting map attributes}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+
+output_functions <- function(
+  table, 
+  col.names = c("Function", "Description"),
+  fn_cols   = c(T, F)
+){
+  for(x in which(fn_cols)){
+    table[,x] <- paste0("`", table[,x], "()`")
+  }
+  colnames(table) <- col.names
+  knitr::kable(
+    table,
+    row.names = FALSE
+  )
+}
+```
+
+Once you have a map data object after either [making a map](making-a-map-from-scratch.html) or [loading a map](loading-map-data.html) you will want to be able to access and manipulate map properties.
+
+## General map attributes
+```{r, echo = FALSE}
+output_functions(
+  Racmacs:::list_property_function_bindings(c("chart"), include_wrappers = T)[,c("method", "description")]
+)
+```
+
+## Antigen and sera attributes
+
+### Antigens
+```{r, echo = FALSE}
+output_functions(
+  Racmacs:::list_property_function_bindings("antigens")[,c("method", "description")]
+)
+```
+
+### Sera
+```{r, echo = FALSE}
+output_functions(
+  Racmacs:::list_property_function_bindings("sera")[,c("method", "description")]
+)
+```
+
+## Attributes related to plotting
+```{r, echo = FALSE}
+property_list <- Racmacs:::list_property_function_bindings("plotspec")[,c("method", "description")]
+property_type <- substr(property_list$method, 1, 2)
+output_functions(
+  data.frame(
+    property_list$method[property_type == "ag"],
+    property_list$method[property_type == "sr"],
+    gsub("Antigen", "Point", property_list$description[property_type == "ag"], fixed = T)
+  ),
+  col.names = c("Antigens", "Sera", "Description"),
+  fn_cols   = c(T,T,F)
+)
+```
+
+## Attributes related to optimization runs
+```{r, echo = FALSE}
+property_list <- Racmacs:::list_property_function_bindings()
+property_list <- property_list[property_list$object == "optimization" | property_list$method == "selectedOptimization",]
+output_functions(
+  property_list[,c("method", "description")]
+)
+```
+
+
+
+

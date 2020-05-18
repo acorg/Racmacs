@@ -17,8 +17,12 @@ Returns a matrix of stresses, showing how much each antigen and sera
 Get a stress table from an acmap
 }
 \seealso{
-Other functions relating to map stress calculation: \code{\link{logtiterTable}},
-  \code{\link{mapDistances}}, \code{\link{mapResiduals}},
-  \code{\link{tableDistances}}
+Other {map diagnostic functions}{functions relating to map stress calculation}: 
+\code{\link{logtiterTable}()},
+\code{\link{mapDistances}()},
+\code{\link{mapResiduals}()},
+\code{\link{pointStress}},
+\code{\link{recalculateStress}()},
+\code{\link{tableDistances}()}
 }
-\concept{functions relating to map stress calculation}
+\concept{{map diagnostic functions}{functions relating to map stress calculation}}

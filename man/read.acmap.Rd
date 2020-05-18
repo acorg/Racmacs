@@ -4,9 +4,14 @@
 \alias{read.acmap}
 \title{Read in acmap data from a file}
 \usage{
-read.acmap(filename, optimization_number = NULL,
-  discard_other_optimizations = FALSE, sort_optimizations = FALSE,
-  align_optimizations = FALSE, only_best_optimization = FALSE)
+read.acmap(
+  filename,
+  optimization_number = NULL,
+  discard_other_optimizations = FALSE,
+  sort_optimizations = FALSE,
+  align_optimizations = FALSE,
+  only_best_optimization = FALSE
+)
 }
 \arguments{
 \item{filename}{Path to the file.}
@@ -40,8 +45,16 @@ titer_data <- read.titerTable(titer_file_path)
 map <- acmap.cpp(table = titer_data)
 }
 \seealso{
-Other functions to create and save acmap objects: \code{\link{acmap}},
-  \code{\link{read.acmap.cpp}}, \code{\link{save.acmap}},
-  \code{\link{save.coords}}, \code{\link{save.titerTable}}
+Other {functions for working with map data}: 
+\code{\link{acmap}()},
+\code{\link{as.json}()},
+\code{\link{cloneMap}()},
+\code{\link{convertingMaps}},
+\code{\link{read.titerTable}()},
+\code{\link{save.acmap}()},
+\code{\link{save.coords}()},
+\code{\link{save.titerTable}()},
+\code{\link{selectedOptimization}()},
+\code{\link{subsetMap}()}
 }
-\concept{functions to create and save acmap objects}
+\concept{{functions for working with map data}}

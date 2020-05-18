@@ -77,7 +77,7 @@ R3JS.utils.breakupMesh = function(full_mesh){
     }
 
     // Get the material
-    var mat = clone_material(full_mesh.material);
+    var mat = R3JS.utils.cloneMaterial(full_mesh.material);
 
     // Break apart the geometry
     for(var i=0; i<(geo.attributes.position.count/3); i++){

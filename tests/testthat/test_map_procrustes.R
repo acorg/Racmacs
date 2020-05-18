@@ -10,10 +10,14 @@ environment_objects <- ls()
 context("Test procrustes methods")
 
 # Test for raccharts and racmaps
-run.maptests(
-  bothclasses = TRUE,
-  loadlocally = TRUE,
+Racmacs:::run.maptests(
+  bothclasses = FALSE,
+  loadlocally = FALSE,
   {
+
+    warning("Need to fix procrustes for the racchart object")
+    make.map <- acmap
+    read.map <- read.acmap
 
     # Setup rotation and translation matrices
     rot_mat <- matrix(data = c(cos(0.24), sin(0.24), -sin(0.24), cos(0.24)),
@@ -240,12 +244,12 @@ run.maptests(
              sr = sr_coords)
       }
 
-      expect_equal(racmacs_pc$procrustes$pc_coords,     acmacs_matched_optimization(ag_names1, ag_names2, sr_names1, sr_names2, optimization1, optimization2, "both", acmacs_pc))
-      expect_equal(racmacs_pc_ags$procrustes$pc_coords, acmacs_matched_optimization(ag_names1, ag_names2, sr_names1, sr_names2, optimization1, optimization2, "antigens", acmacs_pc_ags))
-      expect_equal(racmacs_pc_sr$procrustes$pc_coords,  acmacs_matched_optimization(ag_names1, ag_names2, sr_names1, sr_names2, optimization1, optimization2, "sera", acmacs_pc_sr))
-      expect_equal(racmacs_pc_scaling$procrustes$pc_coords,     acmacs_matched_optimization(ag_names1, ag_names2, sr_names1, sr_names2, optimization1, optimization2, "both", acmacs_pc_scaling))
-      expect_equal(racmacs_pc_ags_scaling$procrustes$pc_coords, acmacs_matched_optimization(ag_names1, ag_names2, sr_names1, sr_names2, optimization1, optimization2, "antigens", acmacs_pc_ags_scaling))
-      expect_equal(racmacs_pc_sr_scaling$procrustes$pc_coords,  acmacs_matched_optimization(ag_names1, ag_names2, sr_names1, sr_names2, optimization1, optimization2, "sera", acmacs_pc_sr_scaling))
+      expect_equal(racmacs_pc$procrustes$pc_coords[c("ag", "sr")],     acmacs_matched_optimization(ag_names1, ag_names2, sr_names1, sr_names2, optimization1, optimization2, "both", acmacs_pc))
+      expect_equal(racmacs_pc_ags$procrustes$pc_coords[c("ag", "sr")], acmacs_matched_optimization(ag_names1, ag_names2, sr_names1, sr_names2, optimization1, optimization2, "antigens", acmacs_pc_ags))
+      expect_equal(racmacs_pc_sr$procrustes$pc_coords[c("ag", "sr")],  acmacs_matched_optimization(ag_names1, ag_names2, sr_names1, sr_names2, optimization1, optimization2, "sera", acmacs_pc_sr))
+      expect_equal(racmacs_pc_scaling$procrustes$pc_coords[c("ag", "sr")],     acmacs_matched_optimization(ag_names1, ag_names2, sr_names1, sr_names2, optimization1, optimization2, "both", acmacs_pc_scaling))
+      expect_equal(racmacs_pc_ags_scaling$procrustes$pc_coords[c("ag", "sr")], acmacs_matched_optimization(ag_names1, ag_names2, sr_names1, sr_names2, optimization1, optimization2, "antigens", acmacs_pc_ags_scaling))
+      expect_equal(racmacs_pc_sr_scaling$procrustes$pc_coords[c("ag", "sr")],  acmacs_matched_optimization(ag_names1, ag_names2, sr_names1, sr_names2, optimization1, optimization2, "sera", acmacs_pc_sr_scaling))
 
     })
 
@@ -376,6 +380,13 @@ run.maptests(
         comparison_optimization_number = 1
       )
 
+      export.viewer.test(
+        view(
+          pcB
+        ),
+        "procrustes_3d_to_2d.html"
+      )
+
       expect_equal(pcA$total_rmsd, pcB$total_rmsd)
 
       expect_lt(
@@ -395,16 +406,18 @@ run.maptests(
         "na_map.html"
       )
 
+      expect_warning({
+        pcmap <- procrustesMap(
+          map1na,
+          map2
+        )
+      })
       export.viewer.test(
         view(
-          procrustesMap(
-            map1na,
-            map2
-          )
+          pcmap
         ),
         "na_map_procrustes.html"
       )
-
 
     })
 

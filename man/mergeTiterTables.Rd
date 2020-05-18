@@ -15,3 +15,9 @@ Returns a single merged titer table
 \description{
 Merges a list of titer tables into one titer table
 }
+\seealso{
+Other {map merging functions}: 
+\code{\link{mergeMaps}()},
+\code{\link{mergeReport}()}
+}
+\concept{{map merging functions}}

@@ -6,6 +6,7 @@ apply_procrustes_to_map <- function(
   pc_object
 ){
 
+  attr(map, "pc_transform") <- pc_object
   map <- scaleMap(map, pc_object$scaling, optimization_number)
   map <- transformMap(map, pc_object$rotation, optimization_number)
   map <- translateMap(map, pc_object$translation, optimization_number)
@@ -22,6 +23,60 @@ dist_coord_pairs <- function(coords1,
   while(ncol(coords2) < ncol(coords1)) coords2 <- cbind(coords2, 0)
 
   vapply(seq_len(nrow(coords1)), function(x){ euc_dist(coords1[x,], coords2[x,]) }, numeric(1))
+
+}
+
+# Calculate the alignment between 2 maps
+calculate_map_alignment <- function(
+  map,
+  target_map,
+  antigens                   = TRUE,
+  sera                       = TRUE,
+  translation                = TRUE,
+  scaling                    = FALSE,
+  optimization_number        = NULL,
+  target_optimization_number = NULL,
+  passage_matching           = "ignore",
+  warnings                   = TRUE,
+  .alignToBaseCoords         = FALSE,
+  .alignFromBaseCoords       = FALSE
+){
+
+  # Check input
+  if(isFALSE(antigens) && isFALSE(sera)){
+    stop("One or both of antigens and sera must be true")
+  }
+
+  # Convert antigens and sera into indices
+  antigens_map <- get_ag_indices(antigens, map, warnings)
+  sera_map     <- get_sr_indices(sera, map, warnings)
+
+  # Get matching antigens from map 2
+  antigens_target <- match_mapAntigens(map, target_map, passage_matching, warnings)[antigens_map]
+  sera_target     <- match_mapSera(map, target_map, passage_matching, warnings)[sera_map]
+
+  # Get coords from map 1 and map 2
+  if(.alignFromBaseCoords){
+    coords1 <- rbind(agBaseCoords(map, optimization_number, .name = FALSE)[antigens_map,,drop=FALSE],
+                     srBaseCoords(map, optimization_number, .name = FALSE)[sera_map,,drop=FALSE])
+  } else {
+    coords1 <- rbind(agCoords(map, optimization_number, .name = FALSE)[antigens_map,,drop=FALSE],
+                     srCoords(map, optimization_number, .name = FALSE)[sera_map,,drop=FALSE])
+  }
+
+  if(.alignToBaseCoords){
+    coords2 <- rbind(agBaseCoords(target_map, target_optimization_number, .name = FALSE)[antigens_target,,drop=FALSE],
+                     srBaseCoords(target_map, target_optimization_number, .name = FALSE)[sera_target,,drop=FALSE])
+  } else {
+    coords2 <- rbind(agCoords(target_map, target_optimization_number, .name = FALSE)[antigens_target,,drop=FALSE],
+                     srCoords(target_map, target_optimization_number, .name = FALSE)[sera_target,,drop=FALSE])
+  }
+
+  # Get transformation matrix for coords 1 to coords 2
+  calc_procrustes(source_coords = coords1,
+                  target_coords = coords2,
+                  translation   = translation,
+                  scaling       = scaling)
 
 }
 
@@ -42,6 +97,7 @@ dist_coord_pairs <- function(coords1,
 #'   match based on antigen and serum indices from the main map.
 #'
 #' @return Returns the map aligned to the target map (or the target map aligned to the main map if alignTargetToMain is TRUE)
+#' @family {functions to compare maps}
 #' @export
 #'
 realignMap <- function(map,
@@ -54,38 +110,22 @@ realignMap <- function(map,
                        target_optimization_number = NULL,
                        passage_matching = "ignore",
                        warnings = TRUE,
-                       .alignToTargetBaseCoords = FALSE){
+                       .alignToBaseCoords = FALSE){
 
-  # Check input
-  if(isFALSE(antigens) && isFALSE(sera)){
-    stop("One or both of antigens and sera must be true")
-  }
-
-  # Convert antigens and sera into indices
-  antigens_map <- get_ag_indices(antigens, map, warnings)
-  sera_map     <- get_sr_indices(sera, map, warnings)
-
-  # Get matching antigens from map 2
-  antigens_target <- match_mapAntigens(map, target_map, passage_matching, warnings)[antigens_map]
-  sera_target     <- match_mapSera(map, target_map, passage_matching, warnings)[sera_map]
-
-  # Get coords from map 1 and map 2
-  coords1 <- rbind(agCoords(map, optimization_number, .name = FALSE)[antigens_map,,drop=FALSE],
-                   srCoords(map, optimization_number, .name = FALSE)[sera_map,,drop=FALSE])
-
-  if(.alignToTargetBaseCoords){
-    coords2 <- rbind(agBaseCoords(target_map, target_optimization_number, .name = FALSE)[antigens_target,,drop=FALSE],
-                     srBaseCoords(target_map, target_optimization_number, .name = FALSE)[sera_target,,drop=FALSE])
-  } else {
-    coords2 <- rbind(agCoords(target_map, target_optimization_number, .name = FALSE)[antigens_target,,drop=FALSE],
-                     srCoords(target_map, target_optimization_number, .name = FALSE)[sera_target,,drop=FALSE])
-  }
-
-  # Get transformation matrix for coords 1 to coords 2
-  pc_object <- calc_procrustes(source_coords = coords1,
-                               target_coords = coords2,
-                               translation   = translation,
-                               scaling       = scaling)
+  # Calculate the map alignment
+  pc_object <- calculate_map_alignment(
+    map                        = map,
+    target_map                 = target_map,
+    antigens                   = antigens,
+    sera                       = sera,
+    translation                = translation,
+    scaling                    = scaling,
+    optimization_number        = optimization_number,
+    target_optimization_number = target_optimization_number,
+    passage_matching           = passage_matching,
+    warnings                   = warnings,
+    .alignToBaseCoords         = .alignToBaseCoords
+  )
 
   # Apply transformation to map 1
   map <- apply_procrustes_to_map(map, optimization_number, pc_object)
@@ -109,9 +149,10 @@ realignMap <- function(map,
 #' @param scaling Should scaling be performed?
 #' @param optimization_number The map optimization to use in the procrustes calculation (defaults to the currently selected optimization)
 #' @param target_optimization_number The target map optimization to use in the procrustes calculation (defaults to the currently selected optimization)
-#' @param passage_matching Should passage matching be performed
+#' @param passage_matching Should passage matching be performed (not currently implemented)
 #'
 #' @return Returns procrustes information from the map to the target.
+#' @family {functions to compare maps}
 #' @export
 #'
 procrustesMap <- function(map,
@@ -129,6 +170,9 @@ procrustesMap <- function(map,
   optimization_number            <- convertOptimizationNum(optimization_number, map)
   comparison_optimization_number <- convertOptimizationNum(comparison_optimization_number, comparison_map)
 
+  # Get dimension of comparison map
+  comparison_map_dim <- mapDimensions(comparison_map, comparison_optimization_number)
+
   # Convert antigens and sera into indices
   antigens <- get_ag_indices(antigens, map, warnings)
   sera     <- get_sr_indices(sera, map, warnings)
@@ -139,17 +183,18 @@ procrustesMap <- function(map,
 
 
   # Realign map 2 to match map 1
-  comparison_map <- realignMap(
+  pc_transform <- calculate_map_alignment(
     cloneMap(comparison_map),
     map,
-    antigens = antigens_comparison[!is.na(antigens_comparison)],
-    sera     = sera_comparison[!is.na(sera_comparison)],
-    translation = translation,
-    scaling     = scaling,
-    optimization_number = comparison_optimization_number,
+    antigens                   = antigens_comparison[!is.na(antigens_comparison)],
+    sera                       = sera_comparison[!is.na(sera_comparison)],
+    translation                = translation,
+    scaling                    = scaling,
+    optimization_number        = comparison_optimization_number,
     target_optimization_number = optimization_number,
-    passage_matching = passage_matching,
-    .alignToTargetBaseCoords = TRUE
+    passage_matching           = passage_matching,
+    .alignToBaseCoords         = TRUE,
+    .alignFromBaseCoords       = TRUE
   )
 
 
@@ -161,8 +206,8 @@ procrustesMap <- function(map,
   matching_ags <- match_mapAntigens(map, comparison_map, passage_matching)
   matching_sr  <- match_mapSera(map, comparison_map, passage_matching)
 
-  ag_coords2 <- agCoords(comparison_map, comparison_optimization_number)[matching_ags,,drop=FALSE]
-  sr_coords2 <- srCoords(comparison_map, comparison_optimization_number)[matching_sr,,drop=FALSE]
+  ag_coords2 <- agBaseCoords(comparison_map, comparison_optimization_number)[matching_ags,,drop=FALSE]
+  sr_coords2 <- srBaseCoords(comparison_map, comparison_optimization_number)[matching_sr,,drop=FALSE]
 
   # Name the coordinates
   rownames(ag_coords2) <- agNames(map)
@@ -185,9 +230,13 @@ procrustesMap <- function(map,
     sr_coords2[-sera,] <- NA
   }
 
+  # Apply the transformation
+  ag_coords2_realigned <- apply_procrustes(ag_coords2, pc_transform, dim_match = TRUE, rotate2Dto3D = TRUE)
+  sr_coords2_realigned <- apply_procrustes(sr_coords2, pc_transform, dim_match = TRUE, rotate2Dto3D = TRUE)
+
   # Calculate distances
-  ag_dists <- dist_coord_pairs(ag_coords1, ag_coords2)
-  sr_dists <- dist_coord_pairs(sr_coords1, sr_coords2)
+  ag_dists <- dist_coord_pairs(ag_coords1, ag_coords2_realigned)
+  sr_dists <- dist_coord_pairs(sr_coords1, sr_coords2_realigned)
 
   # Return output
   map$procrustes <- list(
@@ -205,9 +254,15 @@ procrustesMap <- function(map,
     ag_rmsd                    = sqrt(mean(ag_dists^2, na.rm = TRUE)),
     sr_rmsd                    = sqrt(mean(sr_dists^2, na.rm = TRUE)),
     total_rmsd                 = sqrt(mean(c(ag_dists, sr_dists)^2, na.rm = TRUE)),
-    pc_coords                  = list(
+    pc_transform               = pc_transform,
+    comparison_coords          = list(
       ag = unname(ag_coords2),
       sr = unname(sr_coords2)
+    ),
+    pc_coords                  = list(
+      ag  = unname(ag_coords2_realigned),
+      sr  = unname(sr_coords2_realigned),
+      dim = comparison_map_dim
     )
   )
 
@@ -224,6 +279,7 @@ procrustesMap <- function(map,
 #' @param sera The sera to include in the realignment, TRUE for all FALSE for none, or specified by name or index
 #'
 #' @return Returns the map with realigned optimizations
+#' @family {functions to compare maps}
 #' @export
 #'
 realignOptimizations <- function(map,
@@ -288,6 +344,32 @@ realignOptimizations.racmap <- function(map,
 }
 
 
+add_procrustes_grid <- function(map){
 
+  # Get the comparator coordinates
+  comp_coords <- rbind(
+    map$procrustes$comparison_coords$ag,
+    map$procrustes$comparison_coords$sr
+  )
+
+  # Calculate grid limits and the grid points
+  plims <- plot_lims(comp_coords)
+  x <- seq(from = plims$xlim[1], to = plims$xlim[2])
+  y <- seq(from = plims$ylim[1], to = plims$ylim[2])
+  grid_coords <- as.matrix(expand.grid(x, y))
+  grid_coords <- cbind(grid_coords, 0)
+  grid_coords <- apply_procrustes(grid_coords, map$procrustes$pc_transform)
+
+  # Add the surface to the map
+  r3js::surface3js(
+    map,
+    x = matrix(grid_coords[,1], length(x), length(y)),
+    y = matrix(grid_coords[,2], length(x), length(y)),
+    z = matrix(grid_coords[,3], length(x), length(y)),
+    wireframe = TRUE,
+    col = "#cccccc"
+  )
+
+}
 
 

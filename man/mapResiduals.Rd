@@ -17,8 +17,12 @@ Returns a matrix of stresses, showing how much each antigen and sera
 This is the difference between the table distance and the map distance
 }
 \seealso{
-Other functions relating to map stress calculation: \code{\link{logtiterTable}},
-  \code{\link{mapDistances}}, \code{\link{stressTable}},
-  \code{\link{tableDistances}}
+Other {map diagnostic functions}{functions relating to map stress calculation}: 
+\code{\link{logtiterTable}()},
+\code{\link{mapDistances}()},
+\code{\link{pointStress}},
+\code{\link{recalculateStress}()},
+\code{\link{stressTable}()},
+\code{\link{tableDistances}()}
 }
-\concept{functions relating to map stress calculation}
+\concept{{map diagnostic functions}{functions relating to map stress calculation}}

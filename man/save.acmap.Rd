@@ -20,8 +20,16 @@ Although several file formats are supported, you should save files
   mostly there for backwards compatibility to other software.
 }
 \seealso{
-Other functions to create and save acmap objects: \code{\link{acmap}},
-  \code{\link{read.acmap.cpp}}, \code{\link{read.acmap}},
-  \code{\link{save.coords}}, \code{\link{save.titerTable}}
+Other {functions for working with map data}: 
+\code{\link{acmap}()},
+\code{\link{as.json}()},
+\code{\link{cloneMap}()},
+\code{\link{convertingMaps}},
+\code{\link{read.acmap}()},
+\code{\link{read.titerTable}()},
+\code{\link{save.coords}()},
+\code{\link{save.titerTable}()},
+\code{\link{selectedOptimization}()},
+\code{\link{subsetMap}()}
 }
-\concept{functions to create and save acmap objects}
+\concept{{functions for working with map data}}

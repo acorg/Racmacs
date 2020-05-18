@@ -1,4 +1,19 @@
 
+Racmacs.Point.prototype.onselect.push(
+    function(point){ point.showBlob() }
+);
+
+Racmacs.Point.prototype.ondeselect.push(
+    function(point){ point.hideBlob() }
+);
+
+Racmacs.App.prototype.onselect.push(
+    function(viewer){ viewer.points.map( p => p.hideBlob() ) }
+);
+
+Racmacs.App.prototype.ondeselect.push(
+    function(viewer){ viewer.points.map( p => p.showBlob() ) }
+);
 
 Racmacs.StressblobsPanel = class StressblobsPanel {
 

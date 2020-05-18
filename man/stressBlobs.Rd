@@ -4,14 +4,18 @@
 \alias{stressBlobs}
 \title{Add stress blob data to a map object}
 \usage{
-stressBlobs(map, optimization_number = NULL, stress_lim = 1,
-  antigens = TRUE, sera = TRUE, grid_spacing = 0.25,
-  grid_margin = 4, progress_fn = message, .check_relaxation = TRUE)
+stressBlobs(
+  map,
+  stress_lim = 1,
+  antigens = TRUE,
+  sera = TRUE,
+  grid_spacing = 0.25,
+  .progress = NULL,
+  .check_relaxation = TRUE
+)
 }
 \arguments{
 \item{map}{The acmap data object}
-
-\item{optimization_number}{The optimization number (defaults to the currently selected one)}
 
 \item{stress_lim}{The blob stress limit}
 
@@ -21,11 +25,11 @@ stressBlobs(map, optimization_number = NULL, stress_lim = 1,
 
 \item{grid_spacing}{Grid spacing to use when calculating the blob}
 
-\item{grid_margin}{Grid margin to use when calculating the blob}
+\item{data}{The stress data to add (calculated if not provided)}
+
+\item{optimization_number}{The optimization number (defaults to the currently selected one)}
 
 \item{progress_fn}{Function to use for progress reporting}
-
-\item{data}{The stress data to add (calculated if not provided)}
 }
 \value{
 Returns the acmap data object with stress blob information added

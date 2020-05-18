@@ -32,6 +32,7 @@
 #' titer_lims <- get_titer_lims(titers = c("20", "320", "<10", ">1280"),
 #'                              fit_opts = list(min_titer_possible = -Inf,
 #'                                              max_titer_possible = 14))
+#' @noRd
 #' @export
 calc_titer_lims <- function(titers,
                             min_titer_possible = -Inf,

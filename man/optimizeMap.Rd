@@ -4,11 +4,21 @@
 \alias{optimizeMap}
 \title{Optimize an acmap}
 \usage{
-optimizeMap(map, number_of_dimensions, number_of_optimizations,
-  minimum_column_basis, fixed_column_bases = NULL,
-  move_trapped_points = NULL, discard_previous_optimizations = TRUE,
-  sort_optimizations = TRUE, realign_optimizations = TRUE,
-  verbose = TRUE, parallel_optimization = TRUE)
+optimizeMap(
+  map,
+  number_of_dimensions,
+  number_of_optimizations,
+  minimum_column_basis,
+  fixed_column_bases = NULL,
+  move_trapped_points = NULL,
+  discard_previous_optimizations = TRUE,
+  sort_optimizations = TRUE,
+  realign_optimizations = TRUE,
+  stepsize = 0.1,
+  verbose = TRUE,
+  vverbose = FALSE,
+  parallel_optimization = TRUE
+)
 }
 \arguments{
 \item{map}{The acmap data object}
@@ -57,4 +67,12 @@ This step can alternatively be skipped by setting 'none' or applied to all optim
 }
 \seealso{
 See \code{\link{relaxMap}} for optimizing a given optimization starting from its current coordinates.
+
+Other {map optimization functions}: 
+\code{\link{make.acmap}()},
+\code{\link{moveTrappedPoints}()},
+\code{\link{randomizeCoords}()},
+\code{\link{relaxMapOneStep}()},
+\code{\link{relaxMap}()}
 }
+\concept{{map optimization functions}}

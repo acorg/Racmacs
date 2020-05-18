@@ -1,7 +1,7 @@
 
 
 #' Rotate a set of coordinates
-#' @export
+#' @noRd
 rotate_coords_by_radians <- function(coords, radians, axis = NULL) {
 
   if(ncol(coords) == 2){
@@ -17,14 +17,14 @@ rotate_coords_by_radians <- function(coords, radians, axis = NULL) {
 }
 
 #' Rotate a set of coordinates
-#' @export
+#' @noRd
 rotate_coords_by_degrees <- function(coords, degrees, axis = NULL) {
   rotate_coords_by_radians(coords, pi*(degrees/180), axis)
 }
 
 
 #' Generate a 2 dimensional rotation matrix
-#' @export
+#' @noRd
 rotation_matrix_2D <- function(radians){
 
   matrix(c(cos(radians), sin(radians), -sin(radians), cos(radians)), 2, 2)
@@ -33,7 +33,7 @@ rotation_matrix_2D <- function(radians){
 
 
 #' Generate a 3 dimensional rotation matrix
-#' @export
+#' @noRd
 rotation_matrix_3D <- function(radians, axis = "z"){
 
   if(axis == "x"){
@@ -67,7 +67,7 @@ rotation_matrix_3D <- function(radians, axis = "z"){
 
 
 #' Reflect coordinates
-#' @export
+#' @noRd
 reflect_coords_in_axis <- function(coords, axis){
 
   dimensions <- ncol(coords)

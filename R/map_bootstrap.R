@@ -34,7 +34,7 @@ make_noise_matrix <- function(
 #' @param titer_noise_sd The standard deviation to use when applying noise per titer
 #'
 #' @return Returns the updated map object
-#' @family bootstrapping maps
+#' @family {map diagnostic functions}
 #' @export
 #'
 bootstrapMap <- function(
@@ -83,11 +83,13 @@ bootstrapMap <- function(
     function(noise){
 
       noisylogtiters <- logtitertable + noise$noise_matrix
-      noisylogtiters[noisylogtiters < 0] <- 0
+      noisylessthans <- noisylogtiters < 0
+      noisylogtiters[noisylessthans] <- 0
       noisytiters    <- round(2^noisylogtiters*10)
       noisytiters[lessthans] <- paste0("<", noisytiters[lessthans])
       noisytiters[morethans] <- paste0(">", noisytiters[morethans])
       noisytiters[natiters]  <- "*"
+      noisytiters[noisylessthans] <- paste("<", noisytiters[noisylessthans])
       noisytiters
 
     }

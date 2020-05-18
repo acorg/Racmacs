@@ -4,8 +4,12 @@
 \alias{standardizeStrainNames}
 \title{Standardize strain names}
 \usage{
-standardizeStrainNames(names, default_species = NA,
-  default_virus_type = "A", default_virus_subtype = "HXNX")
+standardizeStrainNames(
+  names,
+  default_species = NA,
+  default_virus_type = "A",
+  default_virus_subtype = "HXNX"
+)
 }
 \arguments{
 \item{names}{Strain names to be standardised}

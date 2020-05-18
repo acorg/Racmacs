@@ -11,25 +11,38 @@ convertOptimizationNum <- function(optimization_number, map){
 
 # Stress ---------------
 
-#' Get the stress associated with an acmap optimization
+#' Recalculate the stress associated with an acmap optimization
 #'
-#' Gets the stress associated with the currently selected or user-specifed optimization.
+#' Recalculates the stress associated with the currently selected or user-specifed optimization.
 #'
 #' @param map The acmap data object
 #' @param optimization_number The optimization data to access (defaults to the currently selected optimization)
 #'
 #' @return Returns the map stress
 #'
-#' @family functions to get and set acmap optimization attributes
+#' @family {map diagnostic functions}{functions relating to map stress calculation}
 #' @seealso See \link{pointStress} for getting the stress of individual points.
 #' @export
-mapStress <- function(map, optimization_number = NULL){
+recalculateStress <- function(map, optimization_number = NULL){
   ac_calcStress(
-    ag_coords   = agCoords(map, optimization_number),
-    sr_coords   = srCoords(map, optimization_number),
-    titer_table = titerTable(map),
+    ag_coords   = agBaseCoords(map, optimization_number),
+    sr_coords   = srBaseCoords(map, optimization_number),
+    titer_table = titerTableFlat(map),
     colbases    = colBases(map, optimization_number)
   )
+}
+
+#' @export
+updateStress <- function(map, optimization_number = NULL){
+  mapStress(
+    map,
+    optimization_number,
+    .check = FALSE
+  ) <- recalculateStress(
+    map,
+    optimization_number
+  )
+  map
 }
 
 #' Get individual point stress
@@ -42,6 +55,7 @@ mapStress <- function(map, optimization_number = NULL){
 #' @param sera Which sera to check stress for, specified by index or name (defaults to all sera).
 #'
 #' @seealso See \code{\link{mapStress}} for getting the total map stress directly.
+#' @family {map diagnostic functions}{functions relating to map stress calculation}
 #' @name pointStress
 #'
 
@@ -59,8 +73,8 @@ agStress <- function(
   antigens <- get_ag_indices(antigens, map, warnings = TRUE)
 
   # Calculate the stress
-  ag_coords   <- agCoords(map, optimization_number, .name = FALSE)
-  sr_coords   <- srCoords(map, optimization_number, .name = FALSE)
+  ag_coords   <- agBaseCoords(map, optimization_number, .name = FALSE)
+  sr_coords   <- srBaseCoords(map, optimization_number, .name = FALSE)
   titer_table <- titerTable(map, .name = FALSE)
   colbases    <- colBases(map, optimization_number, .name = FALSE)
 
@@ -86,8 +100,8 @@ srStress <- function(
   sera <- get_sr_indices(sera, map, warnings = TRUE)
 
   # Calculate the stress
-  ag_coords   <- agCoords(map, optimization_number, .name = FALSE)
-  sr_coords   <- srCoords(map, optimization_number, .name = FALSE)
+  ag_coords   <- agBaseCoords(map, optimization_number, .name = FALSE)
+  sr_coords   <- srBaseCoords(map, optimization_number, .name = FALSE)
   titer_table <- titerTable(map, .name = FALSE)
   colbases    <- colBases(map, optimization_number, .name = FALSE)
 
@@ -105,7 +119,8 @@ srStress <- function(
 srStressPerTiter <- function(
   map,
   sera                = TRUE,
-  optimization_number = NULL
+  optimization_number = NULL,
+  exclude_nd          = TRUE
 ){
 
   # Convert to indices
@@ -115,7 +130,7 @@ srStressPerTiter <- function(
   map_residuals <- mapResiduals(
     map                 = map,
     optimization_number = optimization_number,
-    exclude_nd          = TRUE
+    exclude_nd          = exclude_nd
   )
 
   # Calculate the serum likelihood
@@ -135,7 +150,8 @@ srStressPerTiter <- function(
 agStressPerTiter <- function(
   map,
   antigens            = TRUE,
-  optimization_number = NULL
+  optimization_number = NULL,
+  exclude_nd          = TRUE
 ){
 
   # Convert to indices
@@ -145,7 +161,7 @@ agStressPerTiter <- function(
   map_residuals <- mapResiduals(
     map                 = map,
     optimization_number = optimization_number,
-    exclude_nd          = TRUE
+    exclude_nd          = exclude_nd
   )
 
   # Calculate the serum likelihood
@@ -313,7 +329,7 @@ addOptimization <- function(
 
   # Set a default minimum column basis of none
   if(is.null(minimum_column_basis)){
-    warning("No minimum column basis specified so was set to 'none'")
+    # warning("No minimum column basis specified so was set to 'none'")
     minimum_column_basis <- "none"
   }
 
@@ -328,6 +344,9 @@ addOptimization <- function(
     number_of_dimensions = number_of_dimensions,
     minimum_column_basis = as.character(minimum_column_basis)
   )
+
+  # Select the new optimization run
+  if(is.null(selectedOptimization(map))) selectedOptimization(map) <- 1
 
   # Apply the methods to set the variables
   optimization_functions <- list_property_function_bindings("optimization")

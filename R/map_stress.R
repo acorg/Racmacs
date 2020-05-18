@@ -13,7 +13,7 @@
 #'   they are associated with more than or less than titers.
 #' @export
 #'
-#' @family functions relating to map stress calculation
+#' @family {map diagnostic functions}{functions relating to map stress calculation}
 #'
 tableDistances <- function(map, optimization_number = NULL){
 
@@ -39,7 +39,7 @@ tableDistances <- function(map, optimization_number = NULL){
 #' @return Returns a matrix of map distances with antigens as rows and sera as columns.
 #' @export
 #'
-#' @family functions relating to map stress calculation
+#' @family {map diagnostic functions}{functions relating to map stress calculation}
 #'
 mapDistances <- function(map, optimization_number = NULL){
 
@@ -63,16 +63,16 @@ mapDistances <- function(map, optimization_number = NULL){
 #' @return Returns a list of matrices with the logged titers and whether the titers were discrete, morethan or lessthan.
 #' @export
 #'
-#' @family functions relating to map stress calculation
+#' @family {map diagnostic functions}{functions relating to map stress calculation}
 #'
 logtiterTable <- function(map){
 
   titers <- titerTable(map)
-  convert2log(titers)$log_titers
+  titer_to_logtiter(titers)
 
 }
 
-
+#' @export
 titerTypes <- function(map){
 
   titers <- titerTable(map)
@@ -94,7 +94,7 @@ titerTypes <- function(map){
 #'   measurement contributes to stress in the selected or specified optimization.
 #' @export
 #'
-#' @family functions relating to map stress calculation
+#' @family {map diagnostic functions}{functions relating to map stress calculation}
 #'
 stressTable <- function(map, optimization_number = NULL){
 
@@ -132,7 +132,7 @@ stressTable <- function(map, optimization_number = NULL){
 #'   measurement contributes to stress in the selected or specified optimization.
 #' @export
 #'
-#' @family functions relating to map stress calculation
+#' @family {map diagnostic functions}{functions relating to map stress calculation}
 #'
 mapResiduals <- function(
   map,

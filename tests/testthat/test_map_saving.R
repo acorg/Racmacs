@@ -5,7 +5,7 @@ context("Saving map data")
 
 run.maptests(
   bothclasses = TRUE,
-  loadlocally = TRUE,
+  loadlocally = FALSE,
   {
 
     test_that(

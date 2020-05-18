@@ -5,7 +5,7 @@ context("Optimizing maps")
 
 run.maptests(
   bothclasses = TRUE,
-  loadlocally = TRUE,
+  loadlocally = FALSE,
   {
 
   titertable <- read.titerTable(test_path("../testdata/titer_tables/titer_table1.csv"))

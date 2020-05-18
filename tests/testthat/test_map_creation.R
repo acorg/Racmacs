@@ -1,7 +1,7 @@
 
 library(Racmacs)
 library(testthat)
-context("Test local map creation")
+context("Test local map creation (test_map_creation.R)")
 
 run.maptests(
   bothclasses = TRUE,
@@ -64,17 +64,22 @@ run.maptests(
       map <- make.map(ag_coords = expand.grid(1:10, 1:10),
                       sr_coords = expand.grid(1:10, 1:10))
 
+      expect_equal(nrow(agCoords(map)), 100)
+      expect_equal(nrow(srCoords(map)), 100)
+
     })
 
     # Multioptimization creation
     test_that("Multioptimization creation", {
 
-      acmap <- make.map(optimizations = list(
+      map <- make.map(optimizations = list(
         list(ag_coords = matrix(1:10,5,2),
              sr_coords = matrix(11:20,5,2)),
         list(ag_coords = matrix(10:1,5,2),
              sr_coords = matrix(20:11,5,2))
       ))
+
+      expect_equal(numOptimizations(map), 2)
 
     })
 

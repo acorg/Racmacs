@@ -32,7 +32,6 @@ applyPlotspec <- function(map,
 }
 
 
-#' @rdname mapPlotspec
 #' @export
 mapPoints <- function(map, optimization_number = NULL){
 

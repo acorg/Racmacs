@@ -102,6 +102,8 @@ plotly_map_table_distance <- function(map,
 
 }
 
+#' Plot serum titers
+#'
 #' @name plot_sr_titers
 #' @family Map Diagnostics
 
@@ -201,6 +203,8 @@ plotly_sr_titers <- function(
 
 }
 
+#' Plot stress per titer
+#'
 #' @name plot_stress_per_titer
 #' @family Map Diagnostics
 

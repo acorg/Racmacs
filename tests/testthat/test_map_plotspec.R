@@ -1,15 +1,15 @@
 
 library(Racmacs)
 library(testthat)
+context("Test reading and editing of plotspec data")
 
 # Load the map and the chart
-racmap   <- read.acmap(filename = testthat::test_path("../testdata/testmap.ace"))
-racchart <- read.acmap.cpp(filename = testthat::test_path("../testdata/testmap.ace"))
+racmap   <- read.acmap(filename = test_path("../testdata/testmap.ace"))
+racchart <- read.acmap.cpp(filename = test_path("../testdata/testmap.ace"))
 
-testthat::context("Test reading and editing of plotspec data")
 
 ## Check you are converting between draw order and priority correctly
-testthat::test_that("Draw priority to order conversion", {
+test_that("Draw priority to order conversion", {
 
   drawing_order <- c(6, 1, 7, 4, 2, 3, 9, 5, 10, 8)
   expect_equal(drawing_order, Racmacs:::draw_priority_to_order(Racmacs:::draw_order_to_priority(drawing_order)))
@@ -31,30 +31,30 @@ convertcol <- function(col){
 }
 
 ## Test defaults
-testthat::test_that("Test acmap defaults", {
+test_that("Test acmap defaults", {
 
   map <- acmap(table = matrix(2^(4:9), 3, 2)*10)
   map <- optimizeMap(map, number_of_dimensions = 2, number_of_optimizations = 1, minimum_column_basis = "none")
 
-  testthat::expect_equal(convertcol(agFill(map)), rep("green", 3)       )
-  testthat::expect_equal(agOutline(map),          rep("black", 3)       )
-  testthat::expect_equal(agAspect(map),           rep(1, 3)             )
-  testthat::expect_equal(agRotation(map),         rep(0, 3)             )
-  testthat::expect_equal(agOutlineWidth(map),     rep(1, 3)             )
-  testthat::expect_equal(agDrawingOrder(map),     rep(1, 3)             )
-  testthat::expect_equal(agShape(map),            rep("CIRCLE", 3)      )
-  testthat::expect_equal(agSize(map),             rep(5, 3)             )
-  testthat::expect_equal(agShown(map),            rep(TRUE, 3)          )
+  expect_equal(convertcol(agFill(map)), rep("green", 3)       )
+  expect_equal(agOutline(map),          rep("black", 3)       )
+  expect_equal(agAspect(map),           rep(1, 3)             )
+  expect_equal(agRotation(map),         rep(0, 3)             )
+  expect_equal(agOutlineWidth(map),     rep(1, 3)             )
+  expect_equal(agDrawingOrder(map),     rep(1, 3)             )
+  expect_equal(agShape(map),            rep("CIRCLE", 3)      )
+  expect_equal(agSize(map),             rep(5, 3)             )
+  expect_equal(agShown(map),            rep(TRUE, 3)          )
 
-  testthat::expect_equal(srFill(map),             rep("transparent", 2) )
-  testthat::expect_equal(srOutline(map),          rep("black", 2)       )
-  testthat::expect_equal(srAspect(map),           rep(1, 2)             )
-  testthat::expect_equal(srRotation(map),         rep(0, 2)             )
-  testthat::expect_equal(srOutlineWidth(map),     rep(1, 2)             )
-  testthat::expect_equal(srDrawingOrder(map),     rep(1, 2)             )
-  testthat::expect_equal(srShape(map),            rep("BOX", 2)         )
-  testthat::expect_equal(srSize(map),             rep(5, 2)             )
-  testthat::expect_equal(srShown(map),            rep(TRUE, 2)          )
+  expect_equal(srFill(map),             rep("transparent", 2) )
+  expect_equal(srOutline(map),          rep("black", 2)       )
+  expect_equal(srAspect(map),           rep(1, 2)             )
+  expect_equal(srRotation(map),         rep(0, 2)             )
+  expect_equal(srOutlineWidth(map),     rep(1, 2)             )
+  expect_equal(srDrawingOrder(map),     rep(1, 2)             )
+  expect_equal(srShape(map),            rep("BOX", 2)         )
+  expect_equal(srSize(map),             rep(5, 2)             )
+  expect_equal(srShown(map),            rep(TRUE, 2)          )
 
 })
 
@@ -73,7 +73,7 @@ plotspec_features <- rbind(
   c("Shown"        , TRUE  , FALSE     , "logical")
 )
 
-testthat::test_that("Edit plotspec details", {
+test_that("Edit plotspec details", {
 
   for(n in seq_len(nrow(plotspec_features))){
 
@@ -90,11 +90,11 @@ testthat::test_that("Edit plotspec details", {
 
     # Test getting
     if(property != "Size"){
-      testthat::expect_equal(
+      expect_equal(
         convertcol(agGetterFunction(racmap)),
         agGetterFunction(racchart)
       )
-      testthat::expect_equal(
+      expect_equal(
         srGetterFunction(racmap),
         srGetterFunction(racchart)
       )
@@ -103,17 +103,17 @@ testthat::test_that("Edit plotspec details", {
     # Test setting
     racmap <- agSetterFunction(racmap, value = test_value)
     racmap <- srSetterFunction(racmap, value = test_value)
-    testthat::expect_equal(agGetterFunction(racmap), rep(test_value, numAntigens(racmap)))
-    testthat::expect_equal(srGetterFunction(racmap), rep(test_value, numSera(racmap)))
+    expect_equal(agGetterFunction(racmap), rep(test_value, numAntigens(racmap)))
+    expect_equal(srGetterFunction(racmap), rep(test_value, numSera(racmap)))
 
     if(chart_supported){
       racchart <- agSetterFunction(racchart, value = test_value)
       racchart <- srSetterFunction(racchart, value = test_value)
-      testthat::expect_equal(agGetterFunction(racchart), rep(test_value, numAntigens(racchart)))
-      testthat::expect_equal(srGetterFunction(racchart), rep(test_value, numSera(racchart)))
+      expect_equal(agGetterFunction(racchart), rep(test_value, numAntigens(racchart)))
+      expect_equal(srGetterFunction(racchart), rep(test_value, numSera(racchart)))
     } else {
-      testthat::expect_error(racchart <- agSetterFunction(racchart, test_value))
-      testthat::expect_error(racchart <- srSetterFunction(racchart, test_value))
+      expect_error(racchart <- agSetterFunction(racchart, test_value))
+      expect_error(racchart <- srSetterFunction(racchart, test_value))
     }
 
   }

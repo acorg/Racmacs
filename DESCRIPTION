@@ -20,6 +20,7 @@ Imports:
     shinyFiles, 
     shinyjs, 
     htmlwidgets, 
+    crayon,
     ggplot2
 LazyData: TRUE
 Suggests: 

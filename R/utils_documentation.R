@@ -17,8 +17,10 @@ roxygen_tags <- function(
 ){
 
   # Work out if the function is settable
+  matching_methods <- match(methods, list_property_function_bindings()$method)
+  if(sum(is.na(matching_methods)) > 0) stop(paste0("Unmatched methods: ", paste0(methods[is.na(matching_methods)], collapse = ", ")))
   settable <- list_property_function_bindings()$settable[
-    match(methods, list_property_function_bindings()$method)
+    matching_methods
   ]
 
   # The @export tags for adding the functions to the namespace
@@ -26,6 +28,7 @@ roxygen_tags <- function(
     paste0("@export ", methods),
     paste0("@aliases ", paste(methods, collapse = " "))
   )
+
   if(sum(settable) > 0){
     exporttags <- c(exporttags, paste0("@export ", methods[settable], "<-"))
   }

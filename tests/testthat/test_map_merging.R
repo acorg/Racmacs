@@ -1,59 +1,8 @@
 
 library(Racmacs)
 library(testthat)
-setwd("~/Dropbox/labbook/packages/Racmacs/Racmacs/")
-invisible(lapply(rev(list.files("R", full.names = T)), source))
 
 context("Merging maps")
-
-# Set number of dimensions
-num_dim <- 2
-
-# Make some charts that can be merged
-# generate_hi <- function(nag, nsr){
-#
-#   matrix(
-#     data = sample(
-#       x       = c("<10", 2^(0:8)*10),
-#       size    = nag*nsr,
-#       replace = TRUE
-#     ),
-#     nrow = nag,
-#     ncol = nsr
-#   )
-#
-# }
-#
-# mergemap1 <- acmap.cpp(
-#   ag_names = paste("Antigen", 1:20),
-#   sr_names = paste("Sera",    1:10),
-#   ag_coords = matrix(runif(20*num_dim)*10, 20, num_dim),
-#   sr_coords = matrix(runif(10*num_dim)*10, 10, num_dim),
-#   table     = generate_hi(20, 10),
-#   minimum_column_basis = "none"
-# )
-#
-# mergemap2 <- acmap.cpp(
-#   ag_names = paste("Antigen", 11:30),
-#   sr_names = paste("Sera",    1:10),
-#   ag_coords = matrix(runif(20*num_dim)*10, 20, num_dim),
-#   sr_coords = matrix(runif(10*num_dim)*10, 10, num_dim),
-#   table     = generate_hi(20, 10),
-#   minimum_column_basis = "none"
-# )
-#
-# chart3 <- acmap.cpp(
-#   ag_names = paste("Antigen", 21:40),
-#   sr_names = paste("Sera",    1:10),
-#   ag_coords = matrix(runif(20*num_dim)*10, 20, num_dim),
-#   sr_coords = matrix(runif(10*num_dim)*10, 10, num_dim),
-#   table     = generate_hi(20, 10),
-#   minimum_column_basis = "none"
-# )
-#
-# save.acmap(chart1, "tests/testdata/test_mergemap1.ace")
-# save.acmap(chart2, "tests/testdata/test_mergemap2.ace")
-# save.acmap(chart3, "tests/testdata/test_mergemap3.ace")
 
 run.maptests(
   bothclasses = TRUE,
@@ -183,4 +132,56 @@ run.maptests(
   })
 
 })
+
+
+
+
+# Make some charts that can be merged
+# generate_hi <- function(nag, nsr){
+#
+#   matrix(
+#     data = sample(
+#       x       = c("<10", 2^(0:8)*10),
+#       size    = nag*nsr,
+#       replace = TRUE
+#     ),
+#     nrow = nag,
+#     ncol = nsr
+#   )
+#
+# }
+#
+# mergemap1 <- acmap.cpp(
+#   ag_names = paste("Antigen", 1:20),
+#   sr_names = paste("Sera",    1:10),
+#   ag_coords = matrix(runif(20*num_dim)*10, 20, num_dim),
+#   sr_coords = matrix(runif(10*num_dim)*10, 10, num_dim),
+#   table     = generate_hi(20, 10),
+#   minimum_column_basis = "none"
+# )
+#
+# mergemap2 <- acmap.cpp(
+#   ag_names = paste("Antigen", 11:30),
+#   sr_names = paste("Sera",    1:10),
+#   ag_coords = matrix(runif(20*num_dim)*10, 20, num_dim),
+#   sr_coords = matrix(runif(10*num_dim)*10, 10, num_dim),
+#   table     = generate_hi(20, 10),
+#   minimum_column_basis = "none"
+# )
+#
+# chart3 <- acmap.cpp(
+#   ag_names = paste("Antigen", 21:40),
+#   sr_names = paste("Sera",    1:10),
+#   ag_coords = matrix(runif(20*num_dim)*10, 20, num_dim),
+#   sr_coords = matrix(runif(10*num_dim)*10, 10, num_dim),
+#   table     = generate_hi(20, 10),
+#   minimum_column_basis = "none"
+# )
+#
+# save.acmap(chart1, "tests/testdata/test_mergemap1.ace")
+# save.acmap(chart2, "tests/testdata/test_mergemap2.ace")
+# save.acmap(chart3, "tests/testdata/test_mergemap3.ace")
+
+
+
 

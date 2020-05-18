@@ -337,6 +337,7 @@ hasStressBlobs <- function(map){
   !is.null(map$stressblobs)
 }
 
+#' @export
 stressBlobGeometries <- function(map){
 
   if(!hasStressBlobs(map)){
@@ -370,7 +371,10 @@ stressBlobSize <- function(map){
 
 }
 
+#' @export
 agStressBlobSize <- function(map){ stressBlobSize(map)$antigens }
+
+#' @export
 srStressBlobSize <- function(map){ stressBlobSize(map)$sera     }
 
 calcBlobArea <- function(blob){

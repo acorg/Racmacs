@@ -22,7 +22,6 @@ Create a map snapshot
 }
 \seealso{
 Other {functions to view maps}: 
-\code{\link{plot.rac}()},
-\code{\link{view}()}
+\code{\link{plot.rac}()}
 }
 \concept{{functions to view maps}}

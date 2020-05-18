@@ -1,23 +1,13 @@
 
 library(Racmacs)
 library(testthat)
-set.seed(100)
-
-# Get a record of the start environment
-environment_objects <- ls()
-
-# Load the map and the chart
 context("Test procrustes methods")
 
 # Test for raccharts and racmaps
-Racmacs:::run.maptests(
-  bothclasses = FALSE,
+run.maptests(
+  bothclasses = TRUE,
   loadlocally = FALSE,
   {
-
-    warning("Need to fix procrustes for the racchart object")
-    make.map <- acmap
-    read.map <- read.acmap
 
     # Setup rotation and translation matrices
     rot_mat <- matrix(data = c(cos(0.24), sin(0.24), -sin(0.24), cos(0.24)),
@@ -85,16 +75,16 @@ Racmacs:::run.maptests(
 
     # Create the test maps
     map1 <- make.map(ag_coords = ag_coords1,
-                         sr_coords = sr_coords1,
-                         ag_names  = ag_names1,
-                         sr_names  = sr_names1,
-                         minimum_column_basis = "none")
+                     sr_coords = sr_coords1,
+                     ag_names  = ag_names1,
+                     sr_names  = sr_names1,
+                     minimum_column_basis = "none")
 
     map2 <- make.map(ag_coords = ag_coords2,
-                         sr_coords = sr_coords2,
-                         ag_names  = ag_names2,
-                         sr_names  = sr_names2,
-                         minimum_column_basis = "none")
+                     sr_coords = sr_coords2,
+                     ag_names  = ag_names2,
+                     sr_names  = sr_names2,
+                     minimum_column_basis = "none")
 
     # Create a rotated and shuffled version
     ## Shuffle antigens and sera
@@ -116,10 +106,10 @@ Racmacs:::run.maptests(
     sr_coords1rot <- sr_coords1rot[sr_order1rot,]
 
     map1rot <- make.map(ag_coords = ag_coords1rot,
-                            sr_coords = sr_coords1rot,
-                            ag_names  = ag_names1rot,
-                            sr_names  = sr_names1rot,
-                            minimum_column_basis = "none")
+                        sr_coords = sr_coords1rot,
+                        ag_names  = ag_names1rot,
+                        sr_names  = sr_names1rot,
+                        minimum_column_basis = "none")
 
 
     # Test procrustes of map to itself

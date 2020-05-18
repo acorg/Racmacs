@@ -4,12 +4,12 @@ context("Stress blobs")
 
 run.maptests(
   bothclasses = TRUE,
-  loadlocally = TRUE,
+  loadlocally = FALSE,
   {
 
     # Read the test map
-    map_unrelaxed <- read.map(testthat::test_path("../testdata/testmap.ace"))
-    map_relaxed   <- read.map(testthat::test_path("../testdata/testmap_h3subset.ace"))
+    map_unrelaxed <- read.map(test_path("../testdata/testmap.ace"))
+    map_relaxed   <- read.map(test_path("../testdata/testmap_h3subset.ace"))
 
     # Error when map is not fully relaxed
     test_that("Stress blobs on unrelaxed map throw an error", {
@@ -58,11 +58,12 @@ run.maptests(
       expect_equal(length(blobgeos$antigens), numAntigens(blobmap3d))
       expect_equal(length(blobgeos$sera),     numSera(blobmap3d))
 
-      expect_equal(length(agStressBlobSize(blobmap3d)), numAntigens(blobmap3d))
-      expect_equal(length(srStressBlobSize(blobmap3d)),     numSera(blobmap3d))
+      agblobsize <- expect_warning(agStressBlobSize(blobmap3d))
+      srblobsize <- expect_warning(srStressBlobSize(blobmap3d))
 
-      expect_warning(agStressBlobSize(blobmap3d))
-      expect_warning(srStressBlobSize(blobmap3d))
+      expect_equal(length(agblobsize), numAntigens(blobmap3d))
+      expect_equal(length(srblobsize),     numSera(blobmap3d))
+
 
     })
 

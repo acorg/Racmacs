@@ -185,7 +185,7 @@ procrustesMap <- function(map,
   # Realign map 2 to match map 1
   pc_transform <- calculate_map_alignment(
     cloneMap(comparison_map),
-    map,
+    cloneMap(map),
     antigens                   = antigens_comparison[!is.na(antigens_comparison)],
     sera                       = sera_comparison[!is.na(sera_comparison)],
     translation                = translation,
@@ -239,8 +239,8 @@ procrustesMap <- function(map,
   sr_dists <- dist_coord_pairs(sr_coords1, sr_coords2_realigned)
 
   # Return output
+  map <- cloneMap(map)
   map$procrustes <- list(
-    map                        = map,
     comparison_map             = name(comparison_map),
     optimization_number        = optimization_number,
     target_optimization_number = comparison_optimization_number,

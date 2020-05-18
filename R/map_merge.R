@@ -137,7 +137,7 @@ mergeMaps <- function(...,
         match  = passage_matching,
         merge  = 2
       )
-      merged_chart$relax_incremetal(number_of_optimizations, FALSE)
+      merged_chart$relax_incremental(number_of_optimizations, FALSE)
     }
 
   } else if(method == "frozen-overlay"

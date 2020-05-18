@@ -26,7 +26,6 @@ Method for plotting an antigenic map
 }
 \seealso{
 Other {functions to view maps}: 
-\code{\link{snapshotMap}()},
-\code{\link{view}()}
+\code{\link{snapshotMap}()}
 }
 \concept{{functions to view maps}}

@@ -24,9 +24,11 @@ roxygen_tags <- function(
   ]
 
   # The @export tags for adding the functions to the namespace
+  setter_methods <- methods[settable]
+  setter_methods <- paste0(setter_methods, rep("<-", length(setter_methods)))
   exporttags <- c(
     paste0("@export ", methods),
-    paste0("@aliases ", paste(methods, collapse = " "))
+    paste0("@aliases ", paste(c(methods, setter_methods), collapse = " "))
   )
 
   if(sum(settable) > 0){

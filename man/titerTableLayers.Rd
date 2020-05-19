@@ -2,6 +2,7 @@
 % Please edit documentation in R/map_props_chart.R
 \name{titerTableLayers}
 \alias{titerTableLayers}
+\alias{titerTableLayers<-}
 \title{Getting and setting titer table layers}
 \usage{
 titerTableLayers(map, .name = TRUE)
@@ -22,6 +23,7 @@ Functions to get and set the underlying titer table layers of a map (see details
 }
 \seealso{
 Other {map attribute functions}: 
+\code{\link{acmapAttributes}},
 \code{\link{name}},
 \code{\link{titerTable}()}
 }

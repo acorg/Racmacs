@@ -1,8 +1,8 @@
 ---
-title: "Making an antigenic map from scratch"
+title: "Making an antigenic map from titer data"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Making an antigenic map from scratch}
+  %\VignetteIndexEntry{Making an antigenic map from titer data}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---

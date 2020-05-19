@@ -14,6 +14,7 @@ Functions to get and set the map titer table.
 }
 \seealso{
 Other {map attribute functions}: 
+\code{\link{acmapAttributes}},
 \code{\link{name}},
 \code{\link{titerTableLayers}()}
 }

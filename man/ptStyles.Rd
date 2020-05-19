@@ -20,6 +20,24 @@
 \alias{srAspect}
 \alias{srShape}
 \alias{srDrawingOrder}
+\alias{agShown<-}
+\alias{agSize<-}
+\alias{agFill<-}
+\alias{agOutline<-}
+\alias{agOutlineWidth<-}
+\alias{agRotation<-}
+\alias{agAspect<-}
+\alias{agShape<-}
+\alias{agDrawingOrder<-}
+\alias{srShown<-}
+\alias{srSize<-}
+\alias{srFill<-}
+\alias{srOutline<-}
+\alias{srOutlineWidth<-}
+\alias{srRotation<-}
+\alias{srAspect<-}
+\alias{srShape<-}
+\alias{srDrawingOrder<-}
 \title{Getting and setting point plotting styles}
 \usage{
 agShown(map)

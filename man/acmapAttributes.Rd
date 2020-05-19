@@ -22,4 +22,10 @@ numOptimizations(map)
 \description{
 Functions to get various attributes about an acmap object.
 }
-\concept{functions to get and set map attributes}
+\seealso{
+Other {map attribute functions}: 
+\code{\link{name}},
+\code{\link{titerTableLayers}()},
+\code{\link{titerTable}()}
+}
+\concept{{map attribute functions}}

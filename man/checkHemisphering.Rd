@@ -13,7 +13,7 @@ checkHemisphering(map, stepsize = 0.1, optimization_number = NULL)
 }
 \value{
 Returns a data frame with information on any points that were found
-  to be hemisphering or trapped.
+to be hemisphering or trapped.
 }
 \description{
 Check for hemisphering or trapped points

@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">Racmacs</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.9</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.10</span>
       </span>
     </div>
 
@@ -145,7 +145,9 @@
     <pre class="usage"><span class='co'># S3 method for racchart</span>
 <span class='fu'><a href='https://rdrr.io/r/base/list.html'>as.list</a></span>(<span class='no'>map</span>)
 
-<span class='fu'>as.cpp</span>(<span class='no'>map</span>)</pre>
+<span class='fu'>as.cpp</span>(<span class='no'>map</span>)
+
+<span class='fu'>acmap.cpp</span>(<span class='no'>...</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -162,23 +164,54 @@
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>There are two map data formats supported within Racmacs termed an
-  'acmap' and an 'acchart'.</p>
+'acmap' and an 'acchart'.</p>
 <p>In short, if all you want to do is access the
-  map data for your own plotting or visualization or analysis, you can
-  choose the 'acmap' format, which is simply an R <code><a href='https://rdrr.io/r/base/list.html'>list</a></code>.</p>
-<p>If you plan to do further manipulation of the map in terms of doing further
-  optimization runs, diagnostic testing etc. then you should choose the 'acchart'
-  format.</p>
-<p>The reason for this is that the guts of most of the map making functions come
-  through the package acmacs.r, which uses underlying C++ objects for manipulation
-  of data. The 'acchart' format manipulates the underlying C++ object directly and
-  calls methods to make and relax maps, which will be very quick, however each time
-  a read or write call is made to this object there is some overhead which can
-  quickly slow down operations like altering all the coordinates in a set of 100
-  optimizations. In these cases, the list-based 'acmap' format will perform better.</p>
-<p>In practise, you shouldn't notice too much difference but if one format is
-  particularly slow when you think it shouldn't be (often the 'acchart') format,
-  you may consider using or converting to the other.</p>
+map data for your own plotting or visualization or analysis, you can
+choose the 'acmap' format, which is simply an R <code><a href='https://rdrr.io/r/base/list.html'>list</a></code>.</p>
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+
+    <div class='dont-index'><p>Other functions for working with map data: 
+<code><a href='acmap.html'>acmap</a>()</code>,
+<code><a href='as.json.html'>as.json</a>()</code>,
+<code><a href='cloneMap.html'>cloneMap</a>()</code>,
+<code>orderPoints</code>,
+<code><a href='read.acmap.html'>read.acmap</a>()</code>,
+<code><a href='read.titerTable.html'>read.titerTable</a>()</code>,
+<code>removePoints</code>,
+<code><a href='save.acmap.html'>save.acmap</a>()</code>,
+<code><a href='save.coords.html'>save.coords</a>()</code>,
+<code><a href='save.titerTable.html'>save.titerTable</a>()</code>,
+<code><a href='selectedOptimization.html'>selectedOptimization</a>()</code>,
+<code><a href='subsetMap.html'>subsetMap</a>()</code>,
+<code>subsetPoints</code></p>
+<p>Other functions for working with map data: 
+<code><a href='acmap.html'>acmap</a>()</code>,
+<code><a href='as.json.html'>as.json</a>()</code>,
+<code><a href='cloneMap.html'>cloneMap</a>()</code>,
+<code>orderPoints</code>,
+<code><a href='read.acmap.html'>read.acmap</a>()</code>,
+<code><a href='read.titerTable.html'>read.titerTable</a>()</code>,
+<code>removePoints</code>,
+<code><a href='save.acmap.html'>save.acmap</a>()</code>,
+<code><a href='save.coords.html'>save.coords</a>()</code>,
+<code><a href='save.titerTable.html'>save.titerTable</a>()</code>,
+<code><a href='selectedOptimization.html'>selectedOptimization</a>()</code>,
+<code><a href='subsetMap.html'>subsetMap</a>()</code>,
+<code>subsetPoints</code></p>
+<p>Other functions for working with map data: 
+<code><a href='acmap.html'>acmap</a>()</code>,
+<code><a href='as.json.html'>as.json</a>()</code>,
+<code><a href='cloneMap.html'>cloneMap</a>()</code>,
+<code>orderPoints</code>,
+<code><a href='read.acmap.html'>read.acmap</a>()</code>,
+<code><a href='read.titerTable.html'>read.titerTable</a>()</code>,
+<code>removePoints</code>,
+<code><a href='save.acmap.html'>save.acmap</a>()</code>,
+<code><a href='save.coords.html'>save.coords</a>()</code>,
+<code><a href='save.titerTable.html'>save.titerTable</a>()</code>,
+<code><a href='selectedOptimization.html'>selectedOptimization</a>()</code>,
+<code><a href='subsetMap.html'>subsetMap</a>()</code>,
+<code>subsetPoints</code></p></div>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

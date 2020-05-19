@@ -9,6 +9,11 @@
 \alias{agNamesAbbreviated}
 \alias{agDates}
 \alias{agReference}
+\alias{agNames<-}
+\alias{agIDs<-}
+\alias{agGroups<-}
+\alias{agDates<-}
+\alias{agReference<-}
 \title{Getting and setting antigen attributes}
 \usage{
 agNames(map, .name = TRUE)

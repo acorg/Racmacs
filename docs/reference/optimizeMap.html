@@ -75,7 +75,7 @@ starting conditions will be added to the acmap object." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">Racmacs</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.9</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.10</span>
       </span>
     </div>
 
@@ -158,6 +158,7 @@ starting conditions will be added to the acmap object.</p>
   <span class='kw'>discard_previous_optimizations</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
   <span class='kw'>sort_optimizations</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
   <span class='kw'>realign_optimizations</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>stepsize</span> <span class='kw'>=</span> <span class='fl'>0.1</span>,
   <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
   <span class='kw'>vverbose</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
   <span class='kw'>parallel_optimization</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>
@@ -225,7 +226,13 @@ This step can alternatively be skipped by setting 'none' or applied to all optim
 
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p>See <code><a href='relaxMap.html'>relaxMap</a></code> for optimizing a given optimization starting from its current coordinates.</p></div>
+    <div class='dont-index'><p>See <code><a href='relaxMap.html'>relaxMap</a></code> for optimizing a given optimization starting from its current coordinates.</p>
+<p>Other map optimization functions: 
+<code><a href='make.acmap.html'>make.acmap</a>()</code>,
+<code><a href='moveTrappedPoints.html'>moveTrappedPoints</a>()</code>,
+<code><a href='randomizeCoords.html'>randomizeCoords</a>()</code>,
+<code><a href='relaxMapOneStep.html'>relaxMapOneStep</a>()</code>,
+<code><a href='relaxMap.html'>relaxMap</a>()</code></p></div>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

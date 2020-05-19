@@ -2,6 +2,7 @@
 % Please edit documentation in R/map_props_optimizations.R
 \name{mapComment}
 \alias{mapComment}
+\alias{mapComment<-}
 \title{Get or set an optimization run comment}
 \usage{
 mapComment(map, optimization_number = NULL)

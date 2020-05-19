@@ -74,7 +74,7 @@ column bases." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">Racmacs</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.9</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.10</span>
       </span>
     </div>
 
@@ -179,20 +179,20 @@ column bases.</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>In general a map can have column bases that are specified either
-  through a minimum column basis or a vector of fixed column bases for each
-  sera. When you call `minColBasis()`, it will return the minimum column
-  basis if it has been set, or "fixed" if column bases have instead been
-  fixed directly. The `colBases()` function will return the column bases as
-  calculated for a given optimization run. Setting column bases through this
-  function with `colBases()&lt;-` will fix the column bases to the supplied
-  vector of values.</p>
-<p>Note that although the output from `colBases()` might be the same in a case
-  where a minimum column basis was set or a case whete column bases were set
-  explcitely, when a minimum column basis is set, the column bases will still
-  depend on the log titers recorded against a given sera, so changing the
-  titers may therefore change the actual column bases calculated. For fixed
-  column bases case, column bases will remain fixed at their values
-  independently of measured titers.</p>
+through a minimum column basis or a vector of fixed column bases for each
+sera. When you call <code>minColBasis()</code>, it will return the minimum column
+basis if it has been set, or "fixed" if column bases have instead been
+fixed directly. The <code>colBases()</code> function will return the column bases as
+calculated for a given optimization run. Setting column bases through this
+function with <code>colBases()&lt;-</code> will fix the column bases to the supplied
+vector of values.</p>
+<p>Note that although the output from <code>colBases()</code> might be the same in a case
+where a minimum column basis was set or a case whete column bases were set
+explcitely, when a minimum column basis is set, the column bases will still
+depend on the log titers recorded against a given sera, so changing the
+titers may therefore change the actual column bases calculated. For fixed
+column bases case, column bases will remain fixed at their values
+independently of measured titers.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p>Other map optimization attribute functions: 

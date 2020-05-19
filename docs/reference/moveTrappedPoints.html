@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Remove trapped points — moveTrappedPoints • Racmacs</title>
+<title>Move trapped points — moveTrappedPoints • Racmacs</title>
 
 
 <!-- jquery -->
@@ -39,7 +39,7 @@
 
 
 
-<meta property="og:title" content="Remove trapped points — moveTrappedPoints" />
+<meta property="og:title" content="Move trapped points — moveTrappedPoints" />
 <meta property="og:description" content="Iteratively searches for and moves points that are found to be trapped in a
 optimization, stopping when no more trapped points are found." />
 
@@ -73,7 +73,7 @@ optimization, stopping when no more trapped points are found." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">Racmacs</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.9</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.10</span>
       </span>
     </div>
 
@@ -134,7 +134,7 @@ optimization, stopping when no more trapped points are found." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Remove trapped points</h1>
+    <h1>Move trapped points</h1>
     
     <div class="hidden name"><code>moveTrappedPoints.Rd</code></div>
     </div>
@@ -144,7 +144,12 @@ optimization, stopping when no more trapped points are found." />
 optimization, stopping when no more trapped points are found.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>moveTrappedPoints</span>(<span class='no'>map</span>, <span class='kw'>optimization_number</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>vverbose</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
+    <pre class="usage"><span class='fu'>moveTrappedPoints</span>(
+  <span class='no'>map</span>,
+  <span class='kw'>stepsize</span> <span class='kw'>=</span> <span class='fl'>0.1</span>,
+  <span class='kw'>optimization_number</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>vverbose</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>
+)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -164,11 +169,12 @@ optimization, stopping when no more trapped points are found.</p>
     <p>Returns the acmap object with updated coordinates</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p>Other map diagnostic functions: 
-<code><a href='bootstrapMap.html'>bootstrapMap</a>()</code>,
-<code><a href='checkHemisphering.html'>checkHemisphering</a>()</code>,
-<code><a href='dimensionTestMap.html'>dimensionTestMap</a>()</code>,
-<code><a href='mapRelaxed.html'>mapRelaxed</a>()</code></p></div>
+    <div class='dont-index'><p>Other map optimization functions: 
+<code><a href='make.acmap.html'>make.acmap</a>()</code>,
+<code><a href='optimizeMap.html'>optimizeMap</a>()</code>,
+<code><a href='randomizeCoords.html'>randomizeCoords</a>()</code>,
+<code><a href='relaxMapOneStep.html'>relaxMapOneStep</a>()</code>,
+<code><a href='relaxMap.html'>relaxMap</a>()</code></p></div>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

@@ -3,6 +3,8 @@
 \name{mapTransformation}
 \alias{mapTransformation}
 \alias{mapTranslation}
+\alias{mapTransformation<-}
+\alias{mapTranslation<-}
 \title{Reading map transformation data}
 \usage{
 mapTransformation(map, optimization_number = NULL)

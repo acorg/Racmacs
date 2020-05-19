@@ -2,6 +2,7 @@
 % Please edit documentation in R/map_props_chart.R
 \name{name}
 \alias{name}
+\alias{name<-}
 \title{Getting and setting the map name}
 \usage{
 name(map, .name = TRUE)
@@ -18,10 +19,11 @@ name(map, .check = TRUE) <- value
 Returns either the requested attribute when using a getter function or the updated acmap object when using the setter function.
 }
 \description{
-You can use the standard `name()` function to get and set the map name.
+You can use the standard \code{name()} function to get and set the map name.
 }
 \seealso{
 Other {map attribute functions}: 
+\code{\link{acmapAttributes}},
 \code{\link{titerTableLayers}()},
 \code{\link{titerTable}()}
 }

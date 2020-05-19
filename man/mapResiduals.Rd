@@ -11,7 +11,7 @@ mapResiduals(map, exclude_nd = FALSE, optimization_number = NULL)
 }
 \value{
 Returns a matrix of stresses, showing how much each antigen and sera
-  measurement contributes to stress in the selected or specified optimization.
+measurement contributes to stress in the selected or specified optimization.
 }
 \description{
 This is the difference between the table distance and the map distance

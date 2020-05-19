@@ -13,7 +13,7 @@ tableDistances(map, optimization_number = NULL)
 }
 \value{
 Returns a list with a matrix of numeric table distances and whether
-  they are associated with more than or less than titers.
+they are associated with more than or less than titers.
 }
 \description{
 Takes the acmap object and, assuming the column bases associated with the

@@ -43,7 +43,7 @@ existing optimizations are lost.
 \subsection{Method 'reoptimized-merge'}{
 This merges the tables and then does a specified number of fresh optimizations from random
 starting coordinates, ignoring any pre-existing optimization runs. It's exactly the same as doing a 'table' merge
-and running `optimizeMap()` on the merged table.
+and running \code{optimizeMap()} on the merged table.
 }
 
 \subsection{Method 'incremental-merge'}{

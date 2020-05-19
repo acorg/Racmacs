@@ -361,7 +361,6 @@ addOptimization <- function(
 
 }
 
-#' @export
 optimization.add <- function(map, ...) UseMethod("optimization.add", map)
 
 

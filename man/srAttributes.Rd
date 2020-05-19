@@ -7,6 +7,9 @@
 \alias{srGroups}
 \alias{srNamesFull}
 \alias{srNamesAbbreviated}
+\alias{srNames<-}
+\alias{srIDs<-}
+\alias{srGroups<-}
 \title{Getting and setting sera attributes}
 \usage{
 srNames(map, .name = TRUE)

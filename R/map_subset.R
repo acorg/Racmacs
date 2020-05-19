@@ -120,24 +120,65 @@ subsetMap <- function(map,
 }
 
 
+#' Order antigens and sera
+#'
+#' Functions to change the order of antigens and sera in a map
+#'
+#' @param map The map data object
+#' @param order The new order of points
+#'
+#' @name orderPoints
+#' @family {functions for working with map data}
+#'
+
 #' @export
+#' @rdname orderPoints
 orderAntigens <- function(map, order) UseMethod("orderAntigens", map)
 
 #' @export
+#' @rdname orderPoints
 orderSera <- function(map, order) UseMethod("orderSera", map)
 
 
+#' Remove antigens and sera
+#'
+#' Functions to remove antigens and sera from a map
+#'
+#' @param map The map data object
+#' @param antigens Antigens to remove (specified by name or index)
+#' @param sera Sera to remove (specified by name or index)
+#'
+#' @name removePoints
+#' @family {functions for working with map data}
+#'
+
 #' @export
+#' @rdname removePoints
 removeAntigens <- function(map, antigens) UseMethod("removeAntigens", map)
 
 #' @export
+#' @rdname removePoints
 removeSera <- function(map, sera) UseMethod("removeSera", map)
 
 
+#' Subset antigens and sera
+#'
+#' Functions to keep only a subset of antigens and sera from a map
+#'
+#' @param map The map data object
+#' @param antigens Antigens to keep (specified by name or index)
+#' @param sera Sera to keep (specified by name or index)
+#'
+#' @name subsetPoints
+#' @family {functions for working with map data}
+#'
+
 #' @export
+#' @rdname subsetPoints
 subsetAntigens <- function(map, antigens) UseMethod("subsetAntigens", map)
 
 #' @export
+#' @rdname subsetPoints
 subsetSera <- function(map, sera) UseMethod("subsetSera", map)
 
 

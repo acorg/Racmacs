@@ -196,18 +196,24 @@ standardizeStrainName <- function(name,
 
 #' Standardize strain names
 #'
+#' This is a utility function to help standardise antigen names into a more
+#' consistent format, also attempting to break apart different components
+#' of the name.
+#'
 #' @param names Strain names to be standardised
 #' @param default_species Are the strains isolated from a particular species?
-#' @param default_virus_type Default virus type to be used \(if not no type found in name\)
-#' @param default_virus_subtype Default virus subtype to be used \(if not no subtype found in name\)
+#' @param default_virus_type Default virus type to be used \(if no type found in name\)
+#' @param default_virus_subtype Default virus subtype to be used \(if no subtype found in name\)
 #'
-#' @return Returns a list of standardised names and extracted information
+#' @return Returns a tibble of standardised names and extracted information
 #' @export
 #'
-standardizeStrainNames <- function(names,
-                                    default_species = NA,
-                                    default_virus_type = "A",
-                                    default_virus_subtype = "HXNX") {
+standardizeStrainNames <- function(
+  names,
+  default_species = NA,
+  default_virus_type = "A",
+  default_virus_subtype = "HXNX"
+) {
 
   # Get name attributes
   name_list <- lapply(names, function(x) {
@@ -226,6 +232,12 @@ standardizeStrainNames <- function(names,
     output[[attribute]] <- attr_vector
   }
   output
+
+  # Include the original names
+  output <- c(list(original_name = names), output)
+
+  # Return output as a tibble
+  tibble::as_tibble(output)
 
 }
 

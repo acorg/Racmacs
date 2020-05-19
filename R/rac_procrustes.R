@@ -9,7 +9,6 @@
 #'
 #' @return Returns a procrustes object.
 #' @noRd
-#' @export
 calc_procrustes <- function(source_coords,
                             target_coords,
                             translation = TRUE,

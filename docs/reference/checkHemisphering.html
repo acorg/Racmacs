@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">Racmacs</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.9</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.10</span>
       </span>
     </div>
 
@@ -142,7 +142,7 @@
     <p>Check for hemisphering or trapped points</p>
     </div>
 
-    <pre class="usage"><span class='fu'>checkHemisphering</span>(<span class='no'>map</span>, <span class='kw'>optimization_number</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
+    <pre class="usage"><span class='fu'>checkHemisphering</span>(<span class='no'>map</span>, <span class='kw'>stepsize</span> <span class='kw'>=</span> <span class='fl'>0.1</span>, <span class='kw'>optimization_number</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -160,14 +160,13 @@
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>Returns a data frame with information on any points that were found
-  to be hemisphering or trapped.</p>
+to be hemisphering or trapped.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p>Other map diagnostic functions: 
 <code><a href='bootstrapMap.html'>bootstrapMap</a>()</code>,
 <code><a href='dimensionTestMap.html'>dimensionTestMap</a>()</code>,
-<code><a href='mapRelaxed.html'>mapRelaxed</a>()</code>,
-<code><a href='moveTrappedPoints.html'>moveTrappedPoints</a>()</code></p></div>
+<code><a href='mapRelaxed.html'>mapRelaxed</a>()</code></p></div>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

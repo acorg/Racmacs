@@ -31,7 +31,6 @@ calc_coord_dist <- function(coords1, coords2) {
     .Call('_Racmacs_calc_coord_dist', PACKAGE = 'Racmacs', coords1, coords2)
 }
 
-#' @export
 euc_dist <- function(coords1, coords2) {
     .Call('_Racmacs_euc_dist', PACKAGE = 'Racmacs', coords1, coords2)
 }

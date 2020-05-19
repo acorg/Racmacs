@@ -4,6 +4,8 @@
 \alias{ptBaseCoords}
 \alias{agBaseCoords}
 \alias{srBaseCoords}
+\alias{agBaseCoords<-}
+\alias{srBaseCoords<-}
 \title{Getting and setting base coordinates}
 \usage{
 agBaseCoords(map, optimization_number = NULL, .name = TRUE)

@@ -39,13 +39,11 @@ titerTable.racmap <- function(map, .name = TRUE){
 
 }
 
-#' @export
 #' @noRd
 titerTableFlat <- function(map){
   map$titerTableFlat
 }
 
-#' @export
 #' @noRd
 `titerTableFlat<-` <- function(map, value){
   if(class(value) == "data.frame") value <- as.matrix(value)

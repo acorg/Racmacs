@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Apply transformations to an antigenic map — transformMap • Racmacs</title>
+<title>Transform a map — transformMap • Racmacs</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,8 @@
 
 
 
-<meta property="og:title" content="Apply transformations to an antigenic map — transformMap" />
-<meta property="og:description" content="Apply transformations to an antigenic map" />
+<meta property="og:title" content="Transform a map — transformMap" />
+<meta property="og:description" content="Transforms map coordinates" />
 
 
 
@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">Racmacs</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.9</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.10</span>
       </span>
     </div>
 
@@ -133,41 +133,42 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Apply transformations to an antigenic map</h1>
+    <h1>Transform a map</h1>
     
     <div class="hidden name"><code>transformMap.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Apply transformations to an antigenic map</p>
+    <p>Transforms map coordinates</p>
     </div>
 
-    <pre class="usage"><span class='fu'>scaleMap</span>(<span class='no'>map</span>, <span class='no'>scaling</span>, <span class='kw'>optimization_number</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)
-
-<span class='fu'>transformMap</span>(<span class='no'>map</span>, <span class='no'>transformation_matrix</span>, <span class='kw'>optimization_number</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)
-
-<span class='fu'>translateMap</span>(<span class='no'>map</span>, <span class='no'>translation</span>, <span class='kw'>optimization_number</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)
-
-<span class='fu'>reflectMap</span>(<span class='no'>map</span>, <span class='kw'>axis</span> <span class='kw'>=</span> <span class='st'>"x"</span>, <span class='kw'>optimization_number</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)
-
-<span class='fu'>rotateMap</span>(<span class='no'>map</span>, <span class='no'>degrees</span>, <span class='kw'>axis</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>optimization_number</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
+    <pre class="usage"><span class='fu'>transformMap</span>(<span class='no'>map</span>, <span class='no'>transformation_matrix</span>, <span class='kw'>optimization_number</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>map</th>
-      <td><p>The map object</p></td>
+      <td><p>The acmap object</p></td>
     </tr>
     <tr>
-      <th>value</th>
-      <td><p>Value to be used (recycled as necessary)</p></td>
+      <th>transformation_matrix</th>
+      <td><p>Transformation to apply (as matrix)</p></td>
+    </tr>
+    <tr>
+      <th>optimization_number</th>
+      <td><p>The optimization number (by default the selected one)</p></td>
     </tr>
     </table>
 
-    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <p>Returns an updated racmap object</p>
+    <div class='dont-index'><p>Other functions relating to map transformation: 
+<code><a href='applyMapTransform.html'>applyMapTransform</a>()</code>,
+<code><a href='reflectMap.html'>reflectMap</a>()</code>,
+<code><a href='rotateMap.html'>rotateMap</a>()</code>,
+<code><a href='scaleMap.html'>scaleMap</a>()</code>,
+<code><a href='translateMap.html'>translateMap</a>()</code></p></div>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

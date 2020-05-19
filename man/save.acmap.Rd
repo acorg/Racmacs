@@ -16,8 +16,8 @@ Save acmap data to a file in a given format, must be one of '.ace', '.save' or '
 }
 \details{
 Although several file formats are supported, you should save files
-  with the '.ace' extension. This is the most recent, while the others are
-  mostly there for backwards compatibility to other software.
+with the '.ace' extension. This is the most recent, while the others are
+mostly there for backwards compatibility to other software.
 }
 \seealso{
 Other {functions for working with map data}: 
@@ -25,11 +25,14 @@ Other {functions for working with map data}:
 \code{\link{as.json}()},
 \code{\link{cloneMap}()},
 \code{\link{convertingMaps}},
+\code{\link{orderPoints}},
 \code{\link{read.acmap}()},
 \code{\link{read.titerTable}()},
+\code{\link{removePoints}},
 \code{\link{save.coords}()},
 \code{\link{save.titerTable}()},
 \code{\link{selectedOptimization}()},
-\code{\link{subsetMap}()}
+\code{\link{subsetMap}()},
+\code{\link{subsetPoints}}
 }
 \concept{{functions for working with map data}}

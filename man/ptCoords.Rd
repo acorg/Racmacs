@@ -30,16 +30,16 @@ the currently selected one).
 \details{
 These functions get and set point coordinates in a map. By default these coordinates
 refer to the currently selected optimization run, unless otherwise specified through the
-`optimization_number` argument.
+\code{optimization_number} argument.
 
-99\% of the time `agCoords()` and `serumCoords()` are the functions you'll want to use but
+99\\% of the time \code{agCoords()} and \code{serumCoords()} are the functions you'll want to use but
 you should note that the outputs are actually the map base coordinates after the transformation and
-translation associated with the optimization run has been applied (see `mapTransformation()` and
-`mapTranslation()` for more details). When you set the antigen or serum coordinates through these
+translation associated with the optimization run has been applied (see \code{mapTransformation()} and
+\code{mapTranslation()} for more details). When you set the antigen or serum coordinates through these
 functions, the transformed coordinates are "baked" in and the map transformation and translation
 are reset. Consequently if you want to apply a transformation to all coordinates generally, you are
 better off modifying the map translation and transformation directly, as is done by functions like
-`rotateMap()` and `translateMap()`.
+\code{rotateMap()} and \code{translateMap()}.
 }
 \seealso{
 \code{\link{agBaseCoords}}

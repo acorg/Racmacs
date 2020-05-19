@@ -9,6 +9,7 @@ reference:
 - title: Optimizing maps
   contents:
   - has_concept("map optimization functions")
+  - has_concept("functions to work with map optimizations")
 - title: Testing maps
   contents:
   - has_concept("map diagnostic functions")
@@ -39,4 +40,7 @@ reference:
 - title: Merging maps
   contents:
   - has_concept("map merging functions")
+- title: Utilities
+  contents:
+  - standardizeStrainNames
 

@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">Racmacs</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.9</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.10</span>
       </span>
     </div>
 
@@ -144,13 +144,11 @@
 
     <pre class="usage"><span class='fu'>stressBlobs</span>(
   <span class='no'>map</span>,
-  <span class='kw'>optimization_number</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>stress_lim</span> <span class='kw'>=</span> <span class='fl'>1</span>,
   <span class='kw'>antigens</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
   <span class='kw'>sera</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
   <span class='kw'>grid_spacing</span> <span class='kw'>=</span> <span class='fl'>0.25</span>,
-  <span class='kw'>grid_margin</span> <span class='kw'>=</span> <span class='fl'>4</span>,
-  <span class='kw'>progress_fn</span> <span class='kw'>=</span> <span class='no'>message</span>,
+  <span class='kw'>.progress</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>.check_relaxation</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>
 )</pre>
 
@@ -160,10 +158,6 @@
     <tr>
       <th>map</th>
       <td><p>The acmap data object</p></td>
-    </tr>
-    <tr>
-      <th>optimization_number</th>
-      <td><p>The optimization number (defaults to the currently selected one)</p></td>
     </tr>
     <tr>
       <th>stress_lim</th>
@@ -182,16 +176,16 @@
       <td><p>Grid spacing to use when calculating the blob</p></td>
     </tr>
     <tr>
-      <th>grid_margin</th>
-      <td><p>Grid margin to use when calculating the blob</p></td>
+      <th>data</th>
+      <td><p>The stress data to add (calculated if not provided)</p></td>
+    </tr>
+    <tr>
+      <th>optimization_number</th>
+      <td><p>The optimization number (defaults to the currently selected one)</p></td>
     </tr>
     <tr>
       <th>progress_fn</th>
       <td><p>Function to use for progress reporting</p></td>
-    </tr>
-    <tr>
-      <th>data</th>
-      <td><p>The stress data to add (calculated if not provided)</p></td>
     </tr>
     </table>
 

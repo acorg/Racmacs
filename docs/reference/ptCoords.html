@@ -73,7 +73,7 @@ the currently selected one)." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">Racmacs</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.9</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.10</span>
       </span>
     </div>
 
@@ -173,15 +173,15 @@ the currently selected one).</p>
 
     <p>These functions get and set point coordinates in a map. By default these coordinates
 refer to the currently selected optimization run, unless otherwise specified through the
-`optimization_number` argument.</p>
-<p>99% of the time `agCoords()` and `serumCoords()` are the functions you'll want to use but
+<code>optimization_number</code> argument.</p>
+<p>99\<!-- % of the time \code{agCoords()} and \code{serumCoords()} are the functions you'll want to use but -->
 you should note that the outputs are actually the map base coordinates after the transformation and
-translation associated with the optimization run has been applied (see `mapTransformation()` and
-`mapTranslation()` for more details). When you set the antigen or serum coordinates through these
+translation associated with the optimization run has been applied (see <code><a href='mapTransformation.html'>mapTransformation()</a></code> and
+<code><a href='mapTransformation.html'>mapTranslation()</a></code> for more details). When you set the antigen or serum coordinates through these
 functions, the transformed coordinates are "baked" in and the map transformation and translation
 are reset. Consequently if you want to apply a transformation to all coordinates generally, you are
 better off modifying the map translation and transformation directly, as is done by functions like
-`rotateMap()` and `translateMap()`.</p>
+<code><a href='rotateMap.html'>rotateMap()</a></code> and <code><a href='translateMap.html'>translateMap()</a></code>.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p><code><a href='ptBaseCoords.html'>agBaseCoords</a></code>

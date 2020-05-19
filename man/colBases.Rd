@@ -3,6 +3,8 @@
 \name{colBases}
 \alias{colBases}
 \alias{minColBasis}
+\alias{minColBasis<-}
+\alias{colBases<-}
 \title{Getting and setting column bases}
 \usage{
 minColBasis(map, optimization_number = NULL, .name = TRUE)
@@ -30,21 +32,21 @@ column bases.
 }
 \details{
 In general a map can have column bases that are specified either
-  through a minimum column basis or a vector of fixed column bases for each
-  sera. When you call `minColBasis()`, it will return the minimum column
-  basis if it has been set, or "fixed" if column bases have instead been
-  fixed directly. The `colBases()` function will return the column bases as
-  calculated for a given optimization run. Setting column bases through this
-  function with `colBases()<-` will fix the column bases to the supplied
-  vector of values.
+through a minimum column basis or a vector of fixed column bases for each
+sera. When you call \code{minColBasis()}, it will return the minimum column
+basis if it has been set, or "fixed" if column bases have instead been
+fixed directly. The \code{colBases()} function will return the column bases as
+calculated for a given optimization run. Setting column bases through this
+function with \verb{colBases()<-} will fix the column bases to the supplied
+vector of values.
 
-  Note that although the output from `colBases()` might be the same in a case
-  where a minimum column basis was set or a case whete column bases were set
-  explcitely, when a minimum column basis is set, the column bases will still
-  depend on the log titers recorded against a given sera, so changing the
-  titers may therefore change the actual column bases calculated. For fixed
-  column bases case, column bases will remain fixed at their values
-  independently of measured titers.
+Note that although the output from \code{colBases()} might be the same in a case
+where a minimum column basis was set or a case whete column bases were set
+explcitely, when a minimum column basis is set, the column bases will still
+depend on the log titers recorded against a given sera, so changing the
+titers may therefore change the actual column bases calculated. For fixed
+column bases case, column bases will remain fixed at their values
+independently of measured titers.
 }
 \seealso{
 Other {map optimization attribute functions}: 

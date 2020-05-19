@@ -4,9 +4,17 @@
 \alias{make.acmap}
 \title{Make an antigenic map from scratch}
 \usage{
-make.acmap(number_of_dimensions = 2, number_of_optimizations = 100,
-  minimum_column_basis = "none", move_trapped_points = NULL,
-  parallel_optimization = TRUE, ...)
+make.acmap(
+  number_of_dimensions = 2,
+  number_of_optimizations = 100,
+  minimum_column_basis = "none",
+  fixed_column_bases = NULL,
+  move_trapped_points = NULL,
+  parallel_optimization = TRUE,
+  verbose = TRUE,
+  vverbose = FALSE,
+  ...
+)
 }
 \arguments{
 \item{number_of_dimensions}{The number of dimensions in the map}
@@ -40,3 +48,12 @@ titer_file_path <- system.file("extdata/h3map2004_hitable.csv", package = "Racma
 titer_data <- read.titerTable(titer_file_path)
 map <- acmap.cpp(table = titer_data)
 }
+\seealso{
+Other {map optimization functions}: 
+\code{\link{moveTrappedPoints}()},
+\code{\link{optimizeMap}()},
+\code{\link{randomizeCoords}()},
+\code{\link{relaxMapOneStep}()},
+\code{\link{relaxMap}()}
+}
+\concept{{map optimization functions}}

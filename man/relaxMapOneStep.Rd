@@ -17,3 +17,12 @@ Returns an updated map object
 \description{
 Relax a map one step in the optimiser
 }
+\seealso{
+Other {map optimization functions}: 
+\code{\link{make.acmap}()},
+\code{\link{moveTrappedPoints}()},
+\code{\link{optimizeMap}()},
+\code{\link{randomizeCoords}()},
+\code{\link{relaxMap}()}
+}
+\concept{{map optimization functions}}

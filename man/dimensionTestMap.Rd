@@ -4,10 +4,16 @@
 \alias{dimensionTestMap}
 \title{Perform dimension testing on a map object}
 \usage{
-dimensionTestMap(map, dimensions_to_test = 1:5, test_proportion = 0.1,
-  minimum_column_basis = "none", column_bases_from_master = TRUE,
-  number_of_optimizations = 1000, replicates_per_proportion = 100,
-  storage_directory = NULL)
+dimensionTestMap(
+  map,
+  dimensions_to_test = 1:5,
+  test_proportion = 0.1,
+  minimum_column_basis = "none",
+  column_bases_from_master = TRUE,
+  number_of_optimizations = 1000,
+  replicates_per_proportion = 100,
+  storage_directory = NULL
+)
 }
 \arguments{
 \item{map}{The acmap data object}
@@ -35,4 +41,10 @@ Returns a table of results, including the dimensions tested and the standard dev
 Take a map object and perform cross-validation, seeing how well titers are
 predicted when they are excluded from the map.
 }
-\concept{functions to test an acmap}
+\seealso{
+Other {map diagnostic functions}: 
+\code{\link{bootstrapMap}()},
+\code{\link{checkHemisphering}()},
+\code{\link{mapRelaxed}()}
+}
+\concept{{map diagnostic functions}}

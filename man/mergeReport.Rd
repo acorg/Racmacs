@@ -10,6 +10,8 @@ mergeReport(map1, map2, passage_matching = "auto")
 Prints a raw text merge report from merging two map tables.
 }
 \seealso{
-Other merging_maps: \code{\link{mergeMaps}}
+Other {map merging functions}: 
+\code{\link{mergeMaps}()},
+\code{\link{mergeTiterTables}()}
 }
-\concept{merging_maps}
+\concept{{map merging functions}}

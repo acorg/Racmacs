@@ -39,11 +39,15 @@ run.maptests <- function(expr, bothclasses = FALSE, loadlocally = FALSE){
 }
 
 
-export.viewer.test <- function(widget, filename){
+export.viewer.test <- function(widget, filename, widgetname = "RacViewer"){
 
   maptype <- get0("maptype", parent.frame())
-  if(!is.null(maptype)){ filename <- gsub("\\.html$", paste0("_", maptype, ".html"), filename) }
-  testfile <- file.path("~/Dropbox/LabBook/packages/Racmacs/tests/testoutput", filename)
+  if(is.null(maptype) || maptype == "racmap"){
+    rootdir <- test_path("../testoutput/viewer/racmap")
+  } else {
+    rootdir <- test_path("../testoutput/viewer/racmap.cpp")
+  }
+  testfile <- file.path(normalizePath(rootdir), filename)
 
   htmlwidgets::saveWidget(
     widget,
@@ -52,17 +56,30 @@ export.viewer.test <- function(widget, filename){
     libdir        = ".lib"
   )
 
-  unlink("~/Dropbox/LabBook/packages/Racmacs/tests/testoutput/.lib/RacViewer-1.0.0", recursive = T)
+  unlink(file.path(rootdir, paste0(".lib/", widgetname,"-1.0.0")), recursive = T)
 
   plotdata <- readLines(testfile)
-  plotdata <- gsub(
-    pattern     = ".lib/RacViewer-1.0.0/",
-    replacement = "../../inst/htmlwidgets/RacViewer/lib/",
-    x           = plotdata,
-    fixed       = TRUE
-  )
+  if(widgetname == "RacViewer"){
+    plotdata <- gsub(
+      pattern     = paste0(".lib/", widgetname, "-1.0.0/"),
+      replacement = paste0("../../../../inst/htmlwidgets/", widgetname, "/lib/"),
+      x           = plotdata,
+      fixed       = TRUE
+    )
+  } else {
+    plotdata <- gsub(
+      pattern     = paste0(".lib/", widgetname, "-1.0.0/"),
+      replacement = paste0("../../../../inst/htmlwidgets/"),
+      x           = plotdata,
+      fixed       = TRUE
+    )
+  }
   writeLines(plotdata, testfile)
 
+  # Add a test to check plot was outputted correctly
+  expect_true(file.exists(testfile))
+
 }
+
 
 

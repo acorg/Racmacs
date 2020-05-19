@@ -1,6 +1,7 @@
 
 #' All known two-letter place name abbreviations
 #'
+#' @noRd
 #' @return Returns a matrix of known two-letter place name abbreviations
 #'
 acmacs_placeAbvs <- function(){

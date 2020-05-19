@@ -5,6 +5,22 @@ getProperty_sera.racchart <- function(
   attribute
 ){
 
+  # First deal with additional properties
+  switch(
+    EXPR = attribute,
+
+    # Sera IDs
+    srIDs = {
+      return(unlist(get_chartAttribute(map, "sera_ids")))
+    },
+
+    # Sera Groups
+    srGroups = {
+      return(unlist(get_chartAttribute(map, "sera_groups")))
+    }
+
+  )
+
   # Fetch the sera
   sera <- map$chart$sera
 
@@ -43,6 +59,24 @@ setProperty_sera.racchart <- function(
   attribute,
   value
 ){
+
+  # First deal with additional properties
+  switch(
+    EXPR = attribute,
+
+    # Sera IDs
+    srIDs = {
+      map <- set_chartAttribute(map, "sera_ids", value)
+      return(map)
+    },
+
+    # Sera Groups
+    srGroups = {
+      map <- set_chartAttribute(map, "sera_groups", value)
+      return(map)
+    }
+
+  )
 
   # Fetch the sera
   sera <- map$chart$sera

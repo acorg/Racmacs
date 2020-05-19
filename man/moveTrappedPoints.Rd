@@ -2,9 +2,14 @@
 % Please edit documentation in R/map_optimize.R
 \name{moveTrappedPoints}
 \alias{moveTrappedPoints}
-\title{Remove trapped points}
+\title{Move trapped points}
 \usage{
-moveTrappedPoints(map, optimization_number = NULL)
+moveTrappedPoints(
+  map,
+  stepsize = 0.1,
+  optimization_number = NULL,
+  vverbose = FALSE
+)
 }
 \arguments{
 \item{map}{The acmap data object}
@@ -18,3 +23,12 @@ Returns the acmap object with updated coordinates
 Iteratively searches for and moves points that are found to be trapped in a
 optimization, stopping when no more trapped points are found.
 }
+\seealso{
+Other {map optimization functions}: 
+\code{\link{make.acmap}()},
+\code{\link{optimizeMap}()},
+\code{\link{randomizeCoords}()},
+\code{\link{relaxMapOneStep}()},
+\code{\link{relaxMap}()}
+}
+\concept{{map optimization functions}}

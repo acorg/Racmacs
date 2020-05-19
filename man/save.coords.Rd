@@ -15,8 +15,19 @@ save.coords(map, filename, antigens = TRUE, sera = TRUE)
 Saves acmap coordinate data of all or specified antigens and sera to a .csv file.
 }
 \seealso{
-Other functions to create and save acmap objects: \code{\link{acmap}},
-  \code{\link{read.acmap.cpp}}, \code{\link{read.acmap}},
-  \code{\link{save.acmap}}, \code{\link{save.titerTable}}
+Other {functions for working with map data}: 
+\code{\link{acmap}()},
+\code{\link{as.json}()},
+\code{\link{cloneMap}()},
+\code{\link{convertingMaps}},
+\code{\link{orderPoints}},
+\code{\link{read.acmap}()},
+\code{\link{read.titerTable}()},
+\code{\link{removePoints}},
+\code{\link{save.acmap}()},
+\code{\link{save.titerTable}()},
+\code{\link{selectedOptimization}()},
+\code{\link{subsetMap}()},
+\code{\link{subsetPoints}}
 }
-\concept{functions to create and save acmap objects}
+\concept{{functions for working with map data}}

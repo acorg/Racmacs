@@ -15,10 +15,10 @@
 #' @return Returns the acmap data object.
 #'
 #' @example examples/example_make_map_from_scratch.R
+#' @family {functions for working with map data}
 #'
 #' @export
 #'
-#' @family functions to create and save acmap objects
 read.acmap <- function(
   filename,
   optimization_number         = NULL,
@@ -61,8 +61,7 @@ read.acmap <- function(
 #' @example examples/example_make_map_from_scratch.R
 #'
 #' @export
-#'
-#' @family functions to create and save acmap objects
+#' @noRd
 #'
 read.acmap.cpp <- function(filename,
                            optimization_number = NULL,
@@ -166,6 +165,11 @@ read.mapfile <- function(
 
   }
 
+  # Align optimizations if requested
+  if(align_optimizations){
+    map <- realignOptimizations(map)
+  }
+
   # Return the map
   map
 
@@ -185,7 +189,7 @@ read.mapfile <- function(
 #'
 #' @export
 #'
-#' @family functions to create and save acmap objects
+#' @family {functions for working with map data}
 #'
 save.acmap <- function(map, filename){
   nfilechar <- nchar(filename)
@@ -219,7 +223,7 @@ save.acmap.racchart <- function(map, file){
 #'
 #' @export
 #'
-#' @family functions to create and save acmap objects
+#' @family {functions for working with map data}
 #'
 save.coords <- function(map, filename, antigens = TRUE, sera = TRUE){
 
@@ -251,7 +255,7 @@ save.coords <- function(map, filename, antigens = TRUE, sera = TRUE){
 #'
 #' @export
 #'
-#' @family functions to create and save acmap objects
+#' @family {functions for working with map data}
 #'
 save.titerTable <- function(map, filename, antigens = TRUE, sera = TRUE){
 
@@ -277,83 +281,91 @@ save.titerTable <- function(map, filename, antigens = TRUE, sera = TRUE){
 # Set the property and function bindings
 # racmap property | method name | part of chart object | settable | type | description
 #' @export
-list_property_function_bindings <- function(chart_object = NULL){
+list_property_function_bindings <- function(
+  chart_object = NULL,
+  include_wrappers = FALSE,
+  method = NULL
+  ){
 
-  bindings <- rbind(
-    c("selected_optimization", "selectedOptimization", "racmap",      TRUE,  "vector",  "The selected optimization number"),
-    c("name",                  "name",               "chart",         TRUE,  "vector",  "Map name"),
-    c("table_layers",          "titerTableLayers",   "chart",         TRUE,  "vector",  "Titer measurement data"),
-    #c" ,"",                   "chart",        TRUE,  "vector",  "),
-    c("ag_names",              "agNames",            "antigens",      TRUE,  "vector",  "Antigen names"),
-    c("ag_ids",                "agIDs",              "antigens",      TRUE,  "vector",  "Antigen IDs"),
-    c("",                      "agNamesFull",        "antigens",      FALSE, "vector",  "Full antigen names"),
-    c("",                      "agNamesAbbreviated", "antigens",      FALSE, "vector",  "Abbreviated antigen names"),
-    c("ag_dates",              "agDates",            "antigens",      TRUE,  "vector",  "Antigen dates"),
-    c("ag_reference",          "agReference",        "antigens",      TRUE,  "vector",  "Is antigen a reference virus"),
-    #c" ,"",                   "antigens",     TRUE,  "vector",  "Antigen lineage"),
-    #c" ,"",                   "antigens",     TRUE,  "vector",  "Reassortant information"),
-    #c" ,"",                   "antigens",     TRUE,  "vector",  "Passage history"),
-    #c" ,"",                   "antigens",     TRUE,  "vector",  "Lab IDs"),
-    #c" ,"",                   "antigens",     TRUE,  "vector",  "Antigen annotations"),
-    #c" ,"",                   "antigens",     TRUE,  "vector",  "Antigen isolation years"),
-    c("sr_names",              "srNames",            "sera",          TRUE,  "vector",  "Sera names"),
-    c("sr_ids",                "srIDs",              "sera",          TRUE,  "vector",  "Sera IDs"),
-    c("",                      "srNamesFull",        "sera",          FALSE, "vector",  "Full sera names"),
-    c("",                      "srNamesAbbreviated", "sera",          FALSE, "vector",  "Abbreviated sera names"),
-    #c" ,"",                   "sera",        TRUE,  "vector",  "Sera lineage"),
-    #c" ,"",                   "sera",        TRUE,  "vector",  "Sera reassortant"),
-    #c" ,"",                   "sera",        TRUE,  "vector",  "Sera serum ID"),
-    #c" ,"",                   "sera",        TRUE,  "vector",  "Sera species"),
-    #c" ,"",                   "sera",        TRUE,  "vector",  "Sera passage"),
-    #c" ,"",                   "sera",        TRUE,  "vector",  "Sera annotations"),
-    #c" ,"",                   "sera",        TRUE,  "vector",  "Sera years"),
-    c("ag_shown",               "agShown",            "plotspec",      TRUE,  "vector",  "Antigen shown"),
-    c("ag_size",                "agSize",             "plotspec",      TRUE,  "vector",  "Antigen size"),
-    c("ag_fill",                "agFill",             "plotspec",      TRUE,  "vector",  "Antigen fill color"),
-    c("ag_outline",             "agOutline",          "plotspec",      TRUE,  "vector",  "Antigen outline color"),
-    c("ag_outline_width",       "agOutlineWidth",     "plotspec",      TRUE,  "vector",  "Antigen outline width"),
-    c("ag_rotation",            "agRotation",         "plotspec",      TRUE,  "vector",  "Antigen rotation"),
-    c("ag_aspect",              "agAspect",           "plotspec",      TRUE,  "vector",  "Antigen aspect"),
-    c("ag_shape",               "agShape",            "plotspec",      TRUE,  "vector",  "Antigen shape"),
-    c("ag_drawing_order",       "agDrawingOrder",     "plotspec",      TRUE,  "vector",  "Antigen drawing order"),
-    c("sr_shown",               "srShown",            "plotspec",      TRUE,  "vector",  "Sera shown"),
-    c("sr_size",                "srSize",             "plotspec",      TRUE,  "vector",  "Sera size"),
-    c("sr_fill",                "srFill",             "plotspec",      TRUE,  "vector",  "Sera fill color"),
-    c("sr_outline",             "srOutline",          "plotspec",      TRUE,  "vector",  "Sera outline color"),
-    c("sr_outline_width",       "srOutlineWidth",     "plotspec",      TRUE,  "vector",  "Sera outline width"),
-    c("sr_rotation",            "srRotation",         "plotspec",      TRUE,  "vector",  "Sera rotation"),
-    c("sr_aspect",              "srAspect",           "plotspec",      TRUE,  "vector",  "Sera aspect"),
-    c("sr_shape",               "srShape",            "plotspec",      TRUE,  "vector",  "Sera shape"),
-    c("sr_drawing_order",       "srDrawingOrder",     "plotspec",      TRUE,  "vector",  "Sera drawing order"),
-    c("ag_base_coords",         "agBaseCoords",       "optimization",  TRUE,  "matrix",  "Antigen base coordinates"),
-    c("sr_base_coords",         "srBaseCoords",       "optimization",  TRUE,  "matrix",  "Sera base coordinates"),
-    c("map_comment",            "mapComment",         "optimization",  TRUE,  "vector",  "Map comment"),
-    c("minimum_column_basis",   "minColBasis",        "optimization",  TRUE,  "vector",  "Map minimum column bases"),
-    c("map_dimensions",         "mapDimensions",      "optimization",  TRUE,  "matrix",  "Number of map dimensions"),
-    c("map_transformation",     "mapTransformation",  "optimization",  TRUE,  "matrix",  "Map transformation"),
-    c("map_translation",        "mapTranslation",     "optimization",  TRUE,  "matrix",  "Map translation"),
-    c("column_bases",           "colBases",           "optimization",  TRUE,  "vector",  "Map column bases")
+  bindings <- tibble::tribble(
+    ~property,               ~method,                ~object,          ~settable, ~acmacs.r, ~format,   ~description,
+    "selected_optimization", "selectedOptimization", "racmap",         TRUE,      FALSE,     "vector",  "The selected optimization number",
+    "name",                  "name",                 "chart",          TRUE,      TRUE,      "vector",  "Map name",
+    "table_layers",          "titerTableLayers",     "chart",          TRUE,      TRUE,      "vector",  "Titer measurement data",
+    "ag_names",              "agNames",              "antigens",       TRUE,      TRUE,      "vector",  "Antigen names",
+    "ag_ids",                "agIDs",                "antigens",       TRUE,      FALSE,     "vector",  "Antigen IDs",
+    "ag_groups",             "agGroups",             "antigens",       TRUE,      FALSE,     "vector",  "Antigen groups",
+    "",                      "agNamesFull",          "antigens",       FALSE,     TRUE,      "vector",  "Full antigen names",
+    "",                      "agNamesAbbreviated",   "antigens",       FALSE,     TRUE,      "vector",  "Abbreviated antigen names",
+    "ag_dates",              "agDates",              "antigens",       TRUE,      TRUE,      "vector",  "Antigen dates",
+    "ag_reference",          "agReference",          "antigens",       TRUE,      TRUE,      "vector",  "Is antigen a reference virus",
+    #"" ,                     "",                     "antigens",       TRUE,      TRUE,      "vector",  "Reassortant information",
+    #"" ,                     "",                     "antigens",       TRUE,      TRUE,      "vector",  "Antigen lineage",
+    #"" ,                     "",                     "antigens",       TRUE,      TRUE,      "vector",  "Passage history",
+    #"" ,                     "",                     "antigens",       TRUE,      TRUE,      "vector",  "Lab IDs",
+    #"" ,                     "",                     "antigens",       TRUE,      TRUE,      "vector",  "Antigen annotations",
+    #"" ,                     "",                     "antigens",       TRUE,      TRUE,      "vector",  "Antigen isolation years",
+    "sr_names",              "srNames",               "sera",          TRUE,      TRUE,      "vector",  "Sera names",
+    "sr_ids",                "srIDs",                 "sera",          TRUE,      FALSE,     "vector",  "Sera IDs",
+    "sr_groups",             "srGroups",              "sera",          TRUE,      FALSE,     "vector",  "Sera groups",
+    "",                      "srNamesFull",           "sera",          FALSE,     TRUE,      "vector",  "Full sera names",
+    "",                      "srNamesAbbreviated", "sera",             FALSE,     TRUE,      "vector",  "Abbreviated sera names",
+    #"" ,                      "",                     "sera",          TRUE,      TRUE,      "vector",  "Sera lineage",
+    #"" ,                      "",                     "sera",          TRUE,      TRUE,      "vector",  "Sera reassortant",
+    #"" ,                      "",                     "sera",          TRUE,      TRUE,      "vector",  "Sera serum ID",
+    #"" ,                      "",                     "sera",          TRUE,      TRUE,      "vector",  "Sera species",
+    #"" ,                      "",                     "sera",          TRUE,      TRUE,      "vector",  "Sera passage",
+    #"" ,                      "",                     "sera",          TRUE,      TRUE,      "vector",  "Sera annotations",
+    #"" ,                      "",                     "sera",          TRUE,      TRUE,      "vector",  "Sera years",
+    "ag_shown",               "agShown",              "plotspec",      TRUE,      TRUE,      "vector",  "Antigen shown",
+    "ag_size",                "agSize",               "plotspec",      TRUE,      TRUE,      "vector",  "Antigen size",
+    "ag_fill",                "agFill",               "plotspec",      TRUE,      TRUE,      "vector",  "Antigen fill color",
+    "ag_outline",             "agOutline",            "plotspec",      TRUE,      TRUE,      "vector",  "Antigen outline color",
+    "ag_outline_width",       "agOutlineWidth",       "plotspec",      TRUE,      TRUE,      "vector",  "Antigen outline width",
+    "ag_rotation",            "agRotation",           "plotspec",      TRUE,      TRUE,      "vector",  "Antigen rotation",
+    "ag_aspect",              "agAspect",             "plotspec",      TRUE,      TRUE,      "vector",  "Antigen aspect",
+    "ag_shape",               "agShape",              "plotspec",      TRUE,      TRUE,      "vector",  "Antigen shape",
+    "ag_drawing_order",       "agDrawingOrder",       "plotspec",      TRUE,      TRUE,      "vector",  "Antigen drawing order",
+    "sr_shown",               "srShown",              "plotspec",      TRUE,      TRUE,      "vector",  "Sera shown",
+    "sr_size",                "srSize",               "plotspec",      TRUE,      TRUE,      "vector",  "Sera size",
+    "sr_fill",                "srFill",               "plotspec",      TRUE,      TRUE,      "vector",  "Sera fill color",
+    "sr_outline",             "srOutline",            "plotspec",      TRUE,      TRUE,      "vector",  "Sera outline color",
+    "sr_outline_width",       "srOutlineWidth",       "plotspec",      TRUE,      TRUE,      "vector",  "Sera outline width",
+    "sr_rotation",            "srRotation",           "plotspec",      TRUE,      TRUE,      "vector",  "Sera rotation",
+    "sr_aspect",              "srAspect",             "plotspec",      TRUE,      TRUE,      "vector",  "Sera aspect",
+    "sr_shape",               "srShape",              "plotspec",      TRUE,      TRUE,      "vector",  "Sera shape",
+    "sr_drawing_order",       "srDrawingOrder",       "plotspec",      TRUE,      TRUE,      "vector",  "Sera drawing order",
+    "ag_base_coords",         "agBaseCoords",         "optimization",  TRUE,      TRUE,      "matrix",  "Antigen base coordinates",
+    "sr_base_coords",         "srBaseCoords",         "optimization",  TRUE,      TRUE,      "matrix",  "Sera base coordinates",
+    "map_comment",            "mapComment",           "optimization",  TRUE,      TRUE,      "vector",  "Map comment",
+    "minimum_column_basis",   "minColBasis",          "optimization",  TRUE,      TRUE,      "vector",  "Map minimum column bases",
+    "map_dimensions",         "mapDimensions",        "optimization",  FALSE,     TRUE,      "vector",  "Number of map dimensions",
+    "map_transformation",     "mapTransformation",    "optimization",  TRUE,      TRUE,      "matrix",  "Map transformation",
+    "map_translation",        "mapTranslation",       "optimization",  TRUE,      TRUE,      "matrix",  "Map translation",
+    "map_stress",             "mapStress",            "optimization",  FALSE,     TRUE,      "vector",  "Map stress",
+    "column_bases",           "colBases",             "optimization",  TRUE,      TRUE,      "vector",  "Map column bases"
   )
-  bindings <- as.data.frame(bindings, stringsAsFactors = FALSE)
-  colnames(bindings) <- c("property", "method", "object", "settable", "format", "description")
-  bindings[["settable"]] <- as.logical(bindings[["settable"]])
+
+  wrappers <- tibble::tribble(
+    ~property,               ~method,                ~object,          ~settable, ~acmacs.r, ~format,   ~description,
+    "table",                 "titerTable",           "racmap",         TRUE,      FALSE,     "matrix",  "The titer table",
+    "ag_coords",             "agCoords",             "optimization",   TRUE,      FALSE,     "matrix",  "Antigen coordinates",
+    "sr_coords",             "srCoords",             "optimization",   TRUE,      FALSE,     "matrix",  "Serum coordinates"
+  )
+
+  if(!is.null(method)){
+    return(bindings[bindings$method == method,,drop=F])
+  }
 
   if(!is.null(chart_object)){
-    bindings <- subset(bindings, object == chart_object)
+    bindings <- subset(bindings, object %in% chart_object)
+  }
+
+  if(include_wrappers){
+    bindings <- rbind(wrappers, bindings)
   }
 
   bindings
-
-}
-
-
-export_property_method_tags <- function(object){
-
-  bindings <- list_property_function_bindings(object)
-  c(
-    paste0("@export ", bindings$method),
-    paste0("@export ", bindings$method, "<-")
-  )
 
 }
 

@@ -3,7 +3,7 @@
 # context("Adding 3js features to the viewer")
 #
 # # Test the basic procrustes function
-# testthat::test_that("Add r3js features", {
+# test_that("Add r3js features", {
 #
 #   set.seed(100)
 #   r3jsh5map <- h5map

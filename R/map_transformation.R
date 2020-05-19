@@ -1,15 +1,15 @@
 
-#' Apply transformations to an antigenic map
+#' Apply the current map transformation
 #'
-#' @param map The map object
-#' @param value Value to be used (recycled as necessary)
-#' @name mapTransformation
+#' Applies the current map transformation to a set of coordinates
 #'
-#' @return Returns an updated racmap object
+#' @param coords Coordinates to transform
+#' @param map The acmap object
+#' @param optimization_number The optimization number (by default the selected one)
 #'
-NULL
-
-# Apply a map transformation
+#' @family {functions relating to map transformation}
+#' @export
+#'
 applyMapTransform <- function(
   coords,
   map,
@@ -33,10 +33,18 @@ applyMapTransform <- function(
 
 }
 
-# Scale a map ---------
 
-#' @rdname mapTransformation
+#' Scale a map
+#'
+#' Scales map coordinates
+#'
+#' @param map The acmap object
+#' @param scaling Scaling to apply
+#' @param optimization_number The optimization number (by default the selected one)
+#'
+#' @family {functions relating to map transformation}
 #' @export
+#'
 scaleMap <- function(map, scaling, optimization_number = NULL) {
 
   # Scale the map
@@ -50,10 +58,18 @@ scaleMap <- function(map, scaling, optimization_number = NULL) {
 
 }
 
-# Apply a transformation to a map ---------
 
-#' @rdname mapTransformation
+#' Transform a map
+#'
+#' Transforms map coordinates
+#'
+#' @param map The acmap object
+#' @param transformation_matrix Transformation to apply (as matrix)
+#' @param optimization_number The optimization number (by default the selected one)
+#'
+#' @family {functions relating to map transformation}
 #' @export
+#'
 transformMap <- function(
   map,
   transformation_matrix,
@@ -80,10 +96,18 @@ transformMap <- function(
 
 }
 
-# Apply a translation to a map ---------
 
-#' @rdname mapTransformation
+#' Translate a map
+#'
+#' Translates map coordinates
+#'
+#' @param map The acmap object
+#' @param translation Translation to apply (as vector)
+#' @param optimization_number The optimization number (by default the selected one)
+#'
+#' @family {functions relating to map transformation}
 #' @export
+#'
 translateMap <- function(map, translation, optimization_number = NULL) {
 
   # Set the translation
@@ -98,10 +122,17 @@ translateMap <- function(map, translation, optimization_number = NULL) {
 }
 
 
-#  Reflect a map -------
-
-#' @rdname mapTransformation
+#' Reflect a map
+#'
+#' Reflects map coordinates
+#'
+#' @param map The acmap object
+#' @param axis Axis of reflection
+#' @param optimization_number The optimization number (by default the selected one)
+#'
+#' @family {functions relating to map transformation}
 #' @export
+#'
 reflectMap <- function(map, axis = "x", optimization_number = NULL) {
 
   # Work out the transformation matrix
@@ -114,11 +145,18 @@ reflectMap <- function(map, axis = "x", optimization_number = NULL) {
 
 }
 
-
-#  Apply a rotation to a map -------
-
-#' @rdname mapTransformation
+#' Rotate a map
+#'
+#' Apply a rotation to an antigenic map
+#'
+#' @param map The acmap object
+#' @param degrees Degrees of rotation
+#' @param axis Axis of rotation (if 3D)
+#' @param optimization_number The optimization number (by default the selected one)
+#'
+#' @family {functions relating to map transformation}
 #' @export
+#'
 rotateMap <- function(map, degrees, axis = NULL, optimization_number = NULL) {
 
   # Check the rotation

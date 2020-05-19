@@ -6,6 +6,7 @@
 #' @param map_dist Map distance information
 #' @param table_dist Table distance information
 #'
+#' @noRd
 #' @export
 #'
 ac_calculate_stress <- function(map_dist,
@@ -34,8 +35,8 @@ ac_calculate_stress <- function(map_dist,
 #' @param titer_table The HI table.
 #' @param colbases Column bases to use for each sera.
 #'
+#' @noRd
 #' @export
-#'
 ac_tableDists <- function(titer_table,
                           colbases){
 
@@ -77,6 +78,7 @@ ac_tableDists <- function(titer_table,
 #' @param minimum_column_basis The minimum column basis to assume
 #'
 #' @return Returns the column bases as a numeric vector
+#' @noRd
 #' @export
 #'
 ac_getTableColbases <- function(titer_table,
@@ -132,6 +134,7 @@ ac_getTableColbases <- function(titer_table,
 #' @param colbases Titer table column bases
 #'
 #' @return Returns the total stress
+#' @noRd
 #' @export
 #'
 ac_calcStress <- function(ag_coords,

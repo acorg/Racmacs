@@ -87,7 +87,7 @@ json_to_racmap <- function(json){
   } else {
     stop("There was a problem parsing this map")
   }
-  titerTable(map, .check = TRUE) <- titers
+  titerTable(map, .check = FALSE) <- titers
 
   # Set any titer table layers
   if(!is.null(jsonlist$c$t$L)){
@@ -96,7 +96,7 @@ json_to_racmap <- function(json){
       strip_titers,
       num_sera = num_sera
     )
-    titerTableLayers(map) <- titerlayers
+    titerTableLayers(map, .check = FALSE) <- titerlayers
   }
 
   # Antigen attributes
@@ -209,7 +209,8 @@ json_to_racmap <- function(json){
     srBaseCoords(map, n, .check = FALSE) <- layout[-seq_len(num_antigens),,drop=F]
 
     mapComment(map, n, .check = FALSE)    <- P$c
-    mapDimensions(map, n, .check = FALSE) <- ncol(layout)
+    # mapDimensions(map, n, .check = FALSE) <- ncol(layout)
+    mapStress(map, n, .check = FALSE)     <- P$s
 
     if(!is.null(P$C))      colBases(map, n, .check = FALSE)    <- unlist(P$C)
     else if(!is.null(P$m)) minColBasis(map, n, .check = FALSE) <- P$m
@@ -217,7 +218,7 @@ json_to_racmap <- function(json){
 
     transformation <- unlist(getJsonOptimizationAttribute(jsonlist, "transformation", n))
     if(!is.null(transformation) && transformation != as.vector(diag(nrow = ncol(layout)))){
-      mapTransformation(map, n, .check = FALSE) <- matrix(transformation, sqrt(length(transformation)))
+      mapTransformation(map, n, .check = FALSE) <- matrix(transformation, sqrt(length(transformation)), byrow = TRUE)
     } else if(!is.null(P$t)) {
       mapTransformation(map, n, .check = FALSE) <- matrix(unlist(P$t), map_dim, byrow = TRUE)
     }
@@ -238,6 +239,12 @@ json_to_racmap <- function(json){
   if(!is.null(jsonlist$c$x$selected_optimization)){
     selectedOptimization(map) <- unlist(jsonlist$c$x$selected_optimization)
   }
+
+  # Additional custom attributes
+  if(!is.null(jsonlist$c$x$antigen_ids))    agIDs(map)    <- unlist(jsonlist$c$x$antigen_ids)
+  if(!is.null(jsonlist$c$x$sera_ids))       srIDs(map)    <- unlist(jsonlist$c$x$sera_ids)
+  if(!is.null(jsonlist$c$x$antigen_groups)) agGroups(map) <- unlist(jsonlist$c$x$antigen_groups)
+  if(!is.null(jsonlist$c$x$sera_groups))    srGroups(map) <- unlist(jsonlist$c$x$sera_groups)
 
   # Return the map
   map

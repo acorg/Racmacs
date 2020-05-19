@@ -1,0 +1,31 @@
+---
+title: "Map diagnostics"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+  echo    = FALSE,
+  results = "asis"
+)
+library(Racmacs)
+map <- read.acmap("~/Dropbox/LabBook/packages/Racmacs/tests/testdata/testmap.ace")
+```
+
+```{r lowest_stress_map}
+view(map)
+```
+
+## First runs compared
+
+
+```{r comparing_runs, out.width=400, out.height=400}
+cat("<div style='display:inline-block'>")
+cat("Run 1 to run 2<br/>")
+view(procrustesMap(map, map, comparison_optimization_number = 2))
+cat("</div>")
+cat("<div style='display:inline-block'>")
+cat("Run 1 to run 3<br/>")
+view(procrustesMap(map, map, comparison_optimization_number = 3))
+cat("</div>")
+```
+

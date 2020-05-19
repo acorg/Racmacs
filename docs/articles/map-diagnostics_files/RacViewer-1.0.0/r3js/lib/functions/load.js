@@ -60,6 +60,11 @@ R3JS.Viewer.prototype.load = function(plotData){
     }
     this.render();
 
+    // Dispatch a plot loaded event
+    window.dispatchEvent(
+        new CustomEvent('r3jsPlotLoaded', { detail : this })
+    );
+
     // console.log(this.camera);
 
 	// // Bind plot data

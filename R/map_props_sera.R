@@ -1,31 +1,26 @@
 
-#' Strains in an antigenic map
-#'
-#' @param map The map object
-#' @param value Value to be used (recycled as necessary)
-#' @name mapStrains
-#'
-#' @return Returns an updated racmap object
-#' @eval export_property_method_tags("sera")
-#'
-NULL
-
-# Getter
+# Function factory for antigen attribute getter functions
 sera_getter <- function(attribute){
-  function(map){
-    value <- classSwitch("getProperty_sera", map, attribute)
-    defaultProperty_sera(map, attribute, value)
-  }
+  eval(
+    substitute(env = list(attribute = attribute), expr = {
+      function(map){
+        value <- classSwitch("getProperty_sera", map, attribute)
+        defaultProperty_sera(map, attribute, value)
+      }
+    })
+  )
 }
 
-# Setter
+# Function factory for sera attribute setter functions
 sera_setter <- function(attribute){
-  function(map, .check = TRUE, value){
-    if(.check){
-      checkProperty_sera(map, attribute, value)
-    }
-    classSwitch("setProperty_sera", map, attribute, value)
-  }
+  eval(
+    substitute(env = list(attribute = attribute), expr = {
+      function(map, .check = TRUE, value){
+        if(.check) checkProperty_sera(map, attribute, value)
+        classSwitch("setProperty_sera", map, attribute, value)
+      }
+    })
+  )
 }
 
 # Property checker
@@ -62,6 +57,28 @@ defaultProperty_sera <- function(map, attribute, value){
 
 }
 
-# Bind the methods
-bindObjectMethods("sera")
+
+#' Getting and setting sera attributes
+#'
+#' These functions get and set the sera attributes for a given optimization run.
+#'
+#' @name srAttributes
+#' @seealso
+#' \code{\link{agAttributes}}
+#' @family {antigen and sera attribute functions}
+#' @eval roxygen_tags(
+#'   methods = c("srNames", "srIDs", "srGroups", "srNamesFull", "srNamesAbbreviated"),
+#'   args    = c("map")
+#' )
+#'
+srIDs               <- sera_getter("srIDs")
+srGroups            <- sera_getter("srGroups")
+srNames             <- sera_getter("srNames")
+srNamesFull         <- sera_getter("srNamesFull")
+srNamesAbbreviated  <- sera_getter("srNamesAbbreviated")
+
+`srNames<-`         <- sera_setter("srNames")
+`srIDs<-`           <- sera_setter("srIDs")
+`srGroups<-`        <- sera_setter("srGroups")
+
 

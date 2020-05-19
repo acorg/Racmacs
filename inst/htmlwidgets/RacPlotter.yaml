@@ -1,0 +1,27 @@
+
+dependencies:
+  - name: RacPlotter
+    version: 1.0.0
+    src: htmlwidgets
+    stylesheet:
+      - RacViewer/lib/r3js/lib/styles/r3js.css
+    script:
+      - RacViewer/lib/r3js/lib/init.js
+      - RacViewer/lib/r3js/lib/functions/viewport.js
+      - RacViewer/lib/r3js/lib/functions/icons.js
+      - RacViewer/lib/r3js/lib/functions/buttons.js
+      - RacViewer/lib/init.js
+      - RacViewer/lib/functions/agsr.js
+      - RacViewer/lib/functions/selections.js
+      - RacViewer/lib/functions/save.js
+      - RacViewer/lib/functions/table.js
+      - RacViewer/lib/functions/buttons.js
+      - RacViewer/lib/functions/data.js
+      - RacViewer/lib/functions/utils.js
+      - RacViewer/lib/functions/stress.js
+      - RacViewer/lib/functions/icons.js
+      - RacViewer/lib/functions/connections.js
+      - RacViewer/lib/functions/api.js
+      - RacPlotter/lib/svg/svg.min.js
+      - RacPlotter/lib/svg/svg.panzoom.min.js
+      - RacPlotter/lib/init.js

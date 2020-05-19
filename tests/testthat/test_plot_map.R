@@ -16,7 +16,7 @@ run.maptests(
     )
 
     x <- plot(map)
-    testthat::expect_null(x)
+    expect_null(x)
 
   })
 

@@ -1,33 +1,28 @@
 
-#' Strains in an antigenic map
-#'
-#' @param map The map object
-#' @param value Value to be used (recycled as necessary)
-#' @name mapStrains
-#'
-#' @return Returns an updated racmap object
-#' @eval export_property_method_tags("plotspec")
-#'
-NULL
-
-# Getter
+# Function factory for plotspec getter functions
 plotspec_getter <- function(attribute){
-  function(map){
-    attribute <- attribute
-    value <- classSwitch("getProperty_plotspec", map, attribute)
-    plotspec_default(map, attribute, value)
-  }
+  eval(
+    substitute(env = list(attribute = attribute), expr = {
+      function(map){
+        value <- classSwitch("getProperty_plotspec", map, attribute)
+        defaultProperty_plotspec(map, attribute, value)
+      }
+    })
+  )
 }
 
-# Setter
+# Function factory for plotspec setter functions
 plotspec_setter <- function(attribute){
-  function(map, .check = TRUE, value){
-    if(.check){
-      value <- checkProperty_plotspec(map, attribute, value)
-    }
-    classSwitch("setProperty_plotspec", map, attribute, value)
-  }
+  eval(
+    substitute(env = list(attribute = attribute), expr = {
+      function(map, .check = TRUE, value){
+        if(.check) value <- checkProperty_plotspec(map, attribute, value)
+        classSwitch("setProperty_plotspec", map, attribute, value)
+      }
+    })
+  )
 }
+
 
 # Property checker
 checkProperty_plotspec <- function(map, attribute, value){
@@ -54,7 +49,7 @@ checkProperty_plotspec <- function(map, attribute, value){
 }
 
 # For setting defaults
-plotspec_default <- function(map, attribute, value){
+defaultProperty_plotspec <- function(map, attribute, value){
 
   if(is.null(value)){
 
@@ -105,7 +100,58 @@ draw_priority_to_order <- function(drawing_priority){
 
 }
 
-# Bind the methods
-bindObjectMethods("plotspec")
+#' Getting and setting point plotting styles
+#'
+#' These functions get and set the styles to use for each point when plotting.
+#'
+#' @name ptStyles
+#' @family {map point style functions}
+#' @eval roxygen_tags(
+#'   methods = c("agShown", "agSize", "agFill", "agOutline",
+#'   "agOutlineWidth", "agRotation", "agAspect", "agShape", "agDrawingOrder",
+#'   "srShown", "srSize", "srFill", "srOutline", "srOutlineWidth", "srRotation",
+#'   "srAspect", "srShape", "srDrawingOrder"),
+#'   args = c("map"),
+#'   getterargs = NULL,
+#'   setterargs = NULL
+#' )
+#'
+agShown        <- plotspec_getter("agShown")
+agSize         <- plotspec_getter("agSize")
+agFill         <- plotspec_getter("agFill")
+agOutline      <- plotspec_getter("agOutline")
+agOutlineWidth <- plotspec_getter("agOutlineWidth")
+agRotation     <- plotspec_getter("agRotation")
+agAspect       <- plotspec_getter("agAspect")
+agShape        <- plotspec_getter("agShape")
+agDrawingOrder <- plotspec_getter("agDrawingOrder")
+srShown        <- plotspec_getter("srShown")
+srSize         <- plotspec_getter("srSize")
+srFill         <- plotspec_getter("srFill")
+srOutline      <- plotspec_getter("srOutline")
+srOutlineWidth <- plotspec_getter("srOutlineWidth")
+srRotation     <- plotspec_getter("srRotation")
+srAspect       <- plotspec_getter("srAspect")
+srShape        <- plotspec_getter("srShape")
+srDrawingOrder <- plotspec_getter("srDrawingOrder")
+
+`agShown<-`        <- plotspec_setter("agShown")
+`agSize<-`         <- plotspec_setter("agSize")
+`agFill<-`         <- plotspec_setter("agFill")
+`agOutline<-`      <- plotspec_setter("agOutline")
+`agOutlineWidth<-` <- plotspec_setter("agOutlineWidth")
+`agRotation<-`     <- plotspec_setter("agRotation")
+`agAspect<-`       <- plotspec_setter("agAspect")
+`agShape<-`        <- plotspec_setter("agShape")
+`agDrawingOrder<-` <- plotspec_setter("agDrawingOrder")
+`srShown<-`        <- plotspec_setter("srShown")
+`srSize<-`         <- plotspec_setter("srSize")
+`srFill<-`         <- plotspec_setter("srFill")
+`srOutline<-`      <- plotspec_setter("srOutline")
+`srOutlineWidth<-` <- plotspec_setter("srOutlineWidth")
+`srRotation<-`     <- plotspec_setter("srRotation")
+`srAspect<-`       <- plotspec_setter("srAspect")
+`srShape<-`        <- plotspec_setter("srShape")
+`srDrawingOrder<-` <- plotspec_setter("srDrawingOrder")
 
 

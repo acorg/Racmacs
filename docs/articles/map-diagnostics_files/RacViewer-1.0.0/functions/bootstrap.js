@@ -1,4 +1,23 @@
 
+Racmacs.Point.prototype.onselect.push(
+    function(point){
+
+        // Show bootstrap
+        point.showBootstrapPoints();
+        point.showBootstrapContours();
+
+    }
+);
+
+Racmacs.Point.prototype.ondeselect.push(
+    function(point){
+
+        // Show bootstrap
+        point.hideBootstrapPoints();
+        point.hideBootstrapContours();
+
+    }
+);
 
 // Racmacs.BootstrapPanel = class ProcrustesPanel {
 
@@ -78,8 +97,8 @@ Racmacs.Point.prototype.showBootstrap = function(){
 	}
 
     var geometry = new THREE.BufferGeometry();
-    geometry.addAttribute( 'position', new THREE.Float32BufferAttribute( bootstrap_coords_vector, 3 ) );
-    geometry.addAttribute( 'color', new THREE.Float32BufferAttribute( colors, 3 ) );
+    geometry.setAttribute( 'position', new THREE.Float32BufferAttribute( bootstrap_coords_vector, 3 ) );
+    geometry.setAttribute( 'color', new THREE.Float32BufferAttribute( colors, 3 ) );
 
     var material = new THREE.PointsMaterial({ size: 2, vertexColors: THREE.VertexColors });
     var points = new THREE.Points( geometry, material );

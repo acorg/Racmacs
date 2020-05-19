@@ -20,4 +20,12 @@ in the selected or specified optimization.
 }
 \seealso{
 See \code{\link{optimizeMap}} for performing new optimization runs from random starting coordinates.
+
+Other {map optimization functions}: 
+\code{\link{make.acmap}()},
+\code{\link{moveTrappedPoints}()},
+\code{\link{optimizeMap}()},
+\code{\link{randomizeCoords}()},
+\code{\link{relaxMapOneStep}()}
 }
+\concept{{map optimization functions}}

@@ -19,3 +19,20 @@ labelled column and row names.
 \details{
 Currently supported file formats are .csv and .xls and .txt
 }
+\seealso{
+Other {functions for working with map data}: 
+\code{\link{acmap}()},
+\code{\link{as.json}()},
+\code{\link{cloneMap}()},
+\code{\link{convertingMaps}},
+\code{\link{orderPoints}},
+\code{\link{read.acmap}()},
+\code{\link{removePoints}},
+\code{\link{save.acmap}()},
+\code{\link{save.coords}()},
+\code{\link{save.titerTable}()},
+\code{\link{selectedOptimization}()},
+\code{\link{subsetMap}()},
+\code{\link{subsetPoints}}
+}
+\concept{{functions for working with map data}}

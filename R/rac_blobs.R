@@ -7,11 +7,10 @@
 #' @param antigens Antigens to calculate blobs for (TRUE for all FALSE for none, or specified by name or index)
 #' @param sera Sera to calculate blobs for (TRUE for all FALSE for none, or specified by name or index)
 #' @param grid_spacing Grid spacing to use when calculating the blob
-#' @param grid_margin Grid margin to use when calculating the blob
 #' @param progress_fn Function to use for progress reporting
 #'
 #' @return Returns stress blob information
-#' @export
+#' @noRd
 #'
 calculate_stressBlob <- function(
   map,
@@ -20,9 +19,23 @@ calculate_stressBlob <- function(
   antigens     = TRUE,
   sera         = TRUE,
   grid_spacing = 0.1,
-  grid_margin  = 4,
-  progress_fn  = message
+  .progress    = NULL
 ){
+
+  # Set a default progress function
+  if(is.null(.progress)){
+    .progress <- list(
+      init   = function()      { txtProgressBar(min = 0, max = 1, style = 3) },
+      update = function(x, pb) { setTxtProgressBar(pb, x) },
+      end    = function(pb)    { close(pb) }
+    )
+  }
+
+  # Initiate progress bar
+  if(!isFALSE(.progress)){
+    message("Calculating blobs")
+    progressbar <- .progress$init()
+  }
 
   # Get the optimization number
   if(is.null(optimization_number)) optimization_number <- selectedOptimization(map)
@@ -52,13 +65,6 @@ calculate_stressBlob <- function(
   table_dist <- ac_tableDists(titer_table = titer_table,
                               colbases = colbases)
 
-  # Create the prediction grid
-  grid_points <- lapply(as.data.frame(pt_coords), function(x){
-    seq(from = floor(min(x, na.rm = TRUE))   - grid_margin,
-        to   = ceiling(max(x, na.rm = TRUE)) + grid_margin,
-        by   = grid_spacing)
-  })
-  coord_grid <- as.matrix(expand.grid(grid_points))
 
   # Store progress
   progress <- 0
@@ -71,12 +77,28 @@ calculate_stressBlob <- function(
 
   for(ag_num in antigens){
 
+
     # Get test coords
     test_ag_coords <- ag_coords[ag_num,,drop=F]
     na_coords <- apply(is.na(sr_coords), 1, sum) > 0
 
     # Check there are no na coordinates
     if(sum(is.na(test_ag_coords)) == 0){
+
+      # Create the prediction grid
+      tabledists <- table_dist$distances[ag_num,]
+      gridlims <- lapply(seq_len(num_dimensions), function(n){
+        c(
+          min(sr_coords[,n] - tabledists - stress_lim, na.rm = T),
+          max(sr_coords[,n] + tabledists + stress_lim, na.rm = T)
+        )
+      })
+      grid_points <- lapply(gridlims, function(x){
+        seq(from = x[1],
+            to   = x[2],
+            by   = grid_spacing)
+      })
+      coord_grid <- as.matrix(expand.grid(grid_points))
 
       # Get start stress
       start_stress <- grid_search(test_coords = test_ag_coords,
@@ -95,9 +117,10 @@ calculate_stressBlob <- function(
                                    na_vals     = is.na(table_dist$distances)[ag_num,!na_coords])
 
       # Create the blob data
-      ag_blobs[[ag_num]] <- contour_blob(grid_stresses - start_stress,
-                                         grid_points,
-                                         stress_lim)
+      blob <- contour_blob(grid_stresses - start_stress,
+                           grid_points,
+                           stress_lim)
+      ag_blobs[[ag_num]]     <- blob
 
       # Keep a record of the best coordinates
       min_grid_stress_num <- which.min(grid_stresses)
@@ -114,7 +137,9 @@ calculate_stressBlob <- function(
 
     # Update the progress function
     progress <- progress + 1
-    if(!is.null(progress_fn)){ progress_fn(progress/(length(antigens) + length(sera))) }
+    if(!isFALSE(.progress)){
+      .progress$update(progress/(length(antigens) + length(sera)), progressbar)
+    }
 
   }
 
@@ -131,6 +156,21 @@ calculate_stressBlob <- function(
 
     # Check there are no na coordinates
     if(sum(is.na(test_sr_coords)) == 0){
+
+      # Create the prediction grid
+      tabledists <- table_dist$distances[,sr_num]
+      gridlims <- lapply(seq_len(num_dimensions), function(n){
+        c(
+          min(ag_coords[,n] - tabledists - stress_lim, na.rm = T),
+          max(ag_coords[,n] + tabledists + stress_lim, na.rm = T)
+        )
+      })
+      grid_points <- lapply(gridlims, function(x){
+        seq(from = x[1],
+            to   = x[2],
+            by   = grid_spacing)
+      })
+      coord_grid <- as.matrix(expand.grid(grid_points))
 
       # Get start stress
       start_stress <- grid_search(test_coords = test_sr_coords,
@@ -149,9 +189,10 @@ calculate_stressBlob <- function(
                                    na_vals     = is.na(table_dist$distances)[!na_coords,sr_num])
 
       # Fit the contour
-      sr_blobs[[sr_num]] <- contour_blob(grid_stresses - start_stress,
-                                         grid_points,
-                                         stress_lim)
+      blob <- contour_blob(grid_stresses - start_stress,
+                           grid_points,
+                           stress_lim)
+      sr_blobs[[sr_num]]     <- blob
 
       # Keep a record of the best coordinates
       min_grid_stress_num <- which.min(grid_stresses)
@@ -168,8 +209,15 @@ calculate_stressBlob <- function(
 
     # Update the progress function
     progress <- progress + 1
-    if(!is.null(progress_fn)){ progress_fn(progress/(length(antigens) + length(sera))) }
+    if(!isFALSE(.progress)){
+      .progress$update(progress/(length(antigens) + length(sera)), progressbar)
+    }
 
+  }
+
+  # Close progress bar
+  if(!isFALSE(.progress)){
+     .progress$end(progressbar)
   }
 
   # Return the stress blobs
@@ -187,22 +235,24 @@ calculate_stressBlob <- function(
     grid_spacing = grid_spacing,
     blob_data    = blob_data,
     antigens     = oantigens,
-    sera         = osera
+    sera         = osera,
+    ndim         = mapDimensions(map, optimization_number)
   )
 
 }
 
 
 #' Fit a contour blob
-#'
+#' @noRd
 contour_blob <- function(grid_values,
                          grid_points,
                          value_lim) {
 
   grid_values <- array(grid_values, dim = sapply(grid_points, length))
+  ndims       <- length(grid_points)
 
   ## 2D
-  if(length(grid_points) == 2){
+  if(ndims == 2){
 
     blob <- grDevices::contourLines(x = grid_points[[1]],
                                     y = grid_points[[2]],
@@ -212,18 +262,23 @@ contour_blob <- function(grid_values,
   }
 
   ## 3D
-  if(length(grid_points) == 3){
+  if(ndims == 3){
 
-    contour_fit <- misc3d::computeContour3d(vol    = grid_values,
-                                            x      = grid_points[[1]],
-                                            y      = grid_points[[2]],
-                                            z      = grid_points[[3]],
-                                            level  = value_lim)
+    contour_fit <- contourShape(vol    = grid_values,
+                                maxvol = max(grid_values[!is.nan(grid_values) & grid_values != Inf]),
+                                x      = grid_points[[1]],
+                                y      = grid_points[[2]],
+                                z      = grid_points[[3]],
+                                level  = value_lim)
 
     blob <- list(vertices = contour_fit,
                  faces    = matrix(seq_len(nrow(contour_fit)), ncol = 3, byrow = TRUE))
 
   }
+
+  ## Blob volumes
+  gridsize    <- abs(diff(grid_points[[1]][1:2]))
+  attr(blob, "volume") <- sum(grid_values <= value_lim)*gridsize^ndims
 
   # Return the blob
   blob
@@ -241,73 +296,135 @@ contour_blob <- function(grid_values,
 #' @param antigens Antigens to calculate blobs for (TRUE for all FALSE for none, or specified by name or index)
 #' @param sera Sera to calculate blobs for (TRUE for all FALSE for none, or specified by name or index)
 #' @param grid_spacing Grid spacing to use when calculating the blob
-#' @param grid_margin Grid margin to use when calculating the blob
 #' @param progress_fn Function to use for progress reporting
 #'
 #' @return Returns the acmap data object with stress blob information added
 #' @export
 #'
 stressBlobs <- function(map,
-                        optimization_number   = NULL,
-                        stress_lim   = 1,
-                        antigens     = TRUE,
-                        sera         = TRUE,
-                        grid_spacing = 0.25,
-                        grid_margin  = 4,
-                        progress_fn  = message){
+                        stress_lim            = 1,
+                        antigens              = TRUE,
+                        sera                  = TRUE,
+                        grid_spacing          = 0.25,
+                        .progress             = NULL,
+                        .check_relaxation     = TRUE){
+
+  # Only run on current optimization
+  optimization_number <- NULL
 
   # Check map has been fully relaxed
-  if(!mapRelaxed(map, optimization_number)){
+  if(.check_relaxation && !mapRelaxed(map, optimization_number)){
     stop("Map is not fully relaxed, please relax the map first.")
   }
 
-  # Process optimization
-  optimization_number <- convertOptimizationNum(optimization_number, map)
-
   # Calculate blob data
-  data <- calculate_stressBlob(map,
-                               optimization_number = optimization_number,
-                               stress_lim   = stress_lim,
-                               antigens     = antigens,
-                               sera         = sera,
-                               grid_spacing = grid_spacing,
-                               grid_margin  = grid_margin,
-                               progress_fn  = progress_fn)
-
-  # Return the map with blob data
-  blobmap <- list(
-    map      = map,
-    blobdata = data
+  map$stressblobs <- calculate_stressBlob(
+    map,
+    optimization_number = optimization_number,
+    stress_lim          = stress_lim,
+    antigens            = antigens,
+    sera                = sera,
+    grid_spacing        = grid_spacing,
+    .progress           = .progress
   )
 
-  class(blobmap) <- c("racblobs", "list")
-  blobmap
+  # Return the map with blob data
+  map
 
 }
 
+hasStressBlobs <- function(map){
+  !is.null(map$stressblobs)
+}
 
-
-#' Viewing map stress blob data
-#'
-#' View stress blob data in an interactive viewer.
-#'
-#' @param map The map after stressBlobs() has been applied
-#' @param ... Arguments to be passed to \code{\link{view.rac}}
-#'
 #' @export
-#'
-view.racblobs <- function(object, ...){
+stressBlobGeometries <- function(map){
 
-  # Javascript code to run upon viewing the map
-  jsCode <- "function(el, x, data) {
-    el.viewer.showBlobs(data);
-  }"
+  if(!hasStressBlobs(map)){
+    stop("Map does not have stress blob data, use the stressBlobs() function to calculate it.")
+  }
 
-  # View the map and show the procrustes data
-  view(object$map,
-       .jsCode = jsCode,
-       .jsData = object$blobdata$blob_data,
-       ...)
+  list(
+    antigens = map$stressblobs$blob_data$antigens,
+    sera     = map$stressblobs$blob_data$sera
+  )
 
 }
+
+stressBlobSize <- function(map){
+
+  if(!hasStressBlobs(map)){
+    stop("Map does not have stress blob data, use the stressBlobs() function to calculate it.")
+  }
+
+  if(map$stressblobs$ndim == 2){
+    calcBlobSize <- calcBlobArea
+  } else {
+    warning("Blob volumes are approximate")
+    calcBlobSize <- calcBlobVolume
+  }
+
+  list(
+    antigens = calcBlobSize(map$stressblobs$blob_data$antigens),
+    sera     = calcBlobSize(map$stressblobs$blob_data$sera)
+  )
+
+}
+
+#' @export
+agStressBlobSize <- function(map){ stressBlobSize(map)$antigens }
+
+#' @export
+srStressBlobSize <- function(map){ stressBlobSize(map)$sera     }
+
+calcBlobArea <- function(blob){
+
+  vapply(
+    blob,
+    function(b){
+      vapply(b, function(b0){
+        geometry::polyarea(
+          x = b0$x,
+          y = b0$y
+        )
+      }, numeric(1))
+    },
+    numeric(1)
+  )
+
+}
+
+calcBlobVolume <- function(blob){
+
+  vapply(
+    blob,
+    function(b){
+      attr(b, "volume")
+    },
+    numeric(1)
+  )
+
+}
+
+contourShape <- function(
+  vol,
+  maxvol,
+  x,
+  y,
+  z,
+  level
+){
+
+  misc3d::computeContour3d(
+    vol    = vol,
+    maxvol = maxvol,
+    x      = x,
+    y      = y,
+    z      = z,
+    level  = level
+  )
+
+}
+
+
 

@@ -3,7 +3,6 @@
 \docType{package}
 \name{Racmacs}
 \alias{Racmacs}
-\alias{Racmacs-package}
 \title{Racmacs: A package for performing antigenic cartography}
 \description{
 The Racmacs package provides a toolkit for making antigenic maps from assay

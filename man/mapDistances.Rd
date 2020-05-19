@@ -19,8 +19,12 @@ Takes the acmap object and calculate distances between antigens and sera for the
 currently selected or specified optimization.
 }
 \seealso{
-Other functions relating to map stress calculation: \code{\link{logtiterTable}},
-  \code{\link{mapResiduals}}, \code{\link{stressTable}},
-  \code{\link{tableDistances}}
+Other {map diagnostic functions}{functions relating to map stress calculation}: 
+\code{\link{logtiterTable}()},
+\code{\link{mapResiduals}()},
+\code{\link{pointStress}},
+\code{\link{recalculateStress}()},
+\code{\link{stressTable}()},
+\code{\link{tableDistances}()}
 }
-\concept{functions relating to map stress calculation}
+\concept{{map diagnostic functions}{functions relating to map stress calculation}}

@@ -4,7 +4,7 @@ context("Calculating column bases")
 
 test_that("Calculating a column basis with only numeric titers", {
 
-  titer_table <- read.titerTable(testthat::test_path("../testdata/titer_tables/titer_table1.csv"))
+  titer_table <- read.titerTable(test_path("../testdata/titer_tables/titer_table1.csv"))
   colbases <- ac_getTableColbases(titer_table)
   mode(titer_table) <- "numeric"
   expect_equal(object   = colbases,
@@ -15,7 +15,7 @@ test_that("Calculating a column basis with only numeric titers", {
 
 test_that("Checking we get the same column bases as acmacs.r", {
 
-  chart    <- new(acmacs.r::acmacs.Chart, path.expand(testthat::test_path("../testdata/testmap.ace")))
+  chart    <- new(acmacs.r::acmacs.Chart, path.expand(test_path("../testdata/testmap.ace")))
   colbases <- ac_getTableColbases(chart$titers$all())
   expect_equal(object   = round(colbases, 5),
                expected = round(chart$column_bases(), 5))

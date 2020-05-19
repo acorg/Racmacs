@@ -1,13 +1,13 @@
 
-#' Return information about a map
+#' Sort optimizations by stress
 #'
-#' @param map The map object
+#' Sorts all the optimization runs for a given map object by stress
+#' (lowest to highest). Note that this is done by default when running
+#' [optimizeMap()].
 #'
-#' @name mapInfo
+#' @param map map data object
 #'
-NULL
-
-#' @rdname mapInfo
+#' @family {functions to work with map optimizations}
 #' @export
 sortOptimizations <- function(map) {
   UseMethod("sortOptimizations", map)
@@ -26,32 +26,61 @@ allMapProperties <- function(map, getter){
   )
 }
 
-#' @rdname mapInfo
+
+#' Get optimization properties
+#'
+#' Utility functions to get a vector of all the map optimization
+#' properties.
+#'
+#' @param map map data object
+#'
+#' @family {functions to work with map optimizations}
+#' @name optimizationProperties
+
+#' @rdname optimizationProperties
 #' @export
 allMapStresses <- function(map) {
   allMapProperties(map, mapStress)
 }
 
-#' @rdname mapInfo
+#' @rdname optimizationProperties
 #' @export
 allMapDimensions <- function(map) {
   allMapProperties(map, mapDimensions)
 }
 
-#' @rdname mapInfo
+#' Remove map optimizations
+#'
+#' Remove all optimization run data from a map object
+#'
+#' @param map the map data object
+#'
+#' @family {functions to work with map optimizations}
 #' @export
+#'
 removeOptimizations <- function(map) {
   UseMethod("removeOptimizations", map)
 }
 
-#' @rdname mapInfo
+#' Keep a single optimization run
+#'
+#' Keep only data from a single optimization run, either a specified
+#' optimization (defaulting to the selected one), or the "best"
+#' (lowest stress) optimization
+#'
+#' @param map the map data object
+#'
+#' @family {functions to work with map optimizations}
+#' @name keepSingleOptimization
+
 #' @export
+#' @rdname keepSingleOptimization
 keepSingleOptimization <- function(map, optimization_number = NULL) {
   UseMethod("keepSingleOptimization", map)
 }
 
-#' @rdname mapInfo
 #' @export
+#' @rdname keepSingleOptimization
 keepBestOptimization <- function(map) {
   map <- sortOptimizations(map)
   keepSingleOptimization(map, optimization_number = 1)
@@ -67,7 +96,7 @@ keepBestOptimization <- function(map) {
 #' @param map The acmap data object
 #'
 #' @name acmapAttributes
-#' @family functions to get and set map attributes
+#' @family {map attribute functions}
 #'
 
 #' @rdname acmapAttributes
@@ -113,8 +142,7 @@ numOptimizations <- function(map) {
 #'   be performed on the selected optimization by default.
 #'
 #' @name selectedOptimization
-#'
-#' @family functions to get and set map attributes
+#' @family {functions for working with map data}
 #'
 
 
@@ -134,8 +162,7 @@ selectedOptimization <- function(map) {
   set_selectedOptimization(map, value)
 }
 
-#' @rdname mapInfo
-#' @export
+# S3 generic to set optimization
 set_selectedOptimization <- function(map, value) {
   UseMethod("set_selectedOptimization", map)
 }

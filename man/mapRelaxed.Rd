@@ -17,3 +17,10 @@ Returns TRUE or FALSE
 \description{
 Check if a map has been fully relaxed
 }
+\seealso{
+Other {map diagnostic functions}: 
+\code{\link{bootstrapMap}()},
+\code{\link{checkHemisphering}()},
+\code{\link{dimensionTestMap}()}
+}
+\concept{{map diagnostic functions}}

@@ -4,21 +4,27 @@
 \alias{standardizeStrainNames}
 \title{Standardize strain names}
 \usage{
-standardizeStrainNames(names, default_species = NA,
-  default_virus_type = "A", default_virus_subtype = "HXNX")
+standardizeStrainNames(
+  names,
+  default_species = NA,
+  default_virus_type = "A",
+  default_virus_subtype = "HXNX"
+)
 }
 \arguments{
 \item{names}{Strain names to be standardised}
 
 \item{default_species}{Are the strains isolated from a particular species?}
 
-\item{default_virus_type}{Default virus type to be used \(if not no type found in name\)}
+\item{default_virus_type}{Default virus type to be used \(if no type found in name\)}
 
-\item{default_virus_subtype}{Default virus subtype to be used \(if not no subtype found in name\)}
+\item{default_virus_subtype}{Default virus subtype to be used \(if no subtype found in name\)}
 }
 \value{
-Returns a list of standardised names and extracted information
+Returns a tibble of standardised names and extracted information
 }
 \description{
-Standardize strain names
+This is a utility function to help standardise antigen names into a more
+consistent format, also attempting to break apart different components
+of the name.
 }

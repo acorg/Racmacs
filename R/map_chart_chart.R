@@ -60,7 +60,9 @@ keepSingleOptimization.racchart <- function(map, optimization_number = NULL){
 
 #' @export
 selectedOptimization.racchart <- function(map){
-  unlist(jsonlite::fromJSON(map$chart$extension_field("selected_optimization")))
+  value <- map$chart$extension_field("selected_optimization")
+  if(is.na(value)) return(NULL)
+  unlist(jsonlite::fromJSON(value))
 }
 
 #' @export

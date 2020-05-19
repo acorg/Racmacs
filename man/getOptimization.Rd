@@ -20,5 +20,5 @@ as a list.
 }
 \seealso{
 See \code{\link{listOptimizations}} for getting information about all
-  optimizations.
+optimizations.
 }

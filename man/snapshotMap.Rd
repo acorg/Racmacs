@@ -20,3 +20,8 @@ snapshotMap(map, width = 800, height = 800, filename = NULL, ...)
 \description{
 Create a map snapshot
 }
+\seealso{
+Other {functions to view maps}: 
+\code{\link{plot.rac}()}
+}
+\concept{{functions to view maps}}

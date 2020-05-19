@@ -18,7 +18,7 @@ setProperty_sera.racmap <- function(
   value
 ){
 
-  map[[attribute]] <- value
+  map[[attribute]] <- unname(value)
   map
 
 }

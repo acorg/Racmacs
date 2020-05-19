@@ -10,21 +10,39 @@
 \alias{agLikelihood}
 \title{Get individual point stress}
 \usage{
-agStress(map, antigens = TRUE, optimization_number = NULL,
-  warnings = TRUE)
+agStress(map, antigens = TRUE, optimization_number = NULL, warnings = TRUE)
 
-srStress(map, sera = TRUE, optimization_number = NULL,
-  warnings = TRUE)
+srStress(map, sera = TRUE, optimization_number = NULL, warnings = TRUE)
 
-srStressPerTiter(map, sera = TRUE, optimization_number = NULL)
+srStressPerTiter(
+  map,
+  sera = TRUE,
+  optimization_number = NULL,
+  exclude_nd = TRUE
+)
 
-agStressPerTiter(map, antigens = TRUE, optimization_number = NULL)
+agStressPerTiter(
+  map,
+  antigens = TRUE,
+  optimization_number = NULL,
+  exclude_nd = TRUE
+)
 
-srLikelihood(map, sera = TRUE, total_error_sd,
-  optimization_number = NULL, warnings = TRUE)
+srLikelihood(
+  map,
+  sera = TRUE,
+  total_error_sd,
+  optimization_number = NULL,
+  warnings = TRUE
+)
 
-agLikelihood(map, antigens = TRUE, total_error_sd,
-  optimization_number = NULL, warnings = TRUE)
+agLikelihood(
+  map,
+  antigens = TRUE,
+  total_error_sd,
+  optimization_number = NULL,
+  warnings = TRUE
+)
 }
 \arguments{
 \item{map}{The acmap data object}
@@ -40,4 +58,13 @@ Functions to get stress associated with individual points in a map.
 }
 \seealso{
 See \code{\link{mapStress}} for getting the total map stress directly.
+
+Other {map diagnostic functions}{functions relating to map stress calculation}: 
+\code{\link{logtiterTable}()},
+\code{\link{mapDistances}()},
+\code{\link{mapResiduals}()},
+\code{\link{recalculateStress}()},
+\code{\link{stressTable}()},
+\code{\link{tableDistances}()}
 }
+\concept{{map diagnostic functions}{functions relating to map stress calculation}}

@@ -86,15 +86,19 @@ R3JS.element.arrow3d = class arrow3d extends R3JS.element.base {
         if(!args.properties.lwd)   args.properties.lwd = 0.1;
         if(!args.properties.mat)   args.properties.mat = "lambert";
         if(!args.properties.color) args.properties.color = {r:0.2, g:0.2, b:0.2};
+        if(!args.properties.arrowheadlength) args.properties.arrowheadlength = 0.5;
+        if(!args.properties.arrowheadwidth)  args.properties.arrowheadwidth = 0.25;
 
         super();
         var geometry = R3JS.Geometries.line3d({
             from : args.coords[0],
             to   : args.coords[1],
             lwd  : args.properties.lwd*0.05,
+            lend : args.properties.lend,
             arrow : {
-                headlength : 0.5,
-                headwidth  : 0.25
+                headlength : args.properties.arrowheadlength,
+                headwidth  : args.properties.arrowheadwidth,
+                end        : args.properties.arrowheadend
             }
         });
 

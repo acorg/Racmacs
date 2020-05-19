@@ -5,6 +5,22 @@ getProperty_antigens.racchart <- function(
   attribute
 ){
 
+  # First deal with additional properties
+  switch(
+    EXPR = attribute,
+
+    # Antigen IDs
+    agIDs = {
+      return(unlist(get_chartAttribute(map, "antigen_ids")))
+    },
+
+    # Antigen Groups
+    agGroups = {
+      return(unlist(get_chartAttribute(map, "antigen_groups")))
+    }
+
+  )
+
   # Fetch the antigens
   antigens <- map$chart$antigens
 
@@ -49,6 +65,24 @@ setProperty_antigens.racchart <- function(
   value
 ){
 
+  # First deal with additional properties
+  switch(
+    EXPR = attribute,
+
+    # Antigen IDs
+    agIDs = {
+      map <- set_chartAttribute(map, "antigen_ids", value)
+      return(map)
+    },
+
+    # Antigen Groups
+    agGroups = {
+      map <- set_chartAttribute(map, "antigen_groups", value)
+      return(map)
+    }
+
+  )
+
   # Fetch the antigens
   antigens <- map$chart$antigens
 
@@ -78,6 +112,11 @@ setProperty_antigens.racchart <- function(
       agDates = {
         if(is.null(value) || is.na(value)) value <- ""
         antigen$set_date(as.character(value))
+      },
+
+      # Antigen IDs
+      agIDs = {
+        set_chartAttribute(map, "antigen_ids", value)
       },
 
       # If no method found

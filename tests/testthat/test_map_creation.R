@@ -1,7 +1,7 @@
 
 library(Racmacs)
 library(testthat)
-context("Test local map creation")
+context("Test local map creation (test_map_creation.R)")
 
 run.maptests(
   bothclasses = TRUE,
@@ -32,15 +32,13 @@ run.maptests(
       ag_coords3d <- cbind(ag_coords, 2)
       sr_coords3d <- cbind(sr_coords, 2)
 
-      expect_warning({
-        map <- make.map(ag_coords = ag_coords,
-                        sr_coords = sr_coords)
-      })
 
-      expect_warning({
-        map3d <- make.map(ag_coords = ag_coords3d,
-                          sr_coords = sr_coords3d)
-      })
+      map <- make.map(ag_coords = ag_coords,
+                      sr_coords = sr_coords)
+
+
+      map3d <- make.map(ag_coords = ag_coords3d,
+                        sr_coords = sr_coords3d)
 
       expect_equal(unname(agCoords(map)), ag_coords)
       expect_equal(unname(srCoords(map)), sr_coords)
@@ -63,24 +61,25 @@ run.maptests(
     test_that("Argument format conversion", {
 
       # Matrices should be allowed and converted to data frames
-      expect_warning({
-        map <- make.map(ag_coords = expand.grid(1:10, 1:10),
-                        sr_coords = expand.grid(1:10, 1:10))
-      })
+      map <- make.map(ag_coords = expand.grid(1:10, 1:10),
+                      sr_coords = expand.grid(1:10, 1:10))
+
+      expect_equal(nrow(agCoords(map)), 100)
+      expect_equal(nrow(srCoords(map)), 100)
 
     })
 
     # Multioptimization creation
     test_that("Multioptimization creation", {
 
-      expect_warning({
-        acmap <- make.map(optimizations = list(
-          list(ag_coords = matrix(1:10,5,2),
-               sr_coords = matrix(11:20,5,2)),
-          list(ag_coords = matrix(10:1,5,2),
-               sr_coords = matrix(20:11,5,2))
-        ))
-      })
+      map <- make.map(optimizations = list(
+        list(ag_coords = matrix(1:10,5,2),
+             sr_coords = matrix(11:20,5,2)),
+        list(ag_coords = matrix(10:1,5,2),
+             sr_coords = matrix(20:11,5,2))
+      ))
+
+      expect_equal(numOptimizations(map), 2)
 
     })
 

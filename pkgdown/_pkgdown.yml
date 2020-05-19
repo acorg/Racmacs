@@ -2,3 +2,76 @@ destination: docs
 template:
   params:
     bootswatch: flatly
+navbar:
+  structure:
+    left:
+    - home
+    - intro
+    - reference
+    - articles
+    - tutorials
+    - news
+    right: github
+  components:
+    home:
+      icon: fas fa-home fa-lg
+      href: index.html
+    reference:
+      text: Reference
+      href: reference/index.html
+    github:
+      icon: fab fa-github fa-lg
+      href: https://github.com/acorg/Racmacs/
+    articles:
+      text: Articles
+      href: articles/index.html
+articles:
+- title: Getting started
+  contents:
+  - making-a-map-from-scratch
+- title: Further usage
+  contents:
+  - comparing-maps
+  - merging-maps
+reference:
+- title: Working with map data
+  contents:
+  - has_concept("functions for working with map data")
+- title: Optimizing maps
+  contents:
+  - has_concept("map optimization functions")
+  - has_concept("functions to work with map optimizations")
+- title: Testing maps
+  contents:
+  - has_concept("map diagnostic functions")
+- title: Viewing maps
+  contents:
+  - has_concept("functions to view maps")
+- title: Map attributes
+- subtitle: General attributes
+  contents:
+  - has_concept("map attribute functions")
+- subtitle: Antigen and sera attributes
+  contents:
+  - has_concept("antigen and sera attribute functions")
+- subtitle: Optimization run attributes
+  contents:
+  - listOptimizations
+  - getOptimization
+  - has_concept("map optimization attribute functions")
+- subtitle: Point plotting styles
+  contents:
+  - has_concept("map point style functions")
+- title: Map transformations
+  contents:
+  - has_concept("functions relating to map transformation")
+- title: Comparing maps
+  contents:
+  - has_concept("functions to compare maps")
+- title: Merging maps
+  contents:
+  - has_concept("map merging functions")
+- title: Utilities
+  contents:
+  - standardizeStrainNames
+

@@ -8,25 +8,36 @@
 
 <title>Function reference • Racmacs</title>
 
+<!-- favicons -->
+<link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
+<link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../apple-touch-icon.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png" />
 
 <!-- jquery -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
-<link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.7/flatly/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.4.0/flatly/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
 
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script>
+
+<!-- bootstrap-toc -->
+<link rel="stylesheet" href="../bootstrap-toc.css">
+<script src="../bootstrap-toc.js"></script>
 
 <!-- Font Awesome icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous" />
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script>
 
 <!-- headroom.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
@@ -34,8 +45,11 @@
 
 
 
+  <link href="../extra.css" rel="stylesheet">
+  
 
 <meta property="og:title" content="Function reference" />
+<meta property="og:image" content="/logo.png" />
 
 
 
@@ -53,7 +67,7 @@
 
   </head>
 
-  <body>
+  <body data-spy="scroll" data-target="#toc">
     <div class="container template-reference-index">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -67,7 +81,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">Racmacs</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.7</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.10</span>
       </span>
     </div>
 
@@ -82,33 +96,17 @@
 <li>
   <a href="../reference/index.html">Reference</a>
 </li>
-<li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-    Articles
-     
-    <span class="caret"></span>
-  </a>
-  <ul class="dropdown-menu" role="menu">
-    <li>
-      <a href="../articles/comparing-maps.html">Comparing maps</a>
-    </li>
-    <li>
-      <a href="../articles/making-maps.html">Making antigenic maps</a>
-    </li>
-    <li>
-      <a href="../articles/map-diagnostics.html">Performing map diagnostics</a>
-    </li>
-    <li>
-      <a href="../articles/merging-maps.html">Merging maps</a>
-    </li>
-    <li>
-      <a href="../articles/testing-maps.html">Testing maps</a>
-    </li>
-  </ul>
+<li>
+  <a href="../articles/index.html">Articles</a>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
-        
+        <li>
+  <a href="https://github.com/acorg/Racmacs/">
+    <span class="fab fa fab fa-github fa-lg"></span>
+     
+  </a>
+</li>
       </ul>
       
     </div><!--/.nav-collapse -->
@@ -136,100 +134,21 @@
     <tbody>
       <tr>
         <th colspan="2">
-          <h2 id="section-all-functions" class="hasAnchor"><a href="#section-all-functions" class="anchor"></a>All functions</h2>
+          <h2 id="section-working-with-map-data" class="hasAnchor"><a href="#section-working-with-map-data" class="anchor"></a>Working with map data</h2>
           <p class="section-desc"></p>
         </th>
       </tr>
+      
+      
+    </tbody><tbody>
+      
+      
       <tr>
-        
-        <td>
-          <p><code><a href="RacViewer-shiny.html">RacViewerOutput()</a></code> <code><a href="RacViewer-shiny.html">renderRacViewer()</a></code> </p>
-        </td>
-        <td><p>Shiny bindings for RacViewer</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="RacViewer.html">RacViewer()</a></code> </p>
-        </td>
-        <td><p>Create a RacViewer widget</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="RacViewerProxy.html">RacViewerProxy()</a></code> </p>
-        </td>
-        <td><p>Create a proxy RacViewer object</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="Racmacs.html">Racmacs</a></code> </p>
-        </td>
-        <td><p>Racmacs: A package for performing antigenic cartography</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="ac_calcStress.html">ac_calcStress()</a></code> </p>
-        </td>
-        <td><p>Calculate map stress from coordinates</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="ac_calculate_stress.html">ac_calculate_stress()</a></code> </p>
-        </td>
-        <td><p>Calculate map stress</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="ac_getTableColbases.html">ac_getTableColbases()</a></code> </p>
-        </td>
-        <td><p>Get column bases from HI table</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="ac_tableDists.html">ac_tableDists()</a></code> </p>
-        </td>
-        <td><p>Calculate table distances</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="acmacs_placeAbvs.html">acmacs_placeAbvs()</a></code> </p>
-        </td>
-        <td><p>All known two-letter place name abbreviations</p></td>
-      </tr><tr>
         
         <td>
           <p><code><a href="acmap.html">acmap()</a></code> </p>
         </td>
         <td><p>Generate a new acmap object</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="acmapAttributes.html">numAntigens()</a></code> <code><a href="acmapAttributes.html">numSera()</a></code> <code><a href="acmapAttributes.html">numPoints()</a></code> <code><a href="acmapAttributes.html">numOptimizations()</a></code> </p>
-        </td>
-        <td><p>Get acmap attributes</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="addOptimization.html">addOptimization()</a></code> </p>
-        </td>
-        <td><p>Add a new optimization to an acmap object</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="add_hemispheringData.html">add_hemispheringData()</a></code> </p>
-        </td>
-        <td><p>Add data on hemisphering diagnostics to a map</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="applyPlotspec.html">applyPlotspec()</a></code> </p>
-        </td>
-        <td><p>Apply a plotspec from another acmap</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="apply_procrustes.html">apply_procrustes()</a></code> </p>
-        </td>
-        <td><p>Apply a procrustes object</p></td>
       </tr><tr>
         
         <td>
@@ -239,261 +158,21 @@
       </tr><tr>
         
         <td>
-          <p><code><a href="bootstrapMap.html">bootstrapMap()</a></code> </p>
-        </td>
-        <td><p>Perform a noisy bootstrap</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="calc_coord_dist.html">calc_coord_dist()</a></code> </p>
-        </td>
-        <td><p>Calculate the distance between two sets of coordinates</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="calc_procrustes.html">calc_procrustes()</a></code> </p>
-        </td>
-        <td><p>Calculate a procrustes object</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="calc_titer_lims.html">calc_titer_lims()</a></code> </p>
-        </td>
-        <td><p>Get titer limits</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="calculate_stressBlob.html">calculate_stressBlob()</a></code> </p>
-        </td>
-        <td><p>Calculate stress blob information</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="checkHemisphering.html">checkHemisphering()</a></code> </p>
-        </td>
-        <td><p>Check for hemisphering or trapped points</p></td>
-      </tr><tr>
-        
-        <td>
           <p><code><a href="cloneMap.html">cloneMap()</a></code> </p>
         </td>
         <td><p>Clone an acmap object</p></td>
       </tr><tr>
         
         <td>
-          <p><code><a href="contour_blob.html">contour_blob()</a></code> </p>
-        </td>
-        <td><p>Fit a contour blob</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="convert2log.html">convert2log()</a></code> </p>
-        </td>
-        <td><p>Convert raw titers to log titers</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="convert2raw.html">convert2raw()</a></code> </p>
-        </td>
-        <td><p>Function for converting from log titers to raw titers</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="convertingMaps.html">as.list(<i>&lt;racchart&gt;</i>)</a></code> <code><a href="convertingMaps.html">as.cpp()</a></code> </p>
+          <p><code><a href="convertingMaps.html">as.list(<i>&lt;racchart&gt;</i>)</a></code> <code><a href="convertingMaps.html">as.cpp()</a></code> <code><a href="convertingMaps.html">acmap.cpp()</a></code> </p>
         </td>
         <td><p>Converting between map formats</p></td>
       </tr><tr>
         
         <td>
-          <p><code><a href="dimensionTestMap.html">dimensionTestMap()</a></code> </p>
+          <p><code><a href="orderPoints.html">orderAntigens()</a></code> <code><a href="orderPoints.html">orderSera()</a></code> </p>
         </td>
-        <td><p>Perform dimension testing on a map object</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="distmeshnd.html">distmeshnd()</a></code> </p>
-        </td>
-        <td><p>A simple mesh generator for non-convex regions in n-D space</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="dot-onLoad.html">.onLoad()</a></code> </p>
-        </td>
-        <td><p>Hooks for setting package options on load</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="edit_agNames.html">edit_agNames()</a></code> </p>
-        </td>
-        <td><p>Edit antigen names in a mapData object</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="edit_srNames.html">edit_srNames()</a></code> </p>
-        </td>
-        <td><p>Edit sera names in a mapData object</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="export_viewer.html">export_viewer()</a></code> </p>
-        </td>
-        <td><p>Export the map viewer</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="getOptimization.html">getOptimization()</a></code> </p>
-        </td>
-        <td><p>Get optimization details from an acmap object</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="get_ag_indices.html">get_ag_indices()</a></code> </p>
-        </td>
-        <td><p>Get indices of matching antigens in a map</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="get_sr_indices.html">get_sr_indices()</a></code> </p>
-        </td>
-        <td><p>Get indices of matching sera in a map</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="hello.html">hello()</a></code> </p>
-        </td>
-        <td><p>Hello, World!</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="listOptimizations.html">listOptimizations()</a></code> </p>
-        </td>
-        <td><p>Get all optimization details from an acmap object</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="logtiterTable.html">logtiterTable()</a></code> </p>
-        </td>
-        <td><p>Get the log titers from an acmap</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="make.acmap.html">make.acmap()</a></code> </p>
-        </td>
-        <td><p>Make an antigenic map from scratch</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="map-table-distances.html">plot_map_table_distance()</a></code> <code><a href="map-table-distances.html">plotly_map_table_distance()</a></code> </p>
-        </td>
-        <td><p>Plot map vs table distances</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="mapBootstrapCoords.html">mapBootstrap_agCoords()</a></code> <code><a href="mapBootstrapCoords.html">mapBootstrap_srCoords()</a></code> </p>
-        </td>
-        <td><p>Get bootstrap coordinates associated with a map</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="mapDistances.html">mapDistances()</a></code> </p>
-        </td>
-        <td><p>Return calculated map distances for an acmap</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="mapInfo.html">sortOptimizations()</a></code> <code><a href="mapInfo.html">allMapStresses()</a></code> <code><a href="mapInfo.html">allMapDimensions()</a></code> <code><a href="mapInfo.html">removeOptimizations()</a></code> <code><a href="mapInfo.html">keepSingleOptimization()</a></code> <code><a href="mapInfo.html">keepBestOptimization()</a></code> <code><a href="mapInfo.html">set_selectedOptimization()</a></code> </p>
-        </td>
-        <td><p>Return information about a map</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="mapRelaxed.html">mapRelaxed()</a></code> </p>
-        </td>
-        <td><p>Check if a map has been fully relaxed</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="mapResiduals.html">mapResiduals()</a></code> </p>
-        </td>
-        <td><p>Get a table of residuals from an acmap</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="mapStrains.html">mapStrains</a></code> </p>
-        </td>
-        <td><p>Strains in an antigenic map</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="mapStress.html">mapStress()</a></code> </p>
-        </td>
-        <td><p>Get the stress associated with an acmap optimization</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="mapTransformation.html">scaleMap()</a></code> <code><a href="mapTransformation.html">transformMap()</a></code> <code><a href="mapTransformation.html">translateMap()</a></code> <code><a href="mapTransformation.html">reflectMap()</a></code> <code><a href="mapTransformation.html">rotateMap()</a></code> </p>
-        </td>
-        <td><p>Apply transformations to an antigenic map</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="matchStrains.html">match_mapAntigens()</a></code> <code><a href="matchStrains.html">match_mapSera()</a></code> </p>
-        </td>
-        <td><p>Find matching antigens or sera between 2 maps</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="mergeMaps.html">mergeMaps()</a></code> </p>
-        </td>
-        <td><p>Merging maps</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="mergeReport.html">mergeReport()</a></code> </p>
-        </td>
-        <td><p>Return a merge report</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="mergeTiterTables.html">mergeTiterTables()</a></code> </p>
-        </td>
-        <td><p>Merge titer tables</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="moveTrappedPoints.html">moveTrappedPoints()</a></code> </p>
-        </td>
-        <td><p>Remove trapped points</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="optimizeMap.html">optimizeMap()</a></code> </p>
-        </td>
-        <td><p>Optimize an acmap</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="pointStress.html">agStress()</a></code> <code><a href="pointStress.html">srStress()</a></code> <code><a href="pointStress.html">srStressPerTiter()</a></code> <code><a href="pointStress.html">agStressPerTiter()</a></code> <code><a href="pointStress.html">srLikelihood()</a></code> <code><a href="pointStress.html">agLikelihood()</a></code> </p>
-        </td>
-        <td><p>Get individual point stress</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="print.rac.html">print(<i>&lt;rac&gt;</i>)</a></code> </p>
-        </td>
-        <td><p>Printing racmap objects</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="procrustesMap.html">procrustesMap()</a></code> </p>
-        </td>
-        <td><p>Return procrustes information</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="randomizeCoords.html">randomizeCoords()</a></code> </p>
-        </td>
-        <td><p>Randomize map coordinates</p></td>
+        <td><p>Order antigens and sera</p></td>
       </tr><tr>
         
         <td>
@@ -503,75 +182,15 @@
       </tr><tr>
         
         <td>
-          <p><code><a href="read.acmap.cpp.html">read.acmap.cpp()</a></code> </p>
-        </td>
-        <td><p>Read in acmap data from a file in the C++ format</p></td>
-      </tr><tr>
-        
-        <td>
           <p><code><a href="read.titerTable.html">read.titerTable()</a></code> </p>
         </td>
         <td><p>Read in a table of titer data</p></td>
       </tr><tr>
         
         <td>
-          <p><code><a href="realignMap.html">realignMap()</a></code> </p>
+          <p><code><a href="removePoints.html">removeAntigens()</a></code> <code><a href="removePoints.html">removeSera()</a></code> </p>
         </td>
-        <td><p>Realign map to match another</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="realignOptimizations.html">realignOptimizations()</a></code> </p>
-        </td>
-        <td><p>Realigns optimizations in the map to the current optimization</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="reflect_coords_in_axis.html">reflect_coords_in_axis()</a></code> </p>
-        </td>
-        <td><p>Reflect coordinates</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="relaxMap.html">relaxMap()</a></code> </p>
-        </td>
-        <td><p>Relax a map</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="relaxMapOneStep.html">relaxMapOneStep()</a></code> </p>
-        </td>
-        <td><p>Relax a map one step in the optimiser</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="rotate_coords_by_degrees.html">rotate_coords_by_degrees()</a></code> </p>
-        </td>
-        <td><p>Rotate a set of coordinates</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="rotate_coords_by_radians.html">rotate_coords_by_radians()</a></code> </p>
-        </td>
-        <td><p>Rotate a set of coordinates</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="rotation_matrix_2D.html">rotation_matrix_2D()</a></code> </p>
-        </td>
-        <td><p>Generate a 2 dimensional rotation matrix</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="rotation_matrix_3D.html">rotation_matrix_3D()</a></code> </p>
-        </td>
-        <td><p>Generate a 3 dimensional rotation matrix</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="runGUI.html">runGUI()</a></code> </p>
-        </td>
-        <td><p>Open the Racmacs GUI</p></td>
+        <td><p>Remove antigens and sera</p></td>
       </tr><tr>
         
         <td>
@@ -593,33 +212,9 @@
       </tr><tr>
         
         <td>
-          <p><code><a href="selectedOptimization.html">selectedOptimization()</a></code> <code><a href="selectedOptimization.html">`selectedOptimization<-`()</a></code> </p>
+          <p><code><a href="selectedOptimization.html">selectedOptimization()</a></code> <code><a href="selectedOptimization.html">`selectedOptimization&lt;-`()</a></code> </p>
         </td>
         <td><p>Get or set the selected optimization</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="snapshotMap.html">snapshotMap()</a></code> </p>
-        </td>
-        <td><p>Create a map snapshot</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="standardizeStrainNames.html">standardizeStrainNames()</a></code> </p>
-        </td>
-        <td><p>Standardize strain names</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="stressBlobs.html">stressBlobs()</a></code> </p>
-        </td>
-        <td><p>Add stress blob data to a map object</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="stressTable.html">stressTable()</a></code> </p>
-        </td>
-        <td><p>Get a stress table from an acmap</p></td>
       </tr><tr>
         
         <td>
@@ -629,61 +224,488 @@
       </tr><tr>
         
         <td>
+          <p><code><a href="subsetPoints.html">subsetAntigens()</a></code> <code><a href="subsetPoints.html">subsetSera()</a></code> </p>
+        </td>
+        <td><p>Subset antigens and sera</p></td>
+      </tr>
+    </tbody><tbody>
+      <tr>
+        <th colspan="2">
+          <h2 id="section-optimizing-maps" class="hasAnchor"><a href="#section-optimizing-maps" class="anchor"></a>Optimizing maps</h2>
+          <p class="section-desc"></p>
+        </th>
+      </tr>
+      
+      
+    </tbody><tbody>
+      
+      
+      <tr>
+        
+        <td>
+          <p><code><a href="make.acmap.html">make.acmap()</a></code> </p>
+        </td>
+        <td><p>Make an antigenic map from scratch</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="moveTrappedPoints.html">moveTrappedPoints()</a></code> </p>
+        </td>
+        <td><p>Move trapped points</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="optimizeMap.html">optimizeMap()</a></code> </p>
+        </td>
+        <td><p>Optimize an acmap</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="randomizeCoords.html">randomizeCoords()</a></code> </p>
+        </td>
+        <td><p>Randomize map coordinates</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="relaxMap.html">relaxMap()</a></code> </p>
+        </td>
+        <td><p>Relax a map</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="relaxMapOneStep.html">relaxMapOneStep()</a></code> </p>
+        </td>
+        <td><p>Relax a map one step in the optimiser</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="keepSingleOptimization.html">keepSingleOptimization()</a></code> <code><a href="keepSingleOptimization.html">keepBestOptimization()</a></code> </p>
+        </td>
+        <td><p>Keep a single optimization run</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="optimizationProperties.html">allMapStresses()</a></code> <code><a href="optimizationProperties.html">allMapDimensions()</a></code> </p>
+        </td>
+        <td><p>Get optimization properties</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="removeOptimizations.html">removeOptimizations()</a></code> </p>
+        </td>
+        <td><p>Remove map optimizations</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="sortOptimizations.html">sortOptimizations()</a></code> </p>
+        </td>
+        <td><p>Sort optimizations by stress</p></td>
+      </tr>
+    </tbody><tbody>
+      <tr>
+        <th colspan="2">
+          <h2 id="section-testing-maps" class="hasAnchor"><a href="#section-testing-maps" class="anchor"></a>Testing maps</h2>
+          <p class="section-desc"></p>
+        </th>
+      </tr>
+      
+      
+    </tbody><tbody>
+      
+      
+      <tr>
+        
+        <td>
+          <p><code><a href="bootstrapMap.html">bootstrapMap()</a></code> </p>
+        </td>
+        <td><p>Perform a noisy bootstrap</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="checkHemisphering.html">checkHemisphering()</a></code> </p>
+        </td>
+        <td><p>Check for hemisphering or trapped points</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="dimensionTestMap.html">dimensionTestMap()</a></code> </p>
+        </td>
+        <td><p>Perform dimension testing on a map object</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="logtiterTable.html">logtiterTable()</a></code> </p>
+        </td>
+        <td><p>Get the log titers from an acmap</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="mapDistances.html">mapDistances()</a></code> </p>
+        </td>
+        <td><p>Return calculated map distances for an acmap</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="mapRelaxed.html">mapRelaxed()</a></code> </p>
+        </td>
+        <td><p>Check if a map has been fully relaxed</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="mapResiduals.html">mapResiduals()</a></code> </p>
+        </td>
+        <td><p>Get a table of residuals from an acmap</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="pointStress.html">agStress()</a></code> <code><a href="pointStress.html">srStress()</a></code> <code><a href="pointStress.html">srStressPerTiter()</a></code> <code><a href="pointStress.html">agStressPerTiter()</a></code> <code><a href="pointStress.html">srLikelihood()</a></code> <code><a href="pointStress.html">agLikelihood()</a></code> </p>
+        </td>
+        <td><p>Get individual point stress</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="recalculateStress.html">recalculateStress()</a></code> </p>
+        </td>
+        <td><p>Recalculate the stress associated with an acmap optimization</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="stressTable.html">stressTable()</a></code> </p>
+        </td>
+        <td><p>Get a stress table from an acmap</p></td>
+      </tr><tr>
+        
+        <td>
           <p><code><a href="tableDistances.html">tableDistances()</a></code> </p>
         </td>
         <td><p>Return calculated table distances for an acmap</p></td>
+      </tr>
+    </tbody><tbody>
+      <tr>
+        <th colspan="2">
+          <h2 id="section-viewing-maps" class="hasAnchor"><a href="#section-viewing-maps" class="anchor"></a>Viewing maps</h2>
+          <p class="section-desc"></p>
+        </th>
+      </tr>
+      
+      
+    </tbody><tbody>
+      
+      
+      <tr>
+        
+        <td>
+          <p><code><a href="plot.rac.html">plot(<i>&lt;rac&gt;</i>)</a></code> </p>
+        </td>
+        <td><p>Plot an antigenic map</p></td>
       </tr><tr>
         
         <td>
-          <p><code><a href="update_ferret_seraNames.html">update_ferret_seraNames()</a></code> </p>
+          <p><code><a href="snapshotMap.html">snapshotMap()</a></code> </p>
         </td>
-        <td><p>Update the ferret serum names to match antigens</p></td>
+        <td><p>Create a map snapshot</p></td>
+      </tr>
+    </tbody><tbody>
+      <tr>
+        <th colspan="2">
+          <h2 id="section-map-attributes" class="hasAnchor"><a href="#section-map-attributes" class="anchor"></a>Map attributes</h2>
+          <p class="section-desc"></p>
+        </th>
+      </tr>
+      
+      
+    </tbody><tbody>
+      
+      <tr>
+        <th colspan="2">
+          <h3 id="section-general-attributes" class="hasAnchor"><a href="#section-general-attributes" class="anchor"></a>General attributes</h3>
+          <p class="section-desc"></p>
+        </th>
+      </tr>
+      
+    </tbody><tbody>
+      
+      
+      <tr>
+        
+        <td>
+          <p><code><a href="acmapAttributes.html">numAntigens()</a></code> <code><a href="acmapAttributes.html">numSera()</a></code> <code><a href="acmapAttributes.html">numPoints()</a></code> <code><a href="acmapAttributes.html">numOptimizations()</a></code> </p>
+        </td>
+        <td><p>Get acmap attributes</p></td>
       </tr><tr>
         
         <td>
-          <p><code><a href="view.html">view()</a></code> </p>
+          <p><code><a href="name.html">name()</a></code> <code><a href="name.html">`name&lt;-`()</a></code> </p>
         </td>
-        <td><p>View objects interactively</p></td>
+        <td><p>Getting and setting the map name</p></td>
       </tr><tr>
         
         <td>
-          <p><code><a href="view.default.html">view(<i>&lt;default&gt;</i>)</a></code> </p>
+          <p><code><a href="titerTable.html">titerTable()</a></code> <code><a href="titerTable.html">`titerTable&lt;-`()</a></code> </p>
         </td>
-        <td><p>The default viewing function</p></td>
+        <td><p>Getting and setting map titers</p></td>
       </tr><tr>
         
         <td>
-          <p><code><a href="view.rac.html">view(<i>&lt;rac&gt;</i>)</a></code> </p>
+          <p><code><a href="titerTableLayers.html">titerTableLayers()</a></code> <code><a href="titerTableLayers.html">`titerTableLayers&lt;-`()</a></code> </p>
         </td>
-        <td><p>Viewing racmap objects</p></td>
+        <td><p>Getting and setting titer table layers</p></td>
+      </tr>
+    </tbody><tbody>
+      
+      <tr>
+        <th colspan="2">
+          <h3 id="section-antigen-and-sera-attributes" class="hasAnchor"><a href="#section-antigen-and-sera-attributes" class="anchor"></a>Antigen and sera attributes</h3>
+          <p class="section-desc"></p>
+        </th>
+      </tr>
+      
+    </tbody><tbody>
+      
+      
+      <tr>
+        
+        <td>
+          <p><code><a href="agAttributes.html">agNames()</a></code> <code><a href="agAttributes.html">`agNames&lt;-`()</a></code> <code><a href="agAttributes.html">agIDs()</a></code> <code><a href="agAttributes.html">`agIDs&lt;-`()</a></code> <code><a href="agAttributes.html">agGroups()</a></code> <code><a href="agAttributes.html">`agGroups&lt;-`()</a></code> <code><a href="agAttributes.html">agNamesFull()</a></code> <code><a href="agAttributes.html">agNamesAbbreviated()</a></code> <code><a href="agAttributes.html">agDates()</a></code> <code><a href="agAttributes.html">`agDates&lt;-`()</a></code> <code><a href="agAttributes.html">agReference()</a></code> <code><a href="agAttributes.html">`agReference&lt;-`()</a></code> </p>
+        </td>
+        <td><p>Getting and setting antigen attributes</p></td>
       </tr><tr>
         
         <td>
-          <p><code><a href="view.racblobs.html">view(<i>&lt;racblobs&gt;</i>)</a></code> </p>
+          <p><code><a href="srAttributes.html">srNames()</a></code> <code><a href="srAttributes.html">`srNames&lt;-`()</a></code> <code><a href="srAttributes.html">srIDs()</a></code> <code><a href="srAttributes.html">`srIDs&lt;-`()</a></code> <code><a href="srAttributes.html">srGroups()</a></code> <code><a href="srAttributes.html">`srGroups&lt;-`()</a></code> <code><a href="srAttributes.html">srNamesFull()</a></code> <code><a href="srAttributes.html">srNamesAbbreviated()</a></code> </p>
         </td>
-        <td><p>Viewing map stress blob data</p></td>
+        <td><p>Getting and setting sera attributes</p></td>
+      </tr>
+    </tbody><tbody>
+      
+      <tr>
+        <th colspan="2">
+          <h3 id="section-optimization-run-attributes" class="hasAnchor"><a href="#section-optimization-run-attributes" class="anchor"></a>Optimization run attributes</h3>
+          <p class="section-desc"></p>
+        </th>
+      </tr>
+      
+    </tbody><tbody>
+      
+      
+      <tr>
+        
+        <td>
+          <p><code><a href="listOptimizations.html">listOptimizations()</a></code> </p>
+        </td>
+        <td><p>Get all optimization details from an acmap object</p></td>
       </tr><tr>
         
         <td>
-          <p><code><a href="view.racprocrustes.html">view(<i>&lt;racprocrustes&gt;</i>)</a></code> </p>
+          <p><code><a href="getOptimization.html">getOptimization()</a></code> </p>
         </td>
-        <td><p>Viewing procrustes data</p></td>
+        <td><p>Get optimization details from an acmap object</p></td>
       </tr><tr>
         
         <td>
-          <p><code><a href="write2viewer_debug.html">write2viewer_debug()</a></code> </p>
+          <p><code><a href="colBases.html">minColBasis()</a></code> <code><a href="colBases.html">`minColBasis&lt;-`()</a></code> <code><a href="colBases.html">colBases()</a></code> <code><a href="colBases.html">`colBases&lt;-`()</a></code> </p>
         </td>
-        <td><p>Write map data to the viewer debug file</p></td>
+        <td><p>Getting and setting column bases</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="mapComment.html">mapComment()</a></code> <code><a href="mapComment.html">`mapComment&lt;-`()</a></code> </p>
+        </td>
+        <td><p>Get or set an optimization run comment</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="mapDimensions.html">mapDimensions()</a></code> </p>
+        </td>
+        <td><p>Get the current map dimensions</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="mapStress.html">mapStress()</a></code> </p>
+        </td>
+        <td><p>Get the current map stress</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="mapTransformation.html">mapTransformation()</a></code> <code><a href="mapTransformation.html">`mapTransformation&lt;-`()</a></code> <code><a href="mapTransformation.html">mapTranslation()</a></code> <code><a href="mapTransformation.html">`mapTranslation&lt;-`()</a></code> </p>
+        </td>
+        <td><p>Reading map transformation data</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="ptBaseCoords.html">agBaseCoords()</a></code> <code><a href="ptBaseCoords.html">`agBaseCoords&lt;-`()</a></code> <code><a href="ptBaseCoords.html">srBaseCoords()</a></code> <code><a href="ptBaseCoords.html">`srBaseCoords&lt;-`()</a></code> </p>
+        </td>
+        <td><p>Getting and setting base coordinates</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="ptCoords.html">agCoords()</a></code> <code><a href="ptCoords.html">srCoords()</a></code> <code><a href="ptCoords.html">`agCoords&lt;-`()</a></code> <code><a href="ptCoords.html">`srCoords&lt;-`()</a></code> </p>
+        </td>
+        <td><p>Getting and setting point coordinates</p></td>
+      </tr>
+    </tbody><tbody>
+      
+      <tr>
+        <th colspan="2">
+          <h3 id="section-point-plotting-styles" class="hasAnchor"><a href="#section-point-plotting-styles" class="anchor"></a>Point plotting styles</h3>
+          <p class="section-desc"></p>
+        </th>
+      </tr>
+      
+    </tbody><tbody>
+      
+      
+      <tr>
+        
+        <td>
+          <p><code><a href="applyPlotspec.html">applyPlotspec()</a></code> </p>
+        </td>
+        <td><p>Apply a plotspec from another acmap</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="ptStyles.html">agShown()</a></code> <code><a href="ptStyles.html">`agShown&lt;-`()</a></code> <code><a href="ptStyles.html">agSize()</a></code> <code><a href="ptStyles.html">`agSize&lt;-`()</a></code> <code><a href="ptStyles.html">agFill()</a></code> <code><a href="ptStyles.html">`agFill&lt;-`()</a></code> <code><a href="ptStyles.html">agOutline()</a></code> <code><a href="ptStyles.html">`agOutline&lt;-`()</a></code> <code><a href="ptStyles.html">agOutlineWidth()</a></code> <code><a href="ptStyles.html">`agOutlineWidth&lt;-`()</a></code> <code><a href="ptStyles.html">agRotation()</a></code> <code><a href="ptStyles.html">`agRotation&lt;-`()</a></code> <code><a href="ptStyles.html">agAspect()</a></code> <code><a href="ptStyles.html">`agAspect&lt;-`()</a></code> <code><a href="ptStyles.html">agShape()</a></code> <code><a href="ptStyles.html">`agShape&lt;-`()</a></code> <code><a href="ptStyles.html">agDrawingOrder()</a></code> <code><a href="ptStyles.html">`agDrawingOrder&lt;-`()</a></code> <code><a href="ptStyles.html">srShown()</a></code> <code><a href="ptStyles.html">`srShown&lt;-`()</a></code> <code><a href="ptStyles.html">srSize()</a></code> <code><a href="ptStyles.html">`srSize&lt;-`()</a></code> <code><a href="ptStyles.html">srFill()</a></code> <code><a href="ptStyles.html">`srFill&lt;-`()</a></code> <code><a href="ptStyles.html">srOutline()</a></code> <code><a href="ptStyles.html">`srOutline&lt;-`()</a></code> <code><a href="ptStyles.html">srOutlineWidth()</a></code> <code><a href="ptStyles.html">`srOutlineWidth&lt;-`()</a></code> <code><a href="ptStyles.html">srRotation()</a></code> <code><a href="ptStyles.html">`srRotation&lt;-`()</a></code> <code><a href="ptStyles.html">srAspect()</a></code> <code><a href="ptStyles.html">`srAspect&lt;-`()</a></code> <code><a href="ptStyles.html">srShape()</a></code> <code><a href="ptStyles.html">`srShape&lt;-`()</a></code> <code><a href="ptStyles.html">srDrawingOrder()</a></code> <code><a href="ptStyles.html">`srDrawingOrder&lt;-`()</a></code> </p>
+        </td>
+        <td><p>Getting and setting point plotting styles</p></td>
+      </tr>
+    </tbody><tbody>
+      <tr>
+        <th colspan="2">
+          <h2 id="section-map-transformations" class="hasAnchor"><a href="#section-map-transformations" class="anchor"></a>Map transformations</h2>
+          <p class="section-desc"></p>
+        </th>
+      </tr>
+      
+      
+    </tbody><tbody>
+      
+      
+      <tr>
+        
+        <td>
+          <p><code><a href="applyMapTransform.html">applyMapTransform()</a></code> </p>
+        </td>
+        <td><p>Apply the current map transformation</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="reflectMap.html">reflectMap()</a></code> </p>
+        </td>
+        <td><p>Reflect a map</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="rotateMap.html">rotateMap()</a></code> </p>
+        </td>
+        <td><p>Rotate a map</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="scaleMap.html">scaleMap()</a></code> </p>
+        </td>
+        <td><p>Scale a map</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="transformMap.html">transformMap()</a></code> </p>
+        </td>
+        <td><p>Transform a map</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="translateMap.html">translateMap()</a></code> </p>
+        </td>
+        <td><p>Translate a map</p></td>
+      </tr>
+    </tbody><tbody>
+      <tr>
+        <th colspan="2">
+          <h2 id="section-comparing-maps" class="hasAnchor"><a href="#section-comparing-maps" class="anchor"></a>Comparing maps</h2>
+          <p class="section-desc"></p>
+        </th>
+      </tr>
+      
+      
+    </tbody><tbody>
+      
+      
+      <tr>
+        
+        <td>
+          <p><code><a href="procrustesMap.html">procrustesMap()</a></code> </p>
+        </td>
+        <td><p>Return procrustes information</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="realignMap.html">realignMap()</a></code> </p>
+        </td>
+        <td><p>Realign map to match another</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="realignOptimizations.html">realignOptimizations()</a></code> </p>
+        </td>
+        <td><p>Realigns optimizations in the map to the current optimization</p></td>
+      </tr>
+    </tbody><tbody>
+      <tr>
+        <th colspan="2">
+          <h2 id="section-merging-maps" class="hasAnchor"><a href="#section-merging-maps" class="anchor"></a>Merging maps</h2>
+          <p class="section-desc"></p>
+        </th>
+      </tr>
+      
+      
+    </tbody><tbody>
+      
+      
+      <tr>
+        
+        <td>
+          <p><code><a href="mergeMaps.html">mergeMaps()</a></code> </p>
+        </td>
+        <td><p>Merging maps</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="mergeReport.html">mergeReport()</a></code> </p>
+        </td>
+        <td><p>Return a merge report</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="mergeTiterTables.html">mergeTiterTables()</a></code> </p>
+        </td>
+        <td><p>Merge titer tables</p></td>
+      </tr>
+    </tbody><tbody>
+      <tr>
+        <th colspan="2">
+          <h2 id="section-utilities" class="hasAnchor"><a href="#section-utilities" class="anchor"></a>Utilities</h2>
+          <p class="section-desc"></p>
+        </th>
+      </tr>
+      
+      
+    </tbody><tbody>
+      
+      
+      <tr>
+        
+        <td>
+          <p><code><a href="standardizeStrainNames.html">standardizeStrainNames()</a></code> </p>
+        </td>
+        <td><p>Standardize strain names</p></td>
       </tr>
     </tbody>
     </table>
   </div>
 
-  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
-    <h2>Contents</h2>
-    <ul class="nav nav-pills nav-stacked">
-      <li><a href="#section-all-functions">All functions</a></li>
-    </ul>
+  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
+    <nav id="toc" data-toggle="toc" class="sticky-top">
+      <h2 data-toc-skip>Contents</h2>
+    </nav>
   </div>
 </div>
 
@@ -694,7 +716,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
 </div>
 
       </footer>

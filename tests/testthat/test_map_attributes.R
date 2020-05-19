@@ -12,12 +12,12 @@ for(maptype in c("racchart", "racmap")){
   test_that(paste("Setting attributes on optimizations", maptype), {
 
     map <- set_optimizationAttribute(map, 2, "tester", 22)
-    testthat::expect_equal(22,   unlist(get_optimizationAttribute(map, 2, "tester")))
-    testthat::expect_equal(NULL, get_optimizationAttribute(map, 1, "tester"))
-    testthat::expect_equal(NULL, get_optimizationAttribute(map, 3, "tester"))
+    expect_equal(22,   unlist(get_optimizationAttribute(map, 2, "tester")))
+    expect_equal(NULL, get_optimizationAttribute(map, 1, "tester"))
+    expect_equal(NULL, get_optimizationAttribute(map, 3, "tester"))
 
     map <- set_optimizationAttribute(map, optimization_number = NULL, "tester", 55)
-    testthat::expect_equal(55, unlist(get_optimizationAttribute(map, NULL, "tester")))
+    expect_equal(55, unlist(get_optimizationAttribute(map, NULL, "tester")))
 
   })
 
@@ -31,7 +31,7 @@ for(maptype in c("racchart", "racmap")){
       if(maptype == "racchart") map_loaded <- read.acmap.cpp(tmp)
       if(maptype == "racmap")   map_loaded <- read.acmap(tmp)
 
-      testthat::expect_equal(62, unlist(get_optimizationAttribute(map_loaded, 3, "tester")))
+      expect_equal(62, unlist(get_optimizationAttribute(map_loaded, 3, "tester")))
 
     })
   }

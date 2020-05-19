@@ -41,14 +41,20 @@ as.json.racmap <- function(map){
   json$c$t$l <- titerTable(map, .name = FALSE)
 
   # Titer layers
-  json$c$t$L <- lapply(titerTableLayers(map, .name = FALSE), titerTableToList)
+  if(length(titerTableLayers(map)) > 1){
+    json$c$t$L <- lapply(titerTableLayers(map), titerTableToList)
+  }
 
   # Antigen attributes
   antigens <- data.frame(
     N = agNames(map),
-    D = agDates(map),
     stringsAsFactors = FALSE
   )
+  ag_dates <- as.character(agDates(map))
+  ag_dates[is.na(ag_dates)] <- ""
+  if(sum(ag_dates != "") > 0){
+    antigens$D <- ag_dates
+  }
   json$c$a <- apply(antigens, 1, function(ag){
     as.list(ag)
   })
@@ -110,9 +116,8 @@ as.json.racmap <- function(map){
         }
       )
 
-      base_coords_list[
-        rowSums(is.na(base_coords)) > 0
-      ] <- list()
+      na_coords <- which(rowSums(is.na(base_coords)) > 0)
+      base_coords_list[na_coords] <- lapply(seq_along(na_coords), function(x){ list() })
 
       # Save the optimization data
       optimization_json <- list(
@@ -152,7 +157,7 @@ as.json.racmap <- function(map){
     function(n){
 
       transformation <- mapTransformation(map, n)
-      if(!is.null(transformation)) transformation <- I(as.vector(transformation))
+      if(!is.null(transformation)) transformation <- I(as.vector(t(transformation)))
       transformation
 
     }
@@ -163,6 +168,12 @@ as.json.racmap <- function(map){
   if(!is.null(bootstrap)){
     json$c$x$bootstrap <- bootstrapToJsonList(bootstrap)
   }
+
+  # Additional custom attributes
+  if(!is.null(getMapAttribute(map, "agIDs")))    json$c$x$antigen_ids    <- getMapAttribute(map, "agIDs")
+  if(!is.null(getMapAttribute(map, "srIDs")))    json$c$x$sera_ids       <- getMapAttribute(map, "srIDs")
+  if(!is.null(getMapAttribute(map, "agGroups"))) json$c$x$antigen_groups <- getMapAttribute(map, "agGroups")
+  if(!is.null(getMapAttribute(map, "srGroups"))) json$c$x$sera_groups    <- getMapAttribute(map, "srGroups")
 
   # Convert the json
   jsonListToText(

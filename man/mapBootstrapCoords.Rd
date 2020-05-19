@@ -16,7 +16,4 @@ mapBootstrap_srCoords(map)
 \description{
 Get bootstrap coordinates associated with a map
 }
-\seealso{
-Other bootstrapping maps: \code{\link{bootstrapMap}}
-}
 \concept{bootstrapping maps}

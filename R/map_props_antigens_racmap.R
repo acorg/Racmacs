@@ -18,7 +18,7 @@ setProperty_antigens.racmap <- function(
   value
 ){
 
-  map[[attribute]] <- value
+  map[[attribute]] <- unname(value)
   map
 
 }

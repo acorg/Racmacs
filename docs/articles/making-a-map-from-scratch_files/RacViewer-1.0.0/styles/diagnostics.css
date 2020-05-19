@@ -1,0 +1,43 @@
+
+.diagnostics-tab {
+
+	display : flex;
+	flex-direction: column;
+	width: 100%;
+
+}
+
+.diagnostics-tab .button-panel {
+
+	width: 100%;
+	margin-bottom: 12px;
+
+}
+
+.diagnostics-tab .button-panel .btn-icon {
+
+	width:  32px;
+	height: 32px;
+	box-sizing: border-box;
+
+}
+
+.diagnostics-tab .button-panel .btn-icon.shiny-element {
+
+	width:  34px;
+	height: 34px;
+
+}
+
+.diagnostics-tab .buttons-div {
+
+	margin-top: 8px;
+	text-align: right;
+
+}
+
+.diagnostics-tab .control-btn:first-child {
+
+	margin-bottom: 6px;
+
+}

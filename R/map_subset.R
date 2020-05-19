@@ -6,7 +6,7 @@
 #' @param warnings Should warnings be output about antigens that were specified by name but not found in the map
 #'
 #' @return Returns the indices of matches antigens
-#' @export
+#' @noRd
 #'
 get_ag_indices <- function(antigens = TRUE, map, warnings = TRUE){
 
@@ -14,7 +14,7 @@ get_ag_indices <- function(antigens = TRUE, map, warnings = TRUE){
   if(isTRUE(antigens)) return(seq_len(numAntigens(map)))
 
   # Default to no points if null passed
-  if(is.null(antigens) || isFALSE(antigens)) return(c())
+  if(is.null(antigens) || isFALSE(antigens) || length(antigens) == 0) return(c())
 
   # Deal with selection by indices
   if(is.numeric(antigens)){
@@ -49,7 +49,7 @@ get_ag_indices <- function(antigens = TRUE, map, warnings = TRUE){
 #' @param warnings Should warnings be output about sera that were specified by name but not found in the map
 #'
 #' @return Returns the indices of matches sera
-#' @export
+#' @noRd
 #'
 get_sr_indices <- function(sera = TRUE, map, warnings = TRUE){
 
@@ -57,7 +57,7 @@ get_sr_indices <- function(sera = TRUE, map, warnings = TRUE){
   if(isTRUE(sera)) return(seq_len(numSera(map)))
 
   # Default to no points if null passed
-  if(is.null(sera) || isFALSE(sera)) return(c())
+  if(is.null(sera) || isFALSE(sera) || length(sera) == 0) return(c())
 
   # Deal with selection by indices
   if(is.numeric(sera)){
@@ -95,6 +95,7 @@ get_sr_indices <- function(sera = TRUE, map, warnings = TRUE){
 #'
 #' @return Returns a new antigenic map containing only match antigens and sera
 #' @export
+#' @family {functions for working with map data}
 #'
 #' @example examples/example_map_subset.R
 #'
@@ -110,8 +111,8 @@ subsetMap <- function(map,
   map <- cloneMap(map)
 
   # Subset the map
-  map <- removeAntigens(map, seq_len(numAntigens(map))[-antigens])
-  map <- removeSera(map, seq_len(numSera(map))[-sera])
+  map <- removeAntigens(map, which(!seq_len(numAntigens(map)) %in% antigens))
+  map <- removeSera(map, which(!seq_len(numSera(map)) %in% sera))
 
   # Return the subsetted map
   map
@@ -119,10 +120,65 @@ subsetMap <- function(map,
 }
 
 
+#' Order antigens and sera
+#'
+#' Functions to change the order of antigens and sera in a map
+#'
+#' @param map The map data object
+#' @param order The new order of points
+#'
+#' @name orderPoints
+#' @family {functions for working with map data}
+#'
+
 #' @export
+#' @rdname orderPoints
+orderAntigens <- function(map, order) UseMethod("orderAntigens", map)
+
+#' @export
+#' @rdname orderPoints
+orderSera <- function(map, order) UseMethod("orderSera", map)
+
+
+#' Remove antigens and sera
+#'
+#' Functions to remove antigens and sera from a map
+#'
+#' @param map The map data object
+#' @param antigens Antigens to remove (specified by name or index)
+#' @param sera Sera to remove (specified by name or index)
+#'
+#' @name removePoints
+#' @family {functions for working with map data}
+#'
+
+#' @export
+#' @rdname removePoints
 removeAntigens <- function(map, antigens) UseMethod("removeAntigens", map)
 
 #' @export
-removeSera <- function(map, antigens) UseMethod("removeSera", map)
+#' @rdname removePoints
+removeSera <- function(map, sera) UseMethod("removeSera", map)
+
+
+#' Subset antigens and sera
+#'
+#' Functions to keep only a subset of antigens and sera from a map
+#'
+#' @param map The map data object
+#' @param antigens Antigens to keep (specified by name or index)
+#' @param sera Sera to keep (specified by name or index)
+#'
+#' @name subsetPoints
+#' @family {functions for working with map data}
+#'
+
+#' @export
+#' @rdname subsetPoints
+subsetAntigens <- function(map, antigens) UseMethod("subsetAntigens", map)
+
+#' @export
+#' @rdname subsetPoints
+subsetSera <- function(map, sera) UseMethod("subsetSera", map)
 
 

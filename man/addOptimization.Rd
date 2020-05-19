@@ -4,9 +4,15 @@
 \alias{addOptimization}
 \title{Add a new optimization to an acmap object}
 \usage{
-addOptimization(map, ag_coords = NULL, sr_coords = NULL,
-  number_of_dimensions, minimum_column_basis = NULL, warnings = TRUE,
-  ...)
+addOptimization(
+  map,
+  ag_coords = NULL,
+  sr_coords = NULL,
+  number_of_dimensions,
+  minimum_column_basis = NULL,
+  warnings = TRUE,
+  ...
+)
 }
 \arguments{
 \item{map}{The acmap data object}

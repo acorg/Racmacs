@@ -8,6 +8,7 @@
 #'
 #' @return Returns an updated map data object
 #' @export
+#' @noRd
 #'
 edit_agNames <- function(map,
                          old_names,
@@ -43,6 +44,7 @@ edit_agNames <- function(map,
 #'
 #' @return Returns an updated map data object
 #' @export
+#' @noRd
 #'
 edit_srNames <- function(map,
                          old_names,
@@ -74,6 +76,7 @@ edit_srNames <- function(map,
 #' If not supplied then the default dictionary that comes with Racmacs will be used.
 #'
 #' @return Returns the updated map data object
+#' @noRd
 #' @export
 #'
 update_ferret_seraNames <- function(

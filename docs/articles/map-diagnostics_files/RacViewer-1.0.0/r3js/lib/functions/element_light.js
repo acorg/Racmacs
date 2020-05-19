@@ -8,9 +8,10 @@ R3JS.element.Light = class Light extends R3JS.element.base {
 
         // Set defaults
         if(!args.intensity) args.intensity = 1.0;
+        if(!args.color)     args.color     = 0xe0e0e0;
 
         if(args.position){
-        	var object       = new THREE.DirectionalLight(0xe0e0e0);
+        	var object       = new THREE.DirectionalLight(args.color);
 	        object.position.set(
 	        	args.position[0],
 	        	args.position[1],
@@ -18,7 +19,7 @@ R3JS.element.Light = class Light extends R3JS.element.base {
 	        ).normalize();
 	        object.intensity = args.intensity;
         } else {
-        	var object = new THREE.AmbientLight(0xe0e0e0);
+        	var object = new THREE.AmbientLight(args.color);
         	object.intensity = args.intensity;
         }
 

@@ -4,7 +4,7 @@
 \alias{checkHemisphering}
 \title{Check for hemisphering or trapped points}
 \usage{
-checkHemisphering(map, optimization_number = NULL)
+checkHemisphering(map, stepsize = 0.1, optimization_number = NULL)
 }
 \arguments{
 \item{map}{The acmap data object}
@@ -13,8 +13,15 @@ checkHemisphering(map, optimization_number = NULL)
 }
 \value{
 Returns a data frame with information on any points that were found
-  to be hemisphering or trapped.
+to be hemisphering or trapped.
 }
 \description{
 Check for hemisphering or trapped points
 }
+\seealso{
+Other {map diagnostic functions}: 
+\code{\link{bootstrapMap}()},
+\code{\link{dimensionTestMap}()},
+\code{\link{mapRelaxed}()}
+}
+\concept{{map diagnostic functions}}

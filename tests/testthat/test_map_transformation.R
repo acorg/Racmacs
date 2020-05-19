@@ -2,21 +2,21 @@
 library(Racmacs)
 library(testthat)
 
-# Get a record of the start environment
-environment_objects <- ls()
-
 # Load the map and the chart
 context("Test map transformations")
 
-# Setup an expect close function
-expect_close <- function(a, b) expect_equal(round(a, 2), round(b, 2))
 
 # Repeat for chart type and racmap type
-for(type in c("racmap", "racchart")){
+run.maptests(
+  bothclasses = TRUE,
+  loadlocally = FALSE,
+  {
+
+  # Setup an expect close function
+  expect_close <- function(a, b) expect_equal(round(a, 2), round(b, 2))
 
   # Fetch test charts
-  if(type == "racmap")   map <- read.acmap(test_path("../testdata/testmap.ace"))
-  if(type == "racchart") map <- read.acmap.cpp(test_path("../testdata/testmap.ace"))
+  map <- read.map(test_path("../testdata/testmap.ace"))
 
   # Add a 3D optimization
   map <- addOptimization(map,
@@ -39,7 +39,7 @@ for(type in c("racmap", "racchart")){
   expected_ag_coords3D <- rotate_coords_by_degrees(start_ag_coords3D, -49, axis = "y")
   expected_sr_coords3D <- rotate_coords_by_degrees(start_sr_coords3D, -49, axis = "y")
 
-  test_that(paste("Rotation clockwise", type), {
+  test_that("Rotation clockwise", {
     expect_close(agCoords(map), expected_ag_coords)
     expect_close(srCoords(map), expected_sr_coords)
     expect_close(agCoords(map, 3), expected_ag_coords3D)
@@ -56,7 +56,7 @@ for(type in c("racmap", "racchart")){
   expected_ag_coords3D <- translate_coords(expected_ag_coords3D, c(12, 18, 4))
   expected_sr_coords3D <- translate_coords(expected_sr_coords3D, c(12, 18, 4))
 
-  test_that(paste("Translation", type), {
+  test_that("Translation", {
     expect_close(agCoords(map), expected_ag_coords)
     expect_close(srCoords(map), expected_sr_coords)
     expect_close(agCoords(map, 3), expected_ag_coords3D)
@@ -73,7 +73,7 @@ for(type in c("racmap", "racchart")){
   expected_ag_coords3D <- rotate_coords_by_degrees(expected_ag_coords3D, 12, axis = "z")
   expected_sr_coords3D <- rotate_coords_by_degrees(expected_sr_coords3D, 12, axis = "z")
 
-  test_that(paste("Rotation after translation", type), {
+  test_that("Rotation after translation", {
     expect_close(agCoords(map), expected_ag_coords)
     expect_close(srCoords(map), expected_sr_coords)
     expect_close(agCoords(map, 3), expected_ag_coords3D)
@@ -92,7 +92,7 @@ for(type in c("racmap", "racchart")){
   expected_ag_coords3D[1,] <- c(2,9,7)
   expected_sr_coords3D[5,] <- c(1,2,1)
 
-  test_that(paste("Setting coordinates after rotation", type), {
+  test_that("Setting coordinates after rotation", {
     expect_close(agCoords(map), expected_ag_coords)
     expect_close(srCoords(map), expected_sr_coords)
     expect_close(agCoords(map, 3), expected_ag_coords3D)
@@ -109,7 +109,7 @@ for(type in c("racmap", "racchart")){
   expected_ag_coords3D <- expected_ag_coords3D %*% matrix(c(1,0,0,0,-1,0,0,0,-1), 3, 3)
   expected_sr_coords3D <- expected_sr_coords3D %*% matrix(c(1,0,0,0,-1,0,0,0,-1), 3, 3)
 
-  test_that(paste("Reflecting in x axis", type), {
+  test_that("Reflecting in x axis", {
     expect_close(agCoords(map), expected_ag_coords)
     expect_close(srCoords(map), expected_sr_coords)
     expect_close(agCoords(map, optimization_number = 3), expected_ag_coords3D)
@@ -128,7 +128,7 @@ for(type in c("racmap", "racchart")){
   expected_ag_coords3D[1,] <- c(2,9,7)
   expected_sr_coords3D[5,] <- c(1,2,1)
 
-  test_that(paste("Resetting coordinates after reflection", type), {
+  test_that("Resetting coordinates after reflection", {
     expect_close(agCoords(map), expected_ag_coords)
     expect_close(srCoords(map), expected_sr_coords)
     expect_close(agCoords(map, 3), expected_ag_coords3D)
@@ -145,7 +145,7 @@ for(type in c("racmap", "racchart")){
   expected_ag_coords3D <- expected_ag_coords3D %*% matrix(c(-1,0,0,0,1,0,0,0,-1), 3, 3)
   expected_sr_coords3D <- expected_sr_coords3D %*% matrix(c(-1,0,0,0,1,0,0,0,-1), 3, 3)
 
-  test_that(paste("Reflecting in y axis", type), {
+  test_that("Reflecting in y axis", {
     expect_close(agCoords(map), expected_ag_coords)
     expect_close(srCoords(map), expected_sr_coords)
     expect_close(agCoords(map, 3), expected_ag_coords3D)
@@ -159,9 +159,10 @@ for(type in c("racmap", "racchart")){
   expected_ag_coords3D <- expected_ag_coords3D %*% matrix(c(-1,0,0,0,-1,0,0,0,1), 3, 3)
   expected_sr_coords3D <- expected_sr_coords3D %*% matrix(c(-1,0,0,0,-1,0,0,0,1), 3, 3)
 
-  test_that(paste("Reflecting in z axis", type), {
+  test_that("Reflecting in z axis", {
     expect_close(agCoords(map, 3), expected_ag_coords3D)
     expect_close(srCoords(map, 3), expected_sr_coords3D)
   })
 
-}
+})
+

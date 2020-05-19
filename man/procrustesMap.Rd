@@ -4,10 +4,18 @@
 \alias{procrustesMap}
 \title{Return procrustes information}
 \usage{
-procrustesMap(map, comparison_map, antigens = TRUE, sera = TRUE,
-  translation = TRUE, scaling = FALSE, optimization_number = NULL,
-  comparison_optimization_number = NULL, passage_matching = "ignore",
-  description = NULL)
+procrustesMap(
+  map,
+  comparison_map,
+  antigens = TRUE,
+  sera = TRUE,
+  translation = TRUE,
+  scaling = FALSE,
+  optimization_number = NULL,
+  comparison_optimization_number = NULL,
+  passage_matching = "ignore",
+  description = NULL
+)
 }
 \arguments{
 \item{map}{The acmap data object}
@@ -24,7 +32,7 @@ procrustesMap(map, comparison_map, antigens = TRUE, sera = TRUE,
 
 \item{optimization_number}{The map optimization to use in the procrustes calculation (defaults to the currently selected optimization)}
 
-\item{passage_matching}{Should passage matching be performed}
+\item{passage_matching}{Should passage matching be performed (not currently implemented)}
 
 \item{target_optimization_number}{The target map optimization to use in the procrustes calculation (defaults to the currently selected optimization)}
 }
@@ -34,3 +42,9 @@ Returns procrustes information from the map to the target.
 \description{
 Returns information from one map procrusted to another.
 }
+\seealso{
+Other {functions to compare maps}: 
+\code{\link{realignMap}()},
+\code{\link{realignOptimizations}()}
+}
+\concept{{functions to compare maps}}

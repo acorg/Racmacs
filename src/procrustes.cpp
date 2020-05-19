@@ -6,6 +6,7 @@ using namespace Rcpp;
 //'
 //' This calculates the euclidean distance, row by row, of two sets of coordinates.
 //'
+//' @noRd
 //' @export
 // [[Rcpp::export]]
 NumericVector calc_coord_dist(NumericMatrix coords1,

@@ -1,4 +1,21 @@
 
+Racmacs.Point.prototype.onselect.push(
+    function(point){
+
+        // Mark browser record
+        point.browserRecord.select();
+
+    }
+);
+
+Racmacs.Point.prototype.ondeselect.push(
+    function(point){
+
+        // Mark browser record
+        point.browserRecord.deselect();
+
+    }
+);
 
 Racmacs.NameBrowser = class NameBrowser {
 
@@ -213,7 +230,7 @@ Racmacs.BrowserRecord = class BrowserRecord {
         this.div.appendChild(this.name_box);
 
         // Make red if na_coords
-        if(point.coords_na){
+        if(point.coords_na || !point.shown){
             this.name_box.classList.add("na-coords");
         }
 

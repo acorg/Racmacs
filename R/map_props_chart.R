@@ -1,31 +1,26 @@
 
-#' Strains in an antigenic map
-#'
-#' @param map The map object
-#' @param value Value to be used (recycled as necessary)
-#' @name mapStrains
-#'
-#' @return Returns an updated racmap object
-#' @eval export_property_method_tags("chart")
-#'
-NULL
-
-# Getter
+# Function factory for antigen attribute getter functions
 chart_getter <- function(attribute){
-  function(map, .name = TRUE){
-    value <- classSwitch("getProperty_chart", map, attribute)
-    convertProperty_chart(map, attribute, value, .name)
-  }
+  eval(
+    substitute(env = list(attribute = attribute), expr = {
+      function(map){
+        value <- classSwitch("getProperty_chart", map, attribute)
+        defaultProperty_chart(map, attribute, value)
+      }
+    })
+  )
 }
 
-# Setter
+# Function factory for sera attribute setter functions
 chart_setter <- function(attribute){
-  function(map, .check = TRUE, value){
-    if(.check){
-      value <- checkProperty_chart(map, attribute, value)
-    }
-    classSwitch("setProperty_chart", map, attribute, value)
-  }
+  eval(
+    substitute(env = list(attribute = attribute), expr = {
+      function(map, .check = TRUE, value){
+        if(.check) checkProperty_chart(map, attribute, value)
+        classSwitch("setProperty_chart", map, attribute, value)
+      }
+    })
+  )
 }
 
 # Property checker
@@ -53,7 +48,7 @@ checkProperty_chart <- function(map, attribute, value){
 }
 
 # Conversion of values
-convertProperty_chart <- function(map, attribute, value, .name){
+defaultProperty_chart <- function(map, attribute, value, .name){
 
   # Check if a null was returned
   if(is.null(value)){
@@ -73,7 +68,36 @@ convertProperty_chart <- function(map, attribute, value, .name){
 
 }
 
-# Bind the methods
-bindObjectMethods("chart")
+#' Getting and setting the map name
+#'
+#' You can use the standard `name()` function to get and set the map name.
+#'
+#' @name name
+#' @family {map attribute functions}
+#' @eval roxygen_tags(
+#'   methods = c("name"),
+#'   args    = c("map")
+#' )
+#'
+name     <- chart_getter("name")
+`name<-` <- chart_setter("name")
+
+
+#' Getting and setting titer table layers
+#'
+#' Functions to get and set the underlying titer table layers of a map (see details).
+#'
+#' @name titerTableLayers
+#' @family {map attribute functions}
+#' @eval roxygen_tags(
+#'   methods = c("titerTableLayers"),
+#'   args    = c("map")
+#' )
+#'
+titerTableLayers     <- chart_getter("titerTableLayers")
+`titerTableLayers<-` <- chart_setter("titerTableLayers")
+
+
+
 
 

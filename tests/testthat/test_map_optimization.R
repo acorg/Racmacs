@@ -10,7 +10,7 @@ run.maptests(
 
   titertable <- read.titerTable(test_path("../testdata/titer_tables/titer_table1.csv"))
 
-  test_that(paste("Optimizing a map with just a table"), {
+  test_that("Optimizing a map with just a table", {
     map <- make.map(table = titertable)
     map <- optimizeMap(
       map = map,
@@ -21,7 +21,7 @@ run.maptests(
     expect_equal(numOptimizations(map), 1)
   })
 
-  test_that(paste("Optimizing a map with a random seed"), {
+  test_that("Optimizing a map with a random seed", {
 
     map <- make.map(table = titertable)
     set.seed(100)
@@ -46,7 +46,7 @@ run.maptests(
 
   })
 
-  test_that(paste("Optimizing a map with just a data frame"), {
+  test_that("Optimizing a map with just a data frame", {
     map <- make.map(table = as.data.frame(titertable))
     map <- optimizeMap(
       map = map,
@@ -64,7 +64,7 @@ run.maptests(
   map_relax      <- cloneMap(map)
   largemap_relax <- cloneMap(largemap)
 
-  test_that(paste("Relax existing maps", maptype), {
+  test_that("Relax existing maps", {
 
     agCoords(map_relax)    <- agCoords(map_relax) + 1
     agCoords(map_relax, 2) <- agCoords(map_relax, 2) -1
@@ -124,29 +124,29 @@ run.maptests(
   })
 
   # Hemisphere testing
-  map3     <- cloneMap(map)
+  map3      <- cloneMap(map)
   largemap3 <- cloneMap(largemap)
   test_that("Hemisphere testing", {
 
     # Expect error when testing a map that is not fully relaxed
     agCoords(map3)    <- agCoords(map3) + 1
     agCoords(map3, 2) <- agCoords(map3, 2) + 1
-    expect_error(checkHemisphering(map3))
-    expect_error(checkHemisphering(map3, 2))
+    expect_error(checkHemisphering(map3, stepsize = 0.25))
+    expect_error(checkHemisphering(map3, stepsize = 0.25, optimization_number = 2))
 
     # Simple hemisphere testing on main optimization
     map3 <- relaxMap(map3)
-    hemi <- checkHemisphering(map3)
+    hemi <- checkHemisphering(map3, stepsize = 0.25)
     expect_equal(nrow(hemi), 0)
 
     # Simple hemisphere testing on other optimization
     map3 <- relaxMap(map3, 2)
-    hemi <- checkHemisphering(map3, 2)
+    hemi <- checkHemisphering(map3, stepsize = 0.25, optimization_number = 2)
     expect_equal(nrow(hemi), 0)
 
     # Hemisphere testing on large map with trapped points
     largemap3 <- relaxMap(largemap3)
-    hemi <- checkHemisphering(largemap3)
+    hemi <- checkHemisphering(largemap3, stepsize = 0.25)
     expect_equal(
       hemi$diagnosis,
       as.factor(c("trapped", "trapped"))
@@ -165,7 +165,7 @@ run.maptests(
     agcoords1 <- agCoords(map4)
     srcoords1 <- srCoords(map4)
 
-    map4 <- moveTrappedPoints(map4)
+    map4 <- moveTrappedPoints(map4, stepsize = 0.25)
 
     agcoords2 <- agCoords(map4)
     srcoords2 <- srCoords(map4)
@@ -175,8 +175,8 @@ run.maptests(
 
     # Moving trapped points on large map with trapped points
     largemap3 <- relaxMap(largemap3)
-    largemap3 <- moveTrappedPoints(largemap3)
-    hemi      <- checkHemisphering(largemap3)
+    largemap3 <- moveTrappedPoints(largemap3, stepsize = 0.25)
+    hemi      <- checkHemisphering(largemap3, stepsize = 0.25)
     expect_equal(nrow(hemi), 0)
 
   })

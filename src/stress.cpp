@@ -3,7 +3,6 @@
 #include <math.h>
 using namespace Rcpp;
 
-//' @export
 // [[Rcpp::export]]
 double euc_dist(NumericVector coords1,
                 NumericVector coords2) {

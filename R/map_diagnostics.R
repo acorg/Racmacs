@@ -18,7 +18,7 @@
 #' @return Returns a table of results, including the dimensions tested and the standard deviation of predicted vs residual error.
 #' @export
 #'
-#' @family functions to test an acmap
+#' @family {map diagnostic functions}
 #'
 dimensionTestMap <- function(map,
                              dimensions_to_test        = 1:5,

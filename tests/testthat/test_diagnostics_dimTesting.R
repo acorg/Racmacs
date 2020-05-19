@@ -7,8 +7,8 @@ run.maptests(
   loadlocally = FALSE,
   {
 
-    map <- read.map(testthat::test_path("../testdata/testmap.ace"))
-    testthat::test_that("Dimension testing acmap.cpp", {
+    map <- read.map(test_path("../testdata/testmap.ace"))
+    test_that("Dimension testing acmap.cpp", {
 
       results <- dimensionTestMap(
         map                       = map,
@@ -20,11 +20,11 @@ run.maptests(
         replicates_per_proportion = 20
       )
 
-      testthat::expect_equal(nrow(results), 1)
+      expect_equal(nrow(results), 1)
 
     })
 
-    testthat::test_that("Dimension testing acmap.cpp and saving intermediate maps", {
+    test_that("Dimension testing acmap.cpp and saving intermediate maps", {
 
       tdir <- tempdir()
       results <- dimensionTestMap(

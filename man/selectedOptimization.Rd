@@ -26,6 +26,19 @@ you perform that relate to a optimization (for example \code{\link{relaxMap}}), 
 be performed on the selected optimization by default.
 }
 \seealso{
-Other functions to get and set map attributes: \code{\link{acmapAttributes}}
+Other {functions for working with map data}: 
+\code{\link{acmap}()},
+\code{\link{as.json}()},
+\code{\link{cloneMap}()},
+\code{\link{convertingMaps}},
+\code{\link{orderPoints}},
+\code{\link{read.acmap}()},
+\code{\link{read.titerTable}()},
+\code{\link{removePoints}},
+\code{\link{save.acmap}()},
+\code{\link{save.coords}()},
+\code{\link{save.titerTable}()},
+\code{\link{subsetMap}()},
+\code{\link{subsetPoints}}
 }
-\concept{functions to get and set map attributes}
+\concept{{functions for working with map data}}

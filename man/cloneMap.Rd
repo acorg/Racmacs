@@ -13,8 +13,26 @@ cloneMap(map)
 Returns a copy of the map object
 }
 \description{
-Creates a copy of an acmap object. This is needed, because acmap
-objects, being environments rather than lists are not copy-on-modify, i.e.
-if you change one reference to the acmap, all references to it will be changed.
-To avoid this behaviour you can use the cloneMap function.
+Creates a copy of an acmap object. This is needed when working with
+the acmap.cpp map types since these are environments rather than lists
+and are not copy-on-modify, i.e. if you change one reference to the
+acmap, all references to it will be changed. To avoid this behaviour
+you can use the cloneMap function.
 }
+\seealso{
+Other {functions for working with map data}: 
+\code{\link{acmap}()},
+\code{\link{as.json}()},
+\code{\link{convertingMaps}},
+\code{\link{orderPoints}},
+\code{\link{read.acmap}()},
+\code{\link{read.titerTable}()},
+\code{\link{removePoints}},
+\code{\link{save.acmap}()},
+\code{\link{save.coords}()},
+\code{\link{save.titerTable}()},
+\code{\link{selectedOptimization}()},
+\code{\link{subsetMap}()},
+\code{\link{subsetPoints}}
+}
+\concept{{functions for working with map data}}

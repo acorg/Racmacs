@@ -17,7 +17,7 @@
 #' @param selectable Should points be selectable
 #'
 #' @import htmlwidgets
-#'
+#' @noRd
 #' @export
 RacViewer <- function(map,
                       rotation,
@@ -79,7 +79,7 @@ RacViewer <- function(map,
 #'   is useful if you want to save an expression in a variable.
 #'
 #' @name RacViewer-shiny
-#'
+#' @noRd
 #' @export
 RacViewerOutput <- function(outputId, width = '100%', height = '400px'){
   htmlwidgets::shinyWidgetOutput(outputId, 'RacViewer', width, height, package = 'Racmacs')
@@ -87,6 +87,7 @@ RacViewerOutput <- function(outputId, width = '100%', height = '400px'){
 
 
 #' @rdname RacViewer-shiny
+#' @noRd
 #' @export
 renderRacViewer <- function(expr, env = parent.frame(), quoted = FALSE) {
   if (!quoted) { expr <- substitute(expr) } # force quoted
@@ -101,8 +102,8 @@ renderRacViewer <- function(expr, env = parent.frame(), quoted = FALSE) {
 #' @param session Session object of shiny application
 #'
 #' @return Returns a chart proxy
+#' @noRd
 #' @export
-#'
 RacViewerProxy <- function(id, session = shiny::getDefaultReactiveDomain()){
 
   proxy        <- list( id = shinyId, session = session )
@@ -120,6 +121,7 @@ RacViewerProxy <- function(id, session = shiny::getDefaultReactiveDomain()){
 #' @param filename File to save image to
 #' @param ... Further parameters to pass to view
 #'
+#' @family {functions to view maps}
 #' @export
 #'
 snapshotMap <- function(map, width = 800, height = 800, filename = NULL, ...){
@@ -171,6 +173,8 @@ copyR3JSlib <- function(){
     recursive = TRUE
   )
 }
+
+
 linkR3JSlib <- function(){
   unlink("inst/htmlwidgets/RacViewer/lib/r3js/lib", recursive = TRUE)
   file.symlink(

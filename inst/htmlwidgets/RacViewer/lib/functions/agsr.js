@@ -1,6 +1,6 @@
 
 // Method to add antigens and sera to a plot
-Racmacs.Viewer.prototype.addAntigensAndSera = function(mapData){
+Racmacs.App.prototype.addAntigensAndSera = function(mapData, stress = true){
 
     // Fetch variables
     var table = this.data.table();
@@ -40,6 +40,7 @@ Racmacs.Viewer.prototype.addAntigensAndSera = function(mapData){
             outlineWidth  : this.data.agOutlineWidth(i),
             aspect        : this.data.agAspect(i),
             shape         : this.data.agShape(i),
+            shown         : this.data.agShown(i),
             drawing_order : this.data.agDrawingOrder(i),
             typeIndex     : i,
             pIndex        : pIndex
@@ -66,6 +67,7 @@ Racmacs.Viewer.prototype.addAntigensAndSera = function(mapData){
             outlineWidth  : this.data.srOutlineWidth(i),
             aspect        : this.data.srAspect(i),
             shape         : this.data.srShape(i),
+            shown         : this.data.srShown(i),
             drawing_order : this.data.srDrawingOrder(i),
             typeIndex     : i,
             pIndex        : pIndex
@@ -84,8 +86,10 @@ Racmacs.Viewer.prototype.addAntigensAndSera = function(mapData){
     this.points   = ptObjects;
 
     // Update stress
-    for(var i=0; i<this.sera.length; i++){
-        this.sera[i].updateStress();
+    if(stress){
+        for(var i=0; i<this.sera.length; i++){
+            this.sera[i].updateStress();
+        }
     }
 
 }
@@ -97,33 +101,19 @@ Racmacs.Point = class Point {
 
     constructor(args){
 
-        // Calculate coords vector
-        var coords3 = args.coords;
-        while(coords3.length < 3){ coords3.push(0) }
-        var coordsVector = new THREE.Vector3();
-
-        // Deal with na coords
-        if(isNaN(args.coords[0])){
-            this.coords_na = true;
-            coordsVector.fromArray([0,0,0]);
-        } else {
-            this.coords_na = false;
-            coordsVector.fromArray(coords3);
-        }
-        
         // Set properties
         this.type          = args.type;
         this.name          = args.name;
         this.titers        = args.titers;
         this.logTiters     = Racmacs.utils.getLogTiters(this.titers);
         this.coords        = args.coords;
-        this.coordsVector  = coordsVector;
         this.size          = args.size;
         this.fillColor     = args.fillColor;
         this.outlineColor  = args.outlineColor;
         this.outlineWidth  = args.outlineWidth;
         this.aspect        = args.aspect;
         this.shape         = args.shape;
+        this.shown         = args.shown;
         this.drawing_order = args.drawing_order;
         this.typeIndex     = args.typeIndex;
         this.pIndex        = args.pIndex;
@@ -138,8 +128,25 @@ Racmacs.Point = class Point {
         this.stress   = 0;
         this.stresses = new Float32Array(new Array(args.titers.length).fill(0));
 
+        this.coords_na = args.coords === null || isNaN(args.coords[0]) || args.coords[0] === null;
+        if(this.coords_na){
+            this.coords3 = [0,0,0];
+        } else {
+            this.coords3 = this.coords.slice();
+            while(this.coords3.length < 3){ this.coords3.push(0) }
+        }
+
+
         // Add a browser record
-        this.browserRecord = new Racmacs.BrowserRecord(this);
+        if(Racmacs.BrowserRecord){
+            this.browserRecord = new Racmacs.BrowserRecord(this);
+        }
+
+        // Calculate coords vector
+        if(typeof(THREE) !== "undefined"){
+            this.coordsVector  = new THREE.Vector3().fromArray(this.coords3);
+        }
+
 
     }
 
@@ -155,8 +162,8 @@ Racmacs.Point = class Point {
         element.dehover = function(){
             point.dehover();
         }
-        element.click = function(){
-            point.click();
+        element.click = function(event){
+            point.click(event);
         }
         element.rectangleSelect = function(){
             point.select();
@@ -191,14 +198,14 @@ Racmacs.Point = class Point {
             this.infoDiv.innerHTML += ", Mean stress : "+this.calcMeanStress().toFixed(2);
         }
         
-        this.viewer.viewport.hover_info.add(this.infoDiv);
+        this.viewer.addHoverInfo(this.infoDiv);
 
     }
 
     // Hide point information
     hideInfo(){
 
-        this.viewer.viewport.hover_info.remove(this.infoDiv);
+        this.viewer.removeHoverInfo(this.infoDiv);
         this.infoDiv = null;
         
     }
@@ -214,11 +221,23 @@ Racmacs.Point = class Point {
 
     }
 
+    getSecondaryColor(){
+
+        if(this.outlineColor == "transparent" || this.fillColor == "transparent"){
+            return("#ffffff");
+        } else {
+            return(this.outlineColor);
+        }
+
+    }
+
     // Set the point shape
     setShape(shape){
         
         this.shape = shape;
-        this.element.setShape(shape);
+        if(this.element){
+            this.element.setShape(shape);
+        }
 
     }
 
@@ -226,7 +245,9 @@ Racmacs.Point = class Point {
     setSize(size){
         
         this.size = size;
-        this.element.setSize(size*this.scaling);
+        if(this.element){
+            this.element.setSize(size*this.scaling);
+        }
 
     }
 
@@ -240,17 +261,23 @@ Racmacs.Point = class Point {
     scale(scaling){
         
         this.size = this.size*scaling;
-        this.element.setSize(this.size);
+        if(this.element){
+            this.element.setSize(this.size);
+        }
 
     }
 
     // Hide and show
     hide(){
-        this.element.hide();
+        if(this.element){
+            this.element.hide();
+        }
     }
 
     show(){
-        this.element.show();
+        if(this.element){
+            this.element.show();
+        }
     }
 
     // Set the point position
@@ -280,7 +307,9 @@ Racmacs.Point = class Point {
         this.updateStress();
         
         // Move the point geometry
-        this.element.setCoords(x, y, z);
+        if(this.element){
+            this.element.setCoords(x, y, z);
+        }
 
         // Update any connections or error lines
         if(this.connectionLinesShown){
@@ -307,7 +336,7 @@ Racmacs.Point = class Point {
     // Set point opacity
     setOpacity(opacity){
         
-        if(!this.transparency_fixed){
+        if(this.element && !this.transparency_fixed){
             
             this.opacity = opacity;
 
@@ -331,7 +360,9 @@ Racmacs.Point = class Point {
     setAspect(aspect){
         
         this.aspect = aspect;
-        this.element.setAspect(aspect);
+        if(this.element){
+            this.element.setAspect(aspect);
+        }
 
     }
 
@@ -339,7 +370,9 @@ Racmacs.Point = class Point {
     setOutlineWidth(outlineWidth){
         
         this.outlineWidth = outlineWidth;
-        this.element.setOutlineWidth(outlineWidth);
+        if(this.element){
+            this.element.setOutlineWidth(outlineWidth);
+        }
 
     }
 
@@ -399,14 +432,16 @@ Racmacs.Point = class Point {
             
             this.fillColor = col;
 
-            if(col == "transparent"){
-                // If color is transparent
-                this.element.setFillOpacity(0);
-                this.element.setFillColor("#ffffff");
-            } else {
-                // If color is not transparent
-                this.element.setFillOpacity(this.opacity);
-                this.element.setFillColor(col);
+            if(this.element){
+                if(col == "transparent"){
+                    // If color is transparent
+                    this.element.setFillOpacity(0);
+                    this.element.setFillColor("#ffffff");
+                } else {
+                    // If color is not transparent
+                    this.element.setFillOpacity(this.opacity);
+                    this.element.setFillColor(col);
+                }
             }
 
             // Update the color of the browser record
@@ -421,18 +456,22 @@ Racmacs.Point = class Point {
 
     // Set a temporary outline color
     setOutlineColorTemp(col){
-        this.element.setOutlineColor(col);
+        if(this.element){
+            this.element.setOutlineColor(col);
+        }
     };
 
     // Restore the normal outline color
     restoreOutlineColor(){
-        this.element.setOutlineColor(this.outlineColor);
+        if(this.element){
+            this.element.setOutlineColor(this.outlineColor);
+        }
     };
 
     // Set the point outline color
     setOutlineColor(col){
         
-        if(!this.coloring_fixed){
+        if(!this.coloring_fixed && this.element){
             
             this.outlineColor = col;
 
@@ -473,7 +512,13 @@ Racmacs.Point = class Point {
     // Get the map distance to another point
     mapDistTo(to){
         
-        return(this.coordsVector.distanceTo(to.coordsVector));
+        return(
+            Math.sqrt(
+                (this.coords3[0] - to.coords3[0])*(this.coords3[0] - to.coords3[0]) +
+                (this.coords3[1] - to.coords3[1])*(this.coords3[1] - to.coords3[1]) +
+                (this.coords3[2] - to.coords3[2])*(this.coords3[2] - to.coords3[2])
+            )
+        );
 
     }
 
@@ -646,20 +691,16 @@ Racmacs.Point = class Point {
     // Bring the point to the top
     moveToTop(){
         
-        if(this.viewer.mapdims.dimensions == 2){
-            if(this.element.setIndex !== undefined){
-                this.element.setIndex(this.element.parent.elements().length-1);
-            }
+        if(this.element && this.element.setIndex !== undefined){
+            this.element.setIndex(this.viewer.points.length-1);
         }
 
     }
 
     moveFromTop(){
         
-        if(this.viewer.mapdims.dimensions == 2){
-            if(this.element.setIndex !== undefined){
-                this.element.setIndex(this.drawingOrder());
-            }
+        if(this.element && this.element.setIndex !== undefined){
+            this.element.setIndex(this.drawingOrder());
         }
 
     }

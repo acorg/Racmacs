@@ -146,9 +146,6 @@ Racmacs.Viewer = class RacViewer extends Racmacs.App {
         this.stress = new Racmacs.StressElement();
         this.stress.bindToViewport(this.viewport);
 
-        // Add the HI table
-        this.hitable = new Racmacs.HITable(this);
-
         // Setup control panel
         new Racmacs.ControlPanel(this);
 

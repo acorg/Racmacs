@@ -1,5 +1,5 @@
-
-# Racmacs package
+<img src="man/figures/logo.png" align="right" style="width:200px; margin-top:40px">
+# Racmacs
 The Racmacs package provides a toolkit for making antigenic maps from assay data such as HI assays, as described in [Smith et al. 2004](https://doi.org/10.1126/science.1097211).
 
 For a general introduction to using Racmacs to make an antigenic map from titer data see the article "[Making an antigenic map from titer data](articles/making-a-map-from-scratch.html)". For documentation of the functions available see the [references](references/index.html) section.
@@ -12,7 +12,7 @@ install.packages("devtools")
 ```
 
 ### Install acmacs.r
-`acmacs.r` is the underlying package on which Racmacs is built. While Racmacs adds a lot of additional functionality of its own, all the underlying optimization routines for making the maps are contained within acmacs.r. Unfortunately there is currently no version for windows but mac and linux versions are available. Depending upon your operating system run one of the commands below.
+[acmacs.r](https://github.com/acorg/acmacs.r) is the underlying package on which Racmacs is built. While Racmacs adds a lot of additional functionality of its own, all the underlying optimization routines for making the maps are contained within acmacs.r. Unfortunately there is currently no version for windows but mac and linux versions are available. Depending upon your operating system run one of the commands below.
 
 ```R
 # Mac

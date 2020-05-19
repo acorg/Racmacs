@@ -1,18 +1,18 @@
 
 
-document.keydown = {
-    key : null
-};
+// document.keydown = {
+//     key : null
+// };
 
-document.addEventListener("keydown", function(event){
-    this.keydown = event;
-});
+// document.addEventListener("keydown", function(event){
+//     this.keydown = event;
+// });
 
-document.addEventListener("keyup", function(event){
-    this.keydown = {
-        key : null
-    };
-});
+// document.addEventListener("keyup", function(event){
+//     this.keydown = {
+//         key : null
+//     };
+// });
 
 
 
@@ -138,9 +138,9 @@ R3JS.Viewport.prototype.onmouseup = function(event){
 
     var intersectedElements = this.viewer.raytracer.intersectedElements();
     if(intersectedElements.length === 0){
-        this.viewer.clickBackground();
+        this.viewer.clickBackground(event);
     } else {
-        this.viewer.clickElements(intersectedElements);
+        this.viewer.clickElements(intersectedElements, event);
     }
 }
 

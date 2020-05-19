@@ -63,7 +63,7 @@ Racmacs.Viewer.prototype.setGrid = function(){
 
     }
 
-    this.gridholder.add(element.object)
+    this.gridholder.add(element.object);
     this.gridelement = element;
 
 }

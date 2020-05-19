@@ -53,14 +53,14 @@ Racmacs.ControlPanel = class ControlPanel {
         savetab.tab.classList.add("shiny-element");
 
         // Add Table
-        var hitablepanel = new Racmacs.HItablePanel(this.viewer);
-        this.tabset.addTab({
-            id : "hitable",
-            name: "Table",
-            content: hitablepanel.div,
-            onshow: function(){ viewer.showTable() },
-            onhide: function(){ viewer.hideTable() }
-        });
+        // var hitablepanel = new Racmacs.HItablePanel(this.viewer);
+        // this.tabset.addTab({
+        //     id : "hitable",
+        //     name: "Table",
+        //     content: hitablepanel.div,
+        //     onshow: function(){ viewer.showTable() },
+        //     onhide: function(){ viewer.hideTable() }
+        // });
 
         // Add Projection list
         var projectionsPanel = new Racmacs.ProjectionsPanel(this.viewer);

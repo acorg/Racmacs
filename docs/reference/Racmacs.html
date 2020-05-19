@@ -8,6 +8,13 @@
 
 <title>Racmacs: A package for performing antigenic cartography — Racmacs • Racmacs</title>
 
+<!-- favicons -->
+<link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
+<link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../apple-touch-icon.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png" />
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
@@ -42,6 +49,7 @@
 <meta property="og:title" content="Racmacs: A package for performing antigenic cartography — Racmacs" />
 <meta property="og:description" content="The Racmacs package provides a toolkit for making antigenic maps from assay
 data such as HI assays, as described in Smith et al. 2004 (1)." />
+<meta property="og:image" content="/logo.png" />
 
 
 
@@ -73,7 +81,7 @@ data such as HI assays, as described in Smith et al. 2004 (1)." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">Racmacs</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.9</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.10</span>
       </span>
     </div>
 
@@ -96,31 +104,18 @@ data such as HI assays, as described in Smith et al. 2004 (1)." />
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="../articles/comparing-maps.html">Comparing maps</a>
-    </li>
-    <li>
-      <a href="../articles/getting-and-setting-map-attributes.html">Getting and setting map attributes</a>
-    </li>
-    <li>
-      <a href="../articles/loading-map-data.html">Reading a map file</a>
-    </li>
-    <li>
-      <a href="../articles/making-a-map-from-scratch.html">Making an antigenic map from scratch</a>
-    </li>
-    <li>
-      <a href="../articles/map-diagnostics.html">Performing map diagnostics</a>
-    </li>
-    <li>
-      <a href="../articles/merging-maps.html">Merging maps</a>
-    </li>
-    <li>
-      <a href="../articles/testing-maps.html">Testing maps</a>
+      <a href="../articles/making-a-map-from-scratch.html">Making an antigenic map from titer data</a>
     </li>
   </ul>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
-        
+        <li>
+  <a href="https://github.com/acorg/Racmacs/">
+    <span class="fab fa fab fa-github fa-lg"></span>
+     
+  </a>
+</li>
       </ul>
       
     </div><!--/.nav-collapse -->
@@ -135,7 +130,7 @@ data such as HI assays, as described in Smith et al. 2004 (1)." />
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Racmacs: A package for performing antigenic cartography</h1>
-    
+    <small class="dont-index">Source: <a href='https://github.com/acorg/Racmacs/blob/master/R/Racmacs.R'><code>R/Racmacs.R</code></a></small>
     <div class="hidden name"><code>Racmacs.Rd</code></div>
     </div>
 
@@ -231,16 +226,16 @@ plotted, the main ones include:</p><ul>
 </ul>
 
 <p><strong>Get and set plotting information</strong></p><ul>
-<li><p><a href='mapStrains.html'>agFill</a></p></li>
-<li><p><a href='mapStrains.html'>srFill</a></p></li>
-<li><p><a href='mapStrains.html'>agOutline</a></p></li>
-<li><p><a href='mapStrains.html'>srOutline</a></p></li>
-<li><p><a href='mapStrains.html'>agOutlineWidth</a></p></li>
-<li><p><a href='mapStrains.html'>srOutlineWidth</a></p></li>
-<li><p><a href='mapStrains.html'>agSize</a></p></li>
-<li><p><a href='mapStrains.html'>srSize</a></p></li>
-<li><p><a href='mapStrains.html'>agShape</a></p></li>
-<li><p><a href='mapStrains.html'>srShape</a></p></li>
+<li><p><a href='ptStyles.html'>agFill</a></p></li>
+<li><p><a href='ptStyles.html'>srFill</a></p></li>
+<li><p><a href='ptStyles.html'>agOutline</a></p></li>
+<li><p><a href='ptStyles.html'>srOutline</a></p></li>
+<li><p><a href='ptStyles.html'>agOutlineWidth</a></p></li>
+<li><p><a href='ptStyles.html'>srOutlineWidth</a></p></li>
+<li><p><a href='ptStyles.html'>agSize</a></p></li>
+<li><p><a href='ptStyles.html'>srSize</a></p></li>
+<li><p><a href='ptStyles.html'>agShape</a></p></li>
+<li><p><a href='ptStyles.html'>srShape</a></p></li>
 </ul>
 
 <p><strong>Get and set optimization information</strong></p><ul>

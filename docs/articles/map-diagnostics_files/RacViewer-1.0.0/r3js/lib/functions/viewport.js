@@ -4,7 +4,7 @@ R3JS.Viewport = class Viewport{
     constructor(viewer){
 
         // Set mouse defaults
-        this.mouse       = new THREE.Vector2();
+        this.mouse       = {x:null, y:null};
         this.mouse.down  = false;
         this.mouse.over  = false;
         this.mouse.moved = false;
@@ -45,16 +45,18 @@ R3JS.Viewport = class Viewport{
 
         var viewport = this;
         document.addEventListener("keydown", function(event){ 
-          viewport.onkeydown(event)
+            if(viewport.onkeydown){
+                viewport.onkeydown(event)
+            }
         });
         document.addEventListener("keyup", function(event){ 
-          viewport.onkeyup(event)
+            if(viewport.onkeydown){
+                viewport.onkeyup(event)
+            }
         });
 
-        window.addEventListener("resize", function(event){ viewport.onwindowresize(event) });
-
         // Add buttons
-        this.addButtons();
+        if(this.addButtons) this.addButtons();
 
         // Create canvas for renderer
         this.canvas = document.createElement("div");
@@ -181,7 +183,7 @@ R3JS.Info = class Info{
 
     remove(element){
 
-        if(element !== null){
+        if(element !== null && element !== undefined){
             this.div.removeChild(element);
         }
         if(this.div.children.length === 0){
@@ -208,5 +210,12 @@ R3JS.Info = class Info{
 
 }
 
+R3JS.Viewer.prototype.addHoverInfo = function(div){
+    this.viewport.hover_info.add(div);
+}
+
+R3JS.Viewer.prototype.removeHoverInfo = function(div){
+    this.viewport.hover_info.remove(div);
+}
 
 

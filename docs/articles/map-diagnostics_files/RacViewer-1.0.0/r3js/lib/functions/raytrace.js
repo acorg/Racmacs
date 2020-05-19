@@ -59,12 +59,15 @@ R3JS.Raytracer = class Raytracer {
 		    );
 		  }
 		} else {
+
 		  if (this.intersected) {
 		    viewer.dehoverElements(
 		    	this.intersectedElements()
 		    );
 		  }
+
 		  this.intersected = [];
+
 		}
 
 	}

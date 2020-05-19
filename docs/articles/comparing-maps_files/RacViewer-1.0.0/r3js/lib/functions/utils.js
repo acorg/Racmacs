@@ -97,7 +97,7 @@ R3JS.utils.breakupMesh = function(full_mesh){
             geo.attributes.position.array[i*9+7] - y_mean,
             geo.attributes.position.array[i*9+8] - z_mean
         ] );
-        g.addAttribute( 'position', new THREE.BufferAttribute( v, 3 ) );
+        g.setAttribute( 'position', new THREE.BufferAttribute( v, 3 ) );
         var c = new Float32Array( [
             geo.attributes.color.array[i*9],
             geo.attributes.color.array[i*9+1],
@@ -109,7 +109,7 @@ R3JS.utils.breakupMesh = function(full_mesh){
             geo.attributes.color.array[i*9+7],
             geo.attributes.color.array[i*9+8]
         ] );
-        g.addAttribute( 'color', new THREE.BufferAttribute( c, 3 ) );
+        g.setAttribute( 'color', new THREE.BufferAttribute( c, 3 ) );
         var n = new Float32Array( [
             geo.attributes.normal.array[i*9],
             geo.attributes.normal.array[i*9+1],
@@ -121,7 +121,7 @@ R3JS.utils.breakupMesh = function(full_mesh){
             geo.attributes.normal.array[i*9+7],
             geo.attributes.normal.array[i*9+8]
         ] );
-        g.addAttribute( 'normal', new THREE.BufferAttribute( n, 3 ) );
+        g.setAttribute( 'normal', new THREE.BufferAttribute( n, 3 ) );
         
         // Set clipping
         var mesh = new THREE.Mesh( g, mat );

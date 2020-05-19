@@ -127,14 +127,14 @@ R3JS.element.glpoints = class GLPoints {
 
         // Create buffer geometry
         var geometry = new THREE.BufferGeometry();
-        geometry.addAttribute( 'position',     new THREE.BufferAttribute( positions,    3 ) );
-        geometry.addAttribute( 'fillColor',    new THREE.BufferAttribute( fillColor,    4 ) );
-        geometry.addAttribute( 'outlineColor', new THREE.BufferAttribute( outlineColor, 4 ) );
-        geometry.addAttribute( 'outlineWidth', new THREE.BufferAttribute( outlineWidth, 1 ) );
-        geometry.addAttribute( 'size',         new THREE.BufferAttribute( sizes,        1 ) );
-        geometry.addAttribute( 'aspect',       new THREE.BufferAttribute( aspect,       1 ) );
-        geometry.addAttribute( 'shape',        new THREE.BufferAttribute( shape,        1 ) );
-        geometry.addAttribute( 'visible',      new THREE.BufferAttribute( visible,      1 ) );
+        geometry.setAttribute( 'position',     new THREE.BufferAttribute( positions,    3 ) );
+        geometry.setAttribute( 'fillColor',    new THREE.BufferAttribute( fillColor,    4 ) );
+        geometry.setAttribute( 'outlineColor', new THREE.BufferAttribute( outlineColor, 4 ) );
+        geometry.setAttribute( 'outlineWidth', new THREE.BufferAttribute( outlineWidth, 1 ) );
+        geometry.setAttribute( 'size',         new THREE.BufferAttribute( sizes,        1 ) );
+        geometry.setAttribute( 'aspect',       new THREE.BufferAttribute( aspect,       1 ) );
+        geometry.setAttribute( 'shape',        new THREE.BufferAttribute( shape,        1 ) );
+        geometry.setAttribute( 'visible',      new THREE.BufferAttribute( visible,      1 ) );
 
         // var texture = get_sprite_texture("ball");
 

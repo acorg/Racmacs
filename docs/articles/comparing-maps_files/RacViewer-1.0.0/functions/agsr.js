@@ -162,8 +162,8 @@ Racmacs.Point = class Point {
         element.dehover = function(){
             point.dehover();
         }
-        element.click = function(){
-            point.click();
+        element.click = function(event){
+            point.click(event);
         }
         element.rectangleSelect = function(){
             point.select();

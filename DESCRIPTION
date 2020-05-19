@@ -33,3 +33,5 @@ Roxygen: list(markdown = TRUE)
 LinkingTo: Rcpp
 VignetteBuilder: knitr
 License: GPL-3
+URL: https://github.com/acorg/Racmacs
+BugReports: https://github.com/acorg/Racmacs/issues

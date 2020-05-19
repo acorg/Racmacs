@@ -132,8 +132,8 @@ R3JS.Geometries.line2d = function(args){
     var rotmat = new THREE.Matrix4().makeRotationFromQuaternion(quat);
 
     // Rotate to match direction and position
-    geo.applyMatrix(rotmat);
-    geo.applyMatrix(transmat);
+    geo.applyMatrix4(rotmat);
+    geo.applyMatrix4(transmat);
 
     return(geo);
 
@@ -150,6 +150,7 @@ R3JS.Geometries.line3d = function(args){
   var offset    = args.offset;
   var arrow     = args.arrow;
   var box       = args.box;
+  var arrowend  = args.arrowend;
 
   // Get direction and length
   var direction = new THREE.Vector3(to[0]-from[0],
@@ -178,8 +179,12 @@ R3JS.Geometries.line3d = function(args){
   }
   if(arrow){
       geo.translate( 0, -arrow.headlength, 0 );
-      var arrowhead = new THREE.ConeGeometry( arrow.headwidth/2, arrow.headlength, 32 );
-      arrowhead.translate(0,-arrow.headlength/2,0);
+      if(arrow.end == "circle"){
+          var arrowhead = new THREE.SphereGeometry( arrow.headlength, 32, 32 );
+      } else {
+          var arrowhead = new THREE.ConeGeometry( arrow.headwidth/2, arrow.headlength, 32 );
+          arrowhead.translate(0,-arrow.headlength/2,0);
+      }
       geo.merge(arrowhead);
   }
   
@@ -202,8 +207,8 @@ R3JS.Geometries.line3d = function(args){
   var rotmat = new THREE.Matrix4().makeRotationFromQuaternion(quat);
 
   // Rotate to match direction and position
-  geo.applyMatrix(rotmat);
-  geo.applyMatrix(transmat);
+  geo.applyMatrix4(rotmat);
+  geo.applyMatrix4(transmat);
 
   return(geo);
 

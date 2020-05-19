@@ -19,7 +19,7 @@ Different maps can be compared using the `procrustesMap()` function where one ma
 ## The example map
 We'll read in the H3N2 2004 map as an example map
 
-```{r out.height=600, out.width=600}
+```{r out.height=600, out.width="100%"}
 library(Racmacs)
 map_file <- system.file("extdata/h3map2004.ace", package = "Racmacs")
 map <- read.acmap(map_file)
@@ -28,9 +28,9 @@ view(map)
 
 
 ## Comparing optimization runs
-We can use the `procrustesMap()` function to compare the top 3 optimization runs.
+We can use the `procrustesMap()` function to compare the top 2 optimization runs.
 
-```{r out.height=600, out.width=600}
+```{r out.height=600, out.width="100%"}
 pc_run12 <- procrustesMap(
   map                            = map,
   comparison_map                 = map,
@@ -41,14 +41,27 @@ pc_run12 <- procrustesMap(
 view(pc_run12)
 ```
 
-```{r out.height=600, out.width=600}
-pc_run13 <- procrustesMap(
-  map                            = map,
-  comparison_map                 = map,
-  optimization_number            = 1,
-  comparison_optimization_number = 3
+
+## Comparing 3D to 2D
+We can also compare 3D map solutions to 2D map solutions. Firstly we will create a 3D version of our map with a fresh set of optimizations (choosing only 10 runs here for speed).
+
+```{r}
+map3d <- optimizeMap(
+  map                     = map,
+  number_of_dimensions    = 3,
+  number_of_optimizations = 10,
+  minimum_column_basis    = "none"
+)
+```
+
+Now we will run procrustes map on the 3d version and view the result, by default an extra grid is drawn showing the dimensions to which the comparison map was constrained.
+
+```{r out.height=600, out.width="100%"}
+pc_3d2d <- procrustesMap(
+  map            = map3d,
+  comparison_map = map
 )
 
-view(pc_run13)
+view(pc_3d2d)
 ```
 

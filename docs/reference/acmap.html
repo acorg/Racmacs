@@ -8,6 +8,13 @@
 
 <title>Generate a new acmap object — acmap • Racmacs</title>
 
+<!-- favicons -->
+<link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
+<link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../apple-touch-icon.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png" />
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
@@ -42,6 +49,7 @@
 <meta property="og:title" content="Generate a new acmap object — acmap" />
 <meta property="og:description" content="This function generates a new acmap object, the base object for storing map
 data in the Racmacs package." />
+<meta property="og:image" content="/logo.png" />
 
 
 
@@ -96,31 +104,18 @@ data in the Racmacs package." />
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="../articles/comparing-maps.html">Comparing maps</a>
-    </li>
-    <li>
-      <a href="../articles/getting-and-setting-map-attributes.html">Getting and setting map attributes</a>
-    </li>
-    <li>
-      <a href="../articles/loading-map-data.html">Reading a map file</a>
-    </li>
-    <li>
-      <a href="../articles/making-a-map-from-scratch.html">Making an antigenic map from scratch</a>
-    </li>
-    <li>
-      <a href="../articles/map-diagnostics.html">Performing map diagnostics</a>
-    </li>
-    <li>
-      <a href="../articles/merging-maps.html">Merging maps</a>
-    </li>
-    <li>
-      <a href="../articles/testing-maps.html">Testing maps</a>
+      <a href="../articles/making-a-map-from-scratch.html">Making an antigenic map from titer data</a>
     </li>
   </ul>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
-        
+        <li>
+  <a href="https://github.com/acorg/Racmacs/">
+    <span class="fab fa fab fa-github fa-lg"></span>
+     
+  </a>
+</li>
       </ul>
       
     </div><!--/.nav-collapse -->
@@ -135,7 +130,7 @@ data in the Racmacs package." />
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Generate a new acmap object</h1>
-    
+    <small class="dont-index">Source: <a href='https://github.com/acorg/Racmacs/blob/master/R/map_new.R'><code>R/map_new.R</code></a></small>
     <div class="hidden name"><code>acmap.Rd</code></div>
     </div>
 
@@ -293,16 +288,16 @@ estimating antigen similarity from the acmap titer data.</p>
 <code><a href='as.json.html'>as.json</a>()</code>,
 <code><a href='cloneMap.html'>cloneMap</a>()</code>,
 <code><a href='convertingMaps.html'>convertingMaps</a></code>,
-<code>orderPoints</code>,
+<code><a href='orderPoints.html'>orderPoints</a></code>,
 <code><a href='read.acmap.html'>read.acmap</a>()</code>,
 <code><a href='read.titerTable.html'>read.titerTable</a>()</code>,
-<code>removePoints</code>,
+<code><a href='removePoints.html'>removePoints</a></code>,
 <code><a href='save.acmap.html'>save.acmap</a>()</code>,
 <code><a href='save.coords.html'>save.coords</a>()</code>,
 <code><a href='save.titerTable.html'>save.titerTable</a>()</code>,
 <code><a href='selectedOptimization.html'>selectedOptimization</a>()</code>,
 <code><a href='subsetMap.html'>subsetMap</a>()</code>,
-<code>subsetPoints</code></p></div>
+<code><a href='subsetPoints.html'>subsetPoints</a></code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># Read in an acmap object from a file</span>
@@ -312,7 +307,7 @@ estimating antigen similarity from the acmap titer data.</p>
 <span class='co'># Read in a table of titer data and make a new acmap file from it</span>
 <span class='no'>titer_file_path</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>"extdata/h3map2004_hitable.csv"</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"Racmacs"</span>)
 <span class='no'>titer_data</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='read.titerTable.html'>read.titerTable</a></span>(<span class='no'>titer_file_path</span>)
-<span class='no'>map</span> <span class='kw'>&lt;-</span> <span class='fu'>acmap.cpp</span>(<span class='kw'>table</span> <span class='kw'>=</span> <span class='no'>titer_data</span>)</div><div class='output co'>#&gt; <span class='error'>Error in acmap.cpp(table = titer_data): could not find function "acmap.cpp"</span></div></pre>
+<span class='no'>map</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='convertingMaps.html'>acmap.cpp</a></span>(<span class='kw'>table</span> <span class='kw'>=</span> <span class='no'>titer_data</span>)</div><div class='output co'>#&gt; <span class='error'>Error in acmap.cpp(table = titer_data): could not find function "acmap.cpp"</span></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

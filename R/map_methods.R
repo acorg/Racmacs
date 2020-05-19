@@ -60,6 +60,13 @@ view.rac <- function(map,
   # Pass on only the selected optimization
   map <- keepSingleOptimization(map)
 
+  # Add a procrustes grid if the main map is 3d and the comparitor map is 2d
+  if(!is.null(map$procrustes) && !isFALSE(show_procrustes)){
+    if(mapDimensions(map) == 3 && ncol(map$procrustes$comparison_coords$ag) == 2){
+      map <- add_procrustes_grid(map)
+    }
+  }
+
   # View the map data in the viewer
   widget <- RacViewer(map = map,
                       hide_control_panel = TRUE,
@@ -84,11 +91,13 @@ view.rac <- function(map,
 
   # Add any procrustes lines
   if(!is.null(map$procrustes) && !isFALSE(show_procrustes)){
+
     widget <- htmlwidgets::onRender(
       x      = widget,
       jsCode = "function(el, x, data) { el.viewer.addProcrustesToBaseCoords(data) }",
       data   = I(map$procrustes$pc_coords)
     )
+
   }
 
   # Show any blob data

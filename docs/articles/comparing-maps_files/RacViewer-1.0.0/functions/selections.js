@@ -68,10 +68,10 @@ Racmacs.App.prototype.graphics = {
 Racmacs.App.prototype.graphics.ptStyles = Racmacs.App.prototype.graphics.noneSelected;
 
 // Change background click event listener
-Racmacs.App.prototype.clickBackground = function(){
+Racmacs.App.prototype.clickBackground = function(e){
 
-    if(document.keydown.key !== "Shift"
-       && document.keydown.key !== "Meta"
+    if(!e.shiftKey
+       && !e.metaKey
        && !this.dragMode
        && !this.viewport.mouse.moved){
         this.deselectAll();

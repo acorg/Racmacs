@@ -167,52 +167,6 @@ R3JS.Viewer = class R3JSviewer {
     getAspect(){
         return(this.viewport.getAspect());
     }
-    
-    // // Set render function
-    // this.render = function(){};
-
-    // // Bind event listeners
-    // bind_events(this.viewport);
-
-    // // Bind navigation functions
-    // bind_navigation(this.viewport);
-
-    // // Bind api functions
-    // bind_api(container, this.viewport);
-
-    // // Bind highlight functions
-    // bind_highlight_fns(this.viewport);
-
-    // // Bind raytracing
-    // bind_raytracing(this.viewport);
-
-    // // Add buttons
-    // addButtons(this.viewport);
-
-    // // Animate the scene
-    // this.render();
-    // function animate() {
-
-    //     if(this.scene){
-    //         if(this.raytraceNeeded || this.sceneChange){
-    //             this.raytraceNeeded = false;
-    //             this.raytrace();
-    //         }
-    //         if(this.animate || this.sceneChange){
-    //             this.sceneChange = false;
-    //             this.render();
-    //         }
-    //     }
-    //     requestAnimationFrame(animate);
-
-    // }
-
-    // // Start the animation
-    // animate();
-
-    // // Dispatch viewer loaded event
-    // var r3jsViewerLoaded_event = new CustomEvent('r3jsViewerLoaded', { detail : viewport });
-    // window.dispatchEvent(r3jsViewerLoaded_event);
 
 }
 

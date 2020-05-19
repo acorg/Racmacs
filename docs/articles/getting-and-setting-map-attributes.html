@@ -6,19 +6,26 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Getting and setting map attributes • Racmacs</title>
-<!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script><!-- Bootstrap --><link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.7/flatly/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous">
-<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
+<!-- favicons --><link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
+<link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../apple-touch-icon.png">
+<link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png">
+<link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png">
+<link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png">
+<!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script><!-- Bootstrap --><link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.4.0/flatly/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script><!-- bootstrap-toc --><link rel="stylesheet" href="../bootstrap-toc.css">
+<script src="../bootstrap-toc.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
+<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
 <script src="../pkgdown.js"></script><meta property="og:title" content="Getting and setting map attributes">
-<meta property="og:description" content="">
-<meta name="twitter:card" content="summary">
+<meta property="og:description" content="Racmacs">
+<meta property="og:image" content="/logo.png">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]-->
 </head>
-<body>
+<body data-spy="scroll" data-target="#toc">
     <div class="container template-article">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -31,7 +38,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">Racmacs</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.9</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.10</span>
       </span>
     </div>
 
@@ -54,30 +61,19 @@
   </a>
   <ul class="dropdown-menu" role="menu">
 <li>
-      <a href="../articles/comparing-maps.html">Comparing maps</a>
-    </li>
-    <li>
-      <a href="../articles/getting-and-setting-map-attributes.html">Getting and setting map attributes</a>
-    </li>
-    <li>
-      <a href="../articles/loading-map-data.html">Reading a map file</a>
-    </li>
-    <li>
-      <a href="../articles/making-a-map-from-scratch.html">Making an antigenic map from scratch</a>
-    </li>
-    <li>
-      <a href="../articles/map-diagnostics.html">Performing map diagnostics</a>
-    </li>
-    <li>
-      <a href="../articles/merging-maps.html">Merging maps</a>
-    </li>
-    <li>
-      <a href="../articles/testing-maps.html">Testing maps</a>
+      <a href="../articles/making-a-map-from-scratch.html">Making an antigenic map from titer data</a>
     </li>
   </ul>
 </li>
       </ul>
-<ul class="nav navbar-nav navbar-right"></ul>
+<ul class="nav navbar-nav navbar-right">
+<li>
+  <a href="https://github.com/acorg/Racmacs/">
+    <span class="fab fa fab fa-github fa-lg"></span>
+     
+  </a>
+</li>
+      </ul>
 </div>
 <!--/.nav-collapse -->
   </div>
@@ -90,10 +86,10 @@
       </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
-      <h1>Getting and setting map attributes</h1>
+      <h1 data-toc-skip>Getting and setting map attributes</h1>
             
       
-      
+      <small class="dont-index">Source: <a href="https://github.com/acorg/Racmacs/blob/master/vignettes/getting-and-setting-map-attributes.Rmd"><code>vignettes/getting-and-setting-map-attributes.Rmd</code></a></small>
       <div class="hidden name"><code>getting-and-setting-map-attributes.Rmd</code></div>
 
     </div>
@@ -111,23 +107,23 @@
 </tr></thead>
 <tbody>
 <tr class="odd">
-<td align="left"><code>titerTable()</code></td>
+<td align="left"><code>c("titerTable", "agCoords", "srCoords", "name", "titerTableLayers")()</code></td>
 <td align="left">The titer table</td>
 </tr>
 <tr class="even">
-<td align="left"><code><a href="../reference/point_coordinates.html">agCoords()</a></code></td>
+<td align="left"><code>c("titerTable", "agCoords", "srCoords", "name", "titerTableLayers")()</code></td>
 <td align="left">Antigen coordinates</td>
 </tr>
 <tr class="odd">
-<td align="left"><code><a href="../reference/point_coordinates.html">srCoords()</a></code></td>
+<td align="left"><code>c("titerTable", "agCoords", "srCoords", "name", "titerTableLayers")()</code></td>
 <td align="left">Serum coordinates</td>
 </tr>
 <tr class="even">
-<td align="left"><code><a href="https://rdrr.io/r/base/name.html">name()</a></code></td>
+<td align="left"><code>c("titerTable", "agCoords", "srCoords", "name", "titerTableLayers")()</code></td>
 <td align="left">Map name</td>
 </tr>
 <tr class="odd">
-<td align="left"><code>titerTableLayers()</code></td>
+<td align="left"><code>c("titerTable", "agCoords", "srCoords", "name", "titerTableLayers")()</code></td>
 <td align="left">Titer measurement data</td>
 </tr>
 </tbody>
@@ -146,31 +142,31 @@
 </tr></thead>
 <tbody>
 <tr class="odd">
-<td align="left"><code>agNames()</code></td>
+<td align="left"><code>c("agNames", "agIDs", "agGroups", "agNamesFull", "agNamesAbbreviated", "agDates", "agReference")()</code></td>
 <td align="left">Antigen names</td>
 </tr>
 <tr class="even">
-<td align="left"><code>agIDs()</code></td>
+<td align="left"><code>c("agNames", "agIDs", "agGroups", "agNamesFull", "agNamesAbbreviated", "agDates", "agReference")()</code></td>
 <td align="left">Antigen IDs</td>
 </tr>
 <tr class="odd">
-<td align="left"><code>agGroups()</code></td>
+<td align="left"><code>c("agNames", "agIDs", "agGroups", "agNamesFull", "agNamesAbbreviated", "agDates", "agReference")()</code></td>
 <td align="left">Antigen groups</td>
 </tr>
 <tr class="even">
-<td align="left"><code>agNamesFull()</code></td>
+<td align="left"><code>c("agNames", "agIDs", "agGroups", "agNamesFull", "agNamesAbbreviated", "agDates", "agReference")()</code></td>
 <td align="left">Full antigen names</td>
 </tr>
 <tr class="odd">
-<td align="left"><code>agNamesAbbreviated()</code></td>
+<td align="left"><code>c("agNames", "agIDs", "agGroups", "agNamesFull", "agNamesAbbreviated", "agDates", "agReference")()</code></td>
 <td align="left">Abbreviated antigen names</td>
 </tr>
 <tr class="even">
-<td align="left"><code>agDates()</code></td>
+<td align="left"><code>c("agNames", "agIDs", "agGroups", "agNamesFull", "agNamesAbbreviated", "agDates", "agReference")()</code></td>
 <td align="left">Antigen dates</td>
 </tr>
 <tr class="odd">
-<td align="left"><code>agReference()</code></td>
+<td align="left"><code>c("agNames", "agIDs", "agGroups", "agNamesFull", "agNamesAbbreviated", "agDates", "agReference")()</code></td>
 <td align="left">Is antigen a reference virus</td>
 </tr>
 </tbody>
@@ -186,23 +182,23 @@
 </tr></thead>
 <tbody>
 <tr class="odd">
-<td align="left"><code>srNames()</code></td>
+<td align="left"><code>c("srNames", "srIDs", "srGroups", "srNamesFull", "srNamesAbbreviated")()</code></td>
 <td align="left">Sera names</td>
 </tr>
 <tr class="even">
-<td align="left"><code>srIDs()</code></td>
+<td align="left"><code>c("srNames", "srIDs", "srGroups", "srNamesFull", "srNamesAbbreviated")()</code></td>
 <td align="left">Sera IDs</td>
 </tr>
 <tr class="odd">
-<td align="left"><code>srGroups()</code></td>
+<td align="left"><code>c("srNames", "srIDs", "srGroups", "srNamesFull", "srNamesAbbreviated")()</code></td>
 <td align="left">Sera groups</td>
 </tr>
 <tr class="even">
-<td align="left"><code>srNamesFull()</code></td>
+<td align="left"><code>c("srNames", "srIDs", "srGroups", "srNamesFull", "srNamesAbbreviated")()</code></td>
 <td align="left">Full sera names</td>
 </tr>
 <tr class="odd">
-<td align="left"><code>srNamesAbbreviated()</code></td>
+<td align="left"><code>c("srNames", "srIDs", "srGroups", "srNamesFull", "srNamesAbbreviated")()</code></td>
 <td align="left">Abbreviated sera names</td>
 </tr>
 </tbody>
@@ -220,48 +216,48 @@
 </tr></thead>
 <tbody>
 <tr class="odd">
-<td align="left"><code>agShown()</code></td>
-<td align="left"><code>srShown()</code></td>
+<td align="left"><code><a href="../reference/ptStyles.html">agShown()</a></code></td>
+<td align="left"><code><a href="../reference/ptStyles.html">srShown()</a></code></td>
 <td align="left">Point shown</td>
 </tr>
 <tr class="even">
-<td align="left"><code>agSize()</code></td>
-<td align="left"><code>srSize()</code></td>
+<td align="left"><code><a href="../reference/ptStyles.html">agSize()</a></code></td>
+<td align="left"><code><a href="../reference/ptStyles.html">srSize()</a></code></td>
 <td align="left">Point size</td>
 </tr>
 <tr class="odd">
-<td align="left"><code>agFill()</code></td>
-<td align="left"><code>srFill()</code></td>
+<td align="left"><code><a href="../reference/ptStyles.html">agFill()</a></code></td>
+<td align="left"><code><a href="../reference/ptStyles.html">srFill()</a></code></td>
 <td align="left">Point fill color</td>
 </tr>
 <tr class="even">
-<td align="left"><code>agOutline()</code></td>
-<td align="left"><code>srOutline()</code></td>
+<td align="left"><code><a href="../reference/ptStyles.html">agOutline()</a></code></td>
+<td align="left"><code><a href="../reference/ptStyles.html">srOutline()</a></code></td>
 <td align="left">Point outline color</td>
 </tr>
 <tr class="odd">
-<td align="left"><code>agOutlineWidth()</code></td>
-<td align="left"><code>srOutlineWidth()</code></td>
+<td align="left"><code><a href="../reference/ptStyles.html">agOutlineWidth()</a></code></td>
+<td align="left"><code><a href="../reference/ptStyles.html">srOutlineWidth()</a></code></td>
 <td align="left">Point outline width</td>
 </tr>
 <tr class="even">
-<td align="left"><code>agRotation()</code></td>
-<td align="left"><code>srRotation()</code></td>
+<td align="left"><code><a href="../reference/ptStyles.html">agRotation()</a></code></td>
+<td align="left"><code><a href="../reference/ptStyles.html">srRotation()</a></code></td>
 <td align="left">Point rotation</td>
 </tr>
 <tr class="odd">
-<td align="left"><code>agAspect()</code></td>
-<td align="left"><code>srAspect()</code></td>
+<td align="left"><code><a href="../reference/ptStyles.html">agAspect()</a></code></td>
+<td align="left"><code><a href="../reference/ptStyles.html">srAspect()</a></code></td>
 <td align="left">Point aspect</td>
 </tr>
 <tr class="even">
-<td align="left"><code>agShape()</code></td>
-<td align="left"><code>srShape()</code></td>
+<td align="left"><code><a href="../reference/ptStyles.html">agShape()</a></code></td>
+<td align="left"><code><a href="../reference/ptStyles.html">srShape()</a></code></td>
 <td align="left">Point shape</td>
 </tr>
 <tr class="odd">
-<td align="left"><code>agDrawingOrder()</code></td>
-<td align="left"><code>srDrawingOrder()</code></td>
+<td align="left"><code><a href="../reference/ptStyles.html">agDrawingOrder()</a></code></td>
+<td align="left"><code><a href="../reference/ptStyles.html">srDrawingOrder()</a></code></td>
 <td align="left">Point drawing order</td>
 </tr>
 </tbody>
@@ -277,43 +273,43 @@
 </tr></thead>
 <tbody>
 <tr class="odd">
-<td align="left"><code><a href="../reference/selectedOptimization.html">selectedOptimization()</a></code></td>
+<td align="left"><code>c("selectedOptimization", "agBaseCoords", "srBaseCoords", "mapComment", "minColBasis", "mapDimensions", "mapTransformation", "mapTranslation", "mapStress", "colBases")()</code></td>
 <td align="left">The selected optimization number</td>
 </tr>
 <tr class="even">
-<td align="left"><code>agBaseCoords()</code></td>
+<td align="left"><code>c("selectedOptimization", "agBaseCoords", "srBaseCoords", "mapComment", "minColBasis", "mapDimensions", "mapTransformation", "mapTranslation", "mapStress", "colBases")()</code></td>
 <td align="left">Antigen base coordinates</td>
 </tr>
 <tr class="odd">
-<td align="left"><code>srBaseCoords()</code></td>
+<td align="left"><code>c("selectedOptimization", "agBaseCoords", "srBaseCoords", "mapComment", "minColBasis", "mapDimensions", "mapTransformation", "mapTranslation", "mapStress", "colBases")()</code></td>
 <td align="left">Sera base coordinates</td>
 </tr>
 <tr class="even">
-<td align="left"><code>mapComment()</code></td>
+<td align="left"><code>c("selectedOptimization", "agBaseCoords", "srBaseCoords", "mapComment", "minColBasis", "mapDimensions", "mapTransformation", "mapTranslation", "mapStress", "colBases")()</code></td>
 <td align="left">Map comment</td>
 </tr>
 <tr class="odd">
-<td align="left"><code>minColBasis()</code></td>
+<td align="left"><code>c("selectedOptimization", "agBaseCoords", "srBaseCoords", "mapComment", "minColBasis", "mapDimensions", "mapTransformation", "mapTranslation", "mapStress", "colBases")()</code></td>
 <td align="left">Map minimum column bases</td>
 </tr>
 <tr class="even">
-<td align="left"><code>mapDimensions()</code></td>
+<td align="left"><code>c("selectedOptimization", "agBaseCoords", "srBaseCoords", "mapComment", "minColBasis", "mapDimensions", "mapTransformation", "mapTranslation", "mapStress", "colBases")()</code></td>
 <td align="left">Number of map dimensions</td>
 </tr>
 <tr class="odd">
-<td align="left"><code><a href="../reference/mapTransformation.html">mapTransformation()</a></code></td>
+<td align="left"><code>c("selectedOptimization", "agBaseCoords", "srBaseCoords", "mapComment", "minColBasis", "mapDimensions", "mapTransformation", "mapTranslation", "mapStress", "colBases")()</code></td>
 <td align="left">Map transformation</td>
 </tr>
 <tr class="even">
-<td align="left"><code>mapTranslation()</code></td>
+<td align="left"><code>c("selectedOptimization", "agBaseCoords", "srBaseCoords", "mapComment", "minColBasis", "mapDimensions", "mapTransformation", "mapTranslation", "mapStress", "colBases")()</code></td>
 <td align="left">Map translation</td>
 </tr>
 <tr class="odd">
-<td align="left"><code>mapStress()</code></td>
+<td align="left"><code>c("selectedOptimization", "agBaseCoords", "srBaseCoords", "mapComment", "minColBasis", "mapDimensions", "mapTransformation", "mapTranslation", "mapStress", "colBases")()</code></td>
 <td align="left">Map stress</td>
 </tr>
 <tr class="even">
-<td align="left"><code>colBases()</code></td>
+<td align="left"><code>c("selectedOptimization", "agBaseCoords", "srBaseCoords", "mapComment", "minColBasis", "mapDimensions", "mapTransformation", "mapTranslation", "mapStress", "colBases")()</code></td>
 <td align="left">Map column bases</td>
 </tr>
 </tbody>
@@ -321,19 +317,11 @@
 </div>
   </div>
 
-  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
+  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
 
-        <div id="tocnav">
-      <h2 class="hasAnchor">
-<a href="#tocnav" class="anchor"></a>Contents</h2>
-      <ul class="nav nav-pills nav-stacked">
-<li><a href="#general-map-attributes">General map attributes</a></li>
-      <li><a href="#antigen-and-sera-attributes">Antigen and sera attributes</a></li>
-      <li><a href="#attributes-related-to-plotting">Attributes related to plotting</a></li>
-      <li><a href="#attributes-related-to-optimization-runs">Attributes related to optimization runs</a></li>
-      </ul>
+        <nav id="toc" data-toggle="toc"><h2 data-toc-skip>Contents</h2>
+    </nav>
 </div>
-      </div>
 
 </div>
 
@@ -344,7 +332,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
 </div>
 
       </footer>

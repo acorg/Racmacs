@@ -10,7 +10,10 @@ R3JS.Renderer = class Renderer {
         });
         this.webglrenderer.localClippingEnabled = true;
         this.webglrenderer.setPixelRatio( window.devicePixelRatio );
-        // this.webglrenderer.setPixelRatio( 2 );
+
+        // // Add SVG renderer
+        // this.svgrenderer = new THREE.SVGRenderer();
+        // this.svgrenderer.setQuality("low");
 
         // Add label renderer
         this.labelrenderer = new THREE.CSS2DRenderer();
@@ -26,16 +29,19 @@ R3JS.Renderer = class Renderer {
     attachToViewport(viewport){
         viewport.canvas.appendChild(this.webglrenderer.domElement);
         viewport.canvas.appendChild(this.labelrenderer.domElement);
+        // viewport.canvas.appendChild(this.svgrenderer.domElement);
     }
 
     setSize(width, height){
         this.webglrenderer.setSize( width, height );
         this.labelrenderer.setSize( width, height );
+        // this.svgrenderer.setSize( width, height );
     }
 
     render(scene, camera){
         this.webglrenderer.render( scene.scene, camera.camera );
         this.labelrenderer.render( scene.scene, camera.camera );
+        // this.svgrenderer.render( scene.scene, camera.camera );
     }
 
     getPixelRatio(){

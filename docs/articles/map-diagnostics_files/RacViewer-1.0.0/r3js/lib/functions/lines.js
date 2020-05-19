@@ -67,7 +67,7 @@
 //                 position.array[i*3+1] = length;
 //             }
 //         }
-//         geo.addAttribute( 'color', new THREE.BufferAttribute( color, 4 ) );
+//         geo.setAttribute( 'color', new THREE.BufferAttribute( color, 4 ) );
 
 //         // Make translation matrix
 //         var transmat = new THREE.Matrix4();
@@ -81,8 +81,8 @@
 //         rotmat.makeRotationFromQuaternion(quat);
         
 //         // Rotate to match vector and position
-//         geo.applyMatrix(rotmat);
-//         geo.applyMatrix(transmat);
+//         geo.applyMatrix4(rotmat);
+//         geo.applyMatrix4(transmat);
 
 //         // Add to overall geometry
 //         geometries.push(geo);
@@ -108,7 +108,7 @@
 //                 color[i*4+3] = 1;
                 
 //             }
-//             geo.addAttribute( 'color', new THREE.BufferAttribute( color, 4 ) );
+//             geo.setAttribute( 'color', new THREE.BufferAttribute( color, 4 ) );
 //             geo.translate(coords[n][0], coords[n][1], coords[n][2]);
 
 //             // Add to overall geometry
@@ -278,8 +278,8 @@
 //     rotmat.makeRotationFromQuaternion(quat);
     
 //     // Rotate to match direction and position
-//     geo.applyMatrix(rotmat);
-//     geo.applyMatrix(transmat);
+//     geo.applyMatrix4(rotmat);
+//     geo.applyMatrix4(transmat);
 
 //     return(geo);
 

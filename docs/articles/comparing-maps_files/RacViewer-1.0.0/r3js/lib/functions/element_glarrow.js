@@ -69,7 +69,7 @@ R3JS.element.glarrow = class GLArrow extends R3JS.element.base {
                 doubleheaded[i+6] = Number(args.doubleheaded[i]);
                 doubleheaded[i+7] = Number(args.doubleheaded[i]);
             }
-            this.line.object.geometry.addAttribute('doubleHeaded', new THREE.BufferAttribute( doubleheaded, 1 ));
+            this.line.object.geometry.setAttribute('doubleHeaded', new THREE.BufferAttribute( doubleheaded, 1 ));
 
         }
 
@@ -84,7 +84,7 @@ R3JS.element.glarrow = class GLArrow extends R3JS.element.base {
             arrowheadlength[i+6] = 0.02*args.size[i];
             arrowheadlength[i+7] = 0.02*args.size[i];
         }
-        this.line.object.geometry.addAttribute('arrowheadlength', new THREE.BufferAttribute( arrowheadlength, 1 ));
+        this.line.object.geometry.setAttribute('arrowheadlength', new THREE.BufferAttribute( arrowheadlength, 1 ));
 
         // Switch shaders to the arrow stem shader
         // (these won't render the parts of the line where the arrow head is)
@@ -227,14 +227,14 @@ R3JS.element.glarrowhead = class GLArrowhead extends R3JS.element.base {
 
         // Create buffer geometry
         var geometry = new THREE.BufferGeometry();
-        geometry.addAttribute( 'position',     new THREE.BufferAttribute( positions,    3 ) );
-        geometry.addAttribute( 'fillColor',    new THREE.BufferAttribute( fillColor,    4 ) );
-        geometry.addAttribute( 'outlineColor', new THREE.BufferAttribute( outlineColor, 4 ) );
-        geometry.addAttribute( 'outlineWidth', new THREE.BufferAttribute( outlineWidth, 1 ) );
-        geometry.addAttribute( 'size',         new THREE.BufferAttribute( sizes,        1 ) );
-        geometry.addAttribute( 'aspect',       new THREE.BufferAttribute( aspect,       1 ) );
-        geometry.addAttribute( 'rotation',     new THREE.BufferAttribute( rotation,     1 ) );
-        geometry.addAttribute( 'visible',      new THREE.BufferAttribute( visible,      1 ) );
+        geometry.setAttribute( 'position',     new THREE.BufferAttribute( positions,    3 ) );
+        geometry.setAttribute( 'fillColor',    new THREE.BufferAttribute( fillColor,    4 ) );
+        geometry.setAttribute( 'outlineColor', new THREE.BufferAttribute( outlineColor, 4 ) );
+        geometry.setAttribute( 'outlineWidth', new THREE.BufferAttribute( outlineWidth, 1 ) );
+        geometry.setAttribute( 'size',         new THREE.BufferAttribute( sizes,        1 ) );
+        geometry.setAttribute( 'aspect',       new THREE.BufferAttribute( aspect,       1 ) );
+        geometry.setAttribute( 'rotation',     new THREE.BufferAttribute( rotation,     1 ) );
+        geometry.setAttribute( 'visible',      new THREE.BufferAttribute( visible,      1 ) );
 
         var vwidth  = viewport.getWidth();
         var vheight = viewport.getWidth();
@@ -327,7 +327,7 @@ R3JS.element.glarrow3d = class GLArrow3d extends R3JS.element.base {
                 doubleheaded[i+6] = Number(args.doubleheaded[i]);
                 doubleheaded[i+7] = Number(args.doubleheaded[i]);
             }
-            this.line.object.geometry.addAttribute('doubleHeaded', new THREE.BufferAttribute( doubleheaded, 1 ));
+            this.line.object.geometry.setAttribute('doubleHeaded', new THREE.BufferAttribute( doubleheaded, 1 ));
 
         }
 
@@ -342,7 +342,7 @@ R3JS.element.glarrow3d = class GLArrow3d extends R3JS.element.base {
             arrowheadlength[i+6] = 0.02*args.size[i];
             arrowheadlength[i+7] = 0.02*args.size[i];
         }
-        this.line.object.geometry.addAttribute('arrowheadlength', new THREE.BufferAttribute( arrowheadlength, 1 ));
+        this.line.object.geometry.setAttribute('arrowheadlength', new THREE.BufferAttribute( arrowheadlength, 1 ));
 
         // Switch shaders to the arrow stem shader
         // (these won't render the parts of the line where the arrow head is)

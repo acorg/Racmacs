@@ -80,31 +80,10 @@ Racmacs.StressBlobsTable = class StressBlobsList extends Racmacs.TableList {
 }
 
 // Show blobs in the viewer
-Racmacs.Viewer.prototype.addBlobs = function(blobs, show=false){
-
-    // Add to the blob panel
-    if(this.blobTable){
-        this.blobTable.addData(blobs);
-    }
+Racmacs.Viewer.prototype.addStressBlobs = function(data){
 
     // Show the blobs
-    if(show){
-        this.showBlobs(blobs.blob_data);
-    }
-
-}
-
-// Show blobs in the viewer
-Racmacs.Viewer.prototype.showBlobs = function(blobdata){
-
-    console.log(blobdata);
-
-    if(this.blobTable){
-        this.blobTable.checkbox.enable();
-        this.blobTable.checkbox.check(false);
-    }
-
-    // Show the blobs
+    var blobdata = data.blob_data;
     for(var i=0; i<this.antigens.length; i++){
         if(blobdata.antigens[i] 
            && Object.keys(blobdata.antigens[i]).length !== 0){

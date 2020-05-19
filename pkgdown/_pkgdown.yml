@@ -2,6 +2,34 @@ destination: docs
 template:
   params:
     bootswatch: flatly
+navbar:
+  structure:
+    left:
+    - home
+    - intro
+    - reference
+    - articles
+    - tutorials
+    - news
+    right: github
+  components:
+    home:
+      icon: fas fa-home fa-lg
+      href: index.html
+    reference:
+      text: Reference
+      href: reference/index.html
+    github:
+      icon: fab fa-github fa-lg
+      href: https://github.com/acorg/Racmacs/
+    articles:
+      text: Articles
+      href: articles/index.html
+articles:
+- title: Getting started
+  contents:
+  - making-a-map-from-scratch
+  - comparing-maps
 reference:
 - title: Working with map data
   contents:

@@ -70,6 +70,17 @@ R3JS.element.Point = class Point extends R3JS.element.base {
         var mat = R3JS.Material(args.properties);
         var geo = R3JS.Geometries[args.shape].fill(this.lwd);
         this.fill = new THREE.Mesh(geo, mat);
+        
+        // var node = document.createElement("circle");
+        // node.setAttribute("cx", "0");
+        // node.setAttribute("cy", "0");
+        // node.setAttribute("r", "10000");
+        // node.setAttribute("stroke", "black");
+        // node.setAttribute("stroke-width", "3");
+        // node.setAttribute("fill", "red");
+        // this.fill = new THREE.SVGObject(node);
+        // this.fill.material = new THREE.MeshBasicMaterial();
+        
         this.fill.element = this;
         this.object.add(this.fill);
       }
@@ -300,7 +311,7 @@ R3JS.Geometries.square2d = {
 //                 0.18477590382099152, -0.07653668522834778, 0,
 //                 0.1961570531129837, -0.039018064737319946, 0,
 //             ]);
-//             geo.addAttribute( 'position', new THREE.BufferAttribute( vertices, 3 ) );
+//             geo.setAttribute( 'position', new THREE.BufferAttribute( vertices, 3 ) );
 //             return(geo);
 //         };
 //         var osquare = function(lwd){
@@ -321,7 +332,7 @@ R3JS.Geometries.square2d = {
 //                0.15,  0.15,  0.0,
 //                0.15, -0.15,  0.0
 //             ]);
-//             geo.addAttribute( 'position', new THREE.BufferAttribute( vertices, 3 ) );
+//             geo.setAttribute( 'position', new THREE.BufferAttribute( vertices, 3 ) );
 //             return(geo);
 //         };
 

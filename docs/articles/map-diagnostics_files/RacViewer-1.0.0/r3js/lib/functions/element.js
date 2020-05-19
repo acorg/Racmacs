@@ -4,6 +4,9 @@ R3JS.element.constructors = {};
 
 R3JS.element.base = class Element {
 
+    constructor(){
+        this.layers = new THREE.Layers();
+    }
 	show(){ this.object.visible = true  }
     hide(){ this.object.visible = false }
     showMat(){ 
@@ -91,7 +94,7 @@ R3JS.element.base = class Element {
     	this.dehighlightGroup();
     }
 
-    click(){
+    click(event){
     }
 
     // Check whether point falls within a selection rectangle
@@ -122,6 +125,10 @@ R3JS.element.base = class Element {
 
     // Event for selection within a rectangle
     rectangleSelect(){
+    }
+
+    breakupMesh(){
+        this.object = R3JS.utils.breakupMesh(this.object);
     }
 
 }

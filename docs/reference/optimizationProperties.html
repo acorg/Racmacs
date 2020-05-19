@@ -8,6 +8,13 @@
 
 <title>Get optimization properties — optimizationProperties • Racmacs</title>
 
+<!-- favicons -->
+<link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
+<link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../apple-touch-icon.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png" />
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
@@ -42,6 +49,7 @@
 <meta property="og:title" content="Get optimization properties — optimizationProperties" />
 <meta property="og:description" content="Utility functions to get a vector of all the map optimization
 properties." />
+<meta property="og:image" content="/logo.png" />
 
 
 
@@ -96,31 +104,18 @@ properties." />
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="../articles/comparing-maps.html">Comparing maps</a>
-    </li>
-    <li>
-      <a href="../articles/getting-and-setting-map-attributes.html">Getting and setting map attributes</a>
-    </li>
-    <li>
-      <a href="../articles/loading-map-data.html">Reading a map file</a>
-    </li>
-    <li>
-      <a href="../articles/making-a-map-from-scratch.html">Making an antigenic map from scratch</a>
-    </li>
-    <li>
-      <a href="../articles/map-diagnostics.html">Performing map diagnostics</a>
-    </li>
-    <li>
-      <a href="../articles/merging-maps.html">Merging maps</a>
-    </li>
-    <li>
-      <a href="../articles/testing-maps.html">Testing maps</a>
+      <a href="../articles/making-a-map-from-scratch.html">Making an antigenic map from titer data</a>
     </li>
   </ul>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
-        
+        <li>
+  <a href="https://github.com/acorg/Racmacs/">
+    <span class="fab fa fab fa-github fa-lg"></span>
+     
+  </a>
+</li>
       </ul>
       
     </div><!--/.nav-collapse -->
@@ -135,7 +130,7 @@ properties." />
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Get optimization properties</h1>
-    
+    <small class="dont-index">Source: <a href='https://github.com/acorg/Racmacs/blob/master/R/map_chart.R'><code>R/map_chart.R</code></a></small>
     <div class="hidden name"><code>optimizationProperties.Rd</code></div>
     </div>
 
@@ -144,9 +139,9 @@ properties." />
 properties.</p>
     </div>
 
-    <pre class="usage"><span class='fu'><a href='mapInfo.html'>allMapStresses</a></span>(<span class='no'>map</span>)
+    <pre class="usage"><span class='fu'>allMapStresses</span>(<span class='no'>map</span>)
 
-<span class='fu'><a href='mapInfo.html'>allMapDimensions</a></span>(<span class='no'>map</span>)</pre>
+<span class='fu'>allMapDimensions</span>(<span class='no'>map</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -160,9 +155,9 @@ properties.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p>Other functions to work with map optimizations: 
-<code><a href='mapInfo.html'>keepSingleOptimization</a>()</code>,
-<code><a href='mapInfo.html'>removeOptimizations</a>()</code>,
-<code><a href='mapInfo.html'>sortOptimizations</a>()</code></p></div>
+<code><a href='keepSingleOptimization.html'>keepSingleOptimization</a>()</code>,
+<code><a href='removeOptimizations.html'>removeOptimizations</a>()</code>,
+<code><a href='sortOptimizations.html'>sortOptimizations</a>()</code></p></div>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

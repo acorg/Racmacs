@@ -13,8 +13,8 @@ Racmacs.Viewer.prototype.toggleLockPointSize = function(){
 Racmacs.Viewer.prototype.lockPointSize = function(){
 
     this.pointSizeLocked = true;
-    if(this.viewport.btns["toggleLockPointSize"]){
-        this.viewport.btns["toggleLockPointSize"].updateIcon(Racmacs.icons.unlocksize());
+    if(this.btns["toggleLockPointSize"]){
+        this.btns["toggleLockPointSize"].updateIcon(Racmacs.icons.unlocksize());
     }
 
 }
@@ -22,8 +22,8 @@ Racmacs.Viewer.prototype.lockPointSize = function(){
 Racmacs.Viewer.prototype.unlockPointSize = function(){
 
     this.pointSizeLocked = false;
-    if(this.viewport.btns["toggleLockPointSize"]){
-        this.viewport.btns["toggleLockPointSize"].updateIcon(Racmacs.icons.locksize());
+    if(this.btns["toggleLockPointSize"]){
+        this.btns["toggleLockPointSize"].updateIcon(Racmacs.icons.locksize());
     }
 
 }
@@ -48,20 +48,21 @@ Racmacs.Viewer.prototype.addAgSrPoints = function(){
             points.map( p => p.scaling = 0.2 );
 
             // Extract values
-            var coords = points.map( p => p.coordsNoNA() );
-            var size   = points.map( p => p.size*p.scaling );
+            var coords  = points.map( p => p.coordsNoNA() );
+            var size    = points.map( p => p.size*p.scaling );
             var shape  = points.map( function(p){
                 var shape = p.shape.toLowerCase();
-                if(shape == "circle")  return("bcircle")
-                if(shape == "box")     return("bsquare")
-                if(shape == "egg")     return("begg")
-                if(shape == "uglyegg") return("buglyegg")
+                if(shape == "circle")   return("bcircle")
+                if(shape == "triangle") return("btriangle")
+                if(shape == "box")      return("bsquare")
+                if(shape == "egg")      return("begg")
+                if(shape == "uglyegg")  return("buglyegg")
             });
             var fillcols    = points.map( p => p.getFillColorRGBA()    );
             var outlinecols = points.map( p => p.getOutlineColorRGBA() );
             var visible = points.map( function(p){
-                if(p.na_coords){ return(false) }
-                else           { return(true)  }
+                if(p.na_coords || !p.shown){ return(false) }
+                else                       { return(true)  }
             });
 
             // Set properties
@@ -100,6 +101,7 @@ Racmacs.Viewer.prototype.addAgSrPoints = function(){
                 coords : coords,
                 size : size,
                 shape : shape,
+                visible : visible,
                 dimensions : this.mapdims.dimensions,
                 properties : properties,
                 viewer : this.scene.viewer,
@@ -169,7 +171,8 @@ Racmacs.Viewer.prototype.addAgSrPoints = function(){
                         b : outlinecolor[2]
                     },
                     transparent : true,
-                    lwd : points[i].outlineWidth
+                    lwd : points[i].outlineWidth,
+                    visible: points[i].shown
                 }
             });
 

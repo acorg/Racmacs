@@ -29,7 +29,10 @@ articles:
 - title: Getting started
   contents:
   - making-a-map-from-scratch
+- title: Further usage
+  contents:
   - comparing-maps
+  - merging-maps
 reference:
 - title: Working with map data
   contents:

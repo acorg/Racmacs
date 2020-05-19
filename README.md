@@ -1,5 +1,5 @@
 
-<img src="man/figures/logo.png" align="right" style="width:200px; margin-top:40px">
+<img src="man/figures/logo.png" align="right" style="width:160px; margin-top:40px">
 
 # Racmacs
 The Racmacs package provides a toolkit for making antigenic maps from assay data such as HI assays, as described in [Smith et al. 2004](https://doi.org/10.1126/science.1097211).

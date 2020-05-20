@@ -1,4 +1,9 @@
 
+<!-- badges: start -->
+[![Lifecycle:
+maturing](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/#maturing)
+<!-- badges: end -->
+
 <img src="man/figures/logo.png" align="right" style="width:200px; margin-top:40px">
 
 # Racmacs

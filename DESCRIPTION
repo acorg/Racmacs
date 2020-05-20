@@ -3,8 +3,8 @@ Type: Package
 Title: Interface R with acmacs
 Version: 1.0.10
 Date: 2019-06-10
-Author: S. H. Wilks
-Maintainer: S. H. Wilks <sw463@cam.ac.uk>
+Author: Sam Wilks
+Maintainer: Sam Wilks <sw463@cam.ac.uk>
 Description: A toolkit for making antigenic maps from assay data such as HI assays.
 Imports: 
     Rcpp, 

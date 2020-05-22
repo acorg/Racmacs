@@ -226,7 +226,7 @@ mapRelaxed <- function(map,
   stress         <- mapStress(map, optimization_number)
 
   # Relax map
-  relaxed_map    <- relaxMap(map, optimization_number)
+  relaxed_map    <- relaxMapOneStep(map, optimization_number)
   relaxed_stress <- mapStress(relaxed_map, optimization_number)
 
   # Compare stress

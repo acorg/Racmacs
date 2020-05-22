@@ -7,6 +7,13 @@ run.maptests(
   loadlocally = FALSE,
   {
 
+    map  <- read.acmap("inst/extdata/h3map2004.ace")
+    map2 <- optimizeMapMLE(map)
+    browser()
+
+    plot(agCoords(map))
+    points(agCoords(map2), col = "red")
+
     # Setup an expect close function
     expect_close <- function(a, b) expect_equal(a, b)
 

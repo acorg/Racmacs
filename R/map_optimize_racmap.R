@@ -41,23 +41,54 @@ relaxMap.racmap <- function(map,
   if(is.null(optimization_number)) optimization_number <- selectedOptimization(map)
 
   # Create a new dummy chart
-  acchart <- acmap.cpp(table = titerTable(map),
-                       ag_coords = agCoords(map, optimization_number),
-                       sr_coords = srCoords(map, optimization_number),
-                       minimum_column_basis = minColBasis(map, optimization_number),
-                       column_bases = colBases(map, optimization_number))
+  acchart <- acmap.cpp(
+    table                = titerTable(map),
+    ag_coords            = agBaseCoords(map, optimization_number, .name = FALSE),
+    sr_coords            = srBaseCoords(map, optimization_number, .name = FALSE),
+    minimum_column_basis = minColBasis(map, optimization_number),
+    column_bases         = colBases(map, optimization_number, .name = FALSE)
+  )
 
   # Relax the optimization
   acchart <- relaxMap(acchart)
 
   # Update the coordinates
-  agCoords(map, optimization_number) <- agCoords(acchart)
-  srCoords(map, optimization_number) <- srCoords(acchart)
+  agBaseCoords(map, optimization_number) <- agBaseCoords(acchart, .name = FALSE)
+  srBaseCoords(map, optimization_number) <- srBaseCoords(acchart, .name = FALSE)
 
   # Return the new chart
   map
 
 }
+
+
+#' @export
+relaxMapOneStep.racmap <- function(map,
+                                   optimization_number = NULL){
+
+  if(is.null(optimization_number)) optimization_number <- selectedOptimization(map)
+
+  # Create a new dummy chart
+  acchart <- acmap.cpp(
+    table                = titerTable(map),
+    ag_coords            = agBaseCoords(map, optimization_number, .name = FALSE),
+    sr_coords            = srBaseCoords(map, optimization_number, .name = FALSE),
+    minimum_column_basis = minColBasis(map, optimization_number),
+    column_bases         = colBases(map, optimization_number, .name = FALSE)
+  )
+
+  # Relax the optimization
+  acchart <- relaxMapOneStep(acchart)
+
+  # Update the coordinates
+  agBaseCoords(map, optimization_number) <- agBaseCoords(acchart, .name = FALSE)
+  srBaseCoords(map, optimization_number) <- srBaseCoords(acchart, .name = FALSE)
+
+  # Return the new chart
+  map
+
+}
+
 
 
 #' @export

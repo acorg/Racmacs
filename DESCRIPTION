@@ -27,7 +27,9 @@ Suggests:
     testthat,
     plotly,
     knitr,
-    rmarkdown
+    rmarkdown,
+    misc3d,
+    r3js
 RoxygenNote: 7.1.0
 Roxygen: list(markdown = TRUE)
 LinkingTo: Rcpp

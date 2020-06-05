@@ -8,7 +8,7 @@ maturing](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www
 # Racmacs
 The Racmacs package provides a toolkit for making antigenic maps from assay data such as HI assays, as described in [Smith et al. 2004](https://doi.org/10.1126/science.1097211).
 
-For a general introduction to using Racmacs to make an antigenic map from titer data see the article "[Making an antigenic map from titer data](articles/making-a-map-from-scratch.html)". For documentation of the functions available see the [references](references/index.html) section.
+For a general introduction to using Racmacs to make an antigenic map from titer data see the article "[Making an antigenic map from titer data](articles/making-a-map-from-scratch.html)". For documentation of the functions available see the [reference](reference/index.html) section.
 
 ## Installation instructions
 ### Install the devtools package

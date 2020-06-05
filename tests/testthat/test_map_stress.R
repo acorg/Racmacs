@@ -1,5 +1,6 @@
 
 library(testthat)
+library(Racmacs)
 context("Test stress calculations")
 
 run.maptests(
@@ -7,26 +8,13 @@ run.maptests(
   loadlocally = FALSE,
   {
 
-    map  <- read.acmap("inst/extdata/h3map2004.ace")
-    map2 <- optimizeMapMLE(map)
-    browser()
-
-    plot(agCoords(map))
-    points(agCoords(map2), col = "red")
-
-    # Setup an expect close function
-    expect_close <- function(a, b) expect_equal(a, b)
-
-    map   <- read.map(system.file("extdata/h3map2004.ace", package = "Racmacs"))
-    chart <- new(acmacs.r::acmacs.Chart, system.file("extdata/h3map2004.ace", package = "Racmacs"))
+    map   <- read.map(test_path("../testdata/testmap_h3subset.ace"))
+    chart <- new(acmacs.r::acmacs.Chart, test_path("../testdata/testmap_h3subset.ace"))
 
     test_that(paste("acmacs.r and Racmacs functions give the same stress", maptype), {
 
-      expect_close(mapStress(map),
-                   chart$projections[[1]]$stress)
-
-      for(optimization_num in 1:10){
-        expect_close(mapStress(map, optimization_num),
+      for(optimization_num in seq_along(numOptimizations(map))){
+        expect_equal(mapStress(map, optimization_num),
                      chart$projections[[optimization_num]]$stress)
       }
 
@@ -60,9 +48,6 @@ run.maptests(
 
       expect_equal(length(ag_likelihoods), numAntigens(map))
       expect_equal(length(sr_likelihoods), numSera(map))
-
-      expect_gt(sum(ag_likelihoods09), sum(ag_likelihoods))
-      expect_gt(sum(sr_likelihoods09), sum(sr_likelihoods))
 
       ag_stress_per_titer <- agStressPerTiter(map)
       sr_stress_per_titer <- srStressPerTiter(map)

@@ -63,7 +63,12 @@ Racmacs.Viewer.prototype.setGrid = function(){
 
     }
 
-    this.gridholder.add(element.object)
+    if(this.svg){
+        element = new R3JS.element.base();
+        element.object = new THREE.Object3D();
+    }
+
+    this.gridholder.add(element.object);
     this.gridelement = element;
 
 }

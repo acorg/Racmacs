@@ -88,6 +88,12 @@ R3JS.element.make = function(
             plotobj,
             plotdims
         );
+    } else if(plotobj.type == "shape"){
+        // 3d shape
+        var element = this.constructors.polygon3d(
+            plotobj,
+            plotdims
+        );
     } else {
         throw("Plot object type '"+plotobj.type+"' not recognised.");
     }
@@ -97,7 +103,7 @@ R3JS.element.make = function(
         element.setRenderOrder(plotobj.properties.renderOrder);
     }
 
-    // object = R3JS.utils.removeSelfTransparency(object);
+
     if(element.object.material){
         // element.object = R3JS.utils.separateSides(element.object);
     }
@@ -258,9 +264,11 @@ R3JS.Scene.prototype.addPlotElement = function(
             );
         } else {
             for(var i=0; i<element.object.children.length; i++){
-                element.object.children[i].material.clippingPlanes = element.object.children[i].material.clippingPlanes.concat(
-                    clippingPlanes
-                );
+                if(element.object.children[i].material && element.object.children[i].material.clippingPlanes){
+                    element.object.children[i].material.clippingPlanes = element.object.children[i].material.clippingPlanes.concat(
+                        clippingPlanes
+                    );
+                }
             }
         }
 
@@ -281,6 +289,10 @@ R3JS.Scene.prototype.addPlotElement = function(
             }
         }
 
+    }
+
+    if(plotobj.properties.breakupMesh){
+        element.breakupMesh();
     }
 
     // Add group reference
@@ -775,7 +787,7 @@ function make_arrow(object){
 //             geo.attributes.position.array[i*9+7] - y_mean,
 //             geo.attributes.position.array[i*9+8] - z_mean
 //         ] );
-//         g.addAttribute( 'position', new THREE.BufferAttribute( v, 3 ) );
+//         g.setAttribute( 'position', new THREE.BufferAttribute( v, 3 ) );
 //         var c = new Float32Array( [
 //             geo.attributes.color.array[i*9],
 //             geo.attributes.color.array[i*9+1],
@@ -787,7 +799,7 @@ function make_arrow(object){
 //             geo.attributes.color.array[i*9+7],
 //             geo.attributes.color.array[i*9+8]
 //         ] );
-//         g.addAttribute( 'color', new THREE.BufferAttribute( c, 3 ) );
+//         g.setAttribute( 'color', new THREE.BufferAttribute( c, 3 ) );
 //         var n = new Float32Array( [
 //             geo.attributes.normal.array[i*9],
 //             geo.attributes.normal.array[i*9+1],
@@ -799,7 +811,7 @@ function make_arrow(object){
 //             geo.attributes.normal.array[i*9+7],
 //             geo.attributes.normal.array[i*9+8]
 //         ] );
-//         g.addAttribute( 'normal', new THREE.BufferAttribute( n, 3 ) );
+//         g.setAttribute( 'normal', new THREE.BufferAttribute( n, 3 ) );
         
 //         // Set clipping
 //         var mesh = new THREE.Mesh( g, mat );

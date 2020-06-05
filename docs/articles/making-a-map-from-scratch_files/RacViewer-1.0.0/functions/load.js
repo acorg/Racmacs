@@ -25,6 +25,8 @@ Racmacs.Viewer.prototype.loadMapData = function(){
     // Show or hide control panels
     if(settings.hide_control_panel || settings.hide_control_panel === undefined){
         this.controlpanel.hide();
+    } else {
+        this.controlpanel.show();
     }
 
     // Set the map data

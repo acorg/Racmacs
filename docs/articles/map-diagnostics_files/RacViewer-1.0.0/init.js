@@ -149,6 +149,56 @@ Racmacs.Viewer = class RacViewer extends Racmacs.App {
         // Setup control panel
         new Racmacs.ControlPanel(this);
 
+        // Add focus listener for viewport to capture keystrokes
+        let holder = this.viewport.holder;
+        holder.setAttribute("tabindex", 1);
+        holder.style.outline = "none";
+        holder.style.border = "solid 4px #eeeeee";
+        holder.addEventListener('mouseup', function(e){
+            this.focus();
+        });
+        holder.addEventListener('focus', function(e){
+            this.style.border = "solid 4px #bde7ef";
+        });
+        holder.addEventListener('blur', function(e){
+            this.style.border = "solid 4px #eeeeee";
+        });
+
+        // Add focus if this is a standalone page
+        if(this.fullpage()){
+            holder.focus(); 
+        }
+
+        // Add keystroke shortcuts
+        holder.addEventListener('keyup', e => {
+            switch(e.key){
+                case "e":
+                    this.toggleErrorLines();
+                    break;
+                case "c":
+                    this.toggleConnectionLines();
+                    break;
+                case "=":
+                    this.resizePoints(1.2);
+                    break;
+                case "-":
+                    this.resizePoints(0.8);
+                    break;
+                case "m":
+                    this.toggleDragMode();
+                    break;
+                case "f":
+                    this.toggleLockPointSize();
+                    break;
+                case "r":
+                    this.resetTransformation();
+                    break;
+                case "Escape":
+                    this.deselectAll();
+                    break;
+            }
+        });
+
         // Set a default title
         this.setTitle("Racmacs viewer");
 

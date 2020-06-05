@@ -164,8 +164,17 @@ R3JS.Viewer = class R3JSviewer {
 
     }
 
+    // Return aspect ratio
     getAspect(){
         return(this.viewport.getAspect());
+    }
+
+    // Check if this is part of a page or the whole page
+    fullpage(){
+        return(
+            this.container.offsetHeight == document.body.offsetHeight &&
+            this.container.offsetWidth  == document.body.offsetWidth
+        )
     }
 
 }

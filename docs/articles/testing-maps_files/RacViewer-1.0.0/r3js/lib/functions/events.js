@@ -1,21 +1,5 @@
 
 
-document.keydown = {
-    key : null
-};
-
-document.addEventListener("keydown", function(event){
-    this.keydown = event;
-});
-
-document.addEventListener("keyup", function(event){
-    this.keydown = {
-        key : null
-    };
-});
-
-
-
 // Window focus event listener
 R3JS.Viewport.prototype.onwindowblur = function(event){ 
     this.onkeyup();
@@ -25,7 +9,7 @@ R3JS.Viewport.prototype.onwindowblur = function(event){
 
 
 // Add window resize events
-R3JS.Viewport.prototype.onwindowresize = function(event){ 
+R3JS.Viewport.prototype.onwindowresize = function(){ 
     
     // Resize camera
     this.viewer.camera.setSize(this.getWidth(), this.getHeight());
@@ -138,9 +122,9 @@ R3JS.Viewport.prototype.onmouseup = function(event){
 
     var intersectedElements = this.viewer.raytracer.intersectedElements();
     if(intersectedElements.length === 0){
-        this.viewer.clickBackground();
+        this.viewer.clickBackground(event);
     } else {
-        this.viewer.clickElements(intersectedElements);
+        this.viewer.clickElements(intersectedElements, event);
     }
 }
 

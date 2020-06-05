@@ -152,6 +152,7 @@ R3JS.Shaders.FragmentShader2D = `
 	varying float pPixelRatio;
 	varying vec2 screenpos;
 
+
 	uniform float opacity;
 
 	void main() {
@@ -183,7 +184,11 @@ R3JS.Shaders.FragmentShader2D = `
         }
 
         // Transform for aspect
-        p.x = p.x/pAspect;
+        if(pAspect < 1.0){
+        	p.x = p.x/pAspect;
+        } else{
+        	p.y = p.y*pAspect;
+        }
 
         // Square
 	    if(pShape == 1.0){
@@ -226,8 +231,8 @@ R3JS.Shaders.FragmentShader2D = `
 	    // Triangle
 	    if(pShape == 2.0){
 
-		    vec2 p1 = vec2(0.3849,  0.1666);
-			vec2 p2 = vec2(-0.3849, 0.1666);
+		    vec2 p1 = vec2(0.4330127,  0.25);
+			vec2 p2 = vec2(-0.4330127, 0.25);
 			vec2 p3 = vec2(0,    -0.5);
 	        
 			float alpha = ((p2.y - p3.y)*(p.x - p3.x) + (p3.x - p2.x)*(p.y - p3.y)) /

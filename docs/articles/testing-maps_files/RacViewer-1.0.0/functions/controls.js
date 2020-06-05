@@ -7,11 +7,11 @@ Racmacs.ControlPanel = class ControlPanel {
         viewer.controlpanel = this;
         var controlpanel = this;
 
-        this.visible   = true;
+        this.visible   = false;
         this.fullwidth = 300;
 
         // Add button to show and hide controls
-        viewer.viewport.addButton({
+        viewer.addButton({
             name  : "toggleControlPanel",
             title : "Toggle the control panel",
             icon  : Racmacs.icons.controlPanel(),
@@ -23,6 +23,7 @@ Racmacs.ControlPanel = class ControlPanel {
         // Add holder div
         this.div = document.createElement( 'div' );
         this.div.classList.add("control-panel");
+        this.div.style.display = "none";
         this.viewer.wrapper.appendChild( this.div );
 
         // Create title div
@@ -53,14 +54,14 @@ Racmacs.ControlPanel = class ControlPanel {
         savetab.tab.classList.add("shiny-element");
 
         // Add Table
-        var hitablepanel = new Racmacs.HItablePanel(this.viewer);
-        this.tabset.addTab({
-            id : "hitable",
-            name: "Table",
-            content: hitablepanel.div,
-            onshow: function(){ viewer.showTable() },
-            onhide: function(){ viewer.hideTable() }
-        });
+        // var hitablepanel = new Racmacs.HItablePanel(this.viewer);
+        // this.tabset.addTab({
+        //     id : "hitable",
+        //     name: "Table",
+        //     content: hitablepanel.div,
+        //     onshow: function(){ viewer.showTable() },
+        //     onhide: function(){ viewer.hideTable() }
+        // });
 
         // Add Projection list
         var projectionsPanel = new Racmacs.ProjectionsPanel(this.viewer);
@@ -149,9 +150,6 @@ Racmacs.ControlPanel = class ControlPanel {
         //     content: bootstrapPanel.div
         // });
 
-        // Set the width
-        this.setWidth(this.fullwidth);
-
         // By default hide the shiny elements
         this.hideShinyElements();
 
@@ -214,7 +212,7 @@ Racmacs.ControlPanel = class ControlPanel {
         for(var i=0; i<shiny_elements.length; i++){
             shiny_elements[i].style.display = "none";
         }
-        this.viewer.viewport.btns["reflectMap"].style.display = "none";
+        this.viewer.btns["reflectMap"].style.display = "none";
     }
 
     showShinyElements(){
@@ -222,7 +220,7 @@ Racmacs.ControlPanel = class ControlPanel {
         for(var i=0; i<shiny_elements.length; i++){
             shiny_elements[i].style.display = null;
         }
-        this.viewer.viewport.btns["reflectMap"].style.display = null;
+        this.viewer.btns["reflectMap"].style.display = null;
     }
 
 }

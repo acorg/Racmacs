@@ -1,6 +1,7 @@
 
 // Setup object
-R3JS = {};
+if(typeof R3JS === "undefined") R3JS = {};
+
 R3JS.Viewer = class R3JSviewer {
 
     // Constructor function
@@ -19,6 +20,7 @@ R3JS.Viewer = class R3JSviewer {
 
         // Set the container
         this.container = container;
+        container.viewer = this;
 
         // Create viewport
         this.viewport = new R3JS.Viewport(this);
@@ -162,57 +164,18 @@ R3JS.Viewer = class R3JSviewer {
 
     }
 
+    // Return aspect ratio
     getAspect(){
         return(this.viewport.getAspect());
     }
 
-    
-    
-    // // Set render function
-    // this.render = function(){};
-
-    // // Bind event listeners
-    // bind_events(this.viewport);
-
-    // // Bind navigation functions
-    // bind_navigation(this.viewport);
-
-    // // Bind api functions
-    // bind_api(container, this.viewport);
-
-    // // Bind highlight functions
-    // bind_highlight_fns(this.viewport);
-
-    // // Bind raytracing
-    // bind_raytracing(this.viewport);
-
-    // // Add buttons
-    // addButtons(this.viewport);
-
-    // // Animate the scene
-    // this.render();
-    // function animate() {
-
-    //     if(this.scene){
-    //         if(this.raytraceNeeded || this.sceneChange){
-    //             this.raytraceNeeded = false;
-    //             this.raytrace();
-    //         }
-    //         if(this.animate || this.sceneChange){
-    //             this.sceneChange = false;
-    //             this.render();
-    //         }
-    //     }
-    //     requestAnimationFrame(animate);
-
-    // }
-
-    // // Start the animation
-    // animate();
-
-    // // Dispatch viewer loaded event
-    // var r3jsViewerLoaded_event = new CustomEvent('r3jsViewerLoaded', { detail : viewport });
-    // window.dispatchEvent(r3jsViewerLoaded_event);
+    // Check if this is part of a page or the whole page
+    fullpage(){
+        return(
+            this.container.offsetHeight == document.body.offsetHeight &&
+            this.container.offsetWidth  == document.body.offsetWidth
+        )
+    }
 
 }
 

@@ -39,7 +39,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">Racmacs</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.10</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.11</span>
       </span>
     </div>
 
@@ -99,17 +99,17 @@
 <a href="#install-acmacsr" class="anchor"></a>Install acmacs.r</h3>
 <p><a href="https://github.com/acorg/acmacs.r">acmacs.r</a> is the underlying package on which Racmacs is built. While Racmacs adds a lot of additional functionality of its own, all the underlying optimization routines for making the maps are contained within acmacs.r. Unfortunately there is currently no version for windows but mac and linux versions are available. Depending upon your operating system run one of the commands below.</p>
 <div class="sourceCode" id="cb2"><pre class="r"><span class="co"># Mac</span>
-<span class="kw pkg">remotes</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/remotes/man/install_url.html">install_url</a></span>(<span class="st">"https://github.com/acorg/acmacs.r/releases/download/v4.5/acmacs.r_4.5_R_macOS-10.14.tgz"</span>, <span class="kw">build</span> <span class="kw">=</span> <span class="fl">FALSE</span>)
+<span class="kw pkg">remotes</span><span class="kw ns">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_url.html">install_url</a></span>(<span class="st">"https://github.com/acorg/acmacs.r/releases/download/v4.6/acmacs.r_4.6_R_macOS-10.14.tgz"</span>, <span class="kw">build</span> <span class="kw">=</span> <span class="fl">FALSE</span>)
 
 <span class="co"># Linux</span>
-<span class="kw pkg">remotes</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/remotes/man/install_url.html">install_url</a></span>(<span class="st">"https://github.com/acorg/acmacs.r/releases/download/v4.5/acmacs.r_4.5_R_x86_64-pc-linux-gnu.tar.gz"</span>, <span class="kw">build</span> <span class="kw">=</span> <span class="fl">FALSE</span>)</pre></div>
+<span class="kw pkg">remotes</span><span class="kw ns">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_url.html">install_url</a></span>(<span class="st">"https://github.com/acorg/acmacs.r/releases/download/v4.5/acmacs.r_4.5_R_x86_64-pc-linux-gnu.tar.gz"</span>, <span class="kw">build</span> <span class="kw">=</span> <span class="fl">FALSE</span>)</pre></div>
 </div>
 <div id="install-racmacs" class="section level3">
 <h3 class="hasAnchor">
 <a href="#install-racmacs" class="anchor"></a>Install Racmacs</h3>
 <p>Now you can install Racmacs directly from the latest development source code. In future pre-built binary versions will also be included.</p>
 <div class="sourceCode" id="cb3"><pre class="r"><span class="co"># To build from github source</span>
-<span class="kw pkg">devtools</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/devtools/man/remote-reexports.html">install_github</a></span>(<span class="st">"acorg/Racmacs"</span>)</pre></div>
+<span class="kw pkg">devtools</span><span class="kw ns">::</span><span class="fu"><a href="https://devtools.r-lib.org//reference/remote-reexports.html">install_github</a></span>(<span class="st">"acorg/Racmacs"</span>)</pre></div>
 </div>
 </div>
 </div>

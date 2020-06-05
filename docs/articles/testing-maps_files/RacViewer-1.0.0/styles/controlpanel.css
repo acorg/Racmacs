@@ -7,7 +7,7 @@
 .control-panel {
   position : absolute;
   color : #ffffff;
-  font-family : sans-serif;
+  font-family : sans-serif, "Arial";
   font-size: 14px;
   top    : 0;
   bottom : 0;

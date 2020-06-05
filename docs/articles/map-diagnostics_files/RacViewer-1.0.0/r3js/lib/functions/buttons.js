@@ -16,14 +16,11 @@ R3JS.Viewer.prototype.addViewerButtons = function(){
 
 
 	// Create button to re-center plot
-    function btn_centerScene(){
-    	viewer.resetTransformation();
-    }
 	this.addButton({
 		name  : "resetTransformation",
 		title : "Reset orientation",
 		icon  : R3JS.icons.center(),
-		fn    : btn_centerScene
+		fn    : e => this.resetTransformation()
 	});
 
 	// Create button to download image

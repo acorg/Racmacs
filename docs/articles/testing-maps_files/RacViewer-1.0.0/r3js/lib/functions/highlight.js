@@ -4,10 +4,10 @@ R3JS.Viewer.prototype.clickBackground = function(elements){
   
 }
 
-R3JS.Viewer.prototype.clickElements = function(elements){
+R3JS.Viewer.prototype.clickElements = function(elements, event){
 
   for(var i=0; i<elements.length; i++){
-    elements[i].click();
+    elements[i].click(event);
   }
   this.sceneChange = true;
 

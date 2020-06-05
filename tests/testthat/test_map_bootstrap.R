@@ -3,7 +3,26 @@ library(Racmacs)
 library(testthat)
 
 context("Bootstrapping maps")
-warning("Need bootstrap map tests")
+
+run.maptests(
+  bothclasses = TRUE,
+  loadlocally = FALSE,
+  {
+
+    map <- read.map(test_path("../testdata/testmap_h3subset.ace"))
+    bsmap <- bootstrapMap(
+      map = map,
+      bootstrap_repeats        = 2,
+      optimizations_per_repeat = 2,
+      ag_noise_sd              = 0.7,
+      titer_noise_sd           = 0.7,
+      .progress                = FALSE
+    )
+
+    expect_equal(length(bsmap$bootstrap$coords), 2)
+
+  }
+)
 
 # map <- read.acmap("tests/testdata/testmap_h3subset.ace")
 # map <- optimizeMap(

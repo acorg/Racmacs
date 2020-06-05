@@ -10,7 +10,7 @@ bootstrapMap(
   optimizations_per_repeat = 100,
   ag_noise_sd = 0.7,
   titer_noise_sd = 0.7,
-  progress_fn = message
+  .progress = NULL
 )
 }
 \arguments{

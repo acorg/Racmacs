@@ -29,7 +29,8 @@ Suggests:
     knitr,
     rmarkdown,
     misc3d,
-    r3js
+    r3js,
+    plotly
 RoxygenNote: 7.1.0
 Roxygen: list(markdown = TRUE)
 LinkingTo: Rcpp

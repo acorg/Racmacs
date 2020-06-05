@@ -6,8 +6,6 @@
 \alias{srStress}
 \alias{srStressPerTiter}
 \alias{agStressPerTiter}
-\alias{srLikelihood}
-\alias{agLikelihood}
 \title{Get individual point stress}
 \usage{
 agStress(map, antigens = TRUE, optimization_number = NULL, warnings = TRUE)
@@ -26,22 +24,6 @@ agStressPerTiter(
   antigens = TRUE,
   optimization_number = NULL,
   exclude_nd = TRUE
-)
-
-srLikelihood(
-  map,
-  sera = TRUE,
-  total_error_sd,
-  optimization_number = NULL,
-  warnings = TRUE
-)
-
-agLikelihood(
-  map,
-  antigens = TRUE,
-  total_error_sd,
-  optimization_number = NULL,
-  warnings = TRUE
 )
 }
 \arguments{

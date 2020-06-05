@@ -73,38 +73,6 @@ double ac_coordStress(NumericVector map_dist,
 
 //' @export
 // [[Rcpp::export]]
-double ac_optimizationStress(NumericMatrix table_dist,
-                           NumericMatrix ag_coords,
-                           NumericMatrix sr_coords,
-                           NumericMatrix lessthans,
-                           NumericMatrix morethans,
-                           NumericMatrix na_vals){
-
-    // Calculate map distances
-    NumericMatrix map_dists = ac_mapDists(ag_coords, sr_coords);
-
-    // Calculate stress
-    double stress = 0;
-    int num_ags = ag_coords.nrow();
-    int num_sr  = sr_coords.nrow();
-
-    for(int ag = 0; ag < num_ags; ++ag) {
-      for(int sr = 0; sr < num_sr; ++sr) {
-        if(!na_vals(ag,sr) && !morethans(ag,sr)){
-          stress += ac_pointStress(map_dists(ag,sr),
-                                   table_dist(ag,sr),
-                                   lessthans(ag,sr));
-        }
-      }
-    }
-
-    // Return total stress
-    return(stress);
-
-}
-
-//' @export
-// [[Rcpp::export]]
 NumericVector grid_search(NumericMatrix test_coords,
                           NumericMatrix pair_coords,
                           NumericVector table_dist,
@@ -140,34 +108,6 @@ NumericVector grid_search(NumericMatrix test_coords,
 
 }
 
-
-//' @export
-// [[Rcpp::export]]
-double ac_mapCoordStress(NumericVector coord_par,
-                         int num_ags,
-                         int num_sr,
-                         int num_dims,
-                         NumericMatrix table_dist,
-                         NumericMatrix lessthans,
-                         NumericMatrix morethans,
-                         NumericMatrix na_vals){
-
-  // Create coordinate matrix
-  NumericMatrix coord_matrix(num_ags + num_sr,  num_dims);
-  int num_pts = num_ags + num_sr;
-  for (int i = 0; i < num_pts*num_dims; i++) {
-    coord_matrix[i] = coord_par[i];
-  }
-
-  // Calculate stress
-  return(ac_optimizationStress(table_dist,
-                             coord_matrix(Range(0, num_ags-1), _),
-                             coord_matrix(Range(num_ags, num_ags+num_sr-1), _),
-                             lessthans,
-                             morethans,
-                             na_vals));
-
-}
 
 
 

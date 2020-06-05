@@ -34,8 +34,8 @@ checkProperty_chart <- function(map, attribute, value){
         stop("Input must be a list of titer layers")
       }
       value <- lapply(value, function(titers){
-        if(class(titers) == "data.frame") titers <- as.matrix(titers)
-        if(class(titers) != "matrix") stop("Input must be a list of titer matrices")
+        if(is.data.frame(titers)) titers <- as.matrix(titers)
+        if(!is.matrix(titers)) stop("Input must be a list of titer matrices")
         mode(titers) <- "character"
         titers
       })

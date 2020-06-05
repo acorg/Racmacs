@@ -149,7 +149,7 @@ run.maptests(
     hemi <- checkHemisphering(largemap3, stepsize = 0.25)
     expect_equal(
       hemi$diagnosis,
-      as.factor(c("trapped", "trapped"))
+      c("trapped", "trapped")
     )
 
   })

@@ -1,3 +1,9 @@
+
+<!-- badges: start -->
+[![Lifecycle:
+maturing](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/#maturing)
+<!-- badges: end -->
+
 <img src="man/figures/logo.png" align="right" style="width:200px; margin-top:40px">
 # Racmacs
 The Racmacs package provides a toolkit for making antigenic maps from assay data such as HI assays, as described in [Smith et al. 2004](https://doi.org/10.1126/science.1097211).
@@ -16,7 +22,7 @@ install.packages("devtools")
 
 ```R
 # Mac
-remotes::install_url("https://github.com/acorg/acmacs.r/releases/download/v4.5/acmacs.r_4.5_R_macOS-10.14.tgz", build = FALSE)
+remotes::install_url("https://github.com/acorg/acmacs.r/releases/download/v4.6/acmacs.r_4.6_R_macOS-10.14.tgz", build = FALSE)
 
 # Linux
 remotes::install_url("https://github.com/acorg/acmacs.r/releases/download/v4.5/acmacs.r_4.5_R_x86_64-pc-linux-gnu.tar.gz", build = FALSE)

@@ -2,23 +2,23 @@
 # Generator token: 10BE3573-1514-4C36-9D1C-5A225CD40393
 
 #' @export
-ac_pointLogLik <- function(map_dist, max_table_dist, min_table_dist, error_sd) {
-    .Call('_Racmacs_ac_pointLogLik', PACKAGE = 'Racmacs', map_dist, max_table_dist, min_table_dist, error_sd)
+ac_pointLogLik <- function(map_dist, colbase, max_logtiter, min_logtiter, error_sd, ag_reactivity = 0) {
+    .Call('_Racmacs_ac_pointLogLik', PACKAGE = 'Racmacs', map_dist, colbase, max_logtiter, min_logtiter, error_sd, ag_reactivity)
 }
 
 #' @export
-ac_mapNegLogLik <- function(map_dist, max_table_dist, min_table_dist, error_sd) {
-    .Call('_Racmacs_ac_mapNegLogLik', PACKAGE = 'Racmacs', map_dist, max_table_dist, min_table_dist, error_sd)
+ac_srNegLogLik <- function(colbase, map_dists, max_logtiters, min_logtiters, error_sd) {
+    .Call('_Racmacs_ac_srNegLogLik', PACKAGE = 'Racmacs', colbase, map_dists, max_logtiters, min_logtiters, error_sd)
 }
 
 #' @export
-ac_optimizationNegLogLik <- function(max_table_dist, min_table_dist, ag_coords, sr_coords, na_vals, error_sd) {
-    .Call('_Racmacs_ac_optimizationNegLogLik', PACKAGE = 'Racmacs', max_table_dist, min_table_dist, ag_coords, sr_coords, na_vals, error_sd)
+ac_optimizationNegLogLik <- function(ag_coords, sr_coords, max_logtiter_matrix, min_logtiter_matrix, na_val_matrix, colbases, ag_reactivitys, error_sd, colbase_mean = NA_real_, colbase_sd = NA_real_, ag_reactivity_sd = NA_real_) {
+    .Call('_Racmacs_ac_optimizationNegLogLik', PACKAGE = 'Racmacs', ag_coords, sr_coords, max_logtiter_matrix, min_logtiter_matrix, na_val_matrix, colbases, ag_reactivitys, error_sd, colbase_mean, colbase_sd, ag_reactivity_sd)
 }
 
 #' @export
-ac_mapCoordNegLogLik <- function(coord_par, num_ags, num_sr, num_dims, max_table_dist, min_table_dist, na_vals, error_sd) {
-    .Call('_Racmacs_ac_mapCoordNegLogLik', PACKAGE = 'Racmacs', coord_par, num_ags, num_sr, num_dims, max_table_dist, min_table_dist, na_vals, error_sd)
+ac_optimizationNegLogLikWrapper <- function(pars, ag_coords, sr_coords, max_logtiter_matrix, min_logtiter_matrix, na_val_matrix, colbases, ag_reactivitys, error_sd, colbase_mean = NA_real_, colbase_sd = NA_real_, ag_reactivity_sd = NA_real_, optim_ag_coords = TRUE, optim_sr_coords = TRUE, optim_colbases = FALSE, optim_ag_reactivitys = FALSE) {
+    .Call('_Racmacs_ac_optimizationNegLogLikWrapper', PACKAGE = 'Racmacs', pars, ag_coords, sr_coords, max_logtiter_matrix, min_logtiter_matrix, na_val_matrix, colbases, ag_reactivitys, error_sd, colbase_mean, colbase_sd, ag_reactivity_sd, optim_ag_coords, optim_sr_coords, optim_colbases, optim_ag_reactivitys)
 }
 
 #' Calculate the distance between two sets of coordinates
@@ -51,17 +51,7 @@ ac_coordStress <- function(map_dist, table_dist, less_than) {
 }
 
 #' @export
-ac_optimizationStress <- function(table_dist, ag_coords, sr_coords, lessthans, morethans, na_vals) {
-    .Call('_Racmacs_ac_optimizationStress', PACKAGE = 'Racmacs', table_dist, ag_coords, sr_coords, lessthans, morethans, na_vals)
-}
-
-#' @export
 grid_search <- function(test_coords, pair_coords, table_dist, lessthans, morethans, na_vals) {
     .Call('_Racmacs_grid_search', PACKAGE = 'Racmacs', test_coords, pair_coords, table_dist, lessthans, morethans, na_vals)
-}
-
-#' @export
-ac_mapCoordStress <- function(coord_par, num_ags, num_sr, num_dims, table_dist, lessthans, morethans, na_vals) {
-    .Call('_Racmacs_ac_mapCoordStress', PACKAGE = 'Racmacs', coord_par, num_ags, num_sr, num_dims, table_dist, lessthans, morethans, na_vals)
 }
 

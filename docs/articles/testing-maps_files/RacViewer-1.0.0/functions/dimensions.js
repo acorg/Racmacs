@@ -34,10 +34,13 @@ Racmacs.Viewer.prototype.setPlotDims = function(plotdims){
         // Set camera
         this.camera = this.perspcamera;
         this.lockPointSize();
-        this.renderer.setShaders(
-            R3JS.Shaders.VertexShader3D,
-            R3JS.Shaders.FragmentShader2D
-        );
+
+        if(!this.svg){
+            this.renderer.setShaders(
+                R3JS.Shaders.VertexShader3D,
+                R3JS.Shaders.FragmentShader2D
+            );
+        }
 
         // Set default opacity of points
         this.graphics.noneSelected.deselected.opacity = 0.8;

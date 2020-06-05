@@ -1,21 +1,5 @@
 
 
-// document.keydown = {
-//     key : null
-// };
-
-// document.addEventListener("keydown", function(event){
-//     this.keydown = event;
-// });
-
-// document.addEventListener("keyup", function(event){
-//     this.keydown = {
-//         key : null
-//     };
-// });
-
-
-
 // Window focus event listener
 R3JS.Viewport.prototype.onwindowblur = function(event){ 
     this.onkeyup();

@@ -197,52 +197,76 @@ Racmacs.Viewer.prototype.addProcrustesToBaseCoords = function(data){
     // Set arrow coordinates
     var arrow_coords = [];
     for(var i=0; i<this.points.length; i++){
+
+        // Do not show procrustes arrows for na coordinates
+        if(!this.points[i].coords_na){
         
-        // Set coords
-        var pc_coords = pc_data[i];
-        var pt_coords = this.points[i].coords;
+            // Set coords
+            var pc_coords = pc_data[i];
+            var pt_coords = this.points[i].coords;
 
-        // Plot the arrow
-        if(pc_coords[0] !== "NA" && pc_coords[0] !== null){
+            // Plot the arrow
+            if(pc_coords[0] !== "NA" && pc_coords[0] !== null){
 
-            // Apply any map transformation
-            pc_coords = Racmacs.utils.transformTranslateCoords(
-                pc_coords,
-                this.data.transformation(),
-                this.data.translation()
-            );
+                // Apply any map transformation
+                pc_coords = Racmacs.utils.transformTranslateCoords(
+                    pc_coords,
+                    this.data.transformation(),
+                    this.data.translation()
+                );
 
-            // Round pc coords to 8 decimal places
-            pc_coords = pc_coords.map( p => Math.round(p*100000000)/100000000 );
-            pt_coords = pt_coords.map( p => Math.round(p*100000000)/100000000 );
+                // Round pc coords to 8 decimal places
+                pc_coords = pc_coords.map( p => Math.round(p*100000000)/100000000 );
+                pt_coords = pt_coords.map( p => Math.round(p*100000000)/100000000 );
 
-            // Set to 3D
-            while(pc_coords.length < 3) pc_coords.push(0);
+                // Set to 3D
+                while(pc_coords.length < 3) pc_coords.push(0);
 
-            // Get distances
-            pc_vector = new THREE.Vector3().fromArray(pc_coords);
-            pt_vector = new THREE.Vector3().fromArray(pt_coords);
-            var pt_dist = pc_vector.distanceTo(pt_vector);
-            
-            arrow_coords.push([
-                pt_coords,
-                pc_coords
-            ]);
+                // Get distances
+                pc_vector = new THREE.Vector3().fromArray(pc_coords);
+                pt_vector = new THREE.Vector3().fromArray(pt_coords);
+                var pt_dist = pc_vector.distanceTo(pt_vector);
+                
+                arrow_coords.push([
+                    pt_coords,
+                    pc_coords
+                ]);
 
-        } else {
+            } else {
 
-            this.points[i].setOpacity(0.2);
-            this.points[i].transparency_fixed = true;
+                this.points[i].setOpacity(0.2);
+                this.points[i].transparency_fixed = true;
+
+            }
 
         }
+
     }
 
+    var arrowheadend;
+    var arrowheadlength;
+    if(this.data.dimensions() == 3 && data.dim == 2){
+        arrowheadend    = "circle";
+        arrowheadlength = 0.15;
+        // var pc_grid = new R3JS.element.grid({
+            
+        // });
+        // this.scene.add(pc_grid);
+    } else {
+        arrowheadend    = "arrow";
+        arrowheadlength = 0.5;
+    }
+
+
     // Add the arrows to the scene
-    console.log(arrow_coords);
     this.procrustes = new this.mapElements.procrustes({
         coords : arrow_coords,
         size   : 4,
-        properties : { lwd : 2 },
+        properties : { 
+            lwd : 2, 
+            arrowheadend : arrowheadend,
+            arrowheadlength : arrowheadlength
+        },
         viewer : this
     });
 

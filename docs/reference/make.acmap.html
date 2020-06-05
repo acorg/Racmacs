@@ -45,6 +45,8 @@
 
 
 
+  <link href="../extra.css" rel="stylesheet">
+  
 
 <meta property="og:title" content="Make an antigenic map from scratch — make.acmap" />
 <meta property="og:description" content="Make an antigenic map from scratch" />
@@ -80,7 +82,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">Racmacs</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.10</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.11</span>
       </span>
     </div>
 
@@ -95,17 +97,8 @@
 <li>
   <a href="../reference/index.html">Reference</a>
 </li>
-<li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-    Articles
-     
-    <span class="caret"></span>
-  </a>
-  <ul class="dropdown-menu" role="menu">
-    <li>
-      <a href="../articles/making-a-map-from-scratch.html">Making an antigenic map from titer data</a>
-    </li>
-  </ul>
+<li>
+  <a href="../articles/index.html">Articles</a>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
@@ -199,7 +192,7 @@ the best one found ("best").</p>
 <span class='co'># Read in a table of titer data and make a new acmap file from it</span>
 <span class='no'>titer_file_path</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>"extdata/h3map2004_hitable.csv"</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"Racmacs"</span>)
 <span class='no'>titer_data</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='read.titerTable.html'>read.titerTable</a></span>(<span class='no'>titer_file_path</span>)
-<span class='no'>map</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='convertingMaps.html'>acmap.cpp</a></span>(<span class='kw'>table</span> <span class='kw'>=</span> <span class='no'>titer_data</span>)</div><div class='output co'>#&gt; <span class='error'>Error in acmap.cpp(table = titer_data): could not find function "acmap.cpp"</span></div></pre>
+<span class='no'>map</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='convertingMaps.html'>acmap.cpp</a></span>(<span class='kw'>table</span> <span class='kw'>=</span> <span class='no'>titer_data</span>)</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -211,7 +204,7 @@ the best one found ("best").</p>
 
       <footer>
       <div class="copyright">
-  <p>Developed by S. H. Wilks.</p>
+  <p>Developed by Sam Wilks.</p>
 </div>
 
 <div class="pkgdown">

@@ -1,4 +1,17 @@
 
+Racmacs.App.prototype.onselect.push(
+    function(viewer){
+		viewer.btns.toggleDragMode.enable();
+    }
+);
+
+Racmacs.App.prototype.ondeselect.push(
+    function(viewer){
+        viewer.btns.toggleDragMode.disable()
+    }
+);
+
+
 Racmacs.Viewer.prototype.dragMode = false;
 
 Racmacs.Viewer.prototype.toggleDragMode = function(){

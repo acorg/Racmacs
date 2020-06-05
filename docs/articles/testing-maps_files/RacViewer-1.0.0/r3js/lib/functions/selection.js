@@ -50,7 +50,7 @@ R3JS.SelectionRectangle = class SelectionRectangle {
 R3JS.Viewer.prototype.start_rect_select = function(){
 
 	if(this.viewport.keydown && this.viewport.keydown.key == "Shift"){
-		this.viewport.downmouse = this.viewport.mouse.clone();
+		this.viewport.downmouse = {x: this.viewport.mouse.x, y:this.viewport.mouse.y};
 		this.selectRectMode = true;
 	}
 

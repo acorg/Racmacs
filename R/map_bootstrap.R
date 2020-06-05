@@ -43,8 +43,23 @@ bootstrapMap <- function(
   optimizations_per_repeat = 100,
   ag_noise_sd              = 0.7,
   titer_noise_sd           = 0.7,
-  progress_fn              = message
+  .progress                = NULL
 ){
+
+  # Set a default progress function
+  if(is.null(.progress)){
+    .progress <- list(
+      init   = function()      { txtProgressBar(min = 0, max = 1, style = 3) },
+      update = function(x, pb) { setTxtProgressBar(pb, x) },
+      end    = function(pb)    { close(pb) }
+    )
+  }
+
+  # Initiate progress bar
+  if(!isFALSE(.progress)){
+    message("Bootstrapping map")
+    progressbar <- .progress$init()
+  }
 
   # Get map optimization details
   num_dimensions <- mapDimensions(map)
@@ -83,13 +98,12 @@ bootstrapMap <- function(
     function(noise){
 
       noisylogtiters <- logtitertable + noise$noise_matrix
-      noisylessthans <- noisylogtiters < 0
+      noisylessthans <- !natiters & noisylogtiters < 0
       noisylogtiters[noisylessthans] <- 0
       noisytiters    <- round(2^noisylogtiters*10)
-      noisytiters[lessthans] <- paste0("<", noisytiters[lessthans])
+      noisytiters[lessthans | noisylessthans] <- paste0("<", noisytiters[lessthans | noisylessthans])
       noisytiters[morethans] <- paste0(">", noisytiters[morethans])
       noisytiters[natiters]  <- "*"
-      noisytiters[noisylessthans] <- paste("<", noisytiters[noisylessthans])
       noisytiters
 
     }
@@ -100,9 +114,12 @@ bootstrapMap <- function(
     seq_along(noisy_tables),
     function(x){
 
-      progress_fn(x/length(noisy_tables))
-      noisy_table <- noisy_tables[[x]]
+      # Update progress
+      if(!isFALSE(.progress)){
+        .progress$update(x/length(noisy_tables), progressbar)
+      }
 
+      noisy_table <- noisy_tables[[x]]
       bootmap <- acmap.cpp(
         table = noisy_table
       )
@@ -127,6 +144,11 @@ bootstrapMap <- function(
 
     }
   )
+
+  # Close progress bar
+  if(!isFALSE(.progress)){
+    .progress$end(progressbar)
+  }
 
   # Store the results
   setMapAttribute(

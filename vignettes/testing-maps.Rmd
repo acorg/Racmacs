@@ -2,7 +2,7 @@
 title: "Testing maps"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{map-testing}
+  %\VignetteIndexEntry{Testing maps}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -33,8 +33,8 @@ First we'll get an example map using a subset of the data from H3N2 map publishe
 ```{r, out.height=500, out.width=500}
 library(Racmacs)
 
-# Read in the map from the test data files
-map <- read.acmap("../tests/testdata/testmap_h3subset.ace")
+# Read in the 2004 h3 map
+map <- read.acmap(system.file("extdata/h3map2004.ace", package = "Racmacs"))
 
 # Scale down the point size a little
 agSize(map) <- 2
@@ -68,7 +68,7 @@ As you can imagine, a noisy bootstrap is a computationally intensive thing to do
 
 In the example below I've used 100 bootstrap repeats and 10 optimizations per repeat to keep things running a bit quicker but it wouldn't be unreasonable to do 1000 bootstrap repeats and 500 optimizations per repeat, depending on the complexity of the map. Typically you'd just do this once and then save the resulting map along with bootstraps with the `save.acmap()` function.
 
-```{r, out.height=500, out.width=500, message=FALSE}
+```{r, eval=FALSE}
 # First of all run a series of bootstrap repeats on the map
 map <- bootstrapMap(
   map                      = map,
@@ -83,11 +83,15 @@ boostrap_ag_coords_list <- mapBootstrap_agCoords(map)
 boostrap_sr_coords_list <- mapBootstrap_srCoords(map)
 ```
 
+```{r, message=FALSE, include=FALSE}
+map <- read.acmap(system.file("extdata/h3map2004_bootstrap.ace", package = "Racmacs"))
+```
+
 If you view a map that has been bootstrapped, any points you click on will show how their position varies 
 in each of the bootstrap repeats performed
 
 ```{r, out.height=500, out.width=500}
-view(map, selected_ags = 4)
+view(map, select_ags = 4)
 ```
 
 

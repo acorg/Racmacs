@@ -1,9 +1,61 @@
 
 
+R3JS.Viewer.prototype.addViewerButtons = function(){
+
+	// Create button to show viewer info
+	this.btns = {};
+	function show_info(){
+		this.viewport.transform_info.toggle();
+	}
+	this.addButton({
+		name  : "info",
+		title : "Show info",
+		icon  : R3JS.icons.info(),
+		fn    : show_info
+	});
+
+
+	// Create button to re-center plot
+	this.addButton({
+		name  : "resetTransformation",
+		title : "Reset orientation",
+		icon  : R3JS.icons.center(),
+		fn    : e => this.resetTransformation()
+	});
+
+	// Create button to download image
+	function btn_saveImg(){
+      	viewer.downloadImage(viewer.name);
+	}
+	this.addButton({
+		name  : "snapshot",
+		title : "Download image",
+		icon  : R3JS.icons.snapshot(),
+		fn    : btn_saveImg
+	});
+
+	// Pop out viewer
+	// if (window!=window.top) {
+	// 	this.addButton({
+	// 		name  : "openInNewWindow",
+	// 		title : "Open in new window",
+	// 		icon  : icon_open(),
+	// 		fn    : e => this.popOutViewer()
+	// 	})
+    // }
+
+ 	this.addButton({
+		name  : "openInNewWindow",
+		title : "Open in new window",
+		icon  : R3JS.icons.open(),
+		fn    : e => this.popOutViewer()
+	});
+
+}
+
 R3JS.Viewport.prototype.addButtons = function(){
 
 	var viewer = this.viewer;
-	this.btns = {};
 
     // Create button viewport
     var btn_holder = document.createElement( 'div' );
@@ -13,8 +65,7 @@ R3JS.Viewport.prototype.addButtons = function(){
     btn_holder.style.display = "none";
     btn_holder.style.background = "white";
     this.div.appendChild(btn_holder);
-    this.btnHolder = btn_holder;
-
+    this.viewer.btnHolder = btn_holder;
 
     // Add mouseover events to show and hide buttons
     this.div.addEventListener("mouseover", function(){
@@ -26,59 +77,16 @@ R3JS.Viewport.prototype.addButtons = function(){
     	btn_holder.style.display = "none";
     });
 
-
-	// Create button to show viewer info
-	var viewport = this;
-	function show_info(){
-		viewport.transform_info.toggle();
-	}
-	this.addButton({
-		name  : "info",
-		title : "Show info",
-		icon  : icon_info(),
-		fn    : show_info
-	})
-
-
-	// Create button to re-center plot
-    function btn_centerScene(){
-    	viewer.resetTransformation();
-    }
-	this.addButton({
-		name  : "resetTransformation",
-		title : "Reset orientation",
-		icon  : icon_center(),
-		fn    : btn_centerScene
-	})
-
-	// Create button to download image
-	function btn_saveImg(){
-      	viewer.downloadImage(viewer.name);
-	}
-	this.addButton({
-		name  : "snapshot",
-		title : "Download image",
-		icon  : icon_snapshot(),
-		fn    : btn_saveImg
-	})
-
-	// Pop out viewer
-	if (window!=window.top) {
-		function popOutViewer(){
-			window.open(window.location.href);
-		}
-		this.addButton({
-			name  : "openInNewWindow",
-			title : "Open in new window",
-			icon  : icon_open(),
-			fn    : popOutViewer
-		})
-    }
-
+    // Add viewer buttons
+    viewer.addViewerButtons();
 
 }
 
-R3JS.Viewport.prototype.addButton = function(args, position){
+R3JS.Viewport.prototype.popOutViewer = function(){
+	window.open(window.location.href);
+}
+
+R3JS.Viewer.prototype.addButton = function(args, position){
 
 	// Create and style button
 	var btn = document.createElement( 'div' );

@@ -118,11 +118,36 @@ R3JS.element.Polygon2d = class Polygon2d extends R3JS.element.base {
 }
 
 
+// Sphere constructor
+R3JS.element.constructors.polygon3d = function(
+    plotobj,
+    plotdims
+    ){
+
+    // Make the object
+    var element = new R3JS.element.Polygon3d({
+        vertices   : plotobj.vertices,
+        faces      : plotobj.faces,
+        properties : plotobj.properties
+    });
+    
+    // Return the object
+    return(element);
+
+}
+
+
 // Sphere object
 R3JS.element.Polygon3d = class Polygon3d extends R3JS.element.base {
 
     // Object constructor
     constructor(args){
+
+        // Set defaults
+        if(args.properties === undefined)           args.properties           = {};
+        if(args.properties.color === undefined)     args.properties.color     = {r:0,g:0,b:0,a:1};
+        if(args.properties.opacity !== undefined)   args.properties.color.a   = args.properties.opacity;
+        if(args.properties.fillcolor === undefined) args.properties.fillcolor = args.properties.color;
 
         super();
 
@@ -166,17 +191,21 @@ R3JS.element.Polygon3d = class Polygon3d extends R3JS.element.base {
 
         // Make fill object
         this.fill = new THREE.Mesh(fillgeometry, fillmaterial);
-
-        // Set outline material
-        args.properties.color    = args.properties.outlinecolor;
-        args.properties.mat      = "line";
-        args.properties.lwd      = 1;
-        // args.properties.segments = true;
-        var outlinematerial = R3JS.Material(args.properties);
+        // this.fill = R3JS.utils.removeSelfTransparency(this.fill);
+        // this.fill = R3JS.utils.separateSides(this.fill);
+        // if(args.properties.breakupMesh){
+        //     this.fill = R3JS.utils.breakupMesh(this.fill);
+        // }
 
         // Make outline object
         if(args.outline){
             var outlinegeometry = new THREE.EdgesGeometry( fillgeometry );  
+            // Set outline material
+            args.properties.color    = args.properties.outlinecolor;
+            args.properties.mat      = "line";
+            args.properties.lwd      = 1;
+            // args.properties.segments = true;
+            var outlinematerial = R3JS.Material(args.properties);
             this.outline = new THREE.LineSegments(outlinegeometry, outlinematerial);
         } else {
             var outlinegeometry = new THREE.BufferGeometry();
@@ -208,10 +237,16 @@ R3JS.element.Polygon3d = class Polygon3d extends R3JS.element.base {
     }
 
     raycast(ray, intersected){
-      this.fill.raycast(ray,intersected);
+        this.fill.raycast(ray,intersected);
     }
 
     setSize(){
+    }
+
+    breakupMesh(){
+        this.object.remove(this.fill);
+        this.fill = R3JS.utils.breakupMesh(this.fill);
+        this.object.add(this.fill);
     }
 
 }

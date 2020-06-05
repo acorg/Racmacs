@@ -23,8 +23,10 @@ Racmacs.Viewer.prototype.loadMapData = function(){
     this.clearDiagnostics();
 
     // Show or hide control panels
-    if(settings.hide_control_panel){
+    if(settings.hide_control_panel || settings.hide_control_panel === undefined){
         this.controlpanel.hide();
+    } else {
+        this.controlpanel.show();
     }
 
     // Set the map data
@@ -64,7 +66,7 @@ Racmacs.Viewer.prototype.loadMapData = function(){
     this.setDims();
 
     // Load the hi table
-    this.hitable.reload();
+    this.hideTable();
 
     // Set the grid
     this.setGrid();
@@ -74,9 +76,6 @@ Racmacs.Viewer.prototype.loadMapData = function(){
 
     // Update the stress
     this.updateStress();
-
-    // Fire any resize event listeners (necessary for setting pixel ratio)
-    this.viewport.onwindowresize();
 
     // Update antigen and sera browsers
     this.browsers.antigens.populate();
@@ -121,6 +120,15 @@ Racmacs.Viewer.prototype.loadMapData = function(){
         this.render();
     }
 
+    // Fire any resize event listeners (necessary for setting pixel ratio)
+    this.viewport.onwindowresize();
+
+    window.dispatchEvent(
+        new CustomEvent('racViewerMapLoaded', { detail : this })
+    );
+
+    // this.resizePoints(0.1);
+    // this.showErrorLines();
     // this.controlpanel.show();
     // this.controlpanel.tabset.showTab("browser");
 

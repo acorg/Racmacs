@@ -77,7 +77,7 @@ THREE.LineGeometry.prototype = Object.assign( Object.create( THREE.LineSegmentsG
 
 		} else if ( geometry.isBufferGeometry ) {
 
-			this.setPositions( geometry.position.array ); // assumes non-indexed
+			this.setPositions( geometry.attributes.position.array ); // assumes non-indexed
 
 		}
 
@@ -87,7 +87,7 @@ THREE.LineGeometry.prototype = Object.assign( Object.create( THREE.LineSegmentsG
 
 	},
 
-	copy: function ( source ) {
+	copy: function ( /* source */ ) {
 
 		// todo
 

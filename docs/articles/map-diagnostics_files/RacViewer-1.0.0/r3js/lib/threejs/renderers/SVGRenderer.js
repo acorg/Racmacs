@@ -241,6 +241,25 @@ THREE.SVGRenderer = function () {
 
 		flushPath(); // just to flush last svg:path
 
+		let z_pos = [];
+		let nodes = [];
+		let worldpos = new THREE.Vector3();
+		var svgns = "http://www.w3.org/2000/svg";
+        this.defs = document.createElementNS(svgns, 'defs');
+        this.defs.innerHTML = `
+        <radialGradient 
+            id="_Radial2" 
+            cx="-1" 
+            cy="0.125" 
+            r="0.3" 
+            gradientUnits="userSpaceOnUse" 
+            gradientTransform="matrix(38.6116,45.7323,-45.7323,38.6116,40.8737,35.116)">
+            <stop offset="0" style="stop-color:rgb(235,235,235);stop-opacity:1"/>
+            <stop offset="0.22" style="stop-color:rgb(175,245,118);stop-opacity:1"/>
+            <stop offset="0.61" style="stop-color:rgb(132,185,89);stop-opacity:1"/>
+            <stop offset="1" style="stop-color:black;stop-opacity:1"/>
+        </radialGradient>`;
+        this.domElement.appendChild(this.defs);
 		scene.traverseVisible( function ( object ) {
 
 			 if ( object instanceof THREE.SVGObject ) {
@@ -252,15 +271,29 @@ THREE.SVGRenderer = function () {
 
 				var x = _vector3.x * _svgWidthHalf;
 				var y = - _vector3.y * _svgHeightHalf;
+				
+				object.getWorldPosition(worldpos);
+				var dist = camera.position.distanceTo(worldpos)/_svgHeightHalf*300;
+				z_pos.push(dist);
 
 				var node = object.node;
-				node.setAttribute( 'transform', 'translate(' + x + ',' + y + ')' );
+				nodes.push(node);
+				node.setAttribute( 'transform', 'translate(' + x + ',' + y + ') scale(' + 4/(dist) + ')' );
 
 				_svg.appendChild( node );
 
 			}
 
 		} );
+
+		// Order svg elements based on z-index
+		var z_indices = [...Array(z_pos.length).keys()];
+		z_indices.sort( (a,b) => { return(z_pos[b] - z_pos[a]) });
+		z_indices.map( i => {
+			if(nodes[i] !== undefined){
+			    this.domElement.appendChild(nodes[i]) 
+		    }
+		});
 
 	};
 

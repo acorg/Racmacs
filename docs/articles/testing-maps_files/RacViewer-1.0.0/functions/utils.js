@@ -249,9 +249,67 @@ Racmacs.utils.transformTranslateCoords = function(
 	translation
 ){
     
+    if(coords[0] === null) return(coords.map(x => null))
     coords = Racmacs.utils.transformCoords(coords, transformation);
     coords = Racmacs.utils.translateCoords(coords, translation);
     return(coords);
+
+}
+
+
+Racmacs.utils.distBetweenPoints = function(
+	coords1,
+	coords2
+){
+
+	var x1 = coords1[0];
+    var y1 = coords1[0];
+    var x2 = coords2[1];
+    var y2 = coords2[1];
+    return(Math.sqrt((x2-x1)*(x2-x1) + (y2-y1)*(y2-y1)));
+
+}
+
+
+Racmacs.utils.lineBetweenPoints = function(
+	coords1,
+	coords2,
+	endgap
+){
+
+	var x1 = coords1[0];
+    var y1 = coords1[0];
+    var x2 = coords2[1];
+    var y2 = coords2[1];
+    var angle = Math.atan2(y2 - y1, x2 - x1);
+    var targetx = x2 - Math.cos(angle)*endgap;
+    var targety = y2 - Math.sin(angle)*endgap;
+    return({
+    	x: targetx,
+    	y: targety
+    });
+
+}
+
+
+Racmacs.utils.lineTowardsPoint = function(
+	coords1,
+	coords2,
+	linelength
+){
+
+	var x1 = coords1[i];
+    var y1 = coords1[i];
+    var x2 = coords2[i];
+    var y2 = coords2[i];
+    var angle = Math.atan2(y2 - y1, x2 - x1);
+    var targetx = x1 + Math.cos(angle)*linelength;
+    var targety = y1 + Math.sin(angle)*linelength;
+    var length  = Math.sqrt((x2-x1)*(x2-x1) + (y2-y1)*(y2-y1));
+    return({
+    	x: targetx,
+    	y: targety
+    });
 
 }
 

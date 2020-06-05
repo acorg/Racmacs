@@ -17,7 +17,7 @@ titerTable <- function(map, .name = TRUE){
 #' @export
 #' @rdname titerTable
 `titerTable<-` <- function(map, .check = TRUE, value){
-  if(class(value) == "data.frame") value <- as.matrix(value)
+  if(is.data.frame(value)) value <- as.matrix(value)
   mode(value) <- "character"
   if("racmap" %in% class(map)) titerTableFlat(map) <- unname(value)
   titerTableLayers(map, .check = .check) <- list(value)
@@ -46,7 +46,7 @@ titerTableFlat <- function(map){
 
 #' @noRd
 `titerTableFlat<-` <- function(map, value){
-  if(class(value) == "data.frame") value <- as.matrix(value)
+  if(is.data.frame(value)) value <- as.matrix(value)
   map$titerTableFlat       <- value
   mode(map$titerTableFlat) <- "character"
   map

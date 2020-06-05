@@ -23,7 +23,7 @@ install.packages("devtools")
 
 ```R
 # Mac
-remotes::install_url("https://github.com/acorg/acmacs.r/releases/download/v4.5/acmacs.r_4.5_R_macOS-10.14.tgz", build = FALSE)
+remotes::install_url("https://github.com/acorg/acmacs.r/releases/download/v4.6/acmacs.r_4.6_R_macOS-10.14.tgz", build = FALSE)
 
 # Linux
 remotes::install_url("https://github.com/acorg/acmacs.r/releases/download/v4.5/acmacs.r_4.5_R_x86_64-pc-linux-gnu.tar.gz", build = FALSE)

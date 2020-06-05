@@ -7,7 +7,7 @@ Racmacs.ControlPanel = class ControlPanel {
         viewer.controlpanel = this;
         var controlpanel = this;
 
-        this.visible   = true;
+        this.visible   = false;
         this.fullwidth = 300;
 
         // Add button to show and hide controls
@@ -23,6 +23,7 @@ Racmacs.ControlPanel = class ControlPanel {
         // Add holder div
         this.div = document.createElement( 'div' );
         this.div.classList.add("control-panel");
+        this.div.style.display = "none";
         this.viewer.wrapper.appendChild( this.div );
 
         // Create title div
@@ -148,9 +149,6 @@ Racmacs.ControlPanel = class ControlPanel {
         //     name: "Bootstrap",
         //     content: bootstrapPanel.div
         // });
-
-        // Set the width
-        this.setWidth(this.fullwidth);
 
         // By default hide the shiny elements
         this.hideShinyElements();

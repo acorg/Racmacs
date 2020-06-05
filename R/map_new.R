@@ -70,6 +70,7 @@ acmap <- function(...){
 
 #' @rdname convertingMaps
 #' @family {functions for working with map data}
+#' @export
 acmap.cpp <- function(...){
 
   # Generate a new racmap object

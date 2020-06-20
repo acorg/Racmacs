@@ -3,11 +3,11 @@
 // Standard camera class
 R3JS.Camera = class Camera {
 
-	constructor(){
+	constructor(viewer){
 		this.min_zoom     = 0.1;
 		this.max_zoom     = 4;
 		this.default_zoom = 2;
-		this.zoom_events = [];
+		this.viewer       = viewer;
 	}
 
 	// Set the zoom
@@ -15,7 +15,10 @@ R3JS.Camera = class Camera {
 		var start_zoom = this.getZoom();
 		this.setCameraZoom(zoom);
 		var end_zoom = this.getZoom();
-		this.onzoom(start_zoom, end_zoom);
+		this.viewer.dispatchEvent(
+			"zoom",
+			{ start_zoom : start_zoom, end_zoom : end_zoom }
+		);
 	}
 	getZoom(){
 		return(this.getCameraZoom());
@@ -23,7 +26,7 @@ R3JS.Camera = class Camera {
 
 	// Reset the zoom
 	resetZoom(){
-		this.setCameraZoom(this.default_zoom);
+		this.setZoom(this.default_zoom);
 	}
 
 	// Zooming the camera
@@ -41,15 +44,6 @@ R3JS.Camera = class Camera {
 			this.setZoom(min_zoom);
 		} else {
 			this.setZoom(max_zoom);
-		}
-
-	}
-
-	// On zoom events
-	onzoom(start_zoom, end_zoom){
-
-		for(var i=0; i<this.zoom_events.length; i++){
-			this.zoom_events[i](start_zoom, end_zoom);
 		}
 
 	}
@@ -74,6 +68,11 @@ R3JS.Camera = class Camera {
 
 	}
 
+	// Reset the default zoom
+	setDefaultZoom(){
+		this.default_zoom = this.getZoom();
+	}
+
 }
 
 
@@ -81,9 +80,9 @@ R3JS.Camera = class Camera {
 R3JS.PerspCamera = class PerspCamera extends R3JS.Camera {
 
 	// Constructor function
-	constructor(){
+	constructor(viewer){
 		
-		super();
+		super(viewer);
 		this.camera = new THREE.PerspectiveCamera( 45, 1, 0.1, 10000 );
 		this.zoom_adjuster  = 1;
 
@@ -111,9 +110,9 @@ R3JS.PerspCamera = class PerspCamera extends R3JS.Camera {
 R3JS.OrthoCamera = class OrthoCamera extends R3JS.Camera {
 
 	// Constructor function
-	constructor(){
+	constructor(viewer){
 
-		super();
+		super(viewer);
 		
 		this.camera = new THREE.OrthographicCamera();
         this.camera.near = -100;

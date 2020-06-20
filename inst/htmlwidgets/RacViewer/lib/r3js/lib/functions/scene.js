@@ -1,7 +1,7 @@
 
 R3JS.Scene = class Scene {
 
-    constructor(){
+    constructor(viewer){
 
         // Set defaults
         this.sceneChange = false;
@@ -17,8 +17,6 @@ R3JS.Scene = class Scene {
             objects : []
         }
         this.elements    = [];
-        this.onrotate    = [];
-        this.ontranslate = [];
         this.lights      = [];
 
         // Create scene
@@ -32,6 +30,9 @@ R3JS.Scene = class Scene {
         this.plotPoints = new THREE.Object3D();
         this.plotPoints.clippingPlanes = [];
         this.plotHolder.add(this.plotPoints);
+
+        // Bind viewer
+        this.viewer = viewer;
 
         // Add clipping planes for the outer edges of plot
         // this.setOuterClippingPlanes();
@@ -153,9 +154,10 @@ R3JS.Scene = class Scene {
         }
 
         // Run any rotation events
-        for(var i=0; i<this.onrotate.length; i++){
-            this.onrotate[i]();
-        }
+        this.viewer.dispatchEvent(
+            "rotate",
+            {}
+        );
 
         // Do any dynamic showing and hiding
         if(this.dynamic) this.showhideDynamics(this.viewer.camera.camera);
@@ -244,9 +246,10 @@ R3JS.Scene = class Scene {
         }
 
         // Run any translation events
-        for(var i=0; i<this.ontranslate.length; i++){
-            this.ontranslate[i]();
-        }
+        this.viewer.dispatchEvent(
+            "translate",
+            {}
+        );
 
      }
 

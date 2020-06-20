@@ -378,7 +378,7 @@ Racmacs.Data = class Data {
         }
     }
 
-    // Boostrap data
+    // Bootstrap data
     bootstrap(){
         return(this.data.c.x.bootstrap);
     }
@@ -393,6 +393,34 @@ Racmacs.Data = class Data {
         return(JSON.stringify(this.data));
     }
 
+    // Fetch viewer settings
+    getViewerSetting(setting){
+        return(null)
+    }
+
+    xlim(){
+        var lim = this.getViewerSetting("xlim");
+        if(lim === null){
+            var coords = this.transformedCoords().map( x => x[0] );
+            lim = [
+                Math.min(...coords) - 1,
+                Math.max(...coords) + 1,
+            ];
+        }
+        return(lim);
+    }
+
+    ylim(){
+        var lim = this.getViewerSetting("ylim");
+        if(lim === null){
+            var coords = this.transformedCoords().map( x => x[1] );
+            lim = [
+                Math.min(...coords) - 1,
+                Math.max(...coords) + 1,
+            ];
+        }
+        return(lim);
+    }
 
 }
 

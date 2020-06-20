@@ -450,6 +450,12 @@ R3JS.Scene = class Scene {
 
     }
 
+    getWorldScale(){
+        var scale = new THREE.Vector3();
+        this.plotPoints.getWorldScale(scale);
+        return(scale.toArray());
+    }
+
     // sceneCoordToPlot(coord){
     //     var converted_coord = new THREE.Vector3().fromArray(coord);
     //     converted_coord.multiply(this.plotPoints.scale);

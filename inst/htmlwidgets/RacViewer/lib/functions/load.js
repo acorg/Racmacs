@@ -123,6 +123,30 @@ Racmacs.Viewer.prototype.loadMapData = function(){
     // Fire any resize event listeners (necessary for setting pixel ratio)
     this.viewport.onwindowresize();
 
+    // Set camera zoom
+    var zoom = this.data.getViewerSetting("zoom")
+    if(zoom === null){
+        
+        var xlim = this.data.xlim();
+        var ylim = this.data.ylim();
+
+        var scale = this.scene.getWorldScale();
+        xlim = [xlim[0]*scale[0], xlim[1]*scale[0]];
+        ylim = [ylim[0]*scale[1], ylim[1]*scale[1]];
+
+        this.camera.zoomToLims({
+            x : xlim,
+            y : ylim
+        });
+        this.camera.setDefaultZoom();
+
+    } else {
+
+        this.camera.setZoom(zoom);
+        this.camera.setDefaultZoom();
+
+    }
+
     window.dispatchEvent(
         new CustomEvent('racViewerMapLoaded', { detail : this })
     );

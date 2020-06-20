@@ -140,6 +140,34 @@ R3JS.OrthoCamera = class OrthoCamera extends R3JS.Camera {
 
 	}
 
+	// Get frustrum
+	frustrum(){
+		return({
+			left:   this.camera.left,
+			right:  this.camera.right,
+			top:    this.camera.top,
+			bottom: this.camera.bottom,
+		})
+	}
+
+	zoomToLims(lims){
+
+		var frustrum = this.frustrum();
+        var frustrum_xrange = frustrum.right - frustrum.left;
+        var frustrum_yrange = frustrum.top - frustrum.bottom;
+
+        var xrange = lims.x[1] - lims.x[0];
+        var yrange = lims.y[1] - lims.y[0];
+        
+        var zoom = this.getZoom();
+        var zoom_factor_x = (xrange)/frustrum_xrange;
+        var zoom_factor_y = (yrange)/frustrum_yrange;
+        var zoom_factor = Math.max(zoom_factor_x, zoom_factor_y);
+        
+        this.setZoom(zoom*zoom_factor);
+
+	}
+
 }
 
 // function addCamera(viewport){

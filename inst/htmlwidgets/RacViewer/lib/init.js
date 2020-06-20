@@ -202,6 +202,13 @@ Racmacs.Viewer = class RacViewer extends Racmacs.App {
         // Set a default title
         this.setTitle("Racmacs viewer");
 
+        // Add event listeners
+        this.addEventListener("zoom", e => {
+            if(this.pointSizeLocked){
+                this.scalePoints(e.detail.start_zoom / e.detail.end_zoom);
+            }
+        });
+
         // Dispatch a viewer loaded event
         var viewer = this;
         window.dispatchEvent(

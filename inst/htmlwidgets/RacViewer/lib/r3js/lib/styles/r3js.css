@@ -46,11 +46,11 @@ body {
     min-height: 100px;
     padding : 10px;
     padding-left: 20px;
-    background : rgba(0, 102, 153, 0.5);
+    background : rgba(0, 102, 153, 0.95);
     font-family : sans-serif, "Arial";
     font-size : 80%;
     font-weight: bolder;
-    color: rgb(0, 80, 110);
+    color: #ffffff;
 }
 
 #transform-info-div #rotation-info-div,

@@ -100,4 +100,5 @@ dependencies:
       - functions/projections.js
       - functions/icons.js
       - functions/bootstrap.js
+      - functions/sequences.js
 

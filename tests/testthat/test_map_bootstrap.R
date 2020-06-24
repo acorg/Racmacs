@@ -19,7 +19,7 @@ run.maptests(
       .progress                = FALSE
     )
 
-    expect_equal(length(bsmap$bootstrap$coords), 2)
+    expect_equal(length(getMapAttribute(bsmap, "bootstrap")$coords), 2)
 
   }
 )

@@ -135,6 +135,9 @@ as.json.racmap <- function(map){
         optimization_json$m <- minColBasis(map, n)
       }
 
+      # Get stress
+      optimization_json$s <- mapStress(map, n)
+
       # Return the json
       optimization_json
 
@@ -170,10 +173,12 @@ as.json.racmap <- function(map){
   }
 
   # Additional custom attributes
-  if(!is.null(getMapAttribute(map, "agIDs")))    json$c$x$antigen_ids    <- getMapAttribute(map, "agIDs")
-  if(!is.null(getMapAttribute(map, "srIDs")))    json$c$x$sera_ids       <- getMapAttribute(map, "srIDs")
-  if(!is.null(getMapAttribute(map, "agGroups"))) json$c$x$antigen_groups <- getMapAttribute(map, "agGroups")
-  if(!is.null(getMapAttribute(map, "srGroups"))) json$c$x$sera_groups    <- getMapAttribute(map, "srGroups")
+  if(!is.null(getMapAttribute(map, "agIDs")))           json$c$x$antigen_ids       <- getMapAttribute(map, "agIDs")
+  if(!is.null(getMapAttribute(map, "srIDs")))           json$c$x$sera_ids          <- getMapAttribute(map, "srIDs")
+  if(!is.null(getMapAttribute(map, "agGroups")))        json$c$x$antigen_groups    <- getMapAttribute(map, "agGroups")
+  if(!is.null(getMapAttribute(map, "srGroups")))        json$c$x$sera_groups       <- getMapAttribute(map, "srGroups")
+  if(!is.null(getMapAttribute(map, "agSequences")))     json$c$x$antigen_sequences <- getMapAttribute(map, "agSequences")
+  if(!is.null(getMapAttribute(map, "viewer_settings"))) json$c$x$viewer_settings   <- getMapAttribute(map, "viewer_settings")
 
   # Convert the json
   jsonListToText(

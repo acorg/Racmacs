@@ -1,7 +1,7 @@
 
 
 $(window).on("load", function(){
-  console.log("loaded");
+
 });
 
 $(document).on('shiny:sessioninitialized', function(event) {
@@ -38,23 +38,27 @@ window.addEventListener("racViewerLoaded", function(e){
 
 
   // Set methods to receive data from session
-  Shiny.addCustomMessageHandler("loadMapData",         function(data){ viewer.load(data)                              });
-  Shiny.addCustomMessageHandler("reloadMapData",       function(data){ viewer.load(data, { maintain_viewpoint:true }) });
-  Shiny.addCustomMessageHandler("animateCoords",       function(data){ 
+  Shiny.addCustomMessageHandler("loadMapData", function(data){
+    viewer.load(JSON.parse(data));
+  });
+  Shiny.addCustomMessageHandler("reloadMapData", function(data){
+    viewer.load(JSON.parse(data), { maintain_viewpoint:true });
+  });
+  Shiny.addCustomMessageHandler("animateCoords",       function(data){
     viewer.animateToCoords(data);
     viewer.clearDiagnostics();
   });
-  Shiny.addCustomMessageHandler("setCoords",           function(data){ 
+  Shiny.addCustomMessageHandler("setCoords",           function(data){
     viewer.setCoords(data);
     viewer.clearDiagnostics();
   });
-  Shiny.addCustomMessageHandler("addHemispheringData", function(data){ 
+  Shiny.addCustomMessageHandler("addHemispheringData", function(data){
     viewer.addHemispheringData(data);
   });
 
   // Loaders
   viewer.onLoadMap           = function(){ mapfileloader.click()        };
-  viewer.onLoadTable         = function(){ 
+  viewer.onLoadTable         = function(){
     tablefileloader.click();
     this.controlpanel.tabset.showTab("hitable");
   };

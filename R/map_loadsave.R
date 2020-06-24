@@ -126,12 +126,6 @@ read.mapfile <- function(
     # Set them as the map transformations
     map <- set_chartAttribute(map, "transformation", lapply(map_transformations, as.vector))
 
-    # Get and set bootstrap data
-    bootstrap <- map$chart$extension_field("bootstrap")
-    if(!is.na(bootstrap)){
-      map <- setMapAttribute(map, "bootstrap", bootstrapFromJsonlist(jsonToList(bootstrap)))
-    }
-
   } else {
 
     # If unrecognised format given
@@ -295,6 +289,7 @@ list_property_function_bindings <- function(
     "ag_names",              "agNames",              "antigens",       TRUE,      TRUE,      "vector",  "Antigen names",
     "ag_ids",                "agIDs",                "antigens",       TRUE,      FALSE,     "vector",  "Antigen IDs",
     "ag_groups",             "agGroups",             "antigens",       TRUE,      FALSE,     "vector",  "Antigen groups",
+    "ag_sequences",          "agSequences",          "antigens",       TRUE,      FALSE,     "matrix",  "Antigen sequences",
     "",                      "agNamesFull",          "antigens",       FALSE,     TRUE,      "vector",  "Full antigen names",
     "",                      "agNamesAbbreviated",   "antigens",       FALSE,     TRUE,      "vector",  "Abbreviated antigen names",
     "ag_dates",              "agDates",              "antigens",       TRUE,      TRUE,      "vector",  "Antigen dates",

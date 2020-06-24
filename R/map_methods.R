@@ -68,9 +68,11 @@ view.rac <- function(map,
   }
 
   # View the map data in the viewer
-  widget <- RacViewer(map = map,
-                      hide_control_panel = TRUE,
-                      ...)
+  widget <- RacViewer(
+    map = map,
+    controls = "hidden",
+    ...
+  )
 
   # Make any antigen and serum selections
   if(!is.null(select_ags)){

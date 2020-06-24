@@ -1,21 +1,28 @@
 
-Racmacs.Point.prototype.onselect.push(
-    function(point){
-
-        // Mark browser record
+R3JS.Viewer.prototype.eventListeners.push({
+    name : "point-selected",
+    fn : function(e){
+        let point  = e.detail.point;
+        let viewer = point.viewer;
         point.browserRecord.select();
-
     }
-);
+});
 
-Racmacs.Point.prototype.ondeselect.push(
-    function(point){
-
-        // Mark browser record
+R3JS.Viewer.prototype.eventListeners.push({
+    name : "point-deselected",
+    fn : function(e){
+        let point  = e.detail.point;
+        let viewer = point.viewer;
         point.browserRecord.deselect();
-
     }
-);
+});
+
+// Clear browsers
+Racmacs.App.prototype.clearBrowsers = function(){
+    for(browser in this.browsers){
+        this.browsers[browser].clear();
+    }
+}
 
 Racmacs.NameBrowser = class NameBrowser {
 
@@ -79,7 +86,7 @@ Racmacs.NameBrowser = class NameBrowser {
     }
 
     // Function to clear the name browser
-    empty(){
+    clear(){
 
         this.points = [];
         while(this.name_list.children.length > 0){
@@ -95,7 +102,7 @@ Racmacs.NameBrowser = class NameBrowser {
         var points = this.viewer[this.type];
 
         // Clear it
-        this.empty();
+        this.clear();
 
         // Set default order
         if(order === null){ order = Array(points.length).fill(0).map( (a,i) => i ) }

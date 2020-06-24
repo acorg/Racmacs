@@ -25,6 +25,9 @@ R3JS.Viewer = class R3JSviewer {
         // Create viewport
         this.viewport = new R3JS.Viewport(this);
 
+        // Bind event listeners
+        this.bindEventListeners();
+
         // Initiate the viewer
         if(settings.initiate){ 
             this.initiate( settings.startAnimation );
@@ -36,29 +39,12 @@ R3JS.Viewer = class R3JSviewer {
     initiate(startAnimation = true){
 
         // Create scene
-        this.scene = new R3JS.Scene();
+        this.scene = new R3JS.Scene(this);
         this.scene.setBackgroundColor({
             r : 1,
             g : 1,
             b : 1
         })
-        this.scene.viewer = this;
-
-        // Bind scene rotation events
-        var viewer = this;
-        this.scene.onrotate.push(function(){
-            var rotation = viewer.scene.getRotation();
-            viewer.viewport.transform_info.rotation.x.value = rotation[0].toFixed(4);
-            viewer.viewport.transform_info.rotation.y.value = rotation[1].toFixed(4);
-            viewer.viewport.transform_info.rotation.z.value = rotation[2].toFixed(4);
-        });
-
-        this.scene.ontranslate.push(function(){
-            var translation = viewer.scene.getTranslation();
-            viewer.viewport.transform_info.translation.x.value = translation[0].toFixed(4);
-            viewer.viewport.transform_info.translation.y.value = translation[1].toFixed(4);
-            viewer.viewport.transform_info.translation.z.value = translation[2].toFixed(4);
-        });
 
         // Create renderer and append to dom
         this.renderer = new R3JS.Renderer();
@@ -69,15 +55,9 @@ R3JS.Viewer = class R3JSviewer {
         );
 
         // Create cameras
-        this.perspcamera = new R3JS.PerspCamera();
-        this.orthocamera = new R3JS.OrthoCamera();
-        this.camera = this.perspcamera;
-
-        // Add zoom events
-        this.camera.zoom_events.push(function(){
-            var zoom = viewer.camera.getZoom();
-            viewer.viewport.transform_info.zoom.input.value = zoom.toFixed(4);
-        });
+        this.perspcamera = new R3JS.PerspCamera(this);
+        this.orthocamera = new R3JS.OrthoCamera(this);
+        this.camera      = this.perspcamera;
 
         // Add raytracer
         this.raytracer = new R3JS.Raytracer();
@@ -177,5 +157,29 @@ R3JS.Viewer = class R3JSviewer {
         )
     }
 
+    // For dispatching custom events
+    dispatchEvent(name, detail){
+        detail.viewer = this;
+        let event = new CustomEvent(name, {
+            detail: detail
+        });
+        this.container.dispatchEvent(event);
+    }
+
+    addEventListener(name, fn){
+        this.container.addEventListener(name, fn);
+    }
+
+    bindEventListeners(){
+        for(var i=0; i<this.eventListeners.length; i++){
+            this.addEventListener(
+                this.eventListeners[i].name, 
+                this.eventListeners[i].fn
+            );
+        }
+    }
+
 }
+
+R3JS.Viewer.prototype.eventListeners = [];
 

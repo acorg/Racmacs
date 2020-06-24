@@ -1,19 +1,37 @@
 
-Racmacs.Point.prototype.onselect.push(
-    function(point){ point.showBlob() }
-);
+R3JS.Viewer.prototype.eventListeners.push({
+    name : "point-selected",
+    fn : function(e){
+        let point  = e.detail.point;
+        let viewer = point.viewer;
+        point.showBlob()
+    }
+});
 
-Racmacs.Point.prototype.ondeselect.push(
-    function(point){ point.hideBlob() }
-);
+R3JS.Viewer.prototype.eventListeners.push({
+    name : "point-deselected",
+    fn : function(e){
+        let point  = e.detail.point;
+        let viewer = point.viewer;
+        point.hideBlob()
+    }
+});
 
-Racmacs.App.prototype.onselect.push(
-    function(viewer){ viewer.points.map( p => p.hideBlob() ) }
-);
+R3JS.Viewer.prototype.eventListeners.push({
+    name : "points-selected",
+    fn : function(e){
+        let viewer = e.detail.viewer;
+        viewer.points.map( p => p.hideBlob() );
+    }
+});
 
-Racmacs.App.prototype.ondeselect.push(
-    function(viewer){ viewer.points.map( p => p.showBlob() ) }
-);
+R3JS.Viewer.prototype.eventListeners.push({
+    name : "points-deselected",
+    fn : function(e){
+        let viewer = e.detail.viewer;
+        viewer.points.map( p => p.showBlob() );
+    }
+});
 
 Racmacs.StressblobsPanel = class StressblobsPanel {
 

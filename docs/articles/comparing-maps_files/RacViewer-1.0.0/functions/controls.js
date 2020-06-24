@@ -127,20 +127,20 @@ Racmacs.ControlPanel = class ControlPanel {
         });
 
         // Add Blobs
-        var stressblobsPanel = new Racmacs.StressblobsPanel(this.viewer);
-        this.tabset.addTab({
-            id : "stressblobs",
-            name: "Stress blobs",
-            content: stressblobsPanel.div
-        });
+        // var stressblobsPanel = new Racmacs.StressblobsPanel(this.viewer);
+        // this.tabset.addTab({
+        //     id : "stressblobs",
+        //     name: "Stress blobs",
+        //     content: stressblobsPanel.div
+        // });
 
         // Add procrustes
-        var procrustesPanel = new Racmacs.ProcrustesPanel(this.viewer);
-        this.tabset.addTab({
-            id : "procrustes",
-            name: "Procrustes",
-            content: procrustesPanel.div
-        });
+        // var procrustesPanel = new Racmacs.ProcrustesPanel(this.viewer);
+        // this.tabset.addTab({
+        //     id : "procrustes",
+        //     name: "Procrustes",
+        //     content: procrustesPanel.div
+        // });
 
         // // Add bootstrap
         // var bootstrapPanel = new Racmacs.BootstrapPanel(this.viewer);
@@ -185,6 +185,16 @@ Racmacs.ControlPanel = class ControlPanel {
         this.div.style.width  = width+"px";
         this.width = width;
         this.viewer.viewport.onwindowresize(null);
+    }
+
+    disableContentLoadedTabs(){
+        this.tabset.disableTab("save");
+        this.tabset.disableTab("projections");
+    }
+
+    enableContentLoadedTabs(){
+        this.tabset.enableTab("save");
+        this.tabset.enableTab("projections");
     }
 
     disableProjectionTabs(){
@@ -233,6 +243,7 @@ Racmacs.ColorPanel = class ColorPanel {
         // Setup
         this.viewer = viewer;
         this.viewer.colorbtns = {};
+        this.viewer.colorpanel = this;
         
         // Create color by options
         this.div = document.createElement( 'div' );
@@ -254,6 +265,28 @@ Racmacs.ColorPanel = class ColorPanel {
             },
             false
         );
+
+        this.seqbtn = this.addButton(
+            "Sequence",
+            e => {
+                this.seqinput.focus();
+                viewer.colorPointsBySequence(
+                    Number(this.seqinput.value)
+                );
+                this.seqinput.style.display = "";
+            },
+            false
+        );
+
+        this.seqinput = document.createElement("input");
+        this.seqinput.setAttribute("placeholder", "position");
+        this.seqinput.addEventListener("input", e => {
+            viewer.colorPointsBySequence(
+                Number(this.seqinput.value)
+            );
+        });
+        this.seqinput.style.display = "none";
+        this.div.appendChild(this.seqinput);
 
     }
 
@@ -280,10 +313,34 @@ Racmacs.ColorPanel = class ColorPanel {
         div.appendChild(label);
         div.style.height = "24px";
         this.div.appendChild(div);
+        return({
+            div : div,
+            input : input
+        });
 
     }
 
+    showColorBySequence(){
+        this.seqbtn.div.style.display = "";
+    }
+    hideColorBySequence(){
+        this.seqbtn.div.style.display = "none";
+    }
+
 }
+
+// EVENTS
+R3JS.Viewer.prototype.eventListeners.push({
+    name : "point-coloring-changed",
+    fn : function(e){
+        if(e.detail.viewer.colorpanel.seqbtn.checked){
+            e.detail.viewer.colorpanel.seqinput.style.display = "";
+            e.detail.viewer.colorpanel.seqinput.focus();
+        } else {
+            //e.detail.viewer.colorpanel.seqinput.style.display = "none";
+        }
+    }
+});
 
 
 Racmacs.TabSet = class TabSet {

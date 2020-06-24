@@ -1,4 +1,17 @@
 
+// EVENTS
+R3JS.Viewer.prototype.eventListeners.push({
+    name : "zoom",
+    fn : function(e){
+        let viewer = e.detail.viewer;
+        if(viewer.onPointZoom){
+            viewer.onPointZoom(
+                e.detail.start_zoom, 
+                e.detail.end_zoom
+            );
+        }
+    }
+});
 
 Racmacs.Viewer.prototype.toggleLockPointSize = function(){
 
@@ -129,15 +142,14 @@ Racmacs.Viewer.prototype.addAgSrPoints = function(){
 
             }
 
-            // Add event to camera to scale points on zoom
-            var viewer = this;
-            this.camera.onzoom = function(start_zoom, end_zoom){
-                
-                if(viewer.pointSizeLocked){
-                    viewer.scalePoints(start_zoom / end_zoom);
+            // Set function to run when zooming
+            this.onPointZoom = function(start_zoom, end_zoom){
+                if(this.pointSizeLocked){
+                    if(start_zoom > 0){
+                        this.scalePoints(start_zoom / end_zoom);
+                    }
                 }
-
-            };
+            }
 
         }
 
@@ -236,15 +248,14 @@ Racmacs.Viewer.prototype.addAgSrPoints = function(){
         }
         this.resizePoints = this.scalePoints;
 
-        // Add event to camera to scale points on zoom
-        var viewer = this;
-        this.camera.onzoom = function(start_zoom, end_zoom){
-            
-            if(!viewer.pointSizeLocked){
-                viewer.scalePoints(end_zoom / start_zoom);
+        // Set function to run when zooming
+        this.onPointZoom = function(start_zoom, end_zoom){
+            if(!this.pointSizeLocked){
+                if(start_zoom > 0){
+                    this.scalePoints(end_zoom / start_zoom);
+                }
             }
-
-        };
+        }
 
     }
 

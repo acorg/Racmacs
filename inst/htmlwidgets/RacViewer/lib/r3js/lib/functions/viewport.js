@@ -44,16 +44,6 @@ R3JS.Viewport = class Viewport{
         this.height = this.div.offsetHeight;
 
         var viewport = this;
-        document.addEventListener("keydown", function(event){ 
-            if(viewport.onkeydown){
-                viewport.onkeydown(event)
-            }
-        });
-        document.addEventListener("keyup", function(event){ 
-            if(viewport.onkeydown){
-                viewport.onkeyup(event)
-            }
-        });
 
         // Add buttons
         if(this.addButtons) this.addButtons();
@@ -67,6 +57,7 @@ R3JS.Viewport = class Viewport{
         this.canvas.addEventListener("mousemove", function(event){ this.viewport.onmousemove(event)   });
         this.canvas.addEventListener("mousedown", function(event){ this.viewport.onmousedown(event)   });
         this.canvas.addEventListener("mouseup",   function(event){ this.viewport.onmouseup(event)     });
+        this.canvas.addEventListener("contextmenu",   function(event){ this.viewport.onmouseup(event)     });
         this.canvas.addEventListener("wheel",     function(event){ this.viewport.onmousescroll(event) });
         this.canvas.addEventListener("mouseover", function(event){ this.viewport.onmouseover(event)   });
         this.canvas.addEventListener("mouseout",  function(event){ this.viewport.onmouseout(event)    });
@@ -130,8 +121,27 @@ R3JS.Viewport = class Viewport{
         // Add placeholder
         this.placeholder = document.createElement("div");
         this.placeholder.classList.add("viewport-placeholder");
-        this.placeholder.innerHTML = this.placeholderContent;
-        //this.div.appendChild(this.placeholder);
+        this.div.appendChild(this.placeholder);
+
+        // Add event listeners
+        viewer.addEventListener("zoom", e => {
+            this.transform_info.zoom.input.value = e.detail.end_zoom.toFixed(4);
+        });
+
+        viewer.addEventListener("rotate", e => {
+            var rotation = viewer.scene.getRotation();
+            this.transform_info.rotation.x.value = rotation[0].toFixed(4);
+            this.transform_info.rotation.y.value = rotation[1].toFixed(4);
+            this.transform_info.rotation.z.value = rotation[2].toFixed(4);
+        });
+
+        viewer.addEventListener("translate", e => {
+            var translation = viewer.scene.getTranslation();
+            this.transform_info.translation.x.value = translation[0].toFixed(4);
+            this.transform_info.translation.y.value = translation[1].toFixed(4);
+            this.transform_info.translation.z.value = translation[2].toFixed(4);
+        });
+
 
     }
 
@@ -149,6 +159,14 @@ R3JS.Viewport = class Viewport{
         return(this.getHeight() / this.getWidth());
     }
 
+    setPlaceholder(el, color){
+        this.placeholder.innerHTML = "";
+        this.placeholder.appendChild(el);
+        if(color !== undefined){
+            this.placeholder.style.backgroundColor = color;
+        }
+    }
+
     hidePlaceholder(){
         this.canvas.style.display = null;
         this.placeholder.style.display = "none";
@@ -160,7 +178,6 @@ R3JS.Viewport = class Viewport{
     }
 
 }
-R3JS.Viewport.prototype.placeholderContent = "Loading";
 
 
 

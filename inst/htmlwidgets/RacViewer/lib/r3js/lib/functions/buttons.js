@@ -2,16 +2,14 @@
 
 R3JS.Viewer.prototype.addViewerButtons = function(){
 
-	// Create button to show viewer info
 	this.btns = {};
-	function show_info(){
-		this.viewport.transform_info.toggle();
-	}
+	
+	// Create button to show viewer info
 	this.addButton({
 		name  : "info",
 		title : "Show info",
 		icon  : R3JS.icons.info(),
-		fn    : show_info
+		fn    : e => this.viewport.transform_info.toggle()
 	});
 
 
@@ -24,14 +22,11 @@ R3JS.Viewer.prototype.addViewerButtons = function(){
 	});
 
 	// Create button to download image
-	function btn_saveImg(){
-      	viewer.downloadImage(viewer.name);
-	}
 	this.addButton({
 		name  : "snapshot",
 		title : "Download image",
 		icon  : R3JS.icons.snapshot(),
-		fn    : btn_saveImg
+		fn    : e => this.downloadImage(this.name)
 	});
 
 	// Pop out viewer
@@ -69,9 +64,9 @@ R3JS.Viewport.prototype.addButtons = function(){
 
     // Add mouseover events to show and hide buttons
     this.div.addEventListener("mouseover", function(){
-    	// if(viewer.contentLoaded){
+    	if(viewer.contentLoaded){
     		btn_holder.style.display = "block";
-    	// }
+    	}
     });
     this.div.addEventListener("mouseout", function(){
     	btn_holder.style.display = "none";

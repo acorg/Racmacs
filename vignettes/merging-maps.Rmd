@@ -2,7 +2,7 @@
 title: "Merging maps"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{merging-maps}
+  %\VignetteIndexEntry{Merging maps}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---

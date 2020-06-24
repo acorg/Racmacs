@@ -16,7 +16,7 @@ antigens_setter <- function(attribute){
   eval(
     substitute(env = list(attribute = attribute), expr = {
       function(map, .check = TRUE, value){
-        if(.check) checkProperty_antigens(map, attribute, value)
+        if(.check) value <- checkProperty_antigens(map, attribute, value)
         classSwitch("setProperty_antigens", map, attribute, value)
       }
     })
@@ -26,9 +26,17 @@ antigens_setter <- function(attribute){
 # Property checker
 checkProperty_antigens <- function(map, attribute, value){
 
-  if(length(value) != numAntigens(map)){
+  if(attribute == "agSequences"){
+    if(nrow(value) != numAntigens(map)){
+      stop(sprintf("Number of %s rows does not match number of antigens in the map", attribute))
+    }
+    if(!is.matrix(value)){
+      value <- unname(as.matrix(value))
+    }
+  } else if(length(value) != numAntigens(map)){
     stop(sprintf("Number of %s does not match number of antigens in the map", attribute))
   }
+  value
 
 }
 
@@ -76,7 +84,7 @@ defaultProperty_antigens <- function(map, attribute, value){
 #' \code{\link{srAttributes}}
 #' @family {antigen and sera attribute functions}
 #' @eval roxygen_tags(
-#'   methods = c("agNames", "agIDs", "agGroups", "agNamesFull", "agNamesAbbreviated", "agDates", "agReference"),
+#'   methods = c("agNames", "agIDs", "agGroups", "agNamesFull", "agNamesAbbreviated", "agDates", "agReference", "agSequences"),
 #'   args    = c("map")
 #' )
 #'
@@ -87,6 +95,7 @@ agReference         <- antigens_getter("agReference")
 agNames             <- antigens_getter("agNames")
 agNamesFull         <- antigens_getter("agNamesFull")
 agNamesAbbreviated  <- antigens_getter("agNamesAbbreviated")
+agSequences         <- antigens_getter("agSequences")
 
 `agNames<-`         <- antigens_setter("agNames")
 `agIDs<-`           <- antigens_setter("agIDs")
@@ -94,5 +103,5 @@ agNamesAbbreviated  <- antigens_getter("agNamesAbbreviated")
 `agDates<-`         <- antigens_setter("agDates")
 `agReference<-`     <- antigens_setter("agReference")
 `agNames<-`         <- antigens_setter("agNames")
-
+`agSequences<-`     <- antigens_setter("agSequences")
 

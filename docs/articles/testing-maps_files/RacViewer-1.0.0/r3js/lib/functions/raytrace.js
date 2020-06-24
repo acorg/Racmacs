@@ -38,7 +38,7 @@ R3JS.Raytracer = class Raytracer {
 	    }
 
 		// Check if you have any intersections
-		if ( intersects.length > 0 ) {
+		if ( intersects.length > 0 && mouse.x !== null ) {
 
 		  // Check if you've scrolled onto a new point
 		  if ( this.intersected !== intersected) {

@@ -1,26 +1,29 @@
 
-Racmacs.Point.prototype.onupdatedisplay.push(function(point){
-
-	if(point.cell){
-		if(point.selected || point.hovered){
-	        point.cell.style.backgroundColor      = "#ccc";
-			point.cellgroup.style.backgroundColor = "#d7f0f4";
-			if(point.titercells){
-				point.titercells.map( cell => {
-					cell.style.backgroundColor = "#d7f0f4";
-				});
-			}
-		} else {
-			point.cell.style.backgroundColor      = "#eee";
-			point.cellgroup.style.backgroundColor = null;
-			if(point.titercells){
-				point.titercells.map( cell => {
-					cell.style.backgroundColor = null;
-				});
+R3JS.Viewer.prototype.eventListeners.push({
+    name : "point-display-updated",
+    fn : function(e){
+    	let point = e.detail.point;
+        let viewer = point.viewer;
+        if(point.cell){
+			if(point.selected || point.hovered){
+		        point.cell.style.backgroundColor      = "#ccc";
+				point.cellgroup.style.backgroundColor = "#d7f0f4";
+				if(point.titercells){
+					point.titercells.map( cell => {
+						cell.style.backgroundColor = "#d7f0f4";
+					});
+				}
+			} else {
+				point.cell.style.backgroundColor      = "#eee";
+				point.cellgroup.style.backgroundColor = null;
+				if(point.titercells){
+					point.titercells.map( cell => {
+						cell.style.backgroundColor = null;
+					});
+				}
 			}
 		}
-	}
-
+    }
 });
 
 Racmacs.App.prototype.showTable = function(){

@@ -1,23 +1,25 @@
 
-Racmacs.Point.prototype.onselect.push(
-    function(point){
-
+R3JS.Viewer.prototype.eventListeners.push({
+    name : "point-selected",
+    fn : function(e){
+        let point  = e.detail.point;
+        let viewer = point.viewer;
         // Show bootstrap
         point.showBootstrapPoints();
         point.showBootstrapContours();
-
     }
-);
+});
 
-Racmacs.Point.prototype.ondeselect.push(
-    function(point){
-
-        // Show bootstrap
+R3JS.Viewer.prototype.eventListeners.push({
+    name : "point-deselected",
+    fn : function(e){
+        let point  = e.detail.point;
+        let viewer = point.viewer;
+        // Hide bootstrap
         point.hideBootstrapPoints();
         point.hideBootstrapContours();
-
     }
-);
+});
 
 // Racmacs.BootstrapPanel = class ProcrustesPanel {
 

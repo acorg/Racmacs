@@ -7,7 +7,8 @@ R3JS.Viewer.prototype.addMapButtons = function(
 		"scalePointsUp",
 		"scalePointsDown",
 		"downloadMap",
-		"viewTable"
+		"viewTable",
+		"sequences"
 	]
 ){
 
@@ -77,16 +78,17 @@ R3JS.Viewer.prototype.addMapButtons = function(
 		}, 0);
 	}
 
-	// Create button to download the map
-	if(buttons.indexOf("downloadMap") > -1){
+	// Create button to view the table
+	if(buttons.indexOf("sequences") > -1){
 		this.addButton({
-			name  : "downloadMap",
-			title : "Download map file",
-			icon  : Racmacs.icons.save(),
+			name  : "viewSequences",
+			title : "View sequence table",
+			icon  : Racmacs.icons.sequences(),
 			fn    : function(e){
-				viewer.saveMap();
+				viewer.showSequences();
 			}
 		});
+		this.btns["viewSequences"].style.display = "none";
 	}
 
 	// Create button to view the table
@@ -97,6 +99,18 @@ R3JS.Viewer.prototype.addMapButtons = function(
 			icon  : Racmacs.icons.table(),
 			fn    : function(e){
 				viewer.showTable();
+			}
+		});
+	}
+
+	// Create button to download the map
+	if(buttons.indexOf("downloadMap") > -1){
+		this.addButton({
+			name  : "downloadMap",
+			title : "Download map file",
+			icon  : Racmacs.icons.save(),
+			fn    : function(e){
+				viewer.saveMap();
 			}
 		});
 	}

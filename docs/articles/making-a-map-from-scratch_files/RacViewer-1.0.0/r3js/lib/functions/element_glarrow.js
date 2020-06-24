@@ -187,6 +187,7 @@ R3JS.element.glarrowhead = class GLArrowhead extends R3JS.element.base {
         var viewport = args.viewer.viewport;
         var renderer = args.viewer.renderer;
         var scene    = args.viewer.scene;
+        var viewer   = args.viewer;
 
         // Set variables
         var positions    = new Float32Array( coords.length * 3 );
@@ -268,11 +269,9 @@ R3JS.element.glarrowhead = class GLArrowhead extends R3JS.element.base {
             }
         );
 
-        scene.onrotate.push(
-            function(){
-                points.material.uniforms.sceneRotation.value = scene.getRotation()[2];
-            }
-        );
+        viewer.addEventListener("rotate", e => {
+            points.material.uniforms.sceneRotation.value = scene.getRotation()[2];
+        });
 
     }
 

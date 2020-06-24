@@ -1,31 +1,22 @@
 
 // Add holder for events
-Racmacs.App.prototype.onselect          = [];
-Racmacs.App.prototype.ondeselect        = [];
-Racmacs.Point.prototype.onselect        = [];
-Racmacs.Point.prototype.ondeselect      = [];
-Racmacs.Point.prototype.onhover         = [];
-Racmacs.Point.prototype.ondehover       = [];
-Racmacs.Point.prototype.onupdatedisplay = [];
-
-Racmacs.App.prototype.onselect.push(
-    function(viewer){
-
+R3JS.Viewer.prototype.eventListeners.push({
+    name : "points-selected",
+    fn : function(e){
+        let viewer = e.detail.viewer;
         viewer.graphics.ptStyles = viewer.graphics.plusSelected;
         viewer.updatePointStyles();
-
     }
-);
+});
 
-Racmacs.App.prototype.ondeselect.push(
-    function(viewer){
-        
-        // Set graphics mode
+R3JS.Viewer.prototype.eventListeners.push({
+    name : "points-deselected",
+    fn : function(e){
+        let viewer = e.detail.viewer;
         viewer.graphics.ptStyles = viewer.graphics.noneSelected;
         viewer.updatePointStyles();
-
     }
-);
+});
 
 // Set selection styles
 Racmacs.App.prototype.graphics = {
@@ -84,7 +75,15 @@ Racmacs.Point.prototype.click = function(e){
     if(!this.viewer.dragMode){
         if(!this.viewer.viewport.mouse || 
             !this.viewer.viewport.mouse.moved){
-            this.select();
+            if(!e.metaKey){
+                this.select();
+            } else {
+                if(this.selected){
+                    this.deselect();
+                } else {
+                    this.select();
+                }
+            }
         }
         if(!e.shiftKey && !e.metaKey){
             this.viewer.deselectAll(this);
@@ -116,7 +115,9 @@ Racmacs.Point.prototype.hover = function(){
         this.showInfo();
 
         // Run additional hover functions
-        this.onhover.map( f => f(this) );
+        this.viewer.dispatchEvent("point-hovered", { 
+            point : this 
+        });
 
     }
 
@@ -141,7 +142,9 @@ Racmacs.Point.prototype.dehover = function(){
     this.hideInfo();
 
     // Run additional dehover functions
-    this.ondehover.map( f => f(this) );
+    this.viewer.dispatchEvent("point-dehovered", { 
+        point : this 
+    });
 
 
 }
@@ -183,6 +186,7 @@ Racmacs.Point.prototype.select = function(){
     if(this.shown && !this.selected){
 
         var viewer = this.viewer;
+        viewer.points_selected = true;
         
         // Toggle selection
         this.selected = true;
@@ -195,11 +199,15 @@ Racmacs.Point.prototype.select = function(){
 
         // Run events relating to points being selected
         if(viewer.selected_pts.length == 1){
-            this.viewer.onselect.map( f => f(this.viewer) );
+            this.viewer.dispatchEvent("points-selected", { 
+                viewer : this.viewer 
+            });
         }
 
         // Run select functions
-        this.onselect.map( f => f(this) );
+        this.viewer.dispatchEvent("point-selected", { 
+            point : this 
+        });
 
     }
 
@@ -224,11 +232,16 @@ Racmacs.Point.prototype.deselect = function(){
         }
 
         // Run deselect functions
-        this.ondeselect.map( f => f(this) );
+        this.viewer.dispatchEvent("point-deselected", { 
+            point : this 
+        });
 
         // Run events relating to points being deselected
         if(viewer.selected_pts.length == 0){    
-            this.viewer.ondeselect.map( f => f(this.viewer) );
+            viewer.points_selected = false;
+            this.viewer.dispatchEvent("points-deselected", { 
+                viewer : this.viewer 
+            });
         }
 
     }
@@ -252,19 +265,19 @@ Racmacs.Point.prototype.dehighlight = function(){
 
 Racmacs.Point.prototype.updateDisplay = function(){
   
-      var selectionMat = this.viewer.graphics.ptStyles;
+    var selectionMat = this.viewer.graphics.ptStyles;
 
-      if(this.coords_na){
+    if(this.coords_na){
         this.hide();
-      }
+    }
 
-      if(this.selected || this.hovered){
+    if(this.selected || this.hovered){
         this.setOutlineColorTemp(selectionMat.selected.outlineColor);
-      } else {
+    } else {
         this.restoreOutlineColor();
-      }
+    }
       
-      if(this.selected || this.highlighted > 0){
+    if(this.selected || this.highlighted > 0){
         
         if(this.hovered){
             this.setOpacity(selectionMat.selected_hover.opacity);
@@ -272,7 +285,7 @@ Racmacs.Point.prototype.updateDisplay = function(){
             this.setOpacity(selectionMat.selected.opacity);
         }
 
-      } else {
+    } else {
         
         if(this.hovered){
             this.setOpacity(selectionMat.deselected_hover.opacity);
@@ -280,12 +293,14 @@ Racmacs.Point.prototype.updateDisplay = function(){
             this.setOpacity(selectionMat.deselected.opacity);
         }
 
-      }
+    }
 
-      // Run any additional on update display events
-      this.onupdatedisplay.map( f => f(this) );
+    // Run any additional on update display events
+    this.viewer.dispatchEvent("point-display-updated", { 
+        point : this 
+    });
 
-      this.viewer.sceneChange = true;
+    this.viewer.sceneChange = true;
   
 };
 

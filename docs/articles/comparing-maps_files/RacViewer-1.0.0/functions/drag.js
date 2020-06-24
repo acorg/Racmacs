@@ -1,15 +1,19 @@
 
-Racmacs.App.prototype.onselect.push(
-    function(viewer){
-		viewer.btns.toggleDragMode.enable();
+R3JS.Viewer.prototype.eventListeners.push({
+    name : "points-selected",
+    fn : function(e){
+    	let viewer = e.detail.viewer;
+        viewer.btns.toggleDragMode.enable();
     }
-);
+});
 
-Racmacs.App.prototype.ondeselect.push(
-    function(viewer){
+R3JS.Viewer.prototype.eventListeners.push({
+    name : "points-deselected",
+    fn : function(e){
+    	let viewer = e.detail.viewer;
         viewer.btns.toggleDragMode.disable()
     }
-);
+});
 
 
 Racmacs.Viewer.prototype.dragMode = false;
@@ -31,10 +35,10 @@ Racmacs.DragPanel = class DragPanel {
         this.div = document.createElement("div");
 	    this.div.id = "drag-controls";
 
-	    var header = document.createElement("div");
-	    header.id = "drag-header";
-	    header.innerHTML = "Moving points";
-	    this.div.appendChild(header);
+	    // var header = document.createElement("div");
+	    // header.id = "drag-header";
+	    // header.innerHTML = "Moving points";
+	    // this.div.appendChild(header);
 
 	    var buttons = document.createElement("div");
         this.div.appendChild(buttons);

@@ -22,7 +22,7 @@ R3JS.element.constructors.text = function(
             text   : plotobj.text[0],
             coords : plotobj.position,
             alignment : plotobj.alignment,
-            offest     : plotobj.offset,
+            offset     : plotobj.offset,
             properties : R3JS.Material(plotobj.properties)
         });
     
@@ -32,7 +32,7 @@ R3JS.element.constructors.text = function(
             text   : plotobj.text,
             coords : plotobj.position,
             alignment : plotobj.alignment,
-            offest     : plotobj.offset,
+            offset     : plotobj.offset,
             properties : R3JS.Material(plotobj.properties)
         });
 
@@ -99,6 +99,16 @@ R3JS.element.htmltext = class htmltext extends R3JS.element.base {
 
     show(){ this.object.element.hidden = false }
     hide(){ this.object.element.hidden = true  }
+    setColor(color){
+        if(color != "inherit") color = "#" + new THREE.Color(color).getHexString();
+        this.object.element.style.color = color;
+    }
+    setStyle(property, value){
+        this.object.element.style.setProperty(property, value);
+    }
+    setCoords(coords){
+        this.object.position.fromArray(coords);
+    }
 
 }
 

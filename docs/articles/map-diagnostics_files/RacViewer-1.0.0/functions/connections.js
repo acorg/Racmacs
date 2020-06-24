@@ -1,44 +1,68 @@
 
 // EVENTS
-Racmacs.App.prototype.onselect.push(
-	function(viewer){
+R3JS.Viewer.prototype.eventListeners.push({
+	name : "point-moved",
+	fn : function(e){
+		let point = e.detail.point;
+		point.updateConnectionLines();
+		point.updateErrorLines();
+		point.updateTiterLabels();
+	}
+});
+
+R3JS.Viewer.prototype.eventListeners.push({
+	name : "point-selected",
+	fn : function(e){
+		let point  = e.detail.point;
+		let viewer = point.viewer;
 		if(viewer.errorLinesShown){
-            viewer.hideErrorLines();
+		    viewer.hideErrorLines();
             viewer.showErrorLines();
         }
         if(viewer.connectionLinesShown){
             viewer.hideConnectionLines();
             viewer.showConnectionLines();
         }
+        if(viewer.titersShown){
+            viewer.hideTiters();
+            viewer.showTiters();
+        }
 	}
-);
+});
 
-Racmacs.App.prototype.ondeselect.push(
-	function(viewer){
+R3JS.Viewer.prototype.eventListeners.push({
+	name : "point-deselected",
+	fn : function(e){
+		let point  = e.detail.point;
+		let viewer = point.viewer;
 		if(viewer.errorLinesShown){
-            viewer.hideErrorLines();
+		    viewer.hideErrorLines();
             viewer.showErrorLines();
         }
         if(viewer.connectionLinesShown){
             viewer.hideConnectionLines();
             viewer.showConnectionLines();
         }
+        if(viewer.titersShown){
+            viewer.hideTiters();
+            viewer.showTiters();
+        }
 	}
-);
+});
 
-Racmacs.Point.prototype.onselect.push(
-	function(point){
-		if(point.viewer.errorLinesShown)      { point.showErrors()      }
-		if(point.viewer.connectionLinesShown) { point.showConnections() }
-	}
-);
+// Racmacs.Point.prototype.onselect.push(
+// 	function(point){
+// 		if(point.viewer.errorLinesShown)      { point.showErrors()      }
+// 		if(point.viewer.connectionLinesShown) { point.showConnections() }
+// 	}
+// );
 
-Racmacs.Point.prototype.ondeselect.push(
-	function(point){
-		if(point.viewer.errorLinesShown)      { point.hideErrors()      }
-	    if(point.viewer.connectionLinesShown) { point.hideConnections() }
-	}
-);
+// Racmacs.Point.prototype.ondeselect.push(
+// 	function(point){
+// 		if(point.viewer.errorLinesShown)      { point.hideErrors()      }
+// 	    if(point.viewer.connectionLinesShown) { point.hideConnections() }
+// 	}
+// );
 
 // CONNECTION LINES
 Racmacs.App.prototype.toggleConnectionLines = function(){
@@ -53,27 +77,32 @@ Racmacs.App.prototype.toggleConnectionLines = function(){
 
 Racmacs.App.prototype.showConnectionLines = function(){
 
-	this.connectionLinesShown = true;
-	if(this.btns.toggleConnectionLines){ this.btns.toggleConnectionLines.highlight() }
+	this.hideErrorLines();
+	if(!this.connectionLinesShown){
+		this.connectionLinesShown = true;
+		if(this.btns.toggleConnectionLines){ this.btns.toggleConnectionLines.highlight() }
 
-	if(this.selected_pts.length == 0){
-		var points = this.antigens;
-	} else {
-		var points = this.selected_pts;
-	}
-	for(var i=0; i<points.length; i++){
-		points[i].showConnections();
+		if(this.selected_pts.length == 0){
+			var points = this.antigens;
+		} else {
+			var points = this.selected_pts;
+		}
+		for(var i=0; i<points.length; i++){
+			points[i].showConnections();
+		}
 	}
 
 }
 
 Racmacs.App.prototype.hideConnectionLines = function(){
 
-	this.connectionLinesShown = false;
-	if(this.btns.toggleConnectionLines){ this.btns.toggleConnectionLines.dehighlight() }
+	if(this.connectionLinesShown){
+		this.connectionLinesShown = false;
+		if(this.btns.toggleConnectionLines){ this.btns.toggleConnectionLines.dehighlight() }
 
-	for(var i=0; i<this.points.length; i++){
-		this.points[i].hideConnections();
+		for(var i=0; i<this.points.length; i++){
+			this.points[i].hideConnections();
+		}
 	}
 
 }
@@ -108,7 +137,9 @@ Racmacs.Point.prototype.showConnections = function(){
 			viewer : this.viewer
 		});
 
-		this.viewer.scene.add(this.connectionlines.object);
+		this.viewer.scene.add(
+			this.connectionlines.object
+		);
 
 	}
 
@@ -143,8 +174,8 @@ Racmacs.Point.prototype.getConnectionData = function(){
 
 	for(var i=0; i<connectedPoints.length; i++){
 		
-		data.coords[i*2]   = this.coords;
-		data.coords[i*2+1] = connectedPoints[i].coords;
+		data.coords[i*2]   = this.coords3;
+		data.coords[i*2+1] = connectedPoints[i].coords3;
 
 	}
 
@@ -165,10 +196,6 @@ Racmacs.Point.prototype.updateConnectionLines = function(){
 
 }
 
-
-
-
-
 // ERROR LINES
 // General viewer toggling
 Racmacs.App.prototype.toggleErrorLines = function(){
@@ -183,27 +210,32 @@ Racmacs.App.prototype.toggleErrorLines = function(){
 
 Racmacs.App.prototype.showErrorLines = function(){
 
-	this.errorLinesShown = true;
-	if(this.btns.toggleErrorLines){ this.btns.toggleErrorLines.highlight() }
+	this.hideConnectionLines();
+    if(!this.errorLinesShown){
+		this.errorLinesShown = true;
+		if(this.btns.toggleErrorLines){ this.btns.toggleErrorLines.highlight() }
 
-	if(this.selected_pts.length == 0){
-		var points = this.antigens;
-	} else {
-		var points = this.selected_pts;
-	}
-	for(var i=0; i<points.length; i++){
-		points[i].showErrors();
+		if(this.selected_pts.length == 0){
+			var points = this.antigens;
+		} else {
+			var points = this.selected_pts;
+		}
+		for(var i=0; i<points.length; i++){
+			points[i].showErrors();
+		}
 	}
 
 }
 
 Racmacs.App.prototype.hideErrorLines = function(){
 
-	this.errorLinesShown = false;
-	if(this.btns.toggleErrorLines){ this.btns.toggleErrorLines.dehighlight() }
+	if(this.errorLinesShown){
+		this.errorLinesShown = false;
+		if(this.btns.toggleErrorLines){ this.btns.toggleErrorLines.dehighlight() }
 
-	for(var i=0; i<this.points.length; i++){
-		this.points[i].hideErrors();
+		for(var i=0; i<this.points.length; i++){
+			this.points[i].hideErrors();
+		}
 	}
 
 }
@@ -374,3 +406,181 @@ Racmacs.Point.prototype.updateErrorLines = function(){
 	}
 
 }
+
+
+// TITER LABELS
+Racmacs.App.prototype.toggleTiters = function(){
+
+	if(!this.titersShown){
+		this.showTiters();
+	} else {
+		this.hideTiters();
+	}
+
+}
+
+Racmacs.App.prototype.showTiters = function(){
+	
+	this.showConnectionLines();
+
+	if(!this.titersShown){
+		this.titersShown = true;
+		if(this.btns.toggleTiters){ this.btns.toggleTiters.highlight() }
+
+		if(this.selected_pts.length == 0){
+			var points = this.antigens;
+		} else {
+			var points = this.selected_pts;
+		}
+		for(var i=0; i<points.length; i++){
+			points[i].showTiters();
+		}
+	}
+
+}
+
+Racmacs.App.prototype.hideTiters = function(){
+
+	this.hideConnectionLines();
+
+	if(this.titersShown){
+		this.titersShown = false;
+		if(this.btns.toggleTiters){ this.btns.toggleTiters.dehighlight() }
+
+		for(var i=0; i<this.points.length; i++){
+			this.points[i].hideTiters();
+		}
+	}
+
+}
+
+R3JS.Viewer.prototype.eventListeners.push({
+    name : "point-hovered",
+    fn : function(e){
+    	let point = e.detail.point;
+    	if(point.linkedtiterlabels){
+    		point.linkedtiterlabels.map( t => {
+    			t.setColor("red");
+    		});
+    	}
+    }
+});
+
+R3JS.Viewer.prototype.eventListeners.push({
+    name : "point-dehovered",
+    fn : function(e){
+    	let point = e.detail.point;
+    	if(point.linkedtiterlabels){
+    		point.linkedtiterlabels.map( t => {
+    			t.setColor("inherit");
+    		});
+    	}
+    }
+});
+
+Racmacs.Point.prototype.addLinkedTiterLabel = function(element){
+	if(!this.linkedtiterlabels) this.linkedtiterlabels = [];
+	this.linkedtiterlabels.push(element);
+}
+
+Racmacs.Point.prototype.removeLinkedTiterLabel = function(element){
+	const index = this.linkedtiterlabels.indexOf(element);
+	if (index > -1) { this.linkedtiterlabels.splice(index, 1); }
+}
+
+// Add titers to a point object
+Racmacs.Point.prototype.showTiters = function(){
+
+	if(!this.titersShown){
+
+		this.titersShown = true;
+		this.titerlabels = [];
+
+		// Highlight connected points
+		var connectedPoints = this.getConnectedPoints();
+		connectedPoints.map( p => p.highlight() );
+
+		// Show colbasis if a sera
+		if(this.type == "sr"){
+			var element = new R3JS.element.htmltext({
+	            text   : "*"+Math.round(Math.pow(2, this.colbase)*10),
+	            coords : this.coords3,
+	        });
+	        element.setStyle("font-size", "12px");
+	        element.setStyle("font-weight", "bolder");
+	        element.setStyle("background", "#ffffff");
+	        element.from = this;
+	        element.to   = this;
+	        this.viewer.scene.add(element.object);
+	        this.titerlabels.push(element);
+	        this.addLinkedTiterLabel(element);
+		}
+
+		// Show titers to connected points
+		connectedPoints.map( p => {
+			var element = new R3JS.element.htmltext({
+	            text   : this.titerTo(p),
+	            coords : [
+	            	(this.coords3[0] + p.coords3[0])/2,
+	            	(this.coords3[1] + p.coords3[1])/2,
+	            	(this.coords3[2] + p.coords3[2])/2,
+	            ],
+	            // alignment : plotobj.alignment,
+	            // offset     : plotobj.offset,
+	            // properties : R3JS.Material(plotobj.properties)
+	        });
+	        element.setStyle("font-size", "10px");
+	        element.setStyle("background", "#ffffff");
+	        element.from = this;
+	        element.to = p;
+	        this.viewer.scene.add(element.object);
+	        this.titerlabels.push(element);
+	        this.addLinkedTiterLabel(element);
+	        p.addLinkedTiterLabel(element);
+		});
+
+		// this.viewer.scene.add(
+		// 	this.connectionlines.object
+		// );
+
+	}
+
+}
+
+// Remove titers from a point object
+Racmacs.Point.prototype.hideTiters = function(){
+
+	if(this.titersShown){
+
+		this.titersShown = false;
+		this.titerlabels.map( label => {
+			this.viewer.scene.remove(label.object);
+			this.removeLinkedTiterLabel(label);
+		});
+		this.titerlabels = null;
+
+		// Get connected points
+		var connectedPoints = this.getConnectedPoints();
+		connectedPoints.map( p => p.dehighlight() );
+
+	}
+
+}
+
+// Update titers from an object
+Racmacs.Point.prototype.updateTiterLabels = function(){
+
+	if(this.titersShown){
+
+		this.linkedtiterlabels.map( label => {
+			label.setCoords([
+				(label.from.coords3[0] + label.to.coords3[0])/2,
+            	(label.from.coords3[1] + label.to.coords3[1])/2,
+            	(label.from.coords3[2] + label.to.coords3[2])/2,
+			]);
+		});
+
+	}
+
+}
+

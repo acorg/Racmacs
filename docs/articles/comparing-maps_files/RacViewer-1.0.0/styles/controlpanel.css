@@ -210,3 +210,21 @@
   border-bottom: solid 1px #196666;
 }
 
+#color-by-div {
+  width: 100%;
+}
+
+#color-by-div input {
+  box-sizing: border-box;
+  width: 100%;
+  font-weight: bolder;
+  background-color: #222222;
+  padding: 4px;
+  font-size: 120%;
+  color: #fff;
+}
+
+#color-by-div input:focus {
+  outline: none;
+}
+

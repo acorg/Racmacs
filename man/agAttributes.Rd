@@ -9,11 +9,13 @@
 \alias{agNamesAbbreviated}
 \alias{agDates}
 \alias{agReference}
+\alias{agSequences}
 \alias{agNames<-}
 \alias{agIDs<-}
 \alias{agGroups<-}
 \alias{agDates<-}
 \alias{agReference<-}
+\alias{agSequences<-}
 \title{Getting and setting antigen attributes}
 \usage{
 agNames(map, .name = TRUE)
@@ -34,6 +36,9 @@ agDates(map, .check = TRUE) <- value
 
 agReference(map, .name = TRUE)
 agReference(map, .check = TRUE) <- value
+
+agSequences(map, .name = TRUE)
+agSequences(map, .check = TRUE) <- value
 }
 \arguments{
 \item{map}{The acmap data object}

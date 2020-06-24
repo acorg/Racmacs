@@ -8,64 +8,11 @@ library(shinyjs)
 library(Racmacs)
 
 
-# Convert a list of lists to a matrix
-list2matrix <- function(x){
-  do.call(rbind, lapply(x, unlist))
-}
-
-
-# Convert data to json format
-data2json <- function(x){
-  jsonlite::toJSON(x)
-}
-
-# Set save volumes
-save_volumes <- c("home" = path.expand("~/"))
-
-
-# Convert point selections into TRUE, FALSE or base 1 indices
-convertSelectedPoints <- function(selections, map){
-
-  antigens <- unlist(selections$antigens) + 1
-  sera     <- unlist(selections$sera) + 1
-
-  if(length(antigens) == 0 && length(sera) == 0) {
-    return(list(antigens = TRUE, sera = TRUE))
-  }
-
-  if(length(antigens) == numAntigens(map))  antigens <- TRUE
-  if(length(sera) == numSera(map))          sera <- TRUE
-  if(length(antigens) == 0)                 antigens <- FALSE
-  if(length(sera) == 0)                     sera <- FALSE
-
-  list(
-    antigens = antigens,
-    sera = sera
-  )
-
-}
-
-
-# Function to execute code
-execute <- function(command){
-
-  tryCatch(
-    expr = {
-      eval(command)
-    },
-    error = function(e){
-      showNotification(e$message, closeButton = FALSE, duration = 1, type = "error")
-      message(e$message)
-    }
-  )
-  invisible()
-
-}
-
-
-
 # This is the server function which controls how the input data is processed
 server <- function(input, output, session) {
+
+  # Set save volumes
+  save_volumes <- c("home" = path.expand("~/"))
 
   # General setup
   ## Create a reactive values object for storing data that will change
@@ -76,7 +23,10 @@ server <- function(input, output, session) {
 
   ## Populate the racViewer UI with a blank RacViewer
   output$racViewer <- renderRacViewer({
-    RacViewer(map = NULL)
+    RacViewer(
+      map      = NULL,
+      controls = "shown"
+    )
   })
 
   ## Setup for save listeners
@@ -103,8 +53,8 @@ server <- function(input, output, session) {
       type = "message"
     )
 
-    storage$map <- read.acmap.cpp(input$mapDataLoaded$datapath)
-    session$sendCustomMessage("loadMapData", map2json(storage$map))
+    storage$map <- read.acmap(input$mapDataLoaded$datapath)
+    session$sendCustomMessage("loadMapData", as.json(storage$map))
     message("Map loaded.")
 
     showNotification(
@@ -130,7 +80,7 @@ server <- function(input, output, session) {
 
     hitable <- read.titerTable(input$tableDataLoaded$datapath)
     storage$map <- acmap.cpp(table = hitable)
-    session$sendCustomMessage("loadMapData", map2json(storage$map))
+    session$sendCustomMessage("loadMapData", as.json(storage$map))
     message("Table loaded.")
 
     showNotification(
@@ -257,7 +207,7 @@ server <- function(input, output, session) {
     )
 
     # Reload the map
-    session$sendCustomMessage("loadMapData", map2json(storage$map))
+    session$sendCustomMessage("loadMapData", as.json(storage$map))
 
   })
 
@@ -358,7 +308,7 @@ server <- function(input, output, session) {
     # )
 
     # Reload the map
-    session$sendCustomMessage("reloadMapData", map2json(storage$map))
+    session$sendCustomMessage("reloadMapData", as.json(storage$map))
 
   })
 
@@ -380,7 +330,7 @@ server <- function(input, output, session) {
       hemispheringData <- checkHemisphering(storage$map)
       storage$map <- add_hemispheringData(storage$map, hemispheringData)
       # session$sendCustomMessage("addHemispheringData", data2json(hemispheringData))
-      session$sendCustomMessage("reloadMapData", map2json(storage$map))
+      session$sendCustomMessage("reloadMapData", as.json(storage$map))
       print(hemispheringData)
 
     })
@@ -442,7 +392,7 @@ server <- function(input, output, session) {
     )
 
     # Read in the procrustes map
-    pcmap <- read.acmap.cpp(
+    pcmap <- read.acmap(
       filename            = input$procrustesDataLoaded$datapath,
       optimization_number = as.numeric(input$procrustes$optimization)
     )
@@ -456,7 +406,7 @@ server <- function(input, output, session) {
     )
 
     # Reload the map data
-    session$sendCustomMessage("reloadMapData", map2json(storage$map))
+    session$sendCustomMessage("reloadMapData", as.json(storage$map))
 
     showNotification(
       ui = "Calculating procrustes... complete.",
@@ -485,7 +435,7 @@ server <- function(input, output, session) {
     storage$map <- realignOptimizations(storage$map)
 
     # Reload the map data
-    session$sendCustomMessage("reloadMapData", map2json(storage$map))
+    session$sendCustomMessage("reloadMapData", as.json(storage$map))
 
     message("done.")
 
@@ -518,7 +468,7 @@ server <- function(input, output, session) {
     storage$map <- removeOptimizations(storage$map)
 
     # Reload the map data
-    session$sendCustomMessage("reloadMapData", map2json(storage$map))
+    session$sendCustomMessage("reloadMapData", as.json(storage$map))
 
     message("done.")
 
@@ -547,13 +497,13 @@ server <- function(input, output, session) {
     message("Loading point styles...", appendLF = F)
 
     # Realign the optimizations
-    plotspec_map <- read.acmap.cpp(input$pointStyleDataLoaded$datapath)
+    plotspec_map <- read.acmap(input$pointStyleDataLoaded$datapath)
     execute({
       storage$map <- applyPlotspec(storage$map, plotspec_map)
     })
 
     # Reload the map data
-    session$sendCustomMessage("reloadMapData", map2json(storage$map))
+    session$sendCustomMessage("reloadMapData", as.json(storage$map))
 
     message("done.")
 

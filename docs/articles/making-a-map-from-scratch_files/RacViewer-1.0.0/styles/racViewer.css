@@ -219,7 +219,16 @@ h3 {
 }
 
 
+/* Sequence legend */
+.sequence-legend {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+}
 
+.sequence-legend table {
+    margin-left: auto;
+}
 
 
 

@@ -2,7 +2,7 @@
 title: "Comparing maps"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{map-comparisons}
+  %\VignetteIndexEntry{Comparing maps}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---

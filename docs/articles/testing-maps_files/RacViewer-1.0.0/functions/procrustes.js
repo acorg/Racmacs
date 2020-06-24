@@ -203,7 +203,7 @@ Racmacs.Viewer.prototype.addProcrustesToBaseCoords = function(data){
         
             // Set coords
             var pc_coords = pc_data[i];
-            var pt_coords = this.points[i].coords;
+            var pt_coords = this.points[i].coords3;
 
             // Plot the arrow
             if(pc_coords[0] !== "NA" && pc_coords[0] !== null){

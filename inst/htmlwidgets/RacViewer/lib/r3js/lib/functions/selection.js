@@ -8,14 +8,14 @@ R3JS.Viewer.prototype.addRectangleSelection = function(){
 
     // Bind event listeners
     var viewer = this;
-    this.viewport.div.addEventListener('mousedown', function(){
-    	viewer.start_rect_select();
+    this.viewport.div.addEventListener('mousedown', function(e){
+    	viewer.start_rect_select(e);
     });
-    this.viewport.div.addEventListener('mouseup', function(){
-        viewer.make_rect_selection();
+    this.viewport.div.addEventListener('mouseup', function(e){
+        viewer.make_rect_selection(e);
     });
-    this.viewport.div.addEventListener('mousemove', function(){
-    	viewer.rect_select();
+    this.viewport.div.addEventListener('mousemove', function(e){
+    	viewer.rect_select(e);
     });
 
 }
@@ -29,6 +29,7 @@ R3JS.SelectionRectangle = class SelectionRectangle {
 	    this.div.style.backgroundColor = "rgba(0,0,255,0.1)";
 	    this.div.style.border = "solid 1px rgba(0,0,255,0.2)";
 	    this.div.style.position = "absolute";
+	    this.div.style.pointerEvents = "none";
 
 	}
 
@@ -47,9 +48,9 @@ R3JS.SelectionRectangle = class SelectionRectangle {
 }
 
 // Selection rectangle functions
-R3JS.Viewer.prototype.start_rect_select = function(){
+R3JS.Viewer.prototype.start_rect_select = function(e){
 
-	if(this.viewport.keydown && this.viewport.keydown.key == "Shift"){
+	if(e.shiftKey){
 		this.viewport.downmouse = {x: this.viewport.mouse.x, y:this.viewport.mouse.y};
 		this.selectRectMode = true;
 	}
@@ -64,7 +65,7 @@ R3JS.Viewer.prototype.end_rect_select = function(){
 
 }
 
-R3JS.Viewer.prototype.rect_select = function(){
+R3JS.Viewer.prototype.rect_select = function(e){
 
 	if(this.selectRectMode){
 
@@ -93,7 +94,7 @@ R3JS.Viewer.prototype.rect_select = function(){
 }
 
 
-R3JS.Viewer.prototype.make_rect_selection = function(){
+R3JS.Viewer.prototype.make_rect_selection = function(e){
 
     if(this.selectRectMode){
 		for(var i=0; i<this.scene.selectable_elements.length; i++){

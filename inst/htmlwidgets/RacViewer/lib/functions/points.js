@@ -1,4 +1,17 @@
 
+// EVENTS
+R3JS.Viewer.prototype.eventListeners.push({
+    name : "zoom",
+    fn : function(e){
+        let viewer = e.detail.viewer;
+        if(viewer.onPointZoom){
+            viewer.onPointZoom(
+                e.detail.start_zoom, 
+                e.detail.end_zoom
+            );
+        }
+    }
+});
 
 Racmacs.Viewer.prototype.toggleLockPointSize = function(){
 
@@ -129,6 +142,15 @@ Racmacs.Viewer.prototype.addAgSrPoints = function(){
 
             }
 
+            // Set function to run when zooming
+            this.onPointZoom = function(start_zoom, end_zoom){
+                if(this.pointSizeLocked){
+                    if(start_zoom > 0){
+                        this.scalePoints(start_zoom / end_zoom);
+                    }
+                }
+            }
+
         }
 
     }
@@ -225,6 +247,15 @@ Racmacs.Viewer.prototype.addAgSrPoints = function(){
             this.render();
         }
         this.resizePoints = this.scalePoints;
+
+        // Set function to run when zooming
+        this.onPointZoom = function(start_zoom, end_zoom){
+            if(!this.pointSizeLocked){
+                if(start_zoom > 0){
+                    this.scalePoints(end_zoom / start_zoom);
+                }
+            }
+        }
 
     }
 

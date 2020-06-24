@@ -11,6 +11,11 @@ Racmacs.Data = class Data {
 
     }
 
+    // Clear data
+    clear(){
+        this.data = null;
+    }
+
     // Load new data
     load(data){
         this.data = data;
@@ -196,6 +201,15 @@ Racmacs.Data = class Data {
                 this.translation()
             )
         )
+    }
+
+    agSequences(i){
+        if(this.data.c.x.antigen_sequences){
+            if(i === undefined) return(this.data.c.x.antigen_sequences);
+            else                return(this.data.c.x.antigen_sequences[i]);
+        } else {
+            return(null);
+        }
     }
 
     set_agCoords(i, coords){
@@ -401,7 +415,7 @@ Racmacs.Data = class Data {
     xlim(){
         var lim = this.getViewerSetting("xlim");
         if(lim === null){
-            var coords = this.transformedCoords().map( x => x[0] );
+            var coords = this.transformedCoords().map( x => isNaN(x[0]) ? 0 : x[0] );
             lim = [
                 Math.min(...coords) - 1,
                 Math.max(...coords) + 1,
@@ -413,7 +427,19 @@ Racmacs.Data = class Data {
     ylim(){
         var lim = this.getViewerSetting("ylim");
         if(lim === null){
-            var coords = this.transformedCoords().map( x => x[1] );
+            var coords = this.transformedCoords().map( x => isNaN(x[1]) ? 0 : x[1] );
+            lim = [
+                Math.min(...coords) - 1,
+                Math.max(...coords) + 1,
+            ];
+        }
+        return(lim);
+    }
+
+    zlim(){
+        var lim = this.getViewerSetting("zlim");
+        if(lim === null){
+            var coords = this.transformedCoords().map( x => isNaN(x[2]) ? 0 : x[2] );
             lim = [
                 Math.min(...coords) - 1,
                 Math.max(...coords) + 1,

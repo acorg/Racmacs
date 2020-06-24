@@ -57,6 +57,7 @@ R3JS.Viewport = class Viewport{
         this.canvas.addEventListener("mousemove", function(event){ this.viewport.onmousemove(event)   });
         this.canvas.addEventListener("mousedown", function(event){ this.viewport.onmousedown(event)   });
         this.canvas.addEventListener("mouseup",   function(event){ this.viewport.onmouseup(event)     });
+        this.canvas.addEventListener("contextmenu",   function(event){ this.viewport.onmouseup(event)     });
         this.canvas.addEventListener("wheel",     function(event){ this.viewport.onmousescroll(event) });
         this.canvas.addEventListener("mouseover", function(event){ this.viewport.onmouseover(event)   });
         this.canvas.addEventListener("mouseout",  function(event){ this.viewport.onmouseout(event)    });
@@ -120,8 +121,7 @@ R3JS.Viewport = class Viewport{
         // Add placeholder
         this.placeholder = document.createElement("div");
         this.placeholder.classList.add("viewport-placeholder");
-        this.placeholder.innerHTML = this.placeholderContent;
-        //this.div.appendChild(this.placeholder);
+        this.div.appendChild(this.placeholder);
 
         // Add event listeners
         viewer.addEventListener("zoom", e => {
@@ -159,6 +159,14 @@ R3JS.Viewport = class Viewport{
         return(this.getHeight() / this.getWidth());
     }
 
+    setPlaceholder(el, color){
+        this.placeholder.innerHTML = "";
+        this.placeholder.appendChild(el);
+        if(color !== undefined){
+            this.placeholder.style.backgroundColor = color;
+        }
+    }
+
     hidePlaceholder(){
         this.canvas.style.display = null;
         this.placeholder.style.display = "none";
@@ -170,7 +178,6 @@ R3JS.Viewport = class Viewport{
     }
 
 }
-R3JS.Viewport.prototype.placeholderContent = "Loading";
 
 
 

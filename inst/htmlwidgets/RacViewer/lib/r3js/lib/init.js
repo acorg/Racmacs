@@ -25,6 +25,9 @@ R3JS.Viewer = class R3JSviewer {
         // Create viewport
         this.viewport = new R3JS.Viewport(this);
 
+        // Bind event listeners
+        this.bindEventListeners();
+
         // Initiate the viewer
         if(settings.initiate){ 
             this.initiate( settings.startAnimation );
@@ -156,10 +159,10 @@ R3JS.Viewer = class R3JSviewer {
 
     // For dispatching custom events
     dispatchEvent(name, detail){
+        detail.viewer = this;
         let event = new CustomEvent(name, {
             detail: detail
         });
-        // dispatch the event
         this.container.dispatchEvent(event);
     }
 
@@ -167,5 +170,16 @@ R3JS.Viewer = class R3JSviewer {
         this.container.addEventListener(name, fn);
     }
 
+    bindEventListeners(){
+        for(var i=0; i<this.eventListeners.length; i++){
+            this.addEventListener(
+                this.eventListeners[i].name, 
+                this.eventListeners[i].fn
+            );
+        }
+    }
+
 }
+
+R3JS.Viewer.prototype.eventListeners = [];
 

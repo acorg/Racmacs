@@ -1,4 +1,13 @@
 
+// Remove antigens and sera from plot
+Racmacs.App.prototype.clearAntigensAndSera = function(){
+
+    this.antigens = [];
+    this.sera     = [];
+    this.points   = [];
+
+}
+
 // Method to add antigens and sera to a plot
 Racmacs.App.prototype.addAntigensAndSera = function(mapData, stress = true){
 
@@ -177,7 +186,7 @@ Racmacs.Point = class Point {
         if(this.coords_na){
             return([NaN,NaN,NaN]);
         } else {
-            return(this.coords);
+            return(this.coords3);
         }
     }
 
@@ -282,7 +291,16 @@ Racmacs.Point = class Point {
 
     // Set the point position
     setPosition(x, y, z){
-        
+
+        // Set from and to
+        var from = [
+            this.coordsVector.x,
+            this.coordsVector.y,
+            this.coordsVector.z,
+        ];
+
+        var to = [x, y, z];
+
         // Remove blobs if shown
         if(this.blob){
             this.removeBlob();
@@ -301,7 +319,7 @@ Racmacs.Point = class Point {
         this.coordsVector.z = z;
 
         // Update the coordinates array
-        this.coords = this.coordsVector.toArray();
+        this.coords3 = this.coordsVector.toArray();
 
         // Update the point stress
         this.updateStress();
@@ -312,12 +330,11 @@ Racmacs.Point = class Point {
         }
 
         // Update any connections or error lines
-        if(this.connectionLinesShown){
-            this.updateConnectionLines();
-        }
-        if(this.errorLinesShown){
-            this.updateErrorLines();
-        }
+        this.viewer.dispatchEvent("point-moved", {
+            point : this,
+            from  : from,
+            to    : to
+        });
 
     }
 

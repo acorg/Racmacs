@@ -19,54 +19,19 @@ Racmacs.Viewer = class RacViewer extends Racmacs.App {
         var r3jssettings = {
             rectangularSelection : true,
             startAnimation : false,
-            initiate : false
+            initiate : true
         }
         super(container, r3jssettings);
         container.viewer = this;
 
-        // Generate any placeholders
-        if(settings.placeholder){
-            
-            var placeholder = document.createElement("div");
-            placeholder.id  = "placeholder";
-            
-            var holderimg = document.createElement("img");
-            holderimg.src = settings.placeholder;
-            holderimg.id  = "placeholder-img";
-            placeholder.appendChild(holderimg);
-
-            var holderoverlay = document.createElement("div");
-            holderoverlay.id = "placeholder-overlay";
-            holderoverlay.innerHTML = "Click to activate viewer";
-            placeholder.appendChild(holderoverlay);
-
-            var viewer = this;
-            placeholder.addEventListener("mouseup", function(){
-                placeholder.style.display = "none";
-                viewer.initiateWebGL();
-            });
-
-            this.wrapper.appendChild(placeholder);
-
-        } else {
-
-            this.initiateWebGL();
-
-        }
-
-        // Initiate the webgl
-        //this.initiateWebGL();
-
-    }
-
-    // Function to intiate webgl components of viewer
-    initiateWebGL(){
-
-        // Set status as initiated
-        this.initiated = true;
-
-        // Initiate the r3js viewer but don't start the animation loop
-        this.initiate(false);
+        // Set a placeholder image
+        let placeholder = Racmacs.icons.logo();
+        placeholder.style.maxWidth  = "100%";
+        placeholder.style.maxHeight = "100%";
+        placeholder.style.opacity = 0.2;
+        this.viewport.setPlaceholder(
+            placeholder, "#fff"
+        );
 
         // Add a data object
         new Racmacs.Data(this);
@@ -193,6 +158,9 @@ Racmacs.Viewer = class RacViewer extends Racmacs.App {
                 case "r":
                     this.resetTransformation();
                     break;
+                case "t":
+                    this.toggleTiters();
+                    break;
                 case "Escape":
                     this.deselectAll();
                     break;
@@ -201,13 +169,6 @@ Racmacs.Viewer = class RacViewer extends Racmacs.App {
 
         // Set a default title
         this.setTitle("Racmacs viewer");
-
-        // Add event listeners
-        this.addEventListener("zoom", e => {
-            if(this.pointSizeLocked){
-                this.scalePoints(e.detail.start_zoom / e.detail.end_zoom);
-            }
-        });
 
         // Dispatch a viewer loaded event
         var viewer = this;
@@ -240,15 +201,8 @@ Racmacs.Viewer = class RacViewer extends Racmacs.App {
         }
         animate();
 
-        // Load map data if present
-        if(this.mapData){
-            this.loadMapData();
-        }
-
     }
 
 }
-
-R3JS.Viewport.prototype.placeholderContent = "";
 
 

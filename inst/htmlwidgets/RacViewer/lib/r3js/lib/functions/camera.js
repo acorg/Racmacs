@@ -103,6 +103,25 @@ R3JS.PerspCamera = class PerspCamera extends R3JS.Camera {
 
 	}
 
+	zoomToLims(lims){
+
+		let cam_z = this.camera.position.z;
+		let a = this.camera.fov;
+		let bsphere = new THREE.Sphere().setFromPoints(
+			[
+				new THREE.Vector3(lims.x[0], lims.y[0], lims.z[1]),
+				new THREE.Vector3(lims.x[0], lims.y[1], lims.z[1]),
+				new THREE.Vector3(lims.x[1], lims.y[0], lims.z[1]),
+				new THREE.Vector3(lims.x[1], lims.y[1], lims.z[1]),
+			],
+			new THREE.Vector3(0,0,0)
+		);
+		let s = bsphere.radius*2;
+		let d = (s/2) / Math.tan(a/2)
+		this.setZoom(d);
+		
+	}
+
 }
 
 

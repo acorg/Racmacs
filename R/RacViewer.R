@@ -19,28 +19,31 @@
 #' @import htmlwidgets
 #' @noRd
 #' @export
-RacViewer <- function(map,
-                      rotation,
-                      translation,
-                      zoom,
-                      plotdata  = NULL,
-                      show_procrustes = FALSE,
-                      hide_control_panel = FALSE,
-                      width     = NULL,
-                      height    = NULL,
-                      elementId = NULL
-                      ) {
+RacViewer <- function(
+  map,
+  rotation,
+  translation,
+  zoom,
+  plotdata  = NULL,
+  show_procrustes = FALSE,
+  controls  = "hidden",
+  width     = NULL,
+  height    = NULL,
+  elementId = NULL
+  ) {
 
   # create a list that contains the settings
   settings <- list(
-    hide_control_panel = hide_control_panel,
-    show_procrustes    = show_procrustes
+    controls = controls
   )
+
+  # Get map data as json
+  if(is.null(map)) mapdata <- NULL
+  else             mapdata <- as.json(map)
 
   # forward options using x
   x = list(
-    mapData    = as.json(map),
-    procrustes = map$procrustes,
+    mapData    = mapdata,
     plotdata   = jsonlite::toJSON(map$plot),
     settings   = jsonlite::toJSON(
       settings,
@@ -81,7 +84,7 @@ RacViewer <- function(map,
 #' @name RacViewer-shiny
 #' @noRd
 #' @export
-RacViewerOutput <- function(outputId, width = '100%', height = '400px'){
+RacViewerOutput <- function(outputId, width = '100%', height = '100%'){
   htmlwidgets::shinyWidgetOutput(outputId, 'RacViewer', width, height, package = 'Racmacs')
 }
 
@@ -168,7 +171,7 @@ snapshotMap <- function(map, width = 800, height = 800, filename = NULL, ...){
 copyR3JSlib <- function(){
   unlink("inst/htmlwidgets/RacViewer/lib/r3js/lib", recursive = TRUE)
   file.copy(
-    from = "../../packages/r3js/package/inst/htmlwidgets/lib",
+    from = "../../packages/r3js/inst/htmlwidgets/lib",
     to   = "inst/htmlwidgets/RacViewer/lib/r3js",
     recursive = TRUE
   )
@@ -178,7 +181,7 @@ copyR3JSlib <- function(){
 linkR3JSlib <- function(){
   unlink("inst/htmlwidgets/RacViewer/lib/r3js/lib", recursive = TRUE)
   file.symlink(
-    from = path.expand("~/Dropbox/LabBook/packages/r3js/package/inst/htmlwidgets/lib"),
+    from = "../../../../../../r3js/inst/htmlwidgets/lib",
     to   = "inst/htmlwidgets/RacViewer/lib/r3js/lib"
   )
 }

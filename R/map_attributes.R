@@ -79,7 +79,7 @@ set_optimizationAttribute.racchart <- function(map, optimization_number = NULL, 
 get_extensionField <- function(map, field){
 
   txt <- map$chart$extension_field(field)
-  if(is.na(txt)) return(list())
+  if(is.na(txt)) return(NULL)
   jsonlite::fromJSON(txt, simplifyVector = FALSE)
 
 }
@@ -92,17 +92,24 @@ set_extensionField <- function(map, field, value){
 }
 
 
-
 # Get and set general attributes
-getMapAttribute <- function(map, attribute) {
+getMapAttribute <- function(map, attribute) UseMethod("getMapAttribute", map)
+setMapAttribute <- function(map, attribute, value) UseMethod("setMapAttribute", map)
+
+getMapAttribute.racmap <- function(map, attribute) {
   map[[attribute]]
 }
 
-setMapAttribute <- function(map, attribute, value) {
+setMapAttribute.racmap <- function(map, attribute, value) {
   map[[attribute]] <- value
   map
 }
 
+getMapAttribute.racchart <- function(map, attribute) {
+  get_extensionField(map, attribute)
+}
 
-
+setMapAttribute.racchart <- function(map, attribute, value) {
+  set_extensionField(map, attribute, value)
+}
 

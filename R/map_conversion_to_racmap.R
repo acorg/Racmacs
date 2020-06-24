@@ -241,10 +241,12 @@ json_to_racmap <- function(json){
   }
 
   # Additional custom attributes
-  if(!is.null(jsonlist$c$x$antigen_ids))    agIDs(map)    <- unlist(jsonlist$c$x$antigen_ids)
-  if(!is.null(jsonlist$c$x$sera_ids))       srIDs(map)    <- unlist(jsonlist$c$x$sera_ids)
-  if(!is.null(jsonlist$c$x$antigen_groups)) agGroups(map) <- unlist(jsonlist$c$x$antigen_groups)
-  if(!is.null(jsonlist$c$x$sera_groups))    srGroups(map) <- unlist(jsonlist$c$x$sera_groups)
+  if(!is.null(jsonlist$c$x$antigen_ids))       agIDs(map)       <- unlist(jsonlist$c$x$antigen_ids)
+  if(!is.null(jsonlist$c$x$sera_ids))          srIDs(map)       <- unlist(jsonlist$c$x$sera_ids)
+  if(!is.null(jsonlist$c$x$antigen_groups))    agGroups(map)    <- unlist(jsonlist$c$x$antigen_groups)
+  if(!is.null(jsonlist$c$x$sera_groups))       srGroups(map)    <- unlist(jsonlist$c$x$sera_groups)
+  if(!is.null(jsonlist$c$x$antigen_sequences)) agSequences(map) <- do.call(rbind, lapply(jsonlist$c$x$antigen_sequences, unlist))
+  if(!is.null(jsonlist$c$x$viewer_settings))   map <- setMapAttribute(map, "viewer_settings", jsonlist$c$x$viewer_settings)
 
   # Return the map
   map

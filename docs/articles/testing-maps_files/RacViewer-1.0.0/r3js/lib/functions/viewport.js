@@ -57,6 +57,7 @@ R3JS.Viewport = class Viewport{
         this.canvas.addEventListener("mousemove", function(event){ this.viewport.onmousemove(event)   });
         this.canvas.addEventListener("mousedown", function(event){ this.viewport.onmousedown(event)   });
         this.canvas.addEventListener("mouseup",   function(event){ this.viewport.onmouseup(event)     });
+        this.canvas.addEventListener("contextmenu",   function(event){ this.viewport.onmouseup(event)     });
         this.canvas.addEventListener("wheel",     function(event){ this.viewport.onmousescroll(event) });
         this.canvas.addEventListener("mouseover", function(event){ this.viewport.onmouseover(event)   });
         this.canvas.addEventListener("mouseout",  function(event){ this.viewport.onmouseout(event)    });

@@ -16,7 +16,7 @@ sera_setter <- function(attribute){
   eval(
     substitute(env = list(attribute = attribute), expr = {
       function(map, .check = TRUE, value){
-        if(.check) checkProperty_sera(map, attribute, value)
+        if(.check) value <- checkProperty_sera(map, attribute, value)
         classSwitch("setProperty_sera", map, attribute, value)
       }
     })
@@ -26,9 +26,17 @@ sera_setter <- function(attribute){
 # Property checker
 checkProperty_sera <- function(map, attribute, value){
 
-  if(length(value) != numSera(map)){
+  if(attribute == "srSequences"){
+    if(nrow(value) != numSera(map)){
+      stop(sprintf("Number of %s rows does not match number of sera in the map", attribute))
+    }
+    if(!is.matrix(value)){
+      value <- unname(as.matrix(value))
+    }
+  } else if(length(value) != numSera(map)){
     stop(sprintf("Number of %s does not match number of sera in the map", attribute))
   }
+  value
 
 }
 
@@ -76,9 +84,10 @@ srGroups            <- sera_getter("srGroups")
 srNames             <- sera_getter("srNames")
 srNamesFull         <- sera_getter("srNamesFull")
 srNamesAbbreviated  <- sera_getter("srNamesAbbreviated")
+srSequences         <- sera_getter("srSequences")
 
 `srNames<-`         <- sera_setter("srNames")
 `srIDs<-`           <- sera_setter("srIDs")
 `srGroups<-`        <- sera_setter("srGroups")
-
+`srSequences<-`     <- sera_setter("srSequences")
 

@@ -45,14 +45,16 @@ view.default <- function(x, ...){
 #' @export
 #' @noRd
 #'
-view.rac <- function(map,
-                     ...,
-                     .jsCode = NULL,
-                     .jsData = NULL,
-                     select_ags = NULL,
-                     select_sr  = NULL,
-                     show_procrustes = NULL,
-                     show_stressblobs = NULL){
+view.rac <- function(
+  map,
+  ...,
+  .jsCode = NULL,
+  .jsData = NULL,
+  select_ags = NULL,
+  select_sr  = NULL,
+  show_procrustes = NULL,
+  show_stressblobs = NULL
+  ){
 
   # Clone the map
   map <- cloneMap(map)
@@ -70,7 +72,6 @@ view.rac <- function(map,
   # View the map data in the viewer
   widget <- RacViewer(
     map = map,
-    controls = "hidden",
     ...
   )
 

@@ -51,7 +51,19 @@ run.maptests(
 
       export.viewer.test(
         view(map),
-        "map_with_sequences.html"
+        "map_with_agsequences.html"
+      )
+
+      srSequences(map) <- read.csv(
+        file        = "inst/extdata/h3map2004_sequences_sr.csv",
+        row.names   = 1,
+        colClasses  = "character",
+        check.names = FALSE
+      )
+
+      export.viewer.test(
+        view(map),
+        "map_with_agsrsequences.html"
       )
 
     })

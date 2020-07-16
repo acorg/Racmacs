@@ -305,6 +305,7 @@ list_property_function_bindings <- function(
     "sr_groups",             "srGroups",              "sera",          TRUE,      FALSE,     "vector",  "Sera groups",
     "",                      "srNamesFull",           "sera",          FALSE,     TRUE,      "vector",  "Full sera names",
     "",                      "srNamesAbbreviated", "sera",             FALSE,     TRUE,      "vector",  "Abbreviated sera names",
+    "sr_sequences",          "srSequences",           "sera",          TRUE,      FALSE,     "matrix",  "Sera sequences",
     #"" ,                      "",                     "sera",          TRUE,      TRUE,      "vector",  "Sera lineage",
     #"" ,                      "",                     "sera",          TRUE,      TRUE,      "vector",  "Sera reassortant",
     #"" ,                      "",                     "sera",          TRUE,      TRUE,      "vector",  "Sera serum ID",

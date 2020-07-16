@@ -75,7 +75,7 @@ defaultProperty_sera <- function(map, attribute, value){
 #' \code{\link{agAttributes}}
 #' @family {antigen and sera attribute functions}
 #' @eval roxygen_tags(
-#'   methods = c("srNames", "srIDs", "srGroups", "srNamesFull", "srNamesAbbreviated"),
+#'   methods = c("srNames", "srIDs", "srGroups", "srNamesFull", "srNamesAbbreviated", "srSequences"),
 #'   args    = c("map")
 #' )
 #'

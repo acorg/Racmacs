@@ -33,17 +33,9 @@ run.maptests(
 
     test_that("H3 map with sequences", {
 
-      # map <- read.map(test_path("../testdata/testmap_h3subset.ace"))
-      # agSequences(map) <- read.csv(
-      #   file        = test_path("../testdata/testmap_h3subset_sequences.csv"),
-      #   row.names   = 1,
-      #   colClasses  = "character",
-      #   check.names = FALSE
-      # )
-
-      map <- read.map("inst/extdata/h3map2004.ace")
+      map <- read.map(test_path("../testdata/testmap_h3subset.ace"))
       agSequences(map) <- read.csv(
-        file        = "inst/extdata/h3map2004_sequences.csv",
+        file        = test_path("../testdata/testmap_h3subset_sequences.csv"),
         row.names   = 1,
         colClasses  = "character",
         check.names = FALSE
@@ -55,7 +47,7 @@ run.maptests(
       )
 
       srSequences(map) <- read.csv(
-        file        = "inst/extdata/h3map2004_sequences_sr.csv",
+        file        = test_path("../testdata/testmap_h3subset_srsequences.csv"),
         row.names   = 1,
         colClasses  = "character",
         check.names = FALSE

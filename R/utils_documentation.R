@@ -94,6 +94,16 @@ export_property_method_tags <- function(object){
 
 }
 
+
+btn_img <- function(btn){
+  base64 <- system(paste("base64", shQuote(normalizePath(paste0("../dev/icons/buttons/", btn, ".svg")))), intern = T)
+  paste0("<img src='data:image/svg+xml;base64,", base64, "' style='height:1em; padding:1px; box-sizing: content-box; vertical-align: middle; border-radius: 3px; border: 1px solid #CCCCCC; margin-top:-4px; margin-bottom:-2px;'/>")
+}
+
+tab_img <- function(tab){
+  paste0("<span style='background:#555; border-radius:2px; padding: 2px 4px; color: #fff; font-size:80%;'>", tab, "</span>")
+}
+
 # eval(parse(text = sprintf('
 #   %1$s <- function(){
 #     print(%1$s)

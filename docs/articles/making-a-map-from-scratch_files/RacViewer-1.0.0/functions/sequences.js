@@ -7,8 +7,9 @@ R3JS.Viewer.prototype.eventListeners.push({
 		let viewer = e.detail.viewer;
 		if(viewer.sequences){
 			// Add a set timeout event so that other events don't have to wait
+			// viewer.sequences.showLoading();
 			window.setTimeout( 
-				f => viewer.sequences.updateSequenceTableView(), 10
+				f => viewer.sequences.updateSequenceTableView(), 100
 			);
 		}
 	}
@@ -21,8 +22,9 @@ R3JS.Viewer.prototype.eventListeners.push({
 		let viewer = e.detail.viewer;
 		if(viewer.sequences){
 			// Add a set timeout event so that other events don't have to wait
+			// viewer.sequences.showLoading();
 			window.setTimeout( 
-				f => viewer.sequences.updateSequenceTableView(), 10
+				f => viewer.sequences.updateSequenceTableView(), 100
 			);
 		}
 	}
@@ -33,11 +35,8 @@ R3JS.Viewer.prototype.eventListeners.push({
 	fn : function(e){
 		let point  = e.detail.point;
 		let viewer = e.detail.viewer;
-		if(viewer.sequences){
-			// Add a set timeout event so that other events don't have to wait
-			window.setTimeout( 
-				f => viewer.sequences.highlightRow(point.typeIndex), 10
-			);
+		if(viewer.sequences && point.sequencerow !== null){
+			viewer.sequences.highlightRow(point.sequencerow);
 		}
 	}
 });
@@ -47,29 +46,11 @@ R3JS.Viewer.prototype.eventListeners.push({
 	fn : function(e){
 		let point  = e.detail.point;
 		let viewer = e.detail.viewer;
-		if(viewer.sequences){
-			// Add a set timeout event so that other events don't have to wait
-			window.setTimeout( 
-				f => viewer.sequences.dehighlightRow(point.typeIndex), 10
-			);
+		if(viewer.sequences && point.sequencerow !== null){
+			viewer.sequences.dehighlightRow(point.sequencerow);
 		}
 	}
 });
-
-Racmacs.App.prototype.showSequences = function(){
-
-	this.viewport.holder.style.left = "800px";
-	this.viewport.onwindowresize();
-	this.sequences = new Racmacs.SequenceTable(this);
-	this.container.appendChild(this.sequences.div);
-
-}
-
-Racmacs.App.prototype.hideSequences = function(){
-	
-
-
-}
 
 Racmacs.App.prototype.showSequences = function(){
 
@@ -80,7 +61,7 @@ Racmacs.App.prototype.showSequences = function(){
 
 		var sequenceswindow = window.open("", "", "width=600,height=600");
 	    window.addEventListener("beforeunload", e => {
-	    	this.hideSequences()
+	    	this.hideSequences();
 	    });
 	    sequenceswindow.addEventListener("beforeunload", e => {
 	    	this.hideSequences();
@@ -102,9 +83,9 @@ Racmacs.App.prototype.showSequences = function(){
 	    sequenceswindow.document.body.style.overflow = "hidden";
 	    sequenceswindow.document.body.style.backgroundColor = "#fff";
 
-	    var style = document.createElement("style");
-		sequenceswindow.document.head.appendChild(style);
-		style.sheet.insertRule(".sequences-div table tr:nth-child(2n) { background-color: #f6f8fa }", 0);
+	 //    var style = document.createElement("style");
+		// sequenceswindow.document.head.appendChild(style);
+		// style.sheet.insertRule(".sequences-div div div:nth-child(2n) { background-color: #f6f8fa }", 0);
 
 	    sequenceswindow.document.body.appendChild(holder);
 		this.sequences = new Racmacs.SequenceTable(
@@ -112,13 +93,6 @@ Racmacs.App.prototype.showSequences = function(){
 			holder2
 		);
 		this.sequenceswindow = sequenceswindow;
-
-		// Size window to fit table, up to a point
-		// var width  = holder2.scrollWidth + 100;
-		// var height = holder2.scrollHeight + 30;
-		// if(width  > 1000) width = 1000;
-		// if(height > 800)  height = 800;
-		// sequenceswindow.resizeTo(width, height);
 
 	} else {
 
@@ -152,18 +126,15 @@ Racmacs.SequenceTable = class SequenceTable {
 
 		this.div = document.createElement("div");
 		container.appendChild(this.div);
-		this.div.style.width  = "100%";
+		this.div.style.width  = "fit-content";
+		this.div.style.minWidth = "100vw";
+		this.div.style.minHeight = "100vh";
 		this.div.style.boxSizing = "border-box";
 		this.div.style.fontFamily = "sans-serif";
-		this.div.classList.add("sequences-div");
 
 		this.positionsearch = document.createElement("input");
-		this.positionsearch.style.position = "absolute";
-		this.positionsearch.style.top    = 0;
-		this.positionsearch.style.left   = 0;
-		this.positionsearch.style.right  = 0;
 		this.positionsearch.style.height = "28px";
-		this.positionsearch.style.fontSize = "16px";
+		this.positionsearch.style.fontSize = "12px";
 		this.positionsearch.style.boxSizing = "border-box";
 		this.positionsearch.style.borderStyle = "none";
 		this.positionsearch.style.backgroundColor = "#222222";
@@ -171,101 +142,184 @@ Racmacs.SequenceTable = class SequenceTable {
 		this.positionsearch.style.paddingLeft = "8px";
 		this.positionsearch.style.paddingRight = "8px";
 		this.positionsearch.style.color = "#ffffff";
+		this.positionsearch.style.width = "100%";
+		this.positionsearch.setAttribute("placeholder", "Specify position");
 		this.div.appendChild(this.positionsearch);
 		this.positionsearch.addEventListener("input", e => {
 			this.updateSequenceTableView();
 		});
 
 		this.tablediv = document.createElement("div");
-		this.tablediv.style.position = "absolute";
-		this.tablediv.style.top    = "28px";
-		this.tablediv.style.left   = 0;
-		this.tablediv.style.right  = 0;
-		this.tablediv.style.bottom = 0;
+		this.tablediv.style.width = "fit-content";
 		this.tablediv.style.overflow = "scroll";
+		this.tablediv.style.fontSize = "12px";
+		this.tablediv.style.whiteSpace = "nowrap";
+		this.tablediv.classList.add("sequences-div");
 		this.div.appendChild(this.tablediv);
-		
-		this.table = document.createElement("table");
-		this.table.style.fontSize = "12px";
-		this.table.style.tableLayout = "fixed";
-		this.table.style.borderCollapse = "collapse";
-		this.tablediv.appendChild(this.table);
 
 		// Add mouse event listeners to table
         var noneSelected_deselected_opacity = viewer.graphics.noneSelected.deselected.opacity;
         var plusSelected_deselected_opacity = viewer.graphics.plusSelected.deselected.opacity;
 
-		this.table.addEventListener("mouseenter", function(){
+		this.tablediv.addEventListener("mouseenter", function(){
             viewer.graphics.noneSelected.deselected.opacity = plusSelected_deselected_opacity;
             viewer.updatePointStyles();
         });
-        this.table.addEventListener("mouseleave", function(){
+        this.tablediv.addEventListener("mouseleave", function(){
             viewer.graphics.noneSelected.deselected.opacity = noneSelected_deselected_opacity;
             viewer.updatePointStyles();
         });
 
-		this.populateTable();
+        // Show the loading div
+        this.loadingdiv = document.createElement("div");
+        this.loadingdiv.innerHTML = "Loading sequences...";
+        this.div.appendChild(this.loadingdiv);
+        this.loadingdiv.style.position = "fixed";
+        this.loadingdiv.style.top = "28px";
+        this.loadingdiv.style.left = 0;
+        this.loadingdiv.style.right = 0;
+        this.loadingdiv.style.bottom = 0;
+        this.loadingdiv.style.padding = "12px";
+        this.loadingdiv.style.display = "none";
+        this.loadingdiv.style.backgroundColor = "#fff";
+        this.loadingdiv.style.color = "#666";
+
+        // Populate the table
+		this.showLoading();
+        window.setTimeout( 
+			f => this.populateTable(), 10
+		);
 
 	}
 
 	populateTable(){
 
+		// Clear row and cell records
 		this.rows      = [];
 		this.cells     = [];
 		this.collabels = [];
+		this.labels    = [];
 
+		// Wipe any previous sequence rows
+		this.viewer.points.map( p => p.sequencerow = null );
+
+		// Assemble point and sequence data
+		let points = [];
+		let sequences = [];
+
+		let ag_sequences = this.viewer.data.agSequences();
+		let sr_sequences = this.viewer.data.srSequences();
+
+		if(ag_sequences !== null){
+			points    = points.concat(this.viewer.antigens);
+			sequences = sequences.concat(ag_sequences);
+		}
+
+		if(sr_sequences !== null){
+			points    = points.concat(this.viewer.sera);
+			sequences = sequences.concat(sr_sequences);
+		}
+
+		this.points = points;
+		this.sequences = sequences;
+
+		// Cycle through and create antigen labels
 		let color = new THREE.Color();
-		this.table.innerHTML = "";
-		let tr = document.createElement("tr");
-		this.table.appendChild(tr);
-		let td = document.createElement("td");
-		td.style.border = "1px solid #dfe2e5";
-		tr.appendChild(td);
-		this.viewer.data.agSequences(0).map((aa, i) => {
-			let td = document.createElement("td");
-			td.style.padding = 0;
-			td.style.border = "1px solid #dfe2e5";
-			tr.appendChild(td);
-			let div = document.createElement("div");
-			div.style.width = "12px";
-			div.style.float = "left";
-			div.style.writingMode = "vertical-rl";
-			div.style.padding = "8px";
-			td.appendChild(div);
-			div.innerHTML = i+1;
-			this.collabels.push(td);
-		});
+		let div;
+		let row;
 
-		this.viewer.antigens.map((ag, i) => {
-			let seq = this.viewer.data.agSequences(i);
-			let tr = document.createElement("tr");
-			tr.addEventListener("mouseenter",  e => ag.hover());
-			tr.addEventListener("mouseleave", e => ag.dehover());
-			this.rows.push(tr);
+		let name_div = document.createElement("div");
+		name_div.style.display = "inline-block";
+		this.tablediv.appendChild(name_div);
+
+		// Add a spacer div
+		div = document.createElement("div");
+		div.style.height = "38px";
+		name_div.appendChild(div);
+
+		points.map((p, i) => {
 			
-			let td = document.createElement("td");
-			td.style.border = "1px solid #dfe2e5";
-			tr.appendChild(td);
-			td.innerHTML = ag.name;
-			td.style.whiteSpace = "nowrap";
-			td.style.padding = "8px";
+			div = document.createElement("div");
+			div.style.whiteSpace = "nowrap";
+			div.innerHTML = p.type.toUpperCase()+": "+p.name;
+			div.style.border = "0.5px solid #dfe2e5";
+		    div.style.height = "28px";
+		    div.style.boxSizing = "border-box";
+		    div.style.lineHeight = "28px";
+		    div.style.textAlign = "left";
+		    div.style.paddingLeft = "8px";
+		    div.style.paddingRight = "8px";
 
-			let row = [];
-			this.cells.push(row);
-			this.table.appendChild(tr);
-			seq.map(aa => {
-				let td = document.createElement("td");
-				td.style.padding = 0;
-				td.style.border = "1px solid #dfe2e5";
-				tr.appendChild(td);
-				td.style.textAlign = "center";
-				td.style.padding = "8px";
-				color.setStyle(Racmacs.ColorAA(aa));
-				td.style.backgroundColor = "#"+color.getHexString()+"80";
-				td.innerHTML = aa;
-				row.push(td);
-			});
+		    div.addEventListener("mouseenter", e => p.hover());
+			div.addEventListener("mouseleave", e => p.dehover());
+
+		    this.labels.push(div);
+			name_div.appendChild(div);
+			p.sequencerow = i;
+
 		});
+
+		// Fix div width based on label content
+		name_div.style.width = name_div.offsetWidth+"px";
+
+		// Create position labels
+		let seq_div = document.createElement("div");
+		seq_div.style.display = "inline-block";
+		this.tablediv.appendChild(seq_div);
+
+		row = document.createElement("div");
+		row.style.whiteSpace = "nowrap";
+		seq_div.appendChild(row);
+
+		sequences[0].map((aa, i) => {
+
+			div = document.createElement("div");
+			div.style.border = "0.5px solid #dfe2e5";
+			div.style.width = "28px";
+		    div.style.height = "38px";
+		    div.style.display = "inline-block";
+		    div.style.boxSizing = "border-box";
+		    div.style.lineHeight = "28px";
+		    div.style.textAlign = "center";
+		    div.style.writingMode = "vertical-rl";
+			div.innerHTML = i+1;
+
+			this.collabels.push(div);
+			row.appendChild(div);
+
+		});
+
+		// Show sequences
+		sequences.map((seq, i) => {
+			row = document.createElement("div");
+			seq_div.appendChild(row);
+			this.rows.push(row);
+			let cellrow = [];
+
+			seq.map((aa, j) => {
+				color.setStyle(Racmacs.ColorAA(aa));
+				div = document.createElement("div");
+				div.style.border = "0.5px solid #dfe2e5";
+				div.style.width = "28px";
+			    div.style.height = "28px";
+			    div.style.display = "inline-block";
+			    div.style.boxSizing = "border-box";
+			    div.style.lineHeight = "28px";
+			    div.style.textAlign = "center";
+			    div.style.backgroundColor = "#"+color.getHexString()+"80";
+				div.innerHTML = aa;
+				
+				cellrow.push(div);
+				row.appendChild(div);
+
+			});
+
+			this.cells.push(cellrow);
+
+		});
+
+		// Hide loading
+		this.hideLoading();
 
 	}
 
@@ -278,24 +332,18 @@ Racmacs.SequenceTable = class SequenceTable {
 
 		// Show and hide rows based on selected points
 		const num_selected = this.viewer.selected_pts.length;
-		this.viewer.antigens.map((p,i) => {
-			if(p.selected || num_selected === 0) this.rows[i].style.display = ""
-			else                                 this.rows[i].style.display = "none"
+		this.points.map((p,i) => {
+			if(p.selected || num_selected === 0) this.showRow(i)
+			else                                 this.hideRow(i)
 		});
 
 		if(searchval == ""){ 
 
 			// Get sequences from relevant points
-			if(this.viewer.selected_pts.length == 0){
-				sequences = this.viewer.data.agSequences();
-			} else {
-				sequences = [];
-				this.viewer.selected_pts.map( p => {
-					if(p.type == "ag") sequences.push(
-						this.viewer.data.agSequences(p.typeIndex)
-					)
-				})
-			}
+			sequences = [];
+			this.points.map((p,i) => {
+			    if(p.selected || num_selected === 0) sequences.push(this.sequences[i])
+		    });
 
 			// Only show positions where aas of selected strains differ
 			var positions_shown = [];
@@ -322,8 +370,11 @@ Racmacs.SequenceTable = class SequenceTable {
 			this.showPositions([145, 155, 156, 158, 159, 189, 193]);
 		} else {
 			let pos = Number(searchval);
-			if(!isNaN(pos)) this.showPositions([pos]);
+			if(!isNaN(pos)) this.showPositions([pos])
 		}
+
+		// Hide the loading info
+		this.hideLoading();
 
 	}
 
@@ -332,25 +383,45 @@ Racmacs.SequenceTable = class SequenceTable {
 		// Show and hide column labels
 		this.collabels.map((cell, i) => {
 			if(pos.indexOf(i+1) === -1) cell.style.display = "none"
-			else                        cell.style.display = ""
+			else                        cell.style.display = "inline-block"
 		});
 
 		// Show and hide row cells
 		this.cells.map( cellrow => {
 			cellrow.map((cell, i) => {
 				if(pos.indexOf(i+1) === -1) cell.style.display = "none"
-				else                        cell.style.display = ""
+				else                        cell.style.display = "inline-block"
 			});
 		});
 
 	}
 
 	highlightRow(row){
+		this.labels[row].style.backgroundColor = "lightblue";
 		this.rows[row].style.backgroundColor = "lightblue";
 	}
 
 	dehighlightRow(row){
+		this.labels[row].style.backgroundColor = "";
 		this.rows[row].style.backgroundColor = "";
+	}
+
+	hideRow(row){
+		this.labels[row].style.display = "none";
+		this.rows[row].style.display = "none";
+	}
+
+	showRow(row){
+		this.labels[row].style.display = "";
+		this.rows[row].style.display = "";
+	}
+
+	showLoading(){
+		this.loadingdiv.style.display = "";
+	}
+
+	hideLoading(){
+		this.loadingdiv.style.display = "none";
 	}
 
 }
@@ -366,5 +437,121 @@ Racmacs.ColorAA = function(aa){
 	// throw("amino acid '"aa+"' not recognised.");
 
 }
+
+
+// Function to color by sequence
+Racmacs.Viewer.prototype.colorPointsBySequence = function(pos){
+   
+    // Add sequence legend
+    if(!this.sequenceLegend){
+        this.sequenceLegend = document.createElement("div");
+        this.sequenceLegend.innerHTML = "legend";
+        this.sequenceLegend.classList.add("sequence-legend");
+        this.viewport.div.appendChild(this.sequenceLegend);
+    }
+
+    // Fire event
+    if(pos == 0) {
+        this.colorPointsByDefault();
+        this.sequenceLegend.style.display = "none";
+        return(null);
+    }
+
+    // Assemble point and sequence data
+	let points = [];
+	let sequences = [];
+	let noseq_points = [];
+
+	let ag_sequences = this.data.agSequences();
+	let sr_sequences = this.data.srSequences();
+
+	if(ag_sequences !== null){
+		points    = points.concat(this.antigens);
+		sequences = sequences.concat(ag_sequences);
+	} else {
+		noseq_points = noseq_points.concat(this.antigens);
+	}
+
+	if(sr_sequences !== null){
+		points    = points.concat(this.sera);
+		sequences = sequences.concat(sr_sequences);
+	} else {
+		noseq_points = noseq_points.concat(this.sera);
+	}
+
+    // Get the antigen sequences
+    let aas = sequences.map(seq => seq[pos-1]);
+    let unique_aas = [];
+    aas.map( aa => { if(unique_aas.indexOf(aa) === -1) unique_aas.push(aa) });
+
+    let aa_cols = unique_aas.map((aa, i) => new THREE.Color().setHSL(
+        i/(unique_aas.length + 1), 1, 0.5
+    ));
+
+    // Make missing aas grey
+    aa_cols[unique_aas.indexOf("-")] = new THREE.Color("#cccccc");
+
+    // Color points by aa
+    aas.map((aa, i) => { 
+        var color =  aa_cols[unique_aas.indexOf(aa)];
+        points[i].setFillColor("#"+color.getHexString());
+    });
+
+    noseq_points.map( p => {
+        p.setFillColor("transparent");
+        p.setOutlineColor("#000000");
+    });
+
+    // Populate legend
+    this.sequenceLegend.innerHTML = "";
+
+    var titlediv = document.createElement("div");
+    titlediv.innerHTML = pos;
+    titlediv.style.padding = "4px";
+    this.sequenceLegend.appendChild(titlediv);
+    
+    var table = document.createElement("table");
+    this.sequenceLegend.appendChild(table);
+
+    unique_aas.map((aa, i) => {
+        var color = aa_cols[unique_aas.indexOf(aa)];
+        var row = document.createElement("tr");
+        table.appendChild(row);
+        var td = document.createElement("td");
+        var coldiv = document.createElement("div");
+        coldiv.style.width  = "14px";
+        coldiv.style.height = "14px";
+        coldiv.style.backgroundColor = "#"+color.getHexString();
+        coldiv.style.border = "solid 1px #000000";
+        td.appendChild(coldiv);
+        row.appendChild(td);
+        var td = document.createElement("td");
+        td.innerHTML = aa;
+        row.appendChild(td);
+    });
+
+    // Update any browsers
+    if(this.browsers){
+      if(this.browsers.antigens){
+        this.browsers.antigens.order("default");
+      }
+      if(this.browsers.sera){
+        this.browsers.sera.order("default");
+      }
+    }
+
+    // Note that the viewport is colored by stress
+    this.coloring = "sequence";
+    
+    // Render the viewport
+    this.render();
+
+    // Dispatch events
+    this.dispatchEvent("point-coloring-changed", { coloring : "sequence" });
+
+}
+
+
+
 
 

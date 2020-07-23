@@ -1,0 +1,16 @@
+
+.stressblobs-tab {
+
+	display : flex;
+	flex-direction: column;
+	width: 100%;
+
+}
+
+.stressblobs-tab .control-input-holder {
+
+	margin-top: 8px;
+
+}
+
+

@@ -280,11 +280,11 @@ Racmacs.ColorPanel = class ColorPanel {
 
         this.seqinput = document.createElement("input");
         this.seqinput.setAttribute("placeholder", "position");
-        this.seqinput.addEventListener("input", e => {
+        this.seqinput.oninput = e => {
             viewer.colorPointsBySequence(
                 Number(this.seqinput.value)
             );
-        });
+        };
         this.seqinput.style.display = "none";
         this.div.appendChild(this.seqinput);
 
@@ -300,7 +300,7 @@ Racmacs.ColorPanel = class ColorPanel {
         input.type = "radio";
         input.name = "colorBy";
         input.checked = checked;
-        input.addEventListener("change", fn);
+        input.onchange = fn;
 
         label.classList.add("radio-container");
         span.classList.add("radio-checkmark");

@@ -30,8 +30,7 @@ R3JS.Raytracer = class Raytracer {
 	    );
 
 	    // Get the first or all intersected depending on key hold
-	    if(document.keydown 
-	       && document.keydown.key == "Shift"){
+	    if(mouse.shiftKey){
 	        var intersected = intersects;
 	    } else {
 	        var intersected = intersects.slice(0,1);

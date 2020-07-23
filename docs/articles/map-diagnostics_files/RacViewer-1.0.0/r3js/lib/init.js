@@ -71,24 +71,22 @@ R3JS.Viewer = class R3JSviewer {
         }
 
         // Start animation loop
-        if(startAnimation){
-            var viewer = this;
-            function animate() {
+        var viewer = this;
+        function animate() {
 
-                if(viewer.raytraceNeeded || viewer.sceneChange || viewer.scene.sceneChange){
-                    viewer.raytraceNeeded = false;
-                    viewer.raytrace();
-                }
-                if(viewer.sceneChange || viewer.scene.sceneChange){
-                    viewer.sceneChange = false;
-                    viewer.scene.sceneChange = false;
-                    viewer.render();
-                }
-                requestAnimationFrame(animate);
-
+            if(viewer.raytraceNeeded || viewer.sceneChange || viewer.scene.sceneChange){
+                viewer.raytraceNeeded = false;
+                viewer.raytrace();
             }
-            animate();
+            if(viewer.sceneChange || viewer.scene.sceneChange){
+                viewer.sceneChange = false;
+                viewer.scene.sceneChange = false;
+                viewer.render();
+            }
+            requestAnimationFrame(animate);
+
         }
+        animate();
 
     }
 

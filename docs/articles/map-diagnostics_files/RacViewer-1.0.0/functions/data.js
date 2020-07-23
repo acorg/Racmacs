@@ -212,6 +212,15 @@ Racmacs.Data = class Data {
         }
     }
 
+    srSequences(i){
+        if(this.data.c.x.sera_sequences){
+            if(i === undefined) return(this.data.c.x.sera_sequences);
+            else                return(this.data.c.x.sera_sequences[i]);
+        } else {
+            return(null);
+        }
+    }
+
     set_agCoords(i, coords){
         let pnum = this.projection();
         this.data.c.P[pnum].l[i] = coords;

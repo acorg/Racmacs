@@ -64,8 +64,8 @@ R3JS.element.gllines_thin = class GLLines_thin extends R3JS.element.base {
 
         // Create buffer geometry
         var geometry = new THREE.BufferGeometry();
-        geometry.addAttribute( 'position', new THREE.BufferAttribute( positions, 3 ) );
-        geometry.addAttribute( 'color',    new THREE.BufferAttribute( color,     4 ) );
+        geometry.setAttribute( 'position', new THREE.BufferAttribute( positions, 3 ) );
+        geometry.setAttribute( 'color',    new THREE.BufferAttribute( color,     4 ) );
 
         // Create the material
         var material = R3JS.Material(args.properties);

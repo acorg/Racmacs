@@ -8,7 +8,7 @@ Racmacs.icons.copy = function(){
 			'0 0 100 100'
 		)
 	);
-}
+};
 
 Racmacs.icons.scaleup = function(){
 	return(
@@ -17,7 +17,7 @@ Racmacs.icons.scaleup = function(){
 			'0 0 100 100'
 		)
 	);
-}
+};
 
 Racmacs.icons.scaledown = function(){
 	return(
@@ -26,7 +26,7 @@ Racmacs.icons.scaledown = function(){
 			'0 0 100 100'
 		)
 	);
-}
+};
 
 Racmacs.icons.flip = function(){
 	return(
@@ -35,7 +35,7 @@ Racmacs.icons.flip = function(){
 			'0 0 100 100'
 		)
 	);
-}
+};
 
 Racmacs.icons.locksize = function(){
 	return(
@@ -44,7 +44,7 @@ Racmacs.icons.locksize = function(){
 			'0 0 100 100'
 		)
 	);
-}
+};
 
 Racmacs.icons.unlocksize = function(){
 	return(
@@ -53,7 +53,7 @@ Racmacs.icons.unlocksize = function(){
 			'0 0 100 100'
 		)
 	);
-}
+};
 
 Racmacs.icons.connectionLines = function(){
 	return(
@@ -62,7 +62,7 @@ Racmacs.icons.connectionLines = function(){
 			'0 0 100 100'
 		)
 	);
-}
+};
 
 Racmacs.icons.errorLines = function(){
 	return(
@@ -71,7 +71,7 @@ Racmacs.icons.errorLines = function(){
 			'0 0 100 100'
 		)
 	);
-}
+};
 
 Racmacs.icons.movePoints = function(){
 	return(
@@ -80,7 +80,7 @@ Racmacs.icons.movePoints = function(){
 			'0 0 100 100'
 		)
 	);
-}
+};
 
 Racmacs.icons.controlPanel = function(){
 	return(
@@ -89,7 +89,7 @@ Racmacs.icons.controlPanel = function(){
 			'0 0 100 100'
 		)
 	);
-}
+};
 
 Racmacs.icons.cancel = function(){
 	return(
@@ -98,7 +98,7 @@ Racmacs.icons.cancel = function(){
 			'0 0 100 100'
 		)
 	);
-}
+};
 
 Racmacs.icons.relax = function(){
 	return(
@@ -107,7 +107,7 @@ Racmacs.icons.relax = function(){
 			'0 0 100 100'
 		)
 	);
-}
+};
 
 Racmacs.icons.randomize = function(){
 	return(
@@ -116,7 +116,7 @@ Racmacs.icons.randomize = function(){
 			'0 0 100 100'
 		)
 	);
-}
+};
 
 Racmacs.icons.save = function(){
 	return(
@@ -125,7 +125,7 @@ Racmacs.icons.save = function(){
 			'0 0 100 100'
 		)
 	);
-}
+};
 
 Racmacs.icons.table = function(){
 	return(
@@ -134,7 +134,7 @@ Racmacs.icons.table = function(){
 			'0 0 100 100'
 		)
 	);
-}
+};
 
 Racmacs.icons.sequences = function(){
 	return(
@@ -143,7 +143,7 @@ Racmacs.icons.sequences = function(){
 			'0 0 100 100'
 		)
 	);
-}
+};
 
 Racmacs.icons.logo = function(){
 
@@ -251,7 +251,7 @@ Racmacs.icons.logo = function(){
 	img.setAttribute("src", "data:image/svg+xml;utf8,"+data);
 	return(img);
 
-}
+};
 
 
 

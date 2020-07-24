@@ -178,6 +178,7 @@ as.json.racmap <- function(map){
   if(!is.null(getMapAttribute(map, "agGroups")))        json$c$x$antigen_groups    <- getMapAttribute(map, "agGroups")
   if(!is.null(getMapAttribute(map, "srGroups")))        json$c$x$sera_groups       <- getMapAttribute(map, "srGroups")
   if(!is.null(getMapAttribute(map, "agSequences")))     json$c$x$antigen_sequences <- getMapAttribute(map, "agSequences")
+  if(!is.null(getMapAttribute(map, "srSequences")))     json$c$x$sera_sequences    <- getMapAttribute(map, "srSequences")
   if(!is.null(getMapAttribute(map, "viewer_settings"))) json$c$x$viewer_settings   <- getMapAttribute(map, "viewer_settings")
 
   # Convert the json

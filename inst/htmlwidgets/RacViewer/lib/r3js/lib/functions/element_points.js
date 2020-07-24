@@ -32,7 +32,7 @@ R3JS.element.constructors.point = function(
 
     var element = new R3JS.element.Point({
         coords : plotobj.position,
-        size : plotobj.size[0]*0.025,
+        size : plotobj.size[0]*0.1,
         shape : shape,
         properties : plotobj.properties,
         dimensions : plotobj.properties.dimensions
@@ -70,17 +70,6 @@ R3JS.element.Point = class Point extends R3JS.element.base {
         var mat = R3JS.Material(args.properties);
         var geo = R3JS.Geometries[args.shape].fill(this.lwd);
         this.fill = new THREE.Mesh(geo, mat);
-        
-        // var node = document.createElement("circle");
-        // node.setAttribute("cx", "0");
-        // node.setAttribute("cy", "0");
-        // node.setAttribute("r", "10000");
-        // node.setAttribute("stroke", "black");
-        // node.setAttribute("stroke-width", "3");
-        // node.setAttribute("fill", "red");
-        // this.fill = new THREE.SVGObject(node);
-        // this.fill.material = new THREE.MeshBasicMaterial();
-        
         this.fill.element = this;
         this.object.add(this.fill);
       }

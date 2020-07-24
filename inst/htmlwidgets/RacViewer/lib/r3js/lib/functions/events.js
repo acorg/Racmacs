@@ -49,6 +49,7 @@ R3JS.Viewport.prototype.onmousemove = function(event){
     this.mouse.deltaY = mouse.y - this.mouse.y;
     this.mouse.x = mouse.x;
     this.mouse.y = mouse.y;
+    this.mouse.shiftKey = event.shiftKey;
     this.viewer.raytraceNeeded = true;
 
     if(this.mouse.down){

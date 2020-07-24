@@ -39,12 +39,12 @@ R3JS.Viewer.prototype.addViewerButtons = function(){
 	// 	})
     // }
 
- 	this.addButton({
-		name  : "openInNewWindow",
-		title : "Open in new window",
-		icon  : R3JS.icons.open(),
-		fn    : e => this.popOutViewer()
-	});
+ // 	this.addButton({
+	// 	name  : "openInNewWindow",
+	// 	title : "Open in new window",
+	// 	icon  : R3JS.icons.open(),
+	// 	fn    : e => this.popOutViewer()
+	// });
 
 }
 

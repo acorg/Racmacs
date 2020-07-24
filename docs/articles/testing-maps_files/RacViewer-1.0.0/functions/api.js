@@ -20,6 +20,26 @@ Racmacs.App.prototype.onAddStressBlobs      = function(args){ console.log(args) 
 Racmacs.App.prototype.onProcrustes          = function(args){ console.log(args) }
 Racmacs.App.prototype.onReflectMap          = function(axis){ console.log(axis) }
 
+// Manipulating the control panel
+Racmacs.App.prototype.showControlPanel = function(){
+    this.controlpanel.show();
+}
+
+Racmacs.App.prototype.hideControlPanel = function(){
+    this.controlpanel.show();
+}
+
+Racmacs.App.prototype.openControlTab = function(tab){
+    this.controlpanel.tabset.showTab(tab);
+}
+
+// Coloring points
+Racmacs.App.prototype.colorBySequenceAtPosition = function(position){
+    this.colorpanel.seqbtn.input.checked = true;
+    this.colorpanel.seqbtn.input.onchange();
+    this.colorpanel.seqinput.value = position;
+    this.colorpanel.seqinput.oninput();
+}
 
 // Fetching coordinates
 Racmacs.App.prototype.getAntigenCoords = function(){

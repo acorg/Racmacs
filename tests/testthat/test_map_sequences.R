@@ -19,10 +19,15 @@ run.maptests(
       agSequences(map) <- aasequence
       expect_equal(aasequence, agSequences(map))
 
+      aasequence_sr <- matrix("a", nrow = numSera(map), ncol = 6)
+      srSequences(map) <- aasequence_sr
+      expect_equal(aasequence_sr, srSequences(map))
+
       tmp <- tempfile(fileext = ".ace")
       save.acmap(map, tmp)
       map_loaded <- read.map(tmp)
-      expect_equal(aasequence, agSequences(map_loaded))
+      expect_equal(aasequence,    agSequences(map_loaded))
+      expect_equal(aasequence_sr, srSequences(map_loaded))
 
     })
 
@@ -38,7 +43,19 @@ run.maptests(
 
       export.viewer.test(
         view(map),
-        "map_with_sequences.html"
+        "map_with_agsequences.html"
+      )
+
+      srSequences(map) <- read.csv(
+        file        = test_path("../testdata/testmap_h3subset_srsequences.csv"),
+        row.names   = 1,
+        colClasses  = "character",
+        check.names = FALSE
+      )
+
+      export.viewer.test(
+        view(map),
+        "map_with_agsrsequences.html"
       )
 
     })

@@ -33,6 +33,7 @@ articles:
   contents:
   - comparing-maps
   - merging-maps
+  - adding-sequences
 reference:
 - title: Working with map data
   contents:

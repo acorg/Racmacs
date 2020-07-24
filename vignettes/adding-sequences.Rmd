@@ -1,0 +1,88 @@
+---
+title: "Working with sequence data"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Working with sequence data}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+Racmacs, and specifically the Racmacs viewer, has support for working with sequence data, both relating to antigens included in the maps and sera.
+
+Here we'll go through the process of adding sequence data to the 2004 map of H3N2 antigenic evolution, and show how you can interactively explore relationships between genetic and antigenic characteristics in the viewer.
+
+## Adding sequence data
+First we will load the h3 map and sequence data, then use the functions `agSequences()` and `srSequences()` to add the sequence data to the acmap object.
+
+```{r add_sequences}
+library(Racmacs)
+
+# Load the h3 antigenic map
+map <- read.acmap(system.file("extdata/h3map2004.ace", package = "Racmacs"))
+
+# Load the antigen and serum sequence data
+ag_sequences <- read.csv(
+  file = system.file("extdata/h3map2004_sequences_ag.csv", package = "Racmacs"),
+  colClasses = "character",
+  row.names = 1
+)
+
+sr_sequences <- read.csv(
+  file = system.file("extdata/h3map2004_sequences_sr.csv", package = "Racmacs"),
+  colClasses = "character",
+  row.names = 1
+)
+
+# Add the sequence data to the map
+agSequences(map) <- ag_sequences
+srSequences(map) <- sr_sequences
+
+```
+
+Note that when adding the sequence data, the expected format is a dense character matrix, any row or column names are ignored and it is assumed that there will be a row corresponding to the sequence for each antigen or sera. Missing sequences for an antigen or sera are encoded by a row of dashes `-`. Sequence positions will be labelled by column number, starting from 1, and there's currently not yet support for labelling sequence positions differently by column name or anything like that but it might be added in the future.
+
+## Viewing sequence data
+Now that sequence data has been added to the map object, it will be available to view alongside the map when `view()` is called on the map object.
+
+```{r view_map, out.width="100%"}
+# View the map with sequence data
+view(map)
+```
+
+<br/>
+__Using the sequence viewer__  
+You should notice once you've loaded the map in the viewer that an extra sequences `r Racmacs:::btn_img("sequences")` button appears in the top right button window, clicking on this will bring up the sequence viewer. From here you can initially see all the sequences of all the strains.
+
+From this point you can use the box at the top of the sequence viewer to filter by a given position, by typing for example "145" to see variation at position 145. Perhaps most usefully, assuming no filter is included in the top box, the sequence viewer will update as you select strains in the main map window to show only sequences for the selected strain, or, if multiple strains are selected, only the sequences at positions where the sequences differ. In this way you can investigate the potential genetic basis for antigenic differences observed between strains in the map.
+
+<br/>
+__Coloring strains by sequence__  
+It is also possible to use the sequence data to interactively color strains and sera by sequence at a given position. To do this open the control panel by clicking the controls `r Racmacs:::btn_img("controls")` button and navigate to the `r Racmacs:::tab_img("Coloring")` tab. Here you should see a button to color by sequence in addition to the other options. Clicking this will open up an input where you can type the number of the position you would like to color the points by. As you do this point coloring should change and a legend should appear indicating the sequence differences associated with each color.
+
+The viewer below shows an example result where points have been colored by the sequence differences at position 145.
+
+```{r view_seq_coloring, out.width="100%", out.height="600px", echo=FALSE}
+view(
+  map, 
+  .jsCode = "function(el, x, data) {
+       el.viewer.showControlPanel();
+       el.viewer.openControlTab('colorpanel');
+       el.viewer.colorBySequenceAtPosition(145);
+  }"
+)
+```
+
+## Tutorials
+<div style="position:relative;width:100%;height:0;padding-bottom:57.6%">
+<iframe src="https://www.youtube-nocookie.com/embed/0IzubUMvl10" style="position:absolute;top:0;left:0;width:100%;height:100%" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+</div>
+
+
+

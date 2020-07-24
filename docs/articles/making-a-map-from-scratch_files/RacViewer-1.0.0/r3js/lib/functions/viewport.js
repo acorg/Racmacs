@@ -186,6 +186,7 @@ R3JS.Info = class Info{
     constructor(id){
 
         this.div = document.createElement("div");
+        this.div.style.zIndex = 1000;
         this.div.id = id;
         this.hide();
 

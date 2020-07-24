@@ -88,10 +88,31 @@ R3JS.element.base = class Element {
 
     hover(){
         this.highlightGroup();
+        this.showLabel();
     }
 
     dehover(){
     	this.dehighlightGroup();
+        this.hideLabel();
+    }
+
+    showLabel(){
+        
+        if(this.label !== undefined){
+            this.labelDiv = document.createElement("div");
+            this.labelDiv.innerHTML = this.label;
+            this.viewer.addHoverInfo(this.labelDiv);
+        }
+
+    }
+
+    hideLabel(){
+
+        if(this.labelDiv){
+            this.viewer.removeHoverInfo(this.labelDiv);
+            this.labelDiv = null;
+        }
+        
     }
 
     click(event){

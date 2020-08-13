@@ -154,11 +154,11 @@ orderSera <- function(map, order) UseMethod("orderSera", map)
 
 #' @export
 #' @rdname removePoints
-removeAntigens <- function(map, antigens) UseMethod("removeAntigens", map)
+removeAntigens <- function(map, antigen_indices) UseMethod("removeAntigens", map)
 
 #' @export
 #' @rdname removePoints
-removeSera <- function(map, sera) UseMethod("removeSera", map)
+removeSera <- function(map, sera_indices) UseMethod("removeSera", map)
 
 
 #' Subset antigens and sera

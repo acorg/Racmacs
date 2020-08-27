@@ -53,14 +53,17 @@ view.rac <- function(
   select_ags = NULL,
   select_sr  = NULL,
   show_procrustes = NULL,
-  show_stressblobs = NULL
+  show_stressblobs = NULL,
+  keep_all_optimization_runs = FALSE
   ){
 
   # Clone the map
   map <- cloneMap(map)
 
   # Pass on only the selected optimization
-  map <- keepSingleOptimization(map)
+  if(!keep_all_optimization_runs){
+    map <- keepSingleOptimization(map)
+  }
 
   # Add a procrustes grid if the main map is 3d and the comparitor map is 2d
   if(!is.null(map$procrustes) && !isFALSE(show_procrustes)){

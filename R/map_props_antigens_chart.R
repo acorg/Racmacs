@@ -15,8 +15,13 @@ getProperty_antigens.racchart <- function(
     },
 
     # Antigen Groups
-    agGroups = {
-      return(unlist(get_chartAttribute(map, "antigen_groups")))
+    agGroupValues = {
+      return(unlist(get_chartAttribute(map, "antigen_group_values")))
+    },
+
+    # Antigen Group Levels
+    agGroupLevels = {
+      return(unlist(get_chartAttribute(map, "antigen_group_levels")))
     },
 
     # Antigen Sequences
@@ -81,8 +86,14 @@ setProperty_antigens.racchart <- function(
     },
 
     # Antigen Groups
-    agGroups = {
-      map <- set_chartAttribute(map, "antigen_groups", value)
+    agGroupValues = {
+      map <- set_chartAttribute(map, "antigen_group_values", value)
+      return(map)
+    },
+
+    # Antigen Groups
+    agGroupLevels = {
+      map <- set_chartAttribute(map, "antigen_group_levels", value)
       return(map)
     },
 

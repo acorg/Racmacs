@@ -15,8 +15,13 @@ getProperty_sera.racchart <- function(
     },
 
     # Sera Groups
-    srGroups = {
-      return(unlist(get_chartAttribute(map, "sera_groups")))
+    srGroupValues = {
+      return(unlist(get_chartAttribute(map, "sera_group_values")))
+    },
+
+    # Sera Groups
+    srGroupLevels = {
+      return(unlist(get_chartAttribute(map, "sera_group_levels")))
     },
 
     # Antigen Sequences
@@ -76,8 +81,14 @@ setProperty_sera.racchart <- function(
     },
 
     # Sera Groups
-    srGroups = {
-      map <- set_chartAttribute(map, "sera_groups", value)
+    srGroupValues = {
+      map <- set_chartAttribute(map, "sera_group_values", value)
+      return(map)
+    },
+
+    # Sera Group Levels
+    srGroupLevels = {
+      map <- set_chartAttribute(map, "sera_group_levels", value)
       return(map)
     },
 

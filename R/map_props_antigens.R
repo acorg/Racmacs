@@ -33,9 +33,18 @@ checkProperty_antigens <- function(map, attribute, value){
     if(!is.matrix(value)){
       value <- unname(as.matrix(value))
     }
-  } else if(length(value) != numAntigens(map)){
+  }
+
+  character_attributes <- c("agGroupValues", "agGroupLevels")
+  if(attribute %in% character_attributes){
+    value <- unname(as.character(value))
+  }
+
+  length_exceptions <- c("agSequences", "agGroupLevels")
+  if(!attribute %in% length_exceptions && length(value) != numAntigens(map)){
     stop(sprintf("Number of %s does not match number of antigens in the map", attribute))
   }
+
   value
 
 }
@@ -77,19 +86,20 @@ defaultProperty_antigens <- function(map, attribute, value){
 
 #' Getting and setting antigen attributes
 #'
-#' These functions get and set the antigen attributes for a given optimization run.
+#' These functions get and set the antigen attributes for a map.
 #'
 #' @name agAttributes
 #' @seealso
 #' \code{\link{srAttributes}}
 #' @family {antigen and sera attribute functions}
 #' @eval roxygen_tags(
-#'   methods = c("agNames", "agIDs", "agGroups", "agNamesFull", "agNamesAbbreviated", "agDates", "agReference", "agSequences"),
+#'   methods = c("agNames", "agIDs", "agNamesFull", "agNamesAbbreviated", "agDates", "agReference", "agSequences"),
 #'   args    = c("map")
 #' )
 #'
 agIDs               <- antigens_getter("agIDs")
-agGroups            <- antigens_getter("agGroups")
+agGroupValues       <- antigens_getter("agGroupValues")
+agGroupLevels       <- antigens_getter("agGroupLevels")
 agDates             <- antigens_getter("agDates")
 agReference         <- antigens_getter("agReference")
 agNames             <- antigens_getter("agNames")
@@ -99,9 +109,40 @@ agSequences         <- antigens_getter("agSequences")
 
 `agNames<-`         <- antigens_setter("agNames")
 `agIDs<-`           <- antigens_setter("agIDs")
-`agGroups<-`        <- antigens_setter("agGroups")
+`agGroupValues<-`   <- antigens_setter("agGroupValues")
+`agGroupLevels<-`   <- antigens_setter("agGroupLevels")
 `agDates<-`         <- antigens_setter("agDates")
 `agReference<-`     <- antigens_setter("agReference")
 `agNames<-`         <- antigens_setter("agNames")
 `agSequences<-`     <- antigens_setter("agSequences")
+
+
+#' Getting and setting antigen groups
+#'
+#' These functions get and set the antigen groupings for a map.
+#' @name agGroups
+#' @family {antigen and sera attribute functions}
+
+#' @rdname agGroups
+#' @export
+agGroups <- function(map){
+
+  if(is.null(agGroupValues(map))) return(NULL)
+  factor(
+    x = agGroupValues(map),
+    levels = agGroupLevels(map)
+  )
+
+}
+
+#' @rdname agGroups
+#' @export
+`agGroups<-` <- function(map, value){
+
+  if(!is.factor(value)) value <- as.factor(value)
+  agGroupValues(map) <- as.character(value)
+  agGroupLevels(map) <- levels(value)
+  map
+
+}
 

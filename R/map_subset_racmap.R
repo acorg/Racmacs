@@ -29,7 +29,7 @@ subsetAntigens.racmap <- function(map, antigen_indices){
   property_bindings <- property_bindings[substr(property_bindings$property, 1, 3) == "ag_",,drop=F]
 
   # Update antigen properties
-  for(x in which(property_bindings$object != "optimization")){
+  for(x in which(property_bindings$object != "optimization" & property_bindings$subsettable)){
 
     property <- property_bindings$property[x]
     format   <- property_bindings$format[x]
@@ -80,8 +80,8 @@ subsetSera.racmap <- function(map, sera_indices){
   property_bindings <- list_property_function_bindings()
   property_bindings <- property_bindings[substr(property_bindings$property, 1, 3) == "sr_",,drop=F]
 
-  # Update antigen properties
-  for(x in which(property_bindings$object != "optimization")){
+  # Update sera properties
+  for(x in which(property_bindings$object != "optimization" & property_bindings$subsettable)){
 
     property <- property_bindings$property[x]
     format   <- property_bindings$format[x]

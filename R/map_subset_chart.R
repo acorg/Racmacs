@@ -13,7 +13,7 @@ removeAntigens.racchart <- function(map, antigen_indices){
 
   # Remove additional non-acmacs.r antigen attributes
   fn_list <- list_property_function_bindings("antigens")
-  for(method in fn_list$method[!fn_list$acmacs.r]){
+  for(method in fn_list$method[!fn_list$acmacs.r & fn_list$subsettable]){
     getter <- get(method)
     setter <- get(paste0(method, "<-"))
     map <- setter(map, value = getter(map)[-antigen_indices], .check = FALSE)
@@ -38,7 +38,7 @@ removeSera.racchart <- function(map, sera_indices){
 
   # Remove additional non-acmacs.r serum attributes
   fn_list <- list_property_function_bindings("sera")
-  for(method in fn_list$method[!fn_list$acmacs.r]){
+  for(method in fn_list$method[!fn_list$acmacs.r & fn_list$subsettable]){
     getter <- get(method)
     setter <- get(paste0(method, "<-"))
     map <- setter(map, value = getter(map)[-sera_indices], .check = FALSE)

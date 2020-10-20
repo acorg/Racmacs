@@ -80,6 +80,9 @@ run.maptests(
         ag_groups <- factor(paste0("AGGROUP", seq_len(numAntigens(map))))
         sr_groups <- factor(paste0("AGGROUP", seq_len(numSera(map))))
 
+        ag_groups[3:4] <- NA
+        sr_groups[c(2,4)] <- NA
+
         agGroups(map) <- ag_groups
         srGroups(map) <- sr_groups
 
@@ -109,4 +112,7 @@ run.maptests(
 
 
 })
+
+
+
 

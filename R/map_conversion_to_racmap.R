@@ -241,14 +241,14 @@ json_to_racmap <- function(json){
   }
 
   # Additional custom attributes
-  if(!is.null(jsonlist$c$x$antigen_ids))             agIDs(map)         <- unlist(jsonlist$c$x$antigen_ids)
-  if(!is.null(jsonlist$c$x$sera_ids))                srIDs(map)         <- unlist(jsonlist$c$x$sera_ids)
-  if(!is.null(jsonlist$c$x$antigen_group_values))    agGroupValues(map) <- unlist(jsonlist$c$x$antigen_group_values)
-  if(!is.null(jsonlist$c$x$antigen_group_levels))    agGroupLevels(map) <- unlist(jsonlist$c$x$antigen_group_levels)
-  if(!is.null(jsonlist$c$x$sera_group_values))       srGroupValues(map) <- unlist(jsonlist$c$x$sera_group_values)
-  if(!is.null(jsonlist$c$x$sera_group_levels))       srGroupLevels(map) <- unlist(jsonlist$c$x$sera_group_levels)
-  if(!is.null(jsonlist$c$x$antigen_sequences))       agSequences(map)   <- do.call(rbind, lapply(jsonlist$c$x$antigen_sequences, unlist))
-  if(!is.null(jsonlist$c$x$sera_sequences))          srSequences(map)   <- do.call(rbind, lapply(jsonlist$c$x$sera_sequences, unlist))
+  if(!is.null(jsonlist$c$x$antigen_ids))             agIDs(map)         <- collate(jsonlist$c$x$antigen_ids)
+  if(!is.null(jsonlist$c$x$sera_ids))                srIDs(map)         <- collate(jsonlist$c$x$sera_ids)
+  if(!is.null(jsonlist$c$x$antigen_group_values))    agGroupValues(map) <- collate(jsonlist$c$x$antigen_group_values)
+  if(!is.null(jsonlist$c$x$antigen_group_levels))    agGroupLevels(map) <- collate(jsonlist$c$x$antigen_group_levels)
+  if(!is.null(jsonlist$c$x$sera_group_values))       srGroupValues(map) <- collate(jsonlist$c$x$sera_group_values)
+  if(!is.null(jsonlist$c$x$sera_group_levels))       srGroupLevels(map) <- collate(jsonlist$c$x$sera_group_levels)
+  if(!is.null(jsonlist$c$x$antigen_sequences))       agSequences(map)   <- do.call(rbind, lapply(jsonlist$c$x$antigen_sequences, collate))
+  if(!is.null(jsonlist$c$x$sera_sequences))          srSequences(map)   <- do.call(rbind, lapply(jsonlist$c$x$sera_sequences, collate))
   if(!is.null(jsonlist$c$x$viewer_settings))         map <- setMapAttribute(map, "viewer_settings", jsonlist$c$x$viewer_settings)
 
   # Return the map

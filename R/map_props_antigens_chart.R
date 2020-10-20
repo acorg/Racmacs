@@ -11,17 +11,17 @@ getProperty_antigens.racchart <- function(
 
     # Antigen IDs
     agIDs = {
-      return(unlist(get_chartAttribute(map, "antigen_ids")))
+      return(collate(get_chartAttribute(map, "antigen_ids")))
     },
 
     # Antigen Groups
     agGroupValues = {
-      return(unlist(get_chartAttribute(map, "antigen_group_values")))
+      return(collate(get_chartAttribute(map, "antigen_group_values")))
     },
 
     # Antigen Group Levels
     agGroupLevels = {
-      return(unlist(get_chartAttribute(map, "antigen_group_levels")))
+      return(collate(get_chartAttribute(map, "antigen_group_levels")))
     },
 
     # Antigen Sequences

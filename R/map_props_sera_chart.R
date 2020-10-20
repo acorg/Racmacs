@@ -11,17 +11,17 @@ getProperty_sera.racchart <- function(
 
     # Sera IDs
     srIDs = {
-      return(unlist(get_chartAttribute(map, "sera_ids")))
+      return(collate(get_chartAttribute(map, "sera_ids")))
     },
 
     # Sera Groups
     srGroupValues = {
-      return(unlist(get_chartAttribute(map, "sera_group_values")))
+      return(collate(get_chartAttribute(map, "sera_group_values")))
     },
 
     # Sera Groups
     srGroupLevels = {
-      return(unlist(get_chartAttribute(map, "sera_group_levels")))
+      return(collate(get_chartAttribute(map, "sera_group_levels")))
     },
 
     # Antigen Sequences

@@ -58,11 +58,6 @@ mergeMaps <- function(...,
                       number_of_optimizations = 100,
                       number_of_dimensions){
 
-  # Check that optimizations isn't specified with one of the other methods
-  if(!missing(number_of_optimizations) && !method %in% c("incremental-merge", "reoptimized-merge")){
-    stop("Number of optimizations is only relevant for the merging method 'incremental-merge' or 'reoptimized-merge'.")
-  }
-
   # Create a list of maps
   maps <- list(...)
   lapply(maps, function(map){
@@ -199,6 +194,13 @@ mergeMaps <- function(...,
   merged_map <- racchart.new(chart = merged_chart)
   if(method != "table")      selectedOptimization(merged_map) <- 1
   if("racmap" %in% map1_class) merged_map <- as.list(merged_map)
+
+  # Apply map styles according to the merged maps
+  for(map in maps){
+    merged_map <- applyPlotspec(merged_map, map)
+  }
+
+  # Return the map
   merged_map
 
 }

@@ -4,17 +4,15 @@
 #' This creates an html widget for viewing antigenic maps.
 #'
 #' @param map The map data object
-#' @param controls Should controls be shown
-#' @param stress Should stress be shown
 #' @param rotation Viewer rotation
 #' @param translation Viewer translation
 #' @param zoom Viewer zoom
-#' @param show_ags Should antigens be shown
-#' @param show_sr Should sera be shown
+#' @param options A named list of viewer options supplied to `racviewer.options()`
 #' @param width Width of the widget
 #' @param height Height of the widget
+#' @param plotdata
+#' @param show_procrustes
 #' @param elementId DOM element ID
-#' @param selectable Should points be selectable
 #'
 #' @import htmlwidgets
 #' @noRd
@@ -26,16 +24,11 @@ RacViewer <- function(
   zoom,
   plotdata  = NULL,
   show_procrustes = FALSE,
-  controls  = "hidden",
+  options   = list(),
   width     = NULL,
   height    = NULL,
   elementId = NULL
   ) {
-
-  # create a list that contains the settings
-  settings <- list(
-    controls = controls
-  )
 
   # Get map data as json
   if(is.null(map)) mapdata <- NULL
@@ -43,10 +36,10 @@ RacViewer <- function(
 
   # forward options using x
   x = list(
-    mapData    = mapdata,
-    plotdata   = jsonlite::toJSON(map$plot),
-    settings   = jsonlite::toJSON(
-      settings,
+    mapData  = mapdata,
+    plotdata = jsonlite::toJSON(map$plot),
+    options  = jsonlite::toJSON(
+      do.call(RacViewer.options, options),
       auto_unbox = TRUE
     )
   )

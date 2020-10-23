@@ -39,11 +39,18 @@ view.default <- function(x, ...){
 #'
 #' View a racmap object in the interactive viewer.
 #'
-#' @param racmap The racmap object
-#' @param ... Arguments to be passed to \code{\link{view_map}}
+#' @param map The acmap data object
+#' @param options A named list of viewer options to pass to `RacViewer.options()`
+#' @param ... Additional arguments to be passed to \code{\link{RacViewer}}
+#' @param .jsCode Additional javascript code to be run after map has been loaded and rendered
+#' @param .jsData Any data to supply to the .jsCode function
+#' @param select_ags A vector of antigen indices to select in the plot
+#' @param select_sr A vector of serum indices to select in the plot
+#' @param show_procrustes If the map contains procrustes information, should procrustes lines be shown by default?
+#' @param show_stressblobs If the map contains stress blob information, should stress blobs be shown by default?
+#' @param keep_all_optimization_runs Should information on all the optimization runs be kept in the viewer, or just view the currently selected optimisation run.
 #'
 #' @export
-#' @noRd
 #'
 view.rac <- function(
   map,
@@ -54,7 +61,8 @@ view.rac <- function(
   select_sr  = NULL,
   show_procrustes = NULL,
   show_stressblobs = NULL,
-  keep_all_optimization_runs = FALSE
+  keep_all_optimization_runs = FALSE,
+  options = list()
   ){
 
   # Clone the map
@@ -75,6 +83,7 @@ view.rac <- function(
   # View the map data in the viewer
   widget <- RacViewer(
     map = map,
+    options = options,
     ...
   )
 

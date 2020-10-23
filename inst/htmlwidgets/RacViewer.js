@@ -18,7 +18,7 @@ HTMLWidgets.widget({
         var mapdata = JSON.parse(x.mapData);
         viewer.load(
           mapdata,
-          x.settings,
+          x.options,
           x.plotdata
         );
 

@@ -1,4 +1,27 @@
 
+#' Set viewer options
+#'
+#' This function facilitates setting racviewer options by returning a list of option settings.
+#'
+#' @param point.opacity Default opacity for unselected points
+#' @param viewer.controls Should viewer controls be shown or hidden by default?
+#'
+#' @return Returns a named list of viewer options
+#' @export
+#'
+RacViewer.options <- function(
+  point.opacity = NA,
+  viewer.controls = "hidden"
+) {
+
+  list(
+    viewer.controls = viewer.controls,
+    point.opacity = point.opacity
+  )
+
+}
+
+
 #' Export the map viewer
 #'
 #' Export a map in a standalone html viewer

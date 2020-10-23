@@ -171,6 +171,28 @@ run.maptests(
     })
 
 
+    # Setting viewer options
+    test_that("Viewing map rotation", {
+
+      map <- acmap(
+        ag_coords = cbind(0, 1:5),
+        sr_coords = cbind(1:5, 0)
+      )
+
+      export.viewer.test(
+        view(
+          map,
+          options = list(
+            viewer.controls = "shown",
+            point.opacity = 0.2
+          )
+        ),
+        "map_vieweroptions.html"
+      )
+
+    })
+
+
     # Snapshot map
     test_that("Map snapshot", {
 

@@ -5,8 +5,9 @@
 #' @param optimization_number The optimization number from which to take map and table distances (defaults to the currently selected optimization)
 #' @param xlim The x limits of the plot
 #' @param ylim The y limits of the plot
+#' @param line_of_equality Should the line x=y be added
 #'
-#' @return Silently returns information on the map and table distances
+#' @return Returns the ggplot2 object
 #' @name map-table-distances
 #' @family Map diagnostics
 
@@ -15,7 +16,8 @@
 plot_map_table_distance <- function(
   map,
   optimization_number = NULL,
-  xlim, ylim
+  xlim, ylim,
+  line_of_equality = TRUE
 ){
 
   # Calculate map distances
@@ -44,7 +46,8 @@ plot_map_table_distance <- function(
   titertype[lessthans]  <- "non-detectable"
   titertype[!lessthans] <- "detectable"
 
-  ggplot2::ggplot(
+  # Do the main ggplot
+  gp <- ggplot2::ggplot(
     data = data.frame(
       map_dists   = map_dists,
       table_dists = table_dists,
@@ -62,12 +65,6 @@ plot_map_table_distance <- function(
         color = titertype
       ),
       alpha = 0.4
-    ) +
-    ggplot2::geom_abline(
-      slope     = 1,
-      intercept = 0,
-      linetype  = "dashed",
-      color     = "black"
     ) + ggplot2::guides(
       color = ggplot2::guide_legend(
         title = NULL
@@ -81,6 +78,20 @@ plot_map_table_distance <- function(
     ggplot_theme() +
     ggplot2::xlab("Table distances") +
     ggplot2::ylab("Map distances")
+
+  # Plot the line of equality only if requested
+  if(line_of_equality){
+    gp <- gp +
+      ggplot2::geom_abline(
+        slope     = 1,
+        intercept = 0,
+        linetype  = "dashed",
+        color     = "black"
+      )
+  }
+
+  # Return the ggplot object
+  gp
 
 }
 

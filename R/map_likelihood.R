@@ -143,7 +143,6 @@ agLikelihood <- function(
 
 }
 
-#' @export
 relaxMapMLE <- function(
   map,
   optimization_number = NULL,

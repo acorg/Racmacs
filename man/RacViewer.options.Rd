@@ -4,7 +4,11 @@
 \alias{RacViewer.options}
 \title{Set viewer options}
 \usage{
-RacViewer.options(point.opacity = 0.8, viewer.controls = "hidden")
+RacViewer.options(
+  point.opacity = NA,
+  viewer.controls = "hidden",
+  grid.display = "static"
+)
 }
 \arguments{
 \item{point.opacity}{Default opacity for unselected points}

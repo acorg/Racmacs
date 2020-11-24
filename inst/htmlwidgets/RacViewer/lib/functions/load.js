@@ -64,7 +64,9 @@ Racmacs.Viewer.prototype.load = function(
         this.hideTable();
 
         // Set the grid
-        this.setGrid();
+        if(options["grid.display"] !== "rotate"){
+            this.setGrid();
+        }
 
         // Add points to the plot
         this.addAgSrPoints();
@@ -160,6 +162,9 @@ Racmacs.Viewer.prototype.load = function(
         if(options["viewer.controls"] === "hidden") this.controlpanel.hide();
         if(options["point.opacity"] !== undefined && options["point.opacity"] !== null)  this.styleset.noselections.unhovered.unselected.opacity = options["point.opacity"];
         this.updatePointStyles();
+
+        // Run the function to toggle plot content that is shown dynamically based on scene rotation
+        if(this.scene.dynamic) this.scene.showhideDynamics(this.camera.camera);
 
         // Note that content is now loaded
         this.contentLoaded = true;

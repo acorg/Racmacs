@@ -11,12 +11,14 @@
 #'
 RacViewer.options <- function(
   point.opacity = NA,
-  viewer.controls = "hidden"
+  viewer.controls = "hidden",
+  grid.display = "static"
 ) {
 
   list(
     viewer.controls = viewer.controls,
-    point.opacity = point.opacity
+    point.opacity = point.opacity,
+    grid.display = grid.display
   )
 
 }

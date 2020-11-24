@@ -4,8 +4,8 @@
 using namespace Rcpp;
 
 // [[Rcpp::export]]
-double euc_dist(NumericVector coords1,
-                NumericVector coords2) {
+double euc_dist(NumericVector &coords1,
+                NumericVector &coords2) {
 
   double sum_squares = 0;
   for(int i = 0; i < coords1.length(); ++i) {
@@ -28,7 +28,9 @@ NumericMatrix ac_mapDists(NumericMatrix ag_coords,
   for(int ag = 0; ag < num_ags; ++ag) {
     for(int sr = 0; sr < num_sr; ++sr) {
 
-        map_dists(ag, sr) = euc_dist(ag_coords( ag, _), sr_coords( sr, _));
+        NumericVector ag_coord = ag_coords( ag, _);
+        NumericVector sr_coord = sr_coords( sr, _);
+        map_dists(ag, sr) = euc_dist(ag_coord, sr_coord);
 
     }
   }
@@ -92,10 +94,13 @@ NumericVector grid_search(NumericMatrix test_coords,
     // Sum up stress
     for (int j = 0; j < pair_coords.nrow(); j++) {
       if(!na_vals[j] && !morethans[j]){
-        double map_dist = euc_dist(i_coords, pair_coords(j,_));
-        i_stress += ac_pointStress(map_dist,
-                                   table_dist[j],
-                                   lessthans[j]);
+        NumericVector pair_coord = pair_coords(j,_);
+        double map_dist = euc_dist(i_coords, pair_coord);
+        i_stress += ac_pointStress(
+          map_dist,
+          table_dist[j],
+          lessthans[j]
+        );
       }
     }
 
@@ -107,11 +112,4 @@ NumericVector grid_search(NumericMatrix test_coords,
   return(stresses);
 
 }
-
-
-
-
-
-
-
 

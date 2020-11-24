@@ -8,12 +8,13 @@ optimizeMap(
   map,
   number_of_dimensions,
   number_of_optimizations,
-  minimum_column_basis,
+  minimum_column_basis = "none",
   fixed_column_bases = NULL,
   move_trapped_points = NULL,
   discard_previous_optimizations = TRUE,
   sort_optimizations = TRUE,
   realign_optimizations = TRUE,
+  dimensional_annealing = FALSE,
   stepsize = 0.1,
   verbose = TRUE,
   vverbose = FALSE,
@@ -29,6 +30,8 @@ optimizeMap(
 
 \item{minimum_column_basis}{The minimum column basis to use (see details)}
 
+\item{fixed_column_bases}{A vector of fixed values to use as column bases directly, rather than calculating them from the titer table.}
+
 \item{move_trapped_points}{Should trapped points be searched for and removed, one of 'none', 'best' or 'all' (see details)}
 
 \item{discard_previous_optimizations}{Should previous optimizations associated with this map be discarded?}
@@ -37,7 +40,15 @@ optimizeMap(
 
 \item{realign_optimizations}{Should optimizations be realigned to align as closely as possible with each other?}
 
+\item{dimensional_annealing}{Should dimensional annealing be applied?}
+
+\item{stepsize}{Step size to use when searching for trapped points (lower will be a finer search)}
+
 \item{verbose}{Should progress be reported?}
+
+\item{vverbose}{Should very detailed progress be reported?}
+
+\item{parallel_optimization}{Should optimization runs be performed in parallel}
 }
 \value{
 Returns the acmap object updated with new optimizations.

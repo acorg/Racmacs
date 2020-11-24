@@ -8,7 +8,7 @@ maturing](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www
 # Racmacs
 The Racmacs package provides a toolkit for making antigenic maps from assay data such as HI assays, as described in [Smith et al. 2004](https://doi.org/10.1126/science.1097211).
 
-For a general introduction to using Racmacs to make an antigenic map from titer data see the article "[Making an antigenic map from titer data](articles/making-a-map-from-scratch.html)". For documentation of the functions available see the [reference](reference/index.html) section.
+For a general introduction to using Racmacs to make an antigenic map from titer data see the article "[Making an antigenic map from titer data](articles/making-a-map-from-scratch.html)". For an introduction to the principles of antigenic cartography more generally see "[An introduction to antigenic cartography](articles/intro-to-antigenic-cartography.html)". For documentation of the functions available see the [reference](reference/index.html) section.
 
 ## Installation instructions
 ### Install the devtools package
@@ -22,10 +22,10 @@ install.packages("devtools")
 
 ```R
 # Mac
-remotes::install_url("https://github.com/acorg/acmacs.r/releases/download/v4.6/acmacs.r_4.6_R_macOS-10.14.tgz", build = FALSE)
+remotes::install_url("https://github.com/acorg/acmacs.r/releases/download/v5.0/acmacs.r_5.0_R_macOS-10.14.tgz", build = FALSE)
 
 # Linux
-remotes::install_url("https://github.com/acorg/acmacs.r/releases/download/v4.5/acmacs.r_4.5_R_x86_64-pc-linux-gnu.tar.gz", build = FALSE)
+remotes::install_url("https://github.com/acorg/acmacs.r/releases/download/v5.0.1/acmacs.r_5.1_R_x86_64-pc-linux-gnu.tar.gz", build = FALSE)
 ```
 
 ### Install Racmacs

@@ -2,7 +2,7 @@
 // Main function to load new map data
 Racmacs.Viewer.prototype.load = function(
     mapData,
-    settings = {},
+    options = {},
     plotdata
     ){
 
@@ -15,10 +15,6 @@ Racmacs.Viewer.prototype.load = function(
     this.clearAntigensAndSera();
     this.controlpanel.disableProjectionTabs();
 
-    // Control panel
-    if(settings.controls === "shown")  this.controlpanel.show();
-    if(settings.controls === "hidden") this.controlpanel.hide();
-
     // Plot new map data
     if(mapData === null){
 
@@ -28,7 +24,7 @@ Racmacs.Viewer.prototype.load = function(
 
     } else {
 
-        // Set map data and settings
+        // Set map data and options
         this.mapPlotdata = plotdata;
 
         // Enable control panel options
@@ -49,7 +45,7 @@ Racmacs.Viewer.prototype.load = function(
         }
 
         // Get current viewpoint
-        if(settings.maintain_viewpoint){
+        if(options.maintain_viewpoint){
             var translation     = this.scene.getTranslation();
             var zoom            = this.camera.getZoom();
             var selected_points = this.getSelectedPointIndices();
@@ -95,7 +91,7 @@ Racmacs.Viewer.prototype.load = function(
         }
 
         // Return the original viewpoint
-        if(settings.maintain_viewpoint){
+        if(options.maintain_viewpoint){
             this.camera.setZoom(zoom);
             this.scene.setTranslation(translation);
             this.selectByPointIndices(selected_points);
@@ -159,6 +155,12 @@ Racmacs.Viewer.prototype.load = function(
             this.btns["viewSequences"].style.display = "none";
         }
 
+        // Deal with viewer options
+        if(options["viewer.controls"] === "shown")  this.controlpanel.show();
+        if(options["viewer.controls"] === "hidden") this.controlpanel.hide();
+        if(options["point.opacity"] !== undefined && options["point.opacity"] !== null)  this.styleset.noselections.unhovered.unselected.opacity = options["point.opacity"];
+        this.updatePointStyles();
+
         // Note that content is now loaded
         this.contentLoaded = true;
 
@@ -169,11 +171,7 @@ Racmacs.Viewer.prototype.load = function(
         new CustomEvent('racViewerMapLoaded', { detail : this })
     );
 
-    // this.resizePoints(0.1);
-    // this.showErrorLines();
-    // this.controlpanel.show();
-    // this.controlpanel.tabset.showTab("colorpanel");
-    // this.showSequences();
+    console.log(options);
 
 }
 

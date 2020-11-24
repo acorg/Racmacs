@@ -14,7 +14,12 @@
 #' @param discard_previous_optimizations Should previous optimizations associated with this map be discarded?
 #' @param sort_optimizations Should optimizations be sorted by stress afterwards?
 #' @param realign_optimizations Should optimizations be realigned to align as closely as possible with each other?
+#' @param fixed_column_bases A vector of fixed values to use as column bases directly, rather than calculating them from the titer table.
+#' @param dimensional_annealing Should dimensional annealing be applied?
+#' @param stepsize Step size to use when searching for trapped points (lower will be a finer search)
 #' @param verbose Should progress be reported?
+#' @param vverbose Should very detailed progress be reported?
+#' @param parallel_optimization Should optimization runs be performed in parallel
 #'
 #' @details This is the core function to run map optimizations. In essence, for each optimization run, points are randomly distributed in
 #' 5-dimensional space, the L-BFGS gradient-based optimization algorithm is applied to move points into an optimal position and then
@@ -39,19 +44,22 @@
 #' @family {map optimization functions}
 #' @export
 #'
-optimizeMap <- function(map,
-                        number_of_dimensions,
-                        number_of_optimizations,
-                        minimum_column_basis,
-                        fixed_column_bases = NULL,
-                        move_trapped_points = NULL,
-                        discard_previous_optimizations = TRUE,
-                        sort_optimizations = TRUE,
-                        realign_optimizations = TRUE,
-                        stepsize = 0.1,
-                        verbose  = TRUE,
-                        vverbose = FALSE,
-                        parallel_optimization = TRUE) {
+optimizeMap <- function(
+  map,
+  number_of_dimensions,
+  number_of_optimizations,
+  minimum_column_basis = "none",
+  fixed_column_bases = NULL,
+  move_trapped_points = NULL,
+  discard_previous_optimizations = TRUE,
+  sort_optimizations = TRUE,
+  realign_optimizations = TRUE,
+  dimensional_annealing = FALSE,
+  stepsize = 0.1,
+  verbose  = TRUE,
+  vverbose = FALSE,
+  parallel_optimization = TRUE
+  ) {
 
   # Set default for moving trapped points
   if(is.null(move_trapped_points)){
@@ -78,7 +86,8 @@ optimizeMap <- function(map,
     number_of_optimizations = number_of_optimizations,
     minimum_column_basis    = minimum_column_basis,
     fixed_column_bases      = fixed_column_bases,
-    parallel_optimization   = parallel_optimization
+    parallel_optimization   = parallel_optimization,
+    dimensional_annealing   = dimensional_annealing
   )
   vmessage(verbose, "done.")
 
@@ -147,7 +156,8 @@ runOptimization <- function(map,
                             number_of_optimizations,
                             minimum_column_basis,
                             fixed_column_bases = NULL,
-                            parallel_optimization = TRUE) {
+                            parallel_optimization = TRUE,
+                            dimensional_annealing = FALSE) {
   UseMethod("runOptimization", map)
 }
 

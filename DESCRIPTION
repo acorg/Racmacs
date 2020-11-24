@@ -7,7 +7,9 @@ Author: Sam Wilks
 Maintainer: Sam Wilks <sw463@cam.ac.uk>
 Description: A toolkit for making antigenic maps from assay data such as HI assays.
 Imports: 
-    Rcpp, 
+    Rcpp,
+    RcppArmadillo,
+    roptim,
     jsonlite, 
     stringr, 
     MCMCpack, 
@@ -32,7 +34,7 @@ Suggests:
     plotly
 RoxygenNote: 7.1.0
 Roxygen: list(markdown = TRUE)
-LinkingTo: Rcpp
+LinkingTo: Rcpp, RcppArmadillo, roptim
 VignetteBuilder: knitr
 License: GPL-3
 URL: https://github.com/acorg/Racmacs

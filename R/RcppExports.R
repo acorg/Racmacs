@@ -21,6 +21,30 @@ ac_optimizationNegLogLikWrapper <- function(pars, ag_coords, sr_coords, max_logt
     .Call('_Racmacs_ac_optimizationNegLogLikWrapper', PACKAGE = 'Racmacs', pars, ag_coords, sr_coords, max_logtiter_matrix, min_logtiter_matrix, na_val_matrix, colbases, ag_reactivitys, error_sd, colbase_mean, colbase_sd, ag_reactivity_sd, optim_ag_coords, optim_sr_coords, optim_colbases, optim_ag_reactivitys)
 }
 
+#' @export
+ac_relaxMap <- function(tabledist_matrix, titertype_matrix, ag_coords, sr_coords, method = "L-BFGS-B", maxit = 10000L, check_gradient_fn = FALSE) {
+    .Call('_Racmacs_ac_relaxMap', PACKAGE = 'Racmacs', tabledist_matrix, titertype_matrix, ag_coords, sr_coords, method, maxit, check_gradient_fn)
+}
+
+random_coords <- function(nrow, ndim, min, max) {
+    .Call('_Racmacs_random_coords', PACKAGE = 'Racmacs', nrow, ndim, min, max)
+}
+
+#' @export
+ac_runBoxedOptimization <- function(tabledist_matrix, titertype_matrix, num_dims, coord_boxsize, method = "L-BFGS-B", maxit = 100L, dim_annealing = FALSE) {
+    .Call('_Racmacs_ac_runBoxedOptimization', PACKAGE = 'Racmacs', tabledist_matrix, titertype_matrix, num_dims, coord_boxsize, method, maxit, dim_annealing)
+}
+
+#' @export
+reduce_matrix_dimensions <- function(m, dim) {
+    .Call('_Racmacs_reduce_matrix_dimensions', PACKAGE = 'Racmacs', m, dim)
+}
+
+#' @export
+tableDists <- function(log_titers, colbases) {
+    .Call('_Racmacs_tableDists', PACKAGE = 'Racmacs', log_titers, colbases)
+}
+
 #' Calculate the distance between two sets of coordinates
 #'
 #' This calculates the euclidean distance, row by row, of two sets of coordinates.

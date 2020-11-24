@@ -34,6 +34,11 @@ RacViewer <- function(
   if(is.null(map)) mapdata <- NULL
   else             mapdata <- as.json(map)
 
+  # Add a rotating grid to the plotdata if specified
+  if(options$grid.display == "rotate"){
+    map <- addMapGrid(map)
+  }
+
   # forward options using x
   x = list(
     mapData  = mapdata,

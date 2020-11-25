@@ -10,7 +10,9 @@
 #' @family {functions to work with map optimizations}
 #' @export
 sortOptimizations <- function(map) {
-  UseMethod("sortOptimizations", map)
+  map$optimizations <- map$optimizations[order(allMapStresses(map))]
+  selectedOptimization(map) <- 1
+  map
 }
 
 # Get arbitrary map properties
@@ -76,7 +78,10 @@ removeOptimizations <- function(map) {
 #' @export
 #' @rdname keepSingleOptimization
 keepSingleOptimization <- function(map, optimization_number = NULL) {
-  UseMethod("keepSingleOptimization", map)
+  if(is.null(optimization_number)) optimization_number <- selectedOptimization(map)
+  map$optimizations <- map$optimizations[optimization_number]
+  selectedOptimization(map) <- 1
+  map
 }
 
 #' @export
@@ -120,7 +125,7 @@ numPoints <- function(map) {
 #' @rdname acmapAttributes
 #' @export
 numOptimizations <- function(map) {
-  UseMethod("numOptimizations", map)
+  length(map$optimizations)
 }
 
 
@@ -149,7 +154,7 @@ numOptimizations <- function(map) {
 #' @rdname selectedOptimization
 #' @export
 selectedOptimization <- function(map) {
-  UseMethod("selectedOptimization", map)
+  map[["selected_optimization"]]
 }
 
 #' @rdname selectedOptimization
@@ -159,12 +164,8 @@ selectedOptimization <- function(map) {
     if(length(value) != 1 || value < 1 || is.na(as.integer(value))) { stop("Main optimization number must be a single positive integer", call. = FALSE) }
     if(value > numOptimizations(map)) { stop("Cannot set the main optimization number to more than the number of map optimizations (", numOptimizations(map),")", call. = FALSE) }
   }
-  set_selectedOptimization(map, value)
-}
-
-# S3 generic to set optimization
-set_selectedOptimization <- function(map, value) {
-  UseMethod("set_selectedOptimization", map)
+  map[["selected_optimization"]] <- value
+  map
 }
 
 

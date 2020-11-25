@@ -10,15 +10,11 @@ optimizeMap(
   number_of_optimizations,
   minimum_column_basis = "none",
   fixed_column_bases = NULL,
-  move_trapped_points = NULL,
-  discard_previous_optimizations = TRUE,
   sort_optimizations = TRUE,
-  realign_optimizations = TRUE,
   dimensional_annealing = FALSE,
-  stepsize = 0.1,
   verbose = TRUE,
-  vverbose = FALSE,
-  parallel_optimization = TRUE
+  num_cores = detectCores(),
+  method = "L-BFGS-B"
 )
 }
 \arguments{
@@ -32,19 +28,19 @@ optimizeMap(
 
 \item{fixed_column_bases}{A vector of fixed values to use as column bases directly, rather than calculating them from the titer table.}
 
+\item{sort_optimizations}{Should optimizations be sorted by stress afterwards?}
+
+\item{dimensional_annealing}{Should dimensional annealing be applied?}
+
+\item{verbose}{Should progress be reported?}
+
 \item{move_trapped_points}{Should trapped points be searched for and removed, one of 'none', 'best' or 'all' (see details)}
 
 \item{discard_previous_optimizations}{Should previous optimizations associated with this map be discarded?}
 
-\item{sort_optimizations}{Should optimizations be sorted by stress afterwards?}
-
 \item{realign_optimizations}{Should optimizations be realigned to align as closely as possible with each other?}
 
-\item{dimensional_annealing}{Should dimensional annealing be applied?}
-
 \item{stepsize}{Step size to use when searching for trapped points (lower will be a finer search)}
-
-\item{verbose}{Should progress be reported?}
 
 \item{vverbose}{Should very detailed progress be reported?}
 

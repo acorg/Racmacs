@@ -50,99 +50,40 @@ optimizeMap <- function(
   number_of_optimizations,
   minimum_column_basis = "none",
   fixed_column_bases = NULL,
-  move_trapped_points = NULL,
-  discard_previous_optimizations = TRUE,
   sort_optimizations = TRUE,
-  realign_optimizations = TRUE,
   dimensional_annealing = FALSE,
-  stepsize = 0.1,
   verbose  = TRUE,
-  vverbose = FALSE,
-  parallel_optimization = TRUE
+  num_cores = detectCores(),
+  method = "L-BFGS-B"
   ) {
 
-  # Set default for moving trapped points
-  if(is.null(move_trapped_points)){
-    if(number_of_dimensions <= 2){
-      move_trapped_points <- "best"
-    } else {
-      move_trapped_points <- "none"
-    }
-  }
+  # Warn about overwriting previous optimizations
+  if(numOptimizations(map) > 0) vmessage(verbose, "Discarding previous optimization runs.")
 
-  # Discard previous optimizations
-  if(discard_previous_optimizations){
-    if(numOptimizations(map) > 0) vmessage(verbose, "Discarding previous optimization runs.")
-    map <- removeOptimizations(map)
-  }
-
-  # Record new optimization numbers
-  new_optimizations  <- numOptimizations(map) + seq_len(number_of_optimizations)
-
-  vmessage(verbose, "Performing ", number_of_optimizations, " optimization runs...", appendLF = F)
-  map <- runOptimization(
-    map                     = map,
-    number_of_dimensions    = number_of_dimensions,
-    number_of_optimizations = number_of_optimizations,
-    minimum_column_basis    = minimum_column_basis,
-    fixed_column_bases      = fixed_column_bases,
-    parallel_optimization   = parallel_optimization,
-    dimensional_annealing   = dimensional_annealing
+  # Calculate column bases
+  colbases <- ac_getTableColbases(
+    titer_table = titerTable(map),
+    minimum_column_basis = minimum_column_basis
   )
-  vmessage(verbose, "done.")
+
+  # Perform the optimization runs
+  map$optimizations <- optimizeMapBySumSquaredStressIntern(
+    map               = map,
+    colbases          = colbases,
+    num_dims          = number_of_dimensions,
+    num_optimizations = number_of_optimizations,
+    maxit             = 5000,
+    dim_annealing     = dimensional_annealing,
+    num_cores         = num_cores,
+    method            = method
+  )
 
   # Set selected optimization to 1
-  vmessage(vverbose, "Selecting first optimization run...", appendLF = F)
-  if(!is.null(selectedOptimization(map)) && selectedOptimization(map) != 1){
-    warning("Selected optimization reset to 1")
-  }
   selectedOptimization(map) <- 1
-  vmessage(vverbose, "done.")
-
-  # Record new optimization stresses
-  vmessage(vverbose, "Setting new optimization stresses...", appendLF = F)
-  new_optimization_stresses <- allMapStresses(map)[new_optimizations]
-  vmessage(vverbose, "done.")
-
-  if(move_trapped_points == "all"){
-    # If trapped points must be hunted for in all optimizations
-    vmessage(verbose, "Moving trapped points in each optimization...", appendLF = F)
-    for(optimization_num in new_optimizations) {
-      map <- moveTrappedPoints(
-        map                 = map,
-        optimization_number = optimization_num,
-        stepsize            = stepsize
-      )
-    }
-    vmessage(verbose, "done.")
-  }
-
-  if(move_trapped_points == "best"){
-    # If trapped points must be hunted for in the best optimization
-    vmessage(verbose, "Moving trapped points in the lowest stress optimization...", appendLF = F)
-    best_optimization <- new_optimizations[which.min(new_optimization_stresses)]
-    map <- moveTrappedPoints(
-      map                 = map,
-      optimization_number = best_optimization,
-      stepsize            = stepsize
-    )
-    vmessage(verbose, "done.")
-  }
-
 
   # Sort optimizations
-  if(sort_optimizations) {
-    vmessage(verbose, "Sorting optimizations by stress...", appendLF = F)
-    map <- sortOptimizations(map)
-    vmessage(verbose, "done.")
-  }
-
-  # Realign optimizations
-  if(realign_optimizations) {
-    vmessage(verbose, "Realigning optimizations...", appendLF = F)
-    map <- realignOptimizations(map)
-    vmessage(verbose, "done.")
-  }
+  map <- sortOptimizations(map)
+  # map <- realignOptimizations(map)
 
   # Return the optimised map
   map

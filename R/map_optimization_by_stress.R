@@ -92,7 +92,7 @@ optimizeMapBySumSquaredStressIntern <- function(
   )
 
   # Set boxsize based on initial optimization result
-  coord_maxdist <- max(dist(rbind(rough_optim$ag_coords, rough_optim$sr_coords)))
+  coord_maxdist <- max(dist(rbind(rough_optim$ag_base_coords, rough_optim$sr_base_coords)))
   coord_boxsize <- coord_maxdist*2
 
   # Run the optimizations

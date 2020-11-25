@@ -1,41 +1,4 @@
 
-
-#' @export
-runOptimization.racmap <- function(map,
-                                   number_of_dimensions,
-                                   number_of_optimizations,
-                                   minimum_column_basis,
-                                   fixed_column_bases    = NULL,
-                                   parallel_optimization = FALSE,
-                                   dimensional_annealing = FALSE){
-
-  # Get the HI table
-  titer_table = titerTable(map)
-
-  # Create a new dummy chart
-  racchart <- acmap.cpp(table = titer_table)
-
-  # Optimise the chart
-  racchart <- runOptimization(map                     = racchart,
-                              number_of_dimensions    = number_of_dimensions,
-                              number_of_optimizations = number_of_optimizations,
-                              minimum_column_basis    = minimum_column_basis,
-                              fixed_column_bases      = fixed_column_bases,
-                              parallel_optimization   = parallel_optimization,
-                              dimensional_annealing   = dimensional_annealing)
-
-  # Add optimizations to the racmap
-  map$optimizations <- c(map$optimizations, as.list(racchart)$optimizations)
-
-  # Select the new optimization if it's the first one
-  if(is.null(selectedOptimization(map))) selectedOptimization(map) <- 1
-
-  # Return the new chart
-  map
-
-}
-
-
 #' @export
 relaxMap.racmap <- function(map,
                             optimization_number = NULL){

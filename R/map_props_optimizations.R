@@ -13,16 +13,7 @@ optimization_getter <- function(attribute){
         optimization_number <- convertOptimizationNum(optimization_number, map)
 
         # Get the map value stored
-        value <- classSwitch("getProperty_optimization", map, optimization_number, attribute)
-
-        # Replace any missing values with defaults
-        defaultProperty_optimization(
-          map                 = map,
-          optimization_number = optimization_number,
-          attribute           = attribute,
-          value               = value,
-          .name               = .name
-        )
+        map$optimizations[[optimization_number]][[attribute]]
 
       }
     })
@@ -47,7 +38,10 @@ optimization_setter <- function(attribute){
         if(.check) value <- checkProperty_optimization(map, optimization_number, attribute, value)
 
         # Set the map value
-        classSwitch("setProperty_optimization", map, optimization_number, attribute, value, .check)
+        map$optimizations[[optimization_number]][[attribute]] <- value
+
+        # Return the map
+        map
 
       }
     })
@@ -136,65 +130,6 @@ checkProperty_optimization <- function(
 }
 
 
-
-# Function for replacement with default values
-defaultProperty_optimization <- function(
-  map,
-  optimization_number,
-  attribute,
-  value,
-  .name
-){
-
-  # Check if a null was returned
-  if(is.null(value)){
-
-    # Work out the number of dimensions
-    ndims <- ncol(agBaseCoords(map, optimization_number))
-
-    # Choose the default
-    value <- switch(
-
-      EXPR = attribute,
-      mapTransformation = diag(ndims),
-      mapTranslation    = rep(0, ndims),
-      value
-
-    )
-
-  }
-
-  # Name if requested
-  if(.name){
-
-    # Choose the default
-    value <- switch(
-
-      EXPR = attribute,
-      agBaseCoords = {rownames(value) <- agNames(map); value},
-      srBaseCoords = {rownames(value) <- srNames(map); value},
-      colBases     = {names(value)    <- srNames(map); value},
-      value
-
-    )
-
-  }
-
-  # Apply any transformations
-  value <- switch(
-
-    EXPR = attribute,
-    mapTranslation = matrix(value, nrow = 1),
-    value
-
-  )
-
-  # Return the modified value
-  value
-
-}
-
-
 #' Getting and setting base coordinates
 #'
 #' These functions get and set the base coordinates for a given optimization run.
@@ -209,10 +144,10 @@ defaultProperty_optimization <- function(
 #'   args    = c("map", "optimization_number = NULL")
 #' )
 #'
-agBaseCoords <- optimization_getter("agBaseCoords")
-srBaseCoords <- optimization_getter("srBaseCoords")
-`agBaseCoords<-` <- optimization_setter("agBaseCoords")
-`srBaseCoords<-` <- optimization_setter("srBaseCoords")
+agBaseCoords <- optimization_getter("ag_base_coords")
+srBaseCoords <- optimization_getter("sr_base_coords")
+`agBaseCoords<-` <- optimization_setter("ag_base_coords")
+`srBaseCoords<-` <- optimization_setter("sr_base_coords")
 
 
 #' Reading map transformation data
@@ -228,10 +163,10 @@ srBaseCoords <- optimization_getter("srBaseCoords")
 #'   getterargs = NULL
 #' )
 #'
-mapTransformation <- optimization_getter("mapTransformation")
-mapTranslation    <- optimization_getter("mapTranslation")
-`mapTransformation<-` <- optimization_setter("mapTransformation")
-`mapTranslation<-`    <- optimization_setter("mapTranslation")
+mapTransformation <- optimization_getter("transformation")
+mapTranslation    <- optimization_getter("translation")
+`mapTransformation<-` <- optimization_setter("transformation")
+`mapTranslation<-`    <- optimization_setter("translation")
 
 
 #' Getting and setting column bases
@@ -264,10 +199,10 @@ mapTranslation    <- optimization_getter("mapTranslation")
 #'   args       = c("map", "optimization_number = NULL")
 #' )
 #'
-minColBasis <- optimization_getter("minColBasis")
-colBases    <- optimization_getter("colBases")
-`minColBasis<-` <- optimization_setter("minColBasis")
-`colBases<-`    <- optimization_setter("colBases")
+colBases     <- optimization_getter("colbases")
+`colBases<-` <- optimization_setter("colbases")
+minColBasis     <- optimization_getter("min_col_basis")
+`minColBasis<-` <- optimization_setter("min_col_basis")
 
 
 #' Get the current map stress
@@ -279,10 +214,8 @@ colBases    <- optimization_getter("colBases")
 #'   getterargs = NULL,
 #'   returns    = "Returns the current map stress value for the specified optimization run."
 #' )
-mapStress     <- optimization_getter("mapStress")
-
-#' @noRd
-`mapStress<-` <- optimization_setter("mapStress")
+mapStress     <- optimization_getter("stress")
+`mapStress<-` <- optimization_setter("stress")
 
 
 #' Get the current map dimensions
@@ -309,8 +242,8 @@ mapDimensions <- function(map, optimization_number = NULL){
 #'   getterargs = NULL,
 #'   returns    = "Gets or sets and map comments for the specified optimization run."
 #' )
-mapComment     <- optimization_getter("mapComment")
-`mapComment<-` <- optimization_setter("mapComment")
+mapComment     <- optimization_getter("comment")
+`mapComment<-` <- optimization_setter("comment")
 
 
 

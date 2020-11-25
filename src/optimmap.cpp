@@ -3,7 +3,10 @@
 #include <RcppArmadillo.h>
 #include <roptim.h>
 // #include <Rcpp/Benchmark/Timer.h>
+
 #include "acmap_optimization.h"
+
+// We use the roptim
 using namespace roptim;
 
 // The threshold penalty function
@@ -315,7 +318,7 @@ void MapOptimiser::update_map_dist_matrix(){
 
 //' @export
 // [[Rcpp::export]]
-Optimization ac_relaxMap(
+AcOptimization ac_relaxOptimization(
     const arma::mat &tabledist_matrix,
     const arma::umat &titertype_matrix,
     arma::mat ag_coords,
@@ -373,11 +376,11 @@ Optimization ac_relaxMap(
   map.update_map_coords(opt.par());
 
   // Return the result
-  return Optimization(
-    map.ag_coords,
-    map.sr_coords,
-    stress
-  );
+  AcOptimization acopt;
+  acopt.ag_base_coords = map.ag_coords;
+  acopt.sr_base_coords = map.sr_coords;
+  acopt.stress = stress;
+  return acopt;
 
 };
 
@@ -397,7 +400,7 @@ arma::mat random_coords(
 
 //' @export
 // [[Rcpp::export]]
-Optimization ac_runBoxedOptimization(
+AcOptimization ac_runBoxedOptimization(
     const arma::mat &tabledist_matrix,
     const arma::umat &titertype_matrix,
     const int &num_dims,
@@ -422,7 +425,7 @@ Optimization ac_runBoxedOptimization(
     arma::mat sr_coords_start = random_coords(num_sr, 5, -coord_boxsize/2, coord_boxsize/2);
 
     // Do a first optimization in higher dimensions
-    Optimization optim = ac_relaxMap(
+    AcOptimization optim = ac_relaxOptimization(
       tabledist_matrix,
       titertype_matrix,
       ag_coords_start,
@@ -433,12 +436,12 @@ Optimization ac_runBoxedOptimization(
 
     // Reduce coordinate dimensions
     arma::mat coords = arma::join_cols(
-      optim.ag_coords,
-      optim.sr_coords
+      optim.ag_base_coords,
+      optim.sr_base_coords
     );
     arma::mat coeff = arma::princomp(coords);
-    ag_coords = optim.ag_coords*coeff.cols(0, num_dims);
-    sr_coords = optim.sr_coords*coeff.cols(0, num_dims);
+    ag_coords = optim.ag_base_coords*coeff.cols(0, num_dims);
+    sr_coords = optim.sr_base_coords*coeff.cols(0, num_dims);
 
   }
   // Without dimensional annealing
@@ -451,7 +454,7 @@ Optimization ac_runBoxedOptimization(
   }
 
   // Return the relaxed optimization
-  return ac_relaxMap(
+  return ac_relaxOptimization(
     tabledist_matrix,
     titertype_matrix,
     ag_coords,
@@ -473,39 +476,6 @@ arma::mat reduce_matrix_dimensions(
 
   arma::mat coeff = arma::princomp(m);
   return m*coeff.cols(0, dim);
-
-}
-
-
-// Get a matrix of table distances
-//' @export
-// [[Rcpp::export]]
-arma::mat tableDists(
-  arma::mat log_titers,
-  arma::vec colbases
-){
-
-  // Setup table dists matrix
-  arma::mat tabledists = arma::mat(
-    log_titers.n_rows,
-    log_titers.n_cols
-  );
-
-  // Fill matrix
-  for(int row=0; row<log_titers.n_rows; row++){
-    for(int col=0; col<log_titers.n_cols; col++){
-
-      tabledists(row,col) = colbases(col) - log_titers(row,col);
-      if(tabledists(row,col) < 0){
-        // Set to distance of 0 if < 0
-        tabledists(row,col) = 0;
-      }
-
-    }
-  }
-
-  // Return the matrix
-  return tabledists;
 
 }
 

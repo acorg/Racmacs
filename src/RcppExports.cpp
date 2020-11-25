@@ -7,6 +7,18 @@
 
 using namespace Rcpp;
 
+// ac_align_optimization
+AcOptimization ac_align_optimization(AcOptimization source_optimization, AcOptimization target_optimization);
+RcppExport SEXP _Racmacs_ac_align_optimization(SEXP source_optimizationSEXP, SEXP target_optimizationSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< AcOptimization >::type source_optimization(source_optimizationSEXP);
+    Rcpp::traits::input_parameter< AcOptimization >::type target_optimization(target_optimizationSEXP);
+    rcpp_result_gen = Rcpp::wrap(ac_align_optimization(source_optimization, target_optimization));
+    return rcpp_result_gen;
+END_RCPP
+}
 // ac_pointLogLik
 double ac_pointLogLik(double map_dist, double colbase, double max_logtiter, double min_logtiter, double error_sd, double ag_reactivity);
 RcppExport SEXP _Racmacs_ac_pointLogLik(SEXP map_distSEXP, SEXP colbaseSEXP, SEXP max_logtiterSEXP, SEXP min_logtiterSEXP, SEXP error_sdSEXP, SEXP ag_reactivitySEXP) {
@@ -85,9 +97,9 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// ac_relaxMap
-Optimization ac_relaxMap(const arma::mat& tabledist_matrix, const arma::umat& titertype_matrix, arma::mat ag_coords, arma::mat sr_coords, const std::string method, const int maxit, bool check_gradient_fn);
-RcppExport SEXP _Racmacs_ac_relaxMap(SEXP tabledist_matrixSEXP, SEXP titertype_matrixSEXP, SEXP ag_coordsSEXP, SEXP sr_coordsSEXP, SEXP methodSEXP, SEXP maxitSEXP, SEXP check_gradient_fnSEXP) {
+// ac_relaxOptimization
+AcOptimization ac_relaxOptimization(const arma::mat& tabledist_matrix, const arma::umat& titertype_matrix, arma::mat ag_coords, arma::mat sr_coords, const std::string method, const int maxit, bool check_gradient_fn);
+RcppExport SEXP _Racmacs_ac_relaxOptimization(SEXP tabledist_matrixSEXP, SEXP titertype_matrixSEXP, SEXP ag_coordsSEXP, SEXP sr_coordsSEXP, SEXP methodSEXP, SEXP maxitSEXP, SEXP check_gradient_fnSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -98,7 +110,7 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< const std::string >::type method(methodSEXP);
     Rcpp::traits::input_parameter< const int >::type maxit(maxitSEXP);
     Rcpp::traits::input_parameter< bool >::type check_gradient_fn(check_gradient_fnSEXP);
-    rcpp_result_gen = Rcpp::wrap(ac_relaxMap(tabledist_matrix, titertype_matrix, ag_coords, sr_coords, method, maxit, check_gradient_fn));
+    rcpp_result_gen = Rcpp::wrap(ac_relaxOptimization(tabledist_matrix, titertype_matrix, ag_coords, sr_coords, method, maxit, check_gradient_fn));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -117,7 +129,7 @@ BEGIN_RCPP
 END_RCPP
 }
 // ac_runBoxedOptimization
-Optimization ac_runBoxedOptimization(const arma::mat& tabledist_matrix, const arma::umat& titertype_matrix, const int& num_dims, const double coord_boxsize, const std::string method, const int maxit, const bool dim_annealing);
+AcOptimization ac_runBoxedOptimization(const arma::mat& tabledist_matrix, const arma::umat& titertype_matrix, const int& num_dims, const double coord_boxsize, const std::string method, const int maxit, const bool dim_annealing);
 RcppExport SEXP _Racmacs_ac_runBoxedOptimization(SEXP tabledist_matrixSEXP, SEXP titertype_matrixSEXP, SEXP num_dimsSEXP, SEXP coord_boxsizeSEXP, SEXP methodSEXP, SEXP maxitSEXP, SEXP dim_annealingSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
@@ -145,27 +157,31 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// tableDists
-arma::mat tableDists(arma::mat log_titers, arma::vec colbases);
-RcppExport SEXP _Racmacs_tableDists(SEXP log_titersSEXP, SEXP colbasesSEXP) {
+// ac_procrustes
+Procrustes ac_procrustes(arma::mat X, arma::mat Xstar, bool translation, bool dilation);
+RcppExport SEXP _Racmacs_ac_procrustes(SEXP XSEXP, SEXP XstarSEXP, SEXP translationSEXP, SEXP dilationSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< arma::mat >::type log_titers(log_titersSEXP);
-    Rcpp::traits::input_parameter< arma::vec >::type colbases(colbasesSEXP);
-    rcpp_result_gen = Rcpp::wrap(tableDists(log_titers, colbases));
+    Rcpp::traits::input_parameter< arma::mat >::type X(XSEXP);
+    Rcpp::traits::input_parameter< arma::mat >::type Xstar(XstarSEXP);
+    Rcpp::traits::input_parameter< bool >::type translation(translationSEXP);
+    Rcpp::traits::input_parameter< bool >::type dilation(dilationSEXP);
+    rcpp_result_gen = Rcpp::wrap(ac_procrustes(X, Xstar, translation, dilation));
     return rcpp_result_gen;
 END_RCPP
 }
-// calc_coord_dist
-NumericVector calc_coord_dist(NumericMatrix coords1, NumericMatrix coords2);
-RcppExport SEXP _Racmacs_calc_coord_dist(SEXP coords1SEXP, SEXP coords2SEXP) {
+// ac_align_coords
+arma::mat ac_align_coords(arma::mat source, arma::mat target, bool translation, bool dilation);
+RcppExport SEXP _Racmacs_ac_align_coords(SEXP sourceSEXP, SEXP targetSEXP, SEXP translationSEXP, SEXP dilationSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< NumericMatrix >::type coords1(coords1SEXP);
-    Rcpp::traits::input_parameter< NumericMatrix >::type coords2(coords2SEXP);
-    rcpp_result_gen = Rcpp::wrap(calc_coord_dist(coords1, coords2));
+    Rcpp::traits::input_parameter< arma::mat >::type source(sourceSEXP);
+    Rcpp::traits::input_parameter< arma::mat >::type target(targetSEXP);
+    Rcpp::traits::input_parameter< bool >::type translation(translationSEXP);
+    Rcpp::traits::input_parameter< bool >::type dilation(dilationSEXP);
+    rcpp_result_gen = Rcpp::wrap(ac_align_coords(source, target, translation, dilation));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -237,16 +253,17 @@ END_RCPP
 }
 
 static const R_CallMethodDef CallEntries[] = {
+    {"_Racmacs_ac_align_optimization", (DL_FUNC) &_Racmacs_ac_align_optimization, 2},
     {"_Racmacs_ac_pointLogLik", (DL_FUNC) &_Racmacs_ac_pointLogLik, 6},
     {"_Racmacs_ac_srNegLogLik", (DL_FUNC) &_Racmacs_ac_srNegLogLik, 5},
     {"_Racmacs_ac_optimizationNegLogLik", (DL_FUNC) &_Racmacs_ac_optimizationNegLogLik, 11},
     {"_Racmacs_ac_optimizationNegLogLikWrapper", (DL_FUNC) &_Racmacs_ac_optimizationNegLogLikWrapper, 16},
-    {"_Racmacs_ac_relaxMap", (DL_FUNC) &_Racmacs_ac_relaxMap, 7},
+    {"_Racmacs_ac_relaxOptimization", (DL_FUNC) &_Racmacs_ac_relaxOptimization, 7},
     {"_Racmacs_random_coords", (DL_FUNC) &_Racmacs_random_coords, 4},
     {"_Racmacs_ac_runBoxedOptimization", (DL_FUNC) &_Racmacs_ac_runBoxedOptimization, 7},
     {"_Racmacs_reduce_matrix_dimensions", (DL_FUNC) &_Racmacs_reduce_matrix_dimensions, 2},
-    {"_Racmacs_tableDists", (DL_FUNC) &_Racmacs_tableDists, 2},
-    {"_Racmacs_calc_coord_dist", (DL_FUNC) &_Racmacs_calc_coord_dist, 2},
+    {"_Racmacs_ac_procrustes", (DL_FUNC) &_Racmacs_ac_procrustes, 4},
+    {"_Racmacs_ac_align_coords", (DL_FUNC) &_Racmacs_ac_align_coords, 4},
     {"_Racmacs_euc_dist", (DL_FUNC) &_Racmacs_euc_dist, 2},
     {"_Racmacs_ac_mapDists", (DL_FUNC) &_Racmacs_ac_mapDists, 2},
     {"_Racmacs_ac_pointStress", (DL_FUNC) &_Racmacs_ac_pointStress, 3},

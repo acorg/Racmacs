@@ -1,13 +1,66 @@
 
-# Call function dependent upon class
-classSwitch <- function(fn, map, ...){
+#' Getting and setting the map name
+#'
+#' You can use the standard `mapName()` function to get and set the map name.
+#'
+#' @name mapName
+#' @family {map attribute functions}
+#' @eval roxygen_tags(
+#'   methods = c("mapName"),
+#'   args    = c("map")
+#' )
+#'
+mapName <- function(map){
+  map$name
+}
+`mapName<-` <- function(map, value){
+  map$name <- value
+  map
+}
 
-  if("racmap" %in% class(map))        classfn <- get(paste0(fn,".racmap"))
-  else if("racchart" %in% class(map)) classfn <- get(paste0(fn,".racchart"))
-  else                                stop(sprintf("No function available for object of class '%s'", paste(class(map), collapse = ", ")))
-  classfn(map, ...)
+
+#' Getting and setting titer table layers
+#'
+#' Functions to get and set the underlying titer table layers of a map (see details).
+#'
+#' @name titerTableLayers
+#' @family {map attribute functions}
+#' @eval roxygen_tags(
+#'   methods = c("titerTableLayers"),
+#'   args    = c("map")
+#' )
+#'
+titerTableLayers <- function(map){
+  map$titer_table_layers
+}
+
+`titerTableLayers<-` <- function(map, value){
+
+  # Check input
+  if(!is.list(value)){
+    stop("Titer table layers must be a list of titer tables")
+  }
+
+  # Update layers
+  value <- lapply(value, function(titers){
+    if(is.data.frame(titers)) titers <- as.matrix(titers)
+    mode(titers) <- "character"
+    titers
+  })
+  map$titer_table_layers <- value
+
+  # Update the flat titer layer
+  if(length(value) > 1){
+    titerTableFlat(map) <- ac_merge_titer_layers(value)
+  } else {
+    titerTableFlat(map) <- value[[1]]
+  }
+
+  # Return the updated map
+  map
 
 }
+
 
 # Bind all methods for a particular type of object
 bindObjectMethods <- function(object){

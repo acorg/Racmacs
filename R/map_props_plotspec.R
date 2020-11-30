@@ -4,7 +4,7 @@ plotspec_getter <- function(attribute){
   eval(
     substitute(env = list(attribute = attribute), expr = {
       function(map){
-        value <- classSwitch("getProperty_plotspec", map, attribute)
+        value <- map[[attribute]]
         defaultProperty_plotspec(map, attribute, value)
       }
     })
@@ -17,7 +17,8 @@ plotspec_setter <- function(attribute){
     substitute(env = list(attribute = attribute), expr = {
       function(map, .check = TRUE, value){
         if(.check) value <- checkProperty_plotspec(map, attribute, value)
-        classSwitch("setProperty_plotspec", map, attribute, value)
+        map[[attribute]] <- unname(value)
+        map
       }
     })
   )

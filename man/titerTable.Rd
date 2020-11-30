@@ -5,9 +5,9 @@
 \alias{titerTable<-}
 \title{Getting and setting map titers}
 \usage{
-titerTable(map, .name = TRUE)
+titerTable(map)
 
-titerTable(map, .check = TRUE) <- value
+titerTable(map) <- value
 }
 \description{
 Functions to get and set the map titer table.
@@ -15,7 +15,7 @@ Functions to get and set the map titer table.
 \seealso{
 Other {map attribute functions}: 
 \code{\link{acmapAttributes}},
-\code{\link{name}},
+\code{\link{mapName}()},
 \code{\link{titerTableLayers}()}
 }
 \concept{{map attribute functions}}

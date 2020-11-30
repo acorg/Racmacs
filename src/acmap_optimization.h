@@ -7,15 +7,36 @@
 // Define the optimization class
 class AcOptimization {
 
-  public:
+  private:
 
-    arma::vec colbases;
+    arma::vec column_bases;
+    std::string min_column_basis;
     arma::mat ag_base_coords;
     arma::mat sr_base_coords;
     std::string comment;
     arma::mat transformation;
     arma::mat translation;
-    double stress;
+    double stress = arma::datum::nan;
+
+  public:
+
+    // Getters
+    arma::vec get_column_bases(){ return column_bases; }
+    std::string get_min_column_basis(){ return min_column_basis; }
+    arma::mat get_ag_base_coords(){ return ag_base_coords; }
+    arma::mat get_sr_base_coords(){ return sr_base_coords; }
+    std::string get_comment(){ return comment; }
+    arma::mat get_transformation(){ return transformation; }
+    arma::mat get_translation(){ return translation; }
+
+    // Setters
+    void set_column_bases( arma::vec column_bases_in ){ column_bases = column_bases_in; }
+    void set_min_column_basis( std::string min_column_basis_in ){ min_column_basis = min_column_basis_in; }
+    void set_ag_base_coords( arma::mat ag_base_coords_in ){ ag_base_coords = ag_base_coords_in; }
+    void set_sr_base_coords( arma::mat sr_base_coords_in ){ sr_base_coords = sr_base_coords_in; }
+    void set_comment( std::string comment_in ){ comment = comment_in; }
+    void set_transformation( arma::mat transformation_in ){ transformation = transformation_in; }
+    void set_translation( arma::mat translation_in ){ translation = translation_in; }
 
     // Retrieve antigen base coordinates
     arma::mat agBaseCoords(){

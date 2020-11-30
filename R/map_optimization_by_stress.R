@@ -110,6 +110,12 @@ optimizeMapBySumSquaredStressIntern <- function(
 
   }, mc.cores = num_cores)
 
+  # Set the column bases field
+  optimizations <- lapply(optimizations, function(opt){
+    opt$colbases <- colbases
+    opt
+  })
+
   # Return the optimizations
   optimizations
 

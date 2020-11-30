@@ -46,13 +46,9 @@ double ac_ptStress(double &map_dist,
     // More than titer
     stress = 0;
     break;
-  case 4:
+  default:
     // Missing titer
     stress = 0;
-    break;
-  default:
-    // Throw an error if none of the above
-    Rcpp::stop("Inadmissible value '"+std::to_string(titer_type)+"' for titer type");
   }
 
   // Return the stress result
@@ -91,13 +87,9 @@ double inc_base(
     // More than titer
     ibase = 0;
     break;
-  case 4:
+  default:
     // Missing titer
     ibase = 0;
-    break;
-  default:
-    // Throw an error if none of the above
-    Rcpp::stop("Inadmissible value '"+std::to_string(titer_type)+"' for titer type");
   }
 
   // Return the stress result

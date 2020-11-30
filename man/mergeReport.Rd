@@ -11,7 +11,6 @@ Prints a raw text merge report from merging two map tables.
 }
 \seealso{
 Other {map merging functions}: 
-\code{\link{mergeMaps}()},
-\code{\link{mergeTiterTables}()}
+\code{\link{mergeMaps}()}
 }
 \concept{{map merging functions}}

@@ -4,7 +4,7 @@ antigens_getter <- function(attribute){
   eval(
     substitute(env = list(attribute = attribute), expr = {
       function(map){
-        value <- classSwitch("getProperty_antigens", map, attribute)
+        value <- sapply(map$antigens, function(ag){ ag[[attribute]] })
         defaultProperty_antigens(map, attribute, value)
       }
     })
@@ -17,7 +17,11 @@ antigens_setter <- function(attribute){
     substitute(env = list(attribute = attribute), expr = {
       function(map, .check = TRUE, value){
         if(.check) value <- checkProperty_antigens(map, attribute, value)
-        classSwitch("setProperty_antigens", map, attribute, value)
+        value <- unname(value)
+        for(x in seq_along(value)){
+          map$antigens[[x]][[attribute]] <- value[x]
+        }
+        map
       }
     })
   )

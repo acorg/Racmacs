@@ -48,8 +48,6 @@ map <- acmap.cpp(table = titer_data)
 Other {functions for working with map data}: 
 \code{\link{acmap}()},
 \code{\link{as.json}()},
-\code{\link{cloneMap}()},
-\code{\link{convertingMaps}},
 \code{\link{orderPoints}},
 \code{\link{read.titerTable}()},
 \code{\link{removePoints}},
@@ -57,7 +55,6 @@ Other {functions for working with map data}:
 \code{\link{save.coords}()},
 \code{\link{save.titerTable}()},
 \code{\link{selectedOptimization}()},
-\code{\link{subsetMap}()},
-\code{\link{subsetPoints}}
+\code{\link{subsetMap}()}
 }
 \concept{{functions for working with map data}}

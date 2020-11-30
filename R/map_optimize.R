@@ -83,7 +83,7 @@ optimizeMap <- function(
 
   # Sort optimizations
   map <- sortOptimizations(map)
-  # map <- realignOptimizations(map)
+  map <- realignOptimizations(map)
 
   # Return the optimised map
   map
@@ -91,16 +91,7 @@ optimizeMap <- function(
 }
 
 
-# Run a map optimization
-runOptimization <- function(map,
-                            number_of_dimensions,
-                            number_of_optimizations,
-                            minimum_column_basis,
-                            fixed_column_bases = NULL,
-                            parallel_optimization = TRUE,
-                            dimensional_annealing = FALSE) {
-  UseMethod("runOptimization", map)
-}
+
 
 
 

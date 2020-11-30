@@ -107,13 +107,13 @@ keepBestOptimization <- function(map) {
 #' @rdname acmapAttributes
 #' @export
 numAntigens <- function(map) {
-  nrow(titerTable(map, .name = FALSE))
+  length(map$antigens)
 }
 
 #' @rdname acmapAttributes
 #' @export
 numSera <- function(map) {
-  ncol(titerTable(map, .name = FALSE))
+  length(map$sera)
 }
 
 #' @rdname acmapAttributes

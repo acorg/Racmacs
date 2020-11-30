@@ -5,24 +5,38 @@ ac_align_optimization <- function(source_optimization, target_optimization) {
     .Call('_Racmacs_ac_align_optimization', PACKAGE = 'Racmacs', source_optimization, target_optimization)
 }
 
-#' @export
-ac_pointLogLik <- function(map_dist, colbase, max_logtiter, min_logtiter, error_sd, ag_reactivity = 0) {
-    .Call('_Racmacs_ac_pointLogLik', PACKAGE = 'Racmacs', map_dist, colbase, max_logtiter, min_logtiter, error_sd, ag_reactivity)
+ac_subset_map <- function(map, ags, sr) {
+    .Call('_Racmacs_ac_subset_map', PACKAGE = 'Racmacs', map, ags, sr)
 }
 
 #' @export
-ac_srNegLogLik <- function(colbase, map_dists, max_logtiters, min_logtiters, error_sd) {
-    .Call('_Racmacs_ac_srNegLogLik', PACKAGE = 'Racmacs', colbase, map_dists, max_logtiters, min_logtiters, error_sd)
+ac_merge_titers <- function(titers, sd_lim = 1.0) {
+    .Call('_Racmacs_ac_merge_titers', PACKAGE = 'Racmacs', titers, sd_lim)
 }
 
 #' @export
-ac_optimizationNegLogLik <- function(ag_coords, sr_coords, max_logtiter_matrix, min_logtiter_matrix, na_val_matrix, colbases, ag_reactivitys, error_sd, colbase_mean = NA_real_, colbase_sd = NA_real_, ag_reactivity_sd = NA_real_) {
-    .Call('_Racmacs_ac_optimizationNegLogLik', PACKAGE = 'Racmacs', ag_coords, sr_coords, max_logtiter_matrix, min_logtiter_matrix, na_val_matrix, colbases, ag_reactivitys, error_sd, colbase_mean, colbase_sd, ag_reactivity_sd)
+ac_merge_titer_layers <- function(titer_layers) {
+    .Call('_Racmacs_ac_merge_titer_layers', PACKAGE = 'Racmacs', titer_layers)
 }
 
 #' @export
-ac_optimizationNegLogLikWrapper <- function(pars, ag_coords, sr_coords, max_logtiter_matrix, min_logtiter_matrix, na_val_matrix, colbases, ag_reactivitys, error_sd, colbase_mean = NA_real_, colbase_sd = NA_real_, ag_reactivity_sd = NA_real_, optim_ag_coords = TRUE, optim_sr_coords = TRUE, optim_colbases = FALSE, optim_ag_reactivitys = FALSE) {
-    .Call('_Racmacs_ac_optimizationNegLogLikWrapper', PACKAGE = 'Racmacs', pars, ag_coords, sr_coords, max_logtiter_matrix, min_logtiter_matrix, na_val_matrix, colbases, ag_reactivitys, error_sd, colbase_mean, colbase_sd, ag_reactivity_sd, optim_ag_coords, optim_sr_coords, optim_colbases, optim_ag_reactivitys)
+numeric_titers <- function(titers) {
+    .Call('_Racmacs_numeric_titers', PACKAGE = 'Racmacs', titers)
+}
+
+#' @export
+log_titers <- function(titers) {
+    .Call('_Racmacs_log_titers', PACKAGE = 'Racmacs', titers)
+}
+
+#' @export
+titer_types_int <- function(titers) {
+    .Call('_Racmacs_titer_types_int', PACKAGE = 'Racmacs', titers)
+}
+
+#' @export
+ac_table_colbases <- function(titer_table, min_col_basis = "none") {
+    .Call('_Racmacs_ac_table_colbases', PACKAGE = 'Racmacs', titer_table, min_col_basis)
 }
 
 #' @export

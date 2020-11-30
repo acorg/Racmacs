@@ -68,115 +68,29 @@ acmap <- function(...){
 
 }
 
-#' @rdname convertingMaps
-#' @family {functions for working with map data}
-#' @export
-acmap.cpp <- function(...){
-
-  # Generate a new racmap object
-  num_points <- infer_num_points(...)
-  map <- racchart.new(
-    num_antigens = num_points$num_antigens,
-    num_sera     = num_points$num_sera
-  )
-
-  # Populate the map
-  map.populate(map, ...)
-
-}
-
 
 # Generate a new, empty racmap object
-racmap.new <- function(num_antigens = NULL,
-                       num_sera = NULL){
+racmap.new <- function(
+  num_antigens,
+  num_sera
+  ){
 
   # Setup racmap object which is fundementally a list
-  racmap <- list()
-  class(racmap) <- c("racmap", "rac", "list")
+  map <- list()
+  class(map) <- c("racmap", "rac", "list")
 
-  if(!is.null(num_antigens)) agNames(racmap, .check = FALSE) <- paste("ANTIGEN", seq_len(num_antigens))
-  if(!is.null(num_sera))     srNames(racmap, .check = FALSE) <- paste("SERUM", seq_len(num_sera))
-  if(!is.null(num_antigens) && !is.null(num_sera)) titerTable(racmap) <- matrix("*", num_antigens, num_sera)
+  # Setup antigen and serum records
+  map$antigens <- lapply(seq_len(num_antigens), function(x){
+    list(name = paste("ANTIGEN", x))
+  })
+  map$sera <- lapply(seq_len(num_sera), function(x){
+    list(name = paste("SERA", x))
+  })
 
-  racmap
+  # Setup the titer table
+  titerTable(map) <- matrix("*", num_antigens, num_sera)
 
-}
-
-
-# Generate a new, empty acmap object
-racchart.new <- function(num_antigens = NULL,
-                      num_sera = NULL,
-                      chart = NULL){
-
-  # The racchart is fundamentally an environment
-  acchart <- new.env(parent = emptyenv())
-
-  # Update the class
-  class(acchart) <- c("racchart", "rac", "environment")
-
-  # Add an empty racmap object
-  # (this will be used to store features not supported by the acmacs.r chart object)
-  acchart$racmap <- racmap.new()
-
-  # Add an empty chart object
-  if(is.null(chart)){
-
-    if(is.null(num_antigens)) stop("number of antigens must be provided when setting up a racchart", call. = FALSE)
-    if(is.null(num_sera))     stop("number of sera must be provided when setting up a racchart", call. = FALSE)
-
-    # Generate the chart
-    acchart$chart <- new(acmacs.r::acmacs.Chart,
-                         num_antigens,
-                         num_sera)
-
-    # Reset default antigen and sera names
-    agNames(acchart) <- paste("ANTIGEN", seq_len(num_antigens))
-    srNames(acchart) <- paste("SERUM", seq_len(num_sera))
-
-  } else if(!isFALSE(chart)) {
-
-    acchart$chart <- chart
-
-  }
-
-  # Create active bindings so that you can get and set features dynamically
-  # using the dollar symbol, as you would with a list or standard racmap object
-  # property_function_bindings <- list_property_function_bindings()
-  # lapply(seq_len(nrow(property_function_bindings)), function(x){
-  #
-  #   name        <- property_function_bindings[["property"]][x]
-  #   method      <- property_function_bindings[["method"]][x]
-  #   settable    <- property_function_bindings[["settable"]][x]
-  #   description <- property_function_bindings[["description"]][x]
-  #
-  #   getter <- get(method)
-  #   if(settable){
-  #     setter <- get(paste0(method, "<-"))
-  #     fun <- function(val){
-  #       if(missing(val)){
-  #         getter(acchart)
-  #       } else {
-  #         setter(acchart, value = val)
-  #       }
-  #     }
-  #   } else {
-  #     fun <- function(val){
-  #       if(missing(val)){
-  #         getter(acchart)
-  #       } else {
-  #         stop("Setting of ", description," is not allowed")
-  #       }
-  #     }
-  #   }
-  #
-  #   makeActiveBinding(sym = name,
-  #                     fun = fun,
-  #                     env = acchart)
-  #
-  # })
-
-  # Return the chart
-  acchart
+  map
 
 }
 
@@ -271,51 +185,6 @@ map.populate <- function(map,
   map
 
 }
-
-
-
-#' Clone an acmap object
-#'
-#' Creates a copy of an acmap object. This is needed when working with
-#' the acmap.cpp map types since these are environments rather than lists
-#' and are not copy-on-modify, i.e. if you change one reference to the
-#' acmap, all references to it will be changed. To avoid this behaviour
-#' you can use the cloneMap function.
-#'
-#' @param map The map object
-#'
-#' @return Returns a copy of the map object
-#' @family {functions for working with map data}
-#' @export
-#'
-cloneMap <- function(map){
-  UseMethod("cloneMap", map)
-}
-
-
-#' @export
-cloneMap.racmap <- function(map){
-  map
-}
-
-
-#' @export
-cloneMap.racchart <- function(map){
-
-  # Create a new empty racchart with no chart
-  mapclone <- racchart.new(chart = FALSE)
-
-  # Clone the old map chart into the new one
-  mapclone$chart <- map$chart$clone()
-
-  # Clone old racmap properties into the new one
-  mapclone$racmap <- map$racmap
-
-  # Return the cloned racchart
-  mapclone
-
-}
-
 
 
 # Inferring antigen and serum numbers from given arguments

@@ -4,7 +4,7 @@ sera_getter <- function(attribute){
   eval(
     substitute(env = list(attribute = attribute), expr = {
       function(map){
-        value <- classSwitch("getProperty_sera", map, attribute)
+        value <- sapply(map$sera, function(sr){ sr[[attribute]] })
         defaultProperty_sera(map, attribute, value)
       }
     })
@@ -17,7 +17,11 @@ sera_setter <- function(attribute){
     substitute(env = list(attribute = attribute), expr = {
       function(map, .check = TRUE, value){
         if(.check) value <- checkProperty_sera(map, attribute, value)
-        classSwitch("setProperty_sera", map, attribute, value)
+        value <- unname(value)
+        for(x in seq_along(value)){
+          map$sera[[x]][[attribute]] <- value[x]
+        }
+        map
       }
     })
   )

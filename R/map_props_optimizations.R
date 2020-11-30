@@ -199,10 +199,10 @@ mapTranslation    <- optimization_getter("translation")
 #'   args       = c("map", "optimization_number = NULL")
 #' )
 #'
-colBases     <- optimization_getter("colbases")
-`colBases<-` <- optimization_setter("colbases")
-minColBasis     <- optimization_getter("min_col_basis")
-`minColBasis<-` <- optimization_setter("min_col_basis")
+colBases     <- optimization_getter("column_bases")
+`colBases<-` <- optimization_setter("column_bases")
+minColBasis     <- optimization_getter("min_column_bases")
+`minColBasis<-` <- optimization_setter("min_column_bases")
 
 
 #' Get the current map stress

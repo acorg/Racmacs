@@ -107,9 +107,6 @@ subsetMap <- function(map,
   antigens <- na.omit(get_ag_indices(antigens, map))
   sera     <- na.omit(get_sr_indices(sera, map))
 
-  # Clone the map
-  map <- cloneMap(map)
-
   # Subset the map
   map <- removeAntigens(map, which(!seq_len(numAntigens(map)) %in% antigens))
   map <- removeSera(map, which(!seq_len(numSera(map)) %in% sera))
@@ -133,11 +130,15 @@ subsetMap <- function(map,
 
 #' @export
 #' @rdname orderPoints
-orderAntigens <- function(map, order) UseMethod("orderAntigens", map)
+orderAntigens <- function(map, order){
+  subsetAntigens.racmap(map, order)
+}
 
 #' @export
 #' @rdname orderPoints
-orderSera <- function(map, order) UseMethod("orderSera", map)
+orderSera <- function(map, order){
+  subsetSera.racmap(map, order)
+}
 
 
 #' Remove antigens and sera
@@ -154,31 +155,19 @@ orderSera <- function(map, order) UseMethod("orderSera", map)
 
 #' @export
 #' @rdname removePoints
-removeAntigens <- function(map, antigen_indices) UseMethod("removeAntigens", map)
+removeAntigens <- function(map, antigen_indices){
+  antigen_indices <- get_ag_indices(antigen_indices, map)
+  subsetAntigens(map, which(!seq_len(numAntigens(map)) %in% antigen_indices))
+}
 
 #' @export
 #' @rdname removePoints
-removeSera <- function(map, sera_indices) UseMethod("removeSera", map)
+removeSera <- function(map, sera_indices){
+  sera_indices <- get_sr_indices(sera_indices, map)
+  subsetSera(map, which(!seq_len(numSera(map)) %in% sera_indices))
+}
 
 
-#' Subset antigens and sera
-#'
-#' Functions to keep only a subset of antigens and sera from a map
-#'
-#' @param map The map data object
-#' @param antigens Antigens to keep (specified by name or index)
-#' @param sera Sera to keep (specified by name or index)
-#'
-#' @name subsetPoints
-#' @family {functions for working with map data}
-#'
 
-#' @export
-#' @rdname subsetPoints
-subsetAntigens <- function(map, antigens) UseMethod("subsetAntigens", map)
-
-#' @export
-#' @rdname subsetPoints
-subsetSera <- function(map, sera) UseMethod("subsetSera", map)
 
 

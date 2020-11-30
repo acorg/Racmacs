@@ -23,8 +23,6 @@ mostly there for backwards compatibility to other software.
 Other {functions for working with map data}: 
 \code{\link{acmap}()},
 \code{\link{as.json}()},
-\code{\link{cloneMap}()},
-\code{\link{convertingMaps}},
 \code{\link{orderPoints}},
 \code{\link{read.acmap}()},
 \code{\link{read.titerTable}()},
@@ -32,7 +30,6 @@ Other {functions for working with map data}:
 \code{\link{save.coords}()},
 \code{\link{save.titerTable}()},
 \code{\link{selectedOptimization}()},
-\code{\link{subsetMap}()},
-\code{\link{subsetPoints}}
+\code{\link{subsetMap}()}
 }
 \concept{{functions for working with map data}}

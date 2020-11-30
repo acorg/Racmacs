@@ -28,110 +28,13 @@ read.acmap <- function(
   only_best_optimization      = FALSE
 ){
 
-  read.mapfile(
-    map_format = "racmap",
-    filename                    = filename,
-    optimization_number         = optimization_number,
-    discard_other_optimizations = discard_other_optimizations,
-    sort_optimizations          = sort_optimizations,
-    align_optimizations         = align_optimizations,
-    only_best_optimization      = only_best_optimization
-  )
-
-}
-
-
-
-#' Read in acmap data from a file in the C++ format
-#'
-#' Reads an antigenic map file in the C++ format, which may be quicker when
-#' performing many optimizations.
-#'
-#' @param filename Path to the file.
-#' @param optimization_number The optimization number to select (defaults to the first, see \code{\link{selectedOptimization}}).
-#' @param discard_other_optimizations Should other optimizations be discarded?
-#' @param sort_optimizations Should optimizations be sorted in order of stress when the map data is read?
-#' @param align_optimizations Should optimizations be rotated and translated to
-#'   match each other as closely as possible?
-#' @param only_best_optimization Should only the best (lowest stress) optimization
-#'   be kept?
-#'
-#' @return Returns the acmap c++ data object.
-#'
-#' @example examples/example_make_map_from_scratch.R
-#'
-#' @export
-#' @noRd
-#'
-read.acmap.cpp <- function(filename,
-                           optimization_number = NULL,
-                           discard_other_optimizations = FALSE,
-                           sort_optimizations          = FALSE,
-                           align_optimizations         = FALSE,
-                           only_best_optimization      = FALSE){
-
-  read.mapfile(
-    map_format = "racchart",
-    filename                    = filename,
-    optimization_number         = optimization_number,
-    discard_other_optimizations = discard_other_optimizations,
-    sort_optimizations          = sort_optimizations,
-    align_optimizations         = align_optimizations,
-    only_best_optimization      = only_best_optimization
-  )
-
-}
-
-
-# Underlying function for reading a map file
-read.mapfile <- function(
-  map_format,
-  filename,
-  optimization_number         = NULL,
-  discard_other_optimizations = FALSE,
-  sort_optimizations          = FALSE,
-  align_optimizations         = FALSE,
-  only_best_optimization      = FALSE
-){
-
   # Expand the file path and check that the file exists
   if(!file.exists(filename)) stop("File '", filename, "' not found", call. = FALSE)
   file_path <- path.expand(filename)
 
-  # Read in the map file data
-  if(map_format == "racmap"){
-
-    json <- read.acmap.json(filename)
-    map  <- json_to_racmap(json)
-
-  } else if(map_format == "racchart") {
-
-    # Create the new map
-    chart <- suppressMessages({ new(acmacs.r::acmacs.Chart, file_path) })
-    map   <- racchart.new(chart = chart)
-
-    # Get transformations from the map object if null in special attribute
-    projections         <- chart$projections
-    alt_transformations <- get_chartAttribute(map, "transformation")
-    map_transformations <- lapply(seq_len(numOptimizations(map)), function(x){ NULL })
-
-    for(n in seq_len(numOptimizations(map))){
-      if(is.null(alt_transformations[[n]])){
-        map_transformations[[n]] <- projections[[n]]$transformation
-      } else {
-        map_transformations[[n]] <- alt_transformations[[n]]
-      }
-    }
-
-    # Set them as the map transformations
-    map <- set_chartAttribute(map, "transformation", lapply(map_transformations, as.vector))
-
-  } else {
-
-    # If unrecognised format given
-    stop(sprintf("Map format '%s' not recognised", map_format))
-
-  }
+  # Read the map from the file
+  json <- read.acmap.json(filename)
+  map  <- json_to_racmap(json)
 
   # Set optimization
   if(is.null(optimization_number)){
@@ -284,7 +187,7 @@ list_property_function_bindings <- function(
   bindings <- tibble::tribble(
     ~property,               ~method,                ~object,          ~settable, ~subsettable, ~acmacs.r, ~format,   ~description,
     "selected_optimization", "selectedOptimization", "racmap",         TRUE,      TRUE,         FALSE,     "vector",  "The selected optimization number",
-    "name",                  "name",                 "chart",          TRUE,      TRUE,         TRUE,      "vector",  "Map name",
+    "name",                  "mapName",              "chart",          TRUE,      TRUE,         TRUE,      "vector",  "Map name",
     "table_layers",          "titerTableLayers",     "chart",          TRUE,      TRUE,         TRUE,      "vector",  "Titer measurement data",
     "ag_names",              "agNames",              "antigens",       TRUE,      TRUE,         TRUE,      "vector",  "Antigen names",
     "ag_ids",                "agIDs",                "antigens",       TRUE,      TRUE,         FALSE,     "vector",  "Antigen IDs",

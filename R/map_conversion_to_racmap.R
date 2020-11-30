@@ -10,26 +10,6 @@ jsonToList <- function(json){
 
 }
 
-# Output a racchart as .ace json format
-#' @export
-as.json.racchart <- function(map){
-
-  # Save bootstrap data
-  bootstrap <- getMapAttribute(map, "bootstrap")
-  if(!is.null(bootstrap)){
-    map$chart$set_extension_field(
-      "bootstrap",
-      jsonListToText(
-        bootstrapToJsonList(bootstrap)
-      )
-    )
-  }
-
-  # Output the json
-  map$chart$save()
-
-}
-
 # Utility function to read in map json either directly
 # or after reading in a file and converting
 read.acmap.json <- function(filename){
@@ -40,6 +20,7 @@ read.acmap.json <- function(filename){
       collapse = "\n"
     )
   } else {
+    require_acmacs.r("acmacs.r is required to read this filetype")
     chart <- new(acmacs.r::acmacs.Chart, path.expand(filename))
     json <- chart$save()
   }
@@ -67,10 +48,10 @@ json_to_racmap <- function(json){
   num_sera     <- length(jsonlist$c$s)
 
   # Create a fresh map
-  map <- racmap.new()
+  map <- racmap.new(num_antigens, num_sera)
 
   # Chart attributes
-  name(map, .check = FALSE) <- jsonlist$c$i$N
+  mapName(map) <- jsonlist$c$i$N
 
   # Titers
   if(!is.null(jsonlist$c$t$l)) {
@@ -87,7 +68,7 @@ json_to_racmap <- function(json){
   } else {
     stop("There was a problem parsing this map")
   }
-  titerTable(map, .check = FALSE) <- titers
+  titerTableFlat(map) <- titers
 
   # Set any titer table layers
   if(!is.null(jsonlist$c$t$L)){

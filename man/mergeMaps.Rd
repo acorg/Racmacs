@@ -72,7 +72,6 @@ new antigens and sera into a map without affecting the first one at all (and was
 }
 \seealso{
 Other {map merging functions}: 
-\code{\link{mergeReport}()},
-\code{\link{mergeTiterTables}()}
+\code{\link{mergeReport}()}
 }
 \concept{{map merging functions}}

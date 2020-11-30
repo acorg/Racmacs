@@ -287,53 +287,15 @@ realignOptimizations <- function(map,
                                  sera     = TRUE,
                                  optimization_number = NULL){
 
-  UseMethod("realignOptimizations", map)
-
-}
-
-#' @export
-realignOptimizations.racchart <- function(map,
-                                          antigens = TRUE,
-                                          sera     = TRUE,
-                                          optimization_number = NULL){
-
-  map <- as.list(map)
-  map <- realignOptimizations(
-    map                 = map,
-    antigens            = antigens,
-    sera                = sera,
-    optimization_number = optimization_number
-  )
-  as.cpp(map)
-
-}
-
-
-#' @export
-realignOptimizations.racmap <- function(map,
-                                        antigens = TRUE,
-                                        sera     = TRUE,
-                                        optimization_number = NULL){
-
-  # Process optimization numbers
-  optimization_number <- convertOptimizationNum(optimization_number, map)
-
   # Skip if 1 or no optimizations
   if(numOptimizations(map) < 2) return(map)
 
-  # Go through each optimization and realign the coordinates
-  for(noptimization in seq_len(numOptimizations(map))){
+  # Go through each optimization and realign the coordinates to the first
+  for(n in 2:length(map$optimizations)){
 
-    if(noptimization == optimization_number) next
-    map <- realignMap(
-      map         = map,
-      target_map  = map,
-      antigens    = antigens,
-      sera        = sera,
-      translation = TRUE,
-      scaling     = FALSE,
-      optimization_number        = noptimization,
-      target_optimization_number = optimization_number
+    map$optimizations[[n]] <- ac_align_optimization(
+      map$optimizations[[n]],
+      map$optimizations[[1]]
     )
 
   }

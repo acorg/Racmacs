@@ -114,17 +114,27 @@ class AcMap {
       arma::uvec sr
     ){
 
+      // Check inputs
+      if(ags.max() >= antigens.size()){
+        Rcpp::stop("Antigen index out of range");
+      }
+      if(sr.max() >= sera.size()){
+        Rcpp::stop("Sera index out of range");
+      }
+
       // Subset antigens
-      std::vector<AcAntigen> new_antigens(ags.size());
+      std::vector<AcAntigen> new_antigens;
       for(int i=0; i<ags.size(); i++){
-        new_antigens[i] = antigens[ags[i]];
+        arma::uword agnum = ags[i];
+        new_antigens.push_back(antigens[agnum]);
       }
       antigens.swap(new_antigens);
 
       // Subset sera
-      std::vector<AcSerum> new_sera(sr.size());
+      std::vector<AcSerum> new_sera;
       for(int i=0; i<sr.size(); i++){
-        new_sera[i] = sera[sr[i]];
+        arma::uword srnum = sr[i];
+        new_sera.push_back(sera[srnum]);
       }
       sera.swap(new_sera);
 
@@ -134,6 +144,39 @@ class AcMap {
         titer_table_layers[i].subset(ags, sr);
       }
 
+    }
+
+    // Optimizations
+    int num_optimizations(){
+      return optimizations.size();
+    }
+
+    arma::mat agCoords(
+      int opt_num = 0
+    ){
+      return optimizations[opt_num].agCoords();
+    }
+
+    arma::mat srCoords(
+        int opt_num = 0
+    ){
+      return optimizations[opt_num].srCoords();
+    }
+
+    arma::mat ptCoords(
+        int opt_num = 0
+    ){
+      return optimizations[opt_num].ptCoords();
+    }
+
+    // Antigen characteristics
+    std::vector<std::string> agNames(){
+      int num_ags = antigens.size();
+      std::vector<std::string> names(num_ags);
+      for(int i=0; i<antigens.size(); i++){
+        names[i] = antigens[i].get_name();
+      }
+      return names;
     }
 
 };

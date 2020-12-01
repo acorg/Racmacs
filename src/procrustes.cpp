@@ -113,20 +113,41 @@ arma::mat ac_align_coords(
 
 // Apply a coordinate transformation
 arma::mat transform_coords(
-  arma::mat coords,
-  arma::mat rotation,
-  arma::mat translation,
-  double scaling
-){
+  const arma::mat coords,
+  const arma::mat rotation,
+  const arma::mat translation,
+  const double scaling
+) {
 
-  arma::mat ttmat = arma::mat(coords.n_rows, coords.n_cols);
-  for(int i=0; i<ttmat.n_rows; i++){
-    for(int j=0; j<ttmat.n_cols; j++){
-      ttmat(i,j) = translation(j,0);
+  // Work out maximum dims
+  int dims = arma::max(
+    arma::uvec{
+      coords.n_cols,
+      rotation.n_cols,
+      translation.n_rows
+    }
+  );
+
+  // Expand matrices to match maximum dimensions
+  arma::mat tcoords(coords.n_rows, dims);
+  tcoords.cols(0, coords.n_cols - 1) = coords;
+
+  arma::mat trotation(dims, dims, arma::fill::eye);
+  trotation.submat(
+    0, 0,
+    rotation.n_rows - 1, rotation.n_cols - 1
+  ) = rotation;
+
+  arma::mat ttranslation(coords.n_rows, dims, arma::fill::zeros);
+  for(int i=0; i<ttranslation.n_rows; i++){
+    for(int j=0; j<translation.n_rows; j++){
+      ttranslation(i,j) = translation(j,0);
     }
   }
 
-  return (scaling*coords)*rotation + ttmat;
+  // Perform the transformation
+  arma::mat out = (scaling*tcoords)*trotation + ttranslation;
+  return out;
 
 }
 

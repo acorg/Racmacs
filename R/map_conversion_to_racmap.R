@@ -48,7 +48,7 @@ json_to_racmap <- function(json){
   num_sera     <- length(jsonlist$c$s)
 
   # Create a fresh map
-  map <- racmap.new(num_antigens, num_sera)
+  map <- acmap.new(num_antigens, num_sera)
 
   # Chart attributes
   mapName(map) <- jsonlist$c$i$N
@@ -193,9 +193,14 @@ json_to_racmap <- function(json){
     # mapDimensions(map, n, .check = FALSE) <- ncol(layout)
     mapStress(map, n, .check = FALSE)     <- P$s
 
-    if(!is.null(P$C))      colBases(map, n, .check = FALSE)    <- unlist(P$C)
-    else if(!is.null(P$m)) minColBasis(map, n, .check = FALSE) <- P$m
-    else                   minColBasis(map, n, .check = FALSE) <- "none"
+    if(!is.null(P$C)) {
+      colBases(map, n, .check = FALSE)    <- unlist(P$C)
+      minColBasis(map, n, .check = FALSE) <- "fixed"
+    } else if(!is.null(P$m)) {
+      minColBasis(map, n, .check = FALSE) <- P$m
+    } else {
+      minColBasis(map, n, .check = FALSE) <- "none"
+    }
 
     transformation <- unlist(getJsonOptimizationAttribute(jsonlist, "transformation", n))
     if(!is.null(transformation) && transformation != as.vector(diag(nrow = ncol(layout)))){

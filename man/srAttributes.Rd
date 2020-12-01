@@ -6,10 +6,8 @@
 \alias{srNames}
 \alias{srNamesFull}
 \alias{srNamesAbbreviated}
-\alias{srSequences}
 \alias{srNames<-}
 \alias{srIDs<-}
-\alias{srSequences<-}
 \title{Getting and setting sera attributes}
 \usage{
 srNames(map, .name = TRUE)
@@ -21,9 +19,6 @@ srIDs(map, .check = TRUE) <- value
 srNamesFull(map, .name = TRUE)
 
 srNamesAbbreviated(map, .name = TRUE)
-
-srSequences(map, .name = TRUE)
-srSequences(map, .check = TRUE) <- value
 }
 \arguments{
 \item{map}{The acmap data object}

@@ -4,37 +4,9 @@
 #' This function generates a new acmap object, the base object for storing map
 #' data in the Racmacs package.
 #'
-#' @param table_name Table name
-#' @param table Table of titer data
 #' @param ag_names Antigen names
-#' @param ag_date Antigen dates
-#' @param ag_reference Is antigen a reference virus
 #' @param sr_names Sera names
-#' @param ag_shown Antigen shown
-#' @param ag_size Antigen size
-#' @param ag_cols_fill Antigen fill color
-#' @param ag_cols_outline Antigen outline color
-#' @param ag_outline_width Antigen outline width
-#' @param ag_rotation Antigen rotation
-#' @param ag_aspect Antigen aspect
-#' @param ag_shape Antigen shape
-#' @param ag_drawing_order Antigen drawing order
-#' @param sr_shown Sera shown
-#' @param sr_size Sera size
-#' @param sr_cols_fill Sera fill color
-#' @param sr_cols_outline Sera outline color
-#' @param sr_outline_width Sera outline width
-#' @param sr_rotation Sera rotation
-#' @param sr_aspect Sera aspect
-#' @param sr_shape Sera shape
-#' @param sr_drawing_order Sera drawing order
-#' @param ag_coords Antigen coordinates
-#' @param sr_coords Sera coordinates
-#' @param comment Map comment
-#' @param minimum_column_basis Map minimum column bases
-#' @param transformation Map transformation
-#' @param colbases Map column bases
-#' @param optimizations A list of optimizations with appropriate attributes
+#' @param titer_table Table of titer data
 #'
 #' @return Returns the new acmap object
 #'
@@ -54,23 +26,41 @@
 #' @seealso See \code{\link{optimizeMap}} for generating new optimizations
 #'   estimating antigen similarity from the acmap titer data.
 #'
-acmap <- function(...){
+acmap <- function(
+  ag_names = NULL,
+  sr_names = NULL,
+  titer_table = NULL
+){
+
+  # Infer the number of antigens and sera
+  num_antigens <- NULL
+  num_sera     <- NULL
+  if(!is.null(ag_names)) num_antigens <- length(ag_names)
+  if(!is.null(sr_names)) num_sera     <- length(ag_names)
+  if(!is.null(titer_table)){
+    num_antigens <- nrow(titer_table)
+    num_sera     <- ncol(titer_table)
+  }
 
   # Generate a new racmap object
-  num_points <- infer_num_points(...)
-  map <- racmap.new(
+  map <- acmap.new(
     num_antigens = num_points$num_antigens,
     num_sera     = num_points$num_sera
   )
 
   # Populate the map
-  map.populate(map, ...)
+  if(!is.null(ag_names))    agNames(map)    <- ag_names
+  if(!is.null(sr_names))    srNames(map)    <- sr_names
+  if(!is.null(titer_table)) titerTable(map) <- titer_table
+
+  # Return the new map
+  map
 
 }
 
 
 # Generate a new, empty racmap object
-racmap.new <- function(
+acmap.new <- function(
   num_antigens,
   num_sera
   ){
@@ -91,142 +81,6 @@ racmap.new <- function(
   titerTable(map) <- matrix("*", num_antigens, num_sera)
 
   map
-
-}
-
-
-# Populate a new map object
-map.populate <- function(map,
-                         ...){
-
-  # Get arguments provided
-  argument_values    <- list(...)
-
-  # Convert ag_coords and sr_coords to ag_base_coords etc.
-  names(argument_values)[names(argument_values) == "ag_coords"] <- "ag_base_coords"
-  names(argument_values)[names(argument_values) == "sr_coords"] <- "sr_base_coords"
-
-  # Error if both table and table layers is provided
-  if("table" %in% names(argument_values) && "table_layers" %in% names(argument_values)){
-    stop("Only one of 'table' and 'table_layers' should be provided")
-  }
-
-  # Get all the arguments that were provided
-  arguments_provided <- names(argument_values)
-
-  # Set antigen and serum names from table column and row names if not provided
-  if("table" %in% arguments_provided
-     && !is.null(rownames(argument_values[["table"]]))
-     && !"ag_names" %in% arguments_provided){
-    argument_values$ag_names <- rownames(argument_values[["table"]])
-    arguments_provided <- names(argument_values)
-  }
-
-  if("table" %in% arguments_provided
-     && !is.null(colnames(argument_values[["table"]]))
-     && !"sr_names" %in% arguments_provided){
-    argument_values$sr_names <- colnames(argument_values[["table"]])
-    arguments_provided <- names(argument_values)
-  }
-
-  # Get the property to function bindings
-  property_function_bindings <- list_property_function_bindings()
-  recognised_arguments <- c(property_function_bindings$property, "optimizations", "table")
-
-  # Check all arguments match a property
-  if(sum(!arguments_provided %in% recognised_arguments) > 0){
-    stop("Unrecognised map property provided: ", paste(arguments_provided[!arguments_provided %in% recognised_arguments], collapse = ", "), call. = FALSE)
-  }
-
-  # Check that optimization specific details have not been passed alongside a optimization list
-  if("optimizations" %in% arguments_provided
-     && sum(arguments_provided %in% property_function_bindings$property[property_function_bindings$object == "optimization"]) > 0){
-    stop("You can supply optimizations to a map object either as a list, or as optimization specific arguments, but not both.", call. = FALSE)
-  }
-
-  # Get properties provided
-  properties_provided <- property_function_bindings[property_function_bindings$property %in% arguments_provided,,drop=FALSE]
-  non_optimization_properties_provided <- properties_provided[properties_provided$object != "optimization",,drop=FALSE]
-  optimization_properties_provided     <- properties_provided[properties_provided$object == "optimization",,drop=FALSE]
-
-  # Add any tables
-  if("table" %in% arguments_provided){
-    titerTable(map) <- argument_values$table
-  }
-
-  # Populate it
-  for(x in seq_len(nrow(non_optimization_properties_provided))){
-
-    value  <- argument_values[[non_optimization_properties_provided$property[x]]]
-    method <- non_optimization_properties_provided$method[x]
-    setter <- get(paste0(method, "<-"))
-    map    <- setter(map = map, value = value)
-
-  }
-
-  # If optimizations are specified as arguments add a optimization
-  if(nrow(optimization_properties_provided) > 0){
-    map <- do.call(addOptimization, c(list(map = map), argument_values[optimization_properties_provided$property]))
-  }
-
-  # If optimizations are specified as a list then add them
-  if("optimizations" %in% arguments_provided){
-    for(x in seq_along(argument_values$optimizations)){
-      names(argument_values$optimizations[[x]])[names(argument_values$optimizations[[x]]) == "ag_coords"] <- "ag_base_coords"
-      names(argument_values$optimizations[[x]])[names(argument_values$optimizations[[x]]) == "sr_coords"] <- "sr_base_coords"
-      map <- do.call(addOptimization, c(list(map = map), argument_values$optimizations[[x]]))
-    }
-  }
-
-  # If there are optimizations then specify the main one
-  if(numOptimizations(map) > 0) selectedOptimization(map) <- 1
-
-  # Return the map
-  map
-
-}
-
-
-# Inferring antigen and serum numbers from given arguments
-infer_num_points <- function(...){
-
-  # Get arguments
-  arguments <- list(...)
-  argument_names <- names(arguments)
-
-  # Try and guess number of antigens and sera
-  num_antigens <- NULL
-  num_sera     <- NULL
-  if("table_layers" %in% argument_names) {
-    num_antigens <- nrow(arguments$table_layers[[1]])
-    num_sera     <- ncol(arguments$table_layers[[1]])
-  } else if("table" %in% argument_names) {
-    num_antigens <- nrow(arguments$table)
-    num_sera     <- ncol(arguments$table)
-  } else {
-    if("ag_names" %in% argument_names)       num_antigens <- length(arguments$ag_names)
-    else if("ag_coords" %in% argument_names) num_antigens <- nrow(arguments$ag_coords)
-
-    if("sr_names" %in% argument_names)       num_sera <- length(arguments$sr_names)
-    else if("sr_coords" %in% argument_names) num_sera <- nrow(arguments$sr_coords)
-  }
-
-  if(is.null(num_antigens)
-     && "optimizations" %in% argument_names
-     && !is.null(arguments$optimizations[[1]]$ag_coords)) num_antigens <- nrow(arguments$optimizations[[1]]$ag_coords)
-  if(is.null(num_sera)
-     && "optimizations" %in% argument_names
-     && !is.null(arguments$optimizations[[1]]$sr_coords)) num_sera <- nrow(arguments$optimizations[[1]]$sr_coords)
-
-  if(is.null(num_antigens)) stop("One of 'table', 'ag_names' or 'ag_coords' must be provided when initiating a chart.", call. = FALSE)
-  if(is.null(num_sera))     stop("One of 'table', 'sr_names' or 'sr_coords' must be provided when initiating a chart.", call. = FALSE)
-
-  if(num_antigens < 2 || num_sera < 2) stop("The map must have a minimum of 2 antigens and 2 sera.")
-
-  list(
-    num_antigens = num_antigens,
-    num_sera = num_sera
-  )
 
 }
 

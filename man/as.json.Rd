@@ -18,6 +18,7 @@ Convert map to json format
 \seealso{
 Other {functions for working with map data}: 
 \code{\link{acmap}()},
+\code{\link{as.cpp}()},
 \code{\link{orderPoints}},
 \code{\link{read.acmap}()},
 \code{\link{read.titerTable}()},

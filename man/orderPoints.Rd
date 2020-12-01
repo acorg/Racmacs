@@ -21,6 +21,7 @@ Functions to change the order of antigens and sera in a map
 \seealso{
 Other {functions for working with map data}: 
 \code{\link{acmap}()},
+\code{\link{as.cpp}()},
 \code{\link{as.json}()},
 \code{\link{read.acmap}()},
 \code{\link{read.titerTable}()},

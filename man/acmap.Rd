@@ -4,70 +4,14 @@
 \alias{acmap}
 \title{Generate a new acmap object}
 \usage{
-acmap(...)
+acmap(ag_names = NULL, sr_names = NULL, titer_table = NULL)
 }
 \arguments{
-\item{table_name}{Table name}
-
-\item{table}{Table of titer data}
-
 \item{ag_names}{Antigen names}
-
-\item{ag_date}{Antigen dates}
-
-\item{ag_reference}{Is antigen a reference virus}
 
 \item{sr_names}{Sera names}
 
-\item{ag_shown}{Antigen shown}
-
-\item{ag_size}{Antigen size}
-
-\item{ag_cols_fill}{Antigen fill color}
-
-\item{ag_cols_outline}{Antigen outline color}
-
-\item{ag_outline_width}{Antigen outline width}
-
-\item{ag_rotation}{Antigen rotation}
-
-\item{ag_aspect}{Antigen aspect}
-
-\item{ag_shape}{Antigen shape}
-
-\item{ag_drawing_order}{Antigen drawing order}
-
-\item{sr_shown}{Sera shown}
-
-\item{sr_size}{Sera size}
-
-\item{sr_cols_fill}{Sera fill color}
-
-\item{sr_cols_outline}{Sera outline color}
-
-\item{sr_outline_width}{Sera outline width}
-
-\item{sr_rotation}{Sera rotation}
-
-\item{sr_aspect}{Sera aspect}
-
-\item{sr_shape}{Sera shape}
-
-\item{sr_drawing_order}{Sera drawing order}
-
-\item{ag_coords}{Antigen coordinates}
-
-\item{sr_coords}{Sera coordinates}
-
-\item{comment}{Map comment}
-
-\item{minimum_column_basis}{Map minimum column bases}
-
-\item{transformation}{Map transformation}
-
-\item{colbases}{Map column bases}
-
-\item{optimizations}{A list of optimizations with appropriate attributes}
+\item{titer_table}{Table of titer data}
 }
 \value{
 Returns the new acmap object
@@ -98,6 +42,7 @@ See \code{\link{optimizeMap}} for generating new optimizations
 estimating antigen similarity from the acmap titer data.
 
 Other {functions for working with map data}: 
+\code{\link{as.cpp}()},
 \code{\link{as.json}()},
 \code{\link{orderPoints}},
 \code{\link{read.acmap}()},

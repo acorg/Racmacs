@@ -47,6 +47,7 @@ map <- acmap.cpp(table = titer_data)
 \seealso{
 Other {functions for working with map data}: 
 \code{\link{acmap}()},
+\code{\link{as.cpp}()},
 \code{\link{as.json}()},
 \code{\link{orderPoints}},
 \code{\link{read.titerTable}()},

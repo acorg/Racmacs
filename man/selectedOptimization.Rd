@@ -28,6 +28,7 @@ be performed on the selected optimization by default.
 \seealso{
 Other {functions for working with map data}: 
 \code{\link{acmap}()},
+\code{\link{as.cpp}()},
 \code{\link{as.json}()},
 \code{\link{orderPoints}},
 \code{\link{read.acmap}()},

@@ -369,9 +369,9 @@ AcOptimization ac_relaxOptimization(
 
   // Return the result
   AcOptimization acopt;
-  acopt.ag_base_coords = map.ag_coords;
-  acopt.sr_base_coords = map.sr_coords;
-  acopt.stress = stress;
+  acopt.set_ag_base_coords( map.ag_coords );
+  acopt.set_sr_base_coords( map.sr_coords );
+  acopt.set_stress( stress );
   return acopt;
 
 };
@@ -427,13 +427,16 @@ AcOptimization ac_runBoxedOptimization(
     );
 
     // Reduce coordinate dimensions
+    arma::mat optim_ag_base_coords = optim.get_ag_base_coords();
+    arma::mat optim_sr_base_coords = optim.get_sr_base_coords();
+
     arma::mat coords = arma::join_cols(
-      optim.ag_base_coords,
-      optim.sr_base_coords
+      optim_ag_base_coords,
+      optim_sr_base_coords
     );
     arma::mat coeff = arma::princomp(coords);
-    ag_coords = optim.ag_base_coords*coeff.cols(0, num_dims);
-    sr_coords = optim.sr_base_coords*coeff.cols(0, num_dims);
+    ag_coords = optim_ag_base_coords*coeff.cols(0, num_dims);
+    sr_coords = optim_sr_base_coords*coeff.cols(0, num_dims);
 
   }
   // Without dimensional annealing

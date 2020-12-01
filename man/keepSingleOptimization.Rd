@@ -5,7 +5,7 @@
 \alias{keepBestOptimization}
 \title{Keep a single optimization run}
 \usage{
-keepSingleOptimization(map, optimization_number = NULL)
+keepSingleOptimization(map, optimization_number = 1)
 
 keepBestOptimization(map)
 }

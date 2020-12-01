@@ -30,23 +30,9 @@ sera_setter <- function(attribute){
 # Property checker
 checkProperty_sera <- function(map, attribute, value){
 
-  if(attribute == "srSequences"){
-    if(nrow(value) != numSera(map)){
-      stop(sprintf("Number of %s cols does not match number of sera in the map", attribute))
-    }
-    if(!is.matrix(value)){
-      value <- unname(as.matrix(value))
-    }
-  }
-
-  character_attributes <- c("srGroupValues", "srGroupLevels")
+  character_attributes <- c("group_value")
   if(attribute %in% character_attributes){
     value <- unname(as.character(value))
-  }
-
-  length_exceptions <- c("srSequences", "srGroupLevels")
-  if(!attribute %in% length_exceptions && length(value) != numSera(map)){
-    stop(sprintf("Number of %s does not match number of sera in the map", attribute))
   }
 
   value
@@ -88,23 +74,19 @@ defaultProperty_sera <- function(map, attribute, value){
 #' \code{\link{agAttributes}}
 #' @family {antigen and sera attribute functions}
 #' @eval roxygen_tags(
-#'   methods = c("srNames", "srIDs", "srNamesFull", "srNamesAbbreviated", "srSequences"),
+#'   methods = c("srNames", "srIDs", "srNamesFull", "srNamesAbbreviated"),
 #'   args    = c("map")
 #' )
 #'
-srIDs               <- sera_getter("srIDs")
-srGroupValues       <- sera_getter("srGroupValues")
-srGroupLevels       <- sera_getter("srGroupLevels")
-srNames             <- sera_getter("srNames")
-srNamesFull         <- sera_getter("srNamesFull")
-srNamesAbbreviated  <- sera_getter("srNamesAbbreviated")
-srSequences         <- sera_getter("srSequences")
+srIDs               <- sera_getter("id")
+srGroupValues       <- sera_getter("group_value")
+srNames             <- sera_getter("name")
+srNamesFull         <- sera_getter("name_full")
+srNamesAbbreviated  <- sera_getter("name_abbreviated")
 
-`srNames<-`         <- sera_setter("srNames")
-`srIDs<-`           <- sera_setter("srIDs")
-`srGroupValues<-`   <- sera_setter("srGroupValues")
-`srGroupLevels<-`   <- sera_setter("srGroupLevels")
-`srSequences<-`     <- sera_setter("srSequences")
+`srNames<-`         <- sera_setter("name")
+`srIDs<-`           <- sera_setter("id")
+`srGroupValues<-`   <- sera_setter("group_value")
 
 
 #' Getting and setting sera groups
@@ -137,4 +119,17 @@ srGroups <- function(map){
 }
 
 
+#' @export
+srSequences <- function(map){
+  do.call(rbind, lapply(map$sera, function(ag){ ag$sera }))
+}
+
+#' @export
+`srSequences<-` <- function(map, value){
+  if(nrow(value) != numSera(map)) stop("Number of sequences does not match number of antigens")
+  for(x in seq_len(numSera(map))){
+    map$sera[[x]]$sequence <- value[x,]
+  }
+  map
+}
 

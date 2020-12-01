@@ -3,6 +3,11 @@ library(Racmacs)
 library(testthat)
 context("Test editing of map data")
 
+library(microbenchmark)
+map <- read.acmap("inst/extdata/h3map2004.ace")
+
+stop()
+
 run.maptests(
   bothclasses = TRUE,
   loadlocally = FALSE,

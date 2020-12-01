@@ -29,6 +29,7 @@ dimensionTestMap <- function(map,
                              replicates_per_proportion = 100,
                              storage_directory         = NULL){
 
+  require_acmacs.r()
   UseMethod("dimensionTestMap", map)
 
 }

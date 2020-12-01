@@ -21,13 +21,14 @@ class AcOptimization {
   public:
 
     // Getters
-    arma::vec get_column_bases(){ return column_bases; }
-    std::string get_min_column_basis(){ return min_column_basis; }
-    arma::mat get_ag_base_coords(){ return ag_base_coords; }
-    arma::mat get_sr_base_coords(){ return sr_base_coords; }
-    std::string get_comment(){ return comment; }
-    arma::mat get_transformation(){ return transformation; }
-    arma::mat get_translation(){ return translation; }
+    arma::vec get_column_bases() const { return column_bases; }
+    std::string get_min_column_basis() const { return min_column_basis; }
+    arma::mat get_ag_base_coords() const { return ag_base_coords; }
+    arma::mat get_sr_base_coords() const { return sr_base_coords; }
+    std::string get_comment() const { return comment; }
+    arma::mat get_transformation() const { return transformation; }
+    arma::mat get_translation() const { return translation; }
+    double get_stress() const { return stress; }
 
     // Setters
     void set_column_bases( arma::vec column_bases_in ){ column_bases = column_bases_in; }
@@ -37,15 +38,11 @@ class AcOptimization {
     void set_comment( std::string comment_in ){ comment = comment_in; }
     void set_transformation( arma::mat transformation_in ){ transformation = transformation_in; }
     void set_translation( arma::mat translation_in ){ translation = translation_in; }
+    void set_stress( double stress_in ){ stress = stress_in; }
 
-    // Retrieve antigen base coordinates
-    arma::mat agBaseCoords(){
-      return ag_base_coords;
-    }
-
-    // Retrieve sera base coordinates
-    arma::mat srBaseCoords(){
-      return sr_base_coords;
+    // Get dimensions
+    int dim(){
+      return ag_base_coords.n_cols;
     }
 
     // Retrieve point base coordinates (ag then sera)
@@ -80,6 +77,39 @@ class AcOptimization {
         agCoords(),
         srCoords()
       );
+    }
+
+    // Bake in the current transformation into the base coordinates
+    void bake_transformation(){
+
+      // Set the base coordinates
+      set_ag_base_coords(agCoords());
+      set_sr_base_coords(srCoords());
+
+      // Reset transformation and translation
+      set_transformation(
+        arma::mat(dim(), dim(), arma::fill::eye)
+      );
+      set_translation(
+        arma::mat(dim(), 1, arma::fill::zeros)
+      );
+
+    }
+
+    // Set ag coordinates
+    void set_ag_coords(
+      arma::mat coords
+    ){
+      bake_transformation();
+      set_ag_base_coords(coords);
+    }
+
+    // Set sr coordinates
+    void set_sr_coords(
+        arma::mat coords
+    ){
+      bake_transformation();
+      set_sr_base_coords(coords);
     }
 
     // Align to another optimization

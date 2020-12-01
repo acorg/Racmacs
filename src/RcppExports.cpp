@@ -7,6 +7,63 @@
 
 using namespace Rcpp;
 
+// ac_ag_names
+std::vector<std::string> ac_ag_names(AcMap map);
+RcppExport SEXP _Racmacs_ac_ag_names(SEXP mapSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< AcMap >::type map(mapSEXP);
+    rcpp_result_gen = Rcpp::wrap(ac_ag_names(map));
+    return rcpp_result_gen;
+END_RCPP
+}
+// ac_get_ag_coords
+arma::mat ac_get_ag_coords(AcOptimization opt);
+RcppExport SEXP _Racmacs_ac_get_ag_coords(SEXP optSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< AcOptimization >::type opt(optSEXP);
+    rcpp_result_gen = Rcpp::wrap(ac_get_ag_coords(opt));
+    return rcpp_result_gen;
+END_RCPP
+}
+// ac_get_sr_coords
+arma::mat ac_get_sr_coords(AcOptimization opt);
+RcppExport SEXP _Racmacs_ac_get_sr_coords(SEXP optSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< AcOptimization >::type opt(optSEXP);
+    rcpp_result_gen = Rcpp::wrap(ac_get_sr_coords(opt));
+    return rcpp_result_gen;
+END_RCPP
+}
+// ac_set_ag_coords
+AcOptimization ac_set_ag_coords(AcOptimization opt, arma::mat coords);
+RcppExport SEXP _Racmacs_ac_set_ag_coords(SEXP optSEXP, SEXP coordsSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< AcOptimization >::type opt(optSEXP);
+    Rcpp::traits::input_parameter< arma::mat >::type coords(coordsSEXP);
+    rcpp_result_gen = Rcpp::wrap(ac_set_ag_coords(opt, coords));
+    return rcpp_result_gen;
+END_RCPP
+}
+// ac_set_sr_coords
+AcOptimization ac_set_sr_coords(AcOptimization opt, arma::mat coords);
+RcppExport SEXP _Racmacs_ac_set_sr_coords(SEXP optSEXP, SEXP coordsSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< AcOptimization >::type opt(optSEXP);
+    Rcpp::traits::input_parameter< arma::mat >::type coords(coordsSEXP);
+    rcpp_result_gen = Rcpp::wrap(ac_set_sr_coords(opt, coords));
+    return rcpp_result_gen;
+END_RCPP
+}
 // ac_align_optimization
 AcOptimization ac_align_optimization(AcOptimization source_optimization, AcOptimization target_optimization);
 RcppExport SEXP _Racmacs_ac_align_optimization(SEXP source_optimizationSEXP, SEXP target_optimizationSEXP) {
@@ -256,6 +313,11 @@ END_RCPP
 }
 
 static const R_CallMethodDef CallEntries[] = {
+    {"_Racmacs_ac_ag_names", (DL_FUNC) &_Racmacs_ac_ag_names, 1},
+    {"_Racmacs_ac_get_ag_coords", (DL_FUNC) &_Racmacs_ac_get_ag_coords, 1},
+    {"_Racmacs_ac_get_sr_coords", (DL_FUNC) &_Racmacs_ac_get_sr_coords, 1},
+    {"_Racmacs_ac_set_ag_coords", (DL_FUNC) &_Racmacs_ac_set_ag_coords, 2},
+    {"_Racmacs_ac_set_sr_coords", (DL_FUNC) &_Racmacs_ac_set_sr_coords, 2},
     {"_Racmacs_ac_align_optimization", (DL_FUNC) &_Racmacs_ac_align_optimization, 2},
     {"_Racmacs_ac_subset_map", (DL_FUNC) &_Racmacs_ac_subset_map, 3},
     {"_Racmacs_ac_merge_titers", (DL_FUNC) &_Racmacs_ac_merge_titers, 2},

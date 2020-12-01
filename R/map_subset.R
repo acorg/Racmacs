@@ -108,8 +108,11 @@ subsetMap <- function(map,
   sera     <- na.omit(get_sr_indices(sera, map))
 
   # Subset the map
-  map <- removeAntigens(map, which(!seq_len(numAntigens(map)) %in% antigens))
-  map <- removeSera(map, which(!seq_len(numSera(map)) %in% sera))
+  map <- ac_subset_map(
+    map,
+    antigens - 1,
+    sera - 1
+  )
 
   # Return the subsetted map
   map
@@ -131,13 +134,13 @@ subsetMap <- function(map,
 #' @export
 #' @rdname orderPoints
 orderAntigens <- function(map, order){
-  subsetAntigens.racmap(map, order)
+  subsetAntigens(map, order)
 }
 
 #' @export
 #' @rdname orderPoints
 orderSera <- function(map, order){
-  subsetSera.racmap(map, order)
+  subsetSera(map, order)
 }
 
 

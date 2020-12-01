@@ -8,13 +8,13 @@
 \alias{srCoords<-}
 \title{Getting and setting point coordinates}
 \usage{
-agCoords(map, optimization_number = NULL, .name = TRUE)
+agCoords(map, optimization_number = 1)
 
-srCoords(map, optimization_number = NULL, .name = TRUE)
+srCoords(map, optimization_number = 1, .name = TRUE)
 
-agCoords(map, optimization_number = NULL) <- value
+agCoords(map, optimization_number = 1) <- value
 
-srCoords(map, optimization_number = NULL) <- value
+srCoords(map, optimization_number = 1) <- value
 }
 \arguments{
 \item{map}{The acmap object}

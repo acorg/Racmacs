@@ -61,7 +61,8 @@ allMapDimensions <- function(map) {
 #' @export
 #'
 removeOptimizations <- function(map) {
-  UseMethod("removeOptimizations", map)
+  map$optimizations <- NULL
+  map
 }
 
 #' Keep a single optimization run
@@ -77,10 +78,8 @@ removeOptimizations <- function(map) {
 
 #' @export
 #' @rdname keepSingleOptimization
-keepSingleOptimization <- function(map, optimization_number = NULL) {
-  if(is.null(optimization_number)) optimization_number <- selectedOptimization(map)
+keepSingleOptimization <- function(map, optimization_number = 1) {
   map$optimizations <- map$optimizations[optimization_number]
-  selectedOptimization(map) <- 1
   map
 }
 

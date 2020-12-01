@@ -112,51 +112,12 @@ class AcTiter {
 };
 
 
-// Define a row of ag titers
-class AcTiterRow {
-
-  private:
-    std::vector <AcTiter> titers;
-
-  public:
-    AcTiterRow(
-      int num_sr
-    ){
-      titers = std::vector<AcTiter>(num_sr);
-    }
-
-    AcTiter operator[](
-      int sr_num
-    ){
-      return titers[sr_num];
-    }
-
-    void remove_serum(
-      int sr_num
-    ){
-      titers.erase(titers.begin()+sr_num);
-    }
-
-    void subset_sera(
-      arma::uvec sr
-    ){
-      std::vector<AcTiter> new_titers(sr.size());
-      for(int i=0; i<sr.size(); i++){
-        new_titers[i] = titers[sr[i]];
-      }
-      titers.swap(new_titers);
-    }
-
-};
-
-
 // Define the titertable class
 class AcTiterTable {
 
   private:
-    int num_ags;
-    int num_sr;
-    std::vector <AcTiterRow> titer_rows;
+    arma::mat numeric_titers;
+    arma::umat titer_types;
 
   public:
 
@@ -165,17 +126,12 @@ class AcTiterTable {
       int nags,
       int nsr
     ):
-      titer_rows(nsr, nags){
-
-      // Initiate titer table
-      num_ags = nags;
-      num_sr = nsr;
-
-    };
+      numeric_titers(nags, nsr, arma::fill::zeros),
+      titer_types(nags, nsr, arma::fill::zeros){};
 
     // Get dimensions
-    int nags() const { return num_ags; }
-    int nsr() const { return num_sr; }
+    int nags() const { return numeric_titers.n_rows; }
+    int nsr() const { return numeric_titers.n_cols; }
 
     // Get a given titer
     AcTiter get_titer(
@@ -183,8 +139,10 @@ class AcTiterTable {
         int srnum
     ) const {
 
-      AcTiterRow titer_row = titer_rows[agnum];
-      return titer_row[srnum];
+      return AcTiter(
+        numeric_titers(agnum, srnum),
+        titer_types(agnum, srnum)
+      );
 
     }
 
@@ -196,12 +154,13 @@ class AcTiterTable {
     ){
 
       // Error if out of range
-      if(agnum >= num_ags || srnum >= num_sr || agnum < 0 || srnum < 0){
+      if(agnum >= nags() || srnum >= nsr() || agnum < 0 || srnum < 0){
         Rcpp::stop("Titer selection out of range");
       }
 
       // Set the titer
-      titer_rows[agnum][srnum] = titer;
+      numeric_titers(agnum, srnum) = titer.numeric;
+      titer_types(agnum, srnum) = titer.type;
 
     }
 
@@ -242,6 +201,8 @@ class AcTiterTable {
     std::vector<AcTiter> agTiters(
         int agnum
     ){
+
+      const int num_sr = nsr();
       std::vector<AcTiter> ag_titers(num_sr);
       for(int srnum=0; srnum<num_sr; srnum++){
         ag_titers[srnum] = get_titer(agnum, srnum);
@@ -253,6 +214,8 @@ class AcTiterTable {
     std::vector<AcTiter> srTiters(
       int srnum
     ){
+
+      const int num_ags = nags();
       std::vector<AcTiter> sr_titers(num_ags);
       for(int agnum=0; agnum<num_ags; agnum++){
         sr_titers[agnum] = get_titer(agnum, srnum);
@@ -264,18 +227,16 @@ class AcTiterTable {
     void remove_antigen(
       int agnum
     ){
-      titer_rows.erase(
-        titer_rows.begin() + agnum
-      );
+      numeric_titers.shed_row(agnum);
+      titer_types.shed_row(agnum);
     }
 
     // Remove a serum
     void remove_serum(
       int srnum
     ){
-      for(int i=0; i<num_ags; i++){
-        titer_rows[i].remove_serum(srnum);
-      }
+      numeric_titers.shed_col(srnum);
+      titer_types.shed_col(srnum);
     }
 
     // Subsetting
@@ -283,11 +244,8 @@ class AcTiterTable {
       arma::uvec ags
     ){
 
-      std::vector<AcTiterRow> new_titer_rows(ags.size(), nsr());
-      for(int i=0; i<ags.size(); i++){
-        new_titer_rows[i] = titer_rows[ags[i]];
-      }
-      titer_rows.swap(new_titer_rows);
+      numeric_titers = numeric_titers.rows(ags);
+      titer_types = titer_types.rows(ags);
 
     }
 
@@ -295,9 +253,8 @@ class AcTiterTable {
         arma::uvec sr
     ){
 
-      for(int i=0; i<titer_rows.size(); i++){
-        titer_rows[i].subset_sera(sr);
-      }
+      numeric_titers = numeric_titers.cols(sr);
+      titer_types = titer_types.cols(sr);
 
     }
 
@@ -306,8 +263,8 @@ class AcTiterTable {
         arma::uvec sr
     ){
 
-      subset_antigens(ags);
-      subset_sera(sr);
+      numeric_titers = numeric_titers.submat(ags, sr);
+      titer_types = titer_types.submat(ags, sr);
 
     }
 

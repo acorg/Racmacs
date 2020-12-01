@@ -30,23 +30,9 @@ antigens_setter <- function(attribute){
 # Property checker
 checkProperty_antigens <- function(map, attribute, value){
 
-  if(attribute == "agSequences"){
-    if(nrow(value) != numAntigens(map)){
-      stop(sprintf("Number of %s rows does not match number of antigens in the map", attribute))
-    }
-    if(!is.matrix(value)){
-      value <- unname(as.matrix(value))
-    }
-  }
-
-  character_attributes <- c("agGroupValues", "agGroupLevels")
+  character_attributes <- c("group_values")
   if(attribute %in% character_attributes){
     value <- unname(as.character(value))
-  }
-
-  length_exceptions <- c("agSequences", "agGroupLevels")
-  if(!attribute %in% length_exceptions && length(value) != numAntigens(map)){
-    stop(sprintf("Number of %s does not match number of antigens in the map", attribute))
   }
 
   value
@@ -97,29 +83,23 @@ defaultProperty_antigens <- function(map, attribute, value){
 #' \code{\link{srAttributes}}
 #' @family {antigen and sera attribute functions}
 #' @eval roxygen_tags(
-#'   methods = c("agNames", "agIDs", "agNamesFull", "agNamesAbbreviated", "agDates", "agReference", "agSequences"),
+#'   methods = c("agNames", "agIDs", "agNamesFull", "agNamesAbbreviated", "agDates", "agReference"),
 #'   args    = c("map")
 #' )
 #'
-agIDs               <- antigens_getter("agIDs")
-agGroupValues       <- antigens_getter("agGroupValues")
-agGroupLevels       <- antigens_getter("agGroupLevels")
-agDates             <- antigens_getter("agDates")
-agReference         <- antigens_getter("agReference")
-agNames             <- antigens_getter("agNames")
-agNamesFull         <- antigens_getter("agNamesFull")
-agNamesAbbreviated  <- antigens_getter("agNamesAbbreviated")
-agSequences         <- antigens_getter("agSequences")
+agIDs               <- antigens_getter("id")
+agGroupValues       <- antigens_getter("group_values")
+agDates             <- antigens_getter("date")
+agReference         <- antigens_getter("reference")
+agNames             <- antigens_getter("name")
+agNamesFull         <- antigens_getter("name_full")
+agNamesAbbreviated  <- antigens_getter("name_abbreviated")
 
-`agNames<-`         <- antigens_setter("agNames")
-`agIDs<-`           <- antigens_setter("agIDs")
-`agGroupValues<-`   <- antigens_setter("agGroupValues")
-`agGroupLevels<-`   <- antigens_setter("agGroupLevels")
-`agDates<-`         <- antigens_setter("agDates")
-`agReference<-`     <- antigens_setter("agReference")
-`agNames<-`         <- antigens_setter("agNames")
-`agSequences<-`     <- antigens_setter("agSequences")
-
+`agNames<-`         <- antigens_setter("name")
+`agIDs<-`           <- antigens_setter("id")
+`agGroupValues<-`   <- antigens_setter("group_values")
+`agDates<-`         <- antigens_setter("date")
+`agReference<-`     <- antigens_setter("reference")
 
 #' Getting and setting antigen groups
 #'
@@ -149,4 +129,20 @@ agGroups <- function(map){
   map
 
 }
+
+#' @export
+agSequences <- function(map){
+  do.call(rbind, lapply(map$antigens, function(ag){ ag$sequence }))
+}
+
+#' @export
+`agSequences<-` <- function(map, value){
+  if(nrow(value) != numAntigens(map)) stop("Number of sequences does not match number of antigens")
+  for(x in seq_len(numAntigens(map))){
+    map$antigens[[x]]$sequence <- value[x,]
+  }
+  map
+}
+
+
 

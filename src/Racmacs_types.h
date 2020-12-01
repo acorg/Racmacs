@@ -55,7 +55,8 @@ namespace Rcpp {
     CharacterMatrix titers_out(num_ags, num_sr);
     for(int ag=0;ag<num_ags;ag++){
       for(int sr=0;sr<num_sr;sr++){
-        titers_out(ag, sr) = t.get_titer_string(ag, sr);
+        std::string titer = t.get_titer_string(ag, sr);
+        titers_out(ag, sr) = titer;
       }
     }
 
@@ -158,6 +159,7 @@ namespace Rcpp {
         _["name"] = acmap.name,
         _["antigens"] = antigens,
         _["sera"] = sera,
+        _["optimizations"] = optimizations,
         _["titer_table_flat"] = titer_table_flat,
         _["titer_table_layers"] = titer_table_layers
       )
@@ -173,12 +175,18 @@ namespace Rcpp {
     AcOptimization acopt = AcOptimization();
     acopt.set_ag_base_coords( as<arma::mat>(wrap(opt["ag_base_coords"])) );
     acopt.set_sr_base_coords( as<arma::mat>(wrap(opt["sr_base_coords"])) );
-    acopt.set_comment( as<std::string>(wrap(opt["comment"])) );
     acopt.set_stress( as<double>(wrap(opt["stress"])) );
-    acopt.set_transformation( as<arma::mat>(wrap(opt["transformation"])) );
-    acopt.set_translation( as<arma::mat>(wrap(opt["translation"])) );
     acopt.set_min_column_basis( as<std::string>(wrap(opt["min_column_basis"])) );
-    if(opt["min_column_basis"] == "fixed"){
+    if(opt.containsElementNamed("transformation")) {
+      acopt.set_transformation( as<arma::mat>(wrap(opt["transformation"])) );
+    }
+    if(opt.containsElementNamed("translation")) {
+      acopt.set_translation( as<arma::mat>(wrap(opt["translation"])) );
+    }
+    if(opt.containsElementNamed("comment")) {
+      acopt.set_comment( as<std::string>(wrap(opt["comment"])) );
+    }
+    if(strcmp(opt["min_column_basis"], "fixed") == 0){
       acopt.set_column_bases( as<arma::vec>(wrap(opt["column_bases"])) );
     }
     return acopt;
@@ -315,12 +323,8 @@ namespace Rcpp {
   AcMap as(SEXP sxp){
 
     List list = as<List>(sxp);
-
     List antigens = list["antigens"];
     List sera = list["sera"];
-    List optimizations = list["optimizations"];
-    List titer_table_layers = list["titer_table_layers"];
-
     AcMap acmap(antigens.size(), sera.size());
 
     // Antigens
@@ -334,17 +338,25 @@ namespace Rcpp {
     }
 
     // Optimizations
-    for(int i=0; i<optimizations.size(); i++){
-      acmap.optimizations.push_back(as<AcOptimization>(wrap(optimizations[i])));
+    if(list.containsElementNamed("optimizations")){
+      List optimizations = list["optimizations"];
+      for(int i=0; i<optimizations.size(); i++){
+        acmap.optimizations.push_back(as<AcOptimization>(wrap(optimizations[i])));
+      }
     }
 
     // Titer table layers
-    for(int i=0; i<titer_table_layers.size(); i++){
-      acmap.titer_table_layers.push_back(as<AcTiterTable>(wrap(titer_table_layers[i])));
+    if(list.containsElementNamed("titer_table_layers")){
+      List titer_table_layers = list["titer_table_layers"];
+      for(int i=0; i<titer_table_layers.size(); i++){
+        acmap.titer_table_layers.push_back(as<AcTiterTable>(wrap(titer_table_layers[i])));
+      }
     }
 
     // Titer table flat
-    acmap.titer_table_flat = as<AcTiterTable>(wrap(list["titer_table_flat"]));
+    if(list.containsElementNamed("titer_table_flat")){
+      acmap.titer_table_flat = as<AcTiterTable>(wrap(list["titer_table_flat"]));
+    }
 
     return acmap;
   }

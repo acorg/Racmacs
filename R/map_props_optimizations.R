@@ -163,8 +163,23 @@ srBaseCoords <- optimization_getter("sr_base_coords")
 #'   getterargs = NULL
 #' )
 #'
-mapTransformation <- optimization_getter("transformation")
-mapTranslation    <- optimization_getter("translation")
+mapTransformation <- function(map, optimization_number = NULL){
+  optimization_number <- convertOptimizationNum(optimization_number, map)
+  transformation <- map$optimizations[[optimization_number]]$transformation
+  if(is.null(transformation)){
+    transformation <- diag(mapDimensions(map, optimization_number))
+  }
+  transformation
+}
+
+mapTranslation <- function(map, optimization_number = NULL){
+  optimization_number <- convertOptimizationNum(optimization_number, map)
+  translation <- map$optimizations[[optimization_number]]$translation
+  if(is.null(translation)){
+    translation <- rep(0, mapDimensions(map, optimization_number))
+  }
+  translation
+}
 `mapTransformation<-` <- optimization_setter("transformation")
 `mapTranslation<-`    <- optimization_setter("translation")
 
@@ -201,8 +216,8 @@ mapTranslation    <- optimization_getter("translation")
 #'
 colBases     <- optimization_getter("column_bases")
 `colBases<-` <- optimization_setter("column_bases")
-minColBasis     <- optimization_getter("min_column_bases")
-`minColBasis<-` <- optimization_setter("min_column_bases")
+minColBasis     <- optimization_getter("min_column_basis")
+`minColBasis<-` <- optimization_setter("min_column_basis")
 
 
 #' Get the current map stress

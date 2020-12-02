@@ -8,6 +8,13 @@
 
 <title>Viewing racmap objects — view.rac • Racmacs</title>
 
+<!-- favicons -->
+<link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
+<link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../apple-touch-icon.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png" />
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
@@ -38,9 +45,12 @@
 
 
 
+  <link href="../extra.css" rel="stylesheet">
+  
 
 <meta property="og:title" content="Viewing racmap objects — view.rac" />
 <meta property="og:description" content="View a racmap object in the interactive viewer." />
+<meta property="og:image" content="/logo.png" />
 
 
 
@@ -72,7 +82,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">Racmacs</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.9</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.16</span>
       </span>
     </div>
 
@@ -87,39 +97,17 @@
 <li>
   <a href="../reference/index.html">Reference</a>
 </li>
-<li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-    Articles
-     
-    <span class="caret"></span>
-  </a>
-  <ul class="dropdown-menu" role="menu">
-    <li>
-      <a href="../articles/comparing-maps.html">Comparing maps</a>
-    </li>
-    <li>
-      <a href="../articles/getting-and-setting-map-attributes.html">Getting and setting map attributes</a>
-    </li>
-    <li>
-      <a href="../articles/loading-map-data.html">Reading a map file</a>
-    </li>
-    <li>
-      <a href="../articles/making-a-map-from-scratch.html">Making an antigenic map from scratch</a>
-    </li>
-    <li>
-      <a href="../articles/map-diagnostics.html">Performing map diagnostics</a>
-    </li>
-    <li>
-      <a href="../articles/merging-maps.html">Merging maps</a>
-    </li>
-    <li>
-      <a href="../articles/testing-maps.html">Testing maps</a>
-    </li>
-  </ul>
+<li>
+  <a href="../articles/index.html">Articles</a>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
-        
+        <li>
+  <a href="https://github.com/acorg/Racmacs/">
+    <span class="fab fa fab fa-github fa-lg"></span>
+     
+  </a>
+</li>
       </ul>
       
     </div><!--/.nav-collapse -->
@@ -134,7 +122,7 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Viewing racmap objects</h1>
-    
+    <small class="dont-index">Source: <a href='https://github.com/acorg/Racmacs/blob/master/R/map_methods.R'><code>R/map_methods.R</code></a></small>
     <div class="hidden name"><code>view.rac.Rd</code></div>
     </div>
 
@@ -143,26 +131,61 @@
     </div>
 
     <pre class="usage"><span class='co'># S3 method for rac</span>
-<span class='fu'><a href='view.html'>view</a></span>(
+<span class='fu'>view</span>(
   <span class='no'>map</span>,
   <span class='no'>...</span>,
   <span class='kw'>.jsCode</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>.jsData</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>select_ags</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>select_sr</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>show_procrustes</span> <span class='kw'>=</span> <span class='kw'>NULL</span>
+  <span class='kw'>show_procrustes</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>show_stressblobs</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>keep_all_optimization_runs</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>options</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>()
 )</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>...</th>
-      <td><p>Arguments to be passed to <code>view_map</code></p></td>
+      <th>map</th>
+      <td><p>The acmap data object</p></td>
     </tr>
     <tr>
-      <th>racmap</th>
-      <td><p>The racmap object</p></td>
+      <th>...</th>
+      <td><p>Additional arguments to be passed to <code>RacViewer</code></p></td>
+    </tr>
+    <tr>
+      <th>.jsCode</th>
+      <td><p>Additional javascript code to be run after map has been loaded and rendered</p></td>
+    </tr>
+    <tr>
+      <th>.jsData</th>
+      <td><p>Any data to supply to the .jsCode function</p></td>
+    </tr>
+    <tr>
+      <th>select_ags</th>
+      <td><p>A vector of antigen indices to select in the plot</p></td>
+    </tr>
+    <tr>
+      <th>select_sr</th>
+      <td><p>A vector of serum indices to select in the plot</p></td>
+    </tr>
+    <tr>
+      <th>show_procrustes</th>
+      <td><p>If the map contains procrustes information, should procrustes lines be shown by default?</p></td>
+    </tr>
+    <tr>
+      <th>show_stressblobs</th>
+      <td><p>If the map contains stress blob information, should stress blobs be shown by default?</p></td>
+    </tr>
+    <tr>
+      <th>keep_all_optimization_runs</th>
+      <td><p>Should information on all the optimization runs be kept in the viewer, or just view the currently selected optimisation run.</p></td>
+    </tr>
+    <tr>
+      <th>options</th>
+      <td><p>A named list of viewer options to pass to <code><a href='RacViewer.options.html'>RacViewer.options()</a></code></p></td>
     </tr>
     </table>
 
@@ -178,7 +201,7 @@
 
       <footer>
       <div class="copyright">
-  <p>Developed by S. H. Wilks.</p>
+  <p>Developed by Sam Wilks.</p>
 </div>
 
 <div class="pkgdown">

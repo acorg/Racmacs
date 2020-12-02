@@ -85,7 +85,7 @@ starting conditions will be added to the acmap object." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">Racmacs</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.13</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.16</span>
       </span>
     </div>
 
@@ -140,12 +140,13 @@ starting conditions will be added to the acmap object.</p>
   <span class='no'>map</span>,
   <span class='no'>number_of_dimensions</span>,
   <span class='no'>number_of_optimizations</span>,
-  <span class='no'>minimum_column_basis</span>,
+  <span class='kw'>minimum_column_basis</span> <span class='kw'>=</span> <span class='st'>"none"</span>,
   <span class='kw'>fixed_column_bases</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>move_trapped_points</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>discard_previous_optimizations</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
   <span class='kw'>sort_optimizations</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
   <span class='kw'>realign_optimizations</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>dimensional_annealing</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
   <span class='kw'>stepsize</span> <span class='kw'>=</span> <span class='fl'>0.1</span>,
   <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
   <span class='kw'>vverbose</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
@@ -172,6 +173,10 @@ starting conditions will be added to the acmap object.</p>
       <td><p>The minimum column basis to use (see details)</p></td>
     </tr>
     <tr>
+      <th>fixed_column_bases</th>
+      <td><p>A vector of fixed values to use as column bases directly, rather than calculating them from the titer table.</p></td>
+    </tr>
+    <tr>
       <th>move_trapped_points</th>
       <td><p>Should trapped points be searched for and removed, one of 'none', 'best' or 'all' (see details)</p></td>
     </tr>
@@ -188,8 +193,24 @@ starting conditions will be added to the acmap object.</p>
       <td><p>Should optimizations be realigned to align as closely as possible with each other?</p></td>
     </tr>
     <tr>
+      <th>dimensional_annealing</th>
+      <td><p>Should dimensional annealing be applied?</p></td>
+    </tr>
+    <tr>
+      <th>stepsize</th>
+      <td><p>Step size to use when searching for trapped points (lower will be a finer search)</p></td>
+    </tr>
+    <tr>
       <th>verbose</th>
       <td><p>Should progress be reported?</p></td>
+    </tr>
+    <tr>
+      <th>vverbose</th>
+      <td><p>Should very detailed progress be reported?</p></td>
+    </tr>
+    <tr>
+      <th>parallel_optimization</th>
+      <td><p>Should optimization runs be performed in parallel</p></td>
     </tr>
     </table>
 

@@ -21,8 +21,8 @@ Racmacs.HemispheringTable = class HemispheringTable extends Racmacs.TableList {
 		viewer.hemispheringTable = this;
 
 		// Add event list
-		var noneSelected_deselected_opacity = viewer.graphics.noneSelected.deselected.opacity;
-        var plusSelected_deselected_opacity = viewer.graphics.plusSelected.deselected.opacity;
+		var noneSelected_deselected_opacity = viewer.styleset.noselections.unhovered.unselected.opacity;
+        var plusSelected_deselected_opacity = viewer.styleset.selections.unhovered.unselected.opacity;
 
         var hemispheringTable = this;
 		this.tableHolder.addEventListener("mouseenter", function(){

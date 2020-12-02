@@ -49,7 +49,7 @@
   
 
 <meta property="og:title" content="Getting and setting sera attributes — srAttributes" />
-<meta property="og:description" content="These functions get and set the sera attributes for a given optimization run." />
+<meta property="og:description" content="These functions get and set the sera attributes for a map." />
 <meta property="og:image" content="/logo.png" />
 
 
@@ -82,7 +82,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">Racmacs</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.13</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.16</span>
       </span>
     </div>
 
@@ -127,7 +127,7 @@
     </div>
 
     <div class="ref-description">
-    <p>These functions get and set the sera attributes for a given optimization run.</p>
+    <p>These functions get and set the sera attributes for a map.</p>
     </div>
 
     <pre class="usage"><span class='fu'>srNames</span>(<span class='no'>map</span>, <span class='kw'>.name</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
@@ -135,9 +135,6 @@
 
 <span class='fu'>srIDs</span>(<span class='no'>map</span>, <span class='kw'>.name</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
 <span class='fu'>srIDs</span>(<span class='no'>map</span>, <span class='kw'>.check</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>) <span class='kw'>&lt;-</span> <span class='no'>value</span>
-
-<span class='fu'>srGroups</span>(<span class='no'>map</span>, <span class='kw'>.name</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
-<span class='fu'>srGroups</span>(<span class='no'>map</span>, <span class='kw'>.check</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>) <span class='kw'>&lt;-</span> <span class='no'>value</span>
 
 <span class='fu'>srNamesFull</span>(<span class='no'>map</span>, <span class='kw'>.name</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
 
@@ -170,7 +167,9 @@
 
     <div class='dont-index'><p><code><a href='agAttributes.html'>agAttributes</a></code></p>
 <p>Other antigen and sera attribute functions: 
-<code><a href='agAttributes.html'>agAttributes</a></code></p></div>
+<code><a href='agAttributes.html'>agAttributes</a></code>,
+<code><a href='agGroups.html'>agGroups</a>()</code>,
+<code><a href='srGroups.html'>srGroups</a>()</code></p></div>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

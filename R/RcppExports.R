@@ -29,6 +29,10 @@ ac_subset_map <- function(map, ags, sr) {
     .Call('_Racmacs_ac_subset_map', PACKAGE = 'Racmacs', map, ags, sr)
 }
 
+ac_dimension_test_map <- function(titer_table, dimensions_to_test, test_proportion, minimum_column_basis, column_bases_from_full_table, num_optimizations, method, maxit, dim_annealing) {
+    .Call('_Racmacs_ac_dimension_test_map', PACKAGE = 'Racmacs', titer_table, dimensions_to_test, test_proportion, minimum_column_basis, column_bases_from_full_table, num_optimizations, method, maxit, dim_annealing)
+}
+
 #' @export
 ac_merge_titers <- function(titers, sd_lim = 1.0) {
     .Call('_Racmacs_ac_merge_titers', PACKAGE = 'Racmacs', titers, sd_lim)
@@ -37,6 +41,30 @@ ac_merge_titers <- function(titers, sd_lim = 1.0) {
 #' @export
 ac_merge_titer_layers <- function(titer_layers) {
     .Call('_Racmacs_ac_merge_titer_layers', PACKAGE = 'Racmacs', titer_layers)
+}
+
+#' @export
+ac_relaxOptimization <- function(tabledist_matrix, titertype_matrix, ag_coords, sr_coords, method = "L-BFGS-B", maxit = 10000L, check_gradient_fn = FALSE) {
+    .Call('_Racmacs_ac_relaxOptimization', PACKAGE = 'Racmacs', tabledist_matrix, titertype_matrix, ag_coords, sr_coords, method, maxit, check_gradient_fn)
+}
+
+random_coords <- function(nrow, ndim, min, max) {
+    .Call('_Racmacs_random_coords', PACKAGE = 'Racmacs', nrow, ndim, min, max)
+}
+
+#' @export
+ac_runBoxedOptimization <- function(tabledist_matrix, titertype_matrix, num_dims, coord_boxsize, method = "L-BFGS-B", maxit = 1000L, dim_annealing = FALSE) {
+    .Call('_Racmacs_ac_runBoxedOptimization', PACKAGE = 'Racmacs', tabledist_matrix, titertype_matrix, num_dims, coord_boxsize, method, maxit, dim_annealing)
+}
+
+#' @export
+ac_runOptimizations <- function(titertable, colbases, num_dims, num_optimizations, method, maxit, dim_annealing) {
+    .Call('_Racmacs_ac_runOptimizations', PACKAGE = 'Racmacs', titertable, colbases, num_dims, num_optimizations, method, maxit, dim_annealing)
+}
+
+#' @export
+reduce_matrix_dimensions <- function(m, dim) {
+    .Call('_Racmacs_reduce_matrix_dimensions', PACKAGE = 'Racmacs', m, dim)
 }
 
 #' @export
@@ -57,25 +85,6 @@ titer_types_int <- function(titers) {
 #' @export
 ac_table_colbases <- function(titer_table, min_col_basis = "none") {
     .Call('_Racmacs_ac_table_colbases', PACKAGE = 'Racmacs', titer_table, min_col_basis)
-}
-
-#' @export
-ac_relaxOptimization <- function(tabledist_matrix, titertype_matrix, ag_coords, sr_coords, method = "L-BFGS-B", maxit = 10000L, check_gradient_fn = FALSE) {
-    .Call('_Racmacs_ac_relaxOptimization', PACKAGE = 'Racmacs', tabledist_matrix, titertype_matrix, ag_coords, sr_coords, method, maxit, check_gradient_fn)
-}
-
-random_coords <- function(nrow, ndim, min, max) {
-    .Call('_Racmacs_random_coords', PACKAGE = 'Racmacs', nrow, ndim, min, max)
-}
-
-#' @export
-ac_runBoxedOptimization <- function(tabledist_matrix, titertype_matrix, num_dims, coord_boxsize, method = "L-BFGS-B", maxit = 100L, dim_annealing = FALSE) {
-    .Call('_Racmacs_ac_runBoxedOptimization', PACKAGE = 'Racmacs', tabledist_matrix, titertype_matrix, num_dims, coord_boxsize, method, maxit, dim_annealing)
-}
-
-#' @export
-reduce_matrix_dimensions <- function(m, dim) {
-    .Call('_Racmacs_reduce_matrix_dimensions', PACKAGE = 'Racmacs', m, dim)
 }
 
 ac_procrustes <- function(X, Xstar, translation, dilation) {

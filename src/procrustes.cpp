@@ -133,10 +133,12 @@ arma::mat transform_coords(
   tcoords.cols(0, coords.n_cols - 1) = coords;
 
   arma::mat trotation(dims, dims, arma::fill::eye);
-  trotation.submat(
-    0, 0,
-    rotation.n_rows - 1, rotation.n_cols - 1
-  ) = rotation;
+  if(rotation.n_rows > 0){
+    trotation.submat(
+      0, 0,
+      rotation.n_rows - 1, rotation.n_cols - 1
+    ) = rotation;
+  }
 
   arma::mat ttranslation(coords.n_rows, dims, arma::fill::zeros);
   for(int i=0; i<ttranslation.n_rows; i++){

@@ -4,6 +4,7 @@
 #include "acmap_titers.h"
 #include "acmap_map.h"
 #include "procrustes.h"
+#include "ac_dimension_test.h"
 
 #ifndef Racmacs__RacmacsWrap__h
 #define Racmacs__RacmacsWrap__h
@@ -162,6 +163,31 @@ namespace Rcpp {
         _["optimizations"] = optimizations,
         _["titer_table_flat"] = titer_table_flat,
         _["titer_table_layers"] = titer_table_layers
+      )
+    );
+
+  }
+
+  // Dimtest results
+  template <>
+  SEXP wrap(const DimTestOutput& dimtestout){
+
+    List coords = List::create();
+    for(int i=0; i<dimtestout.coords.size(); i++){
+      coords.push_back(as<NumericMatrix>(wrap(dimtestout.coords[i])));
+    }
+
+    List predictions = List::create();
+    for(int i=0; i<dimtestout.predictions.size(); i++){
+      predictions.push_back(as<NumericVector>(wrap(dimtestout.predictions[i])));
+    }
+
+    return wrap(
+      List::create(
+        _["test_indices"] = dimtestout.test_indices,
+        _["dim"] = dimtestout.dim,
+        _["coords"] = coords,
+        _["predictions"] = predictions
       )
     );
 

@@ -5,6 +5,7 @@ antigens_getter <- function(attribute){
     substitute(env = list(attribute = attribute), expr = {
       function(map){
         value <- sapply(map$antigens, function(ag){ ag[[attribute]] })
+        if(is.null(unlist(value))) return(NULL)
         defaultProperty_antigens(map, attribute, value)
       }
     })

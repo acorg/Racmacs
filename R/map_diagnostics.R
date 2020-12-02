@@ -20,78 +20,39 @@
 #'
 #' @family {map diagnostic functions}
 #'
-dimensionTestMap <- function(map,
-                             dimensions_to_test        = 1:5,
-                             test_proportion           = 0.1,
-                             minimum_column_basis      = "none",
-                             column_bases_from_master  = TRUE,
-                             number_of_optimizations   = 1000,
-                             replicates_per_proportion = 100,
-                             storage_directory         = NULL){
+dimensionTestMap <- function(
+  map,
+  dimensions_to_test        = 1:5,
+  test_proportion           = 0.1,
+  minimum_column_basis      = "none",
+  column_bases_from_master  = TRUE,
+  number_of_optimizations   = 1000,
+  replicates_per_proportion = 100,
+  method = "L-BFGS-B",
+  maxit = 1000,
+  dim_annealing = FALSE
+  ){
 
-  require_acmacs.r()
-  UseMethod("dimensionTestMap", map)
-
-}
-
-#' @export
-dimensionTestMap.racchart <- function(map,
-                                      dimensions_to_test        = 1:5,
-                                      test_proportion           = 0.1,
-                                      minimum_column_basis      = "none",
-                                      column_bases_from_master  = TRUE,
-                                      number_of_optimizations   = 1000,
-                                      replicates_per_proportion = 100,
-                                      storage_directory         = NULL){
-
-  if(is.null(storage_directory)){
-    acmacs.r::acmacs.map_resolution_test(
-      map$chart,
-      number_of_dimensions                            = dimensions_to_test,
-      proportions_to_dont_care                        = test_proportion,
-      minimum_column_basis                            = minimum_column_basis,
-      column_bases_from_master                        = column_bases_from_master,
-      relax_from_full_table                           = FALSE,
-      number_of_optimizations                         = number_of_optimizations,
-      number_of_random_replicates_for_each_proportion = replicates_per_proportion
+  # Get results
+  results <- lapply(seq_len(replicates_per_proportion), function(x){
+    ac_dimension_test_map(
+      titer_table                  = titerTable(map),
+      dimensions_to_test           = dimensions_to_test,
+      test_proportion              = test_proportion,
+      minimum_column_basis         = minimum_column_basis,
+      column_bases_from_full_table = column_bases_from_master,
+      num_optimizations            = number_of_optimizations,
+      method                       = method,
+      maxit                        = maxit,
+      dim_annealing                = dim_annealing
     )
-  } else {
-    acmacs.r::acmacs.map_resolution_test(
-      map$chart,
-      number_of_dimensions                            = dimensions_to_test,
-      proportions_to_dont_care                        = test_proportion,
-      minimum_column_basis                            = minimum_column_basis,
-      column_bases_from_master                        = column_bases_from_master,
-      relax_from_full_table                           = FALSE,
-      number_of_optimizations                         = number_of_optimizations,
-      number_of_random_replicates_for_each_proportion = replicates_per_proportion,
-      save_charts_to                                  = storage_directory
-    )
-  }
+  })
+
+  # Correct indices of test results to base 1
+  lapply(results, function(result){
+    result$test_indices <- result$test_indices + 1
+    result
+  })
 
 }
-
-#' @export
-dimensionTestMap.racmap <- function(map,
-                                    dimensions_to_test        = 1:5,
-                                    test_proportion           = 0.1,
-                                    minimum_column_basis      = "none",
-                                    column_bases_from_master  = TRUE,
-                                    number_of_optimizations   = 1000,
-                                    replicates_per_proportion = 100,
-                                    storage_directory         = NULL){
-
-  dimensionTestMap(map                       = as.cpp(map),
-                   dimensions_to_test        = dimensions_to_test,
-                   test_proportion           = test_proportion,
-                   minimum_column_basis      = minimum_column_basis,
-                   column_bases_from_master  = column_bases_from_master,
-                   number_of_optimizations   = number_of_optimizations,
-                   replicates_per_proportion = replicates_per_proportion,
-                   storage_directory         = storage_directory)
-
-}
-
-
-
 

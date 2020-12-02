@@ -132,6 +132,14 @@ class AcTiterTable {
     // Get dimensions
     int nags() const { return numeric_titers.n_rows; }
     int nsr() const { return numeric_titers.n_cols; }
+    arma::SizeMat size() const { return arma::size(numeric_titers); }
+
+    // Get and set numeric_titers and titer types
+    arma::mat get_numeric_titers() const { return numeric_titers; }
+    void set_numeric_titers(arma::mat numeric_titers_in){ numeric_titers = numeric_titers_in; }
+
+    arma::umat get_titer_types() const { return titer_types; }
+    void set_titer_types(arma::umat titer_types_in){ titer_types = titer_types_in; }
 
     // Get a given titer
     AcTiter get_titer(
@@ -265,6 +273,79 @@ class AcTiterTable {
 
       numeric_titers = numeric_titers.submat(ags, sr);
       titer_types = titer_types.submat(ags, sr);
+
+    }
+
+    // Counting titers
+    int num_measured(
+    ) const {
+      return arma::accu(titer_types == 1);
+    }
+
+    int num_unmeasured(
+    ) const {
+      return arma::accu(titer_types == 0);
+    }
+
+    // Setting unmeasured titers
+    void set_unmeasured(
+        arma::uvec indices
+    ){
+      titer_types.elem(indices).zeros();
+      numeric_titers.elem(indices).zeros();
+    }
+
+    // Getting indices of titers
+    arma::uvec vec_indices_measured(
+    ) const {
+
+      int n_measured = arma::accu(titer_types != 0);
+      arma::uvec indices(n_measured);
+
+      int vec_i = 0;
+      for(int i=0; i<titer_types.n_elem; i++){
+          if(titer_types(i) != 0){
+            indices(vec_i) = i;
+            vec_i++;
+          }
+      }
+
+      return indices;
+
+    }
+
+    // Calculate column bases
+    arma::vec colbases(
+        std::string min_colbasis = "none"
+    ) const {
+
+      arma::mat log_titers = arma::log2(numeric_titers / 10.0);
+      arma::vec colbases = arma::max(log_titers.t(), 1);
+
+      if(min_colbasis != "none"){
+        colbases = arma::clamp(
+          colbases,
+          AcTiter(min_colbasis).logTiter(),
+          colbases.max()
+        );
+      }
+
+      return colbases;
+
+    }
+
+    // Calculate table distances
+    arma::mat table_distances(
+      arma::vec colbases
+    ) const {
+
+      arma::mat dists = arma::log2(numeric_titers / 10.0);
+      for(int i=0; i<dists.n_rows; i++){
+        dists.row(i) = colbases.as_row() - dists.row(i);
+      }
+      dists = arma::clamp(dists, 0, dists.max());
+      dists.elem( arma::find(titer_types == 0) ).fill( arma::datum::nan );
+      return dists;
 
     }
 

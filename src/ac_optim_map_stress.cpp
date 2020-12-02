@@ -4,6 +4,7 @@
 #include <roptim.h>
 // #include <Rcpp/Benchmark/Timer.h>
 
+#include "acmap_titers.h"
 #include "acmap_optimization.h"
 
 // We use the roptim
@@ -398,7 +399,7 @@ AcOptimization ac_runBoxedOptimization(
     const int &num_dims,
     const double coord_boxsize,
     const std::string method = "L-BFGS-B",
-    const int maxit = 100,
+    const int maxit = 1000,
     const bool dim_annealing = false
 ){
 
@@ -460,6 +461,72 @@ AcOptimization ac_runBoxedOptimization(
 
 };
 
+
+//' @export
+// [[Rcpp::export]]
+std::vector<AcOptimization> ac_runOptimizations(
+    const AcTiterTable &titertable,
+    arma::vec &colbases,
+    const int &num_dims,
+    const int &num_optimizations,
+    const std::string &method,
+    const int &maxit,
+    const bool &dim_annealing
+){
+
+  // Get table distance matrix and titer type matrix
+  arma::mat tabledist_matrix = titertable.table_distances(colbases);
+  arma::umat titertype_matrix = titertable.get_titer_types();
+
+  // First run a rough optimization using max table dist as the box size
+  AcOptimization initial_optim = ac_runBoxedOptimization(
+    tabledist_matrix,
+    titertype_matrix,
+    num_dims,
+    tabledist_matrix.max(),
+    method,
+    100,
+    dim_annealing
+  );
+
+  // Set boxsize based on initial optimization result
+  arma::mat distmat = initial_optim.distance_matrix();
+  double coord_maxdist = distmat.max();
+  double coord_boxsize = coord_maxdist*2;
+
+  // Run and return optimization results
+  std::vector<AcOptimization> optimizations(num_optimizations);
+  for(int i=0; i<num_optimizations; i++){
+    optimizations[i] = ac_runBoxedOptimization(
+      tabledist_matrix,
+      titertype_matrix,
+      num_dims,
+      coord_boxsize,
+      method,
+      maxit,
+      dim_annealing
+    );
+  }
+  return optimizations;
+
+}
+
+bool compare_optimization_stress(
+    AcOptimization opt1,
+    AcOptimization opt2
+  ){
+  return (opt1.stress < opt2.stress);
+}
+
+void sort_optimizations_by_stress(
+  std::vector<AcOptimization> &optimizations
+){
+  sort(
+    optimizations.begin(),
+    optimizations.end(),
+    compare_optimization_stress
+  );
+}
 
 // Use principle component analysis to reduce coordinates to lower dimensions
 //' @export

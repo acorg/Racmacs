@@ -23,7 +23,7 @@ as.cpp <- function(map){
   write(json, tmp)
 
   chart <- suppressMessages({ new(acmacs.r::acmacs.Chart, tmp) })
-  map   <- racchart.new(chart = chart)
+  map.cpp <- racchart.new(chart = chart)
 
   selectedOptimization(map.cpp) <- selectedOptimization(map)
   map.cpp

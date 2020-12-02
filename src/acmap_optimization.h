@@ -1,5 +1,6 @@
 
 #include "procrustes.h"
+#include "utils.h"
 
 #ifndef Racmacs__acmap_optimization__h
 #define Racmacs__acmap_optimization__h
@@ -16,9 +17,10 @@ class AcOptimization {
     std::string comment;
     arma::mat transformation;
     arma::mat translation;
-    double stress = arma::datum::nan;
 
   public:
+
+    double stress = arma::datum::nan;
 
     // Getters
     arma::vec get_column_bases() const { return column_bases; }
@@ -41,8 +43,16 @@ class AcOptimization {
     void set_stress( double stress_in ){ stress = stress_in; }
 
     // Get dimensions
-    int dim(){
+    int dim() const {
       return ag_base_coords.n_cols;
+    }
+
+    int num_ags() const {
+      return ag_base_coords.n_rows;
+    }
+
+    int num_sr() const {
+      return sr_base_coords.n_rows;
     }
 
     // Retrieve point base coordinates (ag then sera)
@@ -130,6 +140,37 @@ class AcOptimization {
         // Set transformation
         transformation = pc.R;
         translation = pc.tt;
+
+    }
+
+    // Calculate the distance matrix
+    arma::mat distance_matrix(
+    ) const {
+
+      int nags = num_ags();
+      int nsr = num_sr();
+
+      arma::mat distmat( nags, nsr );
+      for(int ag=0; ag<nags; ag++){
+        for(int sr=0; sr<nsr; sr++){
+          distmat(ag, sr) = ptDist(ag, sr);
+        }
+      }
+
+      return distmat;
+
+    }
+
+    // Calculate point distance
+    double ptDist(
+      int ag,
+      int sr
+    ) const {
+
+      return euc_dist(
+        arma::vectorise(ag_base_coords.row(ag)),
+        arma::vectorise(sr_base_coords.row(sr))
+      );
 
     }
 

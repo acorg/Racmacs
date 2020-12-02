@@ -173,21 +173,21 @@ as.json <- function(map){
   )
 
   # Save bootstrap data
-  bootstrap <- getMapAttribute(map, "bootstrap")
-  if(!is.null(bootstrap)){
-    json$c$x$bootstrap <- bootstrapToJsonList(bootstrap)
-  }
+  # bootstrap <- map[["bootstrap"]]
+  # if(!is.null(bootstrap)){
+  #   json$c$x$bootstrap <- bootstrapToJsonList(bootstrap)
+  # }
 
   # Additional custom attributes
-  if(!is.null(getMapAttribute(map, "agIDs")))           json$c$x$antigen_ids          <- getMapAttribute(map, "agIDs")
-  if(!is.null(getMapAttribute(map, "srIDs")))           json$c$x$sera_ids             <- getMapAttribute(map, "srIDs")
-  if(!is.null(getMapAttribute(map, "agGroupValues")))   json$c$x$antigen_group_values <- getMapAttribute(map, "agGroupValues")
-  if(!is.null(getMapAttribute(map, "agGroupLevels")))   json$c$x$antigen_group_levels <- getMapAttribute(map, "agGroupLevels")
-  if(!is.null(getMapAttribute(map, "srGroupValues")))   json$c$x$sera_group_values    <- getMapAttribute(map, "srGroupValues")
-  if(!is.null(getMapAttribute(map, "srGroupLevels")))   json$c$x$sera_group_levels    <- getMapAttribute(map, "srGroupLevels")
-  if(!is.null(getMapAttribute(map, "agSequences")))     json$c$x$antigen_sequences    <- getMapAttribute(map, "agSequences")
-  if(!is.null(getMapAttribute(map, "srSequences")))     json$c$x$sera_sequences       <- getMapAttribute(map, "srSequences")
-  if(!is.null(getMapAttribute(map, "viewer_settings"))) json$c$x$viewer_settings      <- getMapAttribute(map, "viewer_settings")
+  # if(!is.null(agIDs(map)))           json$c$x$antigen_ids          <- agIDs(map)
+  # if(!is.null(srIDs(map)))           json$c$x$sera_ids             <- srIDs(map)
+  # if(!is.null(agGroupValues(map)))   json$c$x$antigen_group_values <- agGroupValues(map)
+  # if(!is.null(agGroupLevels(map)))   json$c$x$antigen_group_levels <- agGroupLevels(map)
+  # if(!is.null(srGroupValues(map)))   json$c$x$sera_group_values    <- srGroupValues(map)
+  # if(!is.null(srGroupLevels(map)))   json$c$x$sera_group_levels    <- srGroupLevels(map)
+  # if(!is.null(agSequences(map)))     json$c$x$antigen_sequences    <- agSequences(map)
+  # if(!is.null(srSequences(map)))     json$c$x$sera_sequences       <- srSequences(map)
+  # if(!is.null(getMapAttribute(map, "viewer_settings"))) json$c$x$viewer_settings      <- getMapAttribute(map, "viewer_settings")
 
   # Convert the json
   jsonListToText(

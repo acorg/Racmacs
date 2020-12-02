@@ -89,6 +89,25 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// ac_dimension_test_map
+DimTestOutput ac_dimension_test_map(AcTiterTable titer_table, arma::uvec dimensions_to_test, double test_proportion, std::string minimum_column_basis, bool column_bases_from_full_table, int num_optimizations, std::string method, int maxit, bool dim_annealing);
+RcppExport SEXP _Racmacs_ac_dimension_test_map(SEXP titer_tableSEXP, SEXP dimensions_to_testSEXP, SEXP test_proportionSEXP, SEXP minimum_column_basisSEXP, SEXP column_bases_from_full_tableSEXP, SEXP num_optimizationsSEXP, SEXP methodSEXP, SEXP maxitSEXP, SEXP dim_annealingSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< AcTiterTable >::type titer_table(titer_tableSEXP);
+    Rcpp::traits::input_parameter< arma::uvec >::type dimensions_to_test(dimensions_to_testSEXP);
+    Rcpp::traits::input_parameter< double >::type test_proportion(test_proportionSEXP);
+    Rcpp::traits::input_parameter< std::string >::type minimum_column_basis(minimum_column_basisSEXP);
+    Rcpp::traits::input_parameter< bool >::type column_bases_from_full_table(column_bases_from_full_tableSEXP);
+    Rcpp::traits::input_parameter< int >::type num_optimizations(num_optimizationsSEXP);
+    Rcpp::traits::input_parameter< std::string >::type method(methodSEXP);
+    Rcpp::traits::input_parameter< int >::type maxit(maxitSEXP);
+    Rcpp::traits::input_parameter< bool >::type dim_annealing(dim_annealingSEXP);
+    rcpp_result_gen = Rcpp::wrap(ac_dimension_test_map(titer_table, dimensions_to_test, test_proportion, minimum_column_basis, column_bases_from_full_table, num_optimizations, method, maxit, dim_annealing));
+    return rcpp_result_gen;
+END_RCPP
+}
 // ac_merge_titers
 AcTiter ac_merge_titers(std::vector<AcTiter> titers, double sd_lim);
 RcppExport SEXP _Racmacs_ac_merge_titers(SEXP titersSEXP, SEXP sd_limSEXP) {
@@ -109,51 +128,6 @@ BEGIN_RCPP
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< std::vector<AcTiterTable> >::type titer_layers(titer_layersSEXP);
     rcpp_result_gen = Rcpp::wrap(ac_merge_titer_layers(titer_layers));
-    return rcpp_result_gen;
-END_RCPP
-}
-// numeric_titers
-arma::vec numeric_titers(std::vector<AcTiter> titers);
-RcppExport SEXP _Racmacs_numeric_titers(SEXP titersSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< std::vector<AcTiter> >::type titers(titersSEXP);
-    rcpp_result_gen = Rcpp::wrap(numeric_titers(titers));
-    return rcpp_result_gen;
-END_RCPP
-}
-// log_titers
-arma::vec log_titers(std::vector<AcTiter> titers);
-RcppExport SEXP _Racmacs_log_titers(SEXP titersSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< std::vector<AcTiter> >::type titers(titersSEXP);
-    rcpp_result_gen = Rcpp::wrap(log_titers(titers));
-    return rcpp_result_gen;
-END_RCPP
-}
-// titer_types_int
-arma::uvec titer_types_int(std::vector<AcTiter> titers);
-RcppExport SEXP _Racmacs_titer_types_int(SEXP titersSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< std::vector<AcTiter> >::type titers(titersSEXP);
-    rcpp_result_gen = Rcpp::wrap(titer_types_int(titers));
-    return rcpp_result_gen;
-END_RCPP
-}
-// ac_table_colbases
-arma::vec ac_table_colbases(AcTiterTable titer_table, std::string min_col_basis);
-RcppExport SEXP _Racmacs_ac_table_colbases(SEXP titer_tableSEXP, SEXP min_col_basisSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< AcTiterTable >::type titer_table(titer_tableSEXP);
-    Rcpp::traits::input_parameter< std::string >::type min_col_basis(min_col_basisSEXP);
-    rcpp_result_gen = Rcpp::wrap(ac_table_colbases(titer_table, min_col_basis));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -205,6 +179,23 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// ac_runOptimizations
+std::vector<AcOptimization> ac_runOptimizations(const AcTiterTable& titertable, arma::vec& colbases, const int& num_dims, const int& num_optimizations, const std::string& method, const int& maxit, const bool& dim_annealing);
+RcppExport SEXP _Racmacs_ac_runOptimizations(SEXP titertableSEXP, SEXP colbasesSEXP, SEXP num_dimsSEXP, SEXP num_optimizationsSEXP, SEXP methodSEXP, SEXP maxitSEXP, SEXP dim_annealingSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const AcTiterTable& >::type titertable(titertableSEXP);
+    Rcpp::traits::input_parameter< arma::vec& >::type colbases(colbasesSEXP);
+    Rcpp::traits::input_parameter< const int& >::type num_dims(num_dimsSEXP);
+    Rcpp::traits::input_parameter< const int& >::type num_optimizations(num_optimizationsSEXP);
+    Rcpp::traits::input_parameter< const std::string& >::type method(methodSEXP);
+    Rcpp::traits::input_parameter< const int& >::type maxit(maxitSEXP);
+    Rcpp::traits::input_parameter< const bool& >::type dim_annealing(dim_annealingSEXP);
+    rcpp_result_gen = Rcpp::wrap(ac_runOptimizations(titertable, colbases, num_dims, num_optimizations, method, maxit, dim_annealing));
+    return rcpp_result_gen;
+END_RCPP
+}
 // reduce_matrix_dimensions
 arma::mat reduce_matrix_dimensions(arma::mat m, int dim);
 RcppExport SEXP _Racmacs_reduce_matrix_dimensions(SEXP mSEXP, SEXP dimSEXP) {
@@ -214,6 +205,51 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< arma::mat >::type m(mSEXP);
     Rcpp::traits::input_parameter< int >::type dim(dimSEXP);
     rcpp_result_gen = Rcpp::wrap(reduce_matrix_dimensions(m, dim));
+    return rcpp_result_gen;
+END_RCPP
+}
+// numeric_titers
+arma::vec numeric_titers(std::vector<AcTiter> titers);
+RcppExport SEXP _Racmacs_numeric_titers(SEXP titersSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< std::vector<AcTiter> >::type titers(titersSEXP);
+    rcpp_result_gen = Rcpp::wrap(numeric_titers(titers));
+    return rcpp_result_gen;
+END_RCPP
+}
+// log_titers
+arma::vec log_titers(std::vector<AcTiter> titers);
+RcppExport SEXP _Racmacs_log_titers(SEXP titersSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< std::vector<AcTiter> >::type titers(titersSEXP);
+    rcpp_result_gen = Rcpp::wrap(log_titers(titers));
+    return rcpp_result_gen;
+END_RCPP
+}
+// titer_types_int
+arma::uvec titer_types_int(std::vector<AcTiter> titers);
+RcppExport SEXP _Racmacs_titer_types_int(SEXP titersSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< std::vector<AcTiter> >::type titers(titersSEXP);
+    rcpp_result_gen = Rcpp::wrap(titer_types_int(titers));
+    return rcpp_result_gen;
+END_RCPP
+}
+// ac_table_colbases
+arma::vec ac_table_colbases(AcTiterTable titer_table, std::string min_col_basis);
+RcppExport SEXP _Racmacs_ac_table_colbases(SEXP titer_tableSEXP, SEXP min_col_basisSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< AcTiterTable >::type titer_table(titer_tableSEXP);
+    Rcpp::traits::input_parameter< std::string >::type min_col_basis(min_col_basisSEXP);
+    rcpp_result_gen = Rcpp::wrap(ac_table_colbases(titer_table, min_col_basis));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -320,16 +356,18 @@ static const R_CallMethodDef CallEntries[] = {
     {"_Racmacs_ac_set_sr_coords", (DL_FUNC) &_Racmacs_ac_set_sr_coords, 2},
     {"_Racmacs_ac_align_optimization", (DL_FUNC) &_Racmacs_ac_align_optimization, 2},
     {"_Racmacs_ac_subset_map", (DL_FUNC) &_Racmacs_ac_subset_map, 3},
+    {"_Racmacs_ac_dimension_test_map", (DL_FUNC) &_Racmacs_ac_dimension_test_map, 9},
     {"_Racmacs_ac_merge_titers", (DL_FUNC) &_Racmacs_ac_merge_titers, 2},
     {"_Racmacs_ac_merge_titer_layers", (DL_FUNC) &_Racmacs_ac_merge_titer_layers, 1},
+    {"_Racmacs_ac_relaxOptimization", (DL_FUNC) &_Racmacs_ac_relaxOptimization, 7},
+    {"_Racmacs_random_coords", (DL_FUNC) &_Racmacs_random_coords, 4},
+    {"_Racmacs_ac_runBoxedOptimization", (DL_FUNC) &_Racmacs_ac_runBoxedOptimization, 7},
+    {"_Racmacs_ac_runOptimizations", (DL_FUNC) &_Racmacs_ac_runOptimizations, 7},
+    {"_Racmacs_reduce_matrix_dimensions", (DL_FUNC) &_Racmacs_reduce_matrix_dimensions, 2},
     {"_Racmacs_numeric_titers", (DL_FUNC) &_Racmacs_numeric_titers, 1},
     {"_Racmacs_log_titers", (DL_FUNC) &_Racmacs_log_titers, 1},
     {"_Racmacs_titer_types_int", (DL_FUNC) &_Racmacs_titer_types_int, 1},
     {"_Racmacs_ac_table_colbases", (DL_FUNC) &_Racmacs_ac_table_colbases, 2},
-    {"_Racmacs_ac_relaxOptimization", (DL_FUNC) &_Racmacs_ac_relaxOptimization, 7},
-    {"_Racmacs_random_coords", (DL_FUNC) &_Racmacs_random_coords, 4},
-    {"_Racmacs_ac_runBoxedOptimization", (DL_FUNC) &_Racmacs_ac_runBoxedOptimization, 7},
-    {"_Racmacs_reduce_matrix_dimensions", (DL_FUNC) &_Racmacs_reduce_matrix_dimensions, 2},
     {"_Racmacs_ac_procrustes", (DL_FUNC) &_Racmacs_ac_procrustes, 4},
     {"_Racmacs_ac_align_coords", (DL_FUNC) &_Racmacs_ac_align_coords, 4},
     {"_Racmacs_euc_dist", (DL_FUNC) &_Racmacs_euc_dist, 2},

@@ -12,7 +12,9 @@ dimensionTestMap(
   column_bases_from_master = TRUE,
   number_of_optimizations = 1000,
   replicates_per_proportion = 100,
-  storage_directory = NULL
+  method = "L-BFGS-B",
+  maxit = 1000,
+  dim_annealing = FALSE
 )
 }
 \arguments{

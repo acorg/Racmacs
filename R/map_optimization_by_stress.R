@@ -65,7 +65,7 @@ optimizeMapBySumSquaredStressIntern <- function(
   num_dims,
   colbases,
   method = "L-BFGS-B",
-  maxit = 100,
+  maxit = 1000,
   num_cores = detectCores(),
   dim_annealing = FALSE
 ){

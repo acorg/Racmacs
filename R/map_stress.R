@@ -67,8 +67,18 @@ mapDistances <- function(map, optimization_number = NULL){
 #'
 logtiterTable <- function(map){
 
-  titers <- titerTable(map)
-  titer_to_logtiter(titers)
+  log_titer_table <- matrix(0, numAntigens(map), numSera(map))
+  log_titer_table[] <- log_titers(titerTable(map))
+  log_titer_table
+
+}
+
+#' @export
+numerictiterTable <- function(map){
+
+  numeric_titer_table <- matrix(0, numAntigens(map), numSera(map))
+  numeric_titer_table[] <- numeric_titers(titerTable(map))
+  numeric_titer_table
 
 }
 

@@ -28,6 +28,7 @@ navbar:
 articles:
 - title: Getting started
   contents:
+  - intro-to-antigenic-cartography
   - making-a-map-from-scratch
 - title: Further usage
   contents:

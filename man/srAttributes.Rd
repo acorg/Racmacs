@@ -4,13 +4,11 @@
 \alias{srAttributes}
 \alias{srIDs}
 \alias{srNames}
-\alias{srGroups}
 \alias{srNamesFull}
 \alias{srNamesAbbreviated}
 \alias{srSequences}
 \alias{srNames<-}
 \alias{srIDs<-}
-\alias{srGroups<-}
 \alias{srSequences<-}
 \title{Getting and setting sera attributes}
 \usage{
@@ -19,9 +17,6 @@ srNames(map, .check = TRUE) <- value
 
 srIDs(map, .name = TRUE)
 srIDs(map, .check = TRUE) <- value
-
-srGroups(map, .name = TRUE)
-srGroups(map, .check = TRUE) <- value
 
 srNamesFull(map, .name = TRUE)
 
@@ -41,12 +36,14 @@ srSequences(map, .check = TRUE) <- value
 Returns either the requested attribute when using a getter function or the updated acmap object when using the setter function.
 }
 \description{
-These functions get and set the sera attributes for a given optimization run.
+These functions get and set the sera attributes for a map.
 }
 \seealso{
 \code{\link{agAttributes}}
 
 Other {antigen and sera attribute functions}: 
-\code{\link{agAttributes}}
+\code{\link{agAttributes}},
+\code{\link{agGroups}()},
+\code{\link{srGroups}()}
 }
 \concept{{antigen and sera attribute functions}}

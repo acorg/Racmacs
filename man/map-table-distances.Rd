@@ -6,7 +6,13 @@
 \alias{plotly_map_table_distance}
 \title{Plot map vs table distances}
 \usage{
-plot_map_table_distance(map, optimization_number = NULL, xlim, ylim)
+plot_map_table_distance(
+  map,
+  optimization_number = NULL,
+  xlim,
+  ylim,
+  line_of_equality = TRUE
+)
 
 plotly_map_table_distance(map, optimization_number = NULL, xlim, ylim)
 }
@@ -18,9 +24,11 @@ plotly_map_table_distance(map, optimization_number = NULL, xlim, ylim)
 \item{xlim}{The x limits of the plot}
 
 \item{ylim}{The y limits of the plot}
+
+\item{line_of_equality}{Should the line x=y be added}
 }
 \value{
-Silently returns information on the map and table distances
+Returns the ggplot2 object
 }
 \description{
 Plot map vs table distances

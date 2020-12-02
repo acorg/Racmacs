@@ -173,13 +173,15 @@ as.json.racmap <- function(map){
   }
 
   # Additional custom attributes
-  if(!is.null(getMapAttribute(map, "agIDs")))           json$c$x$antigen_ids       <- getMapAttribute(map, "agIDs")
-  if(!is.null(getMapAttribute(map, "srIDs")))           json$c$x$sera_ids          <- getMapAttribute(map, "srIDs")
-  if(!is.null(getMapAttribute(map, "agGroups")))        json$c$x$antigen_groups    <- getMapAttribute(map, "agGroups")
-  if(!is.null(getMapAttribute(map, "srGroups")))        json$c$x$sera_groups       <- getMapAttribute(map, "srGroups")
-  if(!is.null(getMapAttribute(map, "agSequences")))     json$c$x$antigen_sequences <- getMapAttribute(map, "agSequences")
-  if(!is.null(getMapAttribute(map, "srSequences")))     json$c$x$sera_sequences    <- getMapAttribute(map, "srSequences")
-  if(!is.null(getMapAttribute(map, "viewer_settings"))) json$c$x$viewer_settings   <- getMapAttribute(map, "viewer_settings")
+  if(!is.null(getMapAttribute(map, "agIDs")))           json$c$x$antigen_ids          <- getMapAttribute(map, "agIDs")
+  if(!is.null(getMapAttribute(map, "srIDs")))           json$c$x$sera_ids             <- getMapAttribute(map, "srIDs")
+  if(!is.null(getMapAttribute(map, "agGroupValues")))   json$c$x$antigen_group_values <- getMapAttribute(map, "agGroupValues")
+  if(!is.null(getMapAttribute(map, "agGroupLevels")))   json$c$x$antigen_group_levels <- getMapAttribute(map, "agGroupLevels")
+  if(!is.null(getMapAttribute(map, "srGroupValues")))   json$c$x$sera_group_values    <- getMapAttribute(map, "srGroupValues")
+  if(!is.null(getMapAttribute(map, "srGroupLevels")))   json$c$x$sera_group_levels    <- getMapAttribute(map, "srGroupLevels")
+  if(!is.null(getMapAttribute(map, "agSequences")))     json$c$x$antigen_sequences    <- getMapAttribute(map, "agSequences")
+  if(!is.null(getMapAttribute(map, "srSequences")))     json$c$x$sera_sequences       <- getMapAttribute(map, "srSequences")
+  if(!is.null(getMapAttribute(map, "viewer_settings"))) json$c$x$viewer_settings      <- getMapAttribute(map, "viewer_settings")
 
   # Convert the json
   jsonListToText(

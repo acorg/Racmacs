@@ -6,6 +6,8 @@
 .DS_Store
 *.sublime-project
 *.sublime-workspace
+*.o
+*.o.tmp
 debugging
 .DS_Store
 doc

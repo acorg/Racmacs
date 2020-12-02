@@ -4,7 +4,6 @@
 \alias{agAttributes}
 \alias{agIDs}
 \alias{agNames}
-\alias{agGroups}
 \alias{agNamesFull}
 \alias{agNamesAbbreviated}
 \alias{agDates}
@@ -12,7 +11,6 @@
 \alias{agSequences}
 \alias{agNames<-}
 \alias{agIDs<-}
-\alias{agGroups<-}
 \alias{agDates<-}
 \alias{agReference<-}
 \alias{agSequences<-}
@@ -23,9 +21,6 @@ agNames(map, .check = TRUE) <- value
 
 agIDs(map, .name = TRUE)
 agIDs(map, .check = TRUE) <- value
-
-agGroups(map, .name = TRUE)
-agGroups(map, .check = TRUE) <- value
 
 agNamesFull(map, .name = TRUE)
 
@@ -51,12 +46,14 @@ agSequences(map, .check = TRUE) <- value
 Returns either the requested attribute when using a getter function or the updated acmap object when using the setter function.
 }
 \description{
-These functions get and set the antigen attributes for a given optimization run.
+These functions get and set the antigen attributes for a map.
 }
 \seealso{
 \code{\link{srAttributes}}
 
 Other {antigen and sera attribute functions}: 
-\code{\link{srAttributes}}
+\code{\link{agGroups}()},
+\code{\link{srAttributes}},
+\code{\link{srGroups}()}
 }
 \concept{{antigen and sera attribute functions}}

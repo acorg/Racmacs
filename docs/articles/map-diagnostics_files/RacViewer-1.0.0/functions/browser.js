@@ -71,8 +71,8 @@ Racmacs.NameBrowser = class NameBrowser {
         this.name_list_holder.appendChild(this.name_list);
 
         // Add mouse event listeners to name list
-        var noneSelected_deselected_opacity = viewer.graphics.noneSelected.deselected.opacity;
-        var plusSelected_deselected_opacity = viewer.graphics.plusSelected.deselected.opacity;
+        var noneSelected_deselected_opacity = viewer.styleset.noselections.unhovered.unselected.opacity;
+        var plusSelected_deselected_opacity = viewer.styleset.selections.unhovered.unselected.opacity;
 
         this.name_list.addEventListener("mouseenter", function(){
             viewer.graphics.noneSelected.deselected.opacity = plusSelected_deselected_opacity;

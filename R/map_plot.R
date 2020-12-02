@@ -188,10 +188,15 @@ mapPlotLims <- function(..., padding = 1, round_even = TRUE){
 
 
 coord_lims <- function(coords){
-  list(
-    xlim = range(coords[,1], na.rm = T),
-    ylim = range(coords[,2], na.rm = T)
+  lims <- lapply(
+    seq_len(ncol(coords)),
+    function(x){
+      range(coords[,x], na.rm = T)
+    }
   )
+  if(ncol(coords) == 2) names(lims) <- c("xlim", "ylim")
+  if(ncol(coords) == 3) names(lims) <- c("xlim", "ylim", "zlim")
+  lims
 }
 
 

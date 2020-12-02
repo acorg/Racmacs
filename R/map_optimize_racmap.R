@@ -6,7 +6,8 @@ runOptimization.racmap <- function(map,
                                    number_of_optimizations,
                                    minimum_column_basis,
                                    fixed_column_bases    = NULL,
-                                   parallel_optimization = FALSE){
+                                   parallel_optimization = FALSE,
+                                   dimensional_annealing = FALSE){
 
   # Get the HI table
   titer_table = titerTable(map)
@@ -20,7 +21,8 @@ runOptimization.racmap <- function(map,
                               number_of_optimizations = number_of_optimizations,
                               minimum_column_basis    = minimum_column_basis,
                               fixed_column_bases      = fixed_column_bases,
-                              parallel_optimization   = parallel_optimization)
+                              parallel_optimization   = parallel_optimization,
+                              dimensional_annealing   = dimensional_annealing)
 
   # Add optimizations to the racmap
   map$optimizations <- c(map$optimizations, as.list(racchart)$optimizations)

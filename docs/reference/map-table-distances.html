@@ -82,7 +82,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">Racmacs</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.13</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.16</span>
       </span>
     </div>
 
@@ -130,7 +130,13 @@
     <p>Plot map vs table distances</p>
     </div>
 
-    <pre class="usage"><span class='fu'>plot_map_table_distance</span>(<span class='no'>map</span>, <span class='kw'>optimization_number</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>xlim</span>, <span class='no'>ylim</span>)
+    <pre class="usage"><span class='fu'>plot_map_table_distance</span>(
+  <span class='no'>map</span>,
+  <span class='kw'>optimization_number</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='no'>xlim</span>,
+  <span class='no'>ylim</span>,
+  <span class='kw'>line_of_equality</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>
+)
 
 <span class='fu'>plotly_map_table_distance</span>(<span class='no'>map</span>, <span class='kw'>optimization_number</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>xlim</span>, <span class='no'>ylim</span>)</pre>
 
@@ -153,11 +159,15 @@
       <th>ylim</th>
       <td><p>The y limits of the plot</p></td>
     </tr>
+    <tr>
+      <th>line_of_equality</th>
+      <td><p>Should the line x=y be added</p></td>
+    </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>Silently returns information on the map and table distances</p>
+    <p>Returns the ggplot2 object</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

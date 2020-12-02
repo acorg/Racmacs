@@ -40,6 +40,7 @@ Racmacs.Viewer = class RacViewer extends Racmacs.App {
         this.contentLoaded    = false;
         this.performance_mode = true;
         this.animated         = false;
+        this.setDefaultStyleset();
 
         // Keep record of selected and animated points
         this.selected_pts = [];

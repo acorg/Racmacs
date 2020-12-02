@@ -4,7 +4,7 @@ R3JS.Viewer.prototype.eventListeners.push({
     name : "points-selected",
     fn : function(e){
         let viewer = e.detail.viewer;
-        viewer.graphics.ptStyles = viewer.graphics.plusSelected;
+        // viewer.graphics.ptStyles = viewer.graphics.plusSelected;
         viewer.updatePointStyles();
     }
 });
@@ -13,50 +13,114 @@ R3JS.Viewer.prototype.eventListeners.push({
     name : "points-deselected",
     fn : function(e){
         let viewer = e.detail.viewer;
-        viewer.graphics.ptStyles = viewer.graphics.noneSelected;
+        // viewer.graphics.ptStyles = viewer.graphics.noneSelected;
         viewer.updatePointStyles();
     }
 });
 
 // Set selection styles
-Racmacs.App.prototype.graphics = {
+// Racmacs.App.prototype.graphics = {
 
-  noneSelected : {
-    selected         : {
-        opacity : 1.0,
-        outlineColor : "#ff0066"
-    },
-    selected_hover   : {
-        opacity : 0.8
-    },
-    deselected       : {
-        // opacity : 0.6
-        opacity : 0.8
-    },
-    deselected_hover : {
-        opacity : 1.0
+//   noneSelected : {
+//     selected         : {
+//         opacity : 1.0,
+//         outlineColor : "#ff0066"
+//     },
+//     selected_hover   : {
+//         opacity : 0.8
+//     },
+//     deselected       : {
+//         // opacity : 0.6
+//         opacity : 0.8
+//     },
+//     deselected_hover : {
+//         opacity : 1.0
+//     }
+//   },
+
+//   plusSelected : {
+//     selected         : {
+//         opacity : 1.0,
+//         outlineColor : "#ff0066"
+//     },
+//     selected_hover   : {
+//         opacity : 0.8
+//     },
+//     deselected       : {
+//         opacity : 0.2
+//     },
+//     deselected_hover : {
+//         opacity : 0.6
+//     }
+//   }
+
+// };
+
+// Racmacs.App.prototype.graphics.ptStyles = Racmacs.App.prototype.graphics.noneSelected;
+
+// Set default point styles
+Racmacs.App.prototype.setDefaultStyleset = function(dim){
+
+    this.styleset = {
+
+        // Styles when some points are selected
+        selections : {
+            hovered : {
+                selected : {
+                    opacity : 0.8,
+                    outlineColor : "#ff0066"
+                },
+                highlighted : {
+                    opacity : 0.8
+                },
+                unselected : {
+                    opacity : 1.0
+                }
+            },
+            unhovered : {
+                selected : {
+                    opacity : 1.0,
+                    outlineColor : "#ff0066"
+                },
+                highlighted : {
+                    opacity : 1.0
+                },
+                unselected : {
+                    opacity : 0.2
+                }
+            }
+        },
+
+        // Styles when no points are selected
+        noselections : {
+            hovered : {
+                highlighted : {
+                    opacity : 0.8
+                },
+                unselected : {
+                    opacity : 1.0
+                }
+            },
+            unhovered : {
+                highlighted : {
+                    opacity : 1.0
+                },
+                unselected : {
+                    opacity : 0.6
+                }
+            }
+        }
+
+    };
+
+    // Make any alterations based on dimensions provided
+    if(dim !== undefined){
+        if(dim == 3){
+            this.styleset.noselections.unhovered.unselected.opacity = 0.8;
+        }
     }
-  },
 
-  plusSelected : {
-    selected         : {
-        opacity : 1.0,
-        outlineColor : "#ff0066"
-    },
-    selected_hover   : {
-        opacity : 0.8
-    },
-    deselected       : {
-        opacity : 0.2
-    },
-    deselected_hover : {
-        opacity : 0.6
-    }
-  }
-
-};
-
-Racmacs.App.prototype.graphics.ptStyles = Racmacs.App.prototype.graphics.noneSelected;
+}
 
 // Change background click event listener
 Racmacs.App.prototype.clickBackground = function(e){
@@ -265,34 +329,39 @@ Racmacs.Point.prototype.dehighlight = function(){
 
 Racmacs.Point.prototype.updateDisplay = function(){
   
-    var selectionMat = this.viewer.graphics.ptStyles;
+    // Set styles based on whether points are selected or not
+    var styles;
+    if(this.viewer.points_selected) styles = this.viewer.styleset.selections;
+    else                            styles = this.viewer.styleset.noselections;
 
+    // Do not show point if coords are na
     if(this.coords_na){
         this.hide();
     }
 
-    if(this.selected || this.hovered){
-        this.setOutlineColorTemp(selectionMat.selected.outlineColor);
-    } else {
-        this.restoreOutlineColor();
-    }
-      
-    if(this.selected || this.highlighted > 0){
-        
-        if(this.hovered){
-            this.setOpacity(selectionMat.selected_hover.opacity);
+    // Update point appearance
+    if(this.hovered) {
+        if(this.selected){
+            this.setOutlineColorTemp(styles.hovered.selected.outlineColor);
+            this.setOpacity(styles.hovered.selected.opacity);
+        } else if (this.highlighted) {
+            this.restoreOutlineColor();
+            this.setOpacity(styles.hovered.highlighted.opacity);
         } else {
-            this.setOpacity(selectionMat.selected.opacity);
+            this.restoreOutlineColor();
+            this.setOpacity(styles.hovered.unselected.opacity);
         }
-
     } else {
-        
-        if(this.hovered){
-            this.setOpacity(selectionMat.deselected_hover.opacity);
+        if(this.selected){
+            this.setOutlineColorTemp(styles.unhovered.selected.outlineColor);
+            this.setOpacity(styles.unhovered.selected.opacity);
+        } else if (this.highlighted) {
+            this.restoreOutlineColor();
+            this.setOpacity(styles.unhovered.highlighted.opacity);
         } else {
-            this.setOpacity(selectionMat.deselected.opacity);
+            this.restoreOutlineColor();
+            this.setOpacity(styles.unhovered.unselected.opacity);
         }
-
     }
 
     // Run any additional on update display events

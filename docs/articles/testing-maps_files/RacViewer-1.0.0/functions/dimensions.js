@@ -24,7 +24,7 @@ Racmacs.Viewer.prototype.setPlotDims = function(plotdims){
         );
 
         // Set default opacity of points
-        this.graphics.noneSelected.deselected.opacity = 0.6;
+        this.setDefaultStyleset(2);
 
     } else {
 
@@ -42,8 +42,8 @@ Racmacs.Viewer.prototype.setPlotDims = function(plotdims){
             );
         }
 
-        // Set default opacity of points
-        this.graphics.noneSelected.deselected.opacity = 0.8;
+        // Make any stylesheet changes based on the dimension change
+        this.setDefaultStyleset(3);
         
     }
 

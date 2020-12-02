@@ -5,7 +5,8 @@ runOptimization.racchart <- function(map,
                                      number_of_optimizations,
                                      minimum_column_basis,
                                      fixed_column_bases = NULL,
-                                     parallel_optimization = TRUE){
+                                     parallel_optimization = TRUE,
+                                     dimensional_annealing = FALSE){
 
   # Set fixed column bases if provided
   if(!is.null(fixed_column_bases)){
@@ -75,7 +76,7 @@ relaxMap.racchart <- function(map,
   if(is.null(optimization_number)) optimization_number <- selectedOptimization(map)
 
   # Optimize a new optimization
-  map$chart$projections[[optimization_number]]$relax()
+  map$chart$projections[[optimization_number]]$relax("cg", FALSE)
 
   # Return the new chart
   map

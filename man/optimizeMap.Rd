@@ -9,11 +9,11 @@ optimizeMap(
   number_of_dimensions,
   number_of_optimizations,
   minimum_column_basis = "none",
-  fixed_column_bases = NULL,
+  fixed_colbases = NULL,
   sort_optimizations = TRUE,
   dimensional_annealing = FALSE,
   verbose = TRUE,
-  num_cores = detectCores(),
+  num_cores = parallel::detectCores(),
   method = "L-BFGS-B"
 )
 }
@@ -26,8 +26,6 @@ optimizeMap(
 
 \item{minimum_column_basis}{The minimum column basis to use (see details)}
 
-\item{fixed_column_bases}{A vector of fixed values to use as column bases directly, rather than calculating them from the titer table.}
-
 \item{sort_optimizations}{Should optimizations be sorted by stress afterwards?}
 
 \item{dimensional_annealing}{Should dimensional annealing be applied?}
@@ -39,6 +37,8 @@ optimizeMap(
 \item{discard_previous_optimizations}{Should previous optimizations associated with this map be discarded?}
 
 \item{realign_optimizations}{Should optimizations be realigned to align as closely as possible with each other?}
+
+\item{fixed_column_bases}{A vector of fixed values to use as column bases directly, rather than calculating them from the titer table.}
 
 \item{stepsize}{Step size to use when searching for trapped points (lower will be a finer search)}
 

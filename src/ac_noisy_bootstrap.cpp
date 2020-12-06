@@ -2,40 +2,31 @@
 #include "acmap_map.h"
 #include "acmap_titers.h"
 #include "ac_optim_map_stress.h"
-#include "ac_dimension_test.h"
+#include "ac_noisy_bootstrap.h"
 
 // [[Rcpp::export]]
-DimTestOutput ac_dimension_test_map(
-  AcTiterTable titer_table,
-  arma::uvec dimensions_to_test,
-  double test_proportion,
-  std::string minimum_column_basis,
-  bool column_bases_from_full_table,
-  int num_optimizations,
-  std::string method,
-  int maxit,
-  bool dim_annealing
+NoisyBootstrapOutput ac_noisy_bootstrap_map(
+    AcTiterTable titer_table,
+    double ag_noise_sd,
+    double titer_noise_sd,
+    std::string minimum_column_basis,
+    bool column_bases_from_full_table,
+    int num_optimizations,
+    std::string method,
+    int maxit,
+    bool dim_annealing
 ){
 
   // Declare variables
   arma::vec colbases;
 
-  // Get column bases before setting don't cares if not setting from full table
+  // Get column bases before adding noise if not setting from full table
   if(column_bases_from_full_table){
     colbases = titer_table.colbases(minimum_column_basis);
   }
 
-  // Get a random index of measured titers to test
-  int num_measured = titer_table.num_measured();
-  int num_test = round(num_measured*test_proportion);
+  // Add noise to the titer table
 
-  arma::uvec indices_measured = titer_table.vec_indices_measured();
-  arma::uvec sample = arma::randperm( num_measured, num_test );
-  arma::uvec indices_test = indices_measured.elem( sample );
-  arma::umat indices_test_mat = arma::ind2sub( titer_table.size(), indices_test );
-
-  // Set test indices to unmeasured
-  titer_table.set_unmeasured(indices_test);
 
   // Get column bases after setting don't cares if not setting from full table
   if(!column_bases_from_full_table){
@@ -63,10 +54,10 @@ DimTestOutput ac_dimension_test_map(
       titer_table,
       colbases,
       dimensions_to_test[i],
-      num_optimizations,
-      method,
-      maxit,
-      dim_annealing
+                        num_optimizations,
+                        method,
+                        maxit,
+                        dim_annealing
     );
 
     // Sort by stress and keep lowest stress coords

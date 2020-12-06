@@ -2,6 +2,9 @@
 library(testthat)
 context("Converting titers")
 
+# # Read testmap
+# map <- read.acmap(test_path("../testdata/testmap.ace"))
+
 # Test conversion to the log titer format
 test_that("Converting raw to log titers", {
 

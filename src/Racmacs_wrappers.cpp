@@ -8,7 +8,7 @@ using namespace Rcpp;
 // Get variables
 // [[Rcpp::export]]
 std::vector<std::string> ac_ag_names(
-  AcMap map
+  const AcMap map
 ){
   return map.agNames();
 }
@@ -16,14 +16,14 @@ std::vector<std::string> ac_ag_names(
 // Manipulate antigenic coordinates
 // [[Rcpp::export]]
 arma::mat ac_get_ag_coords(
-  AcOptimization opt
+  const AcOptimization opt
 ){
   return opt.agCoords();
 }
 
 // [[Rcpp::export]]
 arma::mat ac_get_sr_coords(
-    AcOptimization opt
+    const AcOptimization opt
 ){
   return opt.srCoords();
 }
@@ -31,7 +31,7 @@ arma::mat ac_get_sr_coords(
 // [[Rcpp::export]]
 AcOptimization ac_set_ag_coords(
     AcOptimization opt,
-    arma::mat coords
+    const arma::mat coords
 ){
   opt.set_ag_coords(coords);
   return opt;
@@ -40,7 +40,7 @@ AcOptimization ac_set_ag_coords(
 // [[Rcpp::export]]
 AcOptimization ac_set_sr_coords(
     AcOptimization opt,
-    arma::mat coords
+    const arma::mat coords
 ){
   opt.set_sr_coords(coords);
   return opt;
@@ -50,7 +50,7 @@ AcOptimization ac_set_sr_coords(
 // [[Rcpp::export]]
 AcOptimization ac_align_optimization(
   AcOptimization source_optimization,
-  AcOptimization target_optimization
+  const AcOptimization target_optimization
 ){
 
   source_optimization.alignToOptimization(target_optimization);
@@ -62,11 +62,38 @@ AcOptimization ac_align_optimization(
 // [[Rcpp::export]]
 AcMap ac_subset_map(
     AcMap map,
-    arma::uvec ags,
-    arma::uvec sr
+    const arma::uvec ags,
+    const arma::uvec sr
 ){
 
   map.subset(ags, sr);
   return map;
 
 }
+
+
+// Get column bases
+//' @export
+// [[Rcpp::export]]
+arma::vec ac_table_colbases(
+    const AcTiterTable titer_table,
+    const std::string min_col_basis
+){
+
+  return titer_table.colbases(min_col_basis);
+
+}
+
+
+// Get table distances
+//' @export
+// [[Rcpp::export]]
+arma::mat ac_table_distances(
+    const AcTiterTable titer_table,
+    const arma::vec colbases
+){
+
+  return titer_table.table_distances(colbases);
+
+}
+

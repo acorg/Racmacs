@@ -116,6 +116,12 @@ class AcTiter {
 class AcTiterTable {
 
   private:
+    // The titers are stored as a matrix of numeric forms and one of titer types
+    // Types:
+    // 0 = not measured
+    // 1 = measured detectable e.g. "40"
+    // 2 = measured lessthan e.g. "<10"
+    // 3 = measured morethan e.g. ">1280"
     arma::mat numeric_titers;
     arma::umat titer_types;
 
@@ -320,6 +326,7 @@ class AcTiterTable {
     ) const {
 
       arma::mat log_titers = arma::log2(numeric_titers / 10.0);
+      log_titers.replace(arma::datum::nan, log_titers.min());
       arma::vec colbases = arma::max(log_titers.t(), 1);
 
       if(min_colbasis != "none"){

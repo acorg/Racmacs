@@ -5,19 +5,22 @@ context("Calculating column bases")
 test_that("Calculating a column basis with only numeric titers", {
 
   titer_table <- read.titerTable(test_path("../testdata/titer_tables/titer_table1.csv"))
+  titer_table[2:3,1] <- "*"
+  titer_table[8:10,2] <- "*"
+  titer_table[1:4,4] <- "*"
   mode(titer_table) <- "numeric"
-  test_column_bases <- as.vector(log2(apply(titer_table/10, 2, max)))
+  test_column_bases <- as.vector(log2(apply(titer_table/10, 2, max, na.rm = T)))
 
   # Test numeric input
   expect_equal(
-    object   = ac_table_colbases(titer_table),
+    object   = ac_table_colbases(titer_table, "none"),
     expected = test_column_bases
   )
 
   # Test character input
   mode(titer_table) <- "character"
   expect_equal(
-    object   = ac_table_colbases(titer_table),
+    object   = ac_table_colbases(titer_table, "none"),
     expected = test_column_bases
   )
 

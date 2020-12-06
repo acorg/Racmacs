@@ -16,9 +16,4 @@ arma::uvec titer_types_int(
     std::vector<AcTiter> titers
 );
 
-arma::vec ac_table_colbases(
-    AcTiterTable titer_table,
-    std::string min_col_basis = "none"
-);
-
 #endif

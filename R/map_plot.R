@@ -5,27 +5,28 @@
 #'
 #' @export
 #' @family {functions to view maps}
-plot.rac <- function(map,
-                     optimization_number = NULL,
-                     xlim = NULL,
-                     ylim = NULL,
-                     asp = 1,
-                     plot_ags = TRUE,
-                     plot_sr  = TRUE,
-                     plot_labels = FALSE,
-                     grid.col = "grey90",
-                     grid.margin.col = grid.col,
-                     fill.alpha    = 0.8,
-                     outline.alpha = 0.8,
-                     padding = 1,
-                     cex = 1){
+plot.rac <- function(
+  map,
+  optimization_number = 1,
+  xlim = NULL,
+  ylim = NULL,
+  asp = 1,
+  plot_ags = TRUE,
+  plot_sr  = TRUE,
+  plot_labels = FALSE,
+  grid.col = "grey90",
+  grid.margin.col = grid.col,
+  fill.alpha    = 0.8,
+  outline.alpha = 0.8,
+  padding = 1,
+  cex = 1){
 
   # Do dimension checks
   if(mapDimensions(map, optimization_number) != 2){ stop("Plotting is only supported for 2D maps, please try view()") }
 
   # Get coords
-  ag_coords <- agCoords(map, optimization_number, .name = FALSE)
-  sr_coords <- srCoords(map, optimization_number, .name = FALSE)
+  ag_coords <- agCoords(map, optimization_number)
+  sr_coords <- srCoords(map, optimization_number)
 
   plot_coords <- c()
   if(plot_ags){ plot_coords <- rbind(plot_coords, ag_coords) }

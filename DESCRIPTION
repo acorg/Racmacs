@@ -9,6 +9,8 @@ Description: A toolkit for making antigenic maps from assay data such as HI assa
 Imports: 
     Rcpp,
     RcppArmadillo,
+    RcppProgress,
+    parallel,
     roptim,
     jsonlite, 
     stringr, 
@@ -34,7 +36,7 @@ Suggests:
     plotly
 RoxygenNote: 7.1.0
 Roxygen: list(markdown = TRUE)
-LinkingTo: Rcpp, RcppArmadillo, roptim
+LinkingTo: Rcpp, RcppArmadillo, RcppProgress, roptim
 VignetteBuilder: knitr
 License: GPL-3
 URL: https://github.com/acorg/Racmacs

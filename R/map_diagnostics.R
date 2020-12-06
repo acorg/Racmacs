@@ -34,7 +34,7 @@ dimensionTestMap <- function(
   ){
 
   # Get results
-  results <- lapply(seq_len(replicates_per_proportion), function(x){
+  results <- plapply(seq_len(replicates_per_proportion), function(x){
     ac_dimension_test_map(
       titer_table                  = titerTable(map),
       dimensions_to_test           = dimensions_to_test,
@@ -49,10 +49,96 @@ dimensionTestMap <- function(
   })
 
   # Correct indices of test results to base 1
-  lapply(results, function(result){
+  results <- lapply(results, function(result){
     result$test_indices <- result$test_indices + 1
     result
   })
 
+  # Add titer info and return the result
+  output <- list(
+    titers = titerTable(map),
+    results = results
+  )
+  class(output) <- c("ac_dimtest", class(output))
+  output
+
 }
+
+#' @export
+summary.ac_dimtest <- function(
+  dimtest
+){
+
+  # Get actual log titers
+  measured_logtiters <- log_titers(dimtest$titers)
+  titer_types        <- titer_types_int(dimtest$titers)
+  results            <- dimtest$results
+  dims_tested        <- as.vector(results[[1]]$dim)
+  num_test_runs      <- length(results)
+  num_tested         <- length(results[[1]]$test_indices)
+
+  # Get a matrix of log titers for each run
+  logtiters_per_run <- matrix(NA, num_test_runs, num_tested)
+  for(run in seq_len(num_test_runs)){
+    logtiters_per_run[run,] <- measured_logtiters[results[[run]]$test_indices]
+  }
+
+  # Get a matrix of titer types for each run
+  titertypes_per_run <- matrix(NA, num_test_runs, num_tested)
+  for(run in seq_len(num_test_runs)){
+    titertypes_per_run[run,] <- titer_types[results[[run]]$test_indices]
+  }
+
+  # Get summary statistics for each dimension
+  mean_rmse_detectable    <- rep(NA, length(dims_tested))
+  var_rmse_detectable     <- rep(NA, length(dims_tested))
+  mean_rmse_nondetectable <- rep(NA, length(dims_tested))
+  var_rmse_nondetectable  <- rep(NA, length(dims_tested))
+
+  for(x in seq_along(dims_tested)){
+
+    # Get a matrix of predicted log titers for each run
+    predictions_per_run <- matrix(NA, num_test_runs, num_tested)
+    for(run in seq_len(num_test_runs)){
+      predictions_per_run[run,] <- results[[run]]$predictions[[x]]
+    }
+
+    # Work out the summary
+    predictions_detectable_per_run <- predictions_per_run
+    predictions_detectable_per_run[titertypes_per_run == 2] <- NA
+
+    predictions_nondetectable_per_run <- predictions_per_run
+    predictions_nondetectable_per_run[titertypes_per_run != 2] <- NA
+
+    predictions_detectable_rmses <- apply(predictions_detectable_per_run, 1, function(x){
+      sqrt(mean(x^2, na.rm = T))
+    })
+    predictions_nondetectable_rmses <- apply(predictions_nondetectable_per_run, 1, function(x){
+      sqrt(mean(x^2, na.rm = T))
+    })
+
+    # Store the results
+    mean_rmse_detectable[x]    <- mean(predictions_detectable_rmses, na.rm = T)
+    var_rmse_detectable[x]     <- var(predictions_detectable_rmses, na.rm = T)
+    mean_rmse_nondetectable[x] <- mean(predictions_nondetectable_rmses, na.rm = T)
+    var_rmse_nondetectable[x]  <- var(predictions_nondetectable_rmses, na.rm = T)
+
+
+  }
+
+  data.frame(
+    dimensions = dims_tested,
+    mean_rmse_detectable = mean_rmse_detectable,
+    var_rmse_detectable = var_rmse_detectable,
+    mean_rmse_nondetectable = mean_rmse_nondetectable,
+    var_rmse_nondetectable = var_rmse_nondetectable
+  )
+
+}
+
+
+
+
+
+
 

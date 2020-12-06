@@ -497,6 +497,12 @@ std::vector<AcOptimization> ac_runOptimizations(
   // Run and return optimization results
   std::vector<AcOptimization> optimizations(num_optimizations);
   for(int i=0; i<num_optimizations; i++){
+
+    // check for interrupt every 10 iterations
+    if(i % 10 == 0){
+      Rcpp::checkUserInterrupt();
+    }
+
     optimizations[i] = ac_runBoxedOptimization(
       tabledist_matrix,
       titertype_matrix,
@@ -506,6 +512,7 @@ std::vector<AcOptimization> ac_runOptimizations(
       maxit,
       dim_annealing
     );
+
   }
   return optimizations;
 

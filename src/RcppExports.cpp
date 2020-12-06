@@ -8,84 +8,108 @@
 using namespace Rcpp;
 
 // ac_ag_names
-std::vector<std::string> ac_ag_names(AcMap map);
+std::vector<std::string> ac_ag_names(const AcMap map);
 RcppExport SEXP _Racmacs_ac_ag_names(SEXP mapSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< AcMap >::type map(mapSEXP);
+    Rcpp::traits::input_parameter< const AcMap >::type map(mapSEXP);
     rcpp_result_gen = Rcpp::wrap(ac_ag_names(map));
     return rcpp_result_gen;
 END_RCPP
 }
 // ac_get_ag_coords
-arma::mat ac_get_ag_coords(AcOptimization opt);
+arma::mat ac_get_ag_coords(const AcOptimization opt);
 RcppExport SEXP _Racmacs_ac_get_ag_coords(SEXP optSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< AcOptimization >::type opt(optSEXP);
+    Rcpp::traits::input_parameter< const AcOptimization >::type opt(optSEXP);
     rcpp_result_gen = Rcpp::wrap(ac_get_ag_coords(opt));
     return rcpp_result_gen;
 END_RCPP
 }
 // ac_get_sr_coords
-arma::mat ac_get_sr_coords(AcOptimization opt);
+arma::mat ac_get_sr_coords(const AcOptimization opt);
 RcppExport SEXP _Racmacs_ac_get_sr_coords(SEXP optSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< AcOptimization >::type opt(optSEXP);
+    Rcpp::traits::input_parameter< const AcOptimization >::type opt(optSEXP);
     rcpp_result_gen = Rcpp::wrap(ac_get_sr_coords(opt));
     return rcpp_result_gen;
 END_RCPP
 }
 // ac_set_ag_coords
-AcOptimization ac_set_ag_coords(AcOptimization opt, arma::mat coords);
+AcOptimization ac_set_ag_coords(AcOptimization opt, const arma::mat coords);
 RcppExport SEXP _Racmacs_ac_set_ag_coords(SEXP optSEXP, SEXP coordsSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< AcOptimization >::type opt(optSEXP);
-    Rcpp::traits::input_parameter< arma::mat >::type coords(coordsSEXP);
+    Rcpp::traits::input_parameter< const arma::mat >::type coords(coordsSEXP);
     rcpp_result_gen = Rcpp::wrap(ac_set_ag_coords(opt, coords));
     return rcpp_result_gen;
 END_RCPP
 }
 // ac_set_sr_coords
-AcOptimization ac_set_sr_coords(AcOptimization opt, arma::mat coords);
+AcOptimization ac_set_sr_coords(AcOptimization opt, const arma::mat coords);
 RcppExport SEXP _Racmacs_ac_set_sr_coords(SEXP optSEXP, SEXP coordsSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< AcOptimization >::type opt(optSEXP);
-    Rcpp::traits::input_parameter< arma::mat >::type coords(coordsSEXP);
+    Rcpp::traits::input_parameter< const arma::mat >::type coords(coordsSEXP);
     rcpp_result_gen = Rcpp::wrap(ac_set_sr_coords(opt, coords));
     return rcpp_result_gen;
 END_RCPP
 }
 // ac_align_optimization
-AcOptimization ac_align_optimization(AcOptimization source_optimization, AcOptimization target_optimization);
+AcOptimization ac_align_optimization(AcOptimization source_optimization, const AcOptimization target_optimization);
 RcppExport SEXP _Racmacs_ac_align_optimization(SEXP source_optimizationSEXP, SEXP target_optimizationSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< AcOptimization >::type source_optimization(source_optimizationSEXP);
-    Rcpp::traits::input_parameter< AcOptimization >::type target_optimization(target_optimizationSEXP);
+    Rcpp::traits::input_parameter< const AcOptimization >::type target_optimization(target_optimizationSEXP);
     rcpp_result_gen = Rcpp::wrap(ac_align_optimization(source_optimization, target_optimization));
     return rcpp_result_gen;
 END_RCPP
 }
 // ac_subset_map
-AcMap ac_subset_map(AcMap map, arma::uvec ags, arma::uvec sr);
+AcMap ac_subset_map(AcMap map, const arma::uvec ags, const arma::uvec sr);
 RcppExport SEXP _Racmacs_ac_subset_map(SEXP mapSEXP, SEXP agsSEXP, SEXP srSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< AcMap >::type map(mapSEXP);
-    Rcpp::traits::input_parameter< arma::uvec >::type ags(agsSEXP);
-    Rcpp::traits::input_parameter< arma::uvec >::type sr(srSEXP);
+    Rcpp::traits::input_parameter< const arma::uvec >::type ags(agsSEXP);
+    Rcpp::traits::input_parameter< const arma::uvec >::type sr(srSEXP);
     rcpp_result_gen = Rcpp::wrap(ac_subset_map(map, ags, sr));
+    return rcpp_result_gen;
+END_RCPP
+}
+// ac_table_colbases
+arma::vec ac_table_colbases(const AcTiterTable titer_table, const std::string min_col_basis);
+RcppExport SEXP _Racmacs_ac_table_colbases(SEXP titer_tableSEXP, SEXP min_col_basisSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const AcTiterTable >::type titer_table(titer_tableSEXP);
+    Rcpp::traits::input_parameter< const std::string >::type min_col_basis(min_col_basisSEXP);
+    rcpp_result_gen = Rcpp::wrap(ac_table_colbases(titer_table, min_col_basis));
+    return rcpp_result_gen;
+END_RCPP
+}
+// ac_table_distances
+arma::mat ac_table_distances(const AcTiterTable titer_table, const arma::vec colbases);
+RcppExport SEXP _Racmacs_ac_table_distances(SEXP titer_tableSEXP, SEXP colbasesSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const AcTiterTable >::type titer_table(titer_tableSEXP);
+    Rcpp::traits::input_parameter< const arma::vec >::type colbases(colbasesSEXP);
+    rcpp_result_gen = Rcpp::wrap(ac_table_distances(titer_table, colbases));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -241,18 +265,6 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// ac_table_colbases
-arma::vec ac_table_colbases(AcTiterTable titer_table, std::string min_col_basis);
-RcppExport SEXP _Racmacs_ac_table_colbases(SEXP titer_tableSEXP, SEXP min_col_basisSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< AcTiterTable >::type titer_table(titer_tableSEXP);
-    Rcpp::traits::input_parameter< std::string >::type min_col_basis(min_col_basisSEXP);
-    rcpp_result_gen = Rcpp::wrap(ac_table_colbases(titer_table, min_col_basis));
-    return rcpp_result_gen;
-END_RCPP
-}
 // ac_procrustes
 Procrustes ac_procrustes(arma::mat X, arma::mat Xstar, bool translation, bool dilation);
 RcppExport SEXP _Racmacs_ac_procrustes(SEXP XSEXP, SEXP XstarSEXP, SEXP translationSEXP, SEXP dilationSEXP) {
@@ -356,6 +368,8 @@ static const R_CallMethodDef CallEntries[] = {
     {"_Racmacs_ac_set_sr_coords", (DL_FUNC) &_Racmacs_ac_set_sr_coords, 2},
     {"_Racmacs_ac_align_optimization", (DL_FUNC) &_Racmacs_ac_align_optimization, 2},
     {"_Racmacs_ac_subset_map", (DL_FUNC) &_Racmacs_ac_subset_map, 3},
+    {"_Racmacs_ac_table_colbases", (DL_FUNC) &_Racmacs_ac_table_colbases, 2},
+    {"_Racmacs_ac_table_distances", (DL_FUNC) &_Racmacs_ac_table_distances, 2},
     {"_Racmacs_ac_dimension_test_map", (DL_FUNC) &_Racmacs_ac_dimension_test_map, 9},
     {"_Racmacs_ac_merge_titers", (DL_FUNC) &_Racmacs_ac_merge_titers, 2},
     {"_Racmacs_ac_merge_titer_layers", (DL_FUNC) &_Racmacs_ac_merge_titer_layers, 1},
@@ -367,7 +381,6 @@ static const R_CallMethodDef CallEntries[] = {
     {"_Racmacs_numeric_titers", (DL_FUNC) &_Racmacs_numeric_titers, 1},
     {"_Racmacs_log_titers", (DL_FUNC) &_Racmacs_log_titers, 1},
     {"_Racmacs_titer_types_int", (DL_FUNC) &_Racmacs_titer_types_int, 1},
-    {"_Racmacs_ac_table_colbases", (DL_FUNC) &_Racmacs_ac_table_colbases, 2},
     {"_Racmacs_ac_procrustes", (DL_FUNC) &_Racmacs_ac_procrustes, 4},
     {"_Racmacs_ac_align_coords", (DL_FUNC) &_Racmacs_ac_align_coords, 4},
     {"_Racmacs_euc_dist", (DL_FUNC) &_Racmacs_euc_dist, 2},

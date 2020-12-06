@@ -153,24 +153,24 @@ class AcMap {
 
     arma::mat agCoords(
       int opt_num = 0
-    ){
+    ) const {
       return optimizations[opt_num].agCoords();
     }
 
     arma::mat srCoords(
         int opt_num = 0
-    ){
+    ) const {
       return optimizations[opt_num].srCoords();
     }
 
     arma::mat ptCoords(
         int opt_num = 0
-    ){
+    ) const {
       return optimizations[opt_num].ptCoords();
     }
 
     // Antigen characteristics
-    std::vector<std::string> agNames(){
+    std::vector<std::string> agNames() const {
       int num_ags = antigens.size();
       std::vector<std::string> names(num_ags);
       for(int i=0; i<antigens.size(); i++){

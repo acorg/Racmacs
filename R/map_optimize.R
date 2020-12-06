@@ -49,33 +49,28 @@ optimizeMap <- function(
   number_of_dimensions,
   number_of_optimizations,
   minimum_column_basis = "none",
-  fixed_column_bases = NULL,
+  fixed_colbases = NULL,
   sort_optimizations = TRUE,
   dimensional_annealing = FALSE,
   verbose  = TRUE,
-  num_cores = detectCores(),
+  num_cores = parallel::detectCores(),
   method = "L-BFGS-B"
-  ) {
+  ){
 
   # Warn about overwriting previous optimizations
   if(numOptimizations(map) > 0) vmessage(verbose, "Discarding previous optimization runs.")
 
-  # Calculate column bases
-  colbases <- ac_getTableColbases(
-    titer_table = titerTable(map),
-    minimum_column_basis = minimum_column_basis
-  )
-
   # Perform the optimization runs
   map$optimizations <- optimizeMapBySumSquaredStressIntern(
-    map               = map,
-    colbases          = colbases,
-    num_dims          = number_of_dimensions,
-    num_optimizations = number_of_optimizations,
-    maxit             = 5000,
-    dim_annealing     = dimensional_annealing,
-    num_cores         = num_cores,
-    method            = method
+    map                  = map,
+    minimum_column_basis = minimum_column_basis,
+    fixed_colbases       = fixed_colbases,
+    num_dims             = number_of_dimensions,
+    num_optimizations    = number_of_optimizations,
+    maxit                = 5000,
+    dim_annealing        = dimensional_annealing,
+    num_cores            = num_cores,
+    method               = method
   )
 
   # Set selected optimization to 1

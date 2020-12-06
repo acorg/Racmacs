@@ -64,7 +64,7 @@ class AcOptimization {
     }
 
     // Retrieve antigen coordinates
-    arma::mat agCoords(){
+    arma::mat agCoords() const{
       return transform_coords(
         ag_base_coords,
         transformation,
@@ -73,7 +73,7 @@ class AcOptimization {
     }
 
     // Retrieve sera coordinates
-    arma::mat srCoords(){
+    arma::mat srCoords() const{
       return transform_coords(
         sr_base_coords,
         transformation,
@@ -82,7 +82,7 @@ class AcOptimization {
     }
 
     // Retrieve point coordinates (ags then sr)
-    arma::mat ptCoords(){
+    arma::mat ptCoords() const{
       return arma::join_cols(
         agCoords(),
         srCoords()

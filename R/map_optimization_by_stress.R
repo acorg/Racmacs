@@ -1,81 +1,46 @@
 
-skip.streams <- function(n) {
-  x <- .Random.seed
-  for (i in seq_len(n))
-    x <- nextRNGStream(x)
-  assign('.Random.seed', x, pos=.GlobalEnv)
-}
-
-plapply <- function(x, fn, mc.cores=1, ...){
-
-  num_optimizations <- length(x)
-
-  # Begin progress reporting
-  message("Performing ", num_optimizations, " optimization runs...")
-  optimsteps <- options()$width
-  message(rep("-", optimsteps), "\r", sep = "", appendLF = FALSE)
-  allkeysteps <- ceiling(seq(0,num_optimizations, length.out = optimsteps+1)[-1])
-  keysteps <- sapply(unique(allkeysteps), function(x){ sum(allkeysteps %in% x) })
-  names(keysteps) <- unique(allkeysteps)
-  tstart <- Sys.time()
-
-  # Setup the generic function
-  pfn <- function(optnum){
-
-    # Progress reporting part
-    if(optnum %in% names(keysteps)){
-      percent_points <- keysteps[as.character(optnum)]
-      system(paste0("1>&2 printf '", paste(rep("=", percent_points), collapse = ""), "'"))
-    }
-
-    # Call the actual function
-    fn(x[[optnum]])
-
-  }
-
-  # Now run the function with reporting
-  if(mc.cores == 1){
-
-    result <- lapply(x, pfn)
-
-  } else {
-
-    rng <- RNGkind()[1]
-    RNGkind("L'Ecuyer-CMRG")
-    skip.streams(mc.cores)
-    result <- mclapply(x, pfn, mc.cores = mc.cores, ...)
-    RNGkind(rng)
-
-  }
-
-  # Report ended
-  tend <- Sys.time()
-  tlength <- round(tend - tstart, 2)
-  message("\nDone in ", format(unclass(tlength)), " ", attr(tlength, "units"), "\n")
-
-  # Return the result
-  result
-
-}
-
 #' @export
 optimizeMapBySumSquaredStressIntern <- function(
   map,
   num_optimizations,
   num_dims,
-  colbases,
+  minimum_column_basis = "none",
+  fixed_colbases = NULL,
   method = "L-BFGS-B",
   maxit = 1000,
   num_cores = detectCores(),
   dim_annealing = FALSE
 ){
 
+  # Calculate column bases
+  if(minimum_column_basis == "fixed"){
+
+    if(is.null(fixed_colbases)){
+      stop("Fixed column bases must be supplied")
+    }
+
+    colbases <- fixed_colbases
+
+  } else {
+
+    if(!is.null(fixed_colbases)){
+      stop("Set minimum column basis to 'fixed' when supplying fixed column bases")
+    }
+
+    colbases <- ac_table_colbases(
+      titer_table = titerTable(map),
+      min_col_basis = minimum_column_basis
+    )
+
+  }
+
   # Calculate the tabledist matrix
-  tabledist_matrix <- ac_tableDists(
+  tabledist_matrix <- ac_table_distances(
     titer_table = titerTable(map),
     colbases = colbases
-  )$distances
-  # tabledist_matrix <- tableDistances(map)$distances
+  )
+
+  # Calculate the tabledist matrix
   titertype_matrix <- titerTypesInt(
     titerTable(map)
   )
@@ -110,10 +75,13 @@ optimizeMapBySumSquaredStressIntern <- function(
 
   }, mc.cores = num_cores)
 
-  # Set the column bases field
+  # Set the column bases fields
   optimizations <- lapply(optimizations, function(opt){
+
+    opt$min_column_basis <- minimum_column_basis
     opt$colbases <- colbases
     opt
+
   })
 
   # Return the optimizations
@@ -124,11 +92,10 @@ optimizeMapBySumSquaredStressIntern <- function(
 
 titerTypesInt <- function(titers){
 
-  types <- matrix(1, nrow(titers), ncol(titers)) # Assume all are measurable
-  types[substr(titers, 1, 1) == "<"] <- 2        # Mark less thans
-  types[substr(titers, 1, 1) == ">"] <- 3        # Mark greater thans
-  types[substr(titers, 1, 1) == "*"] <- 4        # Mark missing
-  types
+  matrix(
+    titer_types_int(titers),
+    nrow(titers), ncol(titers)
+  )
 
 }
 

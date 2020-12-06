@@ -44,8 +44,8 @@ acmap <- function(
 
   # Generate a new racmap object
   map <- acmap.new(
-    num_antigens = num_points$num_antigens,
-    num_sera     = num_points$num_sera
+    num_antigens = num_antigens,
+    num_sera     = num_sera
   )
 
   # Populate the map

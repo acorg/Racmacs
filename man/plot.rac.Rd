@@ -6,7 +6,7 @@
 \usage{
 \method{plot}{rac}(
   map,
-  optimization_number = NULL,
+  optimization_number = 1,
   xlim = NULL,
   ylim = NULL,
   asp = 1,

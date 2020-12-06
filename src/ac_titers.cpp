@@ -52,36 +52,7 @@ arma::uvec titer_types_int(
 }
 
 
-// Get table column bases
-//' @export
-// [[Rcpp::export]]
-arma::vec ac_table_colbases(
-  AcTiterTable titer_table,
-  std::string min_col_basis = "none"
-){
 
-  int num_sr = titer_table.nsr();
-  arma::vec column_bases(num_sr);
 
-  // Get column basis for each sera
-  for(int i=0; i<num_sr; i++){
-    column_bases(i) = arma::max(
-      log_titers(titer_table.srTiters(i))
-    );
-  }
-
-  // Clamp to the minimum column basis
-  if(min_col_basis != "none"){
-    AcTiter col_basis_titer(min_col_basis);
-    column_bases = arma::clamp(
-      column_bases,
-      col_basis_titer.logTiter(),
-      column_bases.max()
-    );
-  }
-
-  return column_bases;
-
-}
 
 

@@ -29,6 +29,16 @@ ac_subset_map <- function(map, ags, sr) {
     .Call('_Racmacs_ac_subset_map', PACKAGE = 'Racmacs', map, ags, sr)
 }
 
+#' @export
+ac_table_colbases <- function(titer_table, min_col_basis) {
+    .Call('_Racmacs_ac_table_colbases', PACKAGE = 'Racmacs', titer_table, min_col_basis)
+}
+
+#' @export
+ac_table_distances <- function(titer_table, colbases) {
+    .Call('_Racmacs_ac_table_distances', PACKAGE = 'Racmacs', titer_table, colbases)
+}
+
 ac_dimension_test_map <- function(titer_table, dimensions_to_test, test_proportion, minimum_column_basis, column_bases_from_full_table, num_optimizations, method, maxit, dim_annealing) {
     .Call('_Racmacs_ac_dimension_test_map', PACKAGE = 'Racmacs', titer_table, dimensions_to_test, test_proportion, minimum_column_basis, column_bases_from_full_table, num_optimizations, method, maxit, dim_annealing)
 }
@@ -80,11 +90,6 @@ log_titers <- function(titers) {
 #' @export
 titer_types_int <- function(titers) {
     .Call('_Racmacs_titer_types_int', PACKAGE = 'Racmacs', titers)
-}
-
-#' @export
-ac_table_colbases <- function(titer_table, min_col_basis = "none") {
-    .Call('_Racmacs_ac_table_colbases', PACKAGE = 'Racmacs', titer_table, min_col_basis)
 }
 
 ac_procrustes <- function(X, Xstar, translation, dilation) {

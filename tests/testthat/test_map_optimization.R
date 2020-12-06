@@ -3,6 +3,30 @@ library(Racmacs)
 library(testthat)
 context("Optimizing maps")
 
+# Read testmap
+map <- read.acmap(test_path("../testdata/testmap.ace"))
+titerTable(map)[1,3:4] <- "*"
+titerTable(map)[4,1:2] <- "*"
+
+test_that("Calculating table distances",{
+
+  colbases <- ac_table_colbases(
+    titer_table = titerTable(map),
+    min_col_basis = "none"
+  )
+  expect_equal(colbases, c(8,9,9,9,8))
+
+  table_dists <- ac_table_distances(
+    titer_table = titerTable(map),
+    colbases = colbases
+  )
+  logtiterTable(map)
+  browser()
+
+})
+
+stop()
+
 run.maptests(
   bothclasses = TRUE,
   loadlocally = FALSE,

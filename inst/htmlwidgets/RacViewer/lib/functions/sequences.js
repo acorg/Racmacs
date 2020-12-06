@@ -158,8 +158,8 @@ Racmacs.SequenceTable = class SequenceTable {
 		this.div.appendChild(this.tablediv);
 
 		// Add mouse event listeners to table
-        var noneSelected_deselected_opacity = viewer.graphics.noneSelected.deselected.opacity;
-        var plusSelected_deselected_opacity = viewer.graphics.plusSelected.deselected.opacity;
+		var noneSelected_deselected_opacity = this.viewer.styleset.selections.unhovered.unselected.opacity;
+		var plusSelected_deselected_opacity = this.viewer.styleset.noselections.unhovered.unselected.opacity;
 
 		this.tablediv.addEventListener("mouseenter", function(){
             viewer.graphics.noneSelected.deselected.opacity = plusSelected_deselected_opacity;

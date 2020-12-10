@@ -356,6 +356,17 @@ class AcTiterTable {
 
     }
 
+    // Add log titers to the titer table
+    void add_log_titers(
+      arma::mat log_titers_to_add
+    ){
+
+      arma::mat logtiters = arma::log2(numeric_titers / 10.0);
+      logtiters += log_titers_to_add;
+      numeric_titers = arma::exp2(logtiters)*10.0;
+
+    }
+
 };
 
 #endif

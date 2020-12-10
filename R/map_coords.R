@@ -40,8 +40,18 @@ agCoords <- function(map, optimization_number = 1){
 # Get the serum coordinates
 #' @rdname ptCoords
 #' @export
-srCoords <- function(map, optimization_number = 1, .name = TRUE){
+srCoords <- function(map, optimization_number = 1){
   ac_get_sr_coords(map$optimizations[[optimization_number]])
+}
+
+# Get the antigen and serum coordinates
+#' @rdname ptCoords
+#' @export
+ptCoords <- function(map, optimization_number = 1){
+  rbind(
+    agCoords(map),
+    srCoords(map)
+  )
 }
 
 # Set the antigen coordinates
@@ -49,6 +59,7 @@ srCoords <- function(map, optimization_number = 1, .name = TRUE){
 #' @export
 `agCoords<-` <- function(map, optimization_number = 1, value){
   map$optimizations[[optimization_number]] <- ac_set_ag_coords(map$optimizations[[optimization_number]], value)
+  map
 }
 
 
@@ -57,5 +68,6 @@ srCoords <- function(map, optimization_number = 1, .name = TRUE){
 #' @export
 `srCoords<-` <- function(map, optimization_number = 1, value){
   map$optimizations[[optimization_number]] <- ac_set_sr_coords(map$optimizations[[optimization_number]], value)
+  map
 }
 

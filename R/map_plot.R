@@ -5,7 +5,7 @@
 #'
 #' @export
 #' @family {functions to view maps}
-plot.rac <- function(
+plot.acmap <- function(
   map,
   optimization_number = 1,
   xlim = NULL,
@@ -14,6 +14,7 @@ plot.rac <- function(
   plot_ags = TRUE,
   plot_sr  = TRUE,
   plot_labels = FALSE,
+  plot_blobs = TRUE,
   grid.col = "grey90",
   grid.margin.col = grid.col,
   fill.alpha    = 0.8,
@@ -23,6 +24,7 @@ plot.rac <- function(
 
   # Do dimension checks
   if(mapDimensions(map, optimization_number) != 2){ stop("Plotting is only supported for 2D maps, please try view()") }
+  if(optimization_number != 1 && plot_blobs){ warning("Optimization number ignored when plotting blobs") }
 
   # Get coords
   ag_coords <- agCoords(map, optimization_number)
@@ -73,13 +75,18 @@ plot.rac <- function(
   }
 
   # Plot points
-  pts <- mapPoints(map                 = map,
-                   optimization_number = optimization_number)
+  pts <- mapPoints(
+    map                 = map,
+    optimization_number = optimization_number
+  )
 
   ## Hide antigens and sera
   if(!plot_ags || missing(ag_coords)) { pts$shown[map_pts$pt_type == "ag"] <- FALSE }
   if(!plot_sr  || missing(sr_coords)) { pts$shown[map_pts$pt_type == "sr"] <- FALSE }
 
+  ## Get point blobs
+  pt_blobs <- ptStressBlobs(map)
+  pts$blob <- !sapply(pt_blobs, is.null)
 
   ## Adjust alpha
   if(!is.null(fill.alpha))   { pts$fill    <- grDevices::adjustcolor(pts$fill,    alpha.f = fill.alpha)    }
@@ -87,13 +94,31 @@ plot.rac <- function(
 
   ## Plot the points
   pt_order <- draw_priority_to_order(pts$drawing_order)
-  pt_order <- pt_order[pts$shown[pt_order] == TRUE]
-  points(x   = pts$coords[pt_order,,drop=F],
-         pch = get_pch(pts$shape[pt_order]),
-         bg  = pts$fill[pt_order],
-         col = pts$outline[pt_order],
-         cex = pts$size[pt_order]*cex*0.2,
-         lwd = pts$outline_width[pt_order])
+  plotted_pt_order <- pt_order[pts$shown[pt_order]]
+  if(plot_blobs){ plotted_pt_order <- plotted_pt_order[!pts$blob[plotted_pt_order]] }
+
+  points(
+    x   = pts$coords[plotted_pt_order,,drop=F],
+    pch = get_pch(pts$shape[plotted_pt_order]),
+    bg  = pts$fill[plotted_pt_order],
+    col = pts$outline[plotted_pt_order],
+    cex = pts$size[plotted_pt_order]*cex*0.2,
+    lwd = pts$outline_width[plotted_pt_order]
+  )
+
+  ## Plot blobs
+  if(plot_blobs){
+    lapply(pt_order, function(x){
+      lapply(pt_blobs[[x]], function(blob){
+        polygon(
+          x = blob$x,
+          y = blob$y,
+          border = pts$outline[x],
+          col = pts$fill[x]
+        )
+      })
+    })
+  }
 
   ## Add labels if requested
   if(plot_labels){

@@ -7,10 +7,8 @@
 
 struct NoisyBootstrapOutput
 {
-  arma::uvec test_indices;
-  arma::uvec dim;
-  std::vector<arma::mat> coords;
-  std::vector<arma::vec> predictions;
+  arma::vec ag_noise;
+  arma::mat coords;
 };
 
 NoisyBootstrapOutput ac_noisy_bootstrap_map(
@@ -20,6 +18,7 @@ NoisyBootstrapOutput ac_noisy_bootstrap_map(
     std::string minimum_column_basis,
     bool column_bases_from_full_table,
     int num_optimizations,
+    int num_dimensions,
     std::string method,
     int maxit,
     bool dim_annealing

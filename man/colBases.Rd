@@ -41,7 +41,7 @@ function with \verb{colBases()<-} will fix the column bases to the supplied
 vector of values.
 
 Note that although the output from \code{colBases()} might be the same in a case
-where a minimum column basis was set or a case whete column bases were set
+where a minimum column basis was set or a case where column bases were set
 explcitely, when a minimum column basis is set, the column bases will still
 depend on the log titers recorded against a given sera, so changing the
 titers may therefore change the actual column bases calculated. For fixed
@@ -55,6 +55,6 @@ Other {map optimization attribute functions}:
 \code{\link{mapStress}()},
 \code{\link{mapTransformation}()},
 \code{\link{ptBaseCoords}},
-\code{\link{ptCoords}}
+\code{\link{ptCoords}()}
 }
 \concept{{map optimization attribute functions}}

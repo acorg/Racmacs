@@ -4,7 +4,7 @@
 \alias{randomizeCoords}
 \title{Randomize map coordinates}
 \usage{
-randomizeCoords(map, optimization_number = NULL)
+randomizeCoords(map, optimization_number = 1, table_dist_factor = 2)
 }
 \arguments{
 \item{map}{The acmap data object}

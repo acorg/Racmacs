@@ -99,14 +99,9 @@ save.acmap <- function(map, filename){
 }
 
 #' @export
-save.acmap.racmap <- function(map, file){
+save.acmap <- function(map, file){
   chart <- as.cpp(map)
   save.acmap(chart, file)
-}
-
-#' @export
-save.acmap.racchart <- function(map, file){
-  map$chart$save(path.expand(file))
 }
 
 

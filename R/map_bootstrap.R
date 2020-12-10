@@ -43,122 +43,49 @@ bootstrapMap <- function(
   optimizations_per_repeat = 100,
   ag_noise_sd              = 0.7,
   titer_noise_sd           = 0.7,
-  .progress                = NULL
+  column_bases_from_original_table = FALSE,
+  method = "L-BFGS-B",
+  maxit = 1000,
+  dim_annealing = FALSE
 ){
 
-  # Set a default progress function
-  if(is.null(.progress)){
-    .progress <- list(
-      init   = function()      { txtProgressBar(min = 0, max = 1, style = 3) },
-      update = function(x, pb) { setTxtProgressBar(pb, x) },
-      end    = function(pb)    { close(pb) }
+  # Check there are already some map optimizations
+  if(numOptimizations(map) == 0){
+    stop("First run some optimizations on this map with 'optimizeMap()'", call. = FALSE)
+  }
+
+  # Run the bootstrap
+  map$bootstrap <- plapply(
+    progress_msg = paste("Performing", bootstrap_repeats, "noisy bootstrap repeats..."),
+    seq_len(bootstrap_repeats), function(x){
+
+    # Do a bootstrap run
+    bs_result <- ac_noisy_bootstrap_map(
+      titer_table = titerTable(map),
+      ag_noise_sd = ag_noise_sd,
+      titer_noise_sd = titer_noise_sd,
+      minimum_column_basis = minColBasis(map),
+      column_bases_from_full_table = column_bases_from_original_table,
+      num_optimizations = optimizations_per_repeat,
+      num_dimensions = mapDimensions(map),
+      method = method,
+      maxit = maxit,
+      dim_annealing = dim_annealing
     )
-  }
 
-  # Initiate progress bar
-  if(!isFALSE(.progress)){
-    message("Bootstrapping map")
-    progressbar <- .progress$init()
-  }
-
-  # Get map optimization details
-  num_dimensions <- mapDimensions(map)
-  colbases       <- colBases(map)
-
-  # Clone map and remove transformation
-  map <- cloneMap(map)
-  map <- clearTransformation(map)
-
-  # Get map and sera name details
-  agnames <- agNames(map)
-  srnames <- srNames(map)
-
-  # Get titer table details
-  titertable      <- titerTable(map)
-  lessthans       <- substr(titertable, 1, 1) == "<"
-  morethans       <- substr(titertable, 1, 1) == ">"
-  natiters        <- titertable == "*"
-
-  # Get log titers
-  logtitertable            <- matrix(nrow = nrow(titertable), ncol = ncol(titertable))
-  logtitertable[!natiters] <- log2(as.numeric(gsub("(<|>)", "", titertable[!natiters]))/10)
-
-  # Generate noise matrices
-  bootstrap_noise <- lapply(
-    seq_len(bootstrap_repeats),
-    make_noise_matrix,
-    dims = dim(logtitertable),
-    ag_noise_sd = ag_noise_sd,
-    titer_noise_sd = titer_noise_sd
-  )
-
-  # Generate the noisy HI tables
-  noisy_tables <- lapply(
-    bootstrap_noise,
-    function(noise){
-
-      noisylogtiters <- logtitertable + noise$noise_matrix
-      noisylessthans <- !natiters & noisylogtiters < 0
-      noisylogtiters[noisylessthans] <- 0
-      noisytiters    <- round(2^noisylogtiters*10)
-      noisytiters[lessthans | noisylessthans] <- paste0("<", noisytiters[lessthans | noisylessthans])
-      noisytiters[morethans] <- paste0(">", noisytiters[morethans])
-      noisytiters[natiters]  <- "*"
-      noisytiters
-
-    }
-  )
-
-  # Get the map coords for each bootstrap run
-  bootstrap_coords <- lapply(
-    seq_along(noisy_tables),
-    function(x){
-
-      # Update progress
-      if(!isFALSE(.progress)){
-        .progress$update(x/length(noisy_tables), progressbar)
-      }
-
-      noisy_table <- noisy_tables[[x]]
-      bootmap <- acmap.cpp(
-        table = noisy_table
-      )
-
-      bootmap$chart$set_column_bases(colbases)
-      tryCatch({
-        bootmap$chart$relax_many(
-          "none",
-          num_dimensions,
-          optimizations_per_repeat,
-          TRUE
-        )
-      }, error = function(e){ browser() })
-      bootmap$chart$sort_projections()
-      selectedOptimization(bootmap) <- 1
-
-      agNames(bootmap) <- agnames
-      srNames(bootmap) <- srnames
-
-      bootmap <- realignMap(bootmap, map)
-      rbind(agCoords(bootmap, .name = FALSE), srCoords(bootmap, .name = FALSE))
-
-    }
-  )
-
-  # Close progress bar
-  if(!isFALSE(.progress)){
-    .progress$end(progressbar)
-  }
-
-  # Store the results
-  setMapAttribute(
-    map,
-    "bootstrap",
-    list(
-      ag_noise = lapply(bootstrap_noise, function(x) x$ag_noise ),
-      coords   = bootstrap_coords
+    # Align to the main map coordinates
+    bs_result$coords <- ac_align_coords(
+      bs_result$coords,
+      ptCoords(map)
     )
-  )
+
+    # Return the result
+    bs_result
+
+  })
+
+  # Return the map
+  map
 
 }
 
@@ -186,10 +113,6 @@ mapBootstrap_agCoords <- function(map){
 #' @export
 mapBootstrap_srCoords <- function(map){
 
-  # Get bootstrap data
-  bootstrap <- getMapAttribute(map, "bootstrap")
-  if(is.null(bootstrap)) stop("There are no bootstrap repeats associated with this map, create some first using 'bootstrapMap()'")
-
   # Return the data
   num_antigens <- numAntigens(map)
   lapply(mapBootstrap_ptCoords(map), function(x){ x[-seq_len(num_antigens),,drop=F] })
@@ -200,11 +123,16 @@ mapBootstrap_srCoords <- function(map){
 mapBootstrap_ptCoords <- function(map){
 
   # Get bootstrap data
-  bootstrap <- getMapAttribute(map, "bootstrap")
+  bootstrap <- map$bootstrap
   if(is.null(bootstrap)) stop("There are no bootstrap repeats associated with this map, create some first using 'bootstrapMap()'")
 
   # Apply the map transformation to the bootstrap coordinates
-  lapply(bootstrap$coords, applyMapTransform, map = map)
+  lapply(bootstrap, function(result){
+    applyMapTransform(
+      coords = result$coords,
+      map = map
+    )
+  })
 
 }
 
@@ -213,11 +141,16 @@ mapBootstrap_ptCoords <- function(map){
 
 bootstrapFromJsonlist <- function(jsonlist){
 
-  bootstrap          <- jsonlist
-  bootstrap$ag_noise <- lapply(bootstrap$ag_noise, unlist)
-  bootstrap$coords   <- lapply(bootstrap$coords, unlist)
-  bootstrap$coords   <- lapply(bootstrap$coords, matrix, ncol = length(jsonlist$coords[[1]][[1]]), byrow = TRUE)
-  bootstrap
+  lapply(jsonlist, function(result){
+    list(
+      ag_noise = unlist(result$ag_noise),
+      coords = matrix(
+        data  = unlist(result$coords),
+        ncol  = length(result$coords[[1]][[1]]),
+        byrow = TRUE
+      )
+    )
+  })
 
 }
 

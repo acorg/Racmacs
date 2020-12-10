@@ -7,10 +7,9 @@
 stressBlobs(
   map,
   stress_lim = 1,
+  grid_spacing = 0.25,
   antigens = TRUE,
   sera = TRUE,
-  grid_spacing = 0.25,
-  .progress = NULL,
   .check_relaxation = TRUE
 )
 }
@@ -19,11 +18,11 @@ stressBlobs(
 
 \item{stress_lim}{The blob stress limit}
 
+\item{grid_spacing}{Grid spacing to use when calculating the blob}
+
 \item{antigens}{Antigens to calculate blobs for (TRUE for all FALSE for none, or specified by name or index)}
 
 \item{sera}{Sera to calculate blobs for (TRUE for all FALSE for none, or specified by name or index)}
-
-\item{grid_spacing}{Grid spacing to use when calculating the blob}
 
 \item{data}{The stress data to add (calculated if not provided)}
 

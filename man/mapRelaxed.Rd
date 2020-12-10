@@ -4,7 +4,7 @@
 \alias{mapRelaxed}
 \title{Check if a map has been fully relaxed}
 \usage{
-mapRelaxed(map, optimization_number = NULL)
+mapRelaxed(map, optimization_number = 1)
 }
 \arguments{
 \item{map}{The acmap data object}

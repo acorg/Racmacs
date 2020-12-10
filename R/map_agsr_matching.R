@@ -13,17 +13,13 @@ NULL
 #' @export
 match_mapAntigens <- function(
   map1,
-  map2,
-  passage_matching = "ignore",
-  warnings = TRUE
+  map2
 ){
 
-  # Stop if passage matching is not ignored
-  if(passage_matching != "ignore"){
-    stop("Passage matching is not yet supported.")
-  }
-
-  get_ag_indices(agNames(map1), map2, warnings)
+  # Convert indices
+  indices <- ac_match_map_ags(map1, map2)
+  indices[indices < 0] <- NA
+  as.vector(indices + 1)
 
 }
 
@@ -32,17 +28,13 @@ match_mapAntigens <- function(
 #' @export
 match_mapSera <- function(
   map1,
-  map2,
-  passage_matching = "ignore",
-  warnings = TRUE
+  map2
 ){
 
-  # Stop if passage matching is not ignored
-  if(passage_matching != "ignore"){
-    stop("Passage matching is not yet supported.")
-  }
-
-  get_sr_indices(srNames(map1), map2, warnings)
+  # Convert indices
+  indices <- ac_match_map_sr(map1, map2)
+  indices[indices < 0] <- NA
+  as.vector(indices + 1)
 
 }
 

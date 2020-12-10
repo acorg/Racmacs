@@ -18,12 +18,16 @@ skip.streams <- function(n) {
 
 
 
-plapply <- function(x, fn, mc.cores=parallel::detectCores(), ...){
+plapply <- function(
+  x, fn,
+  mc.cores=parallel::detectCores(),
+  progress_msg,
+  ...){
 
   num_optimizations <- length(x)
 
   # Begin progress reporting
-  message("Performing ", num_optimizations, " optimization runs...")
+  message(progress_msg)
   optimsteps <- options()$width
   message(rep("-", optimsteps), "\r", sep = "", appendLF = FALSE)
   allkeysteps <- ceiling(seq(0,num_optimizations, length.out = optimsteps+1)[-1])

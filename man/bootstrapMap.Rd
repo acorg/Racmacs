@@ -10,7 +10,10 @@ bootstrapMap(
   optimizations_per_repeat = 100,
   ag_noise_sd = 0.7,
   titer_noise_sd = 0.7,
-  .progress = NULL
+  column_bases_from_original_table = FALSE,
+  method = "L-BFGS-B",
+  maxit = 1000,
+  dim_annealing = FALSE
 )
 }
 \arguments{

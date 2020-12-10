@@ -1,14 +1,15 @@
 
 # include <RcppArmadillo.h>
+# include "acmap_map.h"
 # include "acmap_titers.h"
 # include "ac_titers.h"
+# include "ac_matching.h"
 
 // For merging character titers
-//' @export
 // [[Rcpp::export]]
 AcTiter ac_merge_titers(
     std::vector<AcTiter> titers,
-    double sd_lim = 1.0
+    double sd_lim
 ){
 
   // Return the titer if size 1
@@ -63,7 +64,6 @@ AcTiter ac_merge_titers(
 }
 
 // For merging titer layers
-//' @export
 // [[Rcpp::export]]
 AcTiterTable ac_merge_titer_layers(
     std::vector<AcTiterTable> titer_layers
@@ -97,3 +97,115 @@ AcTiterTable ac_merge_titer_layers(
   return merged_table;
 
 }
+
+
+// Check if point already in points
+template <typename T>
+bool pt_in_points(
+    T const& pt,
+    std::vector<T> const& pts
+){
+
+  for(int i=0; i<pts.size(); i++){
+    if(pts[i].get_id() == pt.get_id()){
+      return true;
+    }
+  }
+  return false;
+
+}
+
+
+// Construct another titer table based on a subset of indices
+AcTiterTable subset_titer_table(
+  AcTiterTable titer_table,
+  arma::ivec agsubset,
+  arma::ivec srsubset
+){
+
+  AcTiterTable titer_table_subset(
+    agsubset.n_elem,
+    srsubset.n_elem
+  );
+
+  for(int ag=0; ag<agsubset.n_elem; ag++){
+    for(int sr=0; sr<srsubset.n_elem; sr++){
+      if(agsubset(ag) != -1 && srsubset(sr) != -1){
+        titer_table_subset.set_titer(
+          ag, sr,
+          titer_table.get_titer(
+            agsubset(ag),
+            srsubset(sr)
+          )
+        );
+      }
+    }
+  }
+
+  return titer_table_subset;
+
+}
+
+// [[Rcpp::export]]
+AcMap ac_merge_map_tables(
+  std::vector<AcMap> maps
+){
+
+  // Setup for output
+  std::vector<AcAntigen> merged_antigens;
+  std::vector<AcSerum> merged_sera;
+  std::vector<AcTiterTable> merged_layers;
+
+  // Add antigens and sera
+  for(int i=0; i<maps.size(); i++){
+
+    for(int ag=0; ag<maps[i].antigens.size(); ag++){
+      if(!pt_in_points(maps[i].antigens[ag], merged_antigens)){
+        merged_antigens.push_back(maps[i].antigens[ag]);
+      }
+    }
+
+    for(int sr=0; sr<maps[i].sera.size(); sr++){
+      if(!pt_in_points(maps[i].sera[sr], merged_sera)){
+        merged_sera.push_back(maps[i].sera[sr]);
+      }
+    }
+
+  }
+
+  // Add titer table layers
+  for(int i=0; i<maps.size(); i++){
+
+    arma::ivec merged_map_ag_matches = ac_match_points(merged_antigens, maps[i].antigens);
+    arma::ivec merged_map_sr_matches = ac_match_points(merged_sera, maps[i].sera);
+
+    std::vector<AcTiterTable> titer_table_layers = maps[i].get_titer_table_layers();
+
+    for(int layer=0; layer<titer_table_layers.size(); layer++){
+      merged_layers.push_back(
+        subset_titer_table(
+          titer_table_layers[layer],
+          merged_map_ag_matches,
+          merged_map_sr_matches
+        )
+      );
+    }
+
+  }
+
+  // Create the map
+  AcMap merged_map = AcMap(
+    merged_antigens.size(),
+    merged_sera.size()
+  );
+
+  merged_map.antigens = merged_antigens;
+  merged_map.sera = merged_sera;
+  merged_map.set_titer_table_layers(
+    merged_layers
+  );
+
+  return merged_map;
+
+}
+

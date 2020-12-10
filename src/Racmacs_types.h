@@ -5,6 +5,8 @@
 #include "acmap_map.h"
 #include "procrustes.h"
 #include "ac_dimension_test.h"
+#include "ac_noisy_bootstrap.h"
+#include "ac_stress_blobs.h"
 
 #ifndef Racmacs__RacmacsWrap__h
 #define Racmacs__RacmacsWrap__h
@@ -17,17 +19,26 @@ namespace Rcpp {
   // FROM: ACOPTIMIZATION
   template <>
   SEXP wrap(const AcOptimization& acopt){
-    return wrap(
-      List::create(
-        _["ag_base_coords"] = acopt.get_ag_base_coords(),
-        _["sr_base_coords"] = acopt.get_sr_base_coords(),
-        _["column_bases"] = acopt.get_column_bases(),
-        _["transformation"] = acopt.get_transformation(),
-        _["translation"] = acopt.get_translation(),
-        _["stress"] = acopt.get_stress(),
-        _["comment"] = acopt.get_comment()
-      )
+
+    List out = List::create(
+      _["ag_base_coords"] = acopt.get_ag_base_coords(),
+      _["sr_base_coords"] = acopt.get_sr_base_coords(),
+      _["min_column_basis"] = acopt.get_min_column_basis(),
+      _["transformation"] = acopt.get_transformation(),
+      _["translation"] = acopt.get_translation(),
+      _["stress"] = acopt.get_stress(),
+      _["comment"] = acopt.get_comment()
     );
+
+    if(acopt.get_min_column_basis() == "fixed"){
+      out.push_back(
+        acopt.get_fixed_column_bases(),
+        "fixed_column_bases"
+      );
+    }
+
+    return wrap(out);
+
   }
 
   // FROM: ACTITER
@@ -149,22 +160,25 @@ namespace Rcpp {
     // Titer table layers
     List titer_table_layers = List::create();
     for(int i=0; i<acmap.titer_table_layers.size(); i++){
-      titer_table_layers.push_back(as<List>(wrap(acmap.titer_table_layers[i])));
+      titer_table_layers.push_back(as<CharacterMatrix>(wrap(acmap.titer_table_layers[i])));
     }
 
     // Titer table flat
     CharacterMatrix titer_table_flat = as<CharacterMatrix>(wrap(acmap.titer_table_flat));
 
-    return wrap(
-      List::create(
-        _["name"] = acmap.name,
-        _["antigens"] = antigens,
-        _["sera"] = sera,
-        _["optimizations"] = optimizations,
-        _["titer_table_flat"] = titer_table_flat,
-        _["titer_table_layers"] = titer_table_layers
-      )
+    // Assemable list
+    List out = List::create(
+      _["name"] = acmap.name,
+      _["antigens"] = antigens,
+      _["sera"] = sera,
+      _["optimizations"] = optimizations,
+      _["titer_table_flat"] = titer_table_flat,
+      _["titer_table_layers"] = titer_table_layers
     );
+
+    // Set class attribute and return
+    out.attr("class") = CharacterVector::create("acmap", "list");
+    return wrap(out);
 
   }
 
@@ -193,16 +207,59 @@ namespace Rcpp {
 
   }
 
+  // Noisy bootstrap results
+  template <>
+  SEXP wrap(const NoisyBootstrapOutput& noisybootstrapout){
+
+    return wrap(
+      List::create(
+        _["ag_noise"] = noisybootstrapout.ag_noise,
+        _["coords"] = noisybootstrapout.coords
+      )
+    );
+
+  }
+
+  // Stress blob results 2d
+  template <>
+  SEXP wrap(const StressBlobGrid2d& blobgrid){
+
+    return wrap(
+      List::create(
+        _["grid"] = blobgrid.grid,
+        _["coords"] = List::create(blobgrid.xcoords, blobgrid.ycoords),
+        _["stress_lim"] = blobgrid.stress_lim
+      )
+    );
+
+  }
+
   // For converting from R to C++
   // TO: ACOPTIMIZATION
   template <>
   AcOptimization as(SEXP sxp){
     List opt = as<List>(sxp);
-    AcOptimization acopt = AcOptimization();
-    acopt.set_ag_base_coords( as<arma::mat>(wrap(opt["ag_base_coords"])) );
-    acopt.set_sr_base_coords( as<arma::mat>(wrap(opt["sr_base_coords"])) );
+    if(opt.size() == 0){
+      stop("Missing the optimization run");
+    }
+
+    // Get variables
+    arma::mat ag_base_coords = as<arma::mat>(wrap(opt["ag_base_coords"]));
+    arma::mat sr_base_coords = as<arma::mat>(wrap(opt["sr_base_coords"]));
+    std::string mincolbasis = as<std::string>(wrap(opt["min_column_basis"]));
+
+    // Setup object
+    AcOptimization acopt = AcOptimization(
+      ag_base_coords.n_cols,
+      ag_base_coords.n_rows,
+      sr_base_coords.n_rows
+    );
+
+    // Populate
+    acopt.set_ag_base_coords( ag_base_coords );
+    acopt.set_sr_base_coords( sr_base_coords );
     acopt.set_stress( as<double>(wrap(opt["stress"])) );
-    acopt.set_min_column_basis( as<std::string>(wrap(opt["min_column_basis"])) );
+
     if(opt.containsElementNamed("transformation")) {
       acopt.set_transformation( as<arma::mat>(wrap(opt["transformation"])) );
     }
@@ -212,10 +269,25 @@ namespace Rcpp {
     if(opt.containsElementNamed("comment")) {
       acopt.set_comment( as<std::string>(wrap(opt["comment"])) );
     }
-    if(strcmp(opt["min_column_basis"], "fixed") == 0){
-      acopt.set_column_bases( as<arma::vec>(wrap(opt["column_bases"])) );
+
+    // Column bases
+    if(mincolbasis == "fixed"){
+
+      if(!opt.containsElementNamed("fixed_column_bases")){
+        stop("Fixed column bases must be specified when minimum column basis is set to 'fixed'");
+      } else{
+        acopt.set_fixed_column_bases( as<arma::vec>(wrap(opt["fixed_column_bases"])) );
+      }
+
+    } else {
+
+      acopt.set_min_column_basis( mincolbasis );
+
     }
+
+    // Return the object
     return acopt;
+
   };
 
   // TO: ACTITER
@@ -228,47 +300,26 @@ namespace Rcpp {
   // TO: ACTITERTABLE
   template <>
   AcTiterTable as(SEXP sxp){
-    try {
 
-      // First try character matrix
-      CharacterMatrix titers = as<CharacterMatrix>(sxp);
-      int num_ags = titers.nrow();
-      int num_sr = titers.ncol();
-      AcTiterTable titertable = AcTiterTable(
-        num_ags,
-        num_sr
-      );
-      for(int ag=0; ag<num_ags; ag++){
-        for(int sr=0; sr<num_sr; sr++){
-          titertable.set_titer_string(
-            ag, sr,
-            as<std::string>(titers(ag,sr))
-          );
-        }
+    CharacterMatrix titers = as<CharacterMatrix>(sxp);
+    int num_ags = titers.nrow();
+    int num_sr = titers.ncol();
+    AcTiterTable titertable = AcTiterTable(
+      num_ags,
+      num_sr
+    );
+
+    for(int ag=0; ag<num_ags; ag++){
+      for(int sr=0; sr<num_sr; sr++){
+        titertable.set_titer_string(
+          ag, sr,
+          as<std::string>(titers(ag,sr))
+        );
       }
-      return titertable;
-
-    } catch(...){
-
-      // Then try numeric matrix
-      NumericMatrix titers = as<NumericMatrix>(sxp);
-      int num_ags = titers.nrow();
-      int num_sr = titers.ncol();
-      AcTiterTable titertable = AcTiterTable(
-        num_ags,
-        num_sr
-      );
-      for(int ag=0; ag<num_ags; ag++){
-        for(int sr=0; sr<num_sr; sr++){
-          titertable.set_titer_double(
-            ag, sr,
-            titers(ag,sr)
-          );
-        }
-      }
-      return titertable;
-
     }
+
+    return titertable;
+
   };
 
   // TO: ACTITER VECTOR
@@ -385,6 +436,19 @@ namespace Rcpp {
     }
 
     return acmap;
+
+  }
+
+  // TO: ACMAP VECTOR
+  template <>
+  std::vector<AcMap> as(SEXP sxp){
+    List maps = as<List>(sxp);
+    int nmaps = maps.size();
+    std::vector<AcMap> out;
+    for(int i=0; i<nmaps; i++){
+      out.push_back(as<AcMap>(wrap(maps[i])));
+    }
+    return out;
   }
 
 }

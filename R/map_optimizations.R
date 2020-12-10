@@ -195,86 +195,44 @@ addOptimization <- function(
   map,
   ag_coords = NULL,
   sr_coords = NULL,
-  number_of_dimensions,
-  minimum_column_basis = NULL,
-  warnings             = TRUE,
-  ...
+  number_of_dimensions = NULL,
+  minimum_column_basis = "none",
+  fixed_column_bases = NULL
 ){
 
-  # Set arguments
-  arguments <- list(...)
-  if("ag_base_coords" %in% names(arguments) && !is.null(ag_coords)) stop("You can supply only one of 'ag_base_coords' and 'ag_coords'")
-  if("sr_base_coords" %in% names(arguments) && !is.null(sr_coords)) stop("You can supply only one of 'sr_base_coords' and 'sr_coords'")
-  if(!"ag_base_coords" %in% names(arguments)) arguments$ag_base_coords <- ag_coords
-  if(!"sr_base_coords" %in% names(arguments)) arguments$sr_base_coords <- sr_coords
-
-  # Check for unrecognised arguments
-  unmatched_args <- names(arguments)[!names(arguments) %in% list_property_function_bindings("optimization")$property]
-  if(length(unmatched_args) > 0){
-    stop(sprintf("Unrecognised arguments, '%s'", paste(unmatched_args, collapse = "', '")))
+  # Check input
+  if(is.null(number_of_dimensions) && (is.null(ag_coords) || is.null(sr_coords))){
+    stop("You must specify either a number of dimensions or both antigen and sera coordinates")
   }
 
-  # Decide number of dimensions
-  if(!is.null(arguments$ag_base_coords)) {
-    number_of_dimensions <- ncol(arguments$ag_base_coords)
-  } else if(!is.null(arguments$sr_base_coords)) {
-    number_of_dimensions <- ncol(arguments$sr_base_coords)
-  } else number_of_dimensions <- 2
-
-  ## Decide antigen and sera coordinates
-  if(is.null(arguments$ag_base_coords)) arguments$ag_base_coords <- matrix(nrow = numAntigens(map), ncol = number_of_dimensions)
-  if(is.null(arguments$sr_base_coords)) arguments$sr_base_coords <- matrix(nrow = numSera(map), ncol = number_of_dimensions)
-
-  ## Check that column bases match up if provided separately when minimum_column_basis is specified
-  if(!is.null(minimum_column_basis) && minimum_column_basis != "fixed" && "column_bases" %in% names(arguments)){
-    expected_colbases <- unname(ac_getTableColbases(titer_table             = titerTable(map),
-                                                    minimum_column_basis = minimum_column_basis))
-    if(!isTRUE(all.equal(expected_colbases, unname(arguments[["column_bases"]])))){
-      stop("Column bases provided do not match up with minimum_column_basis specification of '", minimum_column_basis, "'")
-    }
-    ### Remove the column bases argument if they are
-    arguments$column_bases <- NULL
+  # Infer the number of dimensions
+  if(is.null(number_of_dimensions)){
+    number_of_dimensions <- ncol(ag_coords)
   }
 
-  ## Check that column bases are provided separately when minimum_column_basis = "fixed"
-  if(!is.null(minimum_column_basis) && minimum_column_basis == "fixed"){
-    if(!"column_bases" %in% names(arguments)){
-      ### Stop if they are not provided
-      stop("Column bases must be provided via the 'column_bases' argument when minimum_column_basis='fixed'")
-    } else {
-      ### Set the minimum column basis to "none" if they are
-      minimum_column_basis <- "none"
-    }
-  }
-
-  # Set a default minimum column basis of none
-  if(is.null(minimum_column_basis)){
-    # warning("No minimum column basis specified so was set to 'none'")
-    minimum_column_basis <- "none"
-  }
-
-  # Check minimum column basis is the right length
-  if(length(minimum_column_basis) != 1){
-    stop("minumum_column_basis must be provided as a vector of length 1")
-  }
-
-  # Add a new empty optimization
-  map <- optimization.add(
-    map                  = map,
-    number_of_dimensions = number_of_dimensions,
-    minimum_column_basis = as.character(minimum_column_basis)
+  # Create the new optimization
+  opt <- ac_newOptimization(
+    dimensions = number_of_dimensions,
+    num_antigens = numAntigens(map),
+    num_sera = numSera(map)
   )
 
-  # Select the new optimization run
-  if(is.null(selectedOptimization(map))) selectedOptimization(map) <- 1
+  # Set the coordinates if provided
+  if(!is.null(ag_coords)) opt <- ac_set_ag_coords(opt, ag_coords)
+  if(!is.null(sr_coords)) opt <- ac_set_sr_coords(opt, sr_coords)
 
-  # Apply the methods to set the variables
-  optimization_functions <- list_property_function_bindings("optimization")
-  optimization_number <- numOptimizations(map)
-  for(i in seq_along(arguments)){
-    setter <- get(paste0(optimization_functions$method[optimization_functions$property == names(arguments)[i]], "<-"))
-    map    <- setter(map, optimization_number, value = arguments[[i]])
+  # Set column bases
+  if(!is.null(fixed_column_bases)){
+    opt <- ac_set_fixed_column_bases(opt, fixed_column_bases)
+  } else {
+    opt <- ac_set_min_column_basis(opt, minimum_column_basis)
   }
+
+  # Append the optimization
+  map$optimizations <- c(
+    map$optimizations,
+    list(opt)
+  )
 
   # Return the map
   map
@@ -298,7 +256,7 @@ optimization.add <- function(map, ...) UseMethod("optimization.add", map)
 #'
 listOptimizations <- function(map){
 
-  UseMethod("listOptimizations", map)
+  map$optimizations
 
 }
 
@@ -318,15 +276,9 @@ listOptimizations <- function(map){
 #'
 #' @export
 #'
-getOptimization <- function(map, optimization_number = NULL){
+getOptimization <- function(map, optimization_number = 1){
 
-  optimization_function_list <- list_property_function_bindings("optimization")
-  values <- list()
-  for(i in seq_len(nrow(optimization_function_list))){
-    getter <- get(optimization_function_list$method[i])
-    values[[optimization_function_list$property[i]]] <- getter(map, optimization_number)
-  }
-  values
+  map$optimizations[[optimization_number]]
 
 }
 

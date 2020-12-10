@@ -5,40 +5,38 @@ context("Loading map data")
 
 save_file <- test_path("../testdata/testmap.ace")
 
-for(maptype in c("racmap", "racchart")){
+# Errors
+test_that("Errors reading in", {
+  expect_error(
+    read.acmap("filedoesntexist"),
+    "File 'filedoesntexist' not found"
+  )
+})
 
-  if(maptype == "racmap")   read.map <- read.acmap
-  if(maptype == "racchart") read.map <- read.acmap.cpp
+# Loading full file
+map_full <- read.acmap(filename = save_file)
 
-  # Errors
-  test_that(paste("Errors reading in", maptype), {
-    expect_error(
-      read.map("filedoesntexist"),
-      "File 'filedoesntexist' not found"
-    )
-  })
+test_that("Reading in", {
+  expect_equal(numOptimizations(map_full), 3)
+})
 
-  # Loading full file
-  map_full <- read.map(filename = save_file)
+# Loading stress ordered
+map_stress_ordered <- read.acmap(
+  filename = save_file,
+  sort_optimizations = TRUE
+)
 
-  test_that(paste("Reading in", maptype), {
-    expect_equal(numOptimizations(map_full), 3)
-  })
+test_that("Reading in stress ordered", {
+  expect_equal(
+    order(allMapStresses(map_stress_ordered)),
+    seq_len(numOptimizations(map_full))
+  )
+})
 
-  # Loading stress ordered
-  map_stress_ordered <- read.map(filename = save_file, sort_optimizations = TRUE)
+# Keeping only best stress
+map_best_stress <- read.acmap(filename = save_file, only_best_optimization = TRUE)
 
-  test_that(paste("Reading in stress ordered", maptype), {
-    expect_equal(order(allMapStresses(map_stress_ordered)), seq_len(numOptimizations(map_full)))
-  })
-
-
-  # Keeping only best stress
-  map_best_stress <- read.map(filename = save_file, only_best_optimization = TRUE)
-
-  test_that(paste("Reading in best stress", maptype), {
-    expect_equal(numOptimizations(map_best_stress), 1)
-    expect_equal(mapStress(map_best_stress), min(allMapStresses(map_full)))
-  })
-
-}
+test_that("Reading in best stress", {
+  expect_equal(numOptimizations(map_best_stress), 1)
+  expect_equal(mapStress(map_best_stress), min(allMapStresses(map_full)))
+})

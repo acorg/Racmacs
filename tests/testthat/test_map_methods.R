@@ -10,12 +10,12 @@ test_that("Edit map strain details", {
 
   # Chart name -------
   expect_equal(
-    name(map),
-    ""
+    mapName(map),
+    NULL
   )
 
-  name(map) <- "NEW NAME"
-  expect_equal(name(map), "NEW NAME")
+  mapName(map) <- "NEW NAME"
+  expect_equal(mapName(map), "NEW NAME")
 
 
   # HI table -------
@@ -23,7 +23,7 @@ test_that("Edit map strain details", {
   expect_equal(sum(titerTable(map) == "<10"), 3)
   expect_equal(sum(titerTable(map) == "40"), 9)
 
-  new_table <- matrix(40, numAntigens(map), numSera(map))
+  new_table <- matrix("40", numAntigens(map), numSera(map))
   titerTable(map) <- new_table
   expect_equal(unname(titerTable(map)), new_table)
 

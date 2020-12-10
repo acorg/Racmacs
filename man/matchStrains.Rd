@@ -6,9 +6,9 @@
 \alias{match_mapSera}
 \title{Find matching antigens or sera between 2 maps}
 \usage{
-match_mapAntigens(map1, map2, passage_matching = "ignore", warnings = TRUE)
+match_mapAntigens(map1, map2)
 
-match_mapSera(map1, map2, passage_matching = "ignore", warnings = TRUE)
+match_mapSera(map1, map2)
 }
 \arguments{
 \item{map1}{The names to match to.}

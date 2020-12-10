@@ -4,7 +4,7 @@
 \alias{getOptimization}
 \title{Get optimization details from an acmap object}
 \usage{
-getOptimization(map, optimization_number = NULL)
+getOptimization(map, optimization_number = 1)
 }
 \arguments{
 \item{map}{The acmap data object}

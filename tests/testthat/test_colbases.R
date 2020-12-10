@@ -1,5 +1,6 @@
 
 library(testthat)
+library(Racmacs)
 context("Calculating column bases")
 
 test_that("Calculating a column basis with only numeric titers", {
@@ -8,40 +9,43 @@ test_that("Calculating a column basis with only numeric titers", {
   titer_table[2:3,1] <- "*"
   titer_table[8:10,2] <- "*"
   titer_table[1:4,4] <- "*"
-  mode(titer_table) <- "numeric"
-  test_column_bases <- as.vector(log2(apply(titer_table/10, 2, max, na.rm = T)))
+
+  numeric_titer_table <- titer_table
+  numeric_titer_table[numeric_titer_table == "*"] <- NA
+  mode(numeric_titer_table) <- "numeric"
+
+  test_column_bases <- as.vector(log2(apply(numeric_titer_table/10, 2, max, na.rm = T)))
 
   # Test numeric input
   expect_equal(
-    object   = ac_table_colbases(titer_table, "none"),
+    object   = tableColbases(titer_table, "none"),
     expected = test_column_bases
   )
 
   # Test character input
-  mode(titer_table) <- "character"
   expect_equal(
-    object   = ac_table_colbases(titer_table, "none"),
+    object   = tableColbases(titer_table, "none"),
     expected = test_column_bases
   )
 
   # Test minimum column basis
   test_column_bases[test_column_bases < 6] <- 6
   expect_equal(
-    object   = ac_table_colbases(titer_table, "640"),
+    object   = tableColbases(titer_table, "640"),
     expected = test_column_bases
   )
 
   # Test missing values column basis
   titer_table[6,1] <- "*"
   expect_equal(
-    object   = ac_table_colbases(titer_table, "640"),
+    object   = tableColbases(titer_table, "640"),
     expected = test_column_bases
   )
 
   # Test NA values
   titer_table[8,2] <- NA
   expect_equal(
-    object   = ac_table_colbases(titer_table, "640"),
+    object   = tableColbases(titer_table, "640"),
     expected = test_column_bases
   )
 

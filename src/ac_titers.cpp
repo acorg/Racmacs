@@ -53,6 +53,3 @@ arma::uvec titer_types_int(
 
 
 
-
-
-

@@ -4,7 +4,7 @@
 \alias{relaxMapOneStep}
 \title{Relax a map one step in the optimiser}
 \usage{
-relaxMapOneStep(map, optimization_number = NULL)
+relaxMapOneStep(map, optimization_number = 1, options = list())
 }
 \arguments{
 \item{map}{The acmap data object}

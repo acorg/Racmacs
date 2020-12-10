@@ -51,14 +51,15 @@ optimizeMap <- function(
   minimum_column_basis = "none",
   fixed_colbases = NULL,
   sort_optimizations = TRUE,
-  dimensional_annealing = FALSE,
   verbose  = TRUE,
-  num_cores = parallel::detectCores(),
-  method = "L-BFGS-B"
+  options = list()
   ){
 
   # Warn about overwriting previous optimizations
   if(numOptimizations(map) > 0) vmessage(verbose, "Discarding previous optimization runs.")
+
+  # Get optimizer options
+  options <- do.call(RacOptimizer.options, options)
 
   # Perform the optimization runs
   map$optimizations <- optimizeMapBySumSquaredStressIntern(
@@ -67,10 +68,10 @@ optimizeMap <- function(
     fixed_colbases       = fixed_colbases,
     num_dims             = number_of_dimensions,
     num_optimizations    = number_of_optimizations,
-    maxit                = 5000,
-    dim_annealing        = dimensional_annealing,
-    num_cores            = num_cores,
-    method               = method
+    method               = options$method,
+    maxit                = options$maxit,
+    num_cores            = options$num.cores,
+    dim_annealing        = options$dim.annealing
   )
 
   # Set selected optimization to 1
@@ -86,8 +87,31 @@ optimizeMap <- function(
 }
 
 
+#' Set acmap optimization options
+#'
+#' This function facilitates setting options for the acmap optimizer process by returning a list of option settings.
+#'
+#' @param point.opacity Default opacity for unselected points
+#' @param viewer.controls Should viewer controls be shown or hidden by default?
+#'
+#' @return Returns a named list of optimizer options
+#' @export
+#'
+RacOptimizer.options <- function(
+  dim.annealing = FALSE,
+  method = "L-BFGS-B",
+  maxit = 5000,
+  num.cores = parallel::detectCores()
+) {
 
+  list(
+    dim.annealing = dim.annealing,
+    method = method,
+    maxit = maxit,
+    num.cores = num.cores
+  )
 
+}
 
 
 #' Relax a map
@@ -105,10 +129,28 @@ optimizeMap <- function(
 #' @family {map optimization functions}
 #' @export
 #'
-relaxMap <- function(map,
-                     optimization_number = NULL) {
-  UseMethod("relaxMap")
+relaxMap <- function(
+  map,
+  optimization_number = 1,
+  options = list()
+  ) {
+
+  # Get options
+  options <- do.call(RacOptimizer.options, options)
+
+  # Run relaxation
+  map$optimizations[[optimization_number]] <- ac_relaxOptimization(
+    map$optimizations[[optimization_number]],
+    titers = titerTable(map),
+    method = options$method,
+    maxit = options$maxit
+  )
+
+  # Return the map
+  map
+
 }
+
 
 #' Relax a map one step in the optimiser
 #'
@@ -120,9 +162,24 @@ relaxMap <- function(map,
 #' @family {map optimization functions}
 #' @export
 #'
-relaxMapOneStep <- function(map,
-                            optimization_number = NULL) {
-  UseMethod("relaxMapOneStep")
+relaxMapOneStep <- function(
+  map,
+  optimization_number = 1,
+  options = list()
+) {
+
+  # Get options
+  options <- do.call(RacOptimizer.options, options)
+
+  # Update optimization
+  map$optimizations[[optimization_number]] <- ac_relaxOptimization(
+    map$optimizations[[optimization_number]],
+    titers = titerTable(map),
+    method = options$method,
+    maxit = 1
+  )
+  map
+
 }
 
 #' Randomize map coordinates
@@ -138,9 +195,31 @@ relaxMapOneStep <- function(map,
 #' @family {map optimization functions}
 #' @export
 #'
-randomizeCoords <- function(map,
-                            optimization_number = NULL) {
-  UseMethod("randomizeCoords")
+randomizeCoords <- function(
+  map,
+  optimization_number = 1,
+  table_dist_factor = 2
+  ) {
+
+  table_dists <- tableDistances(map, optimization_number = optimization_number)
+  max_table_dist <- max(table_dists, na.rm = TRUE)
+
+  agBaseCoords(map) <- Racmacs:::random_coords(
+    nrow = numAntigens(map),
+    ndim = mapDimensions(map, optimization_number = optimization_number),
+    min  = -(max_table_dist*table_dist_factor)/2,
+    max  = (max_table_dist*table_dist_factor)/2
+  )
+
+  srBaseCoords(map) <- Racmacs:::random_coords(
+    nrow = numSera(map),
+    ndim = mapDimensions(map, optimization_number = optimization_number),
+    min  = -(max_table_dist*table_dist_factor)/2,
+    max  = (max_table_dist*table_dist_factor)/2
+  )
+
+  map
+
 }
 
 
@@ -153,11 +232,10 @@ randomizeCoords <- function(map,
 #' @export
 #' @family {map diagnostic functions}
 #'
-mapRelaxed <- function(map,
-                       optimization_number = NULL){
-
-  # Clone the map to avoid affecting main map object
-  map            <- cloneMap(map)
+mapRelaxed <- function(
+  map,
+  optimization_number = 1
+  ){
 
   # Check stress
   stress         <- mapStress(map, optimization_number)

@@ -77,7 +77,7 @@ json_to_racmap <- function(json){
       strip_titers,
       num_sera = num_sera
     )
-    titerTableLayers(map, .check = FALSE) <- titerlayers
+    titerTableLayers(map) <- titerlayers
   }
 
   # Antigen attributes
@@ -93,7 +93,7 @@ json_to_racmap <- function(json){
     )
   }, character(3)))
 
-  agNames(map, .check = FALSE) <- antigens[,"name"]
+  agNames(map) <- antigens[,"name"]
   if(sum(antigens[,"date"] != "") > 0) agDates(map) <- antigens[,"date"]
 
 
@@ -109,7 +109,7 @@ json_to_racmap <- function(json){
     )
   }, character(2)))
 
-  srNames(map, .check = FALSE) <- sera[,"name"]
+  srNames(map) <- sera[,"name"]
 
   # Plotspec attributes
   pt_indices <- unlist(jsonlist$c$p$p)+1
@@ -140,29 +140,29 @@ json_to_racmap <- function(json){
   plotspec$shape[plotspec$shape == "E"] <- "EGG"
   plotspec$shape[plotspec$shape == "U"] <- "UGLYEGG"
 
-  agShown(map, .check = FALSE) <- plotspec$shown[ag_indices]
-  srShown(map, .check = FALSE) <- plotspec$shown[sr_indices]
+  agShown(map) <- plotspec$shown[ag_indices]
+  srShown(map) <- plotspec$shown[sr_indices]
 
-  agSize(map, .check = FALSE) <- plotspec$size[ag_indices]
-  srSize(map, .check = FALSE) <- plotspec$size[sr_indices]
+  agSize(map) <- plotspec$size[ag_indices]
+  srSize(map) <- plotspec$size[sr_indices]
 
-  agFill(map, .check = FALSE) <- plotspec$fill[ag_indices]
-  srFill(map, .check = FALSE) <- plotspec$fill[sr_indices]
+  agFill(map) <- plotspec$fill[ag_indices]
+  srFill(map) <- plotspec$fill[sr_indices]
 
-  agOutline(map, .check = FALSE) <- plotspec$outline[ag_indices]
-  srOutline(map, .check = FALSE) <- plotspec$outline[sr_indices]
+  agOutline(map) <- plotspec$outline[ag_indices]
+  srOutline(map) <- plotspec$outline[sr_indices]
 
-  agOutlineWidth(map, .check = FALSE) <- plotspec$outline_width[ag_indices]
-  srOutlineWidth(map, .check = FALSE) <- plotspec$outline_width[sr_indices]
+  agOutlineWidth(map) <- plotspec$outline_width[ag_indices]
+  srOutlineWidth(map) <- plotspec$outline_width[sr_indices]
 
-  agRotation(map, .check = FALSE) <- plotspec$rotation[ag_indices]
-  srRotation(map, .check = FALSE) <- plotspec$rotation[sr_indices]
+  agRotation(map) <- plotspec$rotation[ag_indices]
+  srRotation(map) <- plotspec$rotation[sr_indices]
 
-  agAspect(map, .check = FALSE) <- plotspec$aspect[ag_indices]
-  srAspect(map, .check = FALSE) <- plotspec$aspect[sr_indices]
+  agAspect(map) <- plotspec$aspect[ag_indices]
+  srAspect(map) <- plotspec$aspect[sr_indices]
 
-  agShape(map, .check = FALSE) <- plotspec$shape[ag_indices]
-  srShape(map, .check = FALSE) <- plotspec$shape[sr_indices]
+  agShape(map) <- plotspec$shape[ag_indices]
+  srShape(map) <- plotspec$shape[sr_indices]
 
   # Get drawing order as priorities
   draw_priority <- draw_order_to_priority(unlist(jsonlist$c$p$d) + 1)
@@ -186,32 +186,31 @@ json_to_racmap <- function(json){
     layout[na_coords] <- list(as.list(rep(NA, map_dim)))
     layout            <- do.call(rbind, lapply(layout, unlist))
 
-    agBaseCoords(map, n, .check = FALSE) <- layout[seq_len(num_antigens),,drop=F]
-    srBaseCoords(map, n, .check = FALSE) <- layout[-seq_len(num_antigens),,drop=F]
+    agBaseCoords(map, n) <- layout[seq_len(num_antigens),,drop=F]
+    srBaseCoords(map, n) <- layout[-seq_len(num_antigens),,drop=F]
 
-    mapComment(map, n, .check = FALSE)    <- P$c
-    # mapDimensions(map, n, .check = FALSE) <- ncol(layout)
-    mapStress(map, n, .check = FALSE)     <- P$s
+    mapComment(map, n)    <- P$c
+    # mapDimensions(map, n) <- ncol(layout)
+    mapStress(map, n)     <- P$s
 
     if(!is.null(P$C)) {
-      colBases(map, n, .check = FALSE)    <- unlist(P$C)
-      minColBasis(map, n, .check = FALSE) <- "fixed"
+      colBases(map, n) <- unlist(P$C)
     } else if(!is.null(P$m)) {
-      minColBasis(map, n, .check = FALSE) <- P$m
+      minColBasis(map, n) <- P$m
     } else {
-      minColBasis(map, n, .check = FALSE) <- "none"
+      minColBasis(map, n) <- "none"
     }
 
     transformation <- unlist(getJsonOptimizationAttribute(jsonlist, "transformation", n))
     if(!is.null(transformation) && transformation != as.vector(diag(nrow = ncol(layout)))){
-      mapTransformation(map, n, .check = FALSE) <- matrix(transformation, sqrt(length(transformation)), byrow = TRUE)
+      mapTransformation(map, n) <- matrix(transformation, sqrt(length(transformation)), byrow = TRUE)
     } else if(!is.null(P$t)) {
-      mapTransformation(map, n, .check = FALSE) <- matrix(unlist(P$t), map_dim, byrow = TRUE)
+      mapTransformation(map, n) <- matrix(unlist(P$t), map_dim, byrow = TRUE)
     }
 
     translation <- unlist(getJsonOptimizationAttribute(jsonlist, "translation", n))
     if(sum(translation != 0) > 0){
-      mapTranslation(map, n, .check = FALSE) <- translation
+      mapTranslation(map, n) <- translation
     }
 
   }

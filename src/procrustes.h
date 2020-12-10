@@ -1,8 +1,8 @@
 
-#include <RcppArmadillo.h>
-
 #ifndef Racmacs__procrustes__h
 #define Racmacs__procrustes__h
+
+#include <RcppArmadillo.h>
 
 struct Procrustes
 {

@@ -10,7 +10,9 @@
 \usage{
 agCoords(map, optimization_number = 1)
 
-srCoords(map, optimization_number = 1, .name = TRUE)
+srCoords(map, optimization_number = 1)
+
+ptCoords(map, optimization_number = 1)
 
 agCoords(map, optimization_number = 1) <- value
 

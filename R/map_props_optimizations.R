@@ -163,8 +163,7 @@ srBaseCoords <- optimization_getter("sr_base_coords")
 #'   getterargs = NULL
 #' )
 #'
-mapTransformation <- function(map, optimization_number = NULL){
-  optimization_number <- convertOptimizationNum(optimization_number, map)
+mapTransformation <- function(map, optimization_number = 1){
   transformation <- map$optimizations[[optimization_number]]$transformation
   if(is.null(transformation)){
     transformation <- diag(mapDimensions(map, optimization_number))
@@ -172,8 +171,7 @@ mapTransformation <- function(map, optimization_number = NULL){
   transformation
 }
 
-mapTranslation <- function(map, optimization_number = NULL){
-  optimization_number <- convertOptimizationNum(optimization_number, map)
+mapTranslation <- function(map, optimization_number = 1){
   translation <- map$optimizations[[optimization_number]]$translation
   if(is.null(translation)){
     translation <- rep(0, mapDimensions(map, optimization_number))
@@ -200,7 +198,7 @@ mapTranslation <- function(map, optimization_number = NULL){
 #'   vector of values.
 #'
 #'   Note that although the output from `colBases()` might be the same in a case
-#'   where a minimum column basis was set or a case whete column bases were set
+#'   where a minimum column basis was set or a case where column bases were set
 #'   explcitely, when a minimum column basis is set, the column bases will still
 #'   depend on the log titers recorded against a given sera, so changing the
 #'   titers may therefore change the actual column bases calculated. For fixed
@@ -214,10 +212,36 @@ mapTranslation <- function(map, optimization_number = NULL){
 #'   args       = c("map", "optimization_number = NULL")
 #' )
 #'
-colBases     <- optimization_getter("column_bases")
-`colBases<-` <- optimization_setter("column_bases")
-minColBasis     <- optimization_getter("min_column_basis")
-`minColBasis<-` <- optimization_setter("min_column_basis")
+colBases <- function(map, optimization_number = 1){
+
+  mincolbasis <- minColBasis(map, optimization_number)
+  if(mincolbasis == "fixed"){
+    return(map$optimizations[[optimization_number]]$fixed_column_bases)
+  } else {
+    return(ac_table_colbases(titerTable(map), mincolbasis))
+  }
+
+}
+
+`colBases<-` <- function(map, optimization_number = 1, value){
+  map$optimizations[[optimization_number]]$fixed_column_bases <- value
+  map$optimizations[[optimization_number]]$min_column_basis <- "fixed"
+  map
+}
+
+minColBasis <- function(map, optimization_number = 1){
+  map$optimizations[[optimization_number]]$min_column_basis
+}
+
+`minColBasis<-` <- function(map, optimization_number = 1, value){
+  map$optimizations[[optimization_number]]$min_column_basis <- value
+  if(value == "fixed"){
+    stop("Set fixed column bases through assignment with 'colBases()'")
+  } else {
+    map$optimizations[[optimization_number]][["fixed_column_bases"]] <- NULL
+  }
+  map
+}
 
 
 #' Get the current map stress

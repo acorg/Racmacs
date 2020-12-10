@@ -51,26 +51,16 @@
 #'
 #' @family {map merging functions}
 #' @export
-mergeMaps <- function(...,
-                      method                  = "table",
-                      passage_matching        = "auto",
-                      minimum_column_basis    = "none",
-                      number_of_optimizations = 100,
-                      number_of_dimensions){
+mergeMaps <- function(
+  ...,
+  method                  = "table",
+  minimum_column_basis    = "none",
+  number_of_optimizations = 100,
+  number_of_dimensions
+  ){
 
   # Create a list of maps
   maps <- list(...)
-  lapply(maps, function(map){
-    if(!"rac" %in% class(map)){
-      stop("Only acmap objects should be supplied as additional arguments to the mergeMaps function")
-    }
-  })
-
-  # Keep a record of the main map class
-  map1_class <- class(maps[[1]])
-
-  # Clone the maps
-  maps <- lapply(maps, cloneMap)
 
   # Keep only the required optimizations
   if(method %in% c("table", "reoptimized-merge")) {
@@ -84,12 +74,6 @@ mergeMaps <- function(...,
       else                          map
     })
   }
-
-  # Convert the maps to cpp
-  maps <- lapply(maps, as.cpp)
-
-  # Merge the charts
-  merged_chart <- maps[[1]]$chart
 
   if(method == "table"){
 

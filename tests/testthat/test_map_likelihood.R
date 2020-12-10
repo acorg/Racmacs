@@ -3,7 +3,7 @@
 library(testthat)
 library(Racmacs)
 
-context("Test map likelihood")
+# context("Test map likelihood")
 
 # map <- read.acmap("inst/extdata/h3map2004.ace")
 # map_relaxed_mle_colbases <- relaxMapMLE(

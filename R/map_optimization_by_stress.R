@@ -2,13 +2,13 @@
 #' @export
 optimizeMapBySumSquaredStressIntern <- function(
   map,
-  num_optimizations,
-  num_dims,
   minimum_column_basis = "none",
   fixed_colbases = NULL,
+  num_dims = 2,
+  num_optimizations = 100,
   method = "L-BFGS-B",
   maxit = 1000,
-  num_cores = detectCores(),
+  num_cores = parallel::detectCores(),
   dim_annealing = FALSE
 ){
 
@@ -61,7 +61,9 @@ optimizeMapBySumSquaredStressIntern <- function(
   coord_boxsize <- coord_maxdist*2
 
   # Run the optimizations
-  optimizations <- plapply(seq_len(num_optimizations), function(optnum){
+  optimizations <- plapply(
+    progress_msg = paste("Performing", num_optimizations, "optimizations..."),
+    seq_len(num_optimizations), function(optnum){
 
     optimization <- ac_runBoxedOptimization(
       tabledist_matrix = tabledist_matrix,

@@ -11,10 +11,8 @@ optimizeMap(
   minimum_column_basis = "none",
   fixed_colbases = NULL,
   sort_optimizations = TRUE,
-  dimensional_annealing = FALSE,
   verbose = TRUE,
-  num_cores = parallel::detectCores(),
-  method = "L-BFGS-B"
+  options = list()
 )
 }
 \arguments{
@@ -28,8 +26,6 @@ optimizeMap(
 
 \item{sort_optimizations}{Should optimizations be sorted by stress afterwards?}
 
-\item{dimensional_annealing}{Should dimensional annealing be applied?}
-
 \item{verbose}{Should progress be reported?}
 
 \item{move_trapped_points}{Should trapped points be searched for and removed, one of 'none', 'best' or 'all' (see details)}
@@ -39,6 +35,8 @@ optimizeMap(
 \item{realign_optimizations}{Should optimizations be realigned to align as closely as possible with each other?}
 
 \item{fixed_column_bases}{A vector of fixed values to use as column bases directly, rather than calculating them from the titer table.}
+
+\item{dimensional_annealing}{Should dimensional annealing be applied?}
 
 \item{stepsize}{Step size to use when searching for trapped points (lower will be a finer search)}
 

@@ -4,7 +4,14 @@
 \alias{acmap}
 \title{Generate a new acmap object}
 \usage{
-acmap(ag_names = NULL, sr_names = NULL, titer_table = NULL)
+acmap(
+  ag_names = NULL,
+  sr_names = NULL,
+  titer_table = NULL,
+  ag_coords = NULL,
+  sr_coords = NULL,
+  ...
+)
 }
 \arguments{
 \item{ag_names}{Antigen names}

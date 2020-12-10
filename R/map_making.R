@@ -19,71 +19,36 @@
 #' @family {map optimization functions}
 #' @export
 #'
-make.acmap <- function(number_of_dimensions    = 2,
-                       number_of_optimizations = 100,
-                       minimum_column_basis    = "none",
-                       fixed_column_bases      = NULL,
-                       move_trapped_points     = NULL,
-                       parallel_optimization   = TRUE,
-                       verbose                 = TRUE,
-                       vverbose                = FALSE,
-                       ...){
-
-  # Only allow arguments that don't refer to creating optimizations
-  arguments <- list(...)
-  property_function_bindings <- list_property_function_bindings()
-  optimization_arguments <- property_function_bindings$property[property_function_bindings$object == "optimization"]
-  if(sum(names(arguments) %in% optimization_arguments) > 0) {
-    stop("Cannot set property '", paste(names(arguments)[names(arguments) %in% optimization_arguments], collapse = "', '"), "'.")
-  }
+make.acmap <- function(
+  titer_table             = NULL,
+  ag_names                = NULL,
+  sr_names                = NULL,
+  number_of_dimensions    = 2,
+  number_of_optimizations = 100,
+  minimum_column_basis    = "none",
+  fixed_colbases          = NULL,
+  sort_optimizations      = TRUE,
+  verbose                 = TRUE,
+  options                 = list()
+  ){
 
   # Make the chart
-  map <- acmap(...)
-
-  # Run the optimizations
-  optimizeMap(
-    map                     = map,
-    number_of_dimensions    = number_of_dimensions,
-    number_of_optimizations = number_of_optimizations,
-    minimum_column_basis    = minimum_column_basis,
-    fixed_column_bases      = fixed_column_bases,
-    move_trapped_points     = move_trapped_points,
-    parallel_optimization   = parallel_optimization,
-    verbose                 = verbose,
-    vverbose                = vverbose
+  map <- acmap(
+    titer_table = titer_table,
+    ag_names = ag_names,
+    sr_names = sr_names
   )
 
-}
-
-#' @export
-make.acmap.cpp <- function(number_of_dimensions    = 2,
-                           number_of_optimizations = 100,
-                           minimum_column_basis    = "none",
-                           fixed_column_bases      = NULL,
-                           move_trapped_points     = NULL,
-                           parallel_optimization   = TRUE,
-                           ...){
-
-  # Only allow arguments that don't refer to creating optimizations
-  arguments <- list(...)
-  property_function_bindings <- list_property_function_bindings()
-  optimization_arguments <- property_function_bindings$property[property_function_bindings$object == "optimization"]
-  if(sum(names(arguments) %in% optimization_arguments) > 0) {
-    stop("Cannot set property '", paste(names(arguments)[names(arguments) %in% optimization_arguments], collapse = "', '"), "'.")
-  }
-
-  # Make the chart
-  chart <- acmap.cpp(...)
-
   # Run the optimizations
   optimizeMap(
-    map                     = chart,
-    number_of_dimensions    = number_of_dimensions,
+    map = map,
+    number_of_dimensions = number_of_dimensions,
     number_of_optimizations = number_of_optimizations,
-    minimum_column_basis    = minimum_column_basis,
-    fixed_column_bases      = fixed_column_bases,
-    move_trapped_points     = move_trapped_points,
-    parallel_optimization   = parallel_optimization
+    minimum_column_basis = minimum_column_basis,
+    fixed_colbases = fixed_colbases,
+    sort_optimizations = sort_optimizations,
+    verbose = verbose,
+    options = options
   )
 
 }

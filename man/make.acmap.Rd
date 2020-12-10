@@ -5,15 +5,16 @@
 \title{Make an antigenic map from scratch}
 \usage{
 make.acmap(
+  titer_table = NULL,
+  ag_names = NULL,
+  sr_names = NULL,
   number_of_dimensions = 2,
   number_of_optimizations = 100,
   minimum_column_basis = "none",
-  fixed_column_bases = NULL,
-  move_trapped_points = NULL,
-  parallel_optimization = TRUE,
+  fixed_colbases = NULL,
+  sort_optimizations = TRUE,
   verbose = TRUE,
-  vverbose = FALSE,
-  ...
+  options = list()
 )
 }
 \arguments{

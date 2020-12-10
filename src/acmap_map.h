@@ -3,6 +3,7 @@
 #include "acmap_titers.h"
 #include "acmap_point.h"
 #include "ac_merge.h"
+#include "ac_matching.h"
 
 #ifndef Racmacs__acmap_map__h
 #define Racmacs__acmap_map__h
@@ -72,10 +73,10 @@ class AcMap {
     }
 
     void set_titer_table_layers(
-      std::vector<AcTiterTable> titers
+      const std::vector<AcTiterTable> titers
     ){
       titer_table_flat = ac_merge_titer_layers(titers);
-      titer_table_layers.swap(titers);
+      titer_table_layers = titers;
     }
 
     // Remove antigen(s)
@@ -177,6 +178,29 @@ class AcMap {
         names[i] = antigens[i].get_name();
       }
       return names;
+    }
+
+    // Matching to other maps
+    arma::ivec match_map_antigens(
+      AcMap targetmap
+    ){
+
+      return ac_match_points(
+        antigens,
+        targetmap.antigens
+      );
+
+    }
+
+    arma::ivec match_map_sera(
+        AcMap targetmap
+    ){
+
+      return ac_match_points(
+        sera,
+        targetmap.sera
+      );
+
     }
 
 };

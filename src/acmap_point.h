@@ -13,7 +13,7 @@ class AcPoint {
     // Regular details
     std::string type;
     std::string name;
-    std::string id;
+    std::string id = "";
     int group;
     std::string sequence;
 
@@ -33,7 +33,13 @@ class AcPoint {
     // Regular details
     std::string get_type() const { return type; }
     std::string get_name() const { return name; }
-    std::string get_id() const { return id; }
+    std::string get_id() const {
+      if(id == ""){
+        return name;
+      } else {
+        return id;
+      }
+    }
     int get_group() const { return group; }
     std::string get_sequence() const { return sequence; }
 

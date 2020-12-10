@@ -1,4 +1,22 @@
 
+convert_titers <- function(titers){
+  titers[is.na(titers)] <- "*"
+  mode(titers) <- "character"
+  titers
+}
+
+#' @export
+tableColbases <- function(
+  titer_table,
+  min_col_basis
+  ){
+
+  ac_table_colbases(
+    titer_table   = convert_titers(titer_table),
+    min_col_basis = min_col_basis
+  )
+
+}
 
 #' Return calculated table distances for an acmap
 #'
@@ -15,12 +33,12 @@
 #'
 #' @family {map diagnostic functions}{functions relating to map stress calculation}
 #'
-tableDistances <- function(map, optimization_number = NULL){
+tableDistances <- function(map, optimization_number = 1){
 
   if(numOptimizations(map) == 0){
     stop("This map has no optimizations for which to calculate table distances")
   }
-  ac_tableDists(
+  ac_table_distances(
     titer_table = titerTable(map),
     colbases = colBases(map, optimization_number)
   )
@@ -67,31 +85,33 @@ mapDistances <- function(map, optimization_number = NULL){
 #'
 logtiterTable <- function(map){
 
-  log_titer_table <- matrix(0, numAntigens(map), numSera(map))
-  log_titer_table[] <- log_titers(titerTable(map))
-  log_titer_table
+  matrix(
+    log_titers(titerTable(map)),
+    numAntigens(map),
+    numSera(map)
+  )
 
 }
 
 #' @export
 numerictiterTable <- function(map){
 
-  numeric_titer_table <- matrix(0, numAntigens(map), numSera(map))
-  numeric_titer_table[] <- numeric_titers(titerTable(map))
-  numeric_titer_table
+  matrix(
+    numeric_titers(titerTable(map)),
+    numAntigens(map),
+    numSera(map)
+  )
 
 }
 
 #' @export
-titerTypes <- function(map){
+titertypesTable <- function(map){
 
-  titers <- titerTable(map)
-  types  <- titers
-  types[]                              <- "measured"
-  types[substr(titers, 1, 1) == "<"]   <- "lessthan"
-  types[substr(titers, 1, 1) == ">"]   <- "morethan"
-  types[titers == "*" | is.na(titers)] <- "omitted"
-  types
+  matrix(
+    titer_types_int(titerTable(map)),
+    numAntigens(map),
+    numSera(map)
+  )
 
 }
 

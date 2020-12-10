@@ -4,7 +4,7 @@
 \alias{relaxMap}
 \title{Relax a map}
 \usage{
-relaxMap(map, optimization_number = NULL)
+relaxMap(map, optimization_number = 1, options = list())
 }
 \arguments{
 \item{map}{The acmap object}

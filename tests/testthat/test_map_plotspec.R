@@ -5,8 +5,6 @@ context("Test reading and editing of plotspec data")
 
 # Load the map and the chart
 racmap   <- read.acmap(filename = test_path("../testdata/testmap.ace"))
-racchart <- read.acmap.cpp(filename = test_path("../testdata/testmap.ace"))
-
 
 ## Check you are converting between draw order and priority correctly
 test_that("Draw priority to order conversion", {
@@ -88,43 +86,18 @@ test_that("Edit plotspec details", {
     agSetterFunction <- get(paste0("ag", property, "<-"))
     srSetterFunction <- get(paste0("sr", property, "<-"))
 
-    # Test getting
-    if(property != "Size"){
-      expect_equal(
-        convertcol(agGetterFunction(racmap)),
-        agGetterFunction(racchart)
-      )
-      expect_equal(
-        srGetterFunction(racmap),
-        srGetterFunction(racchart)
-      )
-    }
-
     # Test setting
     racmap <- agSetterFunction(racmap, value = test_value)
     racmap <- srSetterFunction(racmap, value = test_value)
     expect_equal(agGetterFunction(racmap), rep(test_value, numAntigens(racmap)))
     expect_equal(srGetterFunction(racmap), rep(test_value, numSera(racmap)))
 
-    if(chart_supported){
-      racchart <- agSetterFunction(racchart, value = test_value)
-      racchart <- srSetterFunction(racchart, value = test_value)
-      expect_equal(agGetterFunction(racchart), rep(test_value, numAntigens(racchart)))
-      expect_equal(srGetterFunction(racchart), rep(test_value, numSera(racchart)))
-    } else {
-      expect_error(racchart <- agSetterFunction(racchart, test_value))
-      expect_error(racchart <- srSetterFunction(racchart, test_value))
-    }
-
   }
 
 })
 
 
-run.maptests(
-  bothclasses = TRUE,
-  loadlocally = FALSE,
-  {
+test_that("Applying a plotspec", {
 
   test_that("Applying a plotspec", {
 
@@ -135,28 +108,30 @@ run.maptests(
     map2 <- cloneMap(map)
     map3 <- cloneMap(map)
 
-    agFill(map1) <- "blue"
-    srFill(map1) <- "purple"
+  map1 <- map
+  map2 <- map
+  map3 <- map
 
-    map2 <- applyPlotspec(map2, map1)
-    Racmacs:::export.viewer.test(view(map2), "apply_plotspec1.html")
+  agFill(map1) <- "blue"
+  srFill(map1) <- "purple"
 
-    expect_equal(agFill(map2), agFill(map1))
-    expect_equal(srFill(map2), srFill(map1))
+  map2 <- applyPlotspec(map2, map1)
+  Racmacs:::export.viewer.test(view(map2), "apply_plotspec1.html")
 
-    agNames(map3) <- rev(agNames(map3))
-    srNames(map3) <- rev(srNames(map3))
+  expect_equal(agFill(map2), agFill(map1))
+  expect_equal(srFill(map2), srFill(map1))
 
-    agNames(map3)[1:2] <- paste("mismatch ag", 1:2)
-    srNames(map3)[1:2] <- paste("mismatch sr", 1:2)
+  agNames(map3) <- rev(agNames(map3))
+  srNames(map3) <- rev(srNames(map3))
 
-    map3ps <- applyPlotspec(map3, map1)
-    export.viewer.test(view(map3ps), "apply_plotspec2.html")
+  agNames(map3)[1:2] <- paste("mismatch ag", 1:2)
+  srNames(map3)[1:2] <- paste("mismatch sr", 1:2)
 
-    expect_equal(agFill(map3ps), c(agFill(map3)[1:2], agFill(map1)[-(1:2)]))
-    expect_equal(srFill(map3ps), c(srFill(map3)[1:2], srFill(map1)[-(1:2)]))
+  map3ps <- applyPlotspec(map3, map1)
+  Racmacs:::export.viewer.test(view(map3ps), "apply_plotspec2.html")
 
-  })
+  expect_equal(agFill(map3ps), c(agFill(map3)[1:2], agFill(map1)[-(1:2)]))
+  expect_equal(srFill(map3ps), c(srFill(map3)[1:2], srFill(map1)[-(1:2)]))
 
 })
 

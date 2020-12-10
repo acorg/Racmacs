@@ -46,6 +46,24 @@ AcOptimization ac_set_sr_coords(
   return opt;
 }
 
+// [[Rcpp::export]]
+AcOptimization ac_set_min_column_basis(
+    AcOptimization opt,
+    std::string mincolbasis
+){;
+  opt.set_min_column_basis(mincolbasis);
+  return opt;
+}
+
+// [[Rcpp::export]]
+AcOptimization ac_set_fixed_column_bases(
+    AcOptimization opt,
+    arma::vec fixed_colbases
+){;
+  opt.set_fixed_column_bases(fixed_colbases);
+  return opt;
+}
+
 // Align two optimizations
 // [[Rcpp::export]]
 AcOptimization ac_align_optimization(
@@ -96,4 +114,40 @@ arma::mat ac_table_distances(
   return titer_table.table_distances(colbases);
 
 }
+
+
+// Relax an optimization
+// [[Rcpp::export]]
+AcOptimization ac_newOptimization(
+    int dimensions,
+    int num_antigens,
+    int num_sera
+){
+
+  return AcOptimization(
+    dimensions,
+    num_antigens,
+    num_sera
+  );
+
+}
+
+
+// Relax an optimization
+//' @export
+// [[Rcpp::export]]
+AcOptimization ac_relaxOptimization(
+    AcOptimization opt,
+    AcTiterTable titers,
+    std::string method = "L-BFGS-B",
+    int maxit = 1000
+){
+
+  opt.relax(titers, method, maxit);
+  return opt;
+
+}
+
+
+
 

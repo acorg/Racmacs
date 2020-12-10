@@ -4,7 +4,7 @@
 \alias{tableDistances}
 \title{Return calculated table distances for an acmap}
 \usage{
-tableDistances(map, optimization_number = NULL)
+tableDistances(map, optimization_number = 1)
 }
 \arguments{
 \item{map}{The acmap data object}

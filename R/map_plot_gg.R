@@ -1,5 +1,5 @@
 
-ggplot.rac <- function(
+ggplot.acmap <- function(
   map,
   optimization_number = NULL,
   xlim = NULL,

@@ -4,7 +4,7 @@
 \alias{save.acmap}
 \title{Save acmap data to a file}
 \usage{
-save.acmap(map, filename)
+save.acmap(map, file)
 }
 \arguments{
 \item{map}{The acmap data object.}

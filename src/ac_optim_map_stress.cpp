@@ -4,99 +4,12 @@
 #include <roptim.h>
 // #include <Rcpp/Benchmark/Timer.h>
 
+#include "ac_stress.h"
 #include "acmap_titers.h"
 #include "acmap_optimization.h"
 
-// We use the roptim
+// We use the roptim package
 using namespace roptim;
-
-// The threshold penalty function
-double sigmoid(double &x){
-
-  return(1/(1+exp(-10*x)));
-
-}
-
-// The derivative of the threshold penalty function
-double d_sigmoid(double &x){
-
-  return(sigmoid(x)*(1-sigmoid(x)));
-
-}
-
-// This is the point stress function
-double ac_ptStress(double &map_dist,
-                   double &table_dist,
-                   unsigned int &titer_type){
-
-  double x;
-  double stress;
-
-  switch(titer_type) {
-  case 1:
-    // Measurable titer
-    stress = pow((table_dist - map_dist), 2);
-    break;
-  case 2:
-    // Less than titer
-    x = table_dist - map_dist + 1;
-    // x = table_dist - map_dist; // Note that we drop the +1 here since this is now encoded in the distances
-    stress = pow(x,2)*sigmoid(x);
-    break;
-  case 3:
-    // More than titer
-    stress = 0;
-    break;
-  default:
-    // Missing titer
-    stress = 0;
-  }
-
-  // Return the stress result
-  return stress;
-
-}
-
-
-// This is the point stress function
-double inc_base(
-    double &map_dist,
-    double &table_dist,
-    unsigned int &titer_type
-){
-
-  double ibase;
-  double x;
-
-  // Deal with 0 map distance
-  if(map_dist == 0){
-    map_dist = 1e-5;
-  }
-
-  switch(titer_type) {
-  case 1:
-    // Measurable titer
-    ibase = (2*(table_dist - map_dist)) / map_dist;
-    break;
-  case 2:
-    // Less than titer
-    x = table_dist - map_dist + 1;
-    // x = table_dist - map_dist; // Note that we drop the +1 here since this is now encoded in the distances
-    ibase = (10*x*x*d_sigmoid(x) + 2*x*sigmoid(x)) / map_dist;
-    break;
-  case 3:
-    // More than titer
-    ibase = 0;
-    break;
-  default:
-    // Missing titer
-    ibase = 0;
-  }
-
-  // Return the stress result
-  return ibase;
-
-}
 
 // Setup the map optimiser class
 class MapOptimiser : public Functor {
@@ -199,7 +112,7 @@ double MapOptimiser::operator()(const arma::vec &pars) {
     for(int sr = 0; sr < num_sr; ++sr) {
 
       // Skip unmeasured titers
-      if(titertype_matrix(ag,sr) == 4){
+      if(titertype_matrix(ag,sr) == 0){
         continue;
       }
 
@@ -235,7 +148,7 @@ void MapOptimiser::Gradient(const arma::vec &pars, arma::vec &grad){
     for(int sr = 0; sr < num_sr; ++sr) {
 
       // Skip unmeasured titers
-      if(titertype_matrix(ag,sr) == 4){
+      if(titertype_matrix(ag,sr) == 0){
         continue;
       }
 
@@ -292,7 +205,7 @@ void MapOptimiser::update_map_dist_matrix(){
     for (int sr = 0; sr < num_sr; sr++) {
 
       // Only calculate distances where ag and sr were titrated
-      if(titertype_matrix(ag,sr) != 4){
+      if(titertype_matrix(ag,sr) != 0){
 
         // Calculate the euclidean distance
         double map_dist = 0;
@@ -311,14 +224,14 @@ void MapOptimiser::update_map_dist_matrix(){
 
 //' @export
 // [[Rcpp::export]]
-AcOptimization ac_relaxOptimization(
+double ac_relax_coords(
     const arma::mat &tabledist_matrix,
     const arma::umat &titertype_matrix,
-    arma::mat ag_coords,
-    arma::mat sr_coords,
-    const std::string method = "L-BFGS-B",
-    const int maxit = 10000,
-    bool check_gradient_fn = false
+    arma::mat &ag_coords,
+    arma::mat &sr_coords,
+    const std::string method,
+    const int maxit,
+    bool check_gradient_fn
 ){
 
   // Set variables
@@ -369,11 +282,9 @@ AcOptimization ac_relaxOptimization(
   map.update_map_coords(opt.par());
 
   // Return the result
-  AcOptimization acopt;
-  acopt.set_ag_base_coords( map.ag_coords );
-  acopt.set_sr_base_coords( map.sr_coords );
-  acopt.set_stress( stress );
-  return acopt;
+  ag_coords = map.ag_coords;
+  sr_coords = map.sr_coords;
+  return stress;
 
 };
 
@@ -418,7 +329,7 @@ AcOptimization ac_runBoxedOptimization(
     arma::mat sr_coords_start = random_coords(num_sr, 5, -coord_boxsize/2, coord_boxsize/2);
 
     // Do a first optimization in higher dimensions
-    AcOptimization optim = ac_relaxOptimization(
+    ac_relax_coords(
       tabledist_matrix,
       titertype_matrix,
       ag_coords_start,
@@ -428,16 +339,13 @@ AcOptimization ac_runBoxedOptimization(
     );
 
     // Reduce coordinate dimensions
-    arma::mat optim_ag_base_coords = optim.get_ag_base_coords();
-    arma::mat optim_sr_base_coords = optim.get_sr_base_coords();
-
     arma::mat coords = arma::join_cols(
-      optim_ag_base_coords,
-      optim_sr_base_coords
+      ag_coords_start,
+      sr_coords_start
     );
     arma::mat coeff = arma::princomp(coords);
-    ag_coords = optim_ag_base_coords*coeff.cols(0, num_dims);
-    sr_coords = optim_sr_base_coords*coeff.cols(0, num_dims);
+    ag_coords = ag_coords_start*coeff.cols(0, num_dims);
+    sr_coords = sr_coords_start*coeff.cols(0, num_dims);
 
   }
   // Without dimensional annealing
@@ -450,7 +358,7 @@ AcOptimization ac_runBoxedOptimization(
   }
 
   // Return the relaxed optimization
-  return ac_relaxOptimization(
+  double stress = ac_relax_coords(
     tabledist_matrix,
     titertype_matrix,
     ag_coords,
@@ -459,10 +367,19 @@ AcOptimization ac_runBoxedOptimization(
     maxit
   );
 
+  AcOptimization acopt(
+    num_dims,
+    ag_coords.n_rows,
+    sr_coords.n_rows
+  );
+  acopt.set_ag_base_coords( ag_coords );
+  acopt.set_sr_base_coords( sr_coords );
+  acopt.set_stress( stress );
+  return acopt;
+
 };
 
 
-//' @export
 // [[Rcpp::export]]
 std::vector<AcOptimization> ac_runOptimizations(
     const AcTiterTable &titertable,
@@ -496,6 +413,7 @@ std::vector<AcOptimization> ac_runOptimizations(
 
   // Run and return optimization results
   std::vector<AcOptimization> optimizations(num_optimizations);
+
   for(int i=0; i<num_optimizations; i++){
 
     // check for interrupt every 10 iterations
@@ -517,6 +435,7 @@ std::vector<AcOptimization> ac_runOptimizations(
   return optimizations;
 
 }
+
 
 bool compare_optimization_stress(
     AcOptimization opt1,

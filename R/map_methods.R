@@ -11,12 +11,12 @@
 #' # Print subset of information about a map
 #' print(h3map2004)
 #'
-print.rac <- function(map, all = FALSE){
+print.acmap <- function(map, all = FALSE){
 
   # Print short descriptor
   cat(crayon::green(sprintf("<%s>\n", class(map)[1])))
-  mapname <- name(map)
-  if(mapname == "") mapname <- "[unnamed]"
+  mapname <- mapName(map)
+  if(is.null(mapname)) mapname <- "[unnamed]"
   cat(sprintf("%s\n", mapname))
   cat(sprintf("...%s antigens\n", numAntigens(map)))
   cat(sprintf("...%s sera\n", numSera(map)))
@@ -52,7 +52,7 @@ view.default <- function(x, ...){
 #'
 #' @export
 #'
-view.rac <- function(
+view.acmap <- function(
   map,
   ...,
   .jsCode = NULL,
@@ -64,9 +64,6 @@ view.rac <- function(
   keep_all_optimization_runs = FALSE,
   options = list()
   ){
-
-  # Clone the map
-  map <- cloneMap(map)
 
   # Pass on only the selected optimization
   if(!keep_all_optimization_runs){
@@ -116,11 +113,12 @@ view.rac <- function(
   }
 
   # Show any blob data
-  if(hasStressBlobs(map) && !isFALSE(show_stressblobs)){
+  stressblobdata <- viewer_stressblobdata(map)
+  if(!is.null(stressblobdata) && !isFALSE(show_stressblobs)){
     widget <- htmlwidgets::onRender(
       x      = widget,
       jsCode = "function(el, x, data) { el.viewer.addStressBlobs(data) }",
-      data   = I(map$stressblobs)
+      data   = I(stressblobdata)
     )
   }
 

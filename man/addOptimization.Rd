@@ -8,10 +8,9 @@ addOptimization(
   map,
   ag_coords = NULL,
   sr_coords = NULL,
-  number_of_dimensions,
-  minimum_column_basis = NULL,
-  warnings = TRUE,
-  ...
+  number_of_dimensions = NULL,
+  minimum_column_basis = "none",
+  fixed_column_bases = NULL
 )
 }
 \arguments{

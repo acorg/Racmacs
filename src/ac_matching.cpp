@@ -14,8 +14,8 @@ arma::ivec ac_match_points(
   for(arma::uword i=0; i<points1.size(); i++){
     for(arma::uword j=0; j<points2.size(); j++){
 
-      std::string id1 = points1[i].get_id();
-      std::string id2 = points2[j].get_id();
+      std::string id1 = points1[i].get_match_id();
+      std::string id2 = points2[j].get_match_id();
 
       if(id1 == id2){
         // Check we are replacing a -1 value

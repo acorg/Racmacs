@@ -1,5 +1,5 @@
 
-# include <RcppArmadillo.h>
+#include <RcppArmadillo.h>
 
 #ifndef Racmacs__acmap_titers__h
 #define Racmacs__acmap_titers__h
@@ -309,7 +309,7 @@ class AcTiterTable {
       arma::uvec indices(n_measured);
 
       int vec_i = 0;
-      for(int i=0; i<titer_types.n_elem; i++){
+      for(arma::uword i=0; i<titer_types.n_elem; i++){
           if(titer_types(i) != 0){
             indices(vec_i) = i;
             vec_i++;
@@ -322,13 +322,16 @@ class AcTiterTable {
 
     // Calculate column bases
     arma::vec colbases(
-        std::string min_colbasis = "none"
+        std::string min_colbasis,
+        arma::vec fixed_colbases
     ) const {
 
+      // Calculate column bases
       arma::mat log_titers = arma::log2(numeric_titers / 10.0);
       log_titers.replace(arma::datum::nan, log_titers.min());
       arma::vec colbases = arma::max(log_titers.t(), 1);
 
+      // Apply any minimum column bases
       if(min_colbasis != "none"){
         colbases = arma::clamp(
           colbases,
@@ -337,6 +340,16 @@ class AcTiterTable {
         );
       }
 
+      // Apply any fixed column bases
+      if(fixed_colbases.size() > 0){
+        if(fixed_colbases.size() != colbases.n_elem){
+          Rcpp::stop("Length of fixed column bases does not match the length of the column bases");
+        }
+        arma::uvec nonan = arma::find_finite(fixed_colbases);
+        colbases.elem( nonan ) = fixed_colbases.elem( nonan );
+      }
+
+      // Return the column bases
       return colbases;
 
     }
@@ -347,7 +360,7 @@ class AcTiterTable {
     ) const {
 
       arma::mat dists = arma::log2(numeric_titers / 10.0);
-      for(int i=0; i<dists.n_rows; i++){
+      for(arma::uword i=0; i<dists.n_rows; i++){
         dists.row(i) = colbases.as_row() - dists.row(i);
       }
       dists = arma::clamp(dists, 0, dists.max());

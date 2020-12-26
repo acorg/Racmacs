@@ -49,7 +49,7 @@ optimizeMap <- function(
   number_of_dimensions,
   number_of_optimizations,
   minimum_column_basis = "none",
-  fixed_colbases = NULL,
+  fixed_column_bases = rep(NA, numSera(map)),
   sort_optimizations = TRUE,
   verbose  = TRUE,
   options = list()
@@ -57,29 +57,26 @@ optimizeMap <- function(
 
   # Warn about overwriting previous optimizations
   if(numOptimizations(map) > 0) vmessage(verbose, "Discarding previous optimization runs.")
+  map <- removeOptimizations(map)
 
   # Get optimizer options
   options <- do.call(RacOptimizer.options, options)
 
   # Perform the optimization runs
-  map$optimizations <- optimizeMapBySumSquaredStressIntern(
-    map                  = map,
-    minimum_column_basis = minimum_column_basis,
-    fixed_colbases       = fixed_colbases,
-    num_dims             = number_of_dimensions,
-    num_optimizations    = number_of_optimizations,
-    method               = options$method,
-    maxit                = options$maxit,
-    num_cores            = options$num.cores,
-    dim_annealing        = options$dim.annealing
+  tstart <- Sys.time()
+
+  map <- ac_optimize_map(
+    map = map,
+    num_dims = number_of_dimensions,
+    num_optimizations = number_of_optimizations,
+    min_col_basis = minimum_column_basis,
+    fixed_col_bases = fixed_column_bases,
+    options = options
   )
 
-  # Set selected optimization to 1
-  selectedOptimization(map) <- 1
-
-  # Sort optimizations
-  map <- sortOptimizations(map)
-  map <- realignOptimizations(map)
+  tend <- Sys.time()
+  tlength <- round(tend - tstart, 2)
+  message("Took ", format(unclass(tlength)), " ", attr(tlength, "units"), "\n")
 
   # Return the optimised map
   map
@@ -98,17 +95,21 @@ optimizeMap <- function(
 #' @export
 #'
 RacOptimizer.options <- function(
-  dim.annealing = FALSE,
-  method = "L-BFGS-B",
-  maxit = 5000,
-  num.cores = parallel::detectCores()
+  dim_annealing = FALSE,
+  method = "L-BFGS",
+  maxit = 1000,
+  num_cores = parallel::detectCores(),
+  report_progress = TRUE,
+  progress_bar_length = options()$width
 ) {
 
   list(
-    dim.annealing = dim.annealing,
+    dim_annealing = dim_annealing,
     method = method,
     maxit = maxit,
-    num.cores = num.cores
+    num_cores = num_cores,
+    report_progress = report_progress,
+    progress_bar_length = progress_bar_length
   )
 
 }
@@ -142,8 +143,7 @@ relaxMap <- function(
   map$optimizations[[optimization_number]] <- ac_relaxOptimization(
     map$optimizations[[optimization_number]],
     titers = titerTable(map),
-    method = options$method,
-    maxit = options$maxit
+    options = options
   )
 
   # Return the map
@@ -170,13 +170,13 @@ relaxMapOneStep <- function(
 
   # Get options
   options <- do.call(RacOptimizer.options, options)
+  options$maxit <- 1
 
   # Update optimization
   map$optimizations[[optimization_number]] <- ac_relaxOptimization(
     map$optimizations[[optimization_number]],
     titers = titerTable(map),
-    method = options$method,
-    maxit = 1
+    options = options
   )
   map
 
@@ -278,8 +278,31 @@ checkHemisphering <- function(map, stepsize = 0.1, optimization_number = NULL){
 #' @family {map optimization functions}
 #' @export
 #'
-moveTrappedPoints <- function(map, stepsize = 0.1, optimization_number = NULL, vverbose = FALSE){
-  UseMethod("moveTrappedPoints")
+moveTrappedPoints <- function(
+  map,
+  optimization_number = 1,
+  stress_lim   = 1,
+  grid_spacing = 0.25,
+  max_iterations = 10,
+  options = list()
+  ){
+
+  # Move trapped points in the optimization
+  map$optimizations[[optimization_number]] <- ac_move_trapped_points(
+    optimization = map$optimizations[[optimization_number]],
+    tabledists = tableDistances(map, optimization_number),
+    titertypes = titerTypesInt(titerTable(map)),
+    grid_spacing = grid_spacing,
+    options = do.call(RacOptimizer.options, options),
+    max_iterations = max_iterations
+  )
+
+  # Realign optimizations
+  map <- realignOptimizations(map)
+
+  # Return the map
+  map
+
 }
 
 

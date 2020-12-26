@@ -1,77 +1,32 @@
 
-# Function factory for antigen attribute getter functions
-antigens_getter <- function(attribute){
+# Function factory for antigen getter functions
+antigens_getter <- function(fn){
   eval(
-    substitute(env = list(attribute = attribute), expr = {
+    substitute(env = list(
+      fn = fn
+    ), expr = {
       function(map){
-        value <- sapply(map$antigens, function(ag){ ag[[attribute]] })
-        if(is.null(unlist(value))) return(NULL)
-        defaultProperty_antigens(map, attribute, value)
+        sapply(map$antigens, fn)
       }
     })
   )
 }
 
-# Function factory for sera attribute setter functions
-antigens_setter <- function(attribute){
+# Function factory for antigen setter functions
+antigens_setter <- function(fn){
   eval(
-    substitute(env = list(attribute = attribute), expr = {
-      function(map, .check = TRUE, value){
-        if(.check) value <- checkProperty_antigens(map, attribute, value)
-        value <- unname(value)
-        for(x in seq_along(value)){
-          map$antigens[[x]][[attribute]] <- value[x]
-        }
+    substitute(env = list(
+      fn = fn
+    ), expr = {
+      function(map, value){
+        if(is.null(value)){ stop("Cannot set null value") }
+        map$antigens <- lapply(seq_along(map$antigens), function(x){
+          fn(map$antigens[[x]], value[x])
+        })
         map
       }
     })
   )
-}
-
-# Property checker
-checkProperty_antigens <- function(map, attribute, value){
-
-  character_attributes <- c("group_values")
-  if(attribute %in% character_attributes){
-    value <- unname(as.character(value))
-  }
-
-  value
-
-}
-
-# Default property setter
-defaultProperty_antigens <- function(map, attribute, value){
-
-  # Check if a null was returned
-  if(is.null(value)){
-
-    # Choose the default
-    value <- switch(
-
-      EXPR = attribute,
-      agDates = "",
-      agNames = return(NULL)
-
-    )
-
-    # Repeat to match the number of antigens
-    value <- rep(value, numAntigens(map))
-
-  }
-
-  # Do any necessary conversions
-  value <- switch(
-
-    EXPR    = attribute,
-    agDates = {value[as.character(value) == ""] <- NA; as.Date(value)},
-    value
-
-  )
-
-  # Return the modified value
-  value
-
 }
 
 
@@ -88,19 +43,21 @@ defaultProperty_antigens <- function(map, attribute, value){
 #'   args    = c("map")
 #' )
 #'
-agIDs               <- antigens_getter("id")
-agGroupValues       <- antigens_getter("group_values")
-agDates             <- antigens_getter("date")
-agReference         <- antigens_getter("reference")
-agNames             <- antigens_getter("name")
-agNamesFull         <- antigens_getter("name_full")
-agNamesAbbreviated  <- antigens_getter("name_abbreviated")
+agIDs               <- antigens_getter(ac_ag_get_id)
+agGroupValues       <- antigens_getter(ac_ag_get_group_values)
+agDates             <- antigens_getter(ac_ag_get_date)
+agReference         <- antigens_getter(ac_ag_get_reference)
+agNames             <- antigens_getter(ac_ag_get_name)
+agNamesFull         <- antigens_getter(ac_ag_get_name_full)
+agNamesAbbreviated  <- antigens_getter(ac_ag_get_name_abbreviated)
 
-`agNames<-`         <- antigens_setter("name")
-`agIDs<-`           <- antigens_setter("id")
-`agGroupValues<-`   <- antigens_setter("group_values")
-`agDates<-`         <- antigens_setter("date")
-`agReference<-`     <- antigens_setter("reference")
+`agIDs<-`               <- antigens_setter(ac_ag_set_id)
+`agGroupValues<-`       <- antigens_setter(ac_ag_set_group_values)
+`agDates<-`             <- antigens_setter(ac_ag_set_date)
+`agReference<-`         <- antigens_setter(ac_ag_set_reference)
+`agNames<-`             <- antigens_setter(ac_ag_set_name)
+`agNamesFull<-`         <- antigens_setter(ac_ag_set_name_full)
+`agNamesAbbreviated<-`  <- antigens_setter(ac_ag_set_name_abbreviated)
 
 #' Getting and setting antigen groups
 #'

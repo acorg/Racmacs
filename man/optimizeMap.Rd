@@ -9,7 +9,7 @@ optimizeMap(
   number_of_dimensions,
   number_of_optimizations,
   minimum_column_basis = "none",
-  fixed_colbases = NULL,
+  fixed_column_bases = rep(NA, numSera(map)),
   sort_optimizations = TRUE,
   verbose = TRUE,
   options = list()
@@ -24,6 +24,8 @@ optimizeMap(
 
 \item{minimum_column_basis}{The minimum column basis to use (see details)}
 
+\item{fixed_column_bases}{A vector of fixed values to use as column bases directly, rather than calculating them from the titer table.}
+
 \item{sort_optimizations}{Should optimizations be sorted by stress afterwards?}
 
 \item{verbose}{Should progress be reported?}
@@ -33,8 +35,6 @@ optimizeMap(
 \item{discard_previous_optimizations}{Should previous optimizations associated with this map be discarded?}
 
 \item{realign_optimizations}{Should optimizations be realigned to align as closely as possible with each other?}
-
-\item{fixed_column_bases}{A vector of fixed values to use as column bases directly, rather than calculating them from the titer table.}
 
 \item{dimensional_annealing}{Should dimensional annealing be applied?}
 

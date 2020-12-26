@@ -3,11 +3,13 @@ library(Racmacs)
 library(testthat)
 context("Test local map creation (test_map_creation.R)")
 
+# Set test table
+testtable <- matrix(2^(1:6)*10, 3, 2)
+
 # Bare bones creation
 test_that("Bare bones creation", {
 
   # Making a map from a table
-  testtable <- matrix(2^(1:6)*10, 3, 2)
   actablemap <- acmap(
     titer_table = testtable
   )
@@ -40,8 +42,8 @@ test_that("Bare bones creation", {
     sr_names = sr_names
   )
 
-  expect_error(agCoords(map) <- ag_coords3d)
-  expect_error(srCoords(map) <- sr_coords3d)
+  expect_error(agCoords(map) <- ag_coords3d, "optimization run not found")
+  expect_error(srCoords(map) <- sr_coords3d, "optimization run not found")
 
   # expect_equal(unname(agCoords(map)), ag_coords)
   # expect_equal(unname(srCoords(map)), sr_coords)
@@ -67,7 +69,6 @@ test_that("Removing optimizations", {
   expect_equal(numOptimizations(map),  3)
   expect_equal(numOptimizations(map2), 1)
 })
-
 
 # Using acmap
 test_that("Making a map and optimizing", {

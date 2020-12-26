@@ -3,6 +3,7 @@
 #include "acmap_titers.h"
 #include "ac_optim_map_stress.h"
 #include "ac_dimension_test.h"
+#include "ac_optimizer_options.h"
 
 // [[Rcpp::export]]
 DimTestOutput ac_dimension_test_map(
@@ -10,20 +11,13 @@ DimTestOutput ac_dimension_test_map(
   arma::uvec dimensions_to_test,
   double test_proportion,
   std::string minimum_column_basis,
-  bool column_bases_from_full_table,
+  arma::vec fixed_column_bases,
   int num_optimizations,
-  std::string method,
-  int maxit,
-  bool dim_annealing
+  AcOptimizerOptions options
 ){
 
   // Declare variables
   arma::vec colbases;
-
-  // Get column bases before setting don't cares if not setting from full table
-  if(column_bases_from_full_table){
-    colbases = titer_table.colbases(minimum_column_basis);
-  }
 
   // Get a random index of measured titers to test
   int num_measured = titer_table.num_measured();
@@ -38,9 +32,10 @@ DimTestOutput ac_dimension_test_map(
   titer_table.set_unmeasured(indices_test);
 
   // Get column bases after setting don't cares if not setting from full table
-  if(!column_bases_from_full_table){
-    colbases = titer_table.colbases(minimum_column_basis);
-  }
+  colbases = titer_table.colbases(
+    minimum_column_basis,
+    fixed_column_bases
+  );
 
   // Setup for output
   struct DimTestOutput results = {
@@ -53,7 +48,7 @@ DimTestOutput ac_dimension_test_map(
   // Run the optimization for each set of dimensions
   std::vector<AcOptimization> optimizations;
   arma::vec predicted_titers(indices_test.n_elem);
-  for(int i = 0; i < dimensions_to_test.n_elem; i++){
+  for(arma::uword i = 0; i < dimensions_to_test.n_elem; i++){
 
     // Check for user interrupt
     Rcpp::checkUserInterrupt();
@@ -64,16 +59,14 @@ DimTestOutput ac_dimension_test_map(
       colbases,
       dimensions_to_test[i],
       num_optimizations,
-      method,
-      maxit,
-      dim_annealing
+      options
     );
 
     // Sort by stress and keep lowest stress coords
     sort_optimizations_by_stress(optimizations);
 
     // Work out predicted titers for each of the test cases
-    for(int j=0; j<predicted_titers.n_elem; j++){
+    for(arma::uword j=0; j<predicted_titers.n_elem; j++){
       double dist = optimizations[0].ptDist(
         indices_test_mat(0,j),
         indices_test_mat(1,j)

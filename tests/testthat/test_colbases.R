@@ -49,5 +49,17 @@ test_that("Calculating a column basis with only numeric titers", {
     expected = test_column_bases
   )
 
+  # Test fixed column bases
+  titer_table[8,2] <- NA
+  fixed_col_bases <- rep(NA, length(test_column_bases))
+  fixed_col_bases[2] <- 3
+  fixed_col_bases[5] <- 1
+  test_column_bases[2] <- 3
+  test_column_bases[5] <- 1
+  expect_equal(
+    object   = tableColbases(titer_table, "640", fixed_col_bases),
+    expected = test_column_bases
+  )
+
 })
 

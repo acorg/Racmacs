@@ -32,8 +32,8 @@ stressBlobs <- function(
 
   # Calculate blob data for antigens
   if(antigens){
-    map$antigens <- plapply(
-      progress_msg = paste("Calculating stress blobs for", length(map$antigens), "antigens..."),
+    map$antigens <- lapply(
+      # progress_msg = paste("Calculating stress blobs for", length(map$antigens), "antigens..."),
       seq_along(map$antigens), function(agnum){
 
       blobgrid <- ac_stress_blob_grid_2d(
@@ -58,8 +58,8 @@ stressBlobs <- function(
 
   # Calculate blob data for sera
   if(sera){
-    map$sera <- plapply(
-      progress_msg = paste("Calculating stress blobs for", length(map$sera), "sera..."),
+    map$sera <- lapply(
+      # progress_msg = paste("Calculating stress blobs for", length(map$sera), "sera..."),
       seq_along(map$sera), function(srnum){
 
       blobgrid <- ac_stress_blob_grid_2d(

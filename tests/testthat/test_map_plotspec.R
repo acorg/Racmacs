@@ -4,7 +4,7 @@ library(testthat)
 context("Test reading and editing of plotspec data")
 
 # Load the map and the chart
-racmap   <- read.acmap(filename = test_path("../testdata/testmap.ace"))
+racmap <- read.acmap(filename = test_path("../testdata/testmap.ace"))
 
 ## Check you are converting between draw order and priority correctly
 test_that("Draw priority to order conversion", {
@@ -20,21 +20,12 @@ test_that("Draw priority to order conversion", {
 
 })
 
-## Hack to allow for different color specs
-convertcol <- function(col){
-  if(class(col) == "character"){
-    col[col == "#00FF00"] <- "green"
-  }
-  col
-}
-
 ## Test defaults
 test_that("Test acmap defaults", {
 
   map <- acmap(titer_table = matrix(2^(4:9), 3, 2)*10)
-  map <- optimizeMap(map, number_of_dimensions = 2, number_of_optimizations = 1, minimum_column_basis = "none")
 
-  expect_equal(convertcol(agFill(map)), rep("green", 3)       )
+  expect_equal(agFill(map),             rep("green", 3)       )
   expect_equal(agOutline(map),          rep("black", 3)       )
   expect_equal(agAspect(map),           rep(1, 3)             )
   expect_equal(agRotation(map),         rep(0, 3)             )
@@ -58,33 +49,31 @@ test_that("Test acmap defaults", {
 
 ## Plotspec
 # property | chart supports setting | test value | mode
-plotspec_features <- rbind(
-  c("Size"         , TRUE  , 4         , "numeric")   ,
-  c("Fill"         , TRUE  , "blue"    , "character") ,
-  #c("Outline"      , TRUE  , "red"     , "character") ,
-  c("Outline"      , TRUE  , "green"     , "character") ,
-  c("OutlineWidth" , TRUE  , 2         , "numeric")   ,
-  c("Rotation"     , TRUE  , 24        , "numeric")   ,
-  c("Aspect"       , TRUE  , 3         , "numeric")   ,
-  c("Shape"        , TRUE  , "BOX"     , "character") ,
-  c("DrawingOrder" , FALSE , 100       , "numeric")   ,
-  c("Shown"        , TRUE  , FALSE     , "logical")
+plotspec_features <- list(
+  "Size"         = 4,
+  "Fill"         = "blue",
+  "Outline"      = "green",
+  "OutlineWidth" = 2,
+  "Rotation"     = 24,
+  "Aspect"       = 3,
+  "Shape"        = "BOX",
+  "DrawingOrder" = 100,
+  "Shown"        = FALSE
 )
 
 test_that("Edit plotspec details", {
 
-  for(n in seq_len(nrow(plotspec_features))){
+  for(n in seq_along(plotspec_features)){
 
-    property         <- plotspec_features[n,1]
-    chart_supported  <- plotspec_features[n,2]
-    test_value       <- plotspec_features[n,3]
-    mode(test_value) <- plotspec_features[n,4]
+    property         <- names(plotspec_features)[n]
+    test_value       <- plotspec_features[[n]]
 
     agGetterFunction <- get(paste0("ag", property))
     srGetterFunction <- get(paste0("sr", property))
 
     agSetterFunction <- get(paste0("ag", property, "<-"))
     srSetterFunction <- get(paste0("sr", property, "<-"))
+
 
     # Test setting
     racmap <- agSetterFunction(racmap, value = test_value)

@@ -1,90 +1,79 @@
 
+# List plotspec properties
+plotspec_attributes <- c(
+  "Shown",
+  "Size",
+  "Fill",
+  "Outline",
+  "OutlineWidth",
+  "Rotation",
+  "Aspect",
+  "Shape"
+)
+
+plotspec_methods <- c(
+  paste0("ag", plotspec_attributes),
+  paste0("sr", plotspec_attributes)
+)
+
 # Function factory for plotspec getter functions
-plotspec_getter <- function(attribute){
+plotspec_getter <- function(pttype, fn){
   eval(
-    substitute(env = list(attribute = attribute), expr = {
-      function(map){
-        value <- map[[attribute]]
-        defaultProperty_plotspec(map, attribute, value)
+    substitute(env = list(
+      pttype = pttype,
+      fn = fn
+    ), expr = {
+      if(pttype == "ag"){
+        function(map){
+          sapply(map$antigens, fn)
+        }
+      } else {
+        function(map, value){
+          sapply(map$sera, fn)
+        }
       }
     })
   )
 }
 
 # Function factory for plotspec setter functions
-plotspec_setter <- function(attribute){
+plotspec_setter <- function(pttype, fn, checker_fn = NULL){
   eval(
-    substitute(env = list(attribute = attribute), expr = {
-      function(map, .check = TRUE, value){
-        if(.check) value <- checkProperty_plotspec(map, attribute, value)
-        map[[attribute]] <- unname(value)
-        map
+    substitute(env = list(
+      pttype = pttype,
+      fn = fn
+    ), expr = {
+      if(pttype == "ag"){
+        function(map, value){
+          if(is.null(value)){ stop("Cannot set null value") }
+          if(!is.null(checker_fn)){ checker_fn(value) }
+          if(length(value) == 1){
+            value <- rep_len(value, numAntigens(map))
+          } else if(length(value) != numAntigens(map)){
+            stop("Input does not match the number of antigens", call. = FALSE)
+          }
+          map$antigens <- lapply(seq_along(map$antigens), function(x){
+            fn(map$antigens[[x]], value[x])
+          })
+          map
+        }
+      } else {
+        function(map, value){
+          if(is.null(value)){ stop("Cannot set null value") }
+          if(!is.null(checker_fn)){ checker_fn(value) }
+          if(length(value) == 1){
+            value <- rep_len(value, numSera(map))
+          } else if(length(value) != numSera(map)){
+            stop("Input does not match the number of sera", call. = FALSE)
+          }
+          map$sera <- lapply(seq_along(map$sera), function(x){
+            fn(map$sera[[x]], value[x])
+          })
+          map
+        }
       }
     })
   )
-}
-
-
-# Property checker
-checkProperty_plotspec <- function(map, attribute, value){
-
-  # Get attribute and type
-  plotspec_attribute <- substr(attribute, 3, nchar(attribute))
-  point_type         <- substr(attribute, 1, 2)
-
-  # Get number of points
-  if(point_type == "ag") num_points <- numAntigens(map); point_type_long <- "antigens"
-  if(point_type == "sr") num_points <- numSera(map);     point_type_long <- "sera"
-
-  # Repeat length 1 to match points
-  if(length(value) == 1) value <- rep(value, num_points)
-
-  # Check value lengths
-  if(length(value) != num_points){
-    stop(sprintf("Number of %s does not match number of %s in the map", attribute, point_type_long))
-  }
-
-  # Return the value
-  value
-
-}
-
-# For setting defaults
-defaultProperty_plotspec <- function(map, attribute, value){
-
-  if(is.null(value)){
-
-    num_antigens <- numAntigens(map)
-    num_sera     <- numSera(map)
-
-    value <- switch(
-      attribute,
-
-      agFill         = rep("green", num_antigens),
-      agOutline      = rep("black", num_antigens),
-      agAspect       = rep(1, num_antigens),
-      agRotation     = rep(0, num_antigens),
-      agOutlineWidth = rep(1, num_antigens),
-      agDrawingOrder = rep(1, num_antigens),
-      agShape        = rep("CIRCLE", num_antigens),
-      agSize         = rep(5, num_antigens),
-      agShown        = rep(TRUE, num_antigens),
-
-      srFill         = rep("transparent", num_sera),
-      srOutline      = rep("black", num_sera),
-      srAspect       = rep(1, num_sera),
-      srRotation     = rep(0, num_sera),
-      srOutlineWidth = rep(1, num_sera),
-      srDrawingOrder = rep(1, num_sera),
-      srShape        = rep("BOX", num_sera),
-      srSize         = rep(5, num_sera),
-      srShown        = rep(TRUE, num_sera)
-    )
-
-  }
-
-  value
-
 }
 
 # Converting draw priority
@@ -117,42 +106,70 @@ draw_priority_to_order <- function(drawing_priority){
 #'   setterargs = NULL
 #' )
 #'
-agShown        <- plotspec_getter("agShown")
-agSize         <- plotspec_getter("agSize")
-agFill         <- plotspec_getter("agFill")
-agOutline      <- plotspec_getter("agOutline")
-agOutlineWidth <- plotspec_getter("agOutlineWidth")
-agRotation     <- plotspec_getter("agRotation")
-agAspect       <- plotspec_getter("agAspect")
-agShape        <- plotspec_getter("agShape")
-agDrawingOrder <- plotspec_getter("agDrawingOrder")
-srShown        <- plotspec_getter("srShown")
-srSize         <- plotspec_getter("srSize")
-srFill         <- plotspec_getter("srFill")
-srOutline      <- plotspec_getter("srOutline")
-srOutlineWidth <- plotspec_getter("srOutlineWidth")
-srRotation     <- plotspec_getter("srRotation")
-srAspect       <- plotspec_getter("srAspect")
-srShape        <- plotspec_getter("srShape")
-srDrawingOrder <- plotspec_getter("srDrawingOrder")
+agShown        <- plotspec_getter("ag", ac_ag_get_shown)
+agSize         <- plotspec_getter("ag", ac_ag_get_size)
+agFill         <- plotspec_getter("ag", ac_ag_get_fill)
+agOutline      <- plotspec_getter("ag", ac_ag_get_outline)
+agOutlineWidth <- plotspec_getter("ag", ac_ag_get_outline_width)
+agRotation     <- plotspec_getter("ag", ac_ag_get_rotation)
+agAspect       <- plotspec_getter("ag", ac_ag_get_aspect)
+agShape        <- plotspec_getter("ag", ac_ag_get_shape)
+agDrawingOrder <- plotspec_getter("ag", ac_ag_get_drawing_order)
+srShown        <- plotspec_getter("sr", ac_sr_get_shown)
+srSize         <- plotspec_getter("sr", ac_sr_get_size)
+srFill         <- plotspec_getter("sr", ac_sr_get_fill)
+srOutline      <- plotspec_getter("sr", ac_sr_get_outline)
+srOutlineWidth <- plotspec_getter("sr", ac_sr_get_outline_width)
+srRotation     <- plotspec_getter("sr", ac_sr_get_rotation)
+srAspect       <- plotspec_getter("sr", ac_sr_get_aspect)
+srShape        <- plotspec_getter("sr", ac_sr_get_shape)
+srDrawingOrder <- plotspec_getter("sr", ac_sr_get_drawing_order)
 
-`agShown<-`        <- plotspec_setter("agShown")
-`agSize<-`         <- plotspec_setter("agSize")
-`agFill<-`         <- plotspec_setter("agFill")
-`agOutline<-`      <- plotspec_setter("agOutline")
-`agOutlineWidth<-` <- plotspec_setter("agOutlineWidth")
-`agRotation<-`     <- plotspec_setter("agRotation")
-`agAspect<-`       <- plotspec_setter("agAspect")
-`agShape<-`        <- plotspec_setter("agShape")
-`agDrawingOrder<-` <- plotspec_setter("agDrawingOrder")
-`srShown<-`        <- plotspec_setter("srShown")
-`srSize<-`         <- plotspec_setter("srSize")
-`srFill<-`         <- plotspec_setter("srFill")
-`srOutline<-`      <- plotspec_setter("srOutline")
-`srOutlineWidth<-` <- plotspec_setter("srOutlineWidth")
-`srRotation<-`     <- plotspec_setter("srRotation")
-`srAspect<-`       <- plotspec_setter("srAspect")
-`srShape<-`        <- plotspec_setter("srShape")
-`srDrawingOrder<-` <- plotspec_setter("srDrawingOrder")
+`agShown<-`        <- plotspec_setter("ag", ac_ag_set_shown, check.logicalvector)
+`agSize<-`         <- plotspec_setter("ag", ac_ag_set_size, check.numericvector)
+`agFill_raw<-`     <- plotspec_setter("ag", ac_ag_set_fill, check.charactervector)
+`agOutline_raw<-`  <- plotspec_setter("ag", ac_ag_set_outline, check.charactervector)
+`agOutlineWidth<-` <- plotspec_setter("ag", ac_ag_set_outline_width, check.numericvector)
+`agRotation<-`     <- plotspec_setter("ag", ac_ag_set_rotation, check.numericvector)
+`agAspect<-`       <- plotspec_setter("ag", ac_ag_set_aspect, check.numericvector)
+`agShape<-`        <- plotspec_setter("ag", ac_ag_set_shape, check.charactervector)
+`agDrawingOrder<-` <- plotspec_setter("ag", ac_ag_set_drawing_order, check.numericvector)
+`srShown<-`        <- plotspec_setter("sr", ac_sr_set_shown, check.logicalvector)
+`srSize<-`         <- plotspec_setter("sr", ac_sr_set_size, check.numericvector)
+`srFill_raw<-`     <- plotspec_setter("sr", ac_sr_set_fill, check.charactervector)
+`srOutline_raw<-`  <- plotspec_setter("sr", ac_sr_set_outline, check.charactervector)
+`srOutlineWidth<-` <- plotspec_setter("sr", ac_sr_set_outline_width, check.numericvector)
+`srRotation<-`     <- plotspec_setter("sr", ac_sr_set_rotation, check.numericvector)
+`srAspect<-`       <- plotspec_setter("sr", ac_sr_set_aspect, check.numericvector)
+`srShape<-`        <- plotspec_setter("sr", ac_sr_set_shape, check.charactervector)
+`srDrawingOrder<-` <- plotspec_setter("sr", ac_sr_set_drawing_order, check.numericvector)
 
+# Extra functions that include a color validation step
+validate_colors <- function(cols){
+  tryCatch(
+    col2rgb(cols),
+    error = function(e){
+      stop(e$message, call. = FALSE)
+    }
+  )
+}
 
+`agFill<-` <- function(map, value){
+  validate_colors(value)
+  `agFill_raw<-`(map, value)
+}
+
+`srFill<-` <- function(map, value){
+  validate_colors(value)
+  `srFill_raw<-`(map, value)
+}
+
+`agOutline<-` <- function(map, value){
+  validate_colors(value)
+  `agOutline_raw<-`(map, value)
+}
+
+`srOutline<-` <- function(map, value){
+  validate_colors(value)
+  `srOutline_raw<-`(map, value)
+}

@@ -4,7 +4,7 @@
 \alias{mapDimensions}
 \title{Get the current map dimensions}
 \usage{
-mapDimensions(map, optimization_number = NULL)
+mapDimensions(map, optimization_number = 1)
 }
 \value{
 Returns the number of map dimensions for the specified optimization run.

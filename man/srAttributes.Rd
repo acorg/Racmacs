@@ -3,32 +3,9 @@
 \name{srAttributes}
 \alias{srAttributes}
 \alias{srIDs}
-\alias{srNames}
-\alias{srNamesFull}
-\alias{srNamesAbbreviated}
-\alias{srNames<-}
-\alias{srIDs<-}
 \title{Getting and setting sera attributes}
 \usage{
-srNames(map, .name = TRUE)
-srNames(map, .check = TRUE) <- value
-
-srIDs(map, .name = TRUE)
-srIDs(map, .check = TRUE) <- value
-
-srNamesFull(map, .name = TRUE)
-
-srNamesAbbreviated(map, .name = TRUE)
-}
-\arguments{
-\item{map}{The acmap data object}
-
-\item{.name}{Should the output be labelled with corresponding antigen / sera names}
-
-\item{.check}{Should normal checks be applied for validity be applied when setting this value (used internally)}
-}
-\value{
-Returns either the requested attribute when using a getter function or the updated acmap object when using the setter function.
+srIDs(map)
 }
 \description{
 These functions get and set the sera attributes for a map.

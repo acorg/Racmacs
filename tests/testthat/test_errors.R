@@ -10,7 +10,7 @@ test_that("errors when no optimizations are available", {
 
   expect_error(
     colBases(map),
-    "Map has no optimizations"
+    "Optimization run not found"
   )
 
 })

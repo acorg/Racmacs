@@ -1,5 +1,7 @@
 
 #include <RcppArmadillo.h>
+#include "ac_optim_map_stress.h"
+#include "ac_optimization.h"
 #include "acmap_map.h"
 #include "acmap_optimization.h"
 #include "procrustes.h"
@@ -46,24 +48,6 @@ AcOptimization ac_set_sr_coords(
   return opt;
 }
 
-// [[Rcpp::export]]
-AcOptimization ac_set_min_column_basis(
-    AcOptimization opt,
-    std::string mincolbasis
-){;
-  opt.set_min_column_basis(mincolbasis);
-  return opt;
-}
-
-// [[Rcpp::export]]
-AcOptimization ac_set_fixed_column_bases(
-    AcOptimization opt,
-    arma::vec fixed_colbases
-){;
-  opt.set_fixed_column_bases(fixed_colbases);
-  return opt;
-}
-
 // Align two optimizations
 // [[Rcpp::export]]
 AcOptimization ac_align_optimization(
@@ -73,6 +57,39 @@ AcOptimization ac_align_optimization(
 
   source_optimization.alignToOptimization(target_optimization);
   return source_optimization;
+
+}
+
+// Align all optimizations of one map to the first optimization of another
+// [[Rcpp::export]]
+AcMap ac_align_map(
+  AcMap source_map,
+  AcMap target_map,
+  bool translation,
+  bool scaling
+){
+
+  // Do the alignment
+  source_map.realign_to_map(
+    target_map,
+    0,
+    translation,
+    scaling
+  );
+
+  // Return the map
+  return source_map;
+
+}
+
+// Align multiple optimizations to the first one
+// [[Rcpp::export]]
+std::vector<AcOptimization> ac_align_optimizations(
+  std::vector<AcOptimization> optimizations
+){
+
+  align_optimizations(optimizations);
+  return optimizations;
 
 }
 
@@ -95,10 +112,14 @@ AcMap ac_subset_map(
 // [[Rcpp::export]]
 arma::vec ac_table_colbases(
     const AcTiterTable titer_table,
-    const std::string min_col_basis
+    const std::string min_col_basis,
+    const arma::vec fixed_col_bases
 ){
 
-  return titer_table.colbases(min_col_basis);
+  return titer_table.colbases(
+    min_col_basis,
+    fixed_col_bases
+  );
 
 }
 
@@ -139,12 +160,36 @@ AcOptimization ac_newOptimization(
 AcOptimization ac_relaxOptimization(
     AcOptimization opt,
     AcTiterTable titers,
-    std::string method = "L-BFGS-B",
-    int maxit = 1000
+    AcOptimizerOptions options
 ){
 
-  opt.relax(titers, method, maxit);
+  opt.relax_from_titer_table(titers, options);
   return opt;
+
+}
+
+
+// Relax an optimization
+//' @export
+// [[Rcpp::export]]
+AcMap ac_optimize_map(
+    AcMap map,
+    int num_dims,
+    int num_optimizations,
+    std::string min_col_basis,
+    arma::vec fixed_col_bases,
+    AcOptimizerOptions options
+){
+
+  map.optimize(
+    num_dims,
+    num_optimizations,
+    min_col_basis,
+    fixed_col_bases,
+    options
+  );
+
+  return map;
 
 }
 

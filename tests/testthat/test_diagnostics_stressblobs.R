@@ -25,7 +25,7 @@ test_that("General stress blob calculation", {
   expect_equal(agStressBlobSize(map_unrelaxed), rep(NA_real_, numAntigens(map_unrelaxed)))
   expect_equal(srStressBlobSize(map_unrelaxed), rep(NA_real_, numSera(map_unrelaxed)))
   expect_equal(length(agStressBlobSize(blobmap)), numAntigens(blobmap))
-  expect_equal(length(srStressBlobSize(blobmap)),     numSera(blobmap))
+  expect_equal(length(srStressBlobSize(blobmap)), numSera(blobmap))
 
   expect_lt(agStressBlobSize(blobmap)[5], 2)
   expect_gt(agStressBlobSize(blobmap)[5], 1)

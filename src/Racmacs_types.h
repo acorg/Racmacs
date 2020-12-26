@@ -7,14 +7,32 @@
 #include "ac_dimension_test.h"
 #include "ac_noisy_bootstrap.h"
 #include "ac_stress_blobs.h"
+#include "ac_optim_map_stress.h"
 
 #ifndef Racmacs__RacmacsWrap__h
 #define Racmacs__RacmacsWrap__h
 
+// Functions for checking classes
+void check_class(
+  const SEXP &sxp,
+  const std::string &classname
+){
+  if(!Rf_inherits(sxp, classname.c_str())){
+    std::string msg = "Object must be of class '" + classname + "'\n";
+    Rf_error(msg.c_str());
+  }
+}
+
+void check_matrix(
+    const SEXP &sxp
+){
+  if(!Rf_isMatrix(sxp)){
+    Rf_error("Object must be of class 'matrix'");
+  }
+}
+
 // declaring the specialization
 namespace Rcpp {
-
-  // For converting from C++ back to R
 
   // FROM: ACOPTIMIZATION
   template <>
@@ -24,21 +42,42 @@ namespace Rcpp {
       _["ag_base_coords"] = acopt.get_ag_base_coords(),
       _["sr_base_coords"] = acopt.get_sr_base_coords(),
       _["min_column_basis"] = acopt.get_min_column_basis(),
+      _["fixed_column_bases"] = acopt.get_fixed_column_bases(),
       _["transformation"] = acopt.get_transformation(),
       _["translation"] = acopt.get_translation(),
       _["stress"] = acopt.get_stress(),
       _["comment"] = acopt.get_comment()
     );
 
-    if(acopt.get_min_column_basis() == "fixed"){
-      out.push_back(
-        acopt.get_fixed_column_bases(),
-        "fixed_column_bases"
-      );
-    }
+    // Set class attribute and return
+    out.attr("class") = CharacterVector::create("acoptimization", "list");
+    return out;
 
-    return wrap(out);
+  }
 
+  // FROM: ACCOORDS
+  template <>
+  SEXP wrap(const AcCoords& coords){
+    return wrap(
+      List::create(
+        _["ag_coords"] = coords.ag_coords,
+        _["sr_coords"] = coords.sr_coords
+      )
+    );
+  }
+
+  // FROM: PROCRUSTES DATA
+  template <>
+  SEXP wrap(const ProcrustesData &pc){
+    return wrap(
+      List::create(
+        _["ag_dists"] = pc.ag_dists,
+        _["sr_dists"] = pc.sr_dists,
+        _["ag_rmsd"] = pc.ag_rmsd,
+        _["sr_rmsd"] = pc.sr_rmsd,
+        _["total_rmsd"] = pc.total_rmsd
+      )
+    );
   }
 
   // FROM: ACTITER
@@ -51,7 +90,7 @@ namespace Rcpp {
   template <>
   SEXP wrap(const std::vector<AcTiter>& titers){
     CharacterVector titers_out(titers.size());
-    for(int i=0; i<titers.size(); i++){
+    for(arma::uword i=0; i<titers.size(); i++){
       titers_out[i] = titers[i].toString();
     }
     return wrap(titers_out);
@@ -91,7 +130,7 @@ namespace Rcpp {
   template <>
   SEXP wrap(const arma::vec& v){
     NumericVector out(v.size());
-    for(int i=0; i<v.size(); i++){
+    for(arma::uword i=0; i<v.size(); i++){
       out[i] = v[i];
     }
     return wrap(out);
@@ -99,7 +138,8 @@ namespace Rcpp {
 
   // FROM: ANTIGEN
   SEXP wrap(const AcAntigen& ag){
-    return wrap(
+
+    List out = wrap(
       List::create(
         _["name"] = ag.get_name(),
         _["id"] = ag.get_id(),
@@ -114,11 +154,17 @@ namespace Rcpp {
         _["drawing_order"] = ag.get_drawing_order()
       )
     );
+
+    // Set class attribute and return
+    out.attr("class") = CharacterVector::create("acantigen", "list");
+    return out;
+
   }
 
   // FROM: SERUM
   SEXP wrap(const AcSerum& sr){
-    return wrap(
+
+    List out = wrap(
       List::create(
         _["name"] = sr.get_name(),
         _["id"] = sr.get_id(),
@@ -133,6 +179,11 @@ namespace Rcpp {
         _["drawing_order"] = sr.get_drawing_order()
       )
     );
+
+    // Set class attribute and return
+    out.attr("class") = CharacterVector::create("acserum", "list");
+    return out;
+
   }
 
   // FROM: ACMAP
@@ -141,26 +192,26 @@ namespace Rcpp {
 
     // Antigens
     List antigens = List::create();
-    for(int i=0; i<acmap.antigens.size(); i++){
-      antigens.push_back(as<List>(wrap(acmap.antigens[i])));
+    for(auto &antigen : acmap.antigens){
+      antigens.push_back(as<List>(wrap(antigen)));
     }
 
     // Sera
     List sera = List::create();
-    for(int i=0; i<acmap.sera.size(); i++){
-      sera.push_back(as<List>(wrap(acmap.sera[i])));
+    for(auto &serum : acmap.sera){
+      sera.push_back(as<List>(wrap(serum)));
     }
 
     // Optimizations
     List optimizations = List::create();
-    for(int i=0; i<acmap.optimizations.size(); i++){
-      optimizations.push_back(as<List>(wrap(acmap.optimizations[i])));
+    for(auto &optimization : acmap.optimizations){
+      optimizations.push_back(as<List>(wrap(optimization)));
     }
 
     // Titer table layers
     List titer_table_layers = List::create();
-    for(int i=0; i<acmap.titer_table_layers.size(); i++){
-      titer_table_layers.push_back(as<CharacterMatrix>(wrap(acmap.titer_table_layers[i])));
+    for(auto &titer_table_layer : acmap.titer_table_layers){
+      titer_table_layers.push_back(as<CharacterMatrix>(wrap(titer_table_layer)));
     }
 
     // Titer table flat
@@ -187,13 +238,13 @@ namespace Rcpp {
   SEXP wrap(const DimTestOutput& dimtestout){
 
     List coords = List::create();
-    for(int i=0; i<dimtestout.coords.size(); i++){
-      coords.push_back(as<NumericMatrix>(wrap(dimtestout.coords[i])));
+    for(auto &coord : dimtestout.coords){
+      coords.push_back(as<NumericMatrix>(wrap(coord)));
     }
 
     List predictions = List::create();
-    for(int i=0; i<dimtestout.predictions.size(); i++){
-      predictions.push_back(as<NumericVector>(wrap(dimtestout.predictions[i])));
+    for(auto &prediction : dimtestout.predictions){
+      predictions.push_back(as<NumericVector>(wrap(prediction)));
     }
 
     return wrap(
@@ -235,18 +286,49 @@ namespace Rcpp {
   }
 
   // For converting from R to C++
+  // TO: std::string
+  template <>
+  std::string as(SEXP sxp){
+    if(TYPEOF(sxp) != 9 && TYPEOF(sxp) != 16){
+      Rf_error("Input must be a string");
+    } else if(TYPEOF(sxp) == 16 && Rf_length(sxp) != 1){
+      Rf_error("Input cannot be a character vector longer than 1");
+    }
+    CharacterVector charvec = as<CharacterVector>(sxp);
+    String out = charvec[0];
+    return out.get_cstring();
+  }
+
+  // TO: AcOptimizerOptions
+  template <>
+  AcOptimizerOptions as(SEXP sxp){
+
+    List opt = as<List>(sxp);
+    return AcOptimizerOptions{
+      opt["dim_annealing"],
+      opt["method"],
+      opt["maxit"],
+      opt["num_cores"],
+      opt["report_progress"],
+      opt["progress_bar_length"]
+    };
+
+  };
+
+
   // TO: ACOPTIMIZATION
   template <>
   AcOptimization as(SEXP sxp){
+
+    // Check input
+    check_class(sxp, "acoptimization");
     List opt = as<List>(sxp);
-    if(opt.size() == 0){
-      stop("Missing the optimization run");
-    }
 
     // Get variables
+    if(!opt.containsElementNamed("ag_base_coords")) { stop("Optimization must contain ag_base_coords"); }
+    if(!opt.containsElementNamed("sr_base_coords")) { stop("Optimization must contain sr_base_coords"); }
     arma::mat ag_base_coords = as<arma::mat>(wrap(opt["ag_base_coords"]));
     arma::mat sr_base_coords = as<arma::mat>(wrap(opt["sr_base_coords"]));
-    std::string mincolbasis = as<std::string>(wrap(opt["min_column_basis"]));
 
     // Setup object
     AcOptimization acopt = AcOptimization(
@@ -258,8 +340,10 @@ namespace Rcpp {
     // Populate
     acopt.set_ag_base_coords( ag_base_coords );
     acopt.set_sr_base_coords( sr_base_coords );
-    acopt.set_stress( as<double>(wrap(opt["stress"])) );
 
+    if(opt.containsElementNamed("stress")) {
+      acopt.set_stress( as<double>(wrap(opt["stress"])) );
+    }
     if(opt.containsElementNamed("transformation")) {
       acopt.set_transformation( as<arma::mat>(wrap(opt["transformation"])) );
     }
@@ -269,20 +353,11 @@ namespace Rcpp {
     if(opt.containsElementNamed("comment")) {
       acopt.set_comment( as<std::string>(wrap(opt["comment"])) );
     }
-
-    // Column bases
-    if(mincolbasis == "fixed"){
-
-      if(!opt.containsElementNamed("fixed_column_bases")){
-        stop("Fixed column bases must be specified when minimum column basis is set to 'fixed'");
-      } else{
-        acopt.set_fixed_column_bases( as<arma::vec>(wrap(opt["fixed_column_bases"])) );
-      }
-
-    } else {
-
-      acopt.set_min_column_basis( mincolbasis );
-
+    if(opt.containsElementNamed("fixed_column_bases")) {
+      acopt.set_fixed_column_bases( as<arma::vec>(wrap(opt["fixed_column_bases"])) );
+    }
+    if(opt.containsElementNamed("min_column_basis")) {
+      acopt.set_min_column_basis( as<std::string>(wrap(opt["min_column_basis"])) );
     }
 
     // Return the object
@@ -301,6 +376,7 @@ namespace Rcpp {
   template <>
   AcTiterTable as(SEXP sxp){
 
+    check_matrix(sxp);
     CharacterMatrix titers = as<CharacterMatrix>(sxp);
     int num_ags = titers.nrow();
     int num_sr = titers.ncol();
@@ -353,6 +429,7 @@ namespace Rcpp {
   template <>
   AcAntigen as(SEXP sxp){
 
+    check_class(sxp, "acantigen");
     List list = as<List>(sxp);
     AcAntigen ag;
 
@@ -376,6 +453,7 @@ namespace Rcpp {
   template <>
   AcSerum as(SEXP sxp){
 
+    check_class(sxp, "acserum");
     List list = as<List>(sxp);
     AcSerum sr;
 
@@ -399,25 +477,26 @@ namespace Rcpp {
   template <>
   AcMap as(SEXP sxp){
 
+    check_class(sxp, "acmap");
     List list = as<List>(sxp);
     List antigens = list["antigens"];
     List sera = list["sera"];
     AcMap acmap(antigens.size(), sera.size());
 
     // Antigens
-    for(int i=0; i<acmap.antigens.size(); i++){
+    for(arma::uword i=0; i<acmap.antigens.size(); i++){
       acmap.antigens[i] = as<AcAntigen>(wrap(antigens[i]));
     }
 
     // Sera
-    for(int i=0; i<acmap.sera.size(); i++){
+    for(arma::uword i=0; i<acmap.sera.size(); i++){
       acmap.sera[i] = as<AcSerum>(wrap(sera[i]));
     }
 
     // Optimizations
     if(list.containsElementNamed("optimizations")){
       List optimizations = list["optimizations"];
-      for(int i=0; i<optimizations.size(); i++){
+      for(arma::uword i=0; i<optimizations.size(); i++){
         acmap.optimizations.push_back(as<AcOptimization>(wrap(optimizations[i])));
       }
     }
@@ -425,7 +504,7 @@ namespace Rcpp {
     // Titer table layers
     if(list.containsElementNamed("titer_table_layers")){
       List titer_table_layers = list["titer_table_layers"];
-      for(int i=0; i<titer_table_layers.size(); i++){
+      for(arma::uword i=0; i<titer_table_layers.size(); i++){
         acmap.titer_table_layers.push_back(as<AcTiterTable>(wrap(titer_table_layers[i])));
       }
     }

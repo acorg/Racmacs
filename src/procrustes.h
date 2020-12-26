@@ -11,6 +11,21 @@ struct Procrustes
   double s;
 };
 
+struct AcCoords
+{
+  arma::mat ag_coords;
+  arma::mat sr_coords;
+};
+
+struct ProcrustesData
+{
+  arma::vec ag_dists;
+  arma::vec sr_dists;
+  double ag_rmsd;
+  double sr_rmsd;
+  double total_rmsd;
+};
+
 Procrustes ac_procrustes(
     arma::mat X,
     arma::mat Xstar,

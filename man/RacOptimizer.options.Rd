@@ -5,10 +5,12 @@
 \title{Set acmap optimization options}
 \usage{
 RacOptimizer.options(
-  dim.annealing = FALSE,
-  method = "L-BFGS-B",
-  maxit = 5000,
-  num.cores = parallel::detectCores()
+  dim_annealing = FALSE,
+  method = "L-BFGS",
+  maxit = 1000,
+  num_cores = parallel::detectCores(),
+  report_progress = TRUE,
+  progress_bar_length = options()$width
 )
 }
 \arguments{

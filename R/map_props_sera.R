@@ -1,67 +1,32 @@
 
-# Function factory for antigen attribute getter functions
-sera_getter <- function(attribute){
+# Function factory for sera getter functions
+sera_getter <- function(fn){
   eval(
-    substitute(env = list(attribute = attribute), expr = {
+    substitute(env = list(
+      fn = fn
+    ), expr = {
       function(map){
-        value <- sapply(map$sera, function(sr){ sr[[attribute]] })
-        defaultProperty_sera(map, attribute, value)
+        sapply(map$sera, fn)
       }
     })
   )
 }
 
-# Function factory for sera attribute setter functions
-sera_setter <- function(attribute){
+# Function factory for sera setter functions
+sera_setter <- function(fn){
   eval(
-    substitute(env = list(attribute = attribute), expr = {
-      function(map, .check = TRUE, value){
-        if(.check) value <- checkProperty_sera(map, attribute, value)
-        value <- unname(value)
-        for(x in seq_along(value)){
-          map$sera[[x]][[attribute]] <- value[x]
-        }
+    substitute(env = list(
+      fn = fn
+    ), expr = {
+      function(map, value){
+        if(is.null(value)){ stop("Cannot set null value") }
+        map$sera <- lapply(seq_along(map$sera), function(x){
+          fn(map$sera[[x]], value[x])
+        })
         map
       }
     })
   )
-}
-
-# Property checker
-checkProperty_sera <- function(map, attribute, value){
-
-  character_attributes <- c("group_value")
-  if(attribute %in% character_attributes){
-    value <- unname(as.character(value))
-  }
-
-  value
-
-}
-
-# Default property setter
-defaultProperty_sera <- function(map, attribute, value){
-
-  # Check if a null was returned
-  if(is.null(value)){
-
-    # Choose the default
-    value <- switch(
-
-      EXPR = attribute,
-      srDates = "",
-      srNames = return(NULL)
-
-    )
-
-    # Repeat to match the number of sera
-    value <- rep(value, length(srNames(map)))
-
-  }
-
-  # Return the modified value
-  value
-
 }
 
 
@@ -74,19 +39,25 @@ defaultProperty_sera <- function(map, attribute, value){
 #' \code{\link{agAttributes}}
 #' @family {antigen and sera attribute functions}
 #' @eval roxygen_tags(
-#'   methods = c("srNames", "srIDs", "srNamesFull", "srNamesAbbreviated"),
+#'   methods = c("srNames", "srIDs", "srNamesFull", "srNamesAbbreviated", "srDates", "srReference"),
 #'   args    = c("map")
 #' )
 #'
-srIDs               <- sera_getter("id")
-srGroupValues       <- sera_getter("group_value")
-srNames             <- sera_getter("name")
-srNamesFull         <- sera_getter("name_full")
-srNamesAbbreviated  <- sera_getter("name_abbreviated")
+srIDs               <- sera_getter(ac_sr_get_id)
+srGroupValues       <- sera_getter(ac_sr_get_group_values)
+srDates             <- sera_getter(ac_sr_get_date)
+srReference         <- sera_getter(ac_sr_get_reference)
+srNames             <- sera_getter(ac_sr_get_name)
+srNamesFull         <- sera_getter(ac_sr_get_name_full)
+srNamesAbbreviated  <- sera_getter(ac_sr_get_name_abbreviated)
 
-`srNames<-`         <- sera_setter("name")
-`srIDs<-`           <- sera_setter("id")
-`srGroupValues<-`   <- sera_setter("group_value")
+`srIDs<-`               <- sera_setter(ac_sr_set_id)
+`srGroupValues<-`       <- sera_setter(ac_sr_set_group_values)
+`srDates<-`             <- sera_setter(ac_sr_set_date)
+`srReference<-`         <- sera_setter(ac_sr_set_reference)
+`srNames<-`             <- sera_setter(ac_sr_set_name)
+`srNamesFull<-`         <- sera_setter(ac_sr_set_name_full)
+`srNamesAbbreviated<-`  <- sera_setter(ac_sr_set_name_abbreviated)
 
 
 #' Getting and setting sera groups
@@ -121,12 +92,12 @@ srGroups <- function(map){
 
 #' @export
 srSequences <- function(map){
-  do.call(rbind, lapply(map$sera, function(ag){ ag$sera }))
+  do.call(rbind, lapply(map$sera, function(sr){ sr$sera }))
 }
 
 #' @export
 `srSequences<-` <- function(map, value){
-  if(nrow(value) != numSera(map)) stop("Number of sequences does not match number of antigens")
+  if(nrow(value) != numSera(map)) stop("Number of sequences does not match number of sera")
   for(x in seq_len(numSera(map))){
     map$sera[[x]]$sequence <- value[x,]
   }

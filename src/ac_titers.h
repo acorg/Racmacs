@@ -16,4 +16,8 @@ arma::uvec titer_types_int(
     std::vector<AcTiter> titers
 );
 
+void check_valid_titer(
+    std::string titer
+);
+
 #endif

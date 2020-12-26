@@ -3,27 +3,9 @@
 \name{colBases}
 \alias{colBases}
 \alias{minColBasis}
-\alias{minColBasis<-}
-\alias{colBases<-}
 \title{Getting and setting column bases}
 \usage{
-minColBasis(map, optimization_number = NULL, .name = TRUE)
-minColBasis(map, optimization_number = NULL, .check = TRUE) <- value
-
-colBases(map, optimization_number = NULL, .name = TRUE)
-colBases(map, optimization_number = NULL, .check = TRUE) <- value
-}
-\arguments{
-\item{map}{The acmap data object}
-
-\item{optimization_number}{The optimization run to get / set the data (by default the currently selected one)}
-
-\item{.name}{Should the output be labelled with corresponding antigen / sera names}
-
-\item{.check}{Should normal checks be applied for validity be applied when setting this value (used internally)}
-}
-\value{
-Returns either the requested attribute when using a getter function or the updated acmap object when using the setter function.
+minColBasis(map, optimization_number = 1)
 }
 \description{
 Functions to get and set column bases specified for an optimization run,

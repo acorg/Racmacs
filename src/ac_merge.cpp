@@ -106,8 +106,8 @@ bool pt_in_points(
     std::vector<T> const& pts
 ){
 
-  for(int i=0; i<pts.size(); i++){
-    if(pts[i].get_id() == pt.get_id()){
+  for(auto &ptspt : pts){
+    if(ptspt.get_id() == pt.get_id()){
       return true;
     }
   }
@@ -128,8 +128,8 @@ AcTiterTable subset_titer_table(
     srsubset.n_elem
   );
 
-  for(int ag=0; ag<agsubset.n_elem; ag++){
-    for(int sr=0; sr<srsubset.n_elem; sr++){
+  for(arma::uword ag=0; ag<agsubset.n_elem; ag++){
+    for(arma::uword sr=0; sr<srsubset.n_elem; sr++){
       if(agsubset(ag) != -1 && srsubset(sr) != -1){
         titer_table_subset.set_titer(
           ag, sr,
@@ -157,15 +157,15 @@ AcMap ac_merge_map_tables(
   std::vector<AcTiterTable> merged_layers;
 
   // Add antigens and sera
-  for(int i=0; i<maps.size(); i++){
+  for(arma::uword i=0; i<maps.size(); i++){
 
-    for(int ag=0; ag<maps[i].antigens.size(); ag++){
+    for(arma::uword ag=0; ag<maps[i].antigens.size(); ag++){
       if(!pt_in_points(maps[i].antigens[ag], merged_antigens)){
         merged_antigens.push_back(maps[i].antigens[ag]);
       }
     }
 
-    for(int sr=0; sr<maps[i].sera.size(); sr++){
+    for(arma::uword sr=0; sr<maps[i].sera.size(); sr++){
       if(!pt_in_points(maps[i].sera[sr], merged_sera)){
         merged_sera.push_back(maps[i].sera[sr]);
       }
@@ -174,14 +174,14 @@ AcMap ac_merge_map_tables(
   }
 
   // Add titer table layers
-  for(int i=0; i<maps.size(); i++){
+  for(arma::uword i=0; i<maps.size(); i++){
 
     arma::ivec merged_map_ag_matches = ac_match_points(merged_antigens, maps[i].antigens);
     arma::ivec merged_map_sr_matches = ac_match_points(merged_sera, maps[i].sera);
 
     std::vector<AcTiterTable> titer_table_layers = maps[i].get_titer_table_layers();
 
-    for(int layer=0; layer<titer_table_layers.size(); layer++){
+    for(arma::uword layer=0; layer<titer_table_layers.size(); layer++){
       merged_layers.push_back(
         subset_titer_table(
           titer_table_layers[layer],

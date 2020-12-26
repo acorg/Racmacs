@@ -8,46 +8,55 @@
 // Define the generic point class
 class AcPoint {
 
-  private:
+  protected:
 
     // Regular details
     std::string type;
     std::string name;
+    int group_values;
+    std::string date;
+    bool reference;
+    std::string name_full;
+    std::string name_abbreviated;
     std::string id = "";
     int group;
     std::string sequence;
 
     // Plotspec details
     bool shown = true;
-    double size = 1.0;
+    double size = 5.0;
     std::string shape = "CIRCLE";
-    std::string fill = "#00ff00";
-    std::string outline = "#000000";
+    std::string fill = "green";
+    std::string outline = "black";
     double outline_width = 1.0;
     double rotation = 0.0;
     double aspect = 1.0;
-    int drawing_order = 0;
+    int drawing_order = 1;
 
   public:
 
     // Regular details
     std::string get_type() const { return type; }
     std::string get_name() const { return name; }
-    std::string get_id() const {
-      if(id == ""){
-        return name;
-      } else {
-        return id;
-      }
-    }
+    int get_group_values() const { return group_values; }
+    std::string get_date() const { return date; }
+    bool get_reference() const { return reference; }
+    std::string get_name_full() const { return name_full; }
+    std::string get_name_abbreviated() const { return name_abbreviated; }
+    std::string get_id() const { return id; }
     int get_group() const { return group; }
     std::string get_sequence() const { return sequence; }
 
-    void set_type(std::string type_in){ type = type_in; }
-    void set_name(std::string name_in){ name = name_in; }
-    void set_id(std::string id_in){ id = id_in; }
-    void set_group(int group_in){ group = group_in; }
-    void set_sequence(std::string sequence_in){ sequence = sequence_in; }
+    void set_type( std::string value ){ type = value; }
+    void set_name( std::string value ){ name = value; }
+    void set_group_values( int value ){ group_values = value; }
+    void set_date( std::string value ){ date = value; }
+    void set_reference( bool value ){ reference = value; }
+    void set_name_full( std::string value ){ name_full = value;}
+    void set_name_abbreviated( std::string value ){ name_abbreviated = value; }
+    void set_id( std::string value ){ id = value; }
+    void set_group( int value ){ group = value; }
+    void set_sequence( std::string value ){ sequence = value; }
 
     // Plotspec details
     bool get_shown() const { return shown; };
@@ -69,6 +78,16 @@ class AcPoint {
     void set_aspect(double aspect_in){ aspect = aspect_in; };
     void set_shape(std::string shape_in){ shape = shape_in; };
     void set_drawing_order(int drawing_order_in){ drawing_order = drawing_order_in; }
+
+    // Get IDs for matching
+    std::string get_match_id() const {
+      if(id == ""){
+        return name;
+      } else {
+        return id;
+      }
+    }
+
 };
 
 // Define the antigen class

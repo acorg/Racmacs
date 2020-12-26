@@ -11,4 +11,13 @@ struct StressBlobGrid2d {
   double stress_lim;
 };
 
+StressBlobGrid2d ac_stress_blob_grid_2d(
+    arma::vec testcoords,
+    arma::mat coords,
+    arma::vec tabledists,
+    arma::uvec titertypes,
+    double stress_lim = 1.0,
+    double grid_spacing = 0.1
+);
+
 #endif

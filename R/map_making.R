@@ -26,7 +26,7 @@ make.acmap <- function(
   number_of_dimensions    = 2,
   number_of_optimizations = 100,
   minimum_column_basis    = "none",
-  fixed_colbases          = NULL,
+  fixed_column_bases      = rep(NA, ncol(titer_table)),
   sort_optimizations      = TRUE,
   verbose                 = TRUE,
   options                 = list()
@@ -45,7 +45,7 @@ make.acmap <- function(
     number_of_dimensions = number_of_dimensions,
     number_of_optimizations = number_of_optimizations,
     minimum_column_basis = minimum_column_basis,
-    fixed_colbases = fixed_colbases,
+    fixed_column_bases = fixed_column_bases,
     sort_optimizations = sort_optimizations,
     verbose = verbose,
     options = options

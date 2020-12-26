@@ -6,9 +6,11 @@
 \usage{
 moveTrappedPoints(
   map,
-  stepsize = 0.1,
-  optimization_number = NULL,
-  vverbose = FALSE
+  optimization_number = 1,
+  stress_lim = 1,
+  grid_spacing = 0.25,
+  max_iterations = 10,
+  options = list()
 )
 }
 \arguments{

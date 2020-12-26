@@ -44,18 +44,30 @@ for(x in seq_along(minimum_column_bases)){
 # Set the main optimization number
 selectedOptimization(map) <- 2
 
+# Setting crazy values of wrong type
+test_that("Incorrect inputs", {
+  expect_error( agBaseCoords(map) <- rep(1, 1000) )
+  expect_error( srBaseCoords(map) <- rep(1, 1000) )
+  expect_error( mapTransformation(map) <- rep(1, 1000) )
+  expect_error( mapTranslation(map) <- rep(1, 1000) )
+  expect_error( mapComment(map) <- rep(1, 1000) )
+  expect_error( mapStress(map) <- rep(1, 1000) )
+})
+
 # Wrong length mincolbasis
 test_that("Min column bases wrong length throws error", {
   expect_error(
-    addOptimization(map       = map,
-                    ag_coords = ag_coords,
-                    sr_coords = sr_coords,
-                    minimum_column_basis = c("1280", "none"))
+    addOptimization(
+      map       = map,
+      ag_coords = ag_coords,
+      sr_coords = sr_coords,
+      minimum_column_basis = c("1280", "none")
+    )
   )
 })
 
 # Colbases fixed without specifying what they are
-test_that("Error when fixed col bases specified without specifying column bases", {
+test_that("Error when fixed col bases specified", {
   expect_error(
     addOptimization(
       map       = map,
@@ -63,7 +75,7 @@ test_that("Error when fixed col bases specified without specifying column bases"
       sr_coords = sr_coords,
       minimum_column_basis = "fixed"
     ),
-    regexp = "A 'fixed' minimum column basis can only be set by specifying a set of fixed column bases"
+    regexp = "Invalid titer 'fixed'"
   )
 })
 
@@ -96,14 +108,6 @@ test_that("Fixed column bases specified correctly upon adding optimization", {
   expect_equal(
     unname(colBases(testmap, optimization_num)),
     c(4,3,4,5)
-  )
-})
-
-# Check min colbasis changes to fixed
-test_that("Min column basis changes to fixed when column bases specified", {
-  expect_equal(
-    minColBasis(testmap, optimization_num),
-    "fixed"
   )
 })
 

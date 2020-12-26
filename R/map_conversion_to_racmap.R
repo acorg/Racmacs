@@ -171,7 +171,11 @@ json_to_racmap <- function(json){
   map$optimizations <- lapply(
     seq_along(jsonlist$c$P),
     function(x){
-      list()
+      ac_newOptimization(
+        dimensions = 2,
+        num_antigens = num_antigens,
+        num_sera = num_sera
+      )
     }
   )
 
@@ -189,13 +193,16 @@ json_to_racmap <- function(json){
     agBaseCoords(map, n) <- layout[seq_len(num_antigens),,drop=F]
     srBaseCoords(map, n) <- layout[-seq_len(num_antigens),,drop=F]
 
-    mapComment(map, n)    <- P$c
+    if(!is.null(P$c)){
+      mapComment(map, n) <- P$c
+    }
     # mapDimensions(map, n) <- ncol(layout)
-    mapStress(map, n)     <- P$s
+    mapStress(map, n) <- P$s
 
     if(!is.null(P$C)) {
-      colBases(map, n) <- unlist(P$C)
-    } else if(!is.null(P$m)) {
+      fixedColBases(map, n) <- unlist(P$C)
+    }
+    if(!is.null(P$m)) {
       minColBasis(map, n) <- P$m
     } else {
       minColBasis(map, n) <- "none"

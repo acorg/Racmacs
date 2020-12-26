@@ -1,6 +1,7 @@
 
 #include <RcppArmadillo.h>
 #include "acmap_titers.h"
+#include "ac_optimizer_options.h"
 
 #ifndef Racmacs__ac_noisy_bootstrap__h
 #define Racmacs__ac_noisy_bootstrap__h
@@ -19,9 +20,7 @@ NoisyBootstrapOutput ac_noisy_bootstrap_map(
     bool column_bases_from_full_table,
     int num_optimizations,
     int num_dimensions,
-    std::string method,
-    int maxit,
-    bool dim_annealing
+    AcOptimizerOptions options
 );
 
 #endif

@@ -13,7 +13,7 @@ double point_stress(
 
   double stress = 0;
 
-  for(int i=0; i<mapdists.n_elem; i++){
+  for(arma::uword i=0; i<mapdists.n_elem; i++){
 
     // Skip unmeasured titers
     if(titertypes(i) == 0){
@@ -40,9 +40,9 @@ void update_map_dists(
     arma::mat &coords
 ){
 
-  for(int n=0; n<mapdists.n_elem; n++){
+  for(arma::uword n=0; n<mapdists.n_elem; n++){
     double dist = 0;
-    for(int i = 0; i < coords.n_cols; ++i) {
+    for(arma::uword i = 0; i < coords.n_cols; ++i) {
       dist += pow(testcoords(i) - coords(n, i), 2);
     }
     mapdists(n) = sqrt(dist);
@@ -56,8 +56,8 @@ StressBlobGrid2d ac_stress_blob_grid_2d(
   arma::mat coords,
   arma::vec tabledists,
   arma::uvec titertypes,
-  double stress_lim = 1.0,
-  double grid_spacing = 0.1
+  double stress_lim,
+  double grid_spacing
 ){
 
   // Setup for grid
@@ -81,8 +81,8 @@ StressBlobGrid2d ac_stress_blob_grid_2d(
 
   // Setup results grid
   arma::mat zmat(xcoords.n_elem, ycoords.n_elem);
-  for(int i=0; i<xcoords.n_elem; i++){
-    for(int j=0; j<ycoords.n_elem; j++){
+  for(arma::uword i=0; i<xcoords.n_elem; i++){
+    for(arma::uword j=0; j<ycoords.n_elem; j++){
 
       // Update map distances
       testcoords(0) = xcoords(i);

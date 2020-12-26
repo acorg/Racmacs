@@ -222,11 +222,8 @@ addOptimization <- function(
   if(!is.null(sr_coords)) opt <- ac_set_sr_coords(opt, sr_coords)
 
   # Set column bases
-  if(!is.null(fixed_column_bases)){
-    opt <- ac_set_fixed_column_bases(opt, fixed_column_bases)
-  } else {
-    opt <- ac_set_min_column_basis(opt, minimum_column_basis)
-  }
+  if(!is.null(fixed_column_bases)){ opt <- ac_opt_set_fixedcolbases(opt, fixed_column_bases) }
+  opt <- ac_opt_set_mincolbasis(opt, minimum_column_basis)
 
   # Append the optimization
   map$optimizations <- c(
@@ -238,8 +235,6 @@ addOptimization <- function(
   map
 
 }
-
-optimization.add <- function(map, ...) UseMethod("optimization.add", map)
 
 
 #' Get all optimization details from an acmap object

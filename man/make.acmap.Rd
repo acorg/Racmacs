@@ -11,7 +11,7 @@ make.acmap(
   number_of_dimensions = 2,
   number_of_optimizations = 100,
   minimum_column_basis = "none",
-  fixed_colbases = NULL,
+  fixed_column_bases = rep(NA, ncol(titer_table)),
   sort_optimizations = TRUE,
   verbose = TRUE,
   options = list()

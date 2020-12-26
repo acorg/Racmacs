@@ -4,6 +4,8 @@
 #include "acmap_point.h"
 #include "ac_merge.h"
 #include "ac_matching.h"
+#include "ac_optim_map_stress.h"
+#include "utils.h"
 
 #ifndef Racmacs__acmap_map__h
 #define Racmacs__acmap_map__h
@@ -83,13 +85,13 @@ class AcMap {
     void remove_antigen(int agnum){
       antigens.erase(antigens.begin()+agnum);
       titer_table_flat.remove_antigen(agnum);
-      for(int i=0; i<titer_table_layers.size(); i++){
+      for(arma::uword i=0; i<titer_table_layers.size(); i++){
         titer_table_layers[i].remove_antigen(agnum);
       }
     }
 
     void remove_antigens(arma::uvec agnums){
-      for(int i=0; i<agnums.size(); i++){
+      for(arma::uword i=0; i<agnums.n_elem; i++){
         remove_antigen(agnums[i]);
       }
     }
@@ -98,13 +100,13 @@ class AcMap {
     void remove_serum(int srnum){
       sera.erase(sera.begin()+srnum);
       titer_table_flat.remove_serum(srnum);
-      for(int i=0; i<titer_table_layers.size(); i++){
-        titer_table_layers[i].remove_serum(srnum);
+      for(auto &titer_table_layer : titer_table_layers){
+        titer_table_layer.remove_serum(srnum);
       }
     }
 
     void remove_sera(arma::uvec srnums){
-      for(int i=0; i<srnums.size(); i++){
+      for(arma::uword i=0; i<srnums.n_elem; i++){
         remove_serum(srnums[i]);
       }
     }
@@ -125,7 +127,7 @@ class AcMap {
 
       // Subset antigens
       std::vector<AcAntigen> new_antigens;
-      for(int i=0; i<ags.size(); i++){
+      for(arma::uword i=0; i<ags.size(); i++){
         arma::uword agnum = ags[i];
         new_antigens.push_back(antigens[agnum]);
       }
@@ -133,7 +135,7 @@ class AcMap {
 
       // Subset sera
       std::vector<AcSerum> new_sera;
-      for(int i=0; i<sr.size(); i++){
+      for(arma::uword i=0; i<sr.size(); i++){
         arma::uword srnum = sr[i];
         new_sera.push_back(sera[srnum]);
       }
@@ -141,8 +143,8 @@ class AcMap {
 
       // Subset titers
       titer_table_flat.subset(ags, sr);
-      for(int i=0; i<titer_table_layers.size(); i++){
-        titer_table_layers[i].subset(ags, sr);
+      for(auto &titer_table_layer : titer_table_layers){
+        titer_table_layer.subset(ags, sr);
       }
 
     }
@@ -174,32 +176,113 @@ class AcMap {
     std::vector<std::string> agNames() const {
       int num_ags = antigens.size();
       std::vector<std::string> names(num_ags);
-      for(int i=0; i<antigens.size(); i++){
+      for(arma::uword i=0; i<antigens.size(); i++){
         names[i] = antigens[i].get_name();
       }
       return names;
     }
 
-    // Matching to other maps
-    arma::ivec match_map_antigens(
-      AcMap targetmap
+    // Optimization
+    void optimize(
+      int num_dims,
+      int num_optimizations,
+      std::string min_col_basis,
+      arma::vec fixed_col_bases,
+      const AcOptimizerOptions &options
     ){
 
-      return ac_match_points(
-        antigens,
-        targetmap.antigens
+      // Calculate column bases
+      arma::vec colbases = titer_table_flat.colbases(
+        min_col_basis,
+        fixed_col_bases
       );
+
+      // Run optimizations
+      optimizations = ac_runOptimizations(
+        titer_table_flat,
+        colbases,
+        num_dims,
+        num_optimizations,
+        options
+      );
+
+      // Add colbases information
+      for(auto &optimization : optimizations){
+        optimization.set_min_column_basis(min_col_basis);
+        optimization.set_fixed_column_bases(fixed_col_bases);
+      }
 
     }
 
-    arma::ivec match_map_sera(
-        AcMap targetmap
+    // Get optimization
+    AcOptimization * get_optimization_pointer(
+      const arma::uword &optimization_number
+    ){
+      if(optimization_number >= optimizations.size()){
+        std::string msg = "Requested optimization "+std::to_string(optimization_number + 1)+" but map only has "+std::to_string(optimizations.size())+" optimization(s)";
+        Rf_error(msg.c_str());
+      }
+      return &optimizations[optimization_number];
+    }
+
+    // Shuffling optimizations
+    void keepSingleOptimization(
+      int i
+    ){
+      optimizations.erase(
+        optimizations.begin() + 1,
+        optimizations.end()
+      );
+    }
+
+    // Aligning to other maps
+    void realign_to_map(
+      AcMap targetmap,
+      int targetmap_optnum,
+      bool translation = true,
+      bool scaling = false,
+      bool align_to_base_coords = false
     ){
 
-      return ac_match_points(
-        sera,
-        targetmap.sera
-      );
+      // Get matching antigens and sera
+      arma::ivec matched_ags = ac_match_points( antigens, targetmap.antigens );
+      arma::ivec matched_sr  = ac_match_points( sera, targetmap.sera );
+
+      // Get the target map coords
+      arma::mat target_ag_coords;
+      arma::mat target_sr_coords;
+      AcOptimization *targetopt = targetmap.get_optimization_pointer(targetmap_optnum);
+
+      if(align_to_base_coords){
+        target_ag_coords = subset_rows(targetopt->get_ag_base_coords(), matched_ags);
+        target_sr_coords = subset_rows(targetopt->get_sr_base_coords(), matched_sr);
+      } else {
+        target_ag_coords = subset_rows(targetopt->agCoords(), matched_ags);
+        target_sr_coords = subset_rows(targetopt->srCoords(), matched_sr);
+      }
+      arma::mat target_coords = arma::join_cols(target_ag_coords, target_sr_coords);
+
+      // Realign each optimization
+      for (auto &optimization : optimizations) {
+
+        // Get the source map base coords
+        arma::mat source_ag_coords = optimization.get_ag_base_coords();
+        arma::mat source_sr_coords = optimization.get_sr_base_coords();
+        arma::mat source_coords = arma::join_cols( source_ag_coords, source_sr_coords );
+
+        // Calculate the procrustes
+        Procrustes pc = ac_procrustes(
+            source_coords,
+            target_coords,
+            translation,
+            scaling
+        );
+
+        // Apply it to the optimization
+        optimization.set_transformation( pc.R );
+        optimization.set_translation( pc.tt );
+
+      }
 
     }
 

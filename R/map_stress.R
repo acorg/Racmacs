@@ -8,12 +8,14 @@ convert_titers <- function(titers){
 #' @export
 tableColbases <- function(
   titer_table,
-  min_col_basis
+  min_col_basis,
+  fixed_col_bases = rep(NA, ncol(titer_table))
   ){
 
   ac_table_colbases(
-    titer_table   = convert_titers(titer_table),
-    min_col_basis = min_col_basis
+    titer_table     = convert_titers(titer_table),
+    min_col_basis   = min_col_basis,
+    fixed_col_bases = fixed_col_bases
   )
 
 }

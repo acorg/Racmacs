@@ -3,6 +3,7 @@
 #include "acmap_titers.h"
 #include "ac_optim_map_stress.h"
 #include "ac_noisy_bootstrap.h"
+#include "ac_optimizer_options.h"
 
 // [[Rcpp::export]]
 NoisyBootstrapOutput ac_noisy_bootstrap_map(
@@ -10,21 +11,14 @@ NoisyBootstrapOutput ac_noisy_bootstrap_map(
     double ag_noise_sd,
     double titer_noise_sd,
     std::string minimum_column_basis,
-    bool column_bases_from_full_table,
+    arma::vec fixed_column_bases,
     int num_optimizations,
     int num_dimensions,
-    std::string method,
-    int maxit,
-    bool dim_annealing
+    AcOptimizerOptions options
 ){
 
   // Declare variables
   arma::vec colbases;
-
-  // Get column bases before adding noise if not setting from full table
-  if(column_bases_from_full_table){
-    colbases = titer_table.colbases(minimum_column_basis);
-  }
 
   // Add noise to the titer table
   int num_ags = titer_table.nags();
@@ -41,9 +35,10 @@ NoisyBootstrapOutput ac_noisy_bootstrap_map(
   titer_table.add_log_titers(titer_noise);
 
   // Get column bases after setting noise if not setting from full table
-  if(!column_bases_from_full_table){
-    colbases = titer_table.colbases(minimum_column_basis);
-  }
+  colbases = titer_table.colbases(
+    minimum_column_basis,
+    fixed_column_bases
+  );
 
   // Run the optimization
   std::vector<AcOptimization> optimizations;
@@ -52,9 +47,7 @@ NoisyBootstrapOutput ac_noisy_bootstrap_map(
     colbases,
     num_dimensions,
     num_optimizations,
-    method,
-    maxit,
-    dim_annealing
+    options
   );
 
   // Sort by stress and keep lowest stress coords

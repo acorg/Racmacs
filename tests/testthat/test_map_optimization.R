@@ -2,6 +2,25 @@
 library(Racmacs)
 library(testthat)
 context("Optimizing maps")
+set.seed(100)
+
+# map <- read.acmap("~/Dropbox/labbook/packages/Racmacs/inst/extdata/h3map2004.ace")
+# map <- optimizeMap(
+#   map,
+#   number_of_dimensions = 2,
+#   number_of_optimizations = 100,
+#   minimum_column_basis = "none"
+# )
+#
+# map2 <- moveTrappedPoints(map)
+#
+# mapStress(map)
+# mapStress(map2)
+#
+# plot(map)
+# plot(map2)
+#
+# stop()
 
 # Read testmap
 map <- read.acmap(test_path("../testdata/testmap.ace"))
@@ -25,6 +44,7 @@ test_that("Calculating table distances",{
 
   colbases <- ac_table_colbases(
     titer_table = titerTable(map),
+    fixed_col_bases = rep(NA, numSera(map)),
     min_col_basis = "none"
   )
   expect_equal(colbases, c(8,9,9,9,8))
@@ -321,7 +341,7 @@ test_that("Moving trapped points", {
   agcoords1 <- agCoords(map4)
   srcoords1 <- srCoords(map4)
 
-  map4 <- moveTrappedPoints(map4, stepsize = 0.25)
+  map4 <- moveTrappedPoints(map4, grid_spacing = 0.25)
 
   agcoords2 <- agCoords(map4)
   srcoords2 <- srCoords(map4)
@@ -330,9 +350,9 @@ test_that("Moving trapped points", {
   expect_equal(srcoords1, srcoords2)
 
   # Moving trapped points on large map with trapped points
-  largemap3 <- relaxMap(largemap3)
-  largemap3 <- moveTrappedPoints(largemap3, stepsize = 0.25)
-  hemi      <- checkHemisphering(largemap3, stepsize = 0.25)
+  largemap4 <- relaxMap(largemap4)
+  largemap4 <- moveTrappedPoints(largemap4, grid_spacing = 0.25)
+  hemi      <- checkHemisphering(largemap4)
   expect_equal(nrow(hemi), 0)
 
 })

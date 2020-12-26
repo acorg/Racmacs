@@ -1,6 +1,7 @@
 
 #include <RcppArmadillo.h>
 #include "acmap_titers.h"
+#include "ac_optimizer_options.h"
 
 #ifndef Racmacs__ac_dimension_test__h
 #define Racmacs__ac_dimension_test__h
@@ -21,9 +22,7 @@ DimTestOutput ac_dimension_test_map(
     bool column_bases_from_master,
     int number_of_optimizations,
     int replicates_per_proportion,
-    std::string method = "L-BFGS-B",
-    int maxit = 1000,
-    bool dim_annealing = false
+    AcOptimizerOptions options
 );
 
 #endif

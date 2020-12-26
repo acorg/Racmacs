@@ -21,16 +21,16 @@ ac_set_sr_coords <- function(opt, coords) {
     .Call('_Racmacs_ac_set_sr_coords', PACKAGE = 'Racmacs', opt, coords)
 }
 
-ac_set_min_column_basis <- function(opt, mincolbasis) {
-    .Call('_Racmacs_ac_set_min_column_basis', PACKAGE = 'Racmacs', opt, mincolbasis)
-}
-
-ac_set_fixed_column_bases <- function(opt, fixed_colbases) {
-    .Call('_Racmacs_ac_set_fixed_column_bases', PACKAGE = 'Racmacs', opt, fixed_colbases)
-}
-
 ac_align_optimization <- function(source_optimization, target_optimization) {
     .Call('_Racmacs_ac_align_optimization', PACKAGE = 'Racmacs', source_optimization, target_optimization)
+}
+
+ac_align_map <- function(source_map, target_map, translation, scaling) {
+    .Call('_Racmacs_ac_align_map', PACKAGE = 'Racmacs', source_map, target_map, translation, scaling)
+}
+
+ac_align_optimizations <- function(optimizations) {
+    .Call('_Racmacs_ac_align_optimizations', PACKAGE = 'Racmacs', optimizations)
 }
 
 ac_subset_map <- function(map, ags, sr) {
@@ -38,8 +38,8 @@ ac_subset_map <- function(map, ags, sr) {
 }
 
 #' @export
-ac_table_colbases <- function(titer_table, min_col_basis) {
-    .Call('_Racmacs_ac_table_colbases', PACKAGE = 'Racmacs', titer_table, min_col_basis)
+ac_table_colbases <- function(titer_table, min_col_basis, fixed_col_bases) {
+    .Call('_Racmacs_ac_table_colbases', PACKAGE = 'Racmacs', titer_table, min_col_basis, fixed_col_bases)
 }
 
 #' @export
@@ -52,12 +52,341 @@ ac_newOptimization <- function(dimensions, num_antigens, num_sera) {
 }
 
 #' @export
-ac_relaxOptimization <- function(opt, titers, method = "L-BFGS-B", maxit = 1000L) {
-    .Call('_Racmacs_ac_relaxOptimization', PACKAGE = 'Racmacs', opt, titers, method, maxit)
+ac_relaxOptimization <- function(opt, titers, options) {
+    .Call('_Racmacs_ac_relaxOptimization', PACKAGE = 'Racmacs', opt, titers, options)
 }
 
-ac_dimension_test_map <- function(titer_table, dimensions_to_test, test_proportion, minimum_column_basis, column_bases_from_full_table, num_optimizations, method, maxit, dim_annealing) {
-    .Call('_Racmacs_ac_dimension_test_map', PACKAGE = 'Racmacs', titer_table, dimensions_to_test, test_proportion, minimum_column_basis, column_bases_from_full_table, num_optimizations, method, maxit, dim_annealing)
+#' @export
+ac_optimize_map <- function(map, num_dims, num_optimizations, min_col_basis, fixed_col_bases, options) {
+    .Call('_Racmacs_ac_optimize_map', PACKAGE = 'Racmacs', map, num_dims, num_optimizations, min_col_basis, fixed_col_bases, options)
+}
+
+ac_ag_get_id <- function(ag) {
+    .Call('_Racmacs_ac_ag_get_id', PACKAGE = 'Racmacs', ag)
+}
+
+ac_ag_get_group_values <- function(ag) {
+    .Call('_Racmacs_ac_ag_get_group_values', PACKAGE = 'Racmacs', ag)
+}
+
+ac_ag_get_date <- function(ag) {
+    .Call('_Racmacs_ac_ag_get_date', PACKAGE = 'Racmacs', ag)
+}
+
+ac_ag_get_reference <- function(ag) {
+    .Call('_Racmacs_ac_ag_get_reference', PACKAGE = 'Racmacs', ag)
+}
+
+ac_ag_get_name <- function(ag) {
+    .Call('_Racmacs_ac_ag_get_name', PACKAGE = 'Racmacs', ag)
+}
+
+ac_ag_get_name_full <- function(ag) {
+    .Call('_Racmacs_ac_ag_get_name_full', PACKAGE = 'Racmacs', ag)
+}
+
+ac_ag_get_name_abbreviated <- function(ag) {
+    .Call('_Racmacs_ac_ag_get_name_abbreviated', PACKAGE = 'Racmacs', ag)
+}
+
+ac_ag_set_id <- function(ag, value) {
+    .Call('_Racmacs_ac_ag_set_id', PACKAGE = 'Racmacs', ag, value)
+}
+
+ac_ag_set_group_values <- function(ag, value) {
+    .Call('_Racmacs_ac_ag_set_group_values', PACKAGE = 'Racmacs', ag, value)
+}
+
+ac_ag_set_date <- function(ag, value) {
+    .Call('_Racmacs_ac_ag_set_date', PACKAGE = 'Racmacs', ag, value)
+}
+
+ac_ag_set_reference <- function(ag, value) {
+    .Call('_Racmacs_ac_ag_set_reference', PACKAGE = 'Racmacs', ag, value)
+}
+
+ac_ag_set_name <- function(ag, value) {
+    .Call('_Racmacs_ac_ag_set_name', PACKAGE = 'Racmacs', ag, value)
+}
+
+ac_ag_set_name_full <- function(ag, value) {
+    .Call('_Racmacs_ac_ag_set_name_full', PACKAGE = 'Racmacs', ag, value)
+}
+
+ac_ag_set_name_abbreviated <- function(ag, value) {
+    .Call('_Racmacs_ac_ag_set_name_abbreviated', PACKAGE = 'Racmacs', ag, value)
+}
+
+ac_opt_get_ag_base_coords <- function(opt) {
+    .Call('_Racmacs_ac_opt_get_ag_base_coords', PACKAGE = 'Racmacs', opt)
+}
+
+ac_opt_get_sr_base_coords <- function(opt) {
+    .Call('_Racmacs_ac_opt_get_sr_base_coords', PACKAGE = 'Racmacs', opt)
+}
+
+ac_opt_get_transformation <- function(opt) {
+    .Call('_Racmacs_ac_opt_get_transformation', PACKAGE = 'Racmacs', opt)
+}
+
+ac_opt_get_translation <- function(opt) {
+    .Call('_Racmacs_ac_opt_get_translation', PACKAGE = 'Racmacs', opt)
+}
+
+ac_opt_get_mincolbasis <- function(opt) {
+    .Call('_Racmacs_ac_opt_get_mincolbasis', PACKAGE = 'Racmacs', opt)
+}
+
+ac_opt_get_fixedcolbases <- function(opt) {
+    .Call('_Racmacs_ac_opt_get_fixedcolbases', PACKAGE = 'Racmacs', opt)
+}
+
+ac_opt_get_stress <- function(opt) {
+    .Call('_Racmacs_ac_opt_get_stress', PACKAGE = 'Racmacs', opt)
+}
+
+ac_opt_get_dimensions <- function(opt) {
+    .Call('_Racmacs_ac_opt_get_dimensions', PACKAGE = 'Racmacs', opt)
+}
+
+ac_opt_get_comment <- function(opt) {
+    .Call('_Racmacs_ac_opt_get_comment', PACKAGE = 'Racmacs', opt)
+}
+
+ac_opt_set_ag_base_coords <- function(opt, value) {
+    .Call('_Racmacs_ac_opt_set_ag_base_coords', PACKAGE = 'Racmacs', opt, value)
+}
+
+ac_opt_set_sr_base_coords <- function(opt, value) {
+    .Call('_Racmacs_ac_opt_set_sr_base_coords', PACKAGE = 'Racmacs', opt, value)
+}
+
+ac_opt_set_transformation <- function(opt, value) {
+    .Call('_Racmacs_ac_opt_set_transformation', PACKAGE = 'Racmacs', opt, value)
+}
+
+ac_opt_set_translation <- function(opt, value) {
+    .Call('_Racmacs_ac_opt_set_translation', PACKAGE = 'Racmacs', opt, value)
+}
+
+ac_opt_set_mincolbasis <- function(opt, value) {
+    .Call('_Racmacs_ac_opt_set_mincolbasis', PACKAGE = 'Racmacs', opt, value)
+}
+
+ac_opt_set_fixedcolbases <- function(opt, value) {
+    .Call('_Racmacs_ac_opt_set_fixedcolbases', PACKAGE = 'Racmacs', opt, value)
+}
+
+ac_opt_set_stress <- function(opt, value) {
+    .Call('_Racmacs_ac_opt_set_stress', PACKAGE = 'Racmacs', opt, value)
+}
+
+ac_opt_set_comment <- function(opt, value) {
+    .Call('_Racmacs_ac_opt_set_comment', PACKAGE = 'Racmacs', opt, value)
+}
+
+ac_ag_get_shown <- function(ag) {
+    .Call('_Racmacs_ac_ag_get_shown', PACKAGE = 'Racmacs', ag)
+}
+
+ac_ag_get_size <- function(ag) {
+    .Call('_Racmacs_ac_ag_get_size', PACKAGE = 'Racmacs', ag)
+}
+
+ac_ag_get_fill <- function(ag) {
+    .Call('_Racmacs_ac_ag_get_fill', PACKAGE = 'Racmacs', ag)
+}
+
+ac_ag_get_outline <- function(ag) {
+    .Call('_Racmacs_ac_ag_get_outline', PACKAGE = 'Racmacs', ag)
+}
+
+ac_ag_get_outline_width <- function(ag) {
+    .Call('_Racmacs_ac_ag_get_outline_width', PACKAGE = 'Racmacs', ag)
+}
+
+ac_ag_get_rotation <- function(ag) {
+    .Call('_Racmacs_ac_ag_get_rotation', PACKAGE = 'Racmacs', ag)
+}
+
+ac_ag_get_aspect <- function(ag) {
+    .Call('_Racmacs_ac_ag_get_aspect', PACKAGE = 'Racmacs', ag)
+}
+
+ac_ag_get_shape <- function(ag) {
+    .Call('_Racmacs_ac_ag_get_shape', PACKAGE = 'Racmacs', ag)
+}
+
+ac_ag_get_drawing_order <- function(ag) {
+    .Call('_Racmacs_ac_ag_get_drawing_order', PACKAGE = 'Racmacs', ag)
+}
+
+ac_sr_get_shown <- function(sr) {
+    .Call('_Racmacs_ac_sr_get_shown', PACKAGE = 'Racmacs', sr)
+}
+
+ac_sr_get_size <- function(sr) {
+    .Call('_Racmacs_ac_sr_get_size', PACKAGE = 'Racmacs', sr)
+}
+
+ac_sr_get_fill <- function(sr) {
+    .Call('_Racmacs_ac_sr_get_fill', PACKAGE = 'Racmacs', sr)
+}
+
+ac_sr_get_outline <- function(sr) {
+    .Call('_Racmacs_ac_sr_get_outline', PACKAGE = 'Racmacs', sr)
+}
+
+ac_sr_get_outline_width <- function(sr) {
+    .Call('_Racmacs_ac_sr_get_outline_width', PACKAGE = 'Racmacs', sr)
+}
+
+ac_sr_get_rotation <- function(sr) {
+    .Call('_Racmacs_ac_sr_get_rotation', PACKAGE = 'Racmacs', sr)
+}
+
+ac_sr_get_aspect <- function(sr) {
+    .Call('_Racmacs_ac_sr_get_aspect', PACKAGE = 'Racmacs', sr)
+}
+
+ac_sr_get_shape <- function(sr) {
+    .Call('_Racmacs_ac_sr_get_shape', PACKAGE = 'Racmacs', sr)
+}
+
+ac_sr_get_drawing_order <- function(sr) {
+    .Call('_Racmacs_ac_sr_get_drawing_order', PACKAGE = 'Racmacs', sr)
+}
+
+ac_ag_set_shown <- function(ag, value) {
+    .Call('_Racmacs_ac_ag_set_shown', PACKAGE = 'Racmacs', ag, value)
+}
+
+ac_ag_set_size <- function(ag, value) {
+    .Call('_Racmacs_ac_ag_set_size', PACKAGE = 'Racmacs', ag, value)
+}
+
+ac_ag_set_fill <- function(ag, value) {
+    .Call('_Racmacs_ac_ag_set_fill', PACKAGE = 'Racmacs', ag, value)
+}
+
+ac_ag_set_outline <- function(ag, value) {
+    .Call('_Racmacs_ac_ag_set_outline', PACKAGE = 'Racmacs', ag, value)
+}
+
+ac_ag_set_outline_width <- function(ag, value) {
+    .Call('_Racmacs_ac_ag_set_outline_width', PACKAGE = 'Racmacs', ag, value)
+}
+
+ac_ag_set_rotation <- function(ag, value) {
+    .Call('_Racmacs_ac_ag_set_rotation', PACKAGE = 'Racmacs', ag, value)
+}
+
+ac_ag_set_aspect <- function(ag, value) {
+    .Call('_Racmacs_ac_ag_set_aspect', PACKAGE = 'Racmacs', ag, value)
+}
+
+ac_ag_set_shape <- function(ag, value) {
+    .Call('_Racmacs_ac_ag_set_shape', PACKAGE = 'Racmacs', ag, value)
+}
+
+ac_ag_set_drawing_order <- function(ag, value) {
+    .Call('_Racmacs_ac_ag_set_drawing_order', PACKAGE = 'Racmacs', ag, value)
+}
+
+ac_sr_set_shown <- function(sr, value) {
+    .Call('_Racmacs_ac_sr_set_shown', PACKAGE = 'Racmacs', sr, value)
+}
+
+ac_sr_set_size <- function(sr, value) {
+    .Call('_Racmacs_ac_sr_set_size', PACKAGE = 'Racmacs', sr, value)
+}
+
+ac_sr_set_fill <- function(sr, value) {
+    .Call('_Racmacs_ac_sr_set_fill', PACKAGE = 'Racmacs', sr, value)
+}
+
+ac_sr_set_outline <- function(sr, value) {
+    .Call('_Racmacs_ac_sr_set_outline', PACKAGE = 'Racmacs', sr, value)
+}
+
+ac_sr_set_outline_width <- function(sr, value) {
+    .Call('_Racmacs_ac_sr_set_outline_width', PACKAGE = 'Racmacs', sr, value)
+}
+
+ac_sr_set_rotation <- function(sr, value) {
+    .Call('_Racmacs_ac_sr_set_rotation', PACKAGE = 'Racmacs', sr, value)
+}
+
+ac_sr_set_aspect <- function(sr, value) {
+    .Call('_Racmacs_ac_sr_set_aspect', PACKAGE = 'Racmacs', sr, value)
+}
+
+ac_sr_set_shape <- function(sr, value) {
+    .Call('_Racmacs_ac_sr_set_shape', PACKAGE = 'Racmacs', sr, value)
+}
+
+ac_sr_set_drawing_order <- function(sr, value) {
+    .Call('_Racmacs_ac_sr_set_drawing_order', PACKAGE = 'Racmacs', sr, value)
+}
+
+ac_sr_get_id <- function(sr) {
+    .Call('_Racmacs_ac_sr_get_id', PACKAGE = 'Racmacs', sr)
+}
+
+ac_sr_get_group_values <- function(sr) {
+    .Call('_Racmacs_ac_sr_get_group_values', PACKAGE = 'Racmacs', sr)
+}
+
+ac_sr_get_date <- function(sr) {
+    .Call('_Racmacs_ac_sr_get_date', PACKAGE = 'Racmacs', sr)
+}
+
+ac_sr_get_reference <- function(sr) {
+    .Call('_Racmacs_ac_sr_get_reference', PACKAGE = 'Racmacs', sr)
+}
+
+ac_sr_get_name <- function(sr) {
+    .Call('_Racmacs_ac_sr_get_name', PACKAGE = 'Racmacs', sr)
+}
+
+ac_sr_get_name_full <- function(sr) {
+    .Call('_Racmacs_ac_sr_get_name_full', PACKAGE = 'Racmacs', sr)
+}
+
+ac_sr_get_name_abbreviated <- function(sr) {
+    .Call('_Racmacs_ac_sr_get_name_abbreviated', PACKAGE = 'Racmacs', sr)
+}
+
+ac_sr_set_id <- function(sr, value) {
+    .Call('_Racmacs_ac_sr_set_id', PACKAGE = 'Racmacs', sr, value)
+}
+
+ac_sr_set_group_values <- function(sr, value) {
+    .Call('_Racmacs_ac_sr_set_group_values', PACKAGE = 'Racmacs', sr, value)
+}
+
+ac_sr_set_date <- function(sr, value) {
+    .Call('_Racmacs_ac_sr_set_date', PACKAGE = 'Racmacs', sr, value)
+}
+
+ac_sr_set_reference <- function(sr, value) {
+    .Call('_Racmacs_ac_sr_set_reference', PACKAGE = 'Racmacs', sr, value)
+}
+
+ac_sr_set_name <- function(sr, value) {
+    .Call('_Racmacs_ac_sr_set_name', PACKAGE = 'Racmacs', sr, value)
+}
+
+ac_sr_set_name_full <- function(sr, value) {
+    .Call('_Racmacs_ac_sr_set_name_full', PACKAGE = 'Racmacs', sr, value)
+}
+
+ac_sr_set_name_abbreviated <- function(sr, value) {
+    .Call('_Racmacs_ac_sr_set_name_abbreviated', PACKAGE = 'Racmacs', sr, value)
+}
+
+ac_dimension_test_map <- function(titer_table, dimensions_to_test, test_proportion, minimum_column_basis, fixed_column_bases, num_optimizations, options) {
+    .Call('_Racmacs_ac_dimension_test_map', PACKAGE = 'Racmacs', titer_table, dimensions_to_test, test_proportion, minimum_column_basis, fixed_column_bases, num_optimizations, options)
 }
 
 ac_match_map_ags <- function(map1, map2) {
@@ -80,34 +409,28 @@ ac_merge_map_tables <- function(maps) {
     .Call('_Racmacs_ac_merge_map_tables', PACKAGE = 'Racmacs', maps)
 }
 
-ac_noisy_bootstrap_map <- function(titer_table, ag_noise_sd, titer_noise_sd, minimum_column_basis, column_bases_from_full_table, num_optimizations, num_dimensions, method, maxit, dim_annealing) {
-    .Call('_Racmacs_ac_noisy_bootstrap_map', PACKAGE = 'Racmacs', titer_table, ag_noise_sd, titer_noise_sd, minimum_column_basis, column_bases_from_full_table, num_optimizations, num_dimensions, method, maxit, dim_annealing)
+ac_move_trapped_points <- function(optimization, tabledists, titertypes, grid_spacing, options, max_iterations = 10L) {
+    .Call('_Racmacs_ac_move_trapped_points', PACKAGE = 'Racmacs', optimization, tabledists, titertypes, grid_spacing, options, max_iterations)
+}
+
+ac_noisy_bootstrap_map <- function(titer_table, ag_noise_sd, titer_noise_sd, minimum_column_basis, fixed_column_bases, num_optimizations, num_dimensions, options) {
+    .Call('_Racmacs_ac_noisy_bootstrap_map', PACKAGE = 'Racmacs', titer_table, ag_noise_sd, titer_noise_sd, minimum_column_basis, fixed_column_bases, num_optimizations, num_dimensions, options)
 }
 
 #' @export
-ac_relax_coords <- function(tabledist_matrix, titertype_matrix, ag_coords, sr_coords, method, maxit, check_gradient_fn) {
-    .Call('_Racmacs_ac_relax_coords', PACKAGE = 'Racmacs', tabledist_matrix, titertype_matrix, ag_coords, sr_coords, method, maxit, check_gradient_fn)
+ac_coords_stress <- function(tabledist_matrix, titertype_matrix, ag_coords, sr_coords, options) {
+    .Call('_Racmacs_ac_coords_stress', PACKAGE = 'Racmacs', tabledist_matrix, titertype_matrix, ag_coords, sr_coords, options)
 }
 
-random_coords <- function(nrow, ndim, min, max) {
-    .Call('_Racmacs_random_coords', PACKAGE = 'Racmacs', nrow, ndim, min, max)
+ac_relax_coords <- function(tabledist_matrix, titertype_matrix, ag_coords, sr_coords, options) {
+    .Call('_Racmacs_ac_relax_coords', PACKAGE = 'Racmacs', tabledist_matrix, titertype_matrix, ag_coords, sr_coords, options)
 }
 
-#' @export
-ac_runBoxedOptimization <- function(tabledist_matrix, titertype_matrix, num_dims, coord_boxsize, method = "L-BFGS-B", maxit = 1000L, dim_annealing = FALSE) {
-    .Call('_Racmacs_ac_runBoxedOptimization', PACKAGE = 'Racmacs', tabledist_matrix, titertype_matrix, num_dims, coord_boxsize, method, maxit, dim_annealing)
+ac_runOptimizations <- function(titertable, colbases, num_dims, num_optimizations, options) {
+    .Call('_Racmacs_ac_runOptimizations', PACKAGE = 'Racmacs', titertable, colbases, num_dims, num_optimizations, options)
 }
 
-ac_runOptimizations <- function(titertable, colbases, num_dims, num_optimizations, method, maxit, dim_annealing) {
-    .Call('_Racmacs_ac_runOptimizations', PACKAGE = 'Racmacs', titertable, colbases, num_dims, num_optimizations, method, maxit, dim_annealing)
-}
-
-#' @export
-reduce_matrix_dimensions <- function(m, dim) {
-    .Call('_Racmacs_reduce_matrix_dimensions', PACKAGE = 'Racmacs', m, dim)
-}
-
-ac_stress_blob_grid_2d <- function(testcoords, coords, tabledists, titertypes, stress_lim = 1.0, grid_spacing = 0.1) {
+ac_stress_blob_grid_2d <- function(testcoords, coords, tabledists, titertypes, stress_lim, grid_spacing) {
     .Call('_Racmacs_ac_stress_blob_grid_2d', PACKAGE = 'Racmacs', testcoords, coords, tabledists, titertypes, stress_lim, grid_spacing)
 }
 
@@ -126,11 +449,32 @@ titer_types_int <- function(titers) {
     .Call('_Racmacs_titer_types_int', PACKAGE = 'Racmacs', titers)
 }
 
+#' @export
+reduce_matrix_dimensions <- function(m, dim) {
+    .Call('_Racmacs_reduce_matrix_dimensions', PACKAGE = 'Racmacs', m, dim)
+}
+
 ac_procrustes <- function(X, Xstar, translation, dilation) {
     .Call('_Racmacs_ac_procrustes', PACKAGE = 'Racmacs', X, Xstar, translation, dilation)
 }
 
 ac_align_coords <- function(source, target, translation = TRUE, dilation = FALSE) {
     .Call('_Racmacs_ac_align_coords', PACKAGE = 'Racmacs', source, target, translation, dilation)
+}
+
+ac_procrustes_map_coords <- function(base_map, procrustes_map, base_map_optimization_number, procrustes_map_optimization_number, translation = TRUE, scaling = FALSE) {
+    .Call('_Racmacs_ac_procrustes_map_coords', PACKAGE = 'Racmacs', base_map, procrustes_map, base_map_optimization_number, procrustes_map_optimization_number, translation, scaling)
+}
+
+ac_procrustes_map_data <- function(base_map, procrustes_map, base_map_optimization_number, procrustes_map_optimization_number, translation = TRUE, scaling = FALSE) {
+    .Call('_Racmacs_ac_procrustes_map_data', PACKAGE = 'Racmacs', base_map, procrustes_map, base_map_optimization_number, procrustes_map_optimization_number, translation, scaling)
+}
+
+simd_test_without <- function(x, y, z) {
+    .Call('_Racmacs_simd_test_without', PACKAGE = 'Racmacs', x, y, z)
+}
+
+simd_test_with <- function(x, y, z) {
+    .Call('_Racmacs_simd_test_with', PACKAGE = 'Racmacs', x, y, z)
 }
 

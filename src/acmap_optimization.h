@@ -2,7 +2,9 @@
 #include <RcppArmadillo.h>
 #include "procrustes.h"
 #include "utils.h"
+#include "ac_titers.h"
 #include "acmap_titers.h"
+#include "ac_optimizer_options.h"
 #include "ac_relax_coords.h"
 
 #ifndef Racmacs__acmap_optimization__h
@@ -37,6 +39,9 @@ class AcOptimization {
       sr_base_coords = arma::mat(num_sera, dimensions, arma::fill::zeros);
       transformation = arma::mat(dimensions, dimensions, arma::fill::eye);
       translation    = arma::mat(dimensions, 1, arma::fill::zeros);
+      min_column_basis = "none";
+      fixed_column_bases = arma::vec(num_sera);
+      fixed_column_bases.fill(arma::datum::nan);
 
     }
 
@@ -49,6 +54,7 @@ class AcOptimization {
     arma::mat get_transformation() const { return transformation; }
     arma::mat get_translation() const { return translation; }
     double get_stress() const { return stress; }
+    int get_dimensions() const { return ag_base_coords.n_cols; }
 
     // Setters
     void set_ag_base_coords( arma::mat ag_base_coords_in ){ ag_base_coords = ag_base_coords_in; }
@@ -59,9 +65,8 @@ class AcOptimization {
     void set_stress( double stress_in ){ stress = stress_in; }
 
     void set_fixed_column_bases( arma::vec fixed_column_bases_in ){
-      min_column_basis = "fixed";
       if(fixed_column_bases_in.n_elem != sr_base_coords.n_rows){
-        Rcpp::stop("Fixed column base length does not match the number of sera");
+        Rf_error("Fixed column base length does not match the number of sera");
       }
       fixed_column_bases = fixed_column_bases_in;
     }
@@ -70,16 +75,13 @@ class AcOptimization {
       const std::string min_column_basis_in
     ){
 
-      // Input checking
-      if(min_column_basis_in == "fixed"){
-        Rcpp::stop("A 'fixed' minimum column basis can only be set by specifying a set of fixed column bases");
+      // Check min col basis validity
+      if(min_column_basis_in != "none"){
+        check_valid_titer(min_column_basis_in);
       }
-      // else if (min_column_basis_in != "none"){
-      //   // check_titer_validity(min_column_basis_in);
-      // }
 
+      // Set min col basis
       min_column_basis = min_column_basis_in;
-      fixed_column_bases.reset();
 
     }
 
@@ -219,29 +221,70 @@ class AcOptimization {
     arma::vec calc_colbases(
        AcTiterTable titers
     ){
-      if(min_column_basis == "fixed"){
-        return fixed_column_bases;
-      } else {
-        return titers.colbases(min_column_basis);
-      }
+      return titers.colbases(
+        min_column_basis,
+        fixed_column_bases
+      );
+    }
+
+    // Reduce dimensions of optimization through principle component analysis
+    void reduceDimensions(
+      int dims
+    ){
+
+      // Reduce coordinate dimensions
+      arma::mat coords = arma::join_cols(
+        ag_base_coords,
+        sr_base_coords
+      );
+      arma::mat coeff = arma::princomp(coords);
+      ag_base_coords = ag_base_coords*coeff.cols(0, dims);
+      sr_base_coords = sr_base_coords*coeff.cols(0, dims);
+
+    }
+
+    // Randomise coordinates
+    void randomizeCoords(
+      double boxsize
+    ){
+
+      double min = -boxsize/2.0;
+      double max = boxsize/2.0;
+      ag_base_coords.randu();
+      sr_base_coords.randu();
+      ag_base_coords = ag_base_coords*(max-min) + min;
+      sr_base_coords = sr_base_coords*(max-min) + min;
+
     }
 
     // Relax the optimization
-    void relax(
-      AcTiterTable titers,
-      std::string method = "L-BFGS-B",
-      int maxit = 10000
+    void relax_from_raw_matrices(
+      const arma::mat &tabledist_matrix,
+      const arma::umat &titertype_matrix,
+      const AcOptimizerOptions options
     ){
 
       stress = ac_relax_coords(
+        tabledist_matrix,
+        titertype_matrix,
+        ag_base_coords,
+        sr_base_coords,
+        options
+      );
+
+    }
+
+    void relax_from_titer_table(
+      AcTiterTable titers,
+      const AcOptimizerOptions options
+    ){
+
+      relax_from_raw_matrices(
         titers.table_distances(
           calc_colbases(titers)
         ),
         titers.get_titer_types(),
-        ag_base_coords,
-        sr_base_coords,
-        method,
-        maxit
+        options
       );
 
     }

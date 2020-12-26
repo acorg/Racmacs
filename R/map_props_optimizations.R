@@ -1,132 +1,43 @@
 
-# Function factory for optimization attribute getter functions
-optimization_getter <- function(attribute){
+# Checker functions
+check.string  <- function(x){ if(length(x) > 1 || !is.character(x)) stop("Input must be a single string", call. = FALSE) }
+check.numeric <- function(x){ if(length(x) > 1 || !is.numeric(x))   stop("Input must be a single number", call. = FALSE) }
+check.numericmatrix <- function(x){ if(!is.matrix(x) || !is.numeric(x)) stop("Input must be a numeric matrix", call. = FALSE) }
+check.numericvector <- function(x){ if(!is.vector(x) || !is.numeric(x)) stop("Input must be a numeric vector", call. = FALSE) }
+check.logicalvector <- function(x){ if(!is.vector(x) || !is.logical(x)) stop("Input must be a logical vector", call. = FALSE) }
+check.charactervector <- function(x){ if(!is.vector(x) || !is.character(x)) stop("Input must be a character vector", call. = FALSE) }
+
+# Function factory for antigen getter functions
+optimization_getter <- function(fn){
   eval(
-    substitute(env = list(attribute = attribute), expr = {
-      function(
-        map,
-        optimization_number = NULL,
-        .name               = TRUE
-      ){
-
-        # Convert the optimization number to the selected optimization if none specified
-        optimization_number <- convertOptimizationNum(optimization_number, map)
-
-        # Get the map value stored
-        map$optimizations[[optimization_number]][[attribute]]
-
+    substitute(env = list(
+      fn = fn
+    ), expr = {
+      function(map, optimization_number = 1){
+        optimization <- map$optimizations[[optimization_number]]
+        if(is.null(optimization)){ stop("Optimization run not found") }
+        fn(optimization)
       }
     })
   )
 }
 
-# Function factory for optimization attribute setter functions
-optimization_setter <- function(attribute){
+# Function factory for antigen setter functions
+optimization_setter <- function(fn, checker_fn = NULL){
   eval(
-    substitute(env = list(attribute = attribute), expr = {
-      function(
-        map,
-        optimization_number = NULL,
-        .check              = TRUE,
-        value
-      ){
-
-        # Convert the optimization number to the selected optimization if none specified
-        optimization_number <- convertOptimizationNum(optimization_number, map)
-
-        # Do validity checks on the input if specified
-        if(.check) value <- checkProperty_optimization(map, optimization_number, attribute, value)
-
-        # Set the map value
-        map$optimizations[[optimization_number]][[attribute]] <- value
-
-        # Return the map
+    substitute(env = list(
+      fn = fn
+    ), expr = {
+      function(map, optimization_number = 1, value){
+        if(is.null(value)){ stop("Cannot set null value") }
+        if(!is.null(checker_fn)){ checker_fn(value) }
+        optimization <- map$optimizations[[optimization_number]]
+        if(is.null(optimization)){ stop("Optimization run not found") }
+        map$optimizations[[optimization_number]] <- fn(optimization, value)
         map
-
       }
     })
   )
-}
-
-
-# Property checker for optimization input
-checkProperty_optimization <- function(
-  map,
-  optimization_number,
-  attribute,
-  value
-){
-
-  switch(
-
-    EXPR = attribute,
-
-    # Check ag coords
-    agBaseCoords = {
-      value <- as.matrix(value)
-      num_dims     <- mapDimensions(map, optimization_number)
-      num_antigens <- numAntigens(map)
-      if(class(value) != "matrix" ||
-         nrow(value) != num_antigens ||
-         ncol(value) != num_dims) {
-        stop(sprintf("agCoords must be a %sx%s numeric matrix", num_antigens, num_dims), call. = FALSE)
-      }
-      value
-    },
-
-    # Check sr coords
-    srBaseCoords = {
-      value <- as.matrix(value)
-      num_dims <- mapDimensions(map, optimization_number)
-      num_sera <- numSera(map)
-      if(class(value) != "matrix" ||
-         nrow(value) != num_sera ||
-         ncol(value) != num_dims) {
-        stop(sprintf("srCoords must be a %sx%s numeric matrix", num_sera, num_dims), call. = FALSE)
-      }
-      value
-    },
-
-    # Check map translation is a vector
-    mapTransformation = {
-      if(class(value) != "matrix" || nrow(value) != ncol(value)) {
-        stop(sprintf("Map transformation must be a square matrix", num_dims), call. = FALSE)
-      }
-      value
-    },
-
-    # Check map translation is a vector
-    mapTranslation = {
-      as.vector(value)
-    },
-
-    # Check that map dimensions can't be set
-    mapDimensions = {
-      stop("Map dimensions cannot be set", call. = FALSE)
-    },
-
-    # Check that map stress can't be set
-    mapStress = {
-      stop("Map stress cannot be set", call. = FALSE)
-    },
-
-    # Check min col basis is the right length
-    minColBasis = {
-      if(length(value) != 1) stop("minumum_column_basis must be provided as a vector of length 1")
-      as.character(value)
-    },
-
-    # Check column bases the right length
-    colBases = {
-      if(length(value) != numSera(map)) stop(sprintf("Column bases must be the same length as the number of sera (%s)", numSera(map)))
-      value
-    },
-
-    # Default is to leave it untouched
-    value
-
-  )
-
 }
 
 
@@ -144,10 +55,10 @@ checkProperty_optimization <- function(
 #'   args    = c("map", "optimization_number = NULL")
 #' )
 #'
-agBaseCoords <- optimization_getter("ag_base_coords")
-srBaseCoords <- optimization_getter("sr_base_coords")
-`agBaseCoords<-` <- optimization_setter("ag_base_coords")
-`srBaseCoords<-` <- optimization_setter("sr_base_coords")
+agBaseCoords <- optimization_getter(ac_opt_get_ag_base_coords)
+srBaseCoords <- optimization_getter(ac_opt_get_sr_base_coords)
+`agBaseCoords<-` <- optimization_setter(ac_opt_set_ag_base_coords, check.numericmatrix)
+`srBaseCoords<-` <- optimization_setter(ac_opt_set_sr_base_coords, check.numericmatrix)
 
 
 #' Reading map transformation data
@@ -163,23 +74,10 @@ srBaseCoords <- optimization_getter("sr_base_coords")
 #'   getterargs = NULL
 #' )
 #'
-mapTransformation <- function(map, optimization_number = 1){
-  transformation <- map$optimizations[[optimization_number]]$transformation
-  if(is.null(transformation)){
-    transformation <- diag(mapDimensions(map, optimization_number))
-  }
-  transformation
-}
-
-mapTranslation <- function(map, optimization_number = 1){
-  translation <- map$optimizations[[optimization_number]]$translation
-  if(is.null(translation)){
-    translation <- rep(0, mapDimensions(map, optimization_number))
-  }
-  translation
-}
-`mapTransformation<-` <- optimization_setter("transformation")
-`mapTranslation<-`    <- optimization_setter("translation")
+mapTransformation     <- optimization_getter(ac_opt_get_transformation)
+mapTranslation        <- optimization_getter(ac_opt_get_translation)
+`mapTransformation<-` <- optimization_setter(ac_opt_set_transformation, check.numericmatrix)
+`mapTranslation<-`    <- optimization_setter(ac_opt_set_translation, check.numericmatrix)
 
 
 #' Getting and setting column bases
@@ -208,39 +106,24 @@ mapTranslation <- function(map, optimization_number = 1){
 #' @name colBases
 #' @family {map optimization attribute functions}
 #' @eval roxygen_tags(
-#'   methods    = c("minColBasis", "colBases"),
+#'   methods    = c("minColBasis", "fixedColBases"),
 #'   args       = c("map", "optimization_number = NULL")
 #' )
 #'
+minColBasis       <- optimization_getter(ac_opt_get_mincolbasis)
+fixedColBases     <- optimization_getter(ac_opt_get_fixedcolbases)
+`minColBasis<-`   <- optimization_setter(ac_opt_set_mincolbasis, check.string)
+`fixedColBases<-` <- optimization_setter(ac_opt_set_fixedcolbases, check.numericvector)
+
+#' @export
 colBases <- function(map, optimization_number = 1){
 
-  mincolbasis <- minColBasis(map, optimization_number)
-  if(mincolbasis == "fixed"){
-    return(map$optimizations[[optimization_number]]$fixed_column_bases)
-  } else {
-    return(ac_table_colbases(titerTable(map), mincolbasis))
-  }
+  ac_table_colbases(
+    titerTable(map),
+    minColBasis(map, optimization_number),
+    fixedColBases(map, optimization_number)
+  )
 
-}
-
-`colBases<-` <- function(map, optimization_number = 1, value){
-  map$optimizations[[optimization_number]]$fixed_column_bases <- value
-  map$optimizations[[optimization_number]]$min_column_basis <- "fixed"
-  map
-}
-
-minColBasis <- function(map, optimization_number = 1){
-  map$optimizations[[optimization_number]]$min_column_basis
-}
-
-`minColBasis<-` <- function(map, optimization_number = 1, value){
-  map$optimizations[[optimization_number]]$min_column_basis <- value
-  if(value == "fixed"){
-    stop("Set fixed column bases through assignment with 'colBases()'")
-  } else {
-    map$optimizations[[optimization_number]][["fixed_column_bases"]] <- NULL
-  }
-  map
 }
 
 
@@ -253,8 +136,8 @@ minColBasis <- function(map, optimization_number = 1){
 #'   getterargs = NULL,
 #'   returns    = "Returns the current map stress value for the specified optimization run."
 #' )
-mapStress     <- optimization_getter("stress")
-`mapStress<-` <- optimization_setter("stress")
+mapStress     <- optimization_getter(ac_opt_get_stress)
+`mapStress<-` <- optimization_setter(ac_opt_set_stress, check.numeric)
 
 
 #' Get the current map dimensions
@@ -264,12 +147,7 @@ mapStress     <- optimization_getter("stress")
 #' @returns Returns the number of map dimensions for the specified optimization run.
 #' @export
 #'
-mapDimensions <- function(map, optimization_number = NULL){
-
-  optimization_number <- convertOptimizationNum(optimization_number, map)
-  ncol(agBaseCoords(map, optimization_number, .name = FALSE))
-
-}
+mapDimensions <- optimization_getter(ac_opt_get_dimensions)
 
 
 #' Get or set an optimization run comment
@@ -281,8 +159,8 @@ mapDimensions <- function(map, optimization_number = NULL){
 #'   getterargs = NULL,
 #'   returns    = "Gets or sets and map comments for the specified optimization run."
 #' )
-mapComment     <- optimization_getter("comment")
-`mapComment<-` <- optimization_setter("comment")
+mapComment     <- optimization_getter(ac_opt_get_comment)
+`mapComment<-` <- optimization_setter(ac_opt_set_comment, check.string)
 
 
 

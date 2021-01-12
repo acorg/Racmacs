@@ -4,7 +4,7 @@
 \alias{stressTable}
 \title{Get a stress table from an acmap}
 \usage{
-stressTable(map, optimization_number = NULL)
+stressTable(map, optimization_number = 1)
 }
 \arguments{
 \item{map}{The acmap object}

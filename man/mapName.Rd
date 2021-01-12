@@ -2,18 +2,12 @@
 % Please edit documentation in R/map_props.R
 \name{mapName}
 \alias{mapName}
-\alias{mapName<-}
 \title{Getting and setting the map name}
 \usage{
-mapName(map, .name = TRUE)
-mapName(map, .check = TRUE) <- value
+mapName(map)
 }
 \arguments{
 \item{map}{The acmap data object}
-
-\item{.name}{Should the output be labelled with corresponding antigen / sera names}
-
-\item{.check}{Should normal checks be applied for validity be applied when setting this value (used internally)}
 }
 \value{
 Returns either the requested attribute when using a getter function or the updated acmap object when using the setter function.

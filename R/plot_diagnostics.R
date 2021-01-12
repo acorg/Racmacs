@@ -133,11 +133,11 @@ plot_sr_titers <- function(
   if(length(serum) > 1) stop("Please select a single serum to plot")
 
   # Get data
-  sr_colbase <- colBases(map, .name = FALSE)[serum]
+  sr_colbase <- colBases(map)[serum]
   sr_name    <- srNames(map)[serum]
 
   ag_distances <- mapDistances(map, optimization_number = optimization_number)[,serum]
-  ag_titers    <- titerTable(map, .name = FALSE)[,serum]
+  ag_titers    <- titerTable(map)[,serum]
   ag_logtiters <- logtiterTable(map)[,serum]
   ag_names     <- agNames(map)
 

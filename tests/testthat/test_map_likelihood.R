@@ -1,7 +1,10 @@
 
+##
+## This can be brought in later as we develop tools to look at and optimize maps via likelihood
+##
 
-library(testthat)
-library(Racmacs)
+# library(testthat)
+# library(Racmacs)
 
 # context("Test map likelihood")
 

@@ -13,9 +13,9 @@ double euc_dist(
     const arma::vec &x2
 );
 
-arma::vec coord_dists(
-    const arma::mat &coords1,
-    const arma::mat &coords2
+arma::vec ac_coord_dists(
+    arma::mat coords1,
+    arma::mat coords2
 );
 
 arma::mat subset_rows(

@@ -34,10 +34,12 @@ RacViewer.options <- function(
 #'
 #' @export
 #'
-export_viewer <- function(map,
-                          file,
-                          selfcontained = TRUE,
-                          ...){
+export_viewer <- function(
+  map,
+  file,
+  selfcontained = TRUE,
+  ...
+  ){
 
   # Check file has .html extension
   if(!grepl("\\.html$", file)){
@@ -64,16 +66,4 @@ export_viewer <- function(map,
   invisible(widget)
 
 }
-
-encode_base64 <- function(img){
-
-  suppressWarnings({
-    img_data <- RCurl::base64Encode(readBin(img, "raw", file.info(img)[1, "size"], "txt"))
-  })
-  paste0("data:image/png;base64,", img_data)
-
-}
-
-
-
 

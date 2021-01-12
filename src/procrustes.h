@@ -34,10 +34,10 @@ Procrustes ac_procrustes(
 );
 
 arma::mat transform_coords(
-    arma::mat coords,
-    arma::mat rotation,
-    arma::mat translation,
-    double scaling = 1
+    const arma::mat &coords,
+    const arma::mat &rotation,
+    const arma::mat &translation,
+    const double &scaling = 1
 );
 
 #endif

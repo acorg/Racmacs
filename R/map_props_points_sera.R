@@ -44,20 +44,20 @@ sera_setter <- function(fn){
 #' )
 #'
 srIDs               <- sera_getter(ac_sr_get_id)
-srGroupValues       <- sera_getter(ac_sr_get_group_values)
 srDates             <- sera_getter(ac_sr_get_date)
 srReference         <- sera_getter(ac_sr_get_reference)
 srNames             <- sera_getter(ac_sr_get_name)
 srNamesFull         <- sera_getter(ac_sr_get_name_full)
 srNamesAbbreviated  <- sera_getter(ac_sr_get_name_abbreviated)
+srGroupValues       <- sera_getter(ac_sr_get_group)
 
 `srIDs<-`               <- sera_setter(ac_sr_set_id)
-`srGroupValues<-`       <- sera_setter(ac_sr_set_group_values)
 `srDates<-`             <- sera_setter(ac_sr_set_date)
 `srReference<-`         <- sera_setter(ac_sr_set_reference)
 `srNames<-`             <- sera_setter(ac_sr_set_name)
 `srNamesFull<-`         <- sera_setter(ac_sr_set_name_full)
 `srNamesAbbreviated<-`  <- sera_setter(ac_sr_set_name_abbreviated)
+`srGroupValues<-`       <- sera_setter(ac_sr_set_group)
 
 
 #' Getting and setting sera groups
@@ -70,10 +70,11 @@ srNamesAbbreviated  <- sera_getter(ac_sr_get_name_abbreviated)
 #' @export
 srGroups <- function(map){
 
-  if(is.null(srGroupValues(map))) return(NULL)
+  srlevels <- map$sr_group_levels
+  if(length(srlevels) == 0) return(NULL)
   factor(
-    x = srGroupValues(map),
-    levels = srGroupLevels(map)
+    x = srlevels[srGroupValues(map) + 1],
+    levels = srlevels
   )
 
 }
@@ -82,24 +83,28 @@ srGroups <- function(map){
 #' @export
 `srGroups<-` <- function(map, value){
 
-  if(!is.factor(value)) value <- as.factor(value)
-  srGroupValues(map) <- as.character(value)
-  srGroupLevels(map) <- levels(value)
+  if(is.null(value)){
+    srGroupValues(map) <- 0
+    map$sr_group_levels <- NULL
+  } else {
+    if(!is.factor(value)) value <- as.factor(value)
+    srGroupValues(map) <- as.numeric(value) - 1
+    map$sr_group_levels <- levels(value)
+  }
   map
 
 }
 
-
 #' @export
 srSequences <- function(map){
-  do.call(rbind, lapply(map$sera, function(sr){ sr$sera }))
+  do.call(rbind, lapply(map$sera, function(sr){ strsplit(sr$sequence, "")[[1]] }))
 }
 
 #' @export
 `srSequences<-` <- function(map, value){
   if(nrow(value) != numSera(map)) stop("Number of sequences does not match number of sera")
   for(x in seq_len(numSera(map))){
-    map$sera[[x]]$sequence <- value[x,]
+    map$sera[[x]]$sequence <- paste0(value[x,], collapse = "")
   }
   map
 }

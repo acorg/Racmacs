@@ -11,7 +11,7 @@ test_that("Edit map strain details", {
   # Chart name -------
   expect_equal(
     mapName(map),
-    NULL
+    ""
   )
 
   mapName(map) <- "NEW NAME"

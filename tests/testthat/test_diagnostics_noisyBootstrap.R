@@ -1,7 +1,6 @@
 
 library(Racmacs)
 library(testthat)
-
 context("Bootstrapping maps")
 
 # Set variables

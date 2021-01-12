@@ -27,6 +27,7 @@ Method for plotting an antigenic map
 }
 \seealso{
 Other {functions to view maps}: 
+\code{\link{grid.plot.acmap}()},
 \code{\link{snapshotMap}()}
 }
 \concept{{functions to view maps}}

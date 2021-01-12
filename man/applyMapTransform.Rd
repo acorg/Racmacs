@@ -20,8 +20,6 @@ Applies the current map transformation to a set of coordinates
 Other {functions relating to map transformation}: 
 \code{\link{reflectMap}()},
 \code{\link{rotateMap}()},
-\code{\link{scaleMap}()},
-\code{\link{transformMap}()},
 \code{\link{translateMap}()}
 }
 \concept{{functions relating to map transformation}}

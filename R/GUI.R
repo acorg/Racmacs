@@ -6,7 +6,7 @@
 #' @export
 #'
 runGUI <- function(){
-    shiny::runApp(system.file('shinyapps/RacmacsGUI', package='Racmacs'))
+  shiny::runApp(system.file('shinyapps/RacmacsGUI', package='Racmacs'))
 }
 
 # Utility functions for the GUI

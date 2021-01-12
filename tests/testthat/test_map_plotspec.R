@@ -6,20 +6,6 @@ context("Test reading and editing of plotspec data")
 # Load the map and the chart
 racmap <- read.acmap(filename = test_path("../testdata/testmap.ace"))
 
-## Check you are converting between draw order and priority correctly
-test_that("Draw priority to order conversion", {
-
-  drawing_order <- c(6, 1, 7, 4, 2, 3, 9, 5, 10, 8)
-  expect_equal(drawing_order, Racmacs:::draw_priority_to_order(Racmacs:::draw_order_to_priority(drawing_order)))
-
-  drawing_order <- c(1,2,5,3,4)
-  expect_equal(drawing_order, Racmacs:::draw_priority_to_order(Racmacs:::draw_order_to_priority(drawing_order)))
-
-  drawing_order <- c(1,2,3,4,5)
-  expect_equal(drawing_order, Racmacs:::draw_priority_to_order(Racmacs:::draw_order_to_priority(drawing_order)))
-
-})
-
 ## Test defaults
 test_that("Test acmap defaults", {
 
@@ -31,7 +17,6 @@ test_that("Test acmap defaults", {
   expect_equal(agAspect(map),           rep(1, 3)             )
   expect_equal(agRotation(map),         rep(0, 3)             )
   expect_equal(agOutlineWidth(map),     rep(1, 3)             )
-  expect_equal(agDrawingOrder(map),     rep(1, 3)             )
   expect_equal(agShape(map),            rep("CIRCLE", 3)      )
   expect_equal(agSize(map),             rep(5, 3)             )
   expect_equal(agShown(map),            rep(TRUE, 3)          )
@@ -58,7 +43,6 @@ plotspec_features <- list(
   "Rotation"     = 24,
   "Aspect"       = 3,
   "Shape"        = "BOX",
-  "DrawingOrder" = 100,
   "Shown"        = FALSE
 )
 

@@ -16,9 +16,11 @@ double d_sigmoid(double &x){
 }
 
 // This is the point stress function
-double ac_ptStress(double &map_dist,
-                   double &table_dist,
-                   unsigned int &titer_type){
+double ac_ptStress(
+    double &map_dist,
+    double &table_dist,
+    unsigned int &titer_type
+  ){
 
   double x;
   double stress;
@@ -53,7 +55,7 @@ double inc_base(
     double &map_dist,
     double &table_dist,
     unsigned int &titer_type
-){
+  ){
 
   double ibase;
   double x;
@@ -86,3 +88,5 @@ double inc_base(
   return ibase;
 
 }
+
+

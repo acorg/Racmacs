@@ -49,9 +49,11 @@ class MapOptimizer {
       num_ags = tabledist_matrix.n_rows;
       num_sr = tabledist_matrix.n_cols;
 
-      mapdist_matrix = arma::mat(num_ags, num_sr);
+      mapdist_matrix = arma::mat(num_ags, num_sr, arma::fill::zeros);
       ag_coords = ag_start_coords;
       sr_coords = sr_start_coords;
+
+      update_map_dist_matrix();
 
     }
 
@@ -202,8 +204,7 @@ double ac_coords_stress(
     const arma::mat &tabledist_matrix,
     const arma::umat &titertype_matrix,
     arma::mat &ag_coords,
-    arma::mat &sr_coords,
-    const AcOptimizerOptions &options
+    arma::mat &sr_coords
 ){
 
   // Set variables
@@ -265,22 +266,20 @@ double ac_relax_coords(
 };
 
 
-// [[Rcpp::export]]
-std::vector<AcOptimization> ac_runOptimizations(
-    const AcTiterTable &titertable,
-    arma::vec &colbases,
+// Generate a bunch of optimizations with randomized coordinates
+// this is a starting point for later relaxation
+std::vector<AcOptimization> ac_generateOptimizations(
+    const arma::vec &colbases,
+    const arma::mat &tabledist_matrix,
+    const arma::umat &titertype_matrix,
     const int &num_dims,
     const int &num_optimizations,
     const AcOptimizerOptions &options
 ){
 
   // Infer number of antigens and sera
-  int num_ags = titertable.nags();
-  int num_sr = titertable.nsr();
-
-  // Get table distance matrix and titer type matrix
-  arma::mat tabledist_matrix = titertable.table_distances(colbases);
-  arma::umat titertype_matrix = titertable.get_titer_types();
+  int num_ags = tabledist_matrix.n_rows;
+  int num_sr = tabledist_matrix.n_cols;
 
   // First run a rough optimization using max table dist as the box size
   AcOptimization initial_optim = AcOptimization(
@@ -316,9 +315,27 @@ std::vector<AcOptimization> ac_runOptimizations(
 
   }
 
+  // Return the randomized optimizations
+  return optimizations;
+
+}
+
+
+// Relax the optimizations generated randomly
+void ac_relaxOptimizations(
+  std::vector<AcOptimization>& optimizations,
+  const arma::vec &colbases,
+  const arma::mat &tabledist_matrix,
+  const arma::umat &titertype_matrix,
+  const AcOptimizerOptions &options
+){
+
+  // Set variables
+  int num_optimizations = optimizations.size();
+
   // Set progress bar
-  REprintf("Performing %d optimizations\n", num_optimizations);
-  AcProgressBar pb(options.progress_bar_length);
+  if(options.report_progress) REprintf("Performing %d optimizations\n", num_optimizations);
+  AcProgressBar pb(options.progress_bar_length, options.report_progress);
   Progress p(num_optimizations, true, pb);
 
   // Run and return optimization results
@@ -337,18 +354,53 @@ std::vector<AcOptimization> ac_runOptimizations(
 
   }
 
-  // Sort the optimizations by stress
-  sort_optimizations_by_stress(optimizations);
-
-  // Realign optimizations to the first one
-  align_optimizations(optimizations);
-
   // Report finished
   if( p.is_aborted() ){
     pb.complete("Optimization runs interrupted", false);
   } else {
     pb.complete("Optimization runs complete");
   }
+
+}
+
+
+// [[Rcpp::export]]
+std::vector<AcOptimization> ac_runOptimizations(
+    const AcTiterTable &titertable,
+    const arma::vec &colbases,
+    const int &num_dims,
+    const int &num_optimizations,
+    const AcOptimizerOptions &options
+){
+
+  // Get table distance matrix and titer type matrix
+  arma::mat tabledist_matrix = titertable.table_distances(colbases);
+  arma::umat titertype_matrix = titertable.get_titer_types();
+
+  // Generate optimizations with random starting coords
+  std::vector<AcOptimization> optimizations = ac_generateOptimizations(
+    colbases,
+    tabledist_matrix,
+    titertype_matrix,
+    num_dims,
+    num_optimizations,
+    options
+  );
+
+  // Relax the optimizations
+  ac_relaxOptimizations(
+    optimizations,
+    colbases,
+    tabledist_matrix,
+    titertype_matrix,
+    options
+  );
+
+  // Sort the optimizations by stress
+  sort_optimizations_by_stress(optimizations);
+
+  // Realign optimizations to the first one
+  align_optimizations(optimizations);
 
   // Return the optimizations
   return optimizations;

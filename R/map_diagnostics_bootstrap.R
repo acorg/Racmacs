@@ -1,28 +1,4 @@
 
-# Function to generate the noise matrices
-make_noise_matrix <- function(
-  dims,
-  ag_noise_sd,
-  titer_noise_sd,
-  ...
-){
-
-  # Make noise matrix
-  noise_matrix <- matrix(0, dims[1], dims[2])
-
-  # Generate noise
-  titer_noise <- rnorm(length(noise_matrix), sd = titer_noise_sd)
-  ag_noise    <- rnorm(nrow(noise_matrix),   sd = ag_noise_sd)
-
-  # Return the matrix
-  list(
-    noise_matrix = noise_matrix + titer_noise + ag_noise,
-    ag_noise     = ag_noise
-  )
-
-}
-
-
 #' Perform a noisy bootstrap
 #'
 #' Perform a noisy bootstrap on a map, adding random noise and reoptimizing from scratch.
@@ -43,10 +19,7 @@ bootstrapMap <- function(
   optimizations_per_repeat = 100,
   ag_noise_sd              = 0.7,
   titer_noise_sd           = 0.7,
-  column_bases_from_original_table = FALSE,
-  method = "L-BFGS-B",
-  maxit = 1000,
-  dim_annealing = FALSE
+  options                  = list()
 ){
 
   # Check there are already some map optimizations
@@ -54,10 +27,11 @@ bootstrapMap <- function(
     stop("First run some optimizations on this map with 'optimizeMap()'", call. = FALSE)
   }
 
+  # Set options
+  options <- do.call(RacOptimizer.options, options)
+
   # Run the bootstrap
-  map$bootstrap <- plapply(
-    progress_msg = paste("Performing", bootstrap_repeats, "noisy bootstrap repeats..."),
-    seq_len(bootstrap_repeats), function(x){
+  map$bootstrap <- lapply(seq_len(bootstrap_repeats), function(x){
 
     # Do a bootstrap run
     bs_result <- ac_noisy_bootstrap_map(
@@ -65,12 +39,10 @@ bootstrapMap <- function(
       ag_noise_sd = ag_noise_sd,
       titer_noise_sd = titer_noise_sd,
       minimum_column_basis = minColBasis(map),
-      column_bases_from_full_table = column_bases_from_original_table,
+      fixed_column_bases = fixedColBases(map),
       num_optimizations = optimizations_per_repeat,
       num_dimensions = mapDimensions(map),
-      method = method,
-      maxit = maxit,
-      dim_annealing = dim_annealing
+      options = options
     )
 
     # Align to the main map coordinates
@@ -137,30 +109,6 @@ mapBootstrap_ptCoords <- function(map){
 }
 
 
-
-
-bootstrapFromJsonlist <- function(jsonlist){
-
-  lapply(jsonlist, function(result){
-    list(
-      ag_noise = unlist(result$ag_noise),
-      coords = matrix(
-        data  = unlist(result$coords),
-        ncol  = length(result$coords[[1]][[1]]),
-        byrow = TRUE
-      )
-    )
-  })
-
-}
-
-bootstrapToJsonList <- function(bootstrap){
-
-  I(bootstrap)
-
-}
-
-
 coordDensityBlob <- function(coords, conf.level = 0.68, smoothing = 6){
 
   # Check dimensions
@@ -181,74 +129,7 @@ coordDensityBlob <- function(coords, conf.level = 0.68, smoothing = 6){
 
 }
 
-plotBootstrapBlob <- function(
-  map,
-  pointnum,
-  conf.level = 0.68,
-  smoothing = 6,
-  ...
-) {
 
-  # Get the blob data
-  bootstrapBlob(map, pointnum, conf.level, smoothing)
-
-  # Plot the blobs
-  lapply(blob, function(b){ lines(b$x, b$y, ...) })
-
-}
-
-
-bootstrapBlob <- function(
-  map,
-  pointnum,
-  conf.level = 0.68,
-  smoothing = 6
-){
-
-  # Get bootstrap coords
-  coords <- do.call(rbind, lapply(mapBootstrap_ptCoords(map), function(x) x[pointnum,]))
-
-  # Calculate the blob
-  coordDensityBlob(
-    coords     = coords,
-    conf.level = conf.level,
-    smoothing  = smoothing
-  )
-
-}
-
-#' @export
-#' @family bootstrapping maps
-bootstrapBlobs <- function(
-  map,
-  conf.level = 0.68,
-  smoothing = 6
-){
-
-  lapply(
-    seq_len(numPoints(map)),
-    bootstrapBlob,
-    map        = map,
-    conf.level = conf.level,
-    smoothing  = smoothing
-  )
-
-}
-
-
-plotBootstrapPoints <- function(
-  map,
-  pointnum,
-  ...
-) {
-
-  # Get bootstrap coords
-  coords <- do.call(rbind, lapply(mapBootstrap_ptCoords(map), function(x) x[pointnum,]))
-
-  # Calculate the blob
-  points(coords, ...)
-
-}
 
 
 

@@ -4,24 +4,6 @@ library(testthat)
 context("Optimizing maps")
 set.seed(100)
 
-# map <- read.acmap("~/Dropbox/labbook/packages/Racmacs/inst/extdata/h3map2004.ace")
-# map <- optimizeMap(
-#   map,
-#   number_of_dimensions = 2,
-#   number_of_optimizations = 100,
-#   minimum_column_basis = "none"
-# )
-#
-# map2 <- moveTrappedPoints(map)
-#
-# mapStress(map)
-# mapStress(map2)
-#
-# plot(map)
-# plot(map2)
-#
-# stop()
-
 # Read testmap
 map <- read.acmap(test_path("../testdata/testmap.ace"))
 titerTable(map)[1,3:4] <- "*"
@@ -31,6 +13,7 @@ test_that("Getting numeric titers",{
 
   titers <- titerTable(map)
   titers <- gsub("[<>]", "", titers)
+  titers[titers == "*"] <- NA
   mode(titers) <- "numeric"
 
   expect_equal(
@@ -281,6 +264,22 @@ test_that("Relax existing maps", {
 
   expect_lt(stress2, stress1)
   expect_lt(stress2_2, stress1_2)
+
+})
+
+
+# Relax a newly created map
+test_that("Relax a map with no titers", {
+
+  testmap <- acmap(
+    ag_coords = matrix(1:10, 5, 2),
+    sr_coords = matrix(1:10, 5, 2)
+  )
+
+  expect_error(
+    relaxMap(testmap),
+    "Table has no measurable titers"
+  )
 
 })
 

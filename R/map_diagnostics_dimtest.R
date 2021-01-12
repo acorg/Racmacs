@@ -22,30 +22,35 @@
 #'
 dimensionTestMap <- function(
   map,
-  dimensions_to_test        = 1:5,
-  test_proportion           = 0.1,
-  minimum_column_basis      = "none",
-  column_bases_from_master  = TRUE,
-  number_of_optimizations   = 1000,
-  replicates_per_proportion = 100,
-  method = "L-BFGS-B",
-  maxit = 1000,
-  dim_annealing = FALSE
+  dimensions_to_test       = 1:5,
+  test_proportion          = 0.1,
+  minimum_column_basis     = "none",
+  fixed_column_bases       = rep(NA, numSera(map)),
+  number_of_optimizations  = 1000,
+  replicates_per_dimension = 100,
+  options                  = list()
   ){
 
+  # Set optimizer options
+  options <- do.call(RacOptimizer.options, options)
+
+  # Set progress
+  message(sprintf("Performing dimension test, %s replicates per dimension", replicates_per_dimension))
+  progress <- ac_progress_bar(replicates_per_dimension)
+
   # Get results
-  results <- plapply(seq_len(replicates_per_proportion), function(x){
-    ac_dimension_test_map(
+  results <- lapply(seq_len(replicates_per_dimension), function(x){
+    result <- ac_dimension_test_map(
       titer_table                  = titerTable(map),
       dimensions_to_test           = dimensions_to_test,
       test_proportion              = test_proportion,
       minimum_column_basis         = minimum_column_basis,
-      column_bases_from_full_table = column_bases_from_master,
+      fixed_column_bases           = fixed_column_bases,
       num_optimizations            = number_of_optimizations,
-      method                       = method,
-      maxit                        = maxit,
-      dim_annealing                = dim_annealing
+      options                      = options
     )
+    ac_update_progress(progress, x)
+    result
   })
 
   # Correct indices of test results to base 1

@@ -34,7 +34,6 @@ test_that("General stress blob calculation", {
 
 # Calculate stress blobs
 map3d <- map_unrelaxed
-selectedOptimization(map3d) <- 3
 map3d <- relaxMap(map3d)
 blobmap3d <- stressBlobs(
   map3d,

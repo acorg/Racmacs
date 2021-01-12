@@ -136,8 +136,8 @@ class AcTiterTable {
       titer_types(nags, nsr, arma::fill::zeros){};
 
     // Get dimensions
-    int nags() const { return numeric_titers.n_rows; }
-    int nsr() const { return numeric_titers.n_cols; }
+    arma::uword nags() const { return numeric_titers.n_rows; }
+    arma::uword nsr() const { return numeric_titers.n_cols; }
     arma::SizeMat size() const { return arma::size(numeric_titers); }
 
     // Get and set numeric_titers and titer types
@@ -162,8 +162,8 @@ class AcTiterTable {
 
     // Set a given titer
     void set_titer(
-        int agnum,
-        int srnum,
+        arma::uword agnum,
+        arma::uword srnum,
         AcTiter titer
     ){
 
@@ -180,8 +180,8 @@ class AcTiterTable {
 
     // Getting and setting by string
     std::string get_titer_string(
-      int agnum,
-      int srnum
+      arma::uword agnum,
+      arma::uword srnum
     ) const {
 
       AcTiter titer = get_titer(agnum, srnum);
@@ -190,8 +190,8 @@ class AcTiterTable {
     }
 
     void set_titer_string(
-      int agnum,
-      int srnum,
+      arma::uword agnum,
+      arma::uword srnum,
       std::string titerstring
     ){
 
@@ -201,8 +201,8 @@ class AcTiterTable {
     }
 
     void set_titer_double(
-        int agnum,
-        int srnum,
+        arma::uword agnum,
+        arma::uword srnum,
         double titerdouble
     ){
 
@@ -213,12 +213,12 @@ class AcTiterTable {
 
     // Get vector of titers for a given antigen
     std::vector<AcTiter> agTiters(
-        int agnum
+      arma::uword agnum
     ){
 
-      const int num_sr = nsr();
+      const arma::uword num_sr = nsr();
       std::vector<AcTiter> ag_titers(num_sr);
-      for(int srnum=0; srnum<num_sr; srnum++){
+      for(arma::uword srnum=0; srnum<num_sr; srnum++){
         ag_titers[srnum] = get_titer(agnum, srnum);
       }
       return ag_titers;
@@ -226,12 +226,12 @@ class AcTiterTable {
 
     // Get vector of titers for a given serum
     std::vector<AcTiter> srTiters(
-      int srnum
+        arma::uword srnum
     ){
 
-      const int num_ags = nags();
+      const arma::uword num_ags = nags();
       std::vector<AcTiter> sr_titers(num_ags);
-      for(int agnum=0; agnum<num_ags; agnum++){
+      for(arma::uword agnum=0; agnum<num_ags; agnum++){
         sr_titers[agnum] = get_titer(agnum, srnum);
       }
       return sr_titers;
@@ -239,7 +239,7 @@ class AcTiterTable {
 
     // Remove an antigen
     void remove_antigen(
-      int agnum
+      arma::uword agnum
     ){
       numeric_titers.shed_row(agnum);
       titer_types.shed_row(agnum);
@@ -247,7 +247,7 @@ class AcTiterTable {
 
     // Remove a serum
     void remove_serum(
-      int srnum
+      arma::uword srnum
     ){
       numeric_titers.shed_col(srnum);
       titer_types.shed_col(srnum);
@@ -293,6 +293,14 @@ class AcTiterTable {
       return arma::accu(titer_types == 0);
     }
 
+    // Check if a titer is measured
+    bool titer_measured(
+      const int& ag,
+      const int& sr
+    ){
+      return titer_types(ag, sr) != 0;
+    }
+
     // Setting unmeasured titers
     void set_unmeasured(
         arma::uvec indices
@@ -325,6 +333,10 @@ class AcTiterTable {
         std::string min_colbasis,
         arma::vec fixed_colbases
     ) const {
+
+      // Check input
+      if(arma::accu(titer_types) == 0) Rf_error("Table has no measurable titers");
+      if(fixed_colbases.n_elem != nsr()) Rf_error("fixed_colbases does not match number of sera");
 
       // Calculate column bases
       arma::mat log_titers = arma::log2(numeric_titers / 10.0);

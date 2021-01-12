@@ -13,13 +13,12 @@ class AcPoint {
     // Regular details
     std::string type;
     std::string name;
-    int group_values;
     std::string date;
-    bool reference;
+    bool reference = false;
     std::string name_full;
     std::string name_abbreviated;
     std::string id = "";
-    int group;
+    int group = 0;
     std::string sequence;
 
     // Plotspec details
@@ -31,14 +30,12 @@ class AcPoint {
     double outline_width = 1.0;
     double rotation = 0.0;
     double aspect = 1.0;
-    int drawing_order = 1;
 
   public:
 
     // Regular details
     std::string get_type() const { return type; }
     std::string get_name() const { return name; }
-    int get_group_values() const { return group_values; }
     std::string get_date() const { return date; }
     bool get_reference() const { return reference; }
     std::string get_name_full() const { return name_full; }
@@ -49,7 +46,6 @@ class AcPoint {
 
     void set_type( std::string value ){ type = value; }
     void set_name( std::string value ){ name = value; }
-    void set_group_values( int value ){ group_values = value; }
     void set_date( std::string value ){ date = value; }
     void set_reference( bool value ){ reference = value; }
     void set_name_full( std::string value ){ name_full = value;}
@@ -67,7 +63,6 @@ class AcPoint {
     double get_rotation() const { return rotation; };
     double get_aspect() const { return aspect; };
     std::string get_shape() const { return shape; };
-    int get_drawing_order() const { return drawing_order; };
 
     void set_shown(bool shown_in){ shown = shown_in; };
     void set_size(double size_in){ size = size_in; };
@@ -77,7 +72,6 @@ class AcPoint {
     void set_rotation(double rotation_in){ rotation = rotation_in; };
     void set_aspect(double aspect_in){ aspect = aspect_in; };
     void set_shape(std::string shape_in){ shape = shape_in; };
-    void set_drawing_order(int drawing_order_in){ drawing_order = drawing_order_in; }
 
     // Get IDs for matching
     std::string get_match_id() const {

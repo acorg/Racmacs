@@ -10,8 +10,8 @@
 #' @param options A named list of viewer options supplied to `racviewer.options()`
 #' @param width Width of the widget
 #' @param height Height of the widget
-#' @param plotdata
-#' @param show_procrustes
+#' @param plotdata r3js plot data
+#' @param show_procrustes should procrustes lines be shown
 #' @param elementId DOM element ID
 #'
 #' @import htmlwidgets

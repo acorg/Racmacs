@@ -18,13 +18,12 @@ colbases_from_full <- FALSE
 
 # Run the dimension test
 dimtest <- dimensionTestMap(
-  map                       = map,
-  dimensions_to_test        = test_dims,
-  test_proportion           = 0.1,
-  minimum_column_basis      = "none",
-  column_bases_from_master  = colbases_from_full,
-  number_of_optimizations   = 10,
-  replicates_per_proportion = 10
+  map                      = map,
+  dimensions_to_test       = test_dims,
+  test_proportion          = 0.1,
+  minimum_column_basis     = "none",
+  number_of_optimizations  = 10,
+  replicates_per_dimension = 10
 )
 results <- dimtest$results
 
@@ -71,18 +70,20 @@ test_that("Dimension testing", {
     expect_equal(length(result$dim), length(test_dims))
     expect_equal(length(result$coords), length(test_dims))
 
+
     for(x in seq_along(result$dim)){
       # Check maps are always relaxed
-      opt <- Racmacs:::ac_relaxOptimization(
-        tabledist_matrix = table_dists,
-        titertype_matrix = titer_types,
-        ag_coords = result$coords[[x]][seq_len(numAntigens(map)),,drop=F],
-        sr_coords = result$coords[[x]][-seq_len(numAntigens(map)),,drop=F]
-      )
+      train_titer_table <- titer_table
+      train_titer_table[result$test_indices] <- "*"
+      testmap <- acmap(titer_table = train_titer_table)
+      testmap <- addOptimization(testmap, number_of_dimensions = 2)
+      agBaseCoords(testmap) <- result$coords[[x]][seq_len(numAntigens(map)),,drop=F]
+      srBaseCoords(testmap) <- result$coords[[x]][-seq_len(numAntigens(map)),,drop=F]
+      testmap <- relaxMap(testmap)
       expect_lt(
         mean(abs(rbind(
-          opt$ag_base_coords,
-          opt$sr_base_coords
+          agBaseCoords(testmap),
+          srBaseCoords(testmap)
         ) - result$coords[[x]])),
         0.0001
       )

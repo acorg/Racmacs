@@ -13,11 +13,11 @@ num_antigens <- numAntigens(map)
 num_sera     <- numSera(map)
 
 # Subset the maps
-test_map_subset <- function(map, ag_subset = TRUE, sr_subset = TRUE){
+test_map_subset <- function(map, ag_subset, sr_subset){
 
   map_subset <- subsetMap(map, ag_subset, sr_subset)
-  ag_subset <- Racmacs:::get_ag_indices(ag_subset, map)
-  sr_subset <- Racmacs:::get_ag_indices(sr_subset, map)
+  ag_subset <- get_ag_indices(ag_subset, map)
+  sr_subset <- get_sr_indices(sr_subset, map)
 
   # Original map unaffected
   expect_equal(numAntigens(map), num_antigens)

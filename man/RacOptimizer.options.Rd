@@ -9,7 +9,7 @@ RacOptimizer.options(
   method = "L-BFGS",
   maxit = 1000,
   num_cores = parallel::detectCores(),
-  report_progress = TRUE,
+  report_progress = NULL,
   progress_bar_length = options()$width
 )
 }

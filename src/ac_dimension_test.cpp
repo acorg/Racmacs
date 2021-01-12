@@ -19,6 +19,9 @@ DimTestOutput ac_dimension_test_map(
   // Declare variables
   arma::vec colbases;
 
+  // Silence normal optimization progress reporting
+  options.report_progress = false;
+
   // Get a random index of measured titers to test
   int num_measured = titer_table.num_measured();
   int num_test = round(num_measured*test_proportion);

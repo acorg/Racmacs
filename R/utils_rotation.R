@@ -1,4 +1,21 @@
 
+#' Translate a set of coordinates
+#' @noRd
+translate_coords <- function(coords, translation) {
+
+  while(length(translation) < ncol(coords)) translation <- c(translation, 0)
+  while(ncol(coords) < length(translation)) coords <- cbind(coords, 0)
+
+  translation <- matrix(
+    translation,
+    nrow = nrow(coords),
+    ncol = ncol(coords),
+    byrow = T
+  )
+
+  coords + translation
+
+}
 
 #' Rotate a set of coordinates
 #' @noRd

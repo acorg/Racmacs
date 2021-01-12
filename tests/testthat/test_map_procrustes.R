@@ -193,153 +193,169 @@ test_that("Realigning 2D to 3D and back", {
     minimum_column_basis = "none"
   )
 
-  pc2d3d <- procrustesMap(
+  pc2d3d <- procrustesData(
     map2d,
     map3d
   )
 
-  pc3d2d <- procrustesMap(
+  pc3d2d <- procrustesData(
     map3d,
     map2d
   )
 
-  expect_equal(round(pc2d3d$procrustes$total_rmsd, 5), 0)
-  expect_equal(round(pc3d2d$procrustes$total_rmsd, 5), 0)
+  expect_equal(round(pc2d3d$ag_rmsd, 5), 0)
+  expect_equal(round(pc3d2d$ag_rmsd, 5), 0)
+  expect_equal(round(pc2d3d$sr_rmsd, 5), 0)
+  expect_equal(round(pc3d2d$sr_rmsd, 5), 0)
+  expect_equal(round(pc2d3d$total_rmsd, 5), 0)
+  expect_equal(round(pc3d2d$total_rmsd, 5), 0)
 
 })
 
-#
-# # Realign a map that's been rotated into 3D
-# test_that("Realigning 2D to 3D and back in a rotated map", {
-#
-#   coords2d <- matrix(c(2,3,1,8,3,3,2,9,1,0), 5, 2)
-#
-#   map2d <- acmap(
-#     ag_coords = coords2d[1:3,],
-#     sr_coords = coords2d[4:5,],
-#     minimum_column_basis = "none"
-#   )
-#
-#   map3d <- acmap(
-#     ag_coords = coords2d[1:3,],
-#     sr_coords = coords2d[4:5,],
-#     minimum_column_basis = "none"
-#   )
-#
-#   mapTransformation(map3d) <- rotation_matrix_3D(1, "x")
-#   mapTranslation(map3d)    <- c(1,2)
-#
-#   pc2d3d <- procrustesMap(
-#     map2d,
-#     map3d
-#   )
-#
-#   pc3d2d <- procrustesMap(
-#     map3d,
-#     map2d
-#   )
-#
-#   map3d <- realignMap(
-#     map3d,
-#     map2d
-#   )
-#
-#   map2d <- realignMap(
-#     map2d,
-#     map3d
-#   )
-#
-#   expect_equal(pc2d3d$procrustes$total_rmsd, 0)
-#   expect_equal(pc3d2d$procrustes$total_rmsd, 0)
-#   expect_equal(mapTransformation(map3d), diag(nrow = 3))
-#   expect_equal(mapTranslation(map3d), matrix(0, nrow = 1, ncol = 3))
-#   expect_equal(ncol(agBaseCoords(map3d)), 2)
-#
-# })
-#
-#
-# # Testing realigning optimizations
-# mapA <- read.map(test_path("../testdata/testmap.ace"))
-# mapB <- cloneMap(mapA)
-#
-# test_that("Realigning map optimizations 3D to 2D", {
-#
-#   mapB <- realignOptimizations(mapB)
-#
-#   expect_lt(
-#     sum((agCoords(mapB, 1) - MCMCpack::procrustes(agCoords(mapB, 2), agCoords(mapB, 1))$X.new)^2),
-#     sum((agCoords(mapA, 1) - MCMCpack::procrustes(agCoords(mapA, 2), agCoords(mapA, 1))$X.new)^2)
-#   )
-#
-#   expect_lt(
-#     sum((cbind(agCoords(mapB, 1), 0) - MCMCpack::procrustes(agCoords(mapB, 3), cbind(agCoords(mapB, 1), 0))$X.new)^2),
-#     sum((cbind(agCoords(mapA, 1), 0) - MCMCpack::procrustes(agCoords(mapA, 3), cbind(agCoords(mapA, 1), 0))$X.new)^2)
-#   )
-#
-# })
-#
-#
-# mapA <- read.map(test_path("../testdata/testmap.ace"))
-# mapB <- cloneMap(mapA)
-#
-# test_that("Realigning map optimizations 2D to 3D", {
-#
-#   selectedOptimization(mapB) <- 3
-#   mapB <- realignOptimizations(mapB)
-#
-#   pcA <- procrustesMap(
-#     map = mapA,
-#     comparison_map = mapA,
-#     optimization_number = 1,
-#     comparison_optimization_number = 3
-#   )
-#
-#   pcB <- procrustesMap(
-#     map = mapB,
-#     comparison_map = mapB,
-#     optimization_number = 3,
-#     comparison_optimization_number = 1
-#   )
-#
-#   export.viewer.test(
-#     view(
-#       pcB
-#     ),
-#     "procrustes_3d_to_2d.html"
-#   )
-#
-#   expect_equal(pcA$total_rmsd, pcB$total_rmsd)
-#
-#   expect_lt(
-#     sum(calc_coord_dist(agCoords(mapB, 1), agCoords(mapB, 2))^2),
-#     sum(calc_coord_dist(agCoords(mapA, 1), agCoords(mapA, 2))^2)
-#   )
-#
-# })
-#
-# test_that("Procrustes maps with na coords", {
-#
-#   map1na <- cloneMap(map1)
-#   agCoords(map1na)[1:2,] <- NA
-#   srCoords(map1na)[1,] <- NA
-#   export.viewer.test(
-#     view(map1na),
-#     "na_map.html"
-#   )
-#
-#   expect_warning({
-#     pcmap <- procrustesMap(
-#       map1na,
-#       map2
-#     )
-#   })
-#   export.viewer.test(
-#     view(
-#       pcmap
-#     ),
-#     "na_map_procrustes.html"
-#   )
-#
-# })
+
+
+# Realign a map that's been rotated into 3D
+test_that("Realigning 2D to 3D and back in a rotated map", {
+
+  coords2d <- matrix(c(2,3,1,8,3,3,2,9,1,0), 5, 2)
+
+  map2d <- acmap(
+    ag_coords = coords2d[1:3,],
+    sr_coords = coords2d[4:5,],
+    minimum_column_basis = "none"
+  )
+
+  map3d <- acmap(
+    ag_coords = coords2d[1:3,],
+    sr_coords = coords2d[4:5,],
+    minimum_column_basis = "none"
+  )
+
+  mapTransformation(map3d) <- rotation_matrix_3D(1, "x")
+  mapTranslation(map3d)    <- matrix(c(1,2))
+
+  pc2d3d <- procrustesData(
+    map2d,
+    map3d
+  )
+
+  pc3d2d <- procrustesData(
+    map3d,
+    map2d
+  )
+
+  map3d <- realignMap(
+    map3d,
+    map2d
+  )
+
+  map2d <- realignMap(
+    map2d,
+    map3d
+  )
+
+  expect_equal(pc2d3d$total_rmsd, 0)
+  expect_equal(pc3d2d$total_rmsd, 0)
+  warning("Need to decide how to deal with rotating a map in 3D back to a 2D plane")
+  # For example, do we want to treat it like a 2D map again (as is now the case)
+  expect_equal(mapTransformation(map3d), diag(nrow = 2))
+  expect_equal(mapTranslation(map3d), matrix(0, nrow = 2, ncol = 1))
+  expect_equal(ncol(agBaseCoords(map3d)), 2)
+
+})
+
+
+# Testing realigning optimizations
+mapA <- read.acmap(test_path("../testdata/testmap.ace"))
+
+test_that("Realigning map optimizations 3D to 2D", {
+
+  mapB <- realignOptimizations(mapA)
+
+  expect_lt(
+    sum((agCoords(mapB, 1) - MCMCpack::procrustes(agCoords(mapB, 2), agCoords(mapB, 1))$X.new)^2),
+    sum((agCoords(mapA, 1) - MCMCpack::procrustes(agCoords(mapA, 2), agCoords(mapA, 1))$X.new)^2)
+  )
+
+  expect_lt(
+    sum((cbind(agCoords(mapB, 1), 0) - MCMCpack::procrustes(agCoords(mapB, 3), cbind(agCoords(mapB, 1), 0))$X.new)^2),
+    sum((cbind(agCoords(mapA, 1), 0) - MCMCpack::procrustes(agCoords(mapA, 3), cbind(agCoords(mapA, 1), 0))$X.new)^2)
+  )
+
+})
+
+
+test_that("Realigning map optimizations 2D to 3D", {
+
+  mapB <- realignOptimizations(mapA)
+
+  pcA <- procrustesData(
+    map = mapA,
+    comparison_map = mapA,
+    optimization_number = 1,
+    comparison_optimization_number = 3
+  )
+
+  pcB <- procrustesData(
+    map = mapB,
+    comparison_map = mapB,
+    optimization_number = 3,
+    comparison_optimization_number = 1
+  )
+
+  pcAmap <- procrustesMap(
+    map = mapB,
+    comparison_map = mapB,
+    optimization_number = 1,
+    comparison_optimization_number = 3
+  )
+
+  pcBmap <- procrustesMap(
+    map = mapB,
+    comparison_map = mapB,
+    optimization_number = 3,
+    comparison_optimization_number = 1
+  )
+
+  export.viewer.test(
+    view(
+      pcBmap
+    ),
+    "procrustes_3d_to_2d.html"
+  )
+
+  expect_equal(pcA$total_rmsd, pcB$total_rmsd)
+
+  expect_lt(
+    sum(ac_coord_dists(agCoords(mapB, 1), agCoords(mapB, 2))^2),
+    sum(ac_coord_dists(agCoords(mapA, 1), agCoords(mapA, 2))^2)
+  )
+
+})
+
+test_that("Procrustes maps with na coords", {
+
+  map1na <- map1
+  agCoords(map1na)[1:2,] <- NA
+  srCoords(map1na)[1,] <- NA
+
+  export.viewer.test(
+    view(map1na),
+    "na_map.html"
+  )
+
+  pcmap <- procrustesMap(
+    map1na,
+    map2
+  )
+
+  export.viewer.test(
+    view(
+      pcmap
+    ),
+    "na_map_procrustes.html"
+  )
+
+})
 
 

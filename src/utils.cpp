@@ -26,15 +26,23 @@ double euc_dist(
 
 }
 
-arma::vec coord_dists(
-  const arma::mat &coords1,
-  const arma::mat &coords2
+// [[Rcpp::export]]
+arma::vec ac_coord_dists(
+  arma::mat coords1,
+  arma::mat coords2
 ){
 
-  if(coords1.n_rows != coords2.n_rows || coords1.n_cols != coords2.n_cols){
+  // Check row dimensions
+  if(coords1.n_rows != coords2.n_rows){
     Rf_error("Dimensions of coordinates do not match");
   }
 
+  // Expand coords to match maximum dimensions
+  int dims = arma::max( arma::uvec{ coords1.n_cols, coords2.n_cols } );
+  coords1.resize(coords1.n_rows, dims);
+  coords2.resize(coords2.n_rows, dims);
+
+  // Calculate coordinate distances
   arma::vec dists(coords1.n_rows);
   double dist;
   for(arma::uword i=0; i<coords1.n_rows; i++){
@@ -44,6 +52,8 @@ arma::vec coord_dists(
     }
     dists(i) = std::sqrt(dist);
   }
+
+  // Return distances
   return dists;
 
 }

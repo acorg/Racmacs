@@ -39,11 +39,13 @@ plot.acmap <- function(
 
   # Setup plot
   plot.new()
-  plot.window(xlim = xlim,
-              ylim = ylim,
-              xaxs = "i",
-              yaxs = "i",
-              asp  = asp)
+  plot.window(
+    xlim = xlim,
+    ylim = ylim,
+    xaxs = "i",
+    yaxs = "i",
+    asp  = asp
+  )
 
   # Plot grid
   for(x in seq(from = xlim[1], to = xlim[2], by = 1)){
@@ -80,6 +82,15 @@ plot.acmap <- function(
     optimization_number = optimization_number
   )
 
+  ## Check for special points that won't be plotted properly
+  if(
+    sum(pts$aspect != 1) > 0 ||
+    sum(pts$rotation != 0) > 0 ||
+    sum(!pts$shape %in% c("CIRCLE", "BOX", "TRIANGLE")) > 0
+  ){
+    warning("Changes to point rotation or aspect ratio and special shapes like 'EGG' are ignored when using 'plot.acmap', consider using 'grid.plot.acmap'")
+  }
+
   ## Hide antigens and sera
   if(!plot_ags || missing(ag_coords)) { pts$shown[map_pts$pt_type == "ag"] <- FALSE }
   if(!plot_sr  || missing(sr_coords)) { pts$shown[map_pts$pt_type == "sr"] <- FALSE }
@@ -93,7 +104,7 @@ plot.acmap <- function(
   if(!is.null(outline.alpha)){ pts$outline <- grDevices::adjustcolor(pts$outline, alpha.f = outline.alpha) }
 
   ## Plot the points
-  pt_order <- draw_priority_to_order(pts$drawing_order)
+  pt_order <- ptDrawingOrder(map)
   plotted_pt_order <- pt_order[pts$shown[pt_order]]
   if(plot_blobs){ plotted_pt_order <- plotted_pt_order[!pts$blob[plotted_pt_order]] }
 
@@ -102,7 +113,7 @@ plot.acmap <- function(
     pch = get_pch(pts$shape[plotted_pt_order]),
     bg  = pts$fill[plotted_pt_order],
     col = pts$outline[plotted_pt_order],
-    cex = pts$size[plotted_pt_order]*cex*0.2,
+    cex = pts$size[plotted_pt_order]*cex*0.3,
     lwd = pts$outline_width[plotted_pt_order]
   )
 

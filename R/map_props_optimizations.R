@@ -70,8 +70,7 @@ srBaseCoords <- optimization_getter(ac_opt_get_sr_base_coords)
 #' @family {map optimization attribute functions}
 #' @eval roxygen_tags(
 #'   methods    = c("mapTransformation", "mapTranslation"),
-#'   args       = c("map", "optimization_number = NULL"),
-#'   getterargs = NULL
+#'   args       = c("map", "optimization_number = NULL")
 #' )
 #'
 mapTransformation     <- optimization_getter(ac_opt_get_transformation)
@@ -133,7 +132,6 @@ colBases <- function(map, optimization_number = 1){
 #' @eval roxygen_tags(
 #'   methods    = c("mapStress"),
 #'   args       = c("map", "optimization_number = NULL"),
-#'   getterargs = NULL,
 #'   returns    = "Returns the current map stress value for the specified optimization run."
 #' )
 mapStress     <- optimization_getter(ac_opt_get_stress)
@@ -156,7 +154,6 @@ mapDimensions <- optimization_getter(ac_opt_get_dimensions)
 #' @eval roxygen_tags(
 #'   methods    = c("mapComment"),
 #'   args       = c("map", "optimization_number = NULL"),
-#'   getterargs = NULL,
 #'   returns    = "Gets or sets and map comments for the specified optimization run."
 #' )
 mapComment     <- optimization_getter(ac_opt_get_comment)

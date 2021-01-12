@@ -20,8 +20,6 @@ double ac_ag_get_rotation( const AcAntigen ag ){ return ag.get_rotation(); }
 double ac_ag_get_aspect( const AcAntigen ag ){ return ag.get_aspect(); }
 // [[Rcpp::export(rng = false)]]
 std::string ac_ag_get_shape( const AcAntigen ag ){ return ag.get_shape(); }
-// [[Rcpp::export(rng = false)]]
-int ac_ag_get_drawing_order( const AcAntigen ag ){ return ag.get_drawing_order(); }
 
 // [[Rcpp::export(rng = false)]]
 bool ac_sr_get_shown( const AcSerum sr ){ return sr.get_shown(); }
@@ -39,11 +37,6 @@ double ac_sr_get_rotation( const AcSerum sr ){ return sr.get_rotation(); }
 double ac_sr_get_aspect( const AcSerum sr ){ return sr.get_aspect(); }
 // [[Rcpp::export(rng = false)]]
 std::string ac_sr_get_shape( const AcSerum sr ){ return sr.get_shape(); }
-// [[Rcpp::export(rng = false)]]
-int ac_sr_get_drawing_order( const AcSerum sr ){ return sr.get_drawing_order(); }
-
-
-
 
 
 // --- SETTERS -----------------------------
@@ -64,8 +57,6 @@ AcAntigen ac_ag_set_rotation( AcAntigen ag, double value ){ ag.set_rotation(valu
 AcAntigen ac_ag_set_aspect( AcAntigen ag, double value ){ ag.set_aspect(value); return ag; }
 // [[Rcpp::export(rng = false)]]
 AcAntigen ac_ag_set_shape( AcAntigen ag, std::string value ){ ag.set_shape(value); return ag; }
-// [[Rcpp::export(rng = false)]]
-AcAntigen ac_ag_set_drawing_order( AcAntigen ag, int value ){ ag.set_drawing_order(value); return ag; }
 
 
 // [[Rcpp::export(rng = false)]]
@@ -84,7 +75,5 @@ AcSerum ac_sr_set_rotation( AcSerum sr, double value ){ sr.set_rotation(value); 
 AcSerum ac_sr_set_aspect( AcSerum sr, double value ){ sr.set_aspect(value); return sr; }
 // [[Rcpp::export(rng = false)]]
 AcSerum ac_sr_set_shape( AcSerum sr, std::string value ){ sr.set_shape(value); return sr; }
-// [[Rcpp::export(rng = false)]]
-AcSerum ac_sr_set_drawing_order( AcSerum sr, int value ){ sr.set_drawing_order(value); return sr; }
 
 

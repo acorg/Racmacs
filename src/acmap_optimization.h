@@ -2,10 +2,12 @@
 #include <RcppArmadillo.h>
 #include "procrustes.h"
 #include "utils.h"
+#include "utils_transformation.h"
 #include "ac_titers.h"
 #include "acmap_titers.h"
 #include "ac_optimizer_options.h"
 #include "ac_relax_coords.h"
+#include "ac_coords_stress.h"
 
 #ifndef Racmacs__acmap_optimization__h
 #define Racmacs__acmap_optimization__h
@@ -28,7 +30,7 @@ class AcOptimization {
     double stress = arma::datum::nan;
 
     // Constructors
-    AcOptimization(){};
+    AcOptimization(){}
     AcOptimization(
       const int &dimensions,
       const int &num_antigens,
@@ -48,6 +50,7 @@ class AcOptimization {
     // Getters
     std::string get_min_column_basis() const { return min_column_basis; }
     arma::vec get_fixed_column_bases() const { return fixed_column_bases; }
+    double get_fixed_column_bases(int i) const { return fixed_column_bases(i); }
     arma::mat get_ag_base_coords() const { return ag_base_coords; }
     arma::mat get_sr_base_coords() const { return sr_base_coords; }
     std::string get_comment() const { return comment; }
@@ -57,8 +60,22 @@ class AcOptimization {
     int get_dimensions() const { return ag_base_coords.n_cols; }
 
     // Setters
-    void set_ag_base_coords( arma::mat ag_base_coords_in ){ ag_base_coords = ag_base_coords_in; }
-    void set_sr_base_coords( arma::mat sr_base_coords_in ){ sr_base_coords = sr_base_coords_in; }
+    void set_ag_base_coords( arma::mat ag_base_coords_in ){
+      if(ag_base_coords_in.n_rows != ag_base_coords.n_rows){
+        char msg[400];
+        std::sprintf(msg, "ag_base_coords rows (%i) does not match input rows (%i)", ag_base_coords.n_rows, ag_base_coords_in.n_rows);
+        Rf_error(msg);
+      }
+      ag_base_coords = ag_base_coords_in;
+    }
+    void set_sr_base_coords( arma::mat sr_base_coords_in ){
+      if(sr_base_coords_in.n_rows != sr_base_coords.n_rows){
+        char msg[400];
+        std::sprintf(msg, "sr_base_coords rows (%i) does not match input rows (%i)", sr_base_coords.n_rows, sr_base_coords_in.n_rows);
+        Rf_error(msg);
+      }
+      sr_base_coords = sr_base_coords_in;
+    }
     void set_comment( std::string comment_in ){ comment = comment_in; }
     void set_transformation( arma::mat transformation_in ){ transformation = transformation_in; }
     void set_translation( arma::mat translation_in ){ translation = translation_in; }
@@ -257,6 +274,21 @@ class AcOptimization {
 
     }
 
+    // Recalulate the optimization stress
+    void recalculate_stress(
+      AcTiterTable titertable
+    ){
+
+      arma::vec colbases = calc_colbases( titertable );
+      stress = ac_coords_stress(
+        titertable.table_distances( colbases ),
+        titertable.get_titer_types(),
+        ag_base_coords,
+        sr_base_coords
+      );
+
+    }
+
     // Relax the optimization
     void relax_from_raw_matrices(
       const arma::mat &tabledist_matrix,
@@ -285,6 +317,77 @@ class AcOptimization {
         ),
         titers.get_titer_types(),
         options
+      );
+
+    }
+
+    // Subsetting
+    void subset(
+        arma::uvec ags,
+        arma::uvec sr
+    ){
+
+      ag_base_coords = ag_base_coords.rows(ags);
+      sr_base_coords = sr_base_coords.rows(sr);
+      fixed_column_bases = fixed_column_bases.elem(sr);
+
+    }
+
+    // Transformation
+    void transform(
+      arma::mat transform_matrix
+    ){
+
+      ac_transform_translation(
+        translation,
+        transform_matrix
+      );
+
+      ac_transform_transformation(
+        transformation,
+        transform_matrix
+      );
+
+    }
+
+    // Translation
+    void translate(
+      arma::mat translation_matrix
+    ){
+
+      ac_translate_translation(
+        translation,
+        translation_matrix
+      );
+
+    }
+
+    // Rotation
+    void rotate(
+      double degrees,
+      arma::uword axis_num = 2
+    ){
+
+      transform(
+        ac_rotation_matrix(
+          degrees,
+          dim(),
+          axis_num
+        )
+      );
+
+    }
+
+    // Reflection
+    void reflect(
+      arma::uword axis_num = 0
+    ){
+
+      transform(
+        ac_reflection_matrix(
+          dim(),
+          axis_num
+        )
       );
 
     }

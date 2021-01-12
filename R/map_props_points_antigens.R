@@ -44,20 +44,20 @@ antigens_setter <- function(fn){
 #' )
 #'
 agIDs               <- antigens_getter(ac_ag_get_id)
-agGroupValues       <- antigens_getter(ac_ag_get_group_values)
 agDates             <- antigens_getter(ac_ag_get_date)
 agReference         <- antigens_getter(ac_ag_get_reference)
 agNames             <- antigens_getter(ac_ag_get_name)
 agNamesFull         <- antigens_getter(ac_ag_get_name_full)
 agNamesAbbreviated  <- antigens_getter(ac_ag_get_name_abbreviated)
+agGroupValues       <- antigens_getter(ac_ag_get_group) # Not exported
 
 `agIDs<-`               <- antigens_setter(ac_ag_set_id)
-`agGroupValues<-`       <- antigens_setter(ac_ag_set_group_values)
 `agDates<-`             <- antigens_setter(ac_ag_set_date)
 `agReference<-`         <- antigens_setter(ac_ag_set_reference)
 `agNames<-`             <- antigens_setter(ac_ag_set_name)
 `agNamesFull<-`         <- antigens_setter(ac_ag_set_name_full)
 `agNamesAbbreviated<-`  <- antigens_setter(ac_ag_set_name_abbreviated)
+`agGroupValues<-`       <- antigens_setter(ac_ag_set_group) # Not exported
 
 #' Getting and setting antigen groups
 #'
@@ -69,10 +69,11 @@ agNamesAbbreviated  <- antigens_getter(ac_ag_get_name_abbreviated)
 #' @export
 agGroups <- function(map){
 
-  if(is.null(agGroupValues(map))) return(NULL)
+  aglevels <- map$ag_group_levels
+  if(length(aglevels) == 0) return(NULL)
   factor(
-    x = agGroupValues(map),
-    levels = agGroupLevels(map)
+    x = aglevels[agGroupValues(map) + 1],
+    levels = aglevels
   )
 
 }
@@ -81,26 +82,29 @@ agGroups <- function(map){
 #' @export
 `agGroups<-` <- function(map, value){
 
-  if(!is.factor(value)) value <- as.factor(value)
-  agGroupValues(map) <- as.character(value)
-  agGroupLevels(map) <- levels(value)
+  if(is.null(value)){
+    agGroupValues(map) <- 0
+    map$ag_group_levels <- NULL
+  } else {
+    if(!is.factor(value)) value <- as.factor(value)
+    agGroupValues(map) <- as.numeric(value) - 1
+    map$ag_group_levels <- levels(value)
+  }
   map
 
 }
 
 #' @export
 agSequences <- function(map){
-  do.call(rbind, lapply(map$antigens, function(ag){ ag$sequence }))
+  do.call(rbind, lapply(map$antigens, function(ag){ strsplit(ag$sequence, "")[[1]] }))
 }
 
 #' @export
 `agSequences<-` <- function(map, value){
   if(nrow(value) != numAntigens(map)) stop("Number of sequences does not match number of antigens")
   for(x in seq_len(numAntigens(map))){
-    map$antigens[[x]]$sequence <- value[x,]
+    map$antigens[[x]]$sequence <- paste0(value[x,], collapse = "")
   }
   map
 }
-
-
 

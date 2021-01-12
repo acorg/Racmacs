@@ -4,7 +4,7 @@
 \alias{mapDistances}
 \title{Return calculated map distances for an acmap}
 \usage{
-mapDistances(map, optimization_number = NULL)
+mapDistances(map, optimization_number = 1)
 }
 \arguments{
 \item{map}{The acmap data object}

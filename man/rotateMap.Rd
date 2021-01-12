@@ -22,8 +22,6 @@ Apply a rotation to an antigenic map
 Other {functions relating to map transformation}: 
 \code{\link{applyMapTransform}()},
 \code{\link{reflectMap}()},
-\code{\link{scaleMap}()},
-\code{\link{transformMap}()},
 \code{\link{translateMap}()}
 }
 \concept{{functions relating to map transformation}}

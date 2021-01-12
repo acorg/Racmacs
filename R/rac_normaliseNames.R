@@ -6,16 +6,6 @@ simpleCap <- function(x) {
         sep="", collapse=" ")
 }
 
-# Function for creating a list to submit through API
-acmacs_list <- function(vector) {
-  paste0("'[\"",paste(vector, collapse = "\", \""),"\"]'")
-}
-
-# Function for normalising names
-acmacs_normaliseNames <- function(names, virus_type="A(H3N2)") {
-  acmacs_runCommand("name_normalize virus_type='",virus_type,"' names=",acmacs_list(names))$names
-}
-
 # Function for standardising names locally
 standardizeStrainName <- function(name,
                                    default_species = NA,

@@ -24,15 +24,8 @@ Procrustes ac_procrustes(
   X.shed_rows(na_rows);
   Xstar.shed_rows(na_rows);
 
-  // Work out maximum dims
-  int dims = arma::max(
-    arma::uvec{
-      X.n_cols,
-      Xstar.n_cols
-    }
-  );
-
   // Expand coords to match maximum dimensions
+  int dims = arma::max( arma::uvec{ X.n_cols, Xstar.n_cols } );
   X.resize(X.n_rows, dims);
   Xstar.resize(X.n_rows, dims);
 
@@ -40,8 +33,7 @@ Procrustes ac_procrustes(
   int n = X.n_rows;
   int m = X.n_cols;
 
-  arma::mat J = arma::mat(n,n);
-  J.eye();
+  arma::mat J = arma::mat(n,n,arma::fill::eye);
   if(translation){
     J -= (1.0/n);
   }
@@ -50,6 +42,7 @@ Procrustes ac_procrustes(
   arma::mat tXstar = arma::trans(Xstar);
 
   arma::mat C = tXstar * J * X;
+
 
   arma::vec svd_d;
   arma::mat svd_u;
@@ -61,7 +54,7 @@ Procrustes ac_procrustes(
     C
   );
 
-  arma::mat R = svd_v * svd_u;
+  arma::mat R = svd_v * svd_u.t();
   double s = 1.0;
 
   if(dilation){
@@ -97,6 +90,7 @@ Procrustes ac_procrustes(
   return out;
 
 }
+
 
 // Apply a procrustes transformation
 arma::mat ac_apply_procrustes(
@@ -135,10 +129,10 @@ arma::mat ac_align_coords(
 
 // Apply a coordinate transformation
 arma::mat transform_coords(
-  const arma::mat coords,
-  const arma::mat rotation,
-  const arma::mat translation,
-  const double scaling
+  const arma::mat &coords,
+  const arma::mat &rotation,
+  const arma::mat &translation,
+  const double &scaling
 ) {
 
   // Work out maximum dims
@@ -151,7 +145,7 @@ arma::mat transform_coords(
   );
 
   // Expand matrices to match maximum dimensions
-  arma::mat tcoords(coords.n_rows, dims);
+  arma::mat tcoords(coords.n_rows, dims, arma::fill::zeros);
   tcoords.cols(0, coords.n_cols - 1) = coords;
 
   arma::mat trotation(dims, dims, arma::fill::eye);
@@ -193,41 +187,28 @@ AcCoords ac_procrustes_map_coords(
     base_map_optimization_number,
     translation,
     scaling,
-    true
+    true // align_to_base_coords
   );
 
   // Return the coordinates of the realigned map
-  return AcCoords {
-    subset_rows( procrustes_map.optimizations[0].agCoords(), ac_match_points( base_map.antigens, procrustes_map.antigens ) ),
-    subset_rows( procrustes_map.optimizations[0].srCoords(), ac_match_points( base_map.sera, procrustes_map.sera ) )
-  };
+  AcCoords result;
+  result.ag_coords = subset_rows( procrustes_map.optimizations[0].agCoords(), ac_match_points( base_map.antigens, procrustes_map.antigens ) );
+  result.sr_coords = subset_rows( procrustes_map.optimizations[0].srCoords(), ac_match_points( base_map.sera, procrustes_map.sera ) );
+
+  return result;
 
 }
 
 // Get a summary of procrustes data
 // [[Rcpp::export]]
 ProcrustesData ac_procrustes_map_data(
-    const AcMap &base_map,
-    AcMap procrustes_map,
-    int base_map_optimization_number,
-    int procrustes_map_optimization_number,
-    bool translation = true,
-    bool scaling = false
+    const AcOptimization &optimization,
+    AcCoords pc_coords
 ){
 
-  // Get the procrustes coords
-  AcCoords pc_coords = ac_procrustes_map_coords(
-    base_map,
-    procrustes_map,
-    base_map_optimization_number,
-    procrustes_map_optimization_number,
-    translation,
-    scaling
-  );
-
   // Calculate data
-  arma::vec ag_dists = coord_dists( base_map.optimizations[ base_map_optimization_number ].get_ag_base_coords(), pc_coords.ag_coords );
-  arma::vec sr_dists = coord_dists( base_map.optimizations[ base_map_optimization_number ].get_sr_base_coords(), pc_coords.sr_coords );
+  arma::vec ag_dists = ac_coord_dists( optimization.get_ag_base_coords(), pc_coords.ag_coords );
+  arma::vec sr_dists = ac_coord_dists( optimization.get_sr_base_coords(), pc_coords.sr_coords );
   double ag_rmsd = rmsd(ag_dists);
   double sr_rmsd = rmsd(sr_dists);
   double total_rmsd = rmsd( arma::join_cols(ag_dists, sr_dists) );

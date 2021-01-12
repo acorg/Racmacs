@@ -2,18 +2,14 @@
 % Please edit documentation in R/map_props_optimizations.R
 \name{mapComment}
 \alias{mapComment}
-\alias{mapComment<-}
 \title{Get or set an optimization run comment}
 \usage{
 mapComment(map, optimization_number = NULL)
-mapComment(map, optimization_number = NULL, .check = TRUE) <- value
 }
 \arguments{
 \item{map}{The acmap data object}
 
 \item{optimization_number}{The optimization run to get / set the data (by default the currently selected one)}
-
-\item{.check}{Should normal checks be applied for validity be applied when setting this value (used internally)}
 }
 \value{
 Gets or sets and map comments for the specified optimization run.

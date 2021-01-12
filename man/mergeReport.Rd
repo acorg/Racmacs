@@ -4,7 +4,7 @@
 \alias{mergeReport}
 \title{Return a merge report}
 \usage{
-mergeReport(map1, map2, passage_matching = "auto")
+mergeReport(map1, map2)
 }
 \description{
 Prints a raw text merge report from merging two map tables.

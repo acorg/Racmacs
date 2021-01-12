@@ -13,7 +13,14 @@
 // Define the acmap class
 class AcMap {
 
+  private:
+    // EXTRAS
+    std::vector<std::string> ag_group_levels;
+    std::vector<std::string> sr_group_levels;
+    arma::uvec pt_drawing_order;
+
   public:
+    // ATTRIBUTES
     std::string name;
     std::vector<AcOptimization> optimizations;
     std::vector<AcAntigen> antigens;
@@ -40,7 +47,20 @@ class AcMap {
         sera[i].set_name("SERA "+std::to_string(i));
       }
 
+      // Set point drawing order
+      pt_drawing_order = arma::regspace<arma::uvec>(0, num_ags + num_sr - 1);
+
+      // Set ag and sr group levels
+      ag_group_levels.resize(0);
+      sr_group_levels.resize(0);
+
     }
+
+    // Get and set ag and sr group levels
+    std::vector<std::string> get_ag_group_levels() const { return ag_group_levels; }
+    std::vector<std::string> get_sr_group_levels() const { return sr_group_levels; }
+    void set_ag_group_levels( std::vector<std::string> levels ){ ag_group_levels = levels; }
+    void set_sr_group_levels( std::vector<std::string> levels ){ sr_group_levels = levels; }
 
     // Get and set titers from a single titer table, resetting any layers
     AcTiterTable get_titer_table(){
@@ -147,6 +167,11 @@ class AcMap {
         titer_table_layer.subset(ags, sr);
       }
 
+      // Subset optimizations
+      for(auto &optimization : optimizations){
+        optimization.subset(ags, sr);
+      }
+
     }
 
     // Optimizations
@@ -229,16 +254,15 @@ class AcMap {
     void keepSingleOptimization(
       int i
     ){
-      optimizations.erase(
-        optimizations.begin() + 1,
-        optimizations.end()
-      );
+      AcOptimization opt = optimizations[i];
+      optimizations.clear();
+      optimizations.push_back(opt);
     }
 
     // Aligning to other maps
     void realign_to_map(
       AcMap targetmap,
-      int targetmap_optnum,
+      int targetmap_optnum = 0,
       bool translation = true,
       bool scaling = false,
       bool align_to_base_coords = false
@@ -284,6 +308,15 @@ class AcMap {
 
       }
 
+    }
+
+    // Point drawing order
+    arma::uvec get_pt_drawing_order() const {
+      return pt_drawing_order;
+    }
+
+    void set_pt_drawing_order( const arma::uvec& order ){
+      pt_drawing_order = order;
     }
 
 };

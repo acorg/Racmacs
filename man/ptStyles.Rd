@@ -10,7 +10,6 @@
 \alias{agRotation}
 \alias{agAspect}
 \alias{agShape}
-\alias{agDrawingOrder}
 \alias{srShown}
 \alias{srSize}
 \alias{srFill}
@@ -19,80 +18,39 @@
 \alias{srRotation}
 \alias{srAspect}
 \alias{srShape}
-\alias{srDrawingOrder}
-\alias{agShown<-}
-\alias{agSize<-}
-\alias{agFill<-}
-\alias{agOutline<-}
-\alias{agOutlineWidth<-}
-\alias{agRotation<-}
-\alias{agAspect<-}
-\alias{agShape<-}
-\alias{agDrawingOrder<-}
-\alias{srShown<-}
-\alias{srSize<-}
-\alias{srFill<-}
-\alias{srOutline<-}
-\alias{srOutlineWidth<-}
-\alias{srRotation<-}
-\alias{srAspect<-}
-\alias{srShape<-}
-\alias{srDrawingOrder<-}
 \title{Getting and setting point plotting styles}
 \usage{
 agShown(map)
-agShown(map) <- value
 
 agSize(map)
-agSize(map) <- value
 
 agFill(map)
-agFill(map) <- value
 
 agOutline(map)
-agOutline(map) <- value
 
 agOutlineWidth(map)
-agOutlineWidth(map) <- value
 
 agRotation(map)
-agRotation(map) <- value
 
 agAspect(map)
-agAspect(map) <- value
 
 agShape(map)
-agShape(map) <- value
-
-agDrawingOrder(map)
-agDrawingOrder(map) <- value
 
 srShown(map)
-srShown(map) <- value
 
 srSize(map)
-srSize(map) <- value
 
 srFill(map)
-srFill(map) <- value
 
 srOutline(map)
-srOutline(map) <- value
 
 srOutlineWidth(map)
-srOutlineWidth(map) <- value
 
 srRotation(map)
-srRotation(map) <- value
 
 srAspect(map)
-srAspect(map) <- value
 
 srShape(map)
-srShape(map) <- value
-
-srDrawingOrder(map)
-srDrawingOrder(map) <- value
 }
 \arguments{
 \item{map}{The acmap data object}

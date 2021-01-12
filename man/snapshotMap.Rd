@@ -22,6 +22,7 @@ Create a map snapshot
 }
 \seealso{
 Other {functions to view maps}: 
+\code{\link{grid.plot.acmap}()},
 \code{\link{plot.acmap}()}
 }
 \concept{{functions to view maps}}

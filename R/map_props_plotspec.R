@@ -1,21 +1,4 @@
 
-# List plotspec properties
-plotspec_attributes <- c(
-  "Shown",
-  "Size",
-  "Fill",
-  "Outline",
-  "OutlineWidth",
-  "Rotation",
-  "Aspect",
-  "Shape"
-)
-
-plotspec_methods <- c(
-  paste0("ag", plotspec_attributes),
-  paste0("sr", plotspec_attributes)
-)
-
 # Function factory for plotspec getter functions
 plotspec_getter <- function(pttype, fn){
   eval(
@@ -76,19 +59,6 @@ plotspec_setter <- function(pttype, fn, checker_fn = NULL){
   )
 }
 
-# Converting draw priority
-draw_order_to_priority <- function(drawing_order){
-
-  if(isTRUE(all.equal(drawing_order, seq_along(drawing_order)))) rep_len(1, length(drawing_order))
-  else                                                           order(drawing_order)
-
-}
-
-draw_priority_to_order <- function(drawing_priority){
-
-  seq_along(drawing_priority)[order(drawing_priority)]
-
-}
 
 #' Getting and setting point plotting styles
 #'
@@ -98,12 +68,10 @@ draw_priority_to_order <- function(drawing_priority){
 #' @family {map point style functions}
 #' @eval roxygen_tags(
 #'   methods = c("agShown", "agSize", "agFill", "agOutline",
-#'   "agOutlineWidth", "agRotation", "agAspect", "agShape", "agDrawingOrder",
+#'   "agOutlineWidth", "agRotation", "agAspect", "agShape",
 #'   "srShown", "srSize", "srFill", "srOutline", "srOutlineWidth", "srRotation",
-#'   "srAspect", "srShape", "srDrawingOrder"),
-#'   args = c("map"),
-#'   getterargs = NULL,
-#'   setterargs = NULL
+#'   "srAspect", "srShape"),
+#'   args = c("map")
 #' )
 #'
 agShown        <- plotspec_getter("ag", ac_ag_get_shown)
@@ -114,7 +82,6 @@ agOutlineWidth <- plotspec_getter("ag", ac_ag_get_outline_width)
 agRotation     <- plotspec_getter("ag", ac_ag_get_rotation)
 agAspect       <- plotspec_getter("ag", ac_ag_get_aspect)
 agShape        <- plotspec_getter("ag", ac_ag_get_shape)
-agDrawingOrder <- plotspec_getter("ag", ac_ag_get_drawing_order)
 srShown        <- plotspec_getter("sr", ac_sr_get_shown)
 srSize         <- plotspec_getter("sr", ac_sr_get_size)
 srFill         <- plotspec_getter("sr", ac_sr_get_fill)
@@ -123,7 +90,6 @@ srOutlineWidth <- plotspec_getter("sr", ac_sr_get_outline_width)
 srRotation     <- plotspec_getter("sr", ac_sr_get_rotation)
 srAspect       <- plotspec_getter("sr", ac_sr_get_aspect)
 srShape        <- plotspec_getter("sr", ac_sr_get_shape)
-srDrawingOrder <- plotspec_getter("sr", ac_sr_get_drawing_order)
 
 `agShown<-`        <- plotspec_setter("ag", ac_ag_set_shown, check.logicalvector)
 `agSize<-`         <- plotspec_setter("ag", ac_ag_set_size, check.numericvector)
@@ -133,7 +99,6 @@ srDrawingOrder <- plotspec_getter("sr", ac_sr_get_drawing_order)
 `agRotation<-`     <- plotspec_setter("ag", ac_ag_set_rotation, check.numericvector)
 `agAspect<-`       <- plotspec_setter("ag", ac_ag_set_aspect, check.numericvector)
 `agShape<-`        <- plotspec_setter("ag", ac_ag_set_shape, check.charactervector)
-`agDrawingOrder<-` <- plotspec_setter("ag", ac_ag_set_drawing_order, check.numericvector)
 `srShown<-`        <- plotspec_setter("sr", ac_sr_set_shown, check.logicalvector)
 `srSize<-`         <- plotspec_setter("sr", ac_sr_set_size, check.numericvector)
 `srFill_raw<-`     <- plotspec_setter("sr", ac_sr_set_fill, check.charactervector)
@@ -142,7 +107,6 @@ srDrawingOrder <- plotspec_getter("sr", ac_sr_get_drawing_order)
 `srRotation<-`     <- plotspec_setter("sr", ac_sr_set_rotation, check.numericvector)
 `srAspect<-`       <- plotspec_setter("sr", ac_sr_set_aspect, check.numericvector)
 `srShape<-`        <- plotspec_setter("sr", ac_sr_set_shape, check.charactervector)
-`srDrawingOrder<-` <- plotspec_setter("sr", ac_sr_set_drawing_order, check.numericvector)
 
 # Extra functions that include a color validation step
 validate_colors <- function(cols){
@@ -173,3 +137,21 @@ validate_colors <- function(cols){
   validate_colors(value)
   `srOutline_raw<-`(map, value)
 }
+
+
+# Functions that set point drawing order
+#' @export
+ptDrawingOrder <- function(map){
+  drawing_order <- map$pt_drawing_order
+  if(is.null(drawing_order)) drawing_order <- seq_len(numPoints(map))
+  drawing_order
+}
+
+#' @export
+`ptDrawingOrder<-` <- function(map, value){
+  if(!is.numeric(value)) stop("drawing order must be numeric", call. = FALSE)
+  if(sort(value) != seq_along(value)) stop("drawing incorrectly specified", call. = FALSE)
+  map$pt_drawing_order <- value
+  map
+}
+

@@ -32,9 +32,6 @@ edit_agNames <- function(map,
 }
 
 
-
-
-
 #' Edit sera names in a mapData object
 #'
 #' @param map The map data object to be updated
@@ -66,7 +63,6 @@ edit_srNames <- function(map,
   map
 
 }
-
 
 
 #' Update the ferret serum names to match antigens

@@ -1,10 +1,4 @@
 
-require_acmacs.r <- function(msg = "acmacs.r is required"){
-  if(!require("acmacs.r")){
-    stop(msg)
-  }
-}
-
 strain_list_error <- function(error, strains){
 
   stop(paste0(error, "\n\n'",

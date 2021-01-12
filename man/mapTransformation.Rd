@@ -3,22 +3,16 @@
 \name{mapTransformation}
 \alias{mapTransformation}
 \alias{mapTranslation}
-\alias{mapTransformation<-}
-\alias{mapTranslation<-}
 \title{Reading map transformation data}
 \usage{
 mapTransformation(map, optimization_number = NULL)
-mapTransformation(map, optimization_number = NULL, .check = TRUE) <- value
 
 mapTranslation(map, optimization_number = NULL)
-mapTranslation(map, optimization_number = NULL, .check = TRUE) <- value
 }
 \arguments{
 \item{map}{The acmap data object}
 
 \item{optimization_number}{The optimization run to get / set the data (by default the currently selected one)}
-
-\item{.check}{Should normal checks be applied for validity be applied when setting this value (used internally)}
 }
 \value{
 Returns either the requested attribute when using a getter function or the updated acmap object when using the setter function.

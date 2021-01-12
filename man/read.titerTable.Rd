@@ -22,7 +22,6 @@ Currently supported file formats are .csv and .xls and .txt
 \seealso{
 Other {functions for working with map data}: 
 \code{\link{acmap}()},
-\code{\link{as.cpp}()},
 \code{\link{as.json}()},
 \code{\link{orderPoints}},
 \code{\link{read.acmap}()},
@@ -30,7 +29,6 @@ Other {functions for working with map data}:
 \code{\link{save.acmap}()},
 \code{\link{save.coords}()},
 \code{\link{save.titerTable}()},
-\code{\link{selectedOptimization}()},
 \code{\link{subsetMap}()}
 }
 \concept{{functions for working with map data}}

@@ -20,8 +20,6 @@ Translates map coordinates
 Other {functions relating to map transformation}: 
 \code{\link{applyMapTransform}()},
 \code{\link{reflectMap}()},
-\code{\link{rotateMap}()},
-\code{\link{scaleMap}()},
-\code{\link{transformMap}()}
+\code{\link{rotateMap}()}
 }
 \concept{{functions relating to map transformation}}

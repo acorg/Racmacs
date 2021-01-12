@@ -10,8 +10,10 @@
 #' @export
 #' @family {map point style functions}
 #'
-applyPlotspec <- function(map,
-                          source_map){
+applyPlotspec <- function(
+  map,
+  source_map
+  ){
 
   ag_match <- match_mapAntigens(map, source_map)
   sr_match <- match_mapSera(map, source_map)
@@ -42,8 +44,7 @@ mapPoints <- function(map, optimization_number = NULL){
     outline_width = c(agOutlineWidth(map), srOutlineWidth(map)),
     rotation      = c(agRotation(map), srRotation(map)),
     aspect        = c(agAspect(map), srAspect(map)),
-    shape         = c(agShape(map), srShape(map)),
-    drawing_order = c(agDrawingOrder(map), srDrawingOrder(map))
+    shape         = c(agShape(map), srShape(map))
   )
 
 }

@@ -115,7 +115,7 @@ AcOptimization ac_move_trapped_points(
 
 
   // Check antigen and sera trapped points recursively
-  REprintf("Checking for trapped points recursively:");
+  if(options.report_progress) REprintf("Checking for trapped points recursively:");
 
   int num_iterations = 0;
   while(num_iterations < max_iterations){
@@ -152,18 +152,20 @@ AcOptimization ac_move_trapped_points(
     );
 
     // Increment loop num
-    REprintf(".");
+    if(options.report_progress) REprintf(".");
     num_iterations++;
 
   }
 
   // Output message indicating if some were found
-  if(num_iterations == 0){
-    REprintf(" no trapped points found.\n");
-  } else if(num_iterations == max_iterations){
-    REprintf(" maximum iteration number reached.\n");
-  } else {
-    REprintf(" all trapped points moved.\n");
+  if(options.report_progress){
+    if(num_iterations == 0){
+      REprintf(" no trapped points found.\n");
+    } else if(num_iterations == max_iterations){
+      REprintf(" maximum iteration number reached.\n");
+    } else {
+      REprintf(" all trapped points moved.\n");
+    }
   }
 
   // Return the improved optimization

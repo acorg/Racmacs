@@ -17,7 +17,6 @@ Saves acmap coordinate data of all or specified antigens and sera to a .csv file
 \seealso{
 Other {functions for working with map data}: 
 \code{\link{acmap}()},
-\code{\link{as.cpp}()},
 \code{\link{as.json}()},
 \code{\link{orderPoints}},
 \code{\link{read.acmap}()},
@@ -25,7 +24,6 @@ Other {functions for working with map data}:
 \code{\link{removePoints}},
 \code{\link{save.acmap}()},
 \code{\link{save.titerTable}()},
-\code{\link{selectedOptimization}()},
 \code{\link{subsetMap}()}
 }
 \concept{{functions for working with map data}}

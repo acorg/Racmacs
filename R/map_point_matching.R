@@ -1,8 +1,8 @@
 
 #' Find matching antigens or sera between 2 maps
 #'
-#' @param map1 The names to match to.
-#' @param map2 The set of names from which to find matches.
+#' @param map1 The map to match names from.
+#' @param map2 The map to match names to.
 #'
 #' @return Returns the indices of matching strains in map 2, or NA in the position of strains not found.
 #' @name matchStrains

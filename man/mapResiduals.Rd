@@ -4,7 +4,7 @@
 \alias{mapResiduals}
 \title{Get a table of residuals from an acmap}
 \usage{
-mapResiduals(map, exclude_nd = FALSE, optimization_number = NULL)
+mapResiduals(map, exclude_nd = FALSE, optimization_number = 1)
 }
 \arguments{
 \item{map}{The acmap object}

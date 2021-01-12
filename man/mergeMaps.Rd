@@ -5,23 +5,24 @@
 \title{Merging maps}
 \usage{
 mergeMaps(
-  ...,
+  maps,
   method = "table",
+  number_of_dimensions,
+  number_of_optimizations,
   minimum_column_basis = "none",
-  number_of_optimizations = 100,
-  number_of_dimensions
+  options = list()
 )
 }
 \arguments{
-\item{...}{Antigenic map objects to merge}
-
 \item{method}{The merging method to use (see below)}
 
-\item{minimum_column_basis}{The minimum column basis to assume when creating new maps after a merge}
+\item{number_of_dimensions}{The number of dimensions when doing an 'incremental-merge' or 'reoptimized-merge'}
 
 \item{number_of_optimizations}{The number of optimization runs to perform when doing an 'incremental-merge' or 'reoptimized-merge'}
 
-\item{number_of_dimensions}{The number of dimensions when doing an 'incremental-merge' or 'reoptimized-merge'}
+\item{minimum_column_basis}{The minimum column basis to assume when creating new maps after a merge}
+
+\item{...}{Antigenic map objects to merge}
 
 \item{passage_matching}{Passage matching}
 }

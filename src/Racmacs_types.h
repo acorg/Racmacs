@@ -8,6 +8,7 @@
 #include "ac_noisy_bootstrap.h"
 #include "ac_stress_blobs.h"
 #include "ac_optim_map_stress.h"
+#include "utils_error.h"
 
 #ifndef Racmacs__RacmacsWrap__h
 #define Racmacs__RacmacsWrap__h
@@ -19,7 +20,7 @@ void check_class(
 ){
   if(!Rf_inherits(sxp, classname.c_str())){
     std::string msg = "Object must be of class '" + classname + "'\n";
-    Rf_error(msg.c_str());
+    ac_error(msg.c_str());
   }
 }
 
@@ -27,7 +28,7 @@ void check_matrix(
     const SEXP &sxp
 ){
   if(!Rf_isMatrix(sxp)){
-    Rf_error("Object must be of class 'matrix'");
+    ac_error("Object must be of class 'matrix'");
   }
 }
 
@@ -141,8 +142,17 @@ namespace Rcpp {
 
     List out = wrap(
       List::create(
+
+        // Attributes
         _["name"] = ag.get_name(),
+        // _["name_abbreviated"] = ag.get_name_abbreviated(),
+        // _["name_full"] = ag.get_name_full(),
         _["id"] = ag.get_id(),
+        _["date"] = ag.get_date(),
+        _["group"] = ag.get_group(),
+        _["sequence"] = ag.get_sequence(),
+
+        // Plotspec
         _["shown"] = ag.get_shown(),
         _["size"] = ag.get_size(),
         _["fill"] = ag.get_fill(),
@@ -150,8 +160,8 @@ namespace Rcpp {
         _["outline"] = ag.get_outline(),
         _["outline_width"] = ag.get_outline_width(),
         _["rotation"] = ag.get_rotation(),
-        _["aspect"] = ag.get_aspect(),
-        _["drawing_order"] = ag.get_drawing_order()
+        _["aspect"] = ag.get_aspect()
+
       )
     );
 
@@ -166,8 +176,17 @@ namespace Rcpp {
 
     List out = wrap(
       List::create(
+
+        // Attributes
         _["name"] = sr.get_name(),
+        // _["name_abbreviated"] = sr.get_name_abbreviated(),
+        // _["name_full"] = sr.get_name_full(),
         _["id"] = sr.get_id(),
+        _["date"] = sr.get_date(),
+        _["group"] = sr.get_group(),
+        _["sequence"] = sr.get_sequence(),
+
+        // Plotspec
         _["shown"] = sr.get_shown(),
         _["size"] = sr.get_size(),
         _["fill"] = sr.get_fill(),
@@ -175,8 +194,8 @@ namespace Rcpp {
         _["outline"] = sr.get_outline(),
         _["outline_width"] = sr.get_outline_width(),
         _["rotation"] = sr.get_rotation(),
-        _["aspect"] = sr.get_aspect(),
-        _["drawing_order"] = sr.get_drawing_order()
+        _["aspect"] = sr.get_aspect()
+
       )
     );
 
@@ -189,6 +208,9 @@ namespace Rcpp {
   // FROM: ACMAP
   template <>
   SEXP wrap(const AcMap& acmap){
+
+    // Attributes
+    arma::uvec pt_drawing_order = acmap.get_pt_drawing_order() + 1;
 
     // Antigens
     List antigens = List::create();
@@ -224,7 +246,10 @@ namespace Rcpp {
       _["sera"] = sera,
       _["optimizations"] = optimizations,
       _["titer_table_flat"] = titer_table_flat,
-      _["titer_table_layers"] = titer_table_layers
+      _["titer_table_layers"] = titer_table_layers,
+      _["pt_drawing_order"] = pt_drawing_order,
+      _["ag_group_levels"] = acmap.get_ag_group_levels(),
+      _["sr_group_levels"] = acmap.get_sr_group_levels()
     );
 
     // Set class attribute and return
@@ -286,13 +311,23 @@ namespace Rcpp {
   }
 
   // For converting from R to C++
+  // TP: ACCOORDS
+  template <>
+  AcCoords as(SEXP sxp){
+    List coords = as<List>(sxp);
+    return AcCoords{
+      coords["ag_coords"],
+      coords["sr_coords"]
+    };
+  }
+
   // TO: std::string
   template <>
   std::string as(SEXP sxp){
     if(TYPEOF(sxp) != 9 && TYPEOF(sxp) != 16){
-      Rf_error("Input must be a string");
-    } else if(TYPEOF(sxp) == 16 && Rf_length(sxp) != 1){
-      Rf_error("Input cannot be a character vector longer than 1");
+      ac_error("Input must be a string");
+    } else if(TYPEOF(sxp) == 16 && LENGTH(sxp) != 1){
+      ac_error("Input must be a string of length 1 not %i", LENGTH(sxp));
     }
     CharacterVector charvec = as<CharacterVector>(sxp);
     String out = charvec[0];
@@ -433,17 +468,24 @@ namespace Rcpp {
     List list = as<List>(sxp);
     AcAntigen ag;
 
-    if(list.containsElementNamed("name")) { ag.set_name(list["name"]); }
-    if(list.containsElementNamed("id")) { ag.set_id(list["id"]); }
-    if(list.containsElementNamed("shown")) { ag.set_shown(list["shown"]); }
-    if(list.containsElementNamed("size")) { ag.set_size(list["size"]); }
-    if(list.containsElementNamed("fill")) { ag.set_fill(list["fill"]); }
-    if(list.containsElementNamed("shape")) { ag.set_shape(list["shape"]); }
-    if(list.containsElementNamed("outline")) { ag.set_outline(list["outline"]); }
-    if(list.containsElementNamed("outline_width")) { ag.set_outline_width(list["outline_width"]); }
-    if(list.containsElementNamed("rotation")) { ag.set_rotation(list["rotation"]); }
-    if(list.containsElementNamed("aspect")) { ag.set_aspect(list["aspect"]); }
-    if(list.containsElementNamed("drawing_order")) { ag.set_drawing_order(list["drawing_order"]); }
+    // Attributes
+    if(list.containsElementNamed("name")) ag.set_name(list["name"]);
+    // if(list.containsElementNamed("name_abbreviated")) ag.set_name_abbreviated(list["name_abbreviated"]);
+    // if(list.containsElementNamed("name_full")) ag.set_name_full(list["name_full"]);
+    if(list.containsElementNamed("id")) ag.set_id(list["id"]);
+    if(list.containsElementNamed("date")) ag.set_date(list["date"]);
+    if(list.containsElementNamed("group")) ag.set_group(list["group"]);
+    if(list.containsElementNamed("sequence")) ag.set_sequence(list["sequence"]);
+
+    // Plotspec
+    if(list.containsElementNamed("shown")) ag.set_shown(list["shown"]);
+    if(list.containsElementNamed("size")) ag.set_size(list["size"]);
+    if(list.containsElementNamed("fill")) ag.set_fill(list["fill"]);
+    if(list.containsElementNamed("shape")) ag.set_shape(list["shape"]);
+    if(list.containsElementNamed("outline")) ag.set_outline(list["outline"]);
+    if(list.containsElementNamed("outline_width")) ag.set_outline_width(list["outline_width"]);
+    if(list.containsElementNamed("rotation")) ag.set_rotation(list["rotation"]);
+    if(list.containsElementNamed("aspect")) ag.set_aspect(list["aspect"]);
 
     return ag;
 
@@ -457,17 +499,24 @@ namespace Rcpp {
     List list = as<List>(sxp);
     AcSerum sr;
 
-    if(list.containsElementNamed("name")) { sr.set_name(list["name"]); }
-    if(list.containsElementNamed("id")) { sr.set_id(list["id"]); }
-    if(list.containsElementNamed("shown")) { sr.set_shown(list["shown"]); }
-    if(list.containsElementNamed("size")) { sr.set_size(list["size"]); }
-    if(list.containsElementNamed("fill")) { sr.set_fill(list["fill"]); }
-    if(list.containsElementNamed("shape")) { sr.set_shape(list["shape"]); }
-    if(list.containsElementNamed("outline")) { sr.set_outline(list["outline"]); }
-    if(list.containsElementNamed("outline_width")) { sr.set_outline_width(list["outline_width"]); }
-    if(list.containsElementNamed("rotation")) { sr.set_rotation(list["rotation"]); }
-    if(list.containsElementNamed("aspect")) { sr.set_aspect(list["aspect"]); }
-    if(list.containsElementNamed("drawing_order")) { sr.set_drawing_order(list["drawing_order"]); }
+    // Attributes
+    if(list.containsElementNamed("name")) sr.set_name(list["name"]);
+    // if(list.containsElementNamed("name_abbreviated")) sr.set_name_abbreviated(list["name_abbreviated"]);
+    // if(list.containsElementNamed("name_full")) sr.set_name_full(list["name_full"]);
+    if(list.containsElementNamed("id")) sr.set_id(list["id"]);
+    if(list.containsElementNamed("date")) sr.set_date(list["date"]);
+    if(list.containsElementNamed("group")) sr.set_group(list["group"]);
+    if(list.containsElementNamed("sequence")) sr.set_sequence(list["sequence"]);
+
+    // Plotspec
+    if(list.containsElementNamed("shown")) sr.set_shown(list["shown"]);
+    if(list.containsElementNamed("size")) sr.set_size(list["size"]);
+    if(list.containsElementNamed("fill")) sr.set_fill(list["fill"]);
+    if(list.containsElementNamed("shape")) sr.set_shape(list["shape"]);
+    if(list.containsElementNamed("outline")) sr.set_outline(list["outline"]);
+    if(list.containsElementNamed("outline_width")) sr.set_outline_width(list["outline_width"]);
+    if(list.containsElementNamed("rotation")) sr.set_rotation(list["rotation"]);
+    if(list.containsElementNamed("aspect")) sr.set_aspect(list["aspect"]);
 
     return sr;
 
@@ -482,6 +531,16 @@ namespace Rcpp {
     List antigens = list["antigens"];
     List sera = list["sera"];
     AcMap acmap(antigens.size(), sera.size());
+
+    // Attributes
+    if(list.containsElementNamed("name")) acmap.name = as<std::string>(list["name"]);
+    if(list.containsElementNamed("pt_drawing_order")){
+      acmap.set_pt_drawing_order(
+        as<arma::uvec>(wrap(list["pt_drawing_order"])) - 1
+      );
+    }
+    if(list.containsElementNamed("ag_group_levels")) acmap.set_ag_group_levels( list["ag_group_levels"] );
+    if(list.containsElementNamed("sr_group_levels")) acmap.set_sr_group_levels( list["sr_group_levels"] );
 
     // Antigens
     for(arma::uword i=0; i<acmap.antigens.size(); i++){

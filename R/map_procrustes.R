@@ -94,14 +94,20 @@ procrustesData <- function(
   scaling     = FALSE
 ){
 
-  # Get the procrustes data
-  ac_procrustes_map_data(
-    base_map = map,
-    procrustes_map = comparison_map,
-    base_map_optimization_number = optimization_number - 1,
-    procrustes_map_optimization_number = comparison_optimization_number - 1,
+  # Perform the procrustes
+  map <- procrustesMap(
+    map = map,
+    comparison_map = comparison_map,
+    optimization_number = optimization_number,
+    comparison_optimization_number = comparison_optimization_number,
     translation = translation,
     scaling = scaling
+  )
+
+  # Get the procrustes data
+  ac_procrustes_map_data(
+    map$optimizations[[optimization_number]],
+    map$optimizations[[optimization_number]]$procrustes
   )
 
 }

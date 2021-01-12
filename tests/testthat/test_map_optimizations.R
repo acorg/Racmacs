@@ -41,9 +41,6 @@ for(x in seq_along(minimum_column_bases)){
 
 }
 
-# Set the main optimization number
-selectedOptimization(map) <- 2
-
 # Setting crazy values of wrong type
 test_that("Incorrect inputs", {
   expect_error( agBaseCoords(map) <- rep(1, 1000) )

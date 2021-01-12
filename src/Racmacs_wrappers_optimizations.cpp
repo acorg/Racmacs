@@ -49,3 +49,25 @@ AcOptimization ac_opt_set_stress( AcOptimization opt, double value ){ opt.set_st
 AcOptimization ac_opt_set_comment( AcOptimization opt, std::string value ){ opt.set_comment(value); return opt; }
 
 
+
+// --- OTHER -----------------------------
+// [[Rcpp::export(rng = false)]]
+AcOptimization ac_rotate_optimization( AcOptimization opt, double degrees, int axis_num ){
+  opt.rotate( degrees, axis_num );
+  return opt;
+}
+
+// [[Rcpp::export(rng = false)]]
+AcOptimization ac_reflect_optimization( AcOptimization opt, int axis_num ){
+  opt.reflect( axis_num );
+  return opt;
+}
+
+// [[Rcpp::export(rng = false)]]
+AcOptimization ac_translate_optimization( AcOptimization opt, arma::mat translation ){
+  opt.translate( translation );
+  return opt;
+}
+
+
+

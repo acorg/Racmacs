@@ -33,7 +33,7 @@ test_that("General stress blob calculation", {
 })
 
 # Calculate stress blobs
-map3d <- map_unrelaxed
+map3d <- keepSingleOptimization(map_unrelaxed, 3)
 map3d <- relaxMap(map3d)
 blobmap3d <- stressBlobs(
   map3d,
@@ -52,12 +52,12 @@ test_that("3D stress blob calculation", {
 })
 
 # General stress blob viewing
-Racmacs:::export.viewer.test(
+export.viewer.test(
   view(blobmap),
   filename = "map_with_stressblobs.html"
 )
 
-Racmacs:::export.viewer.test(
+export.viewer.test(
   view(blobmap3d),
   filename = "map3d_with_stressblobs.html"
 )

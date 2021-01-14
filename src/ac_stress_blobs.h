@@ -4,14 +4,15 @@
 #ifndef Racmacs__ac_stress_blobs__h
 #define Racmacs__ac_stress_blobs__h
 
-struct StressBlobGrid2d {
-  arma::mat grid;
+struct StressBlobGrid {
+  arma::cube grid;
   arma::vec xcoords;
   arma::vec ycoords;
+  arma::vec zcoords;
   double stress_lim;
 };
 
-StressBlobGrid2d ac_stress_blob_grid_2d(
+StressBlobGrid ac_stress_blob_grid(
     arma::vec testcoords,
     arma::mat coords,
     arma::vec tabledists,

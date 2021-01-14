@@ -27,7 +27,6 @@ void check_valid_titer(
 }
 
 // Get numeric titers from a vector of titers
-//' @export
 // [[Rcpp::export]]
 arma::vec numeric_titers(
     std::vector<AcTiter> titers
@@ -46,7 +45,6 @@ arma::vec numeric_titers(
 }
 
 // Get log titers from a vector of titers
-//' @export
 // [[Rcpp::export]]
 arma::vec log_titers(
     std::vector<AcTiter> titers
@@ -61,7 +59,6 @@ arma::vec log_titers(
 }
 
 // Get titer types from a vector of titers
-//' @export
 // [[Rcpp::export]]
 arma::uvec titer_types_int(
     std::vector<AcTiter> titers

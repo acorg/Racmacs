@@ -204,18 +204,18 @@ Racmacs.Data = class Data {
     }
 
     agSequences(i){
-        if(this.data.c.x.antigen_sequences){
-            if(i === undefined) return(this.data.c.x.antigen_sequences);
-            else                return(this.data.c.x.antigen_sequences[i]);
+        if(this.data.c.x.a[0].q){
+            if(i === undefined) return(this.data.c.x.a.map( p => p.q.split("") ));
+            else                return(this.data.c.x.a[i].q.split(""));
         } else {
             return(null);
         }
     }
 
     srSequences(i){
-        if(this.data.c.x.sera_sequences){
-            if(i === undefined) return(this.data.c.x.sera_sequences);
-            else                return(this.data.c.x.sera_sequences[i]);
+        if(this.data.c.x.s[0].q){
+            if(i === undefined) return(this.data.c.x.s.map( p => p.q.split("") ));
+            else                return(this.data.c.x.s[i].q.split(""));
         } else {
             return(null);
         }

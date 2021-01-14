@@ -11,10 +11,12 @@
 #' )
 #'
 mapName <- function(map){
+  check.acmap(map)
   map$name
 }
 
 `mapName<-` <- function(map, value){
+  check.acmap(map)
   map$name <- value
   map
 }
@@ -31,6 +33,7 @@ mapName <- function(map){
 #' @rdname titerTable
 titerTable <- function(map){
 
+  check.acmap(map)
   titers <- titerTableFlat(map)
   rownames(titers) <- agNames(map)
   colnames(titers) <- srNames(map)
@@ -42,6 +45,8 @@ titerTable <- function(map){
 #' @export
 #' @rdname titerTable
 `titerTable<-` <- function(map, value){
+
+  check.acmap(map)
 
   # Set the flat titer table
   titerTableFlat(map) <- value
@@ -57,11 +62,13 @@ titerTable <- function(map){
 
 #' @noRd
 titerTableFlat <- function(map){
+  check.acmap(map)
   map$titer_table_flat
 }
 
 #' @noRd
 `titerTableFlat<-` <- function(map, value){
+  check.acmap(map)
   if(is.data.frame(value)) value <- as.matrix(value)
   mode(value)        <- "character"
   map$titer_table_flat <- value
@@ -81,12 +88,14 @@ titerTableFlat <- function(map){
 #' )
 #'
 titerTableLayers <- function(map){
+  check.acmap(map)
   map$titer_table_layers
 }
 
 `titerTableLayers<-` <- function(map, value){
 
   # Check input
+  check.acmap(map)
   if(!is.list(value)){
     stop("Titer table layers must be a list of titer tables")
   }
@@ -122,12 +131,14 @@ titerTableLayers <- function(map){
 #' @family {functions to work with map optimizations}
 #' @export
 sortOptimizations <- function(map) {
+  check.acmap(map)
   map$optimizations <- map$optimizations[order(allMapStresses(map))]
   map
 }
 
 # Get arbitrary map properties
 allMapProperties <- function(map, getter){
+  check.acmap(map)
   vapply(
     seq_len(numOptimizations(map)),
     function(i){
@@ -153,12 +164,14 @@ allMapProperties <- function(map, getter){
 #' @rdname optimizationProperties
 #' @export
 allMapStresses <- function(map) {
+  check.acmap(map)
   allMapProperties(map, mapStress)
 }
 
 #' @rdname optimizationProperties
 #' @export
 allMapDimensions <- function(map) {
+  check.acmap(map)
   allMapProperties(map, mapDimensions)
 }
 
@@ -172,6 +185,7 @@ allMapDimensions <- function(map) {
 #' @export
 #'
 removeOptimizations <- function(map) {
+  check.acmap(map)
   map$optimizations <- NULL
   map
 }
@@ -190,6 +204,7 @@ removeOptimizations <- function(map) {
 #' @export
 #' @rdname keepSingleOptimization
 keepSingleOptimization <- function(map, optimization_number = 1) {
+  check.acmap(map)
   map$optimizations <- map$optimizations[optimization_number]
   map
 }
@@ -197,6 +212,7 @@ keepSingleOptimization <- function(map, optimization_number = 1) {
 #' @export
 #' @rdname keepSingleOptimization
 keepBestOptimization <- function(map) {
+  check.acmap(map)
   map <- sortOptimizations(map)
   keepSingleOptimization(map, optimization_number = 1)
 }
@@ -217,24 +233,28 @@ keepBestOptimization <- function(map) {
 #' @rdname acmapAttributes
 #' @export
 numAntigens <- function(map) {
+  check.acmap(map)
   length(map$antigens)
 }
 
 #' @rdname acmapAttributes
 #' @export
 numSera <- function(map) {
+  check.acmap(map)
   length(map$sera)
 }
 
 #' @rdname acmapAttributes
 #' @export
 numPoints <- function(map) {
+  check.acmap(map)
   numAntigens(map) + numSera(map)
 }
 
 #' @rdname acmapAttributes
 #' @export
 numOptimizations <- function(map) {
+  check.acmap(map)
   length(map$optimizations)
 }
 

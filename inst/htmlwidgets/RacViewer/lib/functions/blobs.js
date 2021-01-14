@@ -98,10 +98,9 @@ Racmacs.StressBlobsTable = class StressBlobsList extends Racmacs.TableList {
 }
 
 // Show blobs in the viewer
-Racmacs.Viewer.prototype.addStressBlobs = function(data){
+Racmacs.Viewer.prototype.addStressBlobs = function(blobdata){
 
     // Show the blobs
-    var blobdata = data.blob_data;
     for(var i=0; i<this.antigens.length; i++){
         if(blobdata.antigens[i] 
            && Object.keys(blobdata.antigens[i]).length !== 0){
@@ -216,6 +215,7 @@ Racmacs.Point.prototype.addBlob = function(blob){
         // Get vertices and faces
         let vertices = blob.vertices;
         let faces    = blob.faces;
+        let normals  = blob.normals;
 
         // 3D blobs
         var fillcolor    = this.getFillColorRGBA();
@@ -238,6 +238,7 @@ Racmacs.Point.prototype.addBlob = function(blob){
         this.blob = new R3JS.element.Polygon3d({
             faces    : faces,
             vertices : vertices,
+            normals  : normals,
             properties : {
                 mat : "phong",
                 transparent : true,

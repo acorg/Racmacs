@@ -8,10 +8,7 @@
 *.sublime-workspace
 *.o
 *.o.tmp
-debugging
-.DS_Store
 doc
 inst/doc
 Meta
-dev
 tests/testoutput/*

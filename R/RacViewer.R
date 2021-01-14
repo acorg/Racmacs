@@ -130,6 +130,9 @@ RacViewerProxy <- function(id, session = shiny::getDefaultReactiveDomain()){
 #'
 snapshotMap <- function(map, width = 800, height = 800, filename = NULL, ...){
 
+  # Check input
+  check.acmap(map)
+
   # Generate the widget
   widget   <- view(map, ...)
 

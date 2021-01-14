@@ -90,7 +90,7 @@ test_that("Applying a plotspec", {
   srFill(map1) <- "purple"
 
   map2 <- applyPlotspec(map2, map1)
-  Racmacs:::export.viewer.test(view(map2), "apply_plotspec1.html")
+  export.viewer.test(view(map2), "apply_plotspec1.html")
 
   expect_equal(agFill(map2), agFill(map1))
   expect_equal(srFill(map2), srFill(map1))
@@ -102,7 +102,7 @@ test_that("Applying a plotspec", {
   srNames(map3)[1:2] <- paste("mismatch sr", 1:2)
 
   map3ps <- applyPlotspec(map3, map1)
-  Racmacs:::export.viewer.test(view(map3ps), "apply_plotspec2.html")
+  export.viewer.test(view(map3ps), "apply_plotspec2.html")
 
   expect_equal(agFill(map3ps), c(agFill(map3)[1:2], agFill(map1)[-(1:2)]))
   expect_equal(srFill(map3ps), c(srFill(map3)[1:2], srFill(map1)[-(1:2)]))

@@ -2,7 +2,6 @@
 #include <RcppArmadillo.h>
 
 // Use principle component analysis to reduce coordinates to lower dimensions
-//' @export
 // [[Rcpp::export]]
 arma::mat reduce_matrix_dimensions(
     arma::mat m,

@@ -30,7 +30,7 @@ arma::mat check_ag_trapped_points(
   for(int ag=0; ag<num_ags; ag++){
 
     // Do a grid search
-    StressBlobGrid2d grid_results = ac_stress_blob_grid_2d(
+    StressBlobGrid grid_results = ac_stress_blob_grid(
       ag_coords.row(ag).as_col(),
       sr_coords,
       tabledists.row(ag).as_col(),
@@ -77,7 +77,7 @@ arma::mat check_sr_trapped_points(
   for(int sr=0; sr<num_sr; sr++){
 
     // Do a grid search
-    StressBlobGrid2d grid_results = ac_stress_blob_grid_2d(
+    StressBlobGrid grid_results = ac_stress_blob_grid(
       sr_coords.row(sr).as_col(),
       ag_coords,
       tabledists.col(sr),

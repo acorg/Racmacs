@@ -34,7 +34,7 @@
 #' @rdname ptCoords
 #' @export
 agCoords <- function(map, optimization_number = 1){
-  if(!inherits(map, "acmap")) stop("Object must be of class 'acmap'")
+  check.acmap(map)
   optimization <- map$optimizations[[optimization_number]]
   if(is.null(optimization)) stop("optimization run not found")
   ac_get_ag_coords(optimization)
@@ -44,7 +44,7 @@ agCoords <- function(map, optimization_number = 1){
 #' @rdname ptCoords
 #' @export
 srCoords <- function(map, optimization_number = 1){
-  if(!inherits(map, "acmap")) stop("Object must be of class 'acmap'")
+  check.acmap(map)
   optimization <- map$optimizations[[optimization_number]]
   if(is.null(optimization)) stop("optimization run not found")
   ac_get_sr_coords(optimization)
@@ -64,7 +64,7 @@ ptCoords <- function(map, optimization_number = 1){
 #' @rdname ptCoords
 #' @export
 `agCoords<-` <- function(map, optimization_number = 1, value){
-  if(!inherits(map, "acmap")) stop("Object must be of class 'acmap'")
+  check.acmap(map)
   optimization <- map$optimizations[[optimization_number]]
   if(is.null(optimization)) stop("optimization run not found")
   map$optimizations[[optimization_number]] <- ac_set_ag_coords(optimization, value)
@@ -76,7 +76,7 @@ ptCoords <- function(map, optimization_number = 1){
 #' @rdname ptCoords
 #' @export
 `srCoords<-` <- function(map, optimization_number = 1, value){
-  if(!inherits(map, "acmap")) stop("Object must be of class 'acmap'")
+  check.acmap(map)
   optimization <- map$optimizations[[optimization_number]]
   if(is.null(optimization)) stop("optimization run not found")
   map$optimizations[[optimization_number]] <- ac_set_sr_coords(optimization, value)

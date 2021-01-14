@@ -8,10 +8,12 @@ plotspec_getter <- function(pttype, fn){
     ), expr = {
       if(pttype == "ag"){
         function(map){
+          check.acmap(map)
           sapply(map$antigens, fn)
         }
       } else {
         function(map, value){
+          check.acmap(map)
           sapply(map$sera, fn)
         }
       }
@@ -28,6 +30,7 @@ plotspec_setter <- function(pttype, fn, checker_fn = NULL){
     ), expr = {
       if(pttype == "ag"){
         function(map, value){
+          check.acmap(map)
           if(is.null(value)){ stop("Cannot set null value") }
           if(!is.null(checker_fn)){ checker_fn(value) }
           if(length(value) == 1){
@@ -42,6 +45,7 @@ plotspec_setter <- function(pttype, fn, checker_fn = NULL){
         }
       } else {
         function(map, value){
+          check.acmap(map)
           if(is.null(value)){ stop("Cannot set null value") }
           if(!is.null(checker_fn)){ checker_fn(value) }
           if(length(value) == 1){

@@ -6,6 +6,7 @@ sera_getter <- function(fn){
       fn = fn
     ), expr = {
       function(map){
+        check.acmap(map)
         sapply(map$sera, fn)
       }
     })
@@ -20,6 +21,7 @@ sera_setter <- function(fn){
     ), expr = {
       function(map, value){
         if(is.null(value)){ stop("Cannot set null value") }
+        check.acmap(map)
         map$sera <- lapply(seq_along(map$sera), function(x){
           fn(map$sera[[x]], value[x])
         })
@@ -70,6 +72,7 @@ srGroupValues       <- sera_getter(ac_sr_get_group)
 #' @export
 srGroups <- function(map){
 
+  check.acmap(map)
   srlevels <- map$sr_group_levels
   if(length(srlevels) == 0) return(NULL)
   factor(
@@ -83,6 +86,7 @@ srGroups <- function(map){
 #' @export
 `srGroups<-` <- function(map, value){
 
+  check.acmap(map)
   if(is.null(value)){
     srGroupValues(map) <- 0
     map$sr_group_levels <- NULL
@@ -97,11 +101,13 @@ srGroups <- function(map){
 
 #' @export
 srSequences <- function(map){
+  check.acmap(map)
   do.call(rbind, lapply(map$sera, function(sr){ strsplit(sr$sequence, "")[[1]] }))
 }
 
 #' @export
 `srSequences<-` <- function(map, value){
+  check.acmap(map)
   if(nrow(value) != numSera(map)) stop("Number of sequences does not match number of sera")
   for(x in seq_len(numSera(map))){
     map$sera[[x]]$sequence <- paste0(value[x,], collapse = "")

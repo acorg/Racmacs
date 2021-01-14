@@ -158,6 +158,14 @@ RacOptimizer.options <- function(
   progress_bar_length = options()$width
 ) {
 
+  # Check input
+  check.logical(dim_annealing)
+  check.string(method)
+  check.numeric(maxit)
+  check.numeric(num_cores)
+  check.numeric(progress_bar_length)
+  if(!is.null(report_progress)) check.logical(report_progress)
+
   # This is a hack to attempt to see if messages are currently suppressed
   if(is.null(report_progress)){
     report_progress <- length(capture.output(message("a"), type = "message")) > 0

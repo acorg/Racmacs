@@ -51,24 +51,35 @@ void update_map_dists(
 }
 
 // [[Rcpp::export]]
-StressBlobGrid2d ac_stress_blob_grid_2d(
-  arma::vec testcoords,
-  arma::mat coords,
-  arma::vec tabledists,
-  arma::uvec titertypes,
-  double stress_lim,
-  double grid_spacing
+StressBlobGrid ac_stress_blob_grid(
+    arma::vec testcoords,
+    arma::mat coords,
+    arma::vec tabledists,
+    arma::uvec titertypes,
+    double stress_lim,
+    double grid_spacing
 ){
 
-  // Setup for grid
-  double xmin = arma::min(coords.col(0) - tabledists - stress_lim);
-  double xmax = arma::max(coords.col(0) + tabledists + stress_lim);
-  double ymin = arma::min(coords.col(1) - tabledists - stress_lim);
-  double ymax = arma::max(coords.col(1) + tabledists + stress_lim);
+  // Get the map dimensions
+  arma::uword mapdims = coords.n_cols;
 
   // Set grid coordinates
+  double xmin = arma::min(coords.col(0) - tabledists - stress_lim);
+  double xmax = arma::max(coords.col(0) + tabledists + stress_lim);
   arma::vec xcoords = arma::regspace<arma::vec>( xmin, grid_spacing, xmax );
+
+  double ymin = arma::min(coords.col(1) - tabledists - stress_lim);
+  double ymax = arma::max(coords.col(1) + tabledists + stress_lim);
   arma::vec ycoords = arma::regspace<arma::vec>( ymin, grid_spacing, ymax );
+
+  arma::vec zcoords;
+  if(mapdims == 3){
+    double zmin = arma::min(coords.col(2) - tabledists - stress_lim);
+    double zmax = arma::max(coords.col(2) + tabledists + stress_lim);
+    zcoords = arma::regspace<arma::vec>( zmin, grid_spacing, zmax );
+  } else {
+    zcoords = arma::vec{0};
+  }
 
   // Calculate the initial point stress
   arma::vec mapdists(coords.n_rows);
@@ -80,30 +91,36 @@ StressBlobGrid2d ac_stress_blob_grid_2d(
   );
 
   // Setup results grid
-  arma::mat zmat(xcoords.n_elem, ycoords.n_elem);
+  arma::cube stressmat(xcoords.n_elem, ycoords.n_elem, zcoords.n_elem);
   for(arma::uword i=0; i<xcoords.n_elem; i++){
     for(arma::uword j=0; j<ycoords.n_elem; j++){
+      for(arma::uword k=0; k<zcoords.n_elem; k++){
 
-      // Update map distances
-      testcoords(0) = xcoords(i);
-      testcoords(1) = ycoords(j);
-      update_map_dists(mapdists, testcoords, coords);
+        // Update map distances
+        testcoords(0) = xcoords(i);
+        testcoords(1) = ycoords(j);
+        if(mapdims == 3){
+          testcoords(2) = zcoords(k);
+        }
+        update_map_dists(mapdists, testcoords, coords);
 
-      // Calculate point stress
-      zmat(i,j) = point_stress(
-        mapdists,
-        tabledists,
-        titertypes
-      );
+        // Calculate point stress
+        stressmat(i,j,k) = point_stress(
+          mapdists,
+          tabledists,
+          titertypes
+        );
 
+      }
     }
   }
 
   // Setup for output
-  struct StressBlobGrid2d results{
-    zmat - base_stress,
+  struct StressBlobGrid results{
+    stressmat - base_stress,
     xcoords,
     ycoords,
+    zcoords,
     stress_lim
   };
 
@@ -111,4 +128,6 @@ StressBlobGrid2d ac_stress_blob_grid_2d(
   return results;
 
 }
+
+
 

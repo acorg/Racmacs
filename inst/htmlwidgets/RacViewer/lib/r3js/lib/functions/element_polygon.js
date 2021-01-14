@@ -128,6 +128,7 @@ R3JS.element.constructors.polygon3d = function(
     var element = new R3JS.element.Polygon3d({
         vertices   : plotobj.vertices,
         faces      : plotobj.faces,
+        normals    : plotobj.normals,
         properties : plotobj.properties
     });
     
@@ -176,10 +177,20 @@ R3JS.element.Polygon3d = class Polygon3d extends R3JS.element.base {
             );
         }
 
-        // Merge vertices and compute normals
-        geometry.mergeVertices();
-        geometry.computeVertexNormals();
-        geometry.computeFaceNormals();
+        // Add normals
+        if(args.normals !== undefined){
+            for(var i=0; i<geometry.faces.length; i++){
+                geometry.faces[i].vertexNormals = [
+                    new THREE.Vector3().fromArray( args.normals[geometry.faces[i].a] ),
+                    new THREE.Vector3().fromArray( args.normals[geometry.faces[i].b] ),
+                    new THREE.Vector3().fromArray( args.normals[geometry.faces[i].c] )
+                ];
+            }
+        } else {
+            // geometry.mergeVertices();
+            // geometry.computeVertexNormals();
+            geometry.computeFaceNormals();
+        }
 
         // Convert to buffer geometry
         var fillgeometry = new THREE.BufferGeometry().fromGeometry( geometry );
@@ -250,33 +261,6 @@ R3JS.element.Polygon3d = class Polygon3d extends R3JS.element.base {
     }
 
 }
-
-//     function convertBlob2D(object, blob){
-
-//         var fill    = object.children[0];
-//         var outline = object.children[1];
-
-//         // Work out geometry
-//         for(var i=0; i<blob.length; i++){
-//             var blobShape = new THREE.Shape();
-//             blobShape.moveTo( blob[i].x[0]-object.position.x, blob[i].y[0]-object.position.y );
-//             for(var j=0; j<blob[i].x.length; j++){
-//                 blobShape.lineTo(blob[i].x[j]-object.position.x, blob[i].y[j]-object.position.y);
-//             }
-            
-//             var blobshapegeo = new THREE.ShapeGeometry( blobShape );
-//             var blobgeo      = new THREE.BufferGeometry().fromGeometry( blobshapegeo );
-//         }
-        
-//         var bloboutlinegeo = convert2Outline(blobshapegeo.vertices, 0.1);
-//         bloboutlinegeo     = new THREE.BufferGeometry().fromGeometry( bloboutlinegeo );
-
-//         object.rotation.z = 0;
-
-//         fill.geometry    = blobgeo;
-//         outline.geometry = bloboutlinegeo;
-
-//     }
 
 
 

@@ -8,6 +8,9 @@ setLegend <- function(
   style.right = "8px"
 ){
 
+  # Check input
+  check.acmap(map)
+
   # Return the map with legend added
   map$legend <- list(
     legend       = unname(legend),

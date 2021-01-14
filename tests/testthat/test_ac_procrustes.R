@@ -20,14 +20,14 @@ test_that("R and C++ give same procrustes result", {
         dilation = dilation
       )
 
-      ac_proc <- Racmacs:::ac_procrustes(
+      ac_proc <- ac_procrustes(
         matrix1,
         matrix2,
         translation = translation,
         dilation = dilation
       )
 
-      matrix12 <- Racmacs:::ac_align_coords(
+      matrix12 <- ac_align_coords(
         matrix1,
         matrix2,
         translation = translation,

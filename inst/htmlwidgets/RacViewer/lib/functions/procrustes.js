@@ -182,7 +182,7 @@ Racmacs.Viewer.prototype.addProcrustesToBaseCoords = function(data){
     this.removeProcrustes();
 
     // Fetch the data
-    var pc_data = [].concat(data.ag, data.sr);
+    var pc_data = [].concat(data.ag_coords, data.sr_coords);
 
     // Check data
     if(this.points.length !== pc_data.length){

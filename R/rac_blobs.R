@@ -25,6 +25,11 @@ stressBlobs <- function(
   # Only run on current optimization
   optimization_number <- 1
 
+  # Check dimensions
+  if(!mapDimensions(map) %in% c(2,3)){
+    stop("Stress blobs can only be calculated for maps with 2 or 3 dimensions")
+  }
+
   # Check map has been fully relaxed
   if(.check_relaxation && !mapRelaxed(map, optimization_number)){
     stop("Map is not fully relaxed, please relax the map first.")
@@ -33,10 +38,9 @@ stressBlobs <- function(
   # Calculate blob data for antigens
   if(antigens){
     map$antigens <- lapply(
-      # progress_msg = paste("Calculating stress blobs for", length(map$antigens), "antigens..."),
       seq_along(map$antigens), function(agnum){
 
-      blobgrid <- ac_stress_blob_grid_2d(
+      blobgrid <- ac_stress_blob_grid(
         testcoords = agBaseCoords(map)[agnum,],
         coords     = srBaseCoords(map),
         tabledists = tableDistances(map)[agnum,],
@@ -59,10 +63,9 @@ stressBlobs <- function(
   # Calculate blob data for sera
   if(sera){
     map$sera <- lapply(
-      # progress_msg = paste("Calculating stress blobs for", length(map$sera), "sera..."),
       seq_along(map$sera), function(srnum){
 
-      blobgrid <- ac_stress_blob_grid_2d(
+      blobgrid <- ac_stress_blob_grid(
         testcoords = srBaseCoords(map)[srnum,],
         coords     = agBaseCoords(map),
         tabledists = tableDistances(map)[,srnum],
@@ -94,35 +97,54 @@ ptStressBlobs <- function(map){ c(agStressBlobs(map), srStressBlobs(map)) }
 
 #' Fit a contour blob
 #' @noRd
-contour_blob <- function(grid_values,
-                         grid_points,
-                         value_lim) {
+contour_blob <- function(
+  grid_values,
+  grid_points,
+  value_lim
+  ){
 
-  grid_values <- array(grid_values, dim = sapply(grid_points, length))
-  ndims       <- length(grid_points)
+  if(dim(grid_values)[3] == 1){
 
-  ## 2D
-  if(ndims == 2){
+    ## 2D
+    ndims <- 2
+    blob <- grDevices::contourLines(
+      x = grid_points[[1]],
+      y = grid_points[[2]],
+      z = grid_values[,,1],
+      levels = value_lim
+    )
 
-    blob <- grDevices::contourLines(x = grid_points[[1]],
-                                    y = grid_points[[2]],
-                                    z = grid_values,
-                                    levels = value_lim)
+  } else {
 
-  }
+    ## 3D
+    ndims <- 3
+    # contour_fit <- contourShape(
+    #   vol    = grid_values,
+    #   maxvol = max(grid_values[!is.nan(grid_values) & grid_values != Inf]),
+    #   x      = grid_points[[1]],
+    #   y      = grid_points[[2]],
+    #   z      = grid_points[[3]],
+    #   level  = value_lim
+    # )
+    #
+    # blob <- list(
+    #   vertices = contour_fit,
+    #   faces    = matrix(seq_len(nrow(contour_fit)), ncol = 3, byrow = TRUE)
+    # )
 
-  ## 3D
-  if(ndims == 3){
+    contour_fit <- rmarchingcubes::contour3d(
+      griddata = grid_values,
+      level  = value_lim,
+      x      = grid_points[[1]],
+      y      = grid_points[[2]],
+      z      = grid_points[[3]]
+    )
 
-    contour_fit <- contourShape(vol    = grid_values,
-                                maxvol = max(grid_values[!is.nan(grid_values) & grid_values != Inf]),
-                                x      = grid_points[[1]],
-                                y      = grid_points[[2]],
-                                z      = grid_points[[3]],
-                                level  = value_lim)
-
-    blob <- list(vertices = contour_fit,
-                 faces    = matrix(seq_len(nrow(contour_fit)), ncol = 3, byrow = TRUE))
+    blob <- list(
+      vertices = contour_fit$vertices,
+      faces    = contour_fit$triangles,
+      normals  = contour_fit$normals
+    )
 
   }
 
@@ -138,11 +160,15 @@ contour_blob <- function(grid_values,
 
 # Function to convert to the RacViewer stress blob data
 viewer_stressblobdata <- function(map){
-  NULL
+  list(
+    antigens = lapply(map$antigens, function(ag){ ag$stress_blob }),
+    sera = lapply(map$sera, function(sr){ sr$stress_blob })
+  )
 }
 
 #' @export
 agStressBlobSize <- function(map){
+  check.acmap(map)
   vapply(map$antigens, function(ag){
     calcBlobSize(ag$stress_blob)
   }, numeric(1))
@@ -150,6 +176,7 @@ agStressBlobSize <- function(map){
 
 #' @export
 srStressBlobSize <- function(map){
+  check.acmap(map)
   vapply(map$sera, function(sr){
     calcBlobSize(sr$stress_blob)
   }, numeric(1))

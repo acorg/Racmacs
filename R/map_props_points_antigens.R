@@ -6,6 +6,7 @@ antigens_getter <- function(fn){
       fn = fn
     ), expr = {
       function(map){
+        check.acmap(map)
         sapply(map$antigens, fn)
       }
     })
@@ -20,6 +21,7 @@ antigens_setter <- function(fn){
     ), expr = {
       function(map, value){
         if(is.null(value)){ stop("Cannot set null value") }
+        check.acmap(map)
         map$antigens <- lapply(seq_along(map$antigens), function(x){
           fn(map$antigens[[x]], value[x])
         })
@@ -69,6 +71,7 @@ agGroupValues       <- antigens_getter(ac_ag_get_group) # Not exported
 #' @export
 agGroups <- function(map){
 
+  check.acmap(map)
   aglevels <- map$ag_group_levels
   if(length(aglevels) == 0) return(NULL)
   factor(
@@ -82,6 +85,7 @@ agGroups <- function(map){
 #' @export
 `agGroups<-` <- function(map, value){
 
+  check.acmap(map)
   if(is.null(value)){
     agGroupValues(map) <- 0
     map$ag_group_levels <- NULL
@@ -96,11 +100,13 @@ agGroups <- function(map){
 
 #' @export
 agSequences <- function(map){
+  check.acmap(map)
   do.call(rbind, lapply(map$antigens, function(ag){ strsplit(ag$sequence, "")[[1]] }))
 }
 
 #' @export
 `agSequences<-` <- function(map, value){
+  check.acmap(map)
   if(nrow(value) != numAntigens(map)) stop("Number of sequences does not match number of antigens")
   for(x in seq_len(numAntigens(map))){
     map$antigens[[x]]$sequence <- paste0(value[x,], collapse = "")

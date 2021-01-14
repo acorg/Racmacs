@@ -176,8 +176,6 @@ Racmacs.Viewer.prototype.load = function(
         new CustomEvent('racViewerMapLoaded', { detail : this })
     );
 
-    console.log(options);
-
 }
 
 

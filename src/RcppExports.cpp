@@ -1271,9 +1271,9 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// ac_stress_blob_grid_2d
-StressBlobGrid2d ac_stress_blob_grid_2d(arma::vec testcoords, arma::mat coords, arma::vec tabledists, arma::uvec titertypes, double stress_lim, double grid_spacing);
-RcppExport SEXP _Racmacs_ac_stress_blob_grid_2d(SEXP testcoordsSEXP, SEXP coordsSEXP, SEXP tabledistsSEXP, SEXP titertypesSEXP, SEXP stress_limSEXP, SEXP grid_spacingSEXP) {
+// ac_stress_blob_grid
+StressBlobGrid ac_stress_blob_grid(arma::vec testcoords, arma::mat coords, arma::vec tabledists, arma::uvec titertypes, double stress_lim, double grid_spacing);
+RcppExport SEXP _Racmacs_ac_stress_blob_grid(SEXP testcoordsSEXP, SEXP coordsSEXP, SEXP tabledistsSEXP, SEXP titertypesSEXP, SEXP stress_limSEXP, SEXP grid_spacingSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -1283,7 +1283,7 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< arma::uvec >::type titertypes(titertypesSEXP);
     Rcpp::traits::input_parameter< double >::type stress_lim(stress_limSEXP);
     Rcpp::traits::input_parameter< double >::type grid_spacing(grid_spacingSEXP);
-    rcpp_result_gen = Rcpp::wrap(ac_stress_blob_grid_2d(testcoords, coords, tabledists, titertypes, stress_lim, grid_spacing));
+    rcpp_result_gen = Rcpp::wrap(ac_stress_blob_grid(testcoords, coords, tabledists, titertypes, stress_lim, grid_spacing));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -1550,7 +1550,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_Racmacs_ac_coords_stress", (DL_FUNC) &_Racmacs_ac_coords_stress, 4},
     {"_Racmacs_ac_relax_coords", (DL_FUNC) &_Racmacs_ac_relax_coords, 5},
     {"_Racmacs_ac_runOptimizations", (DL_FUNC) &_Racmacs_ac_runOptimizations, 5},
-    {"_Racmacs_ac_stress_blob_grid_2d", (DL_FUNC) &_Racmacs_ac_stress_blob_grid_2d, 6},
+    {"_Racmacs_ac_stress_blob_grid", (DL_FUNC) &_Racmacs_ac_stress_blob_grid, 6},
     {"_Racmacs_numeric_titers", (DL_FUNC) &_Racmacs_numeric_titers, 1},
     {"_Racmacs_log_titers", (DL_FUNC) &_Racmacs_log_titers, 1},
     {"_Racmacs_titer_types_int", (DL_FUNC) &_Racmacs_titer_types_int, 1},

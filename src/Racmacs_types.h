@@ -298,12 +298,12 @@ namespace Rcpp {
 
   // Stress blob results 2d
   template <>
-  SEXP wrap(const StressBlobGrid2d& blobgrid){
+  SEXP wrap(const StressBlobGrid& blobgrid){
 
     return wrap(
       List::create(
         _["grid"] = blobgrid.grid,
-        _["coords"] = List::create(blobgrid.xcoords, blobgrid.ycoords),
+        _["coords"] = List::create(blobgrid.xcoords, blobgrid.ycoords, blobgrid.zcoords),
         _["stress_lim"] = blobgrid.stress_lim
       )
     );

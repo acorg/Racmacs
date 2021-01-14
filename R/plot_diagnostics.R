@@ -290,7 +290,7 @@ plot_agStressPerTiter <- function(map, exclude_nd = TRUE, .plot = TRUE){
 }
 
 #' @export
-plotly_agStressPerTiter <- function(...){ plotlyfn(plotly_agStressPerTiter)(...) }
+plotly_agStressPerTiter <- function(...){ plotlyfn(plot_agStressPerTiter)(...) }
 
 
 #' @export
@@ -310,7 +310,7 @@ plot_srStressPerTiter <- function(map, exclude_nd = TRUE, .plot = TRUE){
 }
 
 #' @export
-plotly_srStressPerTiter <- function(...){ plotlyfn(plotly_srStressPerTiter)(...) }
+plotly_srStressPerTiter <- function(...){ plotlyfn(plot_srStressPerTiter)(...) }
 
 
 

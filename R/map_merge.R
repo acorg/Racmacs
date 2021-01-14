@@ -60,6 +60,9 @@ mergeMaps <- function(
   options = list()
   ){
 
+  # Check input
+  lapply(maps, check.acmap)
+
   # Set options for any relaxation or optimizations
   options <- do.call(RacOptimizer.options, options)
 
@@ -129,5 +132,10 @@ mergeReport <- function(
   map2
   ){
 
+  check.acmap(map1)
+  check.acmap(map2)
+
+  stop("mergeReport not yet implemented")
 
 }
+

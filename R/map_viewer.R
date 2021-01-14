@@ -15,6 +15,11 @@ RacViewer.options <- function(
   grid.display = "static"
 ) {
 
+  # Check input
+  check.string(viewer.controls)
+  check.string(grid.display)
+  if(!is.na(point.opacity)) check.numeric(point.opacity)
+
   list(
     viewer.controls = viewer.controls,
     point.opacity = point.opacity,

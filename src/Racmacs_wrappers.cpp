@@ -108,7 +108,6 @@ AcMap ac_subset_map(
 
 
 // Get column bases
-//' @export
 // [[Rcpp::export]]
 arma::vec ac_table_colbases(
     const AcTiterTable titer_table,
@@ -125,7 +124,6 @@ arma::vec ac_table_colbases(
 
 
 // Get table distances
-//' @export
 // [[Rcpp::export]]
 arma::mat ac_table_distances(
     const AcTiterTable titer_table,
@@ -155,7 +153,6 @@ AcOptimization ac_newOptimization(
 
 
 // Relax an optimization
-//' @export
 // [[Rcpp::export]]
 AcOptimization ac_relaxOptimization(
     AcOptimization opt,
@@ -170,7 +167,6 @@ AcOptimization ac_relaxOptimization(
 
 
 // Relax an optimization
-//' @export
 // [[Rcpp::export]]
 AcMap ac_optimize_map(
     AcMap map,

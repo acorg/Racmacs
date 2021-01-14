@@ -74,6 +74,7 @@ addOptimization <- function(
 #'
 listOptimizations <- function(map){
 
+  check.acmap(map)
   map$optimizations
 
 }
@@ -96,6 +97,7 @@ listOptimizations <- function(map){
 #'
 getOptimization <- function(map, optimization_number = 1){
 
+  check.acmap(map)
   map$optimizations[[optimization_number]]
 
 }

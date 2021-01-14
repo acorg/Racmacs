@@ -37,12 +37,10 @@ ac_subset_map <- function(map, ags, sr) {
     .Call('_Racmacs_ac_subset_map', PACKAGE = 'Racmacs', map, ags, sr)
 }
 
-#' @export
 ac_table_colbases <- function(titer_table, min_col_basis, fixed_col_bases) {
     .Call('_Racmacs_ac_table_colbases', PACKAGE = 'Racmacs', titer_table, min_col_basis, fixed_col_bases)
 }
 
-#' @export
 ac_table_distances <- function(titer_table, colbases) {
     .Call('_Racmacs_ac_table_distances', PACKAGE = 'Racmacs', titer_table, colbases)
 }
@@ -51,12 +49,10 @@ ac_newOptimization <- function(dimensions, num_antigens, num_sera) {
     .Call('_Racmacs_ac_newOptimization', PACKAGE = 'Racmacs', dimensions, num_antigens, num_sera)
 }
 
-#' @export
 ac_relaxOptimization <- function(opt, titers, options) {
     .Call('_Racmacs_ac_relaxOptimization', PACKAGE = 'Racmacs', opt, titers, options)
 }
 
-#' @export
 ac_optimize_map <- function(map, num_dims, num_optimizations, min_col_basis, fixed_col_bases, options) {
     .Call('_Racmacs_ac_optimize_map', PACKAGE = 'Racmacs', map, num_dims, num_optimizations, min_col_basis, fixed_col_bases, options)
 }
@@ -445,7 +441,6 @@ ac_noisy_bootstrap_map <- function(titer_table, ag_noise_sd, titer_noise_sd, min
     .Call('_Racmacs_ac_noisy_bootstrap_map', PACKAGE = 'Racmacs', titer_table, ag_noise_sd, titer_noise_sd, minimum_column_basis, fixed_column_bases, num_optimizations, num_dimensions, options)
 }
 
-#' @export
 ac_coords_stress <- function(tabledist_matrix, titertype_matrix, ag_coords, sr_coords) {
     .Call('_Racmacs_ac_coords_stress', PACKAGE = 'Racmacs', tabledist_matrix, titertype_matrix, ag_coords, sr_coords)
 }
@@ -458,26 +453,22 @@ ac_runOptimizations <- function(titertable, colbases, num_dims, num_optimization
     .Call('_Racmacs_ac_runOptimizations', PACKAGE = 'Racmacs', titertable, colbases, num_dims, num_optimizations, options)
 }
 
-ac_stress_blob_grid_2d <- function(testcoords, coords, tabledists, titertypes, stress_lim, grid_spacing) {
-    .Call('_Racmacs_ac_stress_blob_grid_2d', PACKAGE = 'Racmacs', testcoords, coords, tabledists, titertypes, stress_lim, grid_spacing)
+ac_stress_blob_grid <- function(testcoords, coords, tabledists, titertypes, stress_lim, grid_spacing) {
+    .Call('_Racmacs_ac_stress_blob_grid', PACKAGE = 'Racmacs', testcoords, coords, tabledists, titertypes, stress_lim, grid_spacing)
 }
 
-#' @export
 numeric_titers <- function(titers) {
     .Call('_Racmacs_numeric_titers', PACKAGE = 'Racmacs', titers)
 }
 
-#' @export
 log_titers <- function(titers) {
     .Call('_Racmacs_log_titers', PACKAGE = 'Racmacs', titers)
 }
 
-#' @export
 titer_types_int <- function(titers) {
     .Call('_Racmacs_titer_types_int', PACKAGE = 'Racmacs', titers)
 }
 
-#' @export
 reduce_matrix_dimensions <- function(m, dim) {
     .Call('_Racmacs_reduce_matrix_dimensions', PACKAGE = 'Racmacs', m, dim)
 }

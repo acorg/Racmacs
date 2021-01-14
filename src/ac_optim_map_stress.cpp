@@ -197,8 +197,6 @@ class MapOptimizer {
 };
 
 
-
-//' @export
 // [[Rcpp::export]]
 double ac_coords_stress(
     const arma::mat &tabledist_matrix,

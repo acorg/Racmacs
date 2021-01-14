@@ -72,7 +72,7 @@ view.acmap <- function(
 
   # Add a procrustes grid if the main map is 3d and the comparitor map is 2d
   if(!is.null(map$procrustes) && !isFALSE(show_procrustes)){
-    if(mapDimensions(map) == 3 && ncol(map$procrustes$comparison_coords$ag) == 2){
+    if(mapDimensions(map) == 3 && ncol(map$procrustes$ag_coords) == 2){
       map <- add_procrustes_grid(map)
     }
   }
@@ -107,7 +107,7 @@ view.acmap <- function(
     widget <- htmlwidgets::onRender(
       x      = widget,
       jsCode = "function(el, x, data) { el.viewer.addProcrustesToBaseCoords(data) }",
-      data   = I(map$procrustes$pc_coords)
+      data   = I(map$procrustes)
     )
 
   }

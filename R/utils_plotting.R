@@ -1,4 +1,8 @@
 
+## Some utility functions to help with plotting
+
+# A function to convert a function that returns a ggplot to one that returns an
+# interactive plotly plot
 plotlyfn <- function(fn){
   function(...){
     as.plotly(
@@ -7,6 +11,9 @@ plotlyfn <- function(fn){
   }
 }
 
+
+# A function that converts a ggplot object to a plotly plot object. It is built
+# on plotly::ggplotly, but does a few extra bits to improve conversion
 as.plotly <- function(gp, tooltip = "text", scaling = NULL){
 
   if(!is.null(scaling)){
@@ -72,6 +79,7 @@ as.plotly <- function(gp, tooltip = "text", scaling = NULL){
 }
 
 
+# A function that defines and returns a ggplot theme to apply to ggplots
 ggplot_theme <- function(cex = 1){
   ggplot2::theme(
     text = ggplot2::element_text(

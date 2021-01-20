@@ -1,4 +1,6 @@
 
+# A function to add a map grid to a map plot, one that exists in the scene and
+# rotates along with it, used when viewing a 3d map with a rotating grid
 addMapGrid <- function(map){
 
   # Simply return the map unchanged unless it has 3 dimensions

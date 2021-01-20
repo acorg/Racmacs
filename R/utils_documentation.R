@@ -1,11 +1,25 @@
 
+## These are functions relating to autogenerating the roxygen documentation
+## there may be a neater way than this but it is to help avoid having to
+## write out many of the same functions for getting and setting e.g.
+## ag names, sr names, ag fill, sr fill... etc.
+
 # Parameter descriptions
 parameters <- c(
   map = "The acmap data object",
-  optimization_number = "The optimization run to get / set the data (by default the currently selected one)"
+  optimization_number = "The optimization run from which to get / set the data"
 )
 
+
 # A function for generating roxygen tags to export a list of functions to the namespace
+#' Title
+#'
+#' @param methods A character vector of function names to export
+#' @param args A character vector of arguments that the functions listed above use
+#' @param returns A description of what the function returns
+#'
+#' @noRd
+#'
 roxygen_tags <- function(
   methods,
   args,
@@ -54,11 +68,16 @@ roxygen_tags <- function(
 }
 
 
+# This is a small utility function for outputting an inline image of one of the
+# viewer buttons when writing vignettes that refer to them
 btn_img <- function(btn){
   base64 <- system(paste("base64", shQuote(normalizePath(paste0("../dev/icons/buttons/", btn, ".svg")))), intern = T)
   paste0("<img src='data:image/svg+xml;base64,", base64, "' style='height:1em; padding:1px; box-sizing: content-box; vertical-align: middle; border-radius: 3px; border: 1px solid #CCCCCC; margin-top:-4px; margin-bottom:-2px;'/>")
 }
 
+
+# This is a small utility function for outputting an inline image of one of the
+# viewer tabs when writing vignettes that refer to them
 tab_img <- function(tab){
   paste0("<span style='background:#555; border-radius:2px; padding: 2px 4px; color: #fff; font-size:80%;'>", tab, "</span>")
 }

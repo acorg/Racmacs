@@ -116,13 +116,6 @@ plotly_map_table_distance <- function(
 }
 
 
-#' Plot serum titers
-#'
-#' @name plot_sr_titers
-#' @family Map Diagnostics
-
-#' @export
-#' @rdname plot_sr_titers
 plot_sr_titers <- function(
   map,
   serum,
@@ -194,8 +187,6 @@ plot_sr_titers <- function(
 
 }
 
-#' @export
-#' @rdname plot_sr_titers
 plotly_sr_titers <- function(
   map,
   serum,
@@ -217,12 +208,7 @@ plotly_sr_titers <- function(
 
 }
 
-#' Plot stress per titer
-#'
-#' @name plot_stress_per_titer
-#' @family Map Diagnostics
 
-#' @export
 agMeanResiduals <- function(map, exclude_nd = TRUE){
 
   residuals <- mapResiduals(map)
@@ -231,7 +217,7 @@ agMeanResiduals <- function(map, exclude_nd = TRUE){
 
 }
 
-#' @export
+
 srMeanResiduals <- function(map, exclude_nd = TRUE){
 
   residuals <- mapResiduals(map)
@@ -240,7 +226,7 @@ srMeanResiduals <- function(map, exclude_nd = TRUE){
 
 }
 
-#' @export
+
 plot_agMeanResiduals <- function(map, exclude_nd = TRUE, .plot = TRUE){
   hist_ggplot(
     names  = agNames(map),
@@ -272,15 +258,15 @@ plot_srMeanResiduals <- function(map, exclude_nd = TRUE, .plot = TRUE){
   )
 }
 
-#' @export
+
 plotly_agMeanResiduals <- function(...){ plotlyfn(plot_agMeanResiduals)(...) }
 
 
-#' @export
-plot_agStressPerTiter <- function(map, exclude_nd = TRUE, .plot = TRUE){
+
+plot_agStressPerTiter <- function(map, .plot = TRUE){
   hist_ggplot(
     names  = agNames(map),
-    values = agStressPerTiter(map, exclude_nd = exclude_nd),
+    values = agStressPerTiter(map),
     title  = "Antigen stress per titer",
     subtitle = switch(
       exclude_nd,
@@ -292,15 +278,15 @@ plot_agStressPerTiter <- function(map, exclude_nd = TRUE, .plot = TRUE){
   )
 }
 
-#' @export
+
 plotly_agStressPerTiter <- function(...){ plotlyfn(plot_agStressPerTiter)(...) }
 
 
-#' @export
-plot_srStressPerTiter <- function(map, exclude_nd = TRUE, .plot = TRUE){
+
+plot_srStressPerTiter <- function(map, .plot = TRUE){
   hist_ggplot(
     names  = srNames(map),
-    values = srStressPerTiter(map, exclude_nd = exclude_nd),
+    values = srStressPerTiter(map),
     title  = "Serum stress per titer",
     subtitle = switch(
       exclude_nd,
@@ -312,7 +298,7 @@ plot_srStressPerTiter <- function(map, exclude_nd = TRUE, .plot = TRUE){
   )
 }
 
-#' @export
+
 plotly_srStressPerTiter <- function(...){ plotlyfn(plot_srStressPerTiter)(...) }
 
 

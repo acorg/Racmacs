@@ -274,7 +274,8 @@ srStress <- function(
 srStressPerTiter <- function(
   map,
   sera                = TRUE,
-  optimization_number = 1
+  optimization_number = 1,
+  exclude_nd          = FALSE
 ){
 
   # Convert to indices
@@ -304,7 +305,8 @@ srStressPerTiter <- function(
 agStressPerTiter <- function(
   map,
   antigens            = TRUE,
-  optimization_number = 1
+  optimization_number = 1,
+  exclude_nd          = FALSE
 ){
 
   # Convert to indices

@@ -289,14 +289,22 @@ randomizeCoords <- function(
   table_dists <- tableDistances(map, optimization_number = optimization_number)
   max_table_dist <- max(table_dists, na.rm = TRUE)
 
-  agBaseCoords(map) <- Racmacs:::random_coords(
+  random_coords <- function(nrow, ndim, min, max){
+    matrix(
+      data = runif(nrow*ndim, min, max),
+      nrow = nrow,
+      ncol = ndim
+    )
+  }
+
+  agBaseCoords(map) <- random_coords(
     nrow = numAntigens(map),
     ndim = mapDimensions(map, optimization_number = optimization_number),
     min  = -(max_table_dist*table_dist_factor)/2,
     max  = (max_table_dist*table_dist_factor)/2
   )
 
-  srBaseCoords(map) <- Racmacs:::random_coords(
+  srBaseCoords(map) <- random_coords(
     nrow = numSera(map),
     ndim = mapDimensions(map, optimization_number = optimization_number),
     min  = -(max_table_dist*table_dist_factor)/2,

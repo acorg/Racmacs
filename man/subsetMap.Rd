@@ -9,9 +9,9 @@ subsetMap(map, antigens = TRUE, sera = TRUE)
 \arguments{
 \item{map}{The antigenic map object}
 
-\item{antigens}{Antigens to keep}
+\item{antigens}{Antigens to keep, defaults to all.}
 
-\item{sera}{Sera to keep}
+\item{sera}{Sera to keep, defaults to all.}
 }
 \value{
 Returns a new antigenic map containing only match antigens and sera

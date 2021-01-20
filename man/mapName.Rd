@@ -2,9 +2,12 @@
 % Please edit documentation in R/map_props.R
 \name{mapName}
 \alias{mapName}
+\alias{mapName<-}
 \title{Getting and setting the map name}
 \usage{
 mapName(map)
+
+mapName<-(map)
 }
 \arguments{
 \item{map}{The acmap data object}
@@ -13,7 +16,7 @@ mapName(map)
 Returns either the requested attribute when using a getter function or the updated acmap object when using the setter function.
 }
 \description{
-You can use the standard \code{mapName()} function to get and set the map name.
+Getting and setting the map name
 }
 \seealso{
 Other {map attribute functions}: 

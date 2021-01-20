@@ -7,7 +7,7 @@
 removeOptimizations(map)
 }
 \arguments{
-\item{map}{the map data object}
+\item{map}{The acmap object}
 }
 \description{
 Remove all optimization run data from a map object

@@ -5,45 +5,27 @@
 \title{Realign map to match another}
 \usage{
 realignMap(map, target_map, translation = TRUE, scaling = FALSE)
-
-realignMap(map, target_map, translation = TRUE, scaling = FALSE)
 }
 \arguments{
 \item{map}{The acmap to realign.}
 
 \item{target_map}{The acmap to realign to.}
 
-\item{translation}{Should translation be allowe}
+\item{translation}{Should translation be allowed}
 
-\item{antigens}{Antigens to include when calculating the closest realignment, specified either by name or index or FALSE for excluding all.}
-
-\item{sera}{Sera to include when calculating the closest realignment, specified either by name or index or FALSE for excluding all.}
-
-\item{optimization_number}{The optimization from the map to realign (default is the currently selected one)}
-
-\item{target_optimization_number}{The optimization from the target map to realign to (default is the currently selected one)}
-
-\item{passage_matching}{The type of passage matching to be performed.}
-
-\item{alignTargetToMain}{Should the target map be realigned to match the main map (default is to
-realign main map to match target map) - this is sometimes useful if you want to
-match based on antigen and serum indices from the main map.}
+\item{scaling}{Should scaling be allowed (generally not recommended unless
+comparing maps made with different assays)}
 }
 \value{
-Returns the map aligned to the target map (or the target map aligned to the main map if alignTargetToMain is TRUE)
-
-Returns the map aligned to the target map (or the target map aligned to the main map if alignTargetToMain is TRUE)
+Returns the map aligned to the target map
 }
 \description{
-Realigns the coordinates of a map to match a target map as closely as possible.
-
-Realigns the coordinates of a map to match a target map as closely as possible.
+Realigns the coordinates of a map to match a target map as closely as
+possible, based on a \href{https://en.wikipedia.org/wiki/Procrustes_analysis}{procrustes analysis}.
+Note that all optimization runs will be separately aligned to match as
+closely as possible the first optimization run of the target map.
 }
 \seealso{
-Other {functions to compare maps}: 
-\code{\link{procrustesMap}()},
-\code{\link{realignOptimizations}()}
-
 Other {functions to compare maps}: 
 \code{\link{procrustesMap}()},
 \code{\link{realignOptimizations}()}

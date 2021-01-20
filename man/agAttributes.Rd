@@ -6,10 +6,10 @@
 \alias{agNames}
 \alias{agNames<-}
 \alias{agIDs<-}
-\alias{agNamesFull}
-\alias{agNamesAbbreviated}
 \alias{agDates}
 \alias{agDates<-}
+\alias{agNamesFull}
+\alias{agNamesAbbreviated}
 \alias{agReference}
 \title{Getting and setting antigen attributes}
 \usage{
@@ -21,13 +21,13 @@ agIDs(map)
 
 agIDs<-(map)
 
-agNamesFull(map)
-
-agNamesAbbreviated(map)
-
 agDates(map)
 
 agDates<-(map)
+
+agNamesFull(map)
+
+agNamesAbbreviated(map)
 
 agReference(map)
 }
@@ -41,7 +41,7 @@ Returns either the requested attribute when using a getter function or the updat
 These functions get and set the antigen attributes for a map.
 }
 \seealso{
-\code{\link{srAttributes}}
+\code{srAttributes()}
 
 Other {antigen and sera attribute functions}: 
 \code{\link{agGroups}()},

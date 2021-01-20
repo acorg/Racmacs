@@ -3,17 +3,23 @@
 \name{colBases}
 \alias{colBases}
 \alias{minColBasis}
+\alias{minColBasis<-}
 \alias{fixedColBases}
+\alias{fixedColBases<-}
 \title{Getting and setting column bases}
 \usage{
 minColBasis(map, optimization_number = NULL)
 
+minColBasis<-(map, optimization_number = NULL)
+
 fixedColBases(map, optimization_number = NULL)
+
+fixedColBases<-(map, optimization_number = NULL)
 }
 \arguments{
 \item{map}{The acmap data object}
 
-\item{optimization_number}{The optimization run to get / set the data (by default the currently selected one)}
+\item{optimization_number}{The optimization run from which to get / set the data}
 }
 \value{
 Returns either the requested attribute when using a getter function or the updated acmap object when using the setter function.

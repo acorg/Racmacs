@@ -9,16 +9,16 @@ recalculateStress(map, optimization_number = NULL)
 \arguments{
 \item{map}{The acmap data object}
 
-\item{optimization_number}{The optimization data to access (defaults to the currently selected optimization)}
+\item{optimization_number}{The optimization number}
 }
 \value{
-Returns the map stress
+Returns the recalculted map stress for a given optimization
 }
 \description{
 Recalculates the stress associated with the currently selected or user-specifed optimization.
 }
 \seealso{
-See \link{pointStress} for getting the stress of individual points.
+See \code{pointStress()} for getting the stress of individual points.
 
 Other {map diagnostic functions}{functions relating to map stress calculation}: 
 \code{\link{logtiterTable}()},

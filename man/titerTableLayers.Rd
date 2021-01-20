@@ -2,18 +2,27 @@
 % Please edit documentation in R/map_props.R
 \name{titerTableLayers}
 \alias{titerTableLayers}
+\alias{titerTableLayers<-}
 \title{Getting and setting titer table layers}
 \usage{
 titerTableLayers(map)
+
+titerTableLayers(map) <- value
 }
 \arguments{
-\item{map}{The acmap data object}
-}
-\value{
-Returns either the requested attribute when using a getter function or the updated acmap object when using the setter function.
+\item{map}{The acmap object}
 }
 \description{
 Functions to get and set the underlying titer table layers of a map (see details).
+}
+\details{
+When you merge maps with \code{mergeMaps()} repeated antigen - serum
+titers are merged to create a new titer table but information on the
+original titers is not lost. The original titer tables, aligned to their
+new positions in the merged table, are kept as separate layers that can be
+accessed with these functions. If you have merged a whole bunch of
+different maps, these functions can be useful to check for example,
+variation in titer seen between a single antigen and serum pair.
 }
 \seealso{
 Other {map attribute functions}: 

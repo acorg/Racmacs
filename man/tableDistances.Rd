@@ -9,16 +9,16 @@ tableDistances(map, optimization_number = 1)
 \arguments{
 \item{map}{The acmap data object}
 
-\item{optimization_number}{The optimization data to access (defaults to the currently selected optimization)}
+\item{optimization_number}{The optimization number}
 }
 \value{
-Returns a list with a matrix of numeric table distances and whether
-they are associated with more than or less than titers.
+Returns a matrix of numeric table distances
 }
 \description{
 Takes the acmap object and, assuming the column bases associated with the
 currently selected or specifed optimization, returns the table distances
-calculated from the titer data.
+calculated from the titer data. For more information on column bases and
+their role in antigenic cartography see \code{vignette("intro-to-antigenic-cartography")}
 }
 \seealso{
 Other {map diagnostic functions}{functions relating to map stress calculation}: 

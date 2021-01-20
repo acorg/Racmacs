@@ -7,12 +7,12 @@
 sortOptimizations(map)
 }
 \arguments{
-\item{map}{map data object}
+\item{map}{The acmap object}
 }
 \description{
 Sorts all the optimization runs for a given map object by stress
 (lowest to highest). Note that this is done by default when running
-\code{\link[=optimizeMap]{optimizeMap()}}.
+\code{optimizeMap()}.
 }
 \seealso{
 Other {functions to work with map optimizations}: 

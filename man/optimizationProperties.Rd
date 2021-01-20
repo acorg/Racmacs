@@ -11,7 +11,7 @@ allMapStresses(map)
 allMapDimensions(map)
 }
 \arguments{
-\item{map}{map data object}
+\item{map}{The acmap object}
 }
 \description{
 Utility functions to get a vector of all the map optimization

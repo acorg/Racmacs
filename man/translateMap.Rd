@@ -9,9 +9,9 @@ translateMap(map, translation, optimization_number = NULL)
 \arguments{
 \item{map}{The acmap object}
 
-\item{translation}{Translation to apply (as vector)}
+\item{translation}{Translation to apply (as vector or n x 1 matrix)}
 
-\item{optimization_number}{The optimization number (by default the selected one)}
+\item{optimization_number}{The optimization number (or NULL to apply to all optimizations)}
 }
 \description{
 Translates map coordinates

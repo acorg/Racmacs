@@ -8,25 +8,20 @@
 \alias{agStressPerTiter}
 \title{Get individual point stress}
 \usage{
-agStress(map, antigens = TRUE, optimization_number = 1, warnings = TRUE)
+agStress(map, antigens = TRUE, optimization_number = 1)
 
-srStress(map, sera = TRUE, optimization_number = 1, warnings = TRUE)
+srStress(map, sera = TRUE, optimization_number = 1)
 
-srStressPerTiter(map, sera = TRUE, optimization_number = 1, exclude_nd = TRUE)
+srStressPerTiter(map, sera = TRUE, optimization_number = 1)
 
-agStressPerTiter(
-  map,
-  antigens = TRUE,
-  optimization_number = 1,
-  exclude_nd = TRUE
-)
+agStressPerTiter(map, antigens = TRUE, optimization_number = 1)
 }
 \arguments{
 \item{map}{The acmap data object}
 
 \item{antigens}{Which antigens to check stress for, specified by index or name (defaults to all antigens).}
 
-\item{optimization_number}{The optimization data to access (defaults to the currently selected optimization)}
+\item{optimization_number}{The optimization number}
 
 \item{sera}{Which sera to check stress for, specified by index or name (defaults to all sera).}
 }
@@ -34,7 +29,7 @@ agStressPerTiter(
 Functions to get stress associated with individual points in a map.
 }
 \seealso{
-See \code{\link{mapStress}} for getting the total map stress directly.
+See \code{mapStress()} for getting the total map stress directly.
 
 Other {map diagnostic functions}{functions relating to map stress calculation}: 
 \code{\link{logtiterTable}()},

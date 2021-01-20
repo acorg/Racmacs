@@ -13,12 +13,12 @@ keepSingleOptimization(map, optimization_number = 1)
 keepBestOptimization(map)
 }
 \arguments{
-\item{map}{the map data object}
+\item{map}{The acmap object}
 }
 \description{
-Keep only data from a single optimization run, either a specified
-optimization (defaulting to the selected one), or the "best"
-(lowest stress) optimization
+Keep only data from specified optimization runs, either a specified
+optimization, or the "best" (lowest stress) optimization, or a vector of
+optimizations
 }
 \seealso{
 Other {functions to work with map optimizations}: 

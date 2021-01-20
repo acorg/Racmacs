@@ -19,7 +19,7 @@ srBaseCoords<-(map, optimization_number = NULL)
 \arguments{
 \item{map}{The acmap data object}
 
-\item{optimization_number}{The optimization run to get / set the data (by default the currently selected one)}
+\item{optimization_number}{The optimization run from which to get / set the data}
 }
 \value{
 Returns either the requested attribute when using a getter function or the updated acmap object when using the setter function.
@@ -28,8 +28,8 @@ Returns either the requested attribute when using a getter function or the updat
 These functions get and set the base coordinates for a given optimization run.
 }
 \seealso{
-\code{\link{agCoords}}
-\code{\link{srCoords}}
+\code{agCoords()}
+\code{srCoords()}
 
 Other {map optimization attribute functions}: 
 \code{\link{colBases}()},

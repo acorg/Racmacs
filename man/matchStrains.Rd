@@ -16,7 +16,8 @@ match_mapSera(map1, map2)
 \item{map2}{The map to match names to.}
 }
 \value{
-Returns the indices of matching strains in map 2, or NA in the position of strains not found.
+Returns the indices of matching strains in map 2, or NA in the
+position of strains not found.
 }
 \description{
 Find matching antigens or sera between 2 maps

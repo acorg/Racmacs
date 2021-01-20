@@ -8,9 +8,9 @@
 #' @param dimensions_to_test A numeric vector of dimensions to be tested
 #' @param test_proportion The proportion of data to be used as the test set for each test run
 #' @param minimum_column_basis The minimum column basis to use
-#' @param fixed_column_bases
+#' @param fixed_column_bases A vector of fixed column bases with NA for sera where the minimum column basis should be applied
 #' @param number_of_optimizations The number of optimizations to perform when creating each map for the dimension test
-#' @param replicates_per_dimension
+#' @param replicates_per_dimension The number of tests to perform per dimension tested
 #' @param options Map optimizer options, see `RacOptimizer.options()`
 #'
 #' @return Returns a table of results, including the dimensions tested and the standard deviation of predicted vs residual error.

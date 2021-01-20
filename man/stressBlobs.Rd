@@ -2,7 +2,7 @@
 % Please edit documentation in R/rac_blobs.R
 \name{stressBlobs}
 \alias{stressBlobs}
-\title{Add stress blob data to a map object}
+\title{Calculate stress blobs data for an antigenic map}
 \usage{
 stressBlobs(
   map,
@@ -10,7 +10,8 @@ stressBlobs(
   grid_spacing = 0.25,
   antigens = TRUE,
   sera = TRUE,
-  .check_relaxation = TRUE
+  .check_relaxation = TRUE,
+  .options = list()
 )
 }
 \arguments{
@@ -18,21 +19,40 @@ stressBlobs(
 
 \item{stress_lim}{The blob stress limit}
 
-\item{grid_spacing}{Grid spacing to use when calculating the blob}
+\item{grid_spacing}{Grid spacing to use when searching map space and
+inferring the blob}
 
-\item{antigens}{Antigens to calculate blobs for (TRUE for all FALSE for none, or specified by name or index)}
+\item{antigens}{Should stress blobs be calculated for antigens}
 
-\item{sera}{Sera to calculate blobs for (TRUE for all FALSE for none, or specified by name or index)}
+\item{sera}{Should stress blobs be calculated for sera}
 
-\item{data}{The stress data to add (calculated if not provided)}
+\item{.check_relaxation}{Should a check be performed that the map is fully
+relaxed (all points in a local optima) before the search is performed}
 
-\item{optimization_number}{The optimization number (defaults to the currently selected one)}
-
-\item{progress_fn}{Function to use for progress reporting}
+\item{.options}{List of named optimizer options to use when checking map
+relaxation, see \code{RacOptimizer.options()}}
 }
 \value{
-Returns the acmap data object with stress blob information added
+Returns the acmap data object with stress blob information added,
+which will be shown when the map is plotted
 }
 \description{
-Add stress blob data to a map object
+This function is to help give an idea of how well coordinated each point is
+in a map, and to give some idea of uncertainty in it's position. It works
+by moving each point in a grid search and seeing how the total map stress
+changes, see details.
+}
+\details{
+The region or regions of the plot where total map stress is not
+increased above a certain threshold (\code{stress_lim}) are shown when the map
+is plotted. This function is really to check whether point positions are
+clearly very uncertain, for example the underlying titers may support an
+antigen being a certain distance away from a group of other points but due
+to the positions of the sera against which it was titrated the direction
+would be unclear, and you might see a blob that forms an arc or "banana"
+that represents this. Note that it is not really a confidence interval
+since a point may be well coordinated in terms of the optimization but
+it's position may still be defined by perhaps only one particular titer
+which is itself uncertain. For something more akin to confidence intervals
+you can use other diagnostic functions like \code{bootstrapMap()}.
 }

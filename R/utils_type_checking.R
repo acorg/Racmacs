@@ -11,4 +11,10 @@ check.numericvector <- function(x){ if(!is.vector(x) || !is.numeric(x)) stop("In
 check.logical <- function(x){ if(length(x) > 1 || !is.logical(x)) stop("Input must be a logical vector of length one", call. = FALSE) }
 check.logicalvector <- function(x){ if(!is.vector(x) || !is.logical(x)) stop("Input must be a logical vector", call. = FALSE) }
 check.charactervector <- function(x){ if(!is.vector(x) || !is.character(x)) stop("Input must be a character vector", call. = FALSE) }
+check.charactermatrix <- function(x){ if(!is.matrix(x) || !is.character(x)) stop("Input must be a numeric matrix", call. = FALSE) }
 
+# This function formats titers or a titer table, replacing NA values with "*"
+format_titers <- function(titers){
+  titers[is.na(titers)] <- "*"
+  titers
+}

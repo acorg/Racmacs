@@ -33,10 +33,3 @@ test_that("Reading in stress ordered", {
   )
 })
 
-# Keeping only best stress
-map_best_stress <- read.acmap(filename = save_file, only_best_optimization = TRUE)
-
-test_that("Reading in best stress", {
-  expect_equal(numOptimizations(map_best_stress), 1)
-  expect_equal(mapStress(map_best_stress), min(allMapStresses(map_full)))
-})

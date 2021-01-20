@@ -4,7 +4,7 @@ library(testthat)
 context("Test reading and editing of plotspec data")
 
 # Load the map and the chart
-racmap <- read.acmap(filename = test_path("../testdata/testmap.ace"))
+map <- read.acmap(filename = test_path("../testdata/testmap.ace"))
 
 ## Test defaults
 test_that("Test acmap defaults", {
@@ -61,10 +61,10 @@ test_that("Edit plotspec details", {
 
 
     # Test setting
-    racmap <- agSetterFunction(racmap, value = test_value)
-    racmap <- srSetterFunction(racmap, value = test_value)
-    expect_equal(agGetterFunction(racmap), rep(test_value, numAntigens(racmap)))
-    expect_equal(srGetterFunction(racmap), rep(test_value, numSera(racmap)))
+    map <- agSetterFunction(map, value = test_value)
+    map <- srSetterFunction(map, value = test_value)
+    expect_equal(agGetterFunction(map), rep(test_value, numAntigens(map)))
+    expect_equal(srGetterFunction(map), rep(test_value, numSera(map)))
 
   }
 

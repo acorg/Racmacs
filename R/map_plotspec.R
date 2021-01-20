@@ -18,12 +18,11 @@ applyPlotspec <- function(
   ag_match <- match_mapAntigens(map, source_map)
   sr_match <- match_mapSera(map, source_map)
 
-  for(method in plotspec_methods){
-    if(substr(method, 1, 2) == "ag") pt_match <- ag_match
-    else                             pt_match <- sr_match
-    getter     <- get(method)
-    `getter<-` <- get(paste0(method, "<-"))
-    getter(map)[!is.na(pt_match)] <- getter(source_map)[pt_match[!is.na(pt_match)]]
+  for(i in which(!is.na(ag_match))){
+    map$antigens[[i]]$plotspec <- source_map$antigens[[ag_match[i]]]$plotspec
+  }
+  for(i in which(!is.na(sr_match))){
+    map$sera[[i]]$plotspec <- source_map$sera[[sr_match[i]]]$plotspec
   }
 
   map

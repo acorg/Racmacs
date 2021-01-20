@@ -127,14 +127,14 @@ Value json_point_style(
 ){
 
   Value ptstyle(kObjectType);
-  ptstyle.AddMember("+", pt.get_shown(), allocator);
-  ptstyle.AddMember("F", strval(pt.get_fill(), allocator), allocator);
-  ptstyle.AddMember("O", strval(pt.get_outline(), allocator), allocator);
-  ptstyle.AddMember("o", pt.get_outline_width(), allocator);
-  ptstyle.AddMember("S", strval(pt.get_shape(), allocator), allocator);
-  ptstyle.AddMember("s", pt.get_size(), allocator);
-  ptstyle.AddMember("r", pt.get_rotation(), allocator);
-  ptstyle.AddMember("a", pt.get_aspect(), allocator);
+  ptstyle.AddMember("+", pt.plotspec.get_shown(), allocator);
+  ptstyle.AddMember("F", strval(pt.plotspec.get_fill(), allocator), allocator);
+  ptstyle.AddMember("O", strval(pt.plotspec.get_outline(), allocator), allocator);
+  ptstyle.AddMember("o", pt.plotspec.get_outline_width(), allocator);
+  ptstyle.AddMember("S", strval(pt.plotspec.get_shape(), allocator), allocator);
+  ptstyle.AddMember("s", pt.plotspec.get_size(), allocator);
+  ptstyle.AddMember("r", pt.plotspec.get_rotation(), allocator);
+  ptstyle.AddMember("a", pt.plotspec.get_aspect(), allocator);
   return ptstyle;
 
 }

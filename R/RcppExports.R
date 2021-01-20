@@ -57,6 +57,10 @@ ac_optimize_map <- function(map, num_dims, num_optimizations, min_col_basis, fix
     .Call('_Racmacs_ac_optimize_map', PACKAGE = 'Racmacs', map, num_dims, num_optimizations, min_col_basis, fixed_col_bases, options)
 }
 
+ac_new_antigen <- function(name) {
+    .Call('_Racmacs_ac_new_antigen', PACKAGE = 'Racmacs', name)
+}
+
 ac_ag_get_id <- function(ag) {
     .Call('_Racmacs_ac_ag_get_id', PACKAGE = 'Racmacs', ag)
 }
@@ -205,132 +209,72 @@ ac_apply_optimization_transform <- function(opt, coords) {
     .Call('_Racmacs_ac_apply_optimization_transform', PACKAGE = 'Racmacs', opt, coords)
 }
 
-ac_ag_get_shown <- function(ag) {
-    .Call('_Racmacs_ac_ag_get_shown', PACKAGE = 'Racmacs', ag)
+ac_plotspec_get_shown <- function(ps) {
+    .Call('_Racmacs_ac_plotspec_get_shown', PACKAGE = 'Racmacs', ps)
 }
 
-ac_ag_get_size <- function(ag) {
-    .Call('_Racmacs_ac_ag_get_size', PACKAGE = 'Racmacs', ag)
+ac_plotspec_get_size <- function(ps) {
+    .Call('_Racmacs_ac_plotspec_get_size', PACKAGE = 'Racmacs', ps)
 }
 
-ac_ag_get_fill <- function(ag) {
-    .Call('_Racmacs_ac_ag_get_fill', PACKAGE = 'Racmacs', ag)
+ac_plotspec_get_fill <- function(ps) {
+    .Call('_Racmacs_ac_plotspec_get_fill', PACKAGE = 'Racmacs', ps)
 }
 
-ac_ag_get_outline <- function(ag) {
-    .Call('_Racmacs_ac_ag_get_outline', PACKAGE = 'Racmacs', ag)
+ac_plotspec_get_outline <- function(ps) {
+    .Call('_Racmacs_ac_plotspec_get_outline', PACKAGE = 'Racmacs', ps)
 }
 
-ac_ag_get_outline_width <- function(ag) {
-    .Call('_Racmacs_ac_ag_get_outline_width', PACKAGE = 'Racmacs', ag)
+ac_plotspec_get_outline_width <- function(ps) {
+    .Call('_Racmacs_ac_plotspec_get_outline_width', PACKAGE = 'Racmacs', ps)
 }
 
-ac_ag_get_rotation <- function(ag) {
-    .Call('_Racmacs_ac_ag_get_rotation', PACKAGE = 'Racmacs', ag)
+ac_plotspec_get_rotation <- function(ps) {
+    .Call('_Racmacs_ac_plotspec_get_rotation', PACKAGE = 'Racmacs', ps)
 }
 
-ac_ag_get_aspect <- function(ag) {
-    .Call('_Racmacs_ac_ag_get_aspect', PACKAGE = 'Racmacs', ag)
+ac_plotspec_get_aspect <- function(ps) {
+    .Call('_Racmacs_ac_plotspec_get_aspect', PACKAGE = 'Racmacs', ps)
 }
 
-ac_ag_get_shape <- function(ag) {
-    .Call('_Racmacs_ac_ag_get_shape', PACKAGE = 'Racmacs', ag)
+ac_plotspec_get_shape <- function(ps) {
+    .Call('_Racmacs_ac_plotspec_get_shape', PACKAGE = 'Racmacs', ps)
 }
 
-ac_sr_get_shown <- function(sr) {
-    .Call('_Racmacs_ac_sr_get_shown', PACKAGE = 'Racmacs', sr)
+ac_plotspec_set_shown <- function(ps, value) {
+    .Call('_Racmacs_ac_plotspec_set_shown', PACKAGE = 'Racmacs', ps, value)
 }
 
-ac_sr_get_size <- function(sr) {
-    .Call('_Racmacs_ac_sr_get_size', PACKAGE = 'Racmacs', sr)
+ac_plotspec_set_size <- function(ps, value) {
+    .Call('_Racmacs_ac_plotspec_set_size', PACKAGE = 'Racmacs', ps, value)
 }
 
-ac_sr_get_fill <- function(sr) {
-    .Call('_Racmacs_ac_sr_get_fill', PACKAGE = 'Racmacs', sr)
+ac_plotspec_set_fill <- function(ps, value) {
+    .Call('_Racmacs_ac_plotspec_set_fill', PACKAGE = 'Racmacs', ps, value)
 }
 
-ac_sr_get_outline <- function(sr) {
-    .Call('_Racmacs_ac_sr_get_outline', PACKAGE = 'Racmacs', sr)
+ac_plotspec_set_outline <- function(ps, value) {
+    .Call('_Racmacs_ac_plotspec_set_outline', PACKAGE = 'Racmacs', ps, value)
 }
 
-ac_sr_get_outline_width <- function(sr) {
-    .Call('_Racmacs_ac_sr_get_outline_width', PACKAGE = 'Racmacs', sr)
+ac_plotspec_set_outline_width <- function(ps, value) {
+    .Call('_Racmacs_ac_plotspec_set_outline_width', PACKAGE = 'Racmacs', ps, value)
 }
 
-ac_sr_get_rotation <- function(sr) {
-    .Call('_Racmacs_ac_sr_get_rotation', PACKAGE = 'Racmacs', sr)
+ac_plotspec_set_rotation <- function(ps, value) {
+    .Call('_Racmacs_ac_plotspec_set_rotation', PACKAGE = 'Racmacs', ps, value)
 }
 
-ac_sr_get_aspect <- function(sr) {
-    .Call('_Racmacs_ac_sr_get_aspect', PACKAGE = 'Racmacs', sr)
+ac_plotspec_set_aspect <- function(ps, value) {
+    .Call('_Racmacs_ac_plotspec_set_aspect', PACKAGE = 'Racmacs', ps, value)
 }
 
-ac_sr_get_shape <- function(sr) {
-    .Call('_Racmacs_ac_sr_get_shape', PACKAGE = 'Racmacs', sr)
+ac_plotspec_set_shape <- function(ps, value) {
+    .Call('_Racmacs_ac_plotspec_set_shape', PACKAGE = 'Racmacs', ps, value)
 }
 
-ac_ag_set_shown <- function(ag, value) {
-    .Call('_Racmacs_ac_ag_set_shown', PACKAGE = 'Racmacs', ag, value)
-}
-
-ac_ag_set_size <- function(ag, value) {
-    .Call('_Racmacs_ac_ag_set_size', PACKAGE = 'Racmacs', ag, value)
-}
-
-ac_ag_set_fill <- function(ag, value) {
-    .Call('_Racmacs_ac_ag_set_fill', PACKAGE = 'Racmacs', ag, value)
-}
-
-ac_ag_set_outline <- function(ag, value) {
-    .Call('_Racmacs_ac_ag_set_outline', PACKAGE = 'Racmacs', ag, value)
-}
-
-ac_ag_set_outline_width <- function(ag, value) {
-    .Call('_Racmacs_ac_ag_set_outline_width', PACKAGE = 'Racmacs', ag, value)
-}
-
-ac_ag_set_rotation <- function(ag, value) {
-    .Call('_Racmacs_ac_ag_set_rotation', PACKAGE = 'Racmacs', ag, value)
-}
-
-ac_ag_set_aspect <- function(ag, value) {
-    .Call('_Racmacs_ac_ag_set_aspect', PACKAGE = 'Racmacs', ag, value)
-}
-
-ac_ag_set_shape <- function(ag, value) {
-    .Call('_Racmacs_ac_ag_set_shape', PACKAGE = 'Racmacs', ag, value)
-}
-
-ac_sr_set_shown <- function(sr, value) {
-    .Call('_Racmacs_ac_sr_set_shown', PACKAGE = 'Racmacs', sr, value)
-}
-
-ac_sr_set_size <- function(sr, value) {
-    .Call('_Racmacs_ac_sr_set_size', PACKAGE = 'Racmacs', sr, value)
-}
-
-ac_sr_set_fill <- function(sr, value) {
-    .Call('_Racmacs_ac_sr_set_fill', PACKAGE = 'Racmacs', sr, value)
-}
-
-ac_sr_set_outline <- function(sr, value) {
-    .Call('_Racmacs_ac_sr_set_outline', PACKAGE = 'Racmacs', sr, value)
-}
-
-ac_sr_set_outline_width <- function(sr, value) {
-    .Call('_Racmacs_ac_sr_set_outline_width', PACKAGE = 'Racmacs', sr, value)
-}
-
-ac_sr_set_rotation <- function(sr, value) {
-    .Call('_Racmacs_ac_sr_set_rotation', PACKAGE = 'Racmacs', sr, value)
-}
-
-ac_sr_set_aspect <- function(sr, value) {
-    .Call('_Racmacs_ac_sr_set_aspect', PACKAGE = 'Racmacs', sr, value)
-}
-
-ac_sr_set_shape <- function(sr, value) {
-    .Call('_Racmacs_ac_sr_set_shape', PACKAGE = 'Racmacs', sr, value)
+ac_new_serum <- function(name) {
+    .Call('_Racmacs_ac_new_serum', PACKAGE = 'Racmacs', name)
 }
 
 ac_sr_get_id <- function(sr) {

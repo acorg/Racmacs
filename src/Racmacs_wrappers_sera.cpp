@@ -3,6 +3,15 @@
 #include "acmap_map.h"
 #include "acmap_point.h"
 
+
+// [[Rcpp::export(rng = false)]]
+AcSerum ac_new_serum( std::string name ){
+  AcSerum sr;
+  sr.set_name(name);
+  return sr;
+}
+
+
 // --- GETTERS -----------------------------
 
 // [[Rcpp::export(rng = false)]]

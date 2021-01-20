@@ -9,12 +9,16 @@ plotspec_getter <- function(pttype, fn){
       if(pttype == "ag"){
         function(map){
           check.acmap(map)
-          sapply(map$antigens, fn)
+          sapply(map$antigens, function(ag){
+            fn(ag$plotspec)
+          })
         }
       } else {
         function(map, value){
           check.acmap(map)
-          sapply(map$sera, fn)
+          sapply(map$sera, function(sr){
+            fn(sr$plotspec)
+          })
         }
       }
     })
@@ -39,7 +43,8 @@ plotspec_setter <- function(pttype, fn, checker_fn = NULL){
             stop("Input does not match the number of antigens", call. = FALSE)
           }
           map$antigens <- lapply(seq_along(map$antigens), function(x){
-            fn(map$antigens[[x]], value[x])
+            map$antigens[[x]]$plotspec <- fn(map$antigens[[x]]$plotspec, value[x])
+            map$antigens[[x]]
           })
           map
         }
@@ -54,7 +59,8 @@ plotspec_setter <- function(pttype, fn, checker_fn = NULL){
             stop("Input does not match the number of sera", call. = FALSE)
           }
           map$sera <- lapply(seq_along(map$sera), function(x){
-            fn(map$sera[[x]], value[x])
+            map$sera[[x]]$plotspec <- fn(map$sera[[x]]$plotspec, value[x])
+            map$sera[[x]]
           })
           map
         }
@@ -84,39 +90,39 @@ plotspec_setter <- function(pttype, fn, checker_fn = NULL){
 #'   args = c("map")
 #' )
 #'
-agShown        <- plotspec_getter("ag", ac_ag_get_shown)
-agSize         <- plotspec_getter("ag", ac_ag_get_size)
-agFill         <- plotspec_getter("ag", ac_ag_get_fill)
-agOutline      <- plotspec_getter("ag", ac_ag_get_outline)
-agOutlineWidth <- plotspec_getter("ag", ac_ag_get_outline_width)
-agRotation     <- plotspec_getter("ag", ac_ag_get_rotation)
-agAspect       <- plotspec_getter("ag", ac_ag_get_aspect)
-agShape        <- plotspec_getter("ag", ac_ag_get_shape)
-srShown        <- plotspec_getter("sr", ac_sr_get_shown)
-srSize         <- plotspec_getter("sr", ac_sr_get_size)
-srFill         <- plotspec_getter("sr", ac_sr_get_fill)
-srOutline      <- plotspec_getter("sr", ac_sr_get_outline)
-srOutlineWidth <- plotspec_getter("sr", ac_sr_get_outline_width)
-srRotation     <- plotspec_getter("sr", ac_sr_get_rotation)
-srAspect       <- plotspec_getter("sr", ac_sr_get_aspect)
-srShape        <- plotspec_getter("sr", ac_sr_get_shape)
+agShown        <- plotspec_getter("ag", ac_plotspec_get_shown)
+agSize         <- plotspec_getter("ag", ac_plotspec_get_size)
+agFill         <- plotspec_getter("ag", ac_plotspec_get_fill)
+agOutline      <- plotspec_getter("ag", ac_plotspec_get_outline)
+agOutlineWidth <- plotspec_getter("ag", ac_plotspec_get_outline_width)
+agRotation     <- plotspec_getter("ag", ac_plotspec_get_rotation)
+agAspect       <- plotspec_getter("ag", ac_plotspec_get_aspect)
+agShape        <- plotspec_getter("ag", ac_plotspec_get_shape)
+srShown        <- plotspec_getter("sr", ac_plotspec_get_shown)
+srSize         <- plotspec_getter("sr", ac_plotspec_get_size)
+srFill         <- plotspec_getter("sr", ac_plotspec_get_fill)
+srOutline      <- plotspec_getter("sr", ac_plotspec_get_outline)
+srOutlineWidth <- plotspec_getter("sr", ac_plotspec_get_outline_width)
+srRotation     <- plotspec_getter("sr", ac_plotspec_get_rotation)
+srAspect       <- plotspec_getter("sr", ac_plotspec_get_aspect)
+srShape        <- plotspec_getter("sr", ac_plotspec_get_shape)
 
-`agShown<-`        <- plotspec_setter("ag", ac_ag_set_shown, check.logicalvector)
-`agSize<-`         <- plotspec_setter("ag", ac_ag_set_size, check.numericvector)
-`agFill_raw<-`     <- plotspec_setter("ag", ac_ag_set_fill, check.charactervector)
-`agOutline_raw<-`  <- plotspec_setter("ag", ac_ag_set_outline, check.charactervector)
-`agOutlineWidth<-` <- plotspec_setter("ag", ac_ag_set_outline_width, check.numericvector)
-`agRotation<-`     <- plotspec_setter("ag", ac_ag_set_rotation, check.numericvector)
-`agAspect<-`       <- plotspec_setter("ag", ac_ag_set_aspect, check.numericvector)
-`agShape<-`        <- plotspec_setter("ag", ac_ag_set_shape, check.charactervector)
-`srShown<-`        <- plotspec_setter("sr", ac_sr_set_shown, check.logicalvector)
-`srSize<-`         <- plotspec_setter("sr", ac_sr_set_size, check.numericvector)
-`srFill_raw<-`     <- plotspec_setter("sr", ac_sr_set_fill, check.charactervector)
-`srOutline_raw<-`  <- plotspec_setter("sr", ac_sr_set_outline, check.charactervector)
-`srOutlineWidth<-` <- plotspec_setter("sr", ac_sr_set_outline_width, check.numericvector)
-`srRotation<-`     <- plotspec_setter("sr", ac_sr_set_rotation, check.numericvector)
-`srAspect<-`       <- plotspec_setter("sr", ac_sr_set_aspect, check.numericvector)
-`srShape<-`        <- plotspec_setter("sr", ac_sr_set_shape, check.charactervector)
+`agShown<-`        <- plotspec_setter("ag", ac_plotspec_set_shown, check.logicalvector)
+`agSize<-`         <- plotspec_setter("ag", ac_plotspec_set_size, check.numericvector)
+`agFill_raw<-`     <- plotspec_setter("ag", ac_plotspec_set_fill, check.charactervector)
+`agOutline_raw<-`  <- plotspec_setter("ag", ac_plotspec_set_outline, check.charactervector)
+`agOutlineWidth<-` <- plotspec_setter("ag", ac_plotspec_set_outline_width, check.numericvector)
+`agRotation<-`     <- plotspec_setter("ag", ac_plotspec_set_rotation, check.numericvector)
+`agAspect<-`       <- plotspec_setter("ag", ac_plotspec_set_aspect, check.numericvector)
+`agShape<-`        <- plotspec_setter("ag", ac_plotspec_set_shape, check.charactervector)
+`srShown<-`        <- plotspec_setter("sr", ac_plotspec_set_shown, check.logicalvector)
+`srSize<-`         <- plotspec_setter("sr", ac_plotspec_set_size, check.numericvector)
+`srFill_raw<-`     <- plotspec_setter("sr", ac_plotspec_set_fill, check.charactervector)
+`srOutline_raw<-`  <- plotspec_setter("sr", ac_plotspec_set_outline, check.charactervector)
+`srOutlineWidth<-` <- plotspec_setter("sr", ac_plotspec_set_outline_width, check.numericvector)
+`srRotation<-`     <- plotspec_setter("sr", ac_plotspec_set_rotation, check.numericvector)
+`srAspect<-`       <- plotspec_setter("sr", ac_plotspec_set_aspect, check.numericvector)
+`srShape<-`        <- plotspec_setter("sr", ac_plotspec_set_shape, check.charactervector)
 
 # Extra functions that include a color validation step
 validate_colors <- function(cols){

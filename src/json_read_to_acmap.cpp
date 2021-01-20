@@ -67,14 +67,14 @@ void set_style_from_json(
   const Value& style
 ){
 
-  if(style.HasMember("+")) pt.set_shown( style["+"].GetBool() );           // Point shown
-  if(style.HasMember("F")) pt.set_fill( style["F"].GetString() );          // Fill color
-  if(style.HasMember("O")) pt.set_outline( style["O"].GetString() );       // Outline color
-  if(style.HasMember("o")) pt.set_outline_width( style["o"].GetDouble() ); // Outline width
-  if(style.HasMember("S")) pt.set_shape( style["S"].GetString() );         // Shape
-  if(style.HasMember("s")) pt.set_size( style["s"].GetDouble() );          // Size
-  if(style.HasMember("r")) pt.set_rotation( style["r"].GetDouble() );      // Rotation
-  if(style.HasMember("a")) pt.set_aspect( style["a"].GetDouble() );        // Aspect
+  if(style.HasMember("+")) pt.plotspec.set_shown( style["+"].GetBool() );           // Point shown
+  if(style.HasMember("F")) pt.plotspec.set_fill( style["F"].GetString() );          // Fill color
+  if(style.HasMember("O")) pt.plotspec.set_outline( style["O"].GetString() );       // Outline color
+  if(style.HasMember("o")) pt.plotspec.set_outline_width( style["o"].GetDouble() ); // Outline width
+  if(style.HasMember("S")) pt.plotspec.set_shape( style["S"].GetString() );         // Shape
+  if(style.HasMember("s")) pt.plotspec.set_size( style["s"].GetDouble() );          // Size
+  if(style.HasMember("r")) pt.plotspec.set_rotation( style["r"].GetDouble() );      // Rotation
+  if(style.HasMember("a")) pt.plotspec.set_aspect( style["a"].GetDouble() );        // Aspect
 
 }
 

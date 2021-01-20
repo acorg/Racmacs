@@ -505,6 +505,10 @@ ac_coord_dists <- function(coords1, coords2) {
     .Call('_Racmacs_ac_coord_dists', PACKAGE = 'Racmacs', coords1, coords2)
 }
 
+parallel_mode <- function() {
+    .Call('_Racmacs_parallel_mode', PACKAGE = 'Racmacs')
+}
+
 ac_coordDistMatrix <- function(coords1, coords2) {
     .Call('_Racmacs_ac_coordDistMatrix', PACKAGE = 'Racmacs', coords1, coords2)
 }

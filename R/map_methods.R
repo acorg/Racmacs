@@ -12,14 +12,14 @@
 print.acmap <- function(x, ...){
 
   # Print short descriptor
-  cat(crayon::green(sprintf("<%s>\n", class(map)[1])))
-  mapname <- mapName(map)
+  cat(crayon::green("<acmap>\n"))
+  mapname <- mapName(x)
   if(is.null(mapname)) mapname <- "[unnamed]"
   cat(sprintf("%s\n", mapname))
-  cat(sprintf("...%s antigens\n", numAntigens(map)))
-  cat(sprintf("...%s sera\n", numSera(map)))
-  cat(sprintf("...%s optimizations\n", numOptimizations(map)))
-  invisible(map)
+  cat(sprintf("...%s antigens\n", numAntigens(x)))
+  cat(sprintf("...%s sera\n", numSera(x)))
+  cat(sprintf("...%s optimizations\n", numOptimizations(x)))
+  invisible(x)
 
 }
 

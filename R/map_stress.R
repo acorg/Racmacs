@@ -30,6 +30,37 @@ tableDistances <- function(
 }
 
 
+#' Calculate column bases for a titer table
+#'
+#' For more information on column bases, what they mean and how they are
+#' calculated see `vignette("intro-to-antigenic-cartography")`
+#'
+#' @param titer_table The titer table
+#' @param minimum_column_basis The minimum column basis to assume
+#' @param fixed_column_bases Fixed column bases to apply
+#'
+#' @return Returns a numeric vector of the log-converted column bases for the
+#'   table
+#' @export
+#'
+tableColbases <- function(
+  titer_table,
+  minimum_column_basis = "none",
+  fixed_column_bases = rep(NA, ncol(titer_table))
+  ){
+
+  check.charactermatrix(titer_table)
+  check.string(minimum_column_basis)
+
+  ac_table_colbases(
+    titer_table = format_titers(titer_table),
+    min_col_basis = minimum_column_basis,
+    fixed_col_bases = fixed_column_bases
+  )
+
+}
+
+
 #' Return calculated map distances for an acmap
 #'
 #' Takes the acmap object and calculates euclidean distances between antigens

@@ -13,6 +13,22 @@ check.logicalvector <- function(x){ if(!is.vector(x) || !is.logical(x)) stop("In
 check.charactervector <- function(x){ if(!is.vector(x) || !is.character(x)) stop("Input must be a character vector", call. = FALSE) }
 check.charactermatrix <- function(x){ if(!is.matrix(x) || !is.character(x)) stop("Input must be a numeric matrix", call. = FALSE) }
 
+# Check the optimization number is valid
+check.optnum<- function(map, optimization_number){
+  if(numOptimizations(map) == 0){
+    stop("Map has no optimization runs yet", call. = FALSE)
+  }
+  if(optimization_number > numOptimizations(map)){
+    stop(
+      sprintf(
+        "Map only has %s optimization runs, but number %s requested",
+        numOptimizations(map), optimization_number
+      ),
+      call. = FALSE
+    )
+  }
+}
+
 # This function formats titers or a titer table, replacing NA values with "*"
 format_titers <- function(titers){
   titers[is.na(titers)] <- "*"

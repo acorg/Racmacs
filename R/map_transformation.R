@@ -17,6 +17,11 @@ applyMapTransform <- function(
   optimization_number = 1
 ){
 
+  # Check input
+  check.numericmatrix(coords)
+  check.acmap(map)
+  check.optnum(map, optimization_number)
+
   # Transform the coordinates
   ac_apply_optimization_transform(
     map$optimizations[[optimization_number]],

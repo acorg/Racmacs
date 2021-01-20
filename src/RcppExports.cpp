@@ -1434,6 +1434,16 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// parallel_mode
+bool parallel_mode();
+RcppExport SEXP _Racmacs_parallel_mode() {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    rcpp_result_gen = Rcpp::wrap(parallel_mode());
+    return rcpp_result_gen;
+END_RCPP
+}
 // ac_coordDistMatrix
 arma::mat ac_coordDistMatrix(arma::mat coords1, arma::mat coords2);
 RcppExport SEXP _Racmacs_ac_coordDistMatrix(SEXP coords1SEXP, SEXP coords2SEXP) {
@@ -1574,6 +1584,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_Racmacs_ac_procrustes_map_coords", (DL_FUNC) &_Racmacs_ac_procrustes_map_coords, 6},
     {"_Racmacs_ac_procrustes_map_data", (DL_FUNC) &_Racmacs_ac_procrustes_map_data, 2},
     {"_Racmacs_ac_coord_dists", (DL_FUNC) &_Racmacs_ac_coord_dists, 2},
+    {"_Racmacs_parallel_mode", (DL_FUNC) &_Racmacs_parallel_mode, 0},
     {"_Racmacs_ac_coordDistMatrix", (DL_FUNC) &_Racmacs_ac_coordDistMatrix, 2},
     {NULL, NULL, 0}
 };

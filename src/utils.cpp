@@ -94,4 +94,16 @@ arma::mat subset_rows(
 }
 
 
+// Check if openmp is used to run code in parallel
+// [[Rcpp::export]]
+bool parallel_mode(){
+
+  #if defined(_OPENMP)
+    return true;
+  #else
+    return false;
+  #endif
+
+}
+
 

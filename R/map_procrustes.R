@@ -78,7 +78,7 @@ procrustesMap <- function(
   )
 
   # Keep only the optimization number used
-  map <- keepSingleOptimization(map)
+  map <- keepOptimizations(map, optimization_number)
 
   # Add the data to the map
   map$procrustes <- pc_coords
@@ -134,8 +134,8 @@ procrustesData <- function(
 
   # Get the procrustes data
   ac_procrustes_map_data(
-    map$optimizations[[optimization_number]],
-    map$optimizations[[optimization_number]]$procrustes
+    map$optimizations[[1]],
+    map$procrustes
   )
 
 }

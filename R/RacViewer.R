@@ -128,7 +128,13 @@ RacViewerProxy <- function(id, session = shiny::getDefaultReactiveDomain()){
 #' @family {functions to view maps}
 #' @export
 #'
-snapshotMap <- function(map, width = 800, height = 800, filename = NULL, ...){
+snapshotMap <- function(
+  map,
+  width = 800,
+  height = 800,
+  filename = NULL,
+  ...
+  ){
 
   # Check input
   check.acmap(map)
@@ -170,25 +176,5 @@ snapshotMap <- function(map, width = 800, height = 800, filename = NULL, ...){
   }
 
 }
-
-
-copyR3JSlib <- function(){
-  unlink("inst/htmlwidgets/RacViewer/lib/r3js/lib", recursive = TRUE)
-  file.copy(
-    from = "../../packages/r3js/inst/htmlwidgets/lib",
-    to   = "inst/htmlwidgets/RacViewer/lib/r3js",
-    recursive = TRUE
-  )
-}
-
-
-linkR3JSlib <- function(){
-  unlink("inst/htmlwidgets/RacViewer/lib/r3js/lib", recursive = TRUE)
-  file.symlink(
-    from = "../../../../../../r3js/inst/htmlwidgets/lib",
-    to   = "inst/htmlwidgets/RacViewer/lib/r3js/lib"
-  )
-}
-
 
 

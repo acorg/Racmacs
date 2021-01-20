@@ -3,12 +3,18 @@
 \name{ptBaseCoords}
 \alias{ptBaseCoords}
 \alias{agBaseCoords}
+\alias{agBaseCoords<-}
 \alias{srBaseCoords}
+\alias{srBaseCoords<-}
 \title{Getting and setting base coordinates}
 \usage{
 agBaseCoords(map, optimization_number = NULL)
 
+agBaseCoords<-(map, optimization_number = NULL)
+
 srBaseCoords(map, optimization_number = NULL)
+
+srBaseCoords<-(map, optimization_number = NULL)
 }
 \arguments{
 \item{map}{The acmap data object}

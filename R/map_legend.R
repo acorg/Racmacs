@@ -1,12 +1,27 @@
 
+#' Set acmap legend
+#'
+#' This sets the acmap legend used when viewing a map for example.
+#'
+#' @param map The acmap object
+#' @param legend A character vector of legend labels
+#' @param fill The fill color to be used with the boxes that appear alongside
+#'   the legend labels
+#' @param style.bottom "bottom" style of the div, specifying how far from the
+#'   bottom of the viewport the bottom of the legend is spaced.
+#' @param style.right "right" style of the div, specifying how far from the
+#'   right of the viewport the bottom of the legend is spaced.
+#'
+#' @return Returns the updated acmap object
 #' @export
+#'
 setLegend <- function(
   map,
   legend,
   fill,
   style.bottom = "8px",
   style.right = "8px"
-){
+  ){
 
   # Check input
   check.acmap(map)
@@ -23,9 +38,11 @@ setLegend <- function(
 
 }
 
+
+# Helper function to create the html used for a legend
 make_html_legend <- function(
   args
-){
+  ){
 
   # Set variables
   args$box.width      <- "14px"

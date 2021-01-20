@@ -10,6 +10,13 @@ realignOptimizations(
   sera = TRUE,
   optimization_number = NULL
 )
+
+realignOptimizations(
+  map,
+  antigens = TRUE,
+  sera = TRUE,
+  optimization_number = NULL
+)
 }
 \arguments{
 \item{map}{The acmap data}
@@ -20,11 +27,19 @@ realignOptimizations(
 }
 \value{
 Returns the map with realigned optimizations
+
+Returns the map with realigned optimizations
 }
 \description{
 Realigns optimizations in the map to the current optimization
+
+Realigns optimizations in the map to the current optimization
 }
 \seealso{
+Other {functions to compare maps}: 
+\code{\link{procrustesMap}()},
+\code{\link{realignMap}()}
+
 Other {functions to compare maps}: 
 \code{\link{procrustesMap}()},
 \code{\link{realignMap}()}

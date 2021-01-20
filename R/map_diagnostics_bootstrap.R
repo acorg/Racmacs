@@ -1,15 +1,25 @@
 
-#' Perform a noisy bootstrap
+#' Perform a noisy bootstrap on a map
 #'
-#' Perform a noisy bootstrap on a map, adding random noise and reoptimizing from scratch.
+#' This function takes the map and original titer table, converts the titers to
+#' the log scale and reoptimizes the map from scratch. For each bootstrap run
+#' this process is performed and a record of the coordinates of points in the
+#' lowest stress solution is kept. This can only be performed on a map that
+#' has already been optimized, the intention is that you can use this function
+#' to see how robust point positions are in that map when additional noise is
+#' simulated.
 #'
 #' @param map The map object
 #' @param bootstrap_repeats The number of bootstrap repeats to perform
-#' @param optimizations_per_repeat When reoptimizing the map from scratch, the number of optimization runs to perform
-#' @param ag_noise_sd The standard deviation to use when applying noise per antigen
-#' @param titer_noise_sd The standard deviation to use when applying noise per titer
+#' @param optimizations_per_repeat When reoptimizing the map from scratch, the
+#'   number of optimization runs to perform
+#' @param ag_noise_sd The standard deviation (on the log titer scale) to use
+#'   when applying noise per antigen
+#' @param titer_noise_sd The standard deviation (on the log titer scale) to use
+#'   when applying noise per titer
+#' @param options Map optimizer options, see `RacOptimizer.options()`
 #'
-#' @return Returns the updated map object
+#' @return Returns the map object updated with bootstrap information
 #' @family {map diagnostic functions}
 #' @export
 #'
@@ -65,6 +75,9 @@ bootstrapMap <- function(
 
 #' Get bootstrap coordinates associated with a map
 #'
+#' This can be used to get information about the bootstrap run results
+#' after `boostrapMap()` has been run.
+#'
 #' @param map The map object
 #'
 #' @name mapBootstrapCoords
@@ -91,7 +104,7 @@ mapBootstrap_srCoords <- function(map){
 
 }
 
-
+# Underlying function to get bootstrap coordinates
 mapBootstrap_ptCoords <- function(map){
 
   # Get bootstrap data
@@ -109,7 +122,24 @@ mapBootstrap_ptCoords <- function(map){
 }
 
 
-coordDensityBlob <- function(coords, conf.level = 0.68, smoothing = 6){
+#' Calculate a blob geometry representing bootstrap point position variation
+#'
+#' This function is used to create "blob" geometries, with the aim to visualise
+#' how point positions vary amongst bootstrap repeats. The underlying approach
+#' is to fit a kernel density estimate to the coordinates and then draw blobs
+#' that capture the requested point density.
+#'
+#' @param coords matrix of a points coordinates across the bootstrap repeats
+#' @param conf.level the confidence level, i.e. proportion of point variation the blob should capture
+#' @param smoothing the amount of smoothing to perform when performing the kernel density estimate
+#'
+#' @noRd
+#'
+coordDensityBlob <- function(
+  coords,
+  conf.level = 0.68,
+  smoothing = 6
+  ){
 
   # Check dimensions
   if(ncol(coords) != 2) stop("Bootstrap blobs are only supported for 2 dimensions")

@@ -39,11 +39,14 @@ optimization_setter <- function(fn, checker_fn = NULL){
 #'
 #' @name ptBaseCoords
 #' @seealso
-#' \code{\link{agCoords}}
-#' \code{\link{srCoords}}
+#' `agCoords()`
+#' `srCoords()`
 #' @family {map optimization attribute functions}
 #' @eval roxygen_tags(
-#'   methods = c("agBaseCoords", "srBaseCoords"),
+#'   methods = c(
+#'   "agBaseCoords", "agBaseCoords<-",
+#'   "srBaseCoords", "srBaseCoords<-"
+#'   ),
 #'   args    = c("map", "optimization_number = NULL")
 #' )
 #'
@@ -61,8 +64,11 @@ srBaseCoords <- optimization_getter(ac_opt_get_sr_base_coords)
 #' @name mapTransformation
 #' @family {map optimization attribute functions}
 #' @eval roxygen_tags(
-#'   methods    = c("mapTransformation", "mapTranslation"),
-#'   args       = c("map", "optimization_number = NULL")
+#'   methods    = c(
+#'   "mapTransformation", "mapTransformation<-",
+#'   "mapTranslation", "mapTranslation<-"
+#'   ),
+#'   args = c("map", "optimization_number = NULL")
 #' )
 #'
 mapTransformation     <- optimization_getter(ac_opt_get_transformation)
@@ -97,7 +103,10 @@ mapTranslation        <- optimization_getter(ac_opt_get_translation)
 #' @name colBases
 #' @family {map optimization attribute functions}
 #' @eval roxygen_tags(
-#'   methods    = c("minColBasis", "fixedColBases"),
+#'   methods    = c(
+#'   "minColBasis", "minColBasis<-",
+#'   "fixedColBases", "fixedColBases<-"
+#'   ),
 #'   args       = c("map", "optimization_number = NULL")
 #' )
 #'
@@ -144,7 +153,7 @@ mapDimensions <- optimization_getter(ac_opt_get_dimensions)
 #' @name mapComment
 #' @family {map optimization attribute functions}
 #' @eval roxygen_tags(
-#'   methods    = c("mapComment"),
+#'   methods    = c("mapComment", "mapComment<-"),
 #'   args       = c("map", "optimization_number = NULL"),
 #'   returns    = "Gets or sets and map comments for the specified optimization run."
 #' )

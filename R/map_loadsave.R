@@ -4,29 +4,24 @@
 #' Reads an antigenic map file and converts it into an acmap data object.
 #'
 #' @param filename Path to the file.
-#' @param optimization_number The optimization number to select (defaults to the first, see \code{\link{selectedOptimization}}).
-#' @param discard_other_optimizations Should other optimizations be discarded?
-#' @param sort_optimizations Should optimizations be sorted in order of stress when the map data is read?
+#' @param optimization_number Numeric vector of optimization runs to keep, the
+#'   default, NULL, keeps information on all optimization runs
+#' @param sort_optimizations Should optimizations be sorted in order of stress
+#'   when the map data is read?
 #' @param align_optimizations Should optimizations be rotated and translated to
-#'   match each other as closely as possible?
-#' @param only_best_optimization Should only the best (lowest stress) optimization
-#'   be kept?
+#'   match the orientation of the first optimization as closely as possible?
 #'
 #' @return Returns the acmap data object.
 #'
-#' @example examples/example_make_map_from_scratch.R
 #' @family {functions for working with map data}
-#'
 #' @export
 #'
 read.acmap <- function(
   filename,
-  optimization_number         = NULL,
-  discard_other_optimizations = FALSE,
-  sort_optimizations          = FALSE,
-  align_optimizations         = FALSE,
-  only_best_optimization      = FALSE
-){
+  optimization_number = NULL,
+  sort_optimizations  = FALSE,
+  align_optimizations = FALSE
+  ){
 
   # Expand the file path and check that the file exists
   if(!file.exists(filename)) stop("File '", filename, "' not found", call. = FALSE)
@@ -35,27 +30,10 @@ read.acmap <- function(
   jsondata <- paste(readLines(filename, warn = FALSE), collapse = "\n")
   map <- json_to_acmap(jsondata)
 
-  # Discard other optimizations if requested
-  if(discard_other_optimizations){
-    keepSingleOptimization(map, optimization_number)
-  }
-
-  if(sort_optimizations || only_best_optimization){
-
-    # Sort optimizations if requested
-    map <- sortOptimizations(map)
-
-    # Discard other optimizations if requested
-    if(only_best_optimization){
-      map <- keepSingleOptimization(map, 1)
-    }
-
-  }
-
-  # Align optimizations if requested
-  if(align_optimizations){
-    map <- realignOptimizations(map)
-  }
+  # Apply arguments
+  if(!is.null(optimization_number)) map <- keepOptimizations(map, optimization_number)
+  if(sort_optimizations) map <- sortOptimizations(map)
+  if(align_optimizations) map <- realignOptimizations(map)
 
   # Return the map
   map
@@ -65,20 +43,21 @@ read.acmap <- function(
 
 #' Save acmap data to a file
 #'
-#' Save acmap data to a file in a given format, must be one of '.ace', '.save' or '.save.xs' (see details).
+#' Save acmap data to a file. The preferred extension is ".ace", although
+#' the format of the file will be a json file of map data compressed using
+#' 'xz' compression.
 #'
 #' @param map The acmap data object.
 #' @param filename Path to the file.
-#'
-#' @details Although several file formats are supported, you should save files
-#'   with the '.ace' extension. This is the most recent, while the others are
-#'   mostly there for backwards compatibility to other software.
 #'
 #' @export
 #'
 #' @family {functions for working with map data}
 #'
-save.acmap <- function(map, filename){
+save.acmap <- function(
+  map,
+  filename
+  ){
 
   # Check file extension
   nfilechar <- nchar(filename)
@@ -94,18 +73,44 @@ save.acmap <- function(map, filename){
 }
 
 
+#' Convert map to json format
+#'
+#' @param map The map data object
+#'
+#' @return Returns map data as .ace json format
+#' @family {functions for working with map data}
+#' @export
+#'
+as.json <- function(map){
+
+  acmap_to_json(
+    map = map,
+    version = paste0("racmacs-ace-v", packageVersion("Racmacs"))
+  )
+
+}
+
+
 #' Save acmap coordinate data to a file
 #'
-#' Saves acmap coordinate data of all or specified antigens and sera to a .csv file.
+#' Saves acmap coordinate data of all or specified antigens and sera to a .csv
+#' file.
 #'
 #' @param map The acmap data object.
 #' @param filename Path to the file.
+#' @param antigens Antigens to include, either as a numeric vector of indices or character vector of names.
+#' @param sera Sera to include, either as a numeric vector of indices or character vector of names.
 #'
 #' @export
 #'
 #' @family {functions for working with map data}
 #'
-save.coords <- function(map, filename, antigens = TRUE, sera = TRUE){
+save.coords <- function(
+  map,
+  filename,
+  antigens = TRUE,
+  sera = TRUE
+  ){
 
   antigens <- get_ag_indices(antigens, map)
   sera     <- get_sr_indices(sera, map)
@@ -132,12 +137,19 @@ save.coords <- function(map, filename, antigens = TRUE, sera = TRUE){
 #'
 #' @param map The acmap data object.
 #' @param filename Path to the file.
+#' @param antigens Antigens to include, either as a numeric vector of indices or character vector of names.
+#' @param sera Sera to include, either as a numeric vector of indices or character vector of names.
 #'
 #' @export
 #'
 #' @family {functions for working with map data}
 #'
-save.titerTable <- function(map, filename, antigens = TRUE, sera = TRUE){
+save.titerTable <- function(
+  map,
+  filename,
+  antigens = TRUE,
+  sera = TRUE
+  ){
 
   antigens <- get_ag_indices(antigens, map)
   sera     <- get_sr_indices(sera, map)

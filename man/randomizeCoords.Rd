@@ -9,14 +9,19 @@ randomizeCoords(map, optimization_number = 1, table_dist_factor = 2)
 \arguments{
 \item{map}{The acmap data object}
 
-\item{optimization_number}{The map optimization number (defaults to the currently selected optimization)}
+\item{optimization_number}{The map optimization number to randomize}
+
+\item{table_dist_factor}{The expansion factor for the box size in which
+points are randomized.}
 }
 \value{
 Returns an updated map object
 }
 \description{
 Moves map coordinates back into random starting conditions, as performed
-before each optimization run.
+before each optimization run. The maximum table distance is calculated
+then points are randomized in a box with side length equal to maximum
+table distance multiplied by \code{table_dist_factor}
 }
 \seealso{
 Other {map optimization functions}: 

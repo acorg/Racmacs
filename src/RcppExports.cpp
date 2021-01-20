@@ -562,6 +562,17 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// ac_apply_optimization_transform
+arma::mat ac_apply_optimization_transform(AcOptimization opt, arma::mat coords);
+RcppExport SEXP _Racmacs_ac_apply_optimization_transform(SEXP optSEXP, SEXP coordsSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::traits::input_parameter< AcOptimization >::type opt(optSEXP);
+    Rcpp::traits::input_parameter< arma::mat >::type coords(coordsSEXP);
+    rcpp_result_gen = Rcpp::wrap(ac_apply_optimization_transform(opt, coords));
+    return rcpp_result_gen;
+END_RCPP
+}
 // ac_ag_get_shown
 bool ac_ag_get_shown(const AcAntigen ag);
 RcppExport SEXP _Racmacs_ac_ag_get_shown(SEXP agSEXP) {
@@ -1487,6 +1498,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_Racmacs_ac_rotate_optimization", (DL_FUNC) &_Racmacs_ac_rotate_optimization, 3},
     {"_Racmacs_ac_reflect_optimization", (DL_FUNC) &_Racmacs_ac_reflect_optimization, 2},
     {"_Racmacs_ac_translate_optimization", (DL_FUNC) &_Racmacs_ac_translate_optimization, 2},
+    {"_Racmacs_ac_apply_optimization_transform", (DL_FUNC) &_Racmacs_ac_apply_optimization_transform, 2},
     {"_Racmacs_ac_ag_get_shown", (DL_FUNC) &_Racmacs_ac_ag_get_shown, 1},
     {"_Racmacs_ac_ag_get_size", (DL_FUNC) &_Racmacs_ac_ag_get_size, 1},
     {"_Racmacs_ac_ag_get_fill", (DL_FUNC) &_Racmacs_ac_ag_get_fill, 1},

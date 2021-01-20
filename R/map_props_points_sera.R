@@ -38,10 +38,17 @@ sera_setter <- function(fn){
 #'
 #' @name srAttributes
 #' @seealso
-#' \code{\link{agAttributes}}
+#' `agAttributes()`
 #' @family {antigen and sera attribute functions}
 #' @eval roxygen_tags(
-#'   methods = c("srNames", "srIDs", "srNamesFull", "srNamesAbbreviated", "srDates", "srReference"),
+#'   methods = c(
+#'   "srNames", "srNames<-",
+#'   "srIDs",   "srIDs<-",
+#'   "srDates", "srDates<-",
+#'   "srNamesFull",
+#'   "srNamesAbbreviated",
+#'   "srReference"
+#'   ),
 #'   args    = c("map")
 #' )
 #'

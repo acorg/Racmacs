@@ -9,7 +9,9 @@ relaxMapOneStep(map, optimization_number = 1, options = list())
 \arguments{
 \item{map}{The acmap data object}
 
-\item{optimization_number}{The map optimization number (defaults to the currently selected optimization)}
+\item{optimization_number}{The map optimization number}
+
+\item{options}{List of named optimizer options, see \code{RacOptimizer.options()}}
 }
 \value{
 Returns an updated map object

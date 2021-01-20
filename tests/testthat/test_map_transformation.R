@@ -73,6 +73,14 @@ test_that("Rotation after translation", {
   expect_close(srCoords(map, 3), expected_sr_coords3D)
 })
 
+# Applying the map transformation
+test_that("Applying the map transformation to coordinates", {
+  expect_close(applyMapTransform(start_ag_coords, map), agCoords(map))
+  expect_close(applyMapTransform(start_sr_coords, map), srCoords(map))
+  expect_close(applyMapTransform(start_ag_coords3D, map, 3), agCoords(map, 3))
+  expect_close(applyMapTransform(start_sr_coords3D, map, 3), srCoords(map, 3))
+})
+
 
 # Resetting coordinates after rotation
 agCoords(map)[2,] <- c(12,20)
@@ -155,4 +163,5 @@ test_that("Reflecting in z axis", {
   expect_close(agCoords(map, 3), expected_ag_coords3D)
   expect_close(srCoords(map, 3), expected_sr_coords3D)
 })
+
 

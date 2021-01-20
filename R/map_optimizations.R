@@ -4,8 +4,8 @@
 #' Function to add a new optimization to an acmap object, with specified values.
 #'
 #' @param map The acmap data object
-#' @param ag_coords Antigen coordinates for the new optimization (random if not specified)
-#' @param sr_coords Sera coordinates for the new optimization (random if not specified)
+#' @param ag_coords Antigen coordinates for the new optimization (0 if not specified)
+#' @param sr_coords Sera coordinates for the new optimization (0 if not specified)
 #' @param number_of_dimensions The number of dimensions of the new optimization
 #' @param minimum_column_basis The minimum column basis to use for the new optimization
 #' @param ... Further optimization parameters
@@ -68,7 +68,7 @@ addOptimization <- function(
 #'
 #' @return Returns a list of lists with information about the optimizations
 #'
-#' @seealso See \code{\link{getOptimization}} for getting information about a single optimization.
+#' @seealso See `getOptimization()` for getting information about a single optimization.
 #'
 #' @export
 #'
@@ -86,11 +86,11 @@ listOptimizations <- function(map){
 #' as a list.
 #'
 #' @param map The acmap data object
-#' @param optimization_number The optimization data to access (defaults to the currently selected optimization)
+#' @param optimization_number The optimization data to access
 #'
 #' @return Returns a list with information about the optimization
 #'
-#' @seealso See \code{\link{listOptimizations}} for getting information about all
+#' @seealso See `listOptimizations()` for getting information about all
 #'   optimizations.
 #'
 #' @export
@@ -101,12 +101,5 @@ getOptimization <- function(map, optimization_number = 1){
   map$optimizations[[optimization_number]]
 
 }
-
-
-
-
-
-
-
 
 

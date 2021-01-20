@@ -19,6 +19,12 @@ acmap(
 \item{sr_names}{Sera names}
 
 \item{titer_table}{Table of titer data}
+
+\item{ag_coords}{Antigenic coordinates for an optimization run record (optional)}
+
+\item{sr_coords}{Sera coordinates for an optimization run record (optional)}
+
+\item{...}{Further arguments passed to \code{addOptimization()}}
 }
 \value{
 Returns the new acmap object
@@ -28,11 +34,11 @@ This function generates a new acmap object, the base object for storing map
 data in the Racmacs package.
 }
 \details{
-The fundamental unit of the Racmacs package is the \code{acmap} object, short for
-Antigenic Cartography MAP. This object contains all the information about an
-antigenic map. You can read in a new acmap object from a file with the
-function \code{\link{read.acmap}} and create a new acmap object within an R session
-using the \code{acmap} function.
+The fundamental unit of the Racmacs package is the \code{acmap} object,
+short for Antigenic Cartography MAP. This object contains all the
+information about an antigenic map. You can read in a new acmap object from
+a file with the function \code{read.acmap()} and create a new acmap object
+within an R session using the \code{acmap()} function.
 }
 \examples{
 # Read in an acmap object from a file
@@ -45,7 +51,7 @@ titer_data <- read.titerTable(titer_file_path)
 map <- acmap.cpp(table = titer_data)
 }
 \seealso{
-See \code{\link{optimizeMap}} for generating new optimizations
+See \code{optimizeMap()} for generating new optimizations
 estimating antigen similarity from the acmap titer data.
 
 Other {functions for working with map data}: 

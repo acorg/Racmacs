@@ -1,10 +1,13 @@
 
 #' Set viewer options
 #'
-#' This function facilitates setting racviewer options by returning a list of option settings.
+#' This function facilitates setting racviewer options by returning a list of
+#' option settings.
 #'
 #' @param point.opacity Default opacity for unselected points
 #' @param viewer.controls Should viewer controls be shown or hidden by default?
+#' @param grid.display For 3d maps, should the grid be fixed in the background
+#'   or enclose and rotate along with the map
 #'
 #' @return Returns a named list of viewer options
 #' @export
@@ -34,8 +37,11 @@ RacViewer.options <- function(
 #' Export a map in a standalone html viewer
 #'
 #' @param map The acmap object
-#' @param file html file to output to
-#' @param selfcontained Self-contained html file
+#' @param file File to save HTML into
+#' @param selfcontained Whether to save the HTML as a single self-contained file
+#'   (with external resources base64 encoded) or a file with external resources
+#'   placed in an adjacent directory.
+#' @param ... Further parameters to `view()`
 #'
 #' @export
 #'
@@ -55,9 +61,11 @@ export_viewer <- function(
   tmp_file <- tempfile(fileext = ".html")
   widget <- view(map, ...)
 
-  widget <- htmlwidgets::saveWidget(widget        = widget,
-                                    file          = tmp_file,
-                                    selfcontained = selfcontained)
+  widget <- htmlwidgets::saveWidget(
+    widget        = widget,
+    file          = tmp_file,
+    selfcontained = selfcontained
+  )
 
   # Move the file to the proper location
   file.copy(from = tmp_file,

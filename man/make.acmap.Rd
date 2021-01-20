@@ -18,36 +18,36 @@ make.acmap(
 )
 }
 \arguments{
+\item{titer_table}{A table of titer data}
+
+\item{ag_names}{A vector of antigen names}
+
+\item{sr_names}{A vector of sera names}
+
 \item{number_of_dimensions}{The number of dimensions in the map}
 
 \item{number_of_optimizations}{The number of optimization runs to perform}
 
 \item{minimum_column_basis}{The minimum column basis for the map}
 
-\item{move_trapped_points}{How should removal of trapped points be performed (see details)}
+\item{fixed_column_bases}{A vector of fixed values to use as column bases
+directly, rather than calculating them from the titer table.}
 
-\item{...}{}
+\item{sort_optimizations}{Should optimizations be sorted by stress
+afterwards?}
+
+\item{verbose}{Should progress messages be reported, see also
+\code{RacOptimizer.options()}}
+
+\item{options}{List of named optimizer options, see \code{RacOptimizer.options()}}
 }
 \value{
-Returns an antigenic map object of the corresponding class.
+Returns an acmap object that has optimization run results.
 }
 \description{
-Make an antigenic map from scratch
-}
-\details{
-Hunting for and removal of trapped points can be performed for either none of
-the optimization runs ("none"), all of the optimization runs ("all") or only
-the best one found ("best").
-}
-\examples{
-# Read in an acmap object from a file
-map_file_path <- system.file("extdata/h3map2004.ace", package = "Racmacs")
-map <- read.acmap(map_file_path)
-
-# Read in a table of titer data and make a new acmap file from it
-titer_file_path <- system.file("extdata/h3map2004_hitable.csv", package = "Racmacs")
-titer_data <- read.titerTable(titer_file_path)
-map <- acmap.cpp(table = titer_data)
+This is a wrapper function for first making a map with table data then,
+running optimizations to make the map otherwise done with \code{acmap()}
+followed by \code{optimizeMap()}.
 }
 \seealso{
 Other {map optimization functions}: 

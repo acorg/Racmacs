@@ -14,13 +14,28 @@ RacOptimizer.options(
 )
 }
 \arguments{
-\item{point.opacity}{Default opacity for unselected points}
+\item{dim_annealing}{Should dimensional annealing be performed}
 
-\item{viewer.controls}{Should viewer controls be shown or hidden by default?}
+\item{method}{The optimization method to use}
+
+\item{maxit}{The maximum number of iterations to use in the optimizer}
+
+\item{num_cores}{The number of cores to run in parallel}
+
+\item{report_progress}{Should progress be reported}
+
+\item{progress_bar_length}{Progress bar length when progress is reported}
 }
 \value{
 Returns a named list of optimizer options
 }
 \description{
-This function facilitates setting options for the acmap optimizer process by returning a list of option settings.
+This function facilitates setting options for the acmap optimizer process by
+returning a list of option settings.
+}
+\details{
+For more details, for example on "dimensional annealing" see
+\code{vignette("intro-to-antigenic-cartography")}. For details on optimizer
+settings like \code{maxit} see the underlying optimizer documentation at
+\href{http://ensmallen.org}{ensmallen.org}.
 }

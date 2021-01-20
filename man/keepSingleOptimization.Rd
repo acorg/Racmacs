@@ -2,9 +2,12 @@
 % Please edit documentation in R/map_props.R
 \name{keepSingleOptimization}
 \alias{keepSingleOptimization}
+\alias{keepOptimizations}
 \alias{keepBestOptimization}
-\title{Keep a single optimization run}
+\title{Keep specified optimization runs}
 \usage{
+keepOptimizations(map, optimization_numbers)
+
 keepSingleOptimization(map, optimization_number = 1)
 
 keepBestOptimization(map)

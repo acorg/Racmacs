@@ -71,10 +71,16 @@ plotspec_setter <- function(pttype, fn, checker_fn = NULL){
 #' @name ptStyles
 #' @family {map point style functions}
 #' @eval roxygen_tags(
-#'   methods = c("agShown", "agSize", "agFill", "agOutline",
-#'   "agOutlineWidth", "agRotation", "agAspect", "agShape",
-#'   "srShown", "srSize", "srFill", "srOutline", "srOutlineWidth", "srRotation",
-#'   "srAspect", "srShape"),
+#'   methods = c(
+#'   "agShown", "srShown", "agShown<-", "srShown<-",
+#'   "agSize", "srSize", "agSize<-", "srSize<-",
+#'   "agFill", "srFill", "agFill<-", "srFill<-",
+#'   "agOutline", "srOutline", "agOutline<-", "srOutline<-",
+#'   "agOutlineWidth", "srOutlineWidth", "agOutlineWidth<-", "srOutlineWidth<-",
+#'   "agRotation", "srRotation", "agRotation<-", "srRotation<-",
+#'   "agAspect", "srAspect", "agAspect<-", "srAspect<-",
+#'   "agShape", "srShape", "agShape<-", "srShape<-",
+#'   ),
 #'   args = c("map")
 #' )
 #'

@@ -201,6 +201,10 @@ ac_translate_optimization <- function(opt, translation) {
     .Call('_Racmacs_ac_translate_optimization', PACKAGE = 'Racmacs', opt, translation)
 }
 
+ac_apply_optimization_transform <- function(opt, coords) {
+    .Call('_Racmacs_ac_apply_optimization_transform', PACKAGE = 'Racmacs', opt, coords)
+}
+
 ac_ag_get_shown <- function(ag) {
     .Call('_Racmacs_ac_ag_get_shown', PACKAGE = 'Racmacs', ag)
 }

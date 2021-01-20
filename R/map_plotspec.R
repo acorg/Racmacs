@@ -31,27 +31,3 @@ applyPlotspec <- function(
 }
 
 
-#' @export
-mapPoints <- function(map, optimization_number = NULL){
-
-  list(
-    type          = c(rep("ag", numAntigens(map)), rep("sr", numSera(map))),
-    coords        = rbind(agCoords(map, optimization_number), srCoords(map, optimization_number)),
-    shown         = c(agShown(map), srShown(map)),
-    size          = c(agSize(map), srSize(map)),
-    fill          = c(agFill(map), srFill(map)),
-    outline       = c(agOutline(map), srOutline(map)),
-    outline_width = c(agOutlineWidth(map), srOutlineWidth(map)),
-    rotation      = c(agRotation(map), srRotation(map)),
-    aspect        = c(agAspect(map), srAspect(map)),
-    shape         = c(agShape(map), srShape(map))
-  )
-
-}
-
-
-
-
-
-
-

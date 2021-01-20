@@ -8,12 +8,10 @@
 #' @param dimensions_to_test A numeric vector of dimensions to be tested
 #' @param test_proportion The proportion of data to be used as the test set for each test run
 #' @param minimum_column_basis The minimum column basis to use
-#' @param column_bases_from_master Should column bases be calculated based on
-#'   the full data set? If false, they will be recalculated based on the
-#'   training set used for each run.
+#' @param fixed_column_bases
 #' @param number_of_optimizations The number of optimizations to perform when creating each map for the dimension test
-#' @param replicates_per_proportion The number of random replicates to do per missing proportion tested
-#' @param storage_directory Optionally the path to a directory where all the maps made in the dimension test will be saved
+#' @param replicates_per_dimension
+#' @param options Map optimizer options, see `RacOptimizer.options()`
 #'
 #' @return Returns a table of results, including the dimensions tested and the standard deviation of predicted vs residual error.
 #' @export
@@ -69,15 +67,40 @@ dimensionTestMap <- function(
 
 }
 
+#' Summarize dimension test results
+#'
+#' S3 method for class 'ac_dimtest', returning information on the cross-validation results
+#' for each dimension tested.
+#'
+#' @param object An object as returned by `dimensionTestMap()`
+#' @param ... Additional unused arguments
+#'
+#' @details For each run, the ag-sr titers that were randomly excluded are
+#'   predicted according to their relative positions in the map trained without
+#'   them. An RMSE is then calculated by comparing predicted titers inferred
+#'   from the map on the log scale to the actual log titers. This is done separately
+#'   for detectable titers (e.g. 40) and non-detectable titers (e.g. <10). For
+#'   non-detectable titers, if the predicted titer is the same or lower than the
+#'   log-titer threshold, the error is set to 0.
+#'
+#' @return Returns a data frame with the following columns. "dimensions" : the
+#'   dimension tested, "mean_rmse_detectable" : mean prediction rmse for
+#'   detectable titers across all runs. "var_rmse_detectable" the variance
+#'   of the prediction rmse for detectable titers across all runs, useful for
+#'   estimating confidence intervals. "mean_rmse_nondetectable" and "var_rmse_nondetectable"
+#'   the equivalent for non-detectable titers
+#'
 #' @export
+#'
 summary.ac_dimtest <- function(
-  dimtest
+  object,
+  ...
 ){
 
   # Get actual log titers
-  measured_logtiters <- log_titers(dimtest$titers)
-  titer_types        <- titer_types_int(dimtest$titers)
-  results            <- dimtest$results
+  measured_logtiters <- log_titers(object$titers)
+  titer_types        <- titer_types_int(object$titers)
+  results            <- object$results
   dims_tested        <- as.vector(results[[1]]$dim)
   num_test_runs      <- length(results)
   num_tested         <- length(results[[1]]$test_indices)

@@ -69,5 +69,8 @@ AcOptimization ac_translate_optimization( AcOptimization opt, arma::mat translat
   return opt;
 }
 
-
+// [[Rcpp::export(rng = false)]]
+arma::mat ac_apply_optimization_transform( AcOptimization opt, arma::mat coords ){
+  return opt.applyTransformation( coords );
+}
 

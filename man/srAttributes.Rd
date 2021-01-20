@@ -4,21 +4,30 @@
 \alias{srAttributes}
 \alias{srIDs}
 \alias{srNames}
+\alias{srNames<-}
+\alias{srIDs<-}
 \alias{srNamesFull}
 \alias{srNamesAbbreviated}
 \alias{srDates}
+\alias{srDates<-}
 \alias{srReference}
 \title{Getting and setting sera attributes}
 \usage{
 srNames(map)
 
+srNames<-(map)
+
 srIDs(map)
+
+srIDs<-(map)
 
 srNamesFull(map)
 
 srNamesAbbreviated(map)
 
 srDates(map)
+
+srDates<-(map)
 
 srReference(map)
 }

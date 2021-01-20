@@ -20,9 +20,10 @@
 \arguments{
 \item{map}{The acmap data object}
 
-\item{...}{Additional arguments to be passed to \code{\link{RacViewer}}}
+\item{...}{Additional arguments to be passed to \code{RacViewer()}}
 
-\item{.jsCode}{Additional javascript code to be run after map has been loaded and rendered}
+\item{.jsCode}{Additional javascript code to be run after map has been loaded
+and rendered}
 
 \item{.jsData}{Any data to supply to the .jsCode function}
 
@@ -30,13 +31,21 @@
 
 \item{select_sr}{A vector of serum indices to select in the plot}
 
-\item{show_procrustes}{If the map contains procrustes information, should procrustes lines be shown by default?}
+\item{show_procrustes}{If the map contains procrustes information, should
+procrustes lines be shown by default?}
 
-\item{show_stressblobs}{If the map contains stress blob information, should stress blobs be shown by default?}
+\item{show_stressblobs}{If the map contains stress blob information, should
+stress blobs be shown by default?}
 
-\item{keep_all_optimization_runs}{Should information on all the optimization runs be kept in the viewer, or just view the currently selected optimisation run.}
+\item{keep_all_optimization_runs}{Should information on all the optimization
+runs be kept in the viewer, or just view the currently selected
+optimisation run.}
 
-\item{options}{A named list of viewer options to pass to \code{RacViewer.options()}}
+\item{options}{A named list of viewer options to pass to
+\code{RacViewer.options()}}
+}
+\value{
+Returns the htmlwidget object
 }
 \description{
 View a racmap object in the interactive viewer.

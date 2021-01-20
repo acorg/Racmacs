@@ -9,7 +9,7 @@ getOptimization(map, optimization_number = 1)
 \arguments{
 \item{map}{The acmap data object}
 
-\item{optimization_number}{The optimization data to access (defaults to the currently selected optimization)}
+\item{optimization_number}{The optimization data to access}
 }
 \value{
 Returns a list with information about the optimization
@@ -19,6 +19,6 @@ Gets the details associated with the currently selected or specifed acmap optimi
 as a list.
 }
 \seealso{
-See \code{\link{listOptimizations}} for getting information about all
+See \code{listOptimizations()} for getting information about all
 optimizations.
 }

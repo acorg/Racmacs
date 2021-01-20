@@ -26,13 +26,7 @@ dimensionTestMap(
 
 \item{number_of_optimizations}{The number of optimizations to perform when creating each map for the dimension test}
 
-\item{column_bases_from_master}{Should column bases be calculated based on
-the full data set? If false, they will be recalculated based on the
-training set used for each run.}
-
-\item{replicates_per_proportion}{The number of random replicates to do per missing proportion tested}
-
-\item{storage_directory}{Optionally the path to a directory where all the maps made in the dimension test will be saved}
+\item{options}{Map optimizer options, see \code{RacOptimizer.options()}}
 }
 \value{
 Returns a table of results, including the dimensions tested and the standard deviation of predicted vs residual error.

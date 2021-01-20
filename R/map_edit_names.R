@@ -1,19 +1,19 @@
 
-#' Edit antigen names in a mapData object
+#' Edit antigen names in an acmap
 #'
 #' @param map The map data object to be updated
 #' @param old_names Old names to be replaced
 #' @param new_names Replacement for old names
-#' @param warnings Should a warning be issued if old names were not found in the map.
 #'
-#' @return Returns an updated map data object
+#' @return Returns the acmap object with antigen names updated.
+#'
 #' @export
-#' @noRd
 #'
-edit_agNames <- function(map,
-                         old_names,
-                         new_names,
-                         warnings = TRUE){
+edit_agNames <- function(
+  map,
+  old_names,
+  new_names
+  ){
 
   # Check the length of the old and new names are the same
   if(length(old_names) != length(new_names)){
@@ -32,21 +32,21 @@ edit_agNames <- function(map,
 }
 
 
-#' Edit sera names in a mapData object
+#' Edit sera names in an acmap
 #'
 #' @param map The map data object to be updated
 #' @param old_names Old names to be replaced
 #' @param new_names Replacement for old names
-#' @param warnings Should a warning be issued if old names were not found in the map.
 #'
-#' @return Returns an updated map data object
+#' @return Returns the acmap object with sera names updated.
+#'
 #' @export
-#' @noRd
 #'
-edit_srNames <- function(map,
-                         old_names,
-                         new_names,
-                         warnings = TRUE){
+edit_srNames <- function(
+  map,
+  old_names,
+  new_names,
+  warnings = TRUE){
 
   # Check the length of the old and new names are the same
   if(length(old_names) != length(new_names)){
@@ -78,7 +78,7 @@ edit_srNames <- function(map,
 update_ferret_seraNames <- function(
   map,
   dictionary_file = NULL
-){
+  ){
 
   # Read from default dictionary if not supplied
   if(is.null(dictionary_file)){

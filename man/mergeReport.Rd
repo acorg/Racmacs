@@ -4,7 +4,10 @@
 \alias{mergeReport}
 \title{Return a merge report}
 \usage{
-mergeReport(map1, map2)
+mergeReport(maps)
+}
+\arguments{
+\item{maps}{List of acmaps to merge}
 }
 \description{
 Prints a raw text merge report from merging two map tables.

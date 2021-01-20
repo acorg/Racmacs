@@ -4,21 +4,30 @@
 \alias{agAttributes}
 \alias{agIDs}
 \alias{agNames}
+\alias{agNames<-}
+\alias{agIDs<-}
 \alias{agNamesFull}
 \alias{agNamesAbbreviated}
 \alias{agDates}
+\alias{agDates<-}
 \alias{agReference}
 \title{Getting and setting antigen attributes}
 \usage{
 agNames(map)
 
+agNames<-(map)
+
 agIDs(map)
+
+agIDs<-(map)
 
 agNamesFull(map)
 
 agNamesAbbreviated(map)
 
 agDates(map)
+
+agDates<-(map)
 
 agReference(map)
 }

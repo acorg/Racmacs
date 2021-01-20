@@ -9,17 +9,19 @@ relaxMap(map, optimization_number = 1, options = list())
 \arguments{
 \item{map}{The acmap object}
 
-\item{optimization_number}{The optimization to relax (defaults to the currently selected optimization)}
+\item{optimization_number}{The optimization number to relax}
+
+\item{options}{List of named optimizer options, see \code{RacOptimizer.options()}}
 }
 \value{
-Returns an acmap object with the newly relaxed point coordinates.
+Returns an acmap object with the optimization relaxed.
 }
 \description{
 Optimize antigen and serum positions starting from their current coordinates
 in the selected or specified optimization.
 }
 \seealso{
-See \code{\link{optimizeMap}} for performing new optimization runs from random starting coordinates.
+See \code{optimizeMap()} for performing new optimization runs from random starting coordinates.
 
 Other {map optimization functions}: 
 \code{\link{make.acmap}()},

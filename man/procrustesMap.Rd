@@ -12,6 +12,15 @@ procrustesMap(
   translation = TRUE,
   scaling = FALSE
 )
+
+procrustesMap(
+  map,
+  comparison_map,
+  optimization_number = 1,
+  comparison_optimization_number = 1,
+  translation = TRUE,
+  scaling = FALSE
+)
 }
 \arguments{
 \item{map}{The acmap data object}
@@ -34,11 +43,19 @@ procrustesMap(
 }
 \value{
 Returns procrustes information from the map to the target.
+
+Returns procrustes information from the map to the target.
 }
 \description{
 Returns information from one map procrusted to another.
+
+Returns information from one map procrusted to another.
 }
 \seealso{
+Other {functions to compare maps}: 
+\code{\link{realignMap}()},
+\code{\link{realignOptimizations}()}
+
 Other {functions to compare maps}: 
 \code{\link{realignMap}()},
 \code{\link{realignOptimizations}()}

@@ -1,12 +1,10 @@
 
 #' Getting and setting the map name
 #'
-#' You can use the standard `mapName()` function to get and set the map name.
-#'
 #' @name mapName
 #' @family {map attribute functions}
 #' @eval roxygen_tags(
-#'   methods = c("mapName"),
+#'   methods = c("mapName", "mapName<-"),
 #'   args    = c("map")
 #' )
 #'
@@ -23,7 +21,10 @@ mapName <- function(map){
 
 #' Getting and setting map titers
 #'
-#' Functions to get and set the map titer table.
+#' Functions to get and set the map titer table. Note that when setting the
+#' titer table like this any titer table layer information is lost, this is
+#' normally not a problem unless the map is a result of merging two titer tables
+#' together previously and you then go on the merge the titers again.
 #'
 #' @name titerTable
 #' @family {map attribute functions}
@@ -60,13 +61,29 @@ titerTable <- function(map){
 }
 
 
-#' @noRd
+#' Getting and setting the flat titer table
+#'
+#' These are underlying functions to get and set the "flat" version of the titer
+#' table only. When a map is merged, the titer tables are merged but a record of
+#' the original titers associated with each map are kept as titer table layers
+#' so that information on the original set of titers that made up the merge is
+#' not lost. At the same time, the merged titer version of the titer table is
+#' created and saved as the titer_table_flat attribute. When you access titers
+#' through the `titerTable()` function, the flat version of the titer table is
+#' retrieved (only really a relevant distinction for merged maps). When you set
+#' titers through `titerTable<-()` titer table layers are lost. These functions
+#' allow you to manipulate the flat version without effecting the titer table
+#' layers information.
+#'
+#' @name titerTableFlat
+
+#' @rdname titerTable
 titerTableFlat <- function(map){
   check.acmap(map)
   map$titer_table_flat
 }
 
-#' @noRd
+#' @rdname titerTable
 `titerTableFlat<-` <- function(map, value){
   check.acmap(map)
   if(is.data.frame(value)) value <- as.matrix(value)
@@ -80,18 +97,26 @@ titerTableFlat <- function(map){
 #'
 #' Functions to get and set the underlying titer table layers of a map (see details).
 #'
+#' @param map The acmap object
+#'
+#' @details When you merge maps with `mergeMaps()` repeated antigen - serum
+#'   titers are merged to create a new titer table but information on the
+#'   original titers is not lost. The original titer tables, aligned to their
+#'   new positions in the merged table, are kept as separate layers that can be
+#'   accessed with these functions. If you have merged a whole bunch of
+#'   different maps, these functions can be useful to check for example,
+#'   variation in titer seen between a single antigen and serum pair.
+#'
 #' @name titerTableLayers
 #' @family {map attribute functions}
-#' @eval roxygen_tags(
-#'   methods = c("titerTableLayers"),
-#'   args    = c("map")
-#' )
+#' @export
 #'
 titerTableLayers <- function(map){
   check.acmap(map)
   map$titer_table_layers
 }
 
+#' @rdname titerTableLayers
 `titerTableLayers<-` <- function(map, value){
 
   # Check input
@@ -124,9 +149,9 @@ titerTableLayers <- function(map){
 #'
 #' Sorts all the optimization runs for a given map object by stress
 #' (lowest to highest). Note that this is done by default when running
-#' [optimizeMap()].
+#' `optimizeMap()`.
 #'
-#' @param map map data object
+#' @param map The acmap object
 #'
 #' @family {functions to work with map optimizations}
 #' @export
@@ -136,7 +161,9 @@ sortOptimizations <- function(map) {
   map
 }
 
-# Get arbitrary map properties
+
+# Helper function for getting a vector of properties associated with each
+# optimization run, like stress
 allMapProperties <- function(map, getter){
   check.acmap(map)
   vapply(
@@ -156,7 +183,7 @@ allMapProperties <- function(map, getter){
 #' Utility functions to get a vector of all the map optimization
 #' properties.
 #'
-#' @param map map data object
+#' @param map The acmap object
 #'
 #' @family {functions to work with map optimizations}
 #' @name optimizationProperties
@@ -175,11 +202,12 @@ allMapDimensions <- function(map) {
   allMapProperties(map, mapDimensions)
 }
 
+
 #' Remove map optimizations
 #'
 #' Remove all optimization run data from a map object
 #'
-#' @param map the map data object
+#' @param map The acmap object
 #'
 #' @family {functions to work with map optimizations}
 #' @export
@@ -190,34 +218,42 @@ removeOptimizations <- function(map) {
   map
 }
 
-#' Keep a single optimization run
+
+#' Keep specified optimization runs
 #'
-#' Keep only data from a single optimization run, either a specified
-#' optimization (defaulting to the selected one), or the "best"
-#' (lowest stress) optimization
+#' Keep only data from specified optimization runs, either a specified
+#' optimization, or the "best" (lowest stress) optimization, or a vector of
+#' optimizations
 #'
-#' @param map the map data object
+#' @param map The acmap object
 #'
 #' @family {functions to work with map optimizations}
 #' @name keepSingleOptimization
 
 #' @export
 #' @rdname keepSingleOptimization
-keepSingleOptimization <- function(map, optimization_number = 1) {
+keepOptimizations <- function(map, optimization_numbers){
+  check.numericvector(optimization_numbers)
   check.acmap(map)
-  map$optimizations <- map$optimizations[optimization_number]
+  if(numOptimizations(map) == 0) stop("Map has no optimization runs", call. = FALSE)
+  if(min(optimization_numbers) < 1) stop("Invalid optimization number", call. = FALSE)
+  if(max(optimization_numbers) > numOptimizations(map)) stop("Invalid optimization number", call. = FALSE)
+  map$optimizations <- map$optimizations[optimization_numbers]
   map
 }
 
 #' @export
 #' @rdname keepSingleOptimization
-keepBestOptimization <- function(map) {
-  check.acmap(map)
-  map <- sortOptimizations(map)
-  keepSingleOptimization(map, optimization_number = 1)
+keepSingleOptimization <- function(map, optimization_number = 1) {
+  keepOptimizations(map, optimization_number)
 }
 
-
+#' @export
+#' @rdname keepSingleOptimization
+keepBestOptimization <- function(map) {
+  map <- sortOptimizations(map)
+  keepOptimizations(map, 1)
+}
 
 
 #' Get acmap attributes

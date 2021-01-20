@@ -7,42 +7,27 @@
 read.acmap(
   filename,
   optimization_number = NULL,
-  discard_other_optimizations = FALSE,
   sort_optimizations = FALSE,
-  align_optimizations = FALSE,
-  only_best_optimization = FALSE
+  align_optimizations = FALSE
 )
 }
 \arguments{
 \item{filename}{Path to the file.}
 
-\item{optimization_number}{The optimization number to select (defaults to the first, see \code{\link{selectedOptimization}}).}
+\item{optimization_number}{Numeric vector of optimization runs to keep, the
+default, NULL, keeps information on all optimization runs}
 
-\item{discard_other_optimizations}{Should other optimizations be discarded?}
-
-\item{sort_optimizations}{Should optimizations be sorted in order of stress when the map data is read?}
+\item{sort_optimizations}{Should optimizations be sorted in order of stress
+when the map data is read?}
 
 \item{align_optimizations}{Should optimizations be rotated and translated to
-match each other as closely as possible?}
-
-\item{only_best_optimization}{Should only the best (lowest stress) optimization
-be kept?}
+match the orientation of the first optimization as closely as possible?}
 }
 \value{
 Returns the acmap data object.
 }
 \description{
 Reads an antigenic map file and converts it into an acmap data object.
-}
-\examples{
-# Read in an acmap object from a file
-map_file_path <- system.file("extdata/h3map2004.ace", package = "Racmacs")
-map <- read.acmap(map_file_path)
-
-# Read in a table of titer data and make a new acmap file from it
-titer_file_path <- system.file("extdata/h3map2004_hitable.csv", package = "Racmacs")
-titer_data <- read.titerTable(titer_file_path)
-map <- acmap.cpp(table = titer_data)
 }
 \seealso{
 Other {functions for working with map data}: 

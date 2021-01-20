@@ -14,6 +14,7 @@ mapBootstrap_srCoords(map)
 \item{map}{The map object}
 }
 \description{
-Get bootstrap coordinates associated with a map
+This can be used to get information about the bootstrap run results
+after \code{boostrapMap()} has been run.
 }
 \concept{bootstrapping maps}

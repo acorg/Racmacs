@@ -149,6 +149,17 @@ class AcOptimization {
       );
     }
 
+    // Apply the optimization transform to an arbitrary set of coordinates
+    arma::mat applyTransformation(
+      arma::mat coords
+    ) const{
+      return transform_coords(
+        coords,
+        transformation,
+        translation
+      );
+    }
+
     // Bake in the current transformation into the base coordinates
     void bake_transformation(){
 

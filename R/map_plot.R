@@ -1,16 +1,32 @@
 
 #' Plot an antigenic map
 #'
-#' Method for plotting an antigenic map
+#' Method for plotting an antigenic map in two dimensions
 #'
-#' @export
+#' @param map The acmap to plot
+#' @param optimization_number The optimization number to plot
+#' @param xlim optional x axis limits
+#' @param ylim optional y axis limits
+#' @param plot_ags logical, should antigens be plotted
+#' @param plot_sr logical, should antigens be plotted
+#' @param plot_labels logical, should point labels be plotted
+#' @param plot_blobs logical, should stress blobs be plotted if present
+#' @param grid.col grid line color
+#' @param grid.margin.col grid margin color
+#' @param fill.alpha alpha for point fill
+#' @param outline.alpha alpha for point outline
+#' @param padding padding at limits of the antigenic map, ignored if xlim or ylim set explicitly
+#' @param cex point size expansion factor
+#' @param ... additional arguments, not used
+#'
 #' @family {functions to view maps}
+#' @export
+#'
 plot.acmap <- function(
   map,
   optimization_number = 1,
   xlim = NULL,
   ylim = NULL,
-  asp = 1,
   plot_ags = TRUE,
   plot_sr  = TRUE,
   plot_labels = FALSE,
@@ -20,7 +36,8 @@ plot.acmap <- function(
   fill.alpha    = 0.8,
   outline.alpha = 0.8,
   padding = 1,
-  cex = 1){
+  cex = 1,
+  ...){
 
   # Do dimension checks
   if(mapDimensions(map, optimization_number) != 2){ stop("Plotting is only supported for 2D maps, please try view()") }
@@ -44,7 +61,7 @@ plot.acmap <- function(
     ylim = ylim,
     xaxs = "i",
     yaxs = "i",
-    asp  = asp
+    asp  = 1
   )
 
   # Plot grid
@@ -151,15 +168,17 @@ plot.acmap <- function(
 
 
 # Setup a map plot
-setup_acmap <- function(all_coords,
-                        border_width = 1,
-                        x_range,
-                        y_range,
-                        box_col = "black",
-                        box_lwd = 1,
-                        mar     = c(2,2,2,2),
-                        newplot = TRUE,
-                        grid_col = "#CCCCCC"){
+setup_acmap <- function(
+  all_coords,
+  border_width = 1,
+  x_range,
+  y_range,
+  box_col = "black",
+  box_lwd = 1,
+  mar     = c(2,2,2,2),
+  newplot = TRUE,
+  grid_col = "#CCCCCC"
+  ){
 
   # Remove NAs
   na_coords  <- is.na(all_coords[,1]) | is.na(all_coords[,2])
@@ -189,7 +208,7 @@ setup_acmap <- function(all_coords,
 }
 
 
-#' @export
+# Calculate map limits (not yet exported)
 mapLims <- function(...){
 
   all_coords <- c()
@@ -211,7 +230,7 @@ mapLims <- function(...){
 
 }
 
-#' @export
+# Calculate map plot limits (not yet exported)
 mapPlotLims <- function(..., padding = 1, round_even = TRUE){
 
   maplims <- mapLims(...)
@@ -223,7 +242,7 @@ mapPlotLims <- function(..., padding = 1, round_even = TRUE){
 
 }
 
-
+# Calculate coordinate limits
 coord_lims <- function(coords){
   lims <- lapply(
     seq_len(ncol(coords)),
@@ -237,6 +256,7 @@ coord_lims <- function(coords){
 }
 
 
+# Expanding plot limits
 expand_lims <- function(lims, padding = 1, round_even = TRUE){
   lapply(lims, function(l){
     l[1] <- l[1] - padding
@@ -252,12 +272,32 @@ expand_lims <- function(lims, padding = 1, round_even = TRUE){
 }
 
 
+# Calculating plot limits
 plot_lims <- function(coords, padding = 1, round_even = TRUE){
   expand_lims(
     lims       = coord_lims(coords),
     padding    = padding,
     round_even = round_even
   )
+}
+
+
+# Helper function for getting a list of point styles for plotting
+mapPoints <- function(map, optimization_number = NULL){
+
+  list(
+    type          = c(rep("ag", numAntigens(map)), rep("sr", numSera(map))),
+    coords        = rbind(agCoords(map, optimization_number), srCoords(map, optimization_number)),
+    shown         = c(agShown(map), srShown(map)),
+    size          = c(agSize(map), srSize(map)),
+    fill          = c(agFill(map), srFill(map)),
+    outline       = c(agOutline(map), srOutline(map)),
+    outline_width = c(agOutlineWidth(map), srOutlineWidth(map)),
+    rotation      = c(agRotation(map), srRotation(map)),
+    aspect        = c(agAspect(map), srAspect(map)),
+    shape         = c(agShape(map), srShape(map))
+  )
+
 }
 
 

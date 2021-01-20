@@ -2,7 +2,7 @@
 % Please edit documentation in R/map_diagnostics_bootstrap.R
 \name{bootstrapMap}
 \alias{bootstrapMap}
-\title{Perform a noisy bootstrap}
+\title{Perform a noisy bootstrap on a map}
 \usage{
 bootstrapMap(
   map,
@@ -18,17 +18,28 @@ bootstrapMap(
 
 \item{bootstrap_repeats}{The number of bootstrap repeats to perform}
 
-\item{optimizations_per_repeat}{When reoptimizing the map from scratch, the number of optimization runs to perform}
+\item{optimizations_per_repeat}{When reoptimizing the map from scratch, the
+number of optimization runs to perform}
 
-\item{ag_noise_sd}{The standard deviation to use when applying noise per antigen}
+\item{ag_noise_sd}{The standard deviation (on the log titer scale) to use
+when applying noise per antigen}
 
-\item{titer_noise_sd}{The standard deviation to use when applying noise per titer}
+\item{titer_noise_sd}{The standard deviation (on the log titer scale) to use
+when applying noise per titer}
+
+\item{options}{Map optimizer options, see \code{RacOptimizer.options()}}
 }
 \value{
-Returns the updated map object
+Returns the map object updated with bootstrap information
 }
 \description{
-Perform a noisy bootstrap on a map, adding random noise and reoptimizing from scratch.
+This function takes the map and original titer table, converts the titers to
+the log scale and reoptimizes the map from scratch. For each bootstrap run
+this process is performed and a record of the coordinates of points in the
+lowest stress solution is kept. This can only be performed on a map that
+has already been optimized, the intention is that you can use this function
+to see how robust point positions are in that map when additional noise is
+simulated.
 }
 \seealso{
 Other {map diagnostic functions}: 

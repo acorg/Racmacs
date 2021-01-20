@@ -10,9 +10,14 @@ save.coords(map, filename, antigens = TRUE, sera = TRUE)
 \item{map}{The acmap data object.}
 
 \item{filename}{Path to the file.}
+
+\item{antigens}{Antigens to include, either as a numeric vector of indices or character vector of names.}
+
+\item{sera}{Sera to include, either as a numeric vector of indices or character vector of names.}
 }
 \description{
-Saves acmap coordinate data of all or specified antigens and sera to a .csv file.
+Saves acmap coordinate data of all or specified antigens and sera to a .csv
+file.
 }
 \seealso{
 Other {functions for working with map data}: 

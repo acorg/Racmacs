@@ -1,20 +1,18 @@
 
 #' Realign map to match another
 #'
-#' Realigns the coordinates of a map to match a target map as closely as possible.
+#' Realigns the coordinates of a map to match a target map as closely as
+#' possible, based on a [procrustes analysis](https://en.wikipedia.org/wiki/Procrustes_analysis).
+#' Note that all optimization runs will be separately aligned to match as
+#' closely as possible the first optimization run of the target map.
 #'
 #' @param map The acmap to realign.
 #' @param target_map The acmap to realign to.
-#' @param antigens Antigens to include when calculating the closest realignment, specified either by name or index or FALSE for excluding all.
-#' @param sera Sera to include when calculating the closest realignment, specified either by name or index or FALSE for excluding all.
-#' @param optimization_number The optimization from the map to realign (default is the currently selected one)
-#' @param target_optimization_number The optimization from the target map to realign to (default is the currently selected one)
-#' @param passage_matching The type of passage matching to be performed.
-#' @param alignTargetToMain Should the target map be realigned to match the main map (default is to
-#'   realign main map to match target map) - this is sometimes useful if you want to
-#'   match based on antigen and serum indices from the main map.
+#' @param translation Should translation be allowed
+#' @param scaling Should scaling be allowed (generally not recommended unless
+#'   comparing maps made with different assays)
 #'
-#' @return Returns the map aligned to the target map (or the target map aligned to the main map if alignTargetToMain is TRUE)
+#' @return Returns the map aligned to the target map
 #' @family {functions to compare maps}
 #' @export
 #'
@@ -45,15 +43,18 @@ realignMap <- function(
 #'
 #' @param map The acmap data object
 #' @param comparison_map The acmap data object to procrustes against
-#' @param antigens Antigens to include in the procrustes, specified either by name or index or FALSE for excluding all.
-#' @param sera Sera to include in the procrustes, specified either by name or index or FALSE for excluding all.
-#' @param translation Should translation be performed?
-#' @param scaling Should scaling be performed?
-#' @param optimization_number The map optimization to use in the procrustes calculation (defaults to the currently selected optimization)
-#' @param target_optimization_number The target map optimization to use in the procrustes calculation (defaults to the currently selected optimization)
-#' @param passage_matching Should passage matching be performed (not currently implemented)
+#' @param optimization_number The map optimization to use in the procrustes
+#'   calculation (other optimization runs are discarded)
+#' @param comparison_optimization_number The optimization run int the comparison
+#'   map to compare against
+#' @param translation Should translation be allowed
+#' @param scaling Should scaling be allowed (generally not recommended unless
+#'   comparing maps made with different assays)
 #'
-#' @return Returns procrustes information from the map to the target.
+#' @return Returns an acmap object with procrustes information added, which will
+#'   be shown when the map is plotted. To avoid ambiguity about which optimization
+#'   run the procrustes was applied to, only the optimization run specified by
+#'   `optimization_number` is kept in the map returned.
 #' @family {functions to compare maps}
 #' @export
 #'
@@ -88,7 +89,30 @@ procrustesMap <- function(
 }
 
 
+#' Return procrustes data on a map comparison
+#'
+#' Returns information about how similar point positions are in two maps,
+#' to get an idea of how similar antigenic positions are in for example
+#' maps made from two different datasets.
+#'
+#' @param map The acmap data object
+#' @param comparison_map The acmap data object to procrustes against
+#' @param optimization_number The map optimization to use in the procrustes
+#'   calculation (other optimization runs are discarded)
+#' @param comparison_optimization_number The optimization run int the comparison
+#'   map to compare against
+#' @param translation Should translation be allowed
+#' @param scaling Should scaling be allowed (generally not recommended unless
+#'   comparing maps made with different assays)
+#'
+#' @return Returns a list with information on antigenic distances between the
+#'   aligned maps, and the rmsd of the point differences split by antigen
+#'   points, serum points and total, or all points. The distances are a vector
+#'   matching the number of points in the main map, with NA in the position of
+#'   any points not found in the comparison map.
+#'
 #' @export
+#'
 procrustesData <- function(
   map,
   comparison_map,
@@ -117,197 +141,21 @@ procrustesData <- function(
 }
 
 
-#' Realigns optimizations in the map to the current optimization
+#' Realigns optimizations in the map
 #'
-#' @param map The acmap data
-#' @param antigens The antigens to include in the realignment, TRUE for all FALSE for none, or specified by name or index
-#' @param sera The sera to include in the realignment, TRUE for all FALSE for none, or specified by name or index
-#'
-#' @return Returns the map with realigned optimizations
-#' @family {functions to compare maps}
-#' @export
-#'
-realignOptimizations <- function(
-  map,
-  antigens = TRUE,
-  sera     = TRUE,
-  optimization_number = NULL
-  ){
-
-  check.acmap(map)
-
-  # Align optimizations
-  map$optimizations <- ac_align_optimizations(map$optimizations)
-
-  # Return the map
-  map
-
-}
-
-
-add_procrustes_grid <- function(map){
-
-  # Get the comparator coordinates
-  comp_coords <- rbind(
-    map$procrustes$comparison_coords$ag,
-    map$procrustes$comparison_coords$sr
-  )
-
-  # Calculate grid limits and the grid points
-  plims <- plot_lims(comp_coords)
-  x <- seq(from = plims$xlim[1], to = plims$xlim[2])
-  y <- seq(from = plims$ylim[1], to = plims$ylim[2])
-  grid_coords <- as.matrix(expand.grid(x, y))
-  grid_coords <- cbind(grid_coords, 0)
-  grid_coords <- apply_procrustes(grid_coords, map$procrustes$pc_transform)
-
-  # Add the surface to the map
-  r3js::surface3js(
-    map,
-    x = matrix(grid_coords[,1], length(x), length(y)),
-    y = matrix(grid_coords[,2], length(x), length(y)),
-    z = matrix(grid_coords[,3], length(x), length(y)),
-    wireframe = TRUE,
-    col = "#cccccc"
-  )
-
-}
-
-
-
-#' Realign map to match another
-#'
-#' Realigns the coordinates of a map to match a target map as closely as possible.
-#'
-#' @param map The acmap to realign.
-#' @param target_map The acmap to realign to.
-#' @param antigens Antigens to include when calculating the closest realignment, specified either by name or index or FALSE for excluding all.
-#' @param sera Sera to include when calculating the closest realignment, specified either by name or index or FALSE for excluding all.
-#' @param optimization_number The optimization from the map to realign (default is the currently selected one)
-#' @param target_optimization_number The optimization from the target map to realign to (default is the currently selected one)
-#' @param passage_matching The type of passage matching to be performed.
-#' @param alignTargetToMain Should the target map be realigned to match the main map (default is to
-#'   realign main map to match target map) - this is sometimes useful if you want to
-#'   match based on antigen and serum indices from the main map.
-#'
-#' @return Returns the map aligned to the target map (or the target map aligned to the main map if alignTargetToMain is TRUE)
-#' @family {functions to compare maps}
-#' @export
-#'
-realignMap <- function(
-  map,
-  target_map,
-  translation = TRUE,
-  scaling     = FALSE
-  ){
-
-  # Check input
-  check.acmap(map)
-  check.acmap(target_map)
-
-  ac_align_map(
-    source_map = map,
-    target_map = target_map,
-    translation = translation,
-    scaling = scaling
-  )
-
-}
-
-
-#' Return procrustes information
-#'
-#' Returns information from one map procrusted to another.
+#' Realigns all map optimizations through rotatation and translation to match
+#' point positions as closely as possible to the first optimization run. This
+#' is done by default when optimizing a map and makes comparing point positions
+#' in each optimization run much easier to do by eye.
 #'
 #' @param map The acmap data object
-#' @param comparison_map The acmap data object to procrustes against
-#' @param antigens Antigens to include in the procrustes, specified either by name or index or FALSE for excluding all.
-#' @param sera Sera to include in the procrustes, specified either by name or index or FALSE for excluding all.
-#' @param translation Should translation be performed?
-#' @param scaling Should scaling be performed?
-#' @param optimization_number The map optimization to use in the procrustes calculation (defaults to the currently selected optimization)
-#' @param target_optimization_number The target map optimization to use in the procrustes calculation (defaults to the currently selected optimization)
-#' @param passage_matching Should passage matching be performed (not currently implemented)
-#'
-#' @return Returns procrustes information from the map to the target.
-#' @family {functions to compare maps}
-#' @export
-#'
-procrustesMap <- function(
-  map,
-  comparison_map,
-  optimization_number = 1,
-  comparison_optimization_number = 1,
-  translation = TRUE,
-  scaling     = FALSE
-  ){
-
-  # Get the procrustes coords
-  pc_coords <- ac_procrustes_map_coords(
-    base_map = map,
-    procrustes_map = comparison_map,
-    base_map_optimization_number = optimization_number - 1,
-    procrustes_map_optimization_number = comparison_optimization_number - 1,
-    translation = translation,
-    scaling = scaling
-  )
-
-  # Keep only the optimization number used
-  map <- keepSingleOptimization(map, optimization_number)
-
-  # Add the data to the map
-  map$procrustes <- pc_coords
-
-  # Return the map
-  map
-
-}
-
-
-#' Not yet implemented
-procrustesData <- function(
-  map,
-  comparison_map,
-  optimization_number = 1,
-  comparison_optimization_number = 1,
-  translation = TRUE,
-  scaling     = FALSE
-){
-
-  # Perform the procrustes
-  map <- procrustesMap(
-    map = map,
-    comparison_map = comparison_map,
-    optimization_number = optimization_number,
-    comparison_optimization_number = comparison_optimization_number,
-    translation = translation,
-    scaling = scaling
-  )
-
-  # Get the procrustes data
-  ac_procrustes_map_data(
-    map$optimizations[[1]],
-    map$procrustes
-  )
-
-}
-
-
-#' Realigns optimizations in the map to the current optimization
-#'
-#' @param map The acmap data
-#' @param antigens The antigens to include in the realignment, TRUE for all FALSE for none, or specified by name or index
-#' @param sera The sera to include in the realignment, TRUE for all FALSE for none, or specified by name or index
 #'
 #' @return Returns the map with realigned optimizations
 #' @family {functions to compare maps}
 #' @export
 #'
 realignOptimizations <- function(
-  map,
-  antigens = TRUE,
-  sera     = TRUE,
-  optimization_number = NULL
+  map
   ){
 
   check.acmap(map)
@@ -321,6 +169,8 @@ realignOptimizations <- function(
 }
 
 
+# This is a function to add a grid to a map indicating the original 2d plane,
+# when comparing a 2d map to a 3d map with procrustes
 add_procrustes_grid <- function(map){
 
   # Get the comparator coordinates

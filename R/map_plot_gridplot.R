@@ -13,6 +13,21 @@
 #' allows maps with custom point shapes like "EGG" and "UGLYEGG" to be plotted, or maps where
 #' point aspect or rotation has been altered.
 #'
+#' @param map The acmap to plot
+#' @param optimization_number The optimization number to plot
+#' @param xlim optional x axis limits
+#' @param ylim optional y axis limits
+#' @param plot_ags logical, should antigens be plotted
+#' @param plot_sr logical, should antigens be plotted
+#' @param plot_labels logical, should point labels be plotted
+#' @param plot_blobs logical, should stress blobs be plotted if present
+#' @param grid.col grid line color
+#' @param grid.margin.col grid margin color
+#' @param fill.alpha alpha for point fill
+#' @param outline.alpha alpha for point outline
+#' @param padding padding at limits of the antigenic map, ignored if xlim or ylim set explicitly
+#' @param cex point size expansion factor
+#'
 #' @export
 #' @family {functions to view maps}
 grid.plot.acmap <- function(

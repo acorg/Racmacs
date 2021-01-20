@@ -1,16 +1,38 @@
 
-#' Add stress blob data to a map object
+#' Calculate stress blobs data for an antigenic map
+#'
+#' This function is to help give an idea of how well coordinated each point is
+#' in a map, and to give some idea of uncertainty in it's position. It works
+#' by moving each point in a grid search and seeing how the total map stress
+#' changes, see details.
 #'
 #' @param map The acmap data object
-#' @param data The stress data to add (calculated if not provided)
-#' @param optimization_number The optimization number (defaults to the currently selected one)
 #' @param stress_lim The blob stress limit
-#' @param antigens Antigens to calculate blobs for (TRUE for all FALSE for none, or specified by name or index)
-#' @param sera Sera to calculate blobs for (TRUE for all FALSE for none, or specified by name or index)
-#' @param grid_spacing Grid spacing to use when calculating the blob
-#' @param progress_fn Function to use for progress reporting
+#' @param grid_spacing Grid spacing to use when searching map space and
+#'   inferring the blob
+#' @param antigens Should stress blobs be calculated for antigens
+#' @param sera Should stress blobs be calculated for sera
+#' @param .check_relaxation Should a check be performed that the map is fully
+#'   relaxed (all points in a local optima) before the search is performed
+#' @param .options List of named optimizer options to use when checking map
+#'   relaxation, see `RacOptimizer.options()`
 #'
-#' @return Returns the acmap data object with stress blob information added
+#' @return Returns the acmap data object with stress blob information added,
+#'   which will be shown when the map is plotted
+#'
+#' @details The region or regions of the plot where total map stress is not
+#'   increased above a certain threshold (`stress_lim`) are shown when the map
+#'   is plotted. This function is really to check whether point positions are
+#'   clearly very uncertain, for example the underlying titers may support an
+#'   antigen being a certain distance away from a group of other points but due
+#'   to the positions of the sera against which it was titrated the direction
+#'   would be unclear, and you might see a blob that forms an arc or "banana"
+#'   that represents this. Note that it is not really a confidence interval
+#'   since a point may be well coordinated in terms of the optimization but
+#'   it's position may still be defined by perhaps only one particular titer
+#'   which is itself uncertain. For something more akin to confidence intervals
+#'   you can use other diagnostic functions like `bootstrapMap()`.
+#'
 #' @export
 #'
 stressBlobs <- function(
@@ -19,7 +41,8 @@ stressBlobs <- function(
   grid_spacing      = 0.25,
   antigens          = TRUE,
   sera              = TRUE,
-  .check_relaxation = TRUE
+  .check_relaxation = TRUE,
+  .options          = list()
   ){
 
   # Only run on current optimization

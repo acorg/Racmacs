@@ -3,12 +3,17 @@
 #'
 #' @param antigens The antigens to get indices
 #' @param map The acmap object
-#' @param warnings Should warnings be output about antigens that were specified by name but not found in the map
+#' @param warnings Should warnings be output about antigens that were specified
+#'   by name but not found in the map
 #'
 #' @return Returns the indices of matches antigens
 #' @noRd
 #'
-get_ag_indices <- function(antigens = TRUE, map, warnings = TRUE){
+get_ag_indices <- function(
+  antigens = TRUE,
+  map,
+  warnings = TRUE
+  ){
 
   # Default to all points if null passed
   if(isTRUE(antigens)) return(seq_len(numAntigens(map)))
@@ -51,7 +56,11 @@ get_ag_indices <- function(antigens = TRUE, map, warnings = TRUE){
 #' @return Returns the indices of matches sera
 #' @noRd
 #'
-get_sr_indices <- function(sera = TRUE, map, warnings = TRUE){
+get_sr_indices <- function(
+  sera = TRUE,
+  map,
+  warnings = TRUE
+  ){
 
   # Default to all sera if null passed
   if(isTRUE(sera)) return(seq_len(numSera(map)))
@@ -90,8 +99,8 @@ get_sr_indices <- function(sera = TRUE, map, warnings = TRUE){
 #' Subset an antigenic map to contain only specified antigens and sera
 #'
 #' @param map The antigenic map object
-#' @param antigens Antigens to keep
-#' @param sera Sera to keep
+#' @param antigens Antigens to keep, defaults to all.
+#' @param sera Sera to keep, defaults to all.
 #'
 #' @return Returns a new antigenic map containing only match antigens and sera
 #' @export
@@ -99,9 +108,11 @@ get_sr_indices <- function(sera = TRUE, map, warnings = TRUE){
 #'
 #' @example examples/example_map_subset.R
 #'
-subsetMap <- function(map,
-                      antigens = TRUE,
-                      sera     = TRUE){
+subsetMap <- function(
+  map,
+  antigens = TRUE,
+  sera     = TRUE
+  ){
 
   # Match by antigen and sera name if character vectors are specified
   antigens <- na.omit(get_ag_indices(antigens, map))

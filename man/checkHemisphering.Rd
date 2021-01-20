@@ -9,7 +9,7 @@ checkHemisphering(map, stepsize = 0.1, optimization_number = NULL)
 \arguments{
 \item{map}{The acmap data object}
 
-\item{optimization_number}{The map optimization number (defaults to the currently selected optimization)}
+\item{optimization_number}{The map optimization number}
 }
 \value{
 Returns a data frame with information on any points that were found

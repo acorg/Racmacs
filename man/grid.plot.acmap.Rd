@@ -21,6 +21,35 @@ grid.plot.acmap(
   cex = 1
 )
 }
+\arguments{
+\item{map}{The acmap to plot}
+
+\item{optimization_number}{The optimization number to plot}
+
+\item{xlim}{optional x axis limits}
+
+\item{ylim}{optional y axis limits}
+
+\item{plot_ags}{logical, should antigens be plotted}
+
+\item{plot_sr}{logical, should antigens be plotted}
+
+\item{plot_labels}{logical, should point labels be plotted}
+
+\item{plot_blobs}{logical, should stress blobs be plotted if present}
+
+\item{grid.col}{grid line color}
+
+\item{grid.margin.col}{grid margin color}
+
+\item{fill.alpha}{alpha for point fill}
+
+\item{outline.alpha}{alpha for point outline}
+
+\item{padding}{padding at limits of the antigenic map, ignored if xlim or ylim set explicitly}
+
+\item{cex}{point size expansion factor}
+}
 \description{
 Plot an antigenic map using the 'grid' plotting system, this is harder to edit afterwards but
 allows maps with custom point shapes like "EGG" and "UGLYEGG" to be plotted, or maps where

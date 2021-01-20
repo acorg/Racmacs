@@ -356,3 +356,13 @@ test_that("Moving trapped points", {
 
 })
 
+
+# Randomizing coordinates
+test_that("Randomize map coordinates", {
+
+  rmap <- randomizeCoords(map)
+  expect_true(sum(agCoords(map) - agCoords(rmap)) != 0)
+  expect_true(sum(srCoords(map) - srCoords(rmap)) != 0)
+
+})
+

@@ -2,7 +2,7 @@
 #' Plot map vs table distances
 #'
 #' @param map The acmap data object
-#' @param optimization_number The optimization number from which to take map and table distances (defaults to the currently selected optimization)
+#' @param optimization_number The optimization number from which to take map and table distances
 #' @param xlim The x limits of the plot
 #' @param ylim The y limits of the plot
 #' @param line_of_equality Should the line x=y be added
@@ -15,7 +15,7 @@
 #' @rdname map-table-distances
 plot_map_table_distance <- function(
   map,
-  optimization_number = NULL,
+  optimization_number = 1,
   xlim, ylim,
   line_of_equality = TRUE
 ){
@@ -98,10 +98,12 @@ plot_map_table_distance <- function(
 
 #' @export
 #' @rdname map-table-distances
-plotly_map_table_distance <- function(map,
-                                      optimization_number = NULL,
-                                      xlim,
-                                      ylim){
+plotly_map_table_distance <- function(
+  map,
+  optimization_number = 1,
+  xlim, ylim,
+  line_of_equality = TRUE
+  ){
 
   gp <- plot_map_table_distance(
     map = map,
@@ -112,6 +114,7 @@ plotly_map_table_distance <- function(map,
   plotly::ggplotly(gp, tooltip = "text")
 
 }
+
 
 #' Plot serum titers
 #'
@@ -125,7 +128,7 @@ plot_sr_titers <- function(
   serum,
   xlim = NULL,
   ylim = NULL,
-  optimization_number = NULL,
+  optimization_number = 1,
   .plot = TRUE
 ){
 

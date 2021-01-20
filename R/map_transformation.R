@@ -1,11 +1,12 @@
 
 #' Apply the current map transformation
 #'
-#' Applies the current map transformation to a set of coordinates
+#' Applies the map transformation associated with a selected optimization run to
+#' a set of coordinates.
 #'
 #' @param coords Coordinates to transform
 #' @param map The acmap object
-#' @param optimization_number The optimization number (by default the selected one)
+#' @param optimization_number The optimization number
 #'
 #' @family {functions relating to map transformation}
 #' @export
@@ -13,23 +14,14 @@
 applyMapTransform <- function(
   coords,
   map,
-  optimization_number = NULL
+  optimization_number = 1
 ){
 
   # Transform the coordinates
-  coords <- transform_coords(
-    coords         = coords,
-    transformation = mapTransformation(map, optimization_number)
+  ac_apply_optimization_transform(
+    map$optimizations[[optimization_number]],
+    coords
   )
-
-  # Translate the coordinates
-  coords <- translate_coords(
-    coords         = coords,
-    translation    = mapTranslation(map, optimization_number)
-  )
-
-  # Return coords
-  coords
 
 }
 
@@ -39,13 +31,17 @@ applyMapTransform <- function(
 #' Translates map coordinates
 #'
 #' @param map The acmap object
-#' @param translation Translation to apply (as vector)
-#' @param optimization_number The optimization number (by default the selected one)
+#' @param translation Translation to apply (as vector or n x 1 matrix)
+#' @param optimization_number The optimization number (or NULL to apply to all optimizations)
 #'
 #' @family {functions relating to map transformation}
 #' @export
 #'
-translateMap <- function(map, translation, optimization_number = NULL) {
+translateMap <- function(
+  map,
+  translation,
+  optimization_number = NULL
+  ){
 
   # Check input
   if(is.vector(translation)) translation <- matrix(translation, ncol = 1)
@@ -71,12 +67,16 @@ translateMap <- function(map, translation, optimization_number = NULL) {
 #'
 #' @param map The acmap object
 #' @param axis Axis of reflection
-#' @param optimization_number The optimization number (by default the selected one)
+#' @param optimization_number The optimization number (or NULL to apply to all optimizations)
 #'
 #' @family {functions relating to map transformation}
 #' @export
 #'
-reflectMap <- function(map, axis = "x", optimization_number = NULL) {
+reflectMap <- function(
+  map,
+  axis = "x",
+  optimization_number = NULL
+  ){
 
   # Set the axis num
   if(is.null(axis)){
@@ -101,19 +101,25 @@ reflectMap <- function(map, axis = "x", optimization_number = NULL) {
 
 }
 
+
 #' Rotate a map
 #'
 #' Apply a rotation to an antigenic map
 #'
 #' @param map The acmap object
 #' @param degrees Degrees of rotation
-#' @param axis Axis of rotation (if 3D)
-#' @param optimization_number The optimization number (by default the selected one)
+#' @param axis Axis of rotation (if 3D), specified as "x", "y", or "z"
+#' @param optimization_number The optimization number (or NULL to apply to all optimizations)
 #'
 #' @family {functions relating to map transformation}
 #' @export
 #'
-rotateMap <- function(map, degrees, axis = NULL, optimization_number = NULL) {
+rotateMap <- function(
+  map,
+  degrees,
+  axis = NULL,
+  optimization_number = NULL
+  ){
 
   # Set the axis num
   if(is.null(axis)){

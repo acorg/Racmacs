@@ -1,7 +1,6 @@
 
-# ================
-# This is a selection of helper functions for doing grid plotting in map_plotgrid.R.
-# ================
+## This is a selection of helper functions for doing grid plotting in
+## map_plotgrid.R.
 
 # Special grobs
 custom_grob <- function(
@@ -149,7 +148,6 @@ vp_with_margins <- function(
   )
 
 }
-
 
 
 # Function to create viewport with a fixed aspect

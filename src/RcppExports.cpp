@@ -182,6 +182,16 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// ac_new_antigen
+AcAntigen ac_new_antigen(std::string name);
+RcppExport SEXP _Racmacs_ac_new_antigen(SEXP nameSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::traits::input_parameter< std::string >::type name(nameSEXP);
+    rcpp_result_gen = Rcpp::wrap(ac_new_antigen(name));
+    return rcpp_result_gen;
+END_RCPP
+}
 // ac_ag_get_id
 std::string ac_ag_get_id(const AcAntigen& ag);
 RcppExport SEXP _Racmacs_ac_ag_get_id(SEXP agSEXP) {
@@ -573,339 +583,181 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// ac_ag_get_shown
-bool ac_ag_get_shown(const AcAntigen ag);
-RcppExport SEXP _Racmacs_ac_ag_get_shown(SEXP agSEXP) {
+// ac_plotspec_get_shown
+bool ac_plotspec_get_shown(const AcPlotspec ps);
+RcppExport SEXP _Racmacs_ac_plotspec_get_shown(SEXP psSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
-    Rcpp::traits::input_parameter< const AcAntigen >::type ag(agSEXP);
-    rcpp_result_gen = Rcpp::wrap(ac_ag_get_shown(ag));
+    Rcpp::traits::input_parameter< const AcPlotspec >::type ps(psSEXP);
+    rcpp_result_gen = Rcpp::wrap(ac_plotspec_get_shown(ps));
     return rcpp_result_gen;
 END_RCPP
 }
-// ac_ag_get_size
-double ac_ag_get_size(const AcAntigen ag);
-RcppExport SEXP _Racmacs_ac_ag_get_size(SEXP agSEXP) {
+// ac_plotspec_get_size
+double ac_plotspec_get_size(const AcPlotspec ps);
+RcppExport SEXP _Racmacs_ac_plotspec_get_size(SEXP psSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
-    Rcpp::traits::input_parameter< const AcAntigen >::type ag(agSEXP);
-    rcpp_result_gen = Rcpp::wrap(ac_ag_get_size(ag));
+    Rcpp::traits::input_parameter< const AcPlotspec >::type ps(psSEXP);
+    rcpp_result_gen = Rcpp::wrap(ac_plotspec_get_size(ps));
     return rcpp_result_gen;
 END_RCPP
 }
-// ac_ag_get_fill
-std::string ac_ag_get_fill(const AcAntigen ag);
-RcppExport SEXP _Racmacs_ac_ag_get_fill(SEXP agSEXP) {
+// ac_plotspec_get_fill
+std::string ac_plotspec_get_fill(const AcPlotspec ps);
+RcppExport SEXP _Racmacs_ac_plotspec_get_fill(SEXP psSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
-    Rcpp::traits::input_parameter< const AcAntigen >::type ag(agSEXP);
-    rcpp_result_gen = Rcpp::wrap(ac_ag_get_fill(ag));
+    Rcpp::traits::input_parameter< const AcPlotspec >::type ps(psSEXP);
+    rcpp_result_gen = Rcpp::wrap(ac_plotspec_get_fill(ps));
     return rcpp_result_gen;
 END_RCPP
 }
-// ac_ag_get_outline
-std::string ac_ag_get_outline(const AcAntigen ag);
-RcppExport SEXP _Racmacs_ac_ag_get_outline(SEXP agSEXP) {
+// ac_plotspec_get_outline
+std::string ac_plotspec_get_outline(const AcPlotspec ps);
+RcppExport SEXP _Racmacs_ac_plotspec_get_outline(SEXP psSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
-    Rcpp::traits::input_parameter< const AcAntigen >::type ag(agSEXP);
-    rcpp_result_gen = Rcpp::wrap(ac_ag_get_outline(ag));
+    Rcpp::traits::input_parameter< const AcPlotspec >::type ps(psSEXP);
+    rcpp_result_gen = Rcpp::wrap(ac_plotspec_get_outline(ps));
     return rcpp_result_gen;
 END_RCPP
 }
-// ac_ag_get_outline_width
-double ac_ag_get_outline_width(const AcAntigen ag);
-RcppExport SEXP _Racmacs_ac_ag_get_outline_width(SEXP agSEXP) {
+// ac_plotspec_get_outline_width
+double ac_plotspec_get_outline_width(const AcPlotspec ps);
+RcppExport SEXP _Racmacs_ac_plotspec_get_outline_width(SEXP psSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
-    Rcpp::traits::input_parameter< const AcAntigen >::type ag(agSEXP);
-    rcpp_result_gen = Rcpp::wrap(ac_ag_get_outline_width(ag));
+    Rcpp::traits::input_parameter< const AcPlotspec >::type ps(psSEXP);
+    rcpp_result_gen = Rcpp::wrap(ac_plotspec_get_outline_width(ps));
     return rcpp_result_gen;
 END_RCPP
 }
-// ac_ag_get_rotation
-double ac_ag_get_rotation(const AcAntigen ag);
-RcppExport SEXP _Racmacs_ac_ag_get_rotation(SEXP agSEXP) {
+// ac_plotspec_get_rotation
+double ac_plotspec_get_rotation(const AcPlotspec ps);
+RcppExport SEXP _Racmacs_ac_plotspec_get_rotation(SEXP psSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
-    Rcpp::traits::input_parameter< const AcAntigen >::type ag(agSEXP);
-    rcpp_result_gen = Rcpp::wrap(ac_ag_get_rotation(ag));
+    Rcpp::traits::input_parameter< const AcPlotspec >::type ps(psSEXP);
+    rcpp_result_gen = Rcpp::wrap(ac_plotspec_get_rotation(ps));
     return rcpp_result_gen;
 END_RCPP
 }
-// ac_ag_get_aspect
-double ac_ag_get_aspect(const AcAntigen ag);
-RcppExport SEXP _Racmacs_ac_ag_get_aspect(SEXP agSEXP) {
+// ac_plotspec_get_aspect
+double ac_plotspec_get_aspect(const AcPlotspec ps);
+RcppExport SEXP _Racmacs_ac_plotspec_get_aspect(SEXP psSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
-    Rcpp::traits::input_parameter< const AcAntigen >::type ag(agSEXP);
-    rcpp_result_gen = Rcpp::wrap(ac_ag_get_aspect(ag));
+    Rcpp::traits::input_parameter< const AcPlotspec >::type ps(psSEXP);
+    rcpp_result_gen = Rcpp::wrap(ac_plotspec_get_aspect(ps));
     return rcpp_result_gen;
 END_RCPP
 }
-// ac_ag_get_shape
-std::string ac_ag_get_shape(const AcAntigen ag);
-RcppExport SEXP _Racmacs_ac_ag_get_shape(SEXP agSEXP) {
+// ac_plotspec_get_shape
+std::string ac_plotspec_get_shape(const AcPlotspec ps);
+RcppExport SEXP _Racmacs_ac_plotspec_get_shape(SEXP psSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
-    Rcpp::traits::input_parameter< const AcAntigen >::type ag(agSEXP);
-    rcpp_result_gen = Rcpp::wrap(ac_ag_get_shape(ag));
+    Rcpp::traits::input_parameter< const AcPlotspec >::type ps(psSEXP);
+    rcpp_result_gen = Rcpp::wrap(ac_plotspec_get_shape(ps));
     return rcpp_result_gen;
 END_RCPP
 }
-// ac_sr_get_shown
-bool ac_sr_get_shown(const AcSerum sr);
-RcppExport SEXP _Racmacs_ac_sr_get_shown(SEXP srSEXP) {
+// ac_plotspec_set_shown
+AcPlotspec ac_plotspec_set_shown(AcPlotspec ps, bool value);
+RcppExport SEXP _Racmacs_ac_plotspec_set_shown(SEXP psSEXP, SEXP valueSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
-    Rcpp::traits::input_parameter< const AcSerum >::type sr(srSEXP);
-    rcpp_result_gen = Rcpp::wrap(ac_sr_get_shown(sr));
-    return rcpp_result_gen;
-END_RCPP
-}
-// ac_sr_get_size
-double ac_sr_get_size(const AcSerum sr);
-RcppExport SEXP _Racmacs_ac_sr_get_size(SEXP srSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::traits::input_parameter< const AcSerum >::type sr(srSEXP);
-    rcpp_result_gen = Rcpp::wrap(ac_sr_get_size(sr));
-    return rcpp_result_gen;
-END_RCPP
-}
-// ac_sr_get_fill
-std::string ac_sr_get_fill(const AcSerum sr);
-RcppExport SEXP _Racmacs_ac_sr_get_fill(SEXP srSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::traits::input_parameter< const AcSerum >::type sr(srSEXP);
-    rcpp_result_gen = Rcpp::wrap(ac_sr_get_fill(sr));
-    return rcpp_result_gen;
-END_RCPP
-}
-// ac_sr_get_outline
-std::string ac_sr_get_outline(const AcSerum sr);
-RcppExport SEXP _Racmacs_ac_sr_get_outline(SEXP srSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::traits::input_parameter< const AcSerum >::type sr(srSEXP);
-    rcpp_result_gen = Rcpp::wrap(ac_sr_get_outline(sr));
-    return rcpp_result_gen;
-END_RCPP
-}
-// ac_sr_get_outline_width
-double ac_sr_get_outline_width(const AcSerum sr);
-RcppExport SEXP _Racmacs_ac_sr_get_outline_width(SEXP srSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::traits::input_parameter< const AcSerum >::type sr(srSEXP);
-    rcpp_result_gen = Rcpp::wrap(ac_sr_get_outline_width(sr));
-    return rcpp_result_gen;
-END_RCPP
-}
-// ac_sr_get_rotation
-double ac_sr_get_rotation(const AcSerum sr);
-RcppExport SEXP _Racmacs_ac_sr_get_rotation(SEXP srSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::traits::input_parameter< const AcSerum >::type sr(srSEXP);
-    rcpp_result_gen = Rcpp::wrap(ac_sr_get_rotation(sr));
-    return rcpp_result_gen;
-END_RCPP
-}
-// ac_sr_get_aspect
-double ac_sr_get_aspect(const AcSerum sr);
-RcppExport SEXP _Racmacs_ac_sr_get_aspect(SEXP srSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::traits::input_parameter< const AcSerum >::type sr(srSEXP);
-    rcpp_result_gen = Rcpp::wrap(ac_sr_get_aspect(sr));
-    return rcpp_result_gen;
-END_RCPP
-}
-// ac_sr_get_shape
-std::string ac_sr_get_shape(const AcSerum sr);
-RcppExport SEXP _Racmacs_ac_sr_get_shape(SEXP srSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::traits::input_parameter< const AcSerum >::type sr(srSEXP);
-    rcpp_result_gen = Rcpp::wrap(ac_sr_get_shape(sr));
-    return rcpp_result_gen;
-END_RCPP
-}
-// ac_ag_set_shown
-AcAntigen ac_ag_set_shown(AcAntigen ag, bool value);
-RcppExport SEXP _Racmacs_ac_ag_set_shown(SEXP agSEXP, SEXP valueSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::traits::input_parameter< AcAntigen >::type ag(agSEXP);
+    Rcpp::traits::input_parameter< AcPlotspec >::type ps(psSEXP);
     Rcpp::traits::input_parameter< bool >::type value(valueSEXP);
-    rcpp_result_gen = Rcpp::wrap(ac_ag_set_shown(ag, value));
+    rcpp_result_gen = Rcpp::wrap(ac_plotspec_set_shown(ps, value));
     return rcpp_result_gen;
 END_RCPP
 }
-// ac_ag_set_size
-AcAntigen ac_ag_set_size(AcAntigen ag, double value);
-RcppExport SEXP _Racmacs_ac_ag_set_size(SEXP agSEXP, SEXP valueSEXP) {
+// ac_plotspec_set_size
+AcPlotspec ac_plotspec_set_size(AcPlotspec ps, double value);
+RcppExport SEXP _Racmacs_ac_plotspec_set_size(SEXP psSEXP, SEXP valueSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
-    Rcpp::traits::input_parameter< AcAntigen >::type ag(agSEXP);
+    Rcpp::traits::input_parameter< AcPlotspec >::type ps(psSEXP);
     Rcpp::traits::input_parameter< double >::type value(valueSEXP);
-    rcpp_result_gen = Rcpp::wrap(ac_ag_set_size(ag, value));
+    rcpp_result_gen = Rcpp::wrap(ac_plotspec_set_size(ps, value));
     return rcpp_result_gen;
 END_RCPP
 }
-// ac_ag_set_fill
-AcAntigen ac_ag_set_fill(AcAntigen ag, std::string value);
-RcppExport SEXP _Racmacs_ac_ag_set_fill(SEXP agSEXP, SEXP valueSEXP) {
+// ac_plotspec_set_fill
+AcPlotspec ac_plotspec_set_fill(AcPlotspec ps, std::string value);
+RcppExport SEXP _Racmacs_ac_plotspec_set_fill(SEXP psSEXP, SEXP valueSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
-    Rcpp::traits::input_parameter< AcAntigen >::type ag(agSEXP);
+    Rcpp::traits::input_parameter< AcPlotspec >::type ps(psSEXP);
     Rcpp::traits::input_parameter< std::string >::type value(valueSEXP);
-    rcpp_result_gen = Rcpp::wrap(ac_ag_set_fill(ag, value));
+    rcpp_result_gen = Rcpp::wrap(ac_plotspec_set_fill(ps, value));
     return rcpp_result_gen;
 END_RCPP
 }
-// ac_ag_set_outline
-AcAntigen ac_ag_set_outline(AcAntigen ag, std::string value);
-RcppExport SEXP _Racmacs_ac_ag_set_outline(SEXP agSEXP, SEXP valueSEXP) {
+// ac_plotspec_set_outline
+AcPlotspec ac_plotspec_set_outline(AcPlotspec ps, std::string value);
+RcppExport SEXP _Racmacs_ac_plotspec_set_outline(SEXP psSEXP, SEXP valueSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
-    Rcpp::traits::input_parameter< AcAntigen >::type ag(agSEXP);
+    Rcpp::traits::input_parameter< AcPlotspec >::type ps(psSEXP);
     Rcpp::traits::input_parameter< std::string >::type value(valueSEXP);
-    rcpp_result_gen = Rcpp::wrap(ac_ag_set_outline(ag, value));
+    rcpp_result_gen = Rcpp::wrap(ac_plotspec_set_outline(ps, value));
     return rcpp_result_gen;
 END_RCPP
 }
-// ac_ag_set_outline_width
-AcAntigen ac_ag_set_outline_width(AcAntigen ag, double value);
-RcppExport SEXP _Racmacs_ac_ag_set_outline_width(SEXP agSEXP, SEXP valueSEXP) {
+// ac_plotspec_set_outline_width
+AcPlotspec ac_plotspec_set_outline_width(AcPlotspec ps, double value);
+RcppExport SEXP _Racmacs_ac_plotspec_set_outline_width(SEXP psSEXP, SEXP valueSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
-    Rcpp::traits::input_parameter< AcAntigen >::type ag(agSEXP);
+    Rcpp::traits::input_parameter< AcPlotspec >::type ps(psSEXP);
     Rcpp::traits::input_parameter< double >::type value(valueSEXP);
-    rcpp_result_gen = Rcpp::wrap(ac_ag_set_outline_width(ag, value));
+    rcpp_result_gen = Rcpp::wrap(ac_plotspec_set_outline_width(ps, value));
     return rcpp_result_gen;
 END_RCPP
 }
-// ac_ag_set_rotation
-AcAntigen ac_ag_set_rotation(AcAntigen ag, double value);
-RcppExport SEXP _Racmacs_ac_ag_set_rotation(SEXP agSEXP, SEXP valueSEXP) {
+// ac_plotspec_set_rotation
+AcPlotspec ac_plotspec_set_rotation(AcPlotspec ps, double value);
+RcppExport SEXP _Racmacs_ac_plotspec_set_rotation(SEXP psSEXP, SEXP valueSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
-    Rcpp::traits::input_parameter< AcAntigen >::type ag(agSEXP);
+    Rcpp::traits::input_parameter< AcPlotspec >::type ps(psSEXP);
     Rcpp::traits::input_parameter< double >::type value(valueSEXP);
-    rcpp_result_gen = Rcpp::wrap(ac_ag_set_rotation(ag, value));
+    rcpp_result_gen = Rcpp::wrap(ac_plotspec_set_rotation(ps, value));
     return rcpp_result_gen;
 END_RCPP
 }
-// ac_ag_set_aspect
-AcAntigen ac_ag_set_aspect(AcAntigen ag, double value);
-RcppExport SEXP _Racmacs_ac_ag_set_aspect(SEXP agSEXP, SEXP valueSEXP) {
+// ac_plotspec_set_aspect
+AcPlotspec ac_plotspec_set_aspect(AcPlotspec ps, double value);
+RcppExport SEXP _Racmacs_ac_plotspec_set_aspect(SEXP psSEXP, SEXP valueSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
-    Rcpp::traits::input_parameter< AcAntigen >::type ag(agSEXP);
+    Rcpp::traits::input_parameter< AcPlotspec >::type ps(psSEXP);
     Rcpp::traits::input_parameter< double >::type value(valueSEXP);
-    rcpp_result_gen = Rcpp::wrap(ac_ag_set_aspect(ag, value));
+    rcpp_result_gen = Rcpp::wrap(ac_plotspec_set_aspect(ps, value));
     return rcpp_result_gen;
 END_RCPP
 }
-// ac_ag_set_shape
-AcAntigen ac_ag_set_shape(AcAntigen ag, std::string value);
-RcppExport SEXP _Racmacs_ac_ag_set_shape(SEXP agSEXP, SEXP valueSEXP) {
+// ac_plotspec_set_shape
+AcPlotspec ac_plotspec_set_shape(AcPlotspec ps, std::string value);
+RcppExport SEXP _Racmacs_ac_plotspec_set_shape(SEXP psSEXP, SEXP valueSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
-    Rcpp::traits::input_parameter< AcAntigen >::type ag(agSEXP);
+    Rcpp::traits::input_parameter< AcPlotspec >::type ps(psSEXP);
     Rcpp::traits::input_parameter< std::string >::type value(valueSEXP);
-    rcpp_result_gen = Rcpp::wrap(ac_ag_set_shape(ag, value));
+    rcpp_result_gen = Rcpp::wrap(ac_plotspec_set_shape(ps, value));
     return rcpp_result_gen;
 END_RCPP
 }
-// ac_sr_set_shown
-AcSerum ac_sr_set_shown(AcSerum sr, bool value);
-RcppExport SEXP _Racmacs_ac_sr_set_shown(SEXP srSEXP, SEXP valueSEXP) {
+// ac_new_serum
+AcSerum ac_new_serum(std::string name);
+RcppExport SEXP _Racmacs_ac_new_serum(SEXP nameSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
-    Rcpp::traits::input_parameter< AcSerum >::type sr(srSEXP);
-    Rcpp::traits::input_parameter< bool >::type value(valueSEXP);
-    rcpp_result_gen = Rcpp::wrap(ac_sr_set_shown(sr, value));
-    return rcpp_result_gen;
-END_RCPP
-}
-// ac_sr_set_size
-AcSerum ac_sr_set_size(AcSerum sr, double value);
-RcppExport SEXP _Racmacs_ac_sr_set_size(SEXP srSEXP, SEXP valueSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::traits::input_parameter< AcSerum >::type sr(srSEXP);
-    Rcpp::traits::input_parameter< double >::type value(valueSEXP);
-    rcpp_result_gen = Rcpp::wrap(ac_sr_set_size(sr, value));
-    return rcpp_result_gen;
-END_RCPP
-}
-// ac_sr_set_fill
-AcSerum ac_sr_set_fill(AcSerum sr, std::string value);
-RcppExport SEXP _Racmacs_ac_sr_set_fill(SEXP srSEXP, SEXP valueSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::traits::input_parameter< AcSerum >::type sr(srSEXP);
-    Rcpp::traits::input_parameter< std::string >::type value(valueSEXP);
-    rcpp_result_gen = Rcpp::wrap(ac_sr_set_fill(sr, value));
-    return rcpp_result_gen;
-END_RCPP
-}
-// ac_sr_set_outline
-AcSerum ac_sr_set_outline(AcSerum sr, std::string value);
-RcppExport SEXP _Racmacs_ac_sr_set_outline(SEXP srSEXP, SEXP valueSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::traits::input_parameter< AcSerum >::type sr(srSEXP);
-    Rcpp::traits::input_parameter< std::string >::type value(valueSEXP);
-    rcpp_result_gen = Rcpp::wrap(ac_sr_set_outline(sr, value));
-    return rcpp_result_gen;
-END_RCPP
-}
-// ac_sr_set_outline_width
-AcSerum ac_sr_set_outline_width(AcSerum sr, double value);
-RcppExport SEXP _Racmacs_ac_sr_set_outline_width(SEXP srSEXP, SEXP valueSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::traits::input_parameter< AcSerum >::type sr(srSEXP);
-    Rcpp::traits::input_parameter< double >::type value(valueSEXP);
-    rcpp_result_gen = Rcpp::wrap(ac_sr_set_outline_width(sr, value));
-    return rcpp_result_gen;
-END_RCPP
-}
-// ac_sr_set_rotation
-AcSerum ac_sr_set_rotation(AcSerum sr, double value);
-RcppExport SEXP _Racmacs_ac_sr_set_rotation(SEXP srSEXP, SEXP valueSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::traits::input_parameter< AcSerum >::type sr(srSEXP);
-    Rcpp::traits::input_parameter< double >::type value(valueSEXP);
-    rcpp_result_gen = Rcpp::wrap(ac_sr_set_rotation(sr, value));
-    return rcpp_result_gen;
-END_RCPP
-}
-// ac_sr_set_aspect
-AcSerum ac_sr_set_aspect(AcSerum sr, double value);
-RcppExport SEXP _Racmacs_ac_sr_set_aspect(SEXP srSEXP, SEXP valueSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::traits::input_parameter< AcSerum >::type sr(srSEXP);
-    Rcpp::traits::input_parameter< double >::type value(valueSEXP);
-    rcpp_result_gen = Rcpp::wrap(ac_sr_set_aspect(sr, value));
-    return rcpp_result_gen;
-END_RCPP
-}
-// ac_sr_set_shape
-AcSerum ac_sr_set_shape(AcSerum sr, std::string value);
-RcppExport SEXP _Racmacs_ac_sr_set_shape(SEXP srSEXP, SEXP valueSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::traits::input_parameter< AcSerum >::type sr(srSEXP);
-    Rcpp::traits::input_parameter< std::string >::type value(valueSEXP);
-    rcpp_result_gen = Rcpp::wrap(ac_sr_set_shape(sr, value));
+    Rcpp::traits::input_parameter< std::string >::type name(nameSEXP);
+    rcpp_result_gen = Rcpp::wrap(ac_new_serum(name));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -1472,6 +1324,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_Racmacs_ac_newOptimization", (DL_FUNC) &_Racmacs_ac_newOptimization, 3},
     {"_Racmacs_ac_relaxOptimization", (DL_FUNC) &_Racmacs_ac_relaxOptimization, 3},
     {"_Racmacs_ac_optimize_map", (DL_FUNC) &_Racmacs_ac_optimize_map, 6},
+    {"_Racmacs_ac_new_antigen", (DL_FUNC) &_Racmacs_ac_new_antigen, 1},
     {"_Racmacs_ac_ag_get_id", (DL_FUNC) &_Racmacs_ac_ag_get_id, 1},
     {"_Racmacs_ac_ag_get_date", (DL_FUNC) &_Racmacs_ac_ag_get_date, 1},
     {"_Racmacs_ac_ag_get_reference", (DL_FUNC) &_Racmacs_ac_ag_get_reference, 1},
@@ -1509,38 +1362,23 @@ static const R_CallMethodDef CallEntries[] = {
     {"_Racmacs_ac_reflect_optimization", (DL_FUNC) &_Racmacs_ac_reflect_optimization, 2},
     {"_Racmacs_ac_translate_optimization", (DL_FUNC) &_Racmacs_ac_translate_optimization, 2},
     {"_Racmacs_ac_apply_optimization_transform", (DL_FUNC) &_Racmacs_ac_apply_optimization_transform, 2},
-    {"_Racmacs_ac_ag_get_shown", (DL_FUNC) &_Racmacs_ac_ag_get_shown, 1},
-    {"_Racmacs_ac_ag_get_size", (DL_FUNC) &_Racmacs_ac_ag_get_size, 1},
-    {"_Racmacs_ac_ag_get_fill", (DL_FUNC) &_Racmacs_ac_ag_get_fill, 1},
-    {"_Racmacs_ac_ag_get_outline", (DL_FUNC) &_Racmacs_ac_ag_get_outline, 1},
-    {"_Racmacs_ac_ag_get_outline_width", (DL_FUNC) &_Racmacs_ac_ag_get_outline_width, 1},
-    {"_Racmacs_ac_ag_get_rotation", (DL_FUNC) &_Racmacs_ac_ag_get_rotation, 1},
-    {"_Racmacs_ac_ag_get_aspect", (DL_FUNC) &_Racmacs_ac_ag_get_aspect, 1},
-    {"_Racmacs_ac_ag_get_shape", (DL_FUNC) &_Racmacs_ac_ag_get_shape, 1},
-    {"_Racmacs_ac_sr_get_shown", (DL_FUNC) &_Racmacs_ac_sr_get_shown, 1},
-    {"_Racmacs_ac_sr_get_size", (DL_FUNC) &_Racmacs_ac_sr_get_size, 1},
-    {"_Racmacs_ac_sr_get_fill", (DL_FUNC) &_Racmacs_ac_sr_get_fill, 1},
-    {"_Racmacs_ac_sr_get_outline", (DL_FUNC) &_Racmacs_ac_sr_get_outline, 1},
-    {"_Racmacs_ac_sr_get_outline_width", (DL_FUNC) &_Racmacs_ac_sr_get_outline_width, 1},
-    {"_Racmacs_ac_sr_get_rotation", (DL_FUNC) &_Racmacs_ac_sr_get_rotation, 1},
-    {"_Racmacs_ac_sr_get_aspect", (DL_FUNC) &_Racmacs_ac_sr_get_aspect, 1},
-    {"_Racmacs_ac_sr_get_shape", (DL_FUNC) &_Racmacs_ac_sr_get_shape, 1},
-    {"_Racmacs_ac_ag_set_shown", (DL_FUNC) &_Racmacs_ac_ag_set_shown, 2},
-    {"_Racmacs_ac_ag_set_size", (DL_FUNC) &_Racmacs_ac_ag_set_size, 2},
-    {"_Racmacs_ac_ag_set_fill", (DL_FUNC) &_Racmacs_ac_ag_set_fill, 2},
-    {"_Racmacs_ac_ag_set_outline", (DL_FUNC) &_Racmacs_ac_ag_set_outline, 2},
-    {"_Racmacs_ac_ag_set_outline_width", (DL_FUNC) &_Racmacs_ac_ag_set_outline_width, 2},
-    {"_Racmacs_ac_ag_set_rotation", (DL_FUNC) &_Racmacs_ac_ag_set_rotation, 2},
-    {"_Racmacs_ac_ag_set_aspect", (DL_FUNC) &_Racmacs_ac_ag_set_aspect, 2},
-    {"_Racmacs_ac_ag_set_shape", (DL_FUNC) &_Racmacs_ac_ag_set_shape, 2},
-    {"_Racmacs_ac_sr_set_shown", (DL_FUNC) &_Racmacs_ac_sr_set_shown, 2},
-    {"_Racmacs_ac_sr_set_size", (DL_FUNC) &_Racmacs_ac_sr_set_size, 2},
-    {"_Racmacs_ac_sr_set_fill", (DL_FUNC) &_Racmacs_ac_sr_set_fill, 2},
-    {"_Racmacs_ac_sr_set_outline", (DL_FUNC) &_Racmacs_ac_sr_set_outline, 2},
-    {"_Racmacs_ac_sr_set_outline_width", (DL_FUNC) &_Racmacs_ac_sr_set_outline_width, 2},
-    {"_Racmacs_ac_sr_set_rotation", (DL_FUNC) &_Racmacs_ac_sr_set_rotation, 2},
-    {"_Racmacs_ac_sr_set_aspect", (DL_FUNC) &_Racmacs_ac_sr_set_aspect, 2},
-    {"_Racmacs_ac_sr_set_shape", (DL_FUNC) &_Racmacs_ac_sr_set_shape, 2},
+    {"_Racmacs_ac_plotspec_get_shown", (DL_FUNC) &_Racmacs_ac_plotspec_get_shown, 1},
+    {"_Racmacs_ac_plotspec_get_size", (DL_FUNC) &_Racmacs_ac_plotspec_get_size, 1},
+    {"_Racmacs_ac_plotspec_get_fill", (DL_FUNC) &_Racmacs_ac_plotspec_get_fill, 1},
+    {"_Racmacs_ac_plotspec_get_outline", (DL_FUNC) &_Racmacs_ac_plotspec_get_outline, 1},
+    {"_Racmacs_ac_plotspec_get_outline_width", (DL_FUNC) &_Racmacs_ac_plotspec_get_outline_width, 1},
+    {"_Racmacs_ac_plotspec_get_rotation", (DL_FUNC) &_Racmacs_ac_plotspec_get_rotation, 1},
+    {"_Racmacs_ac_plotspec_get_aspect", (DL_FUNC) &_Racmacs_ac_plotspec_get_aspect, 1},
+    {"_Racmacs_ac_plotspec_get_shape", (DL_FUNC) &_Racmacs_ac_plotspec_get_shape, 1},
+    {"_Racmacs_ac_plotspec_set_shown", (DL_FUNC) &_Racmacs_ac_plotspec_set_shown, 2},
+    {"_Racmacs_ac_plotspec_set_size", (DL_FUNC) &_Racmacs_ac_plotspec_set_size, 2},
+    {"_Racmacs_ac_plotspec_set_fill", (DL_FUNC) &_Racmacs_ac_plotspec_set_fill, 2},
+    {"_Racmacs_ac_plotspec_set_outline", (DL_FUNC) &_Racmacs_ac_plotspec_set_outline, 2},
+    {"_Racmacs_ac_plotspec_set_outline_width", (DL_FUNC) &_Racmacs_ac_plotspec_set_outline_width, 2},
+    {"_Racmacs_ac_plotspec_set_rotation", (DL_FUNC) &_Racmacs_ac_plotspec_set_rotation, 2},
+    {"_Racmacs_ac_plotspec_set_aspect", (DL_FUNC) &_Racmacs_ac_plotspec_set_aspect, 2},
+    {"_Racmacs_ac_plotspec_set_shape", (DL_FUNC) &_Racmacs_ac_plotspec_set_shape, 2},
+    {"_Racmacs_ac_new_serum", (DL_FUNC) &_Racmacs_ac_new_serum, 1},
     {"_Racmacs_ac_sr_get_id", (DL_FUNC) &_Racmacs_ac_sr_get_id, 1},
     {"_Racmacs_ac_sr_get_date", (DL_FUNC) &_Racmacs_ac_sr_get_date, 1},
     {"_Racmacs_ac_sr_get_reference", (DL_FUNC) &_Racmacs_ac_sr_get_reference, 1},

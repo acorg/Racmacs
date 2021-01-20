@@ -3,6 +3,15 @@
 #include "acmap_map.h"
 #include "acmap_point.h"
 
+
+// [[Rcpp::export(rng = false)]]
+AcAntigen ac_new_antigen( std::string name ){
+  AcAntigen ag;
+  ag.set_name(name);
+  return ag;
+}
+
+
 // --- GETTERS -----------------------------
 
 // [[Rcpp::export(rng = false)]]

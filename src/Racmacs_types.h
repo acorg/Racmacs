@@ -137,7 +137,27 @@ namespace Rcpp {
     return wrap(out);
   }
 
-  // FROM: ANTIGEN
+  // FROM: ACPLOTSPEC
+  SEXP wrap(const AcPlotspec& ps){
+
+    List out = wrap(
+      List::create(
+        _["shown"] = ps.get_shown(),
+        _["size"] = ps.get_size(),
+        _["fill"] = ps.get_fill(),
+        _["shape"] = ps.get_shape(),
+        _["outline"] = ps.get_outline(),
+        _["outline_width"] = ps.get_outline_width(),
+        _["rotation"] = ps.get_rotation(),
+        _["aspect"] = ps.get_aspect()
+      )
+    );
+
+    return out;
+
+  }
+
+  // FROM: ACANTIGEN
   SEXP wrap(const AcAntigen& ag){
 
     List out = wrap(
@@ -153,14 +173,7 @@ namespace Rcpp {
         _["sequence"] = ag.get_sequence(),
 
         // Plotspec
-        _["shown"] = ag.get_shown(),
-        _["size"] = ag.get_size(),
-        _["fill"] = ag.get_fill(),
-        _["shape"] = ag.get_shape(),
-        _["outline"] = ag.get_outline(),
-        _["outline_width"] = ag.get_outline_width(),
-        _["rotation"] = ag.get_rotation(),
-        _["aspect"] = ag.get_aspect()
+        _["plotspec"] = as<List>(wrap(ag.plotspec))
 
       )
     );
@@ -171,7 +184,7 @@ namespace Rcpp {
 
   }
 
-  // FROM: SERUM
+  // FROM: ACSERUM
   SEXP wrap(const AcSerum& sr){
 
     List out = wrap(
@@ -187,14 +200,7 @@ namespace Rcpp {
         _["sequence"] = sr.get_sequence(),
 
         // Plotspec
-        _["shown"] = sr.get_shown(),
-        _["size"] = sr.get_size(),
-        _["fill"] = sr.get_fill(),
-        _["shape"] = sr.get_shape(),
-        _["outline"] = sr.get_outline(),
-        _["outline_width"] = sr.get_outline_width(),
-        _["rotation"] = sr.get_rotation(),
-        _["aspect"] = sr.get_aspect()
+        _["plotspec"] = as<List>(wrap(sr.plotspec))
 
       )
     );
@@ -460,6 +466,26 @@ namespace Rcpp {
     return out;
   }
 
+  // TO: ACPLOTSPEC
+  template<>
+  AcPlotspec as(SEXP sxp){
+
+    List list = as<List>(sxp);
+    AcPlotspec ps;
+
+    if(list.containsElementNamed("shown")) ps.set_shown(list["shown"]);
+    if(list.containsElementNamed("size")) ps.set_size(list["size"]);
+    if(list.containsElementNamed("fill")) ps.set_fill(list["fill"]);
+    if(list.containsElementNamed("shape")) ps.set_shape(list["shape"]);
+    if(list.containsElementNamed("outline")) ps.set_outline(list["outline"]);
+    if(list.containsElementNamed("outline_width")) ps.set_outline_width(list["outline_width"]);
+    if(list.containsElementNamed("rotation")) ps.set_rotation(list["rotation"]);
+    if(list.containsElementNamed("aspect")) ps.set_aspect(list["aspect"]);
+
+    return ps;
+
+  }
+
   // TO: ACANTIGEN
   template <>
   AcAntigen as(SEXP sxp){
@@ -478,14 +504,7 @@ namespace Rcpp {
     if(list.containsElementNamed("sequence")) ag.set_sequence(list["sequence"]);
 
     // Plotspec
-    if(list.containsElementNamed("shown")) ag.set_shown(list["shown"]);
-    if(list.containsElementNamed("size")) ag.set_size(list["size"]);
-    if(list.containsElementNamed("fill")) ag.set_fill(list["fill"]);
-    if(list.containsElementNamed("shape")) ag.set_shape(list["shape"]);
-    if(list.containsElementNamed("outline")) ag.set_outline(list["outline"]);
-    if(list.containsElementNamed("outline_width")) ag.set_outline_width(list["outline_width"]);
-    if(list.containsElementNamed("rotation")) ag.set_rotation(list["rotation"]);
-    if(list.containsElementNamed("aspect")) ag.set_aspect(list["aspect"]);
+    if(list.containsElementNamed("plotspec")) ag.plotspec = as<AcPlotspec>(list["plotspec"]);
 
     return ag;
 
@@ -509,14 +528,7 @@ namespace Rcpp {
     if(list.containsElementNamed("sequence")) sr.set_sequence(list["sequence"]);
 
     // Plotspec
-    if(list.containsElementNamed("shown")) sr.set_shown(list["shown"]);
-    if(list.containsElementNamed("size")) sr.set_size(list["size"]);
-    if(list.containsElementNamed("fill")) sr.set_fill(list["fill"]);
-    if(list.containsElementNamed("shape")) sr.set_shape(list["shape"]);
-    if(list.containsElementNamed("outline")) sr.set_outline(list["outline"]);
-    if(list.containsElementNamed("outline_width")) sr.set_outline_width(list["outline_width"]);
-    if(list.containsElementNamed("rotation")) sr.set_rotation(list["rotation"]);
-    if(list.containsElementNamed("aspect")) sr.set_aspect(list["aspect"]);
+    if(list.containsElementNamed("plotspec")) sr.plotspec = as<AcPlotspec>(list["plotspec"]);
 
     return sr;
 

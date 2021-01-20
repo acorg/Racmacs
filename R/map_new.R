@@ -93,14 +93,11 @@ acmap.new <- function(
 
   # Setup antigen and serum records
   map$antigens <- lapply(seq_len(num_antigens), function(x){
-    ag <- list(name = paste("ANTIGEN", x))
-    class(ag) <- c("acantigen", "list")
-    ag
+    ac_new_antigen(paste("ANTIGEN", x))
   })
+
   map$sera <- lapply(seq_len(num_sera), function(x){
-    sr <- list(name = paste("SERA", x))
-    class(sr) <- c("acserum", "list")
-    sr
+    ac_new_serum(paste("SERUM", x))
   })
 
   # Setup the titer table

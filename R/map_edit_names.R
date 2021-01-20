@@ -21,7 +21,7 @@ edit_agNames <- function(
   }
 
   # Match the names
-  ag_indices <- get_ag_indices(old_names, map, warnings)
+  ag_indices <- get_ag_indices(old_names, map, TRUE)
 
   # Replace the names
   agNames(map)[ag_indices[!is.na(ag_indices)]] <- new_names[!is.na(ag_indices)]
@@ -45,8 +45,8 @@ edit_agNames <- function(
 edit_srNames <- function(
   map,
   old_names,
-  new_names,
-  warnings = TRUE){
+  new_names
+  ){
 
   # Check the length of the old and new names are the same
   if(length(old_names) != length(new_names)){
@@ -54,7 +54,7 @@ edit_srNames <- function(
   }
 
   # Match the names
-  sr_indices <- get_sr_indices(old_names, map, warnings)
+  sr_indices <- get_sr_indices(old_names, map, TRUE)
 
   # Replace the names
   srNames(map)[sr_indices[!is.na(sr_indices)]] <- new_names[!is.na(sr_indices)]

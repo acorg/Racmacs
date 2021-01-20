@@ -10,7 +10,7 @@ plot_sr_titers(
   serum,
   xlim = NULL,
   ylim = NULL,
-  optimization_number = NULL,
+  optimization_number = 1,
   .plot = TRUE
 )
 

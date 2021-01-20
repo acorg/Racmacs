@@ -24,7 +24,11 @@ dimensionTestMap(
 
 \item{minimum_column_basis}{The minimum column basis to use}
 
+\item{fixed_column_bases}{A vector of fixed column bases with NA for sera where the minimum column basis should be applied}
+
 \item{number_of_optimizations}{The number of optimizations to perform when creating each map for the dimension test}
+
+\item{replicates_per_dimension}{The number of tests to perform per dimension tested}
 
 \item{options}{Map optimizer options, see \code{RacOptimizer.options()}}
 }

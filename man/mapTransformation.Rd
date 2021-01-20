@@ -2,17 +2,23 @@
 % Please edit documentation in R/map_props_optimizations.R
 \name{mapTransformation}
 \alias{mapTransformation}
+\alias{mapTransformation<-}
 \alias{mapTranslation}
+\alias{mapTranslation<-}
 \title{Reading map transformation data}
 \usage{
 mapTransformation(map, optimization_number = NULL)
 
+mapTransformation<-(map, optimization_number = NULL)
+
 mapTranslation(map, optimization_number = NULL)
+
+mapTranslation<-(map, optimization_number = NULL)
 }
 \arguments{
 \item{map}{The acmap data object}
 
-\item{optimization_number}{The optimization run to get / set the data (by default the currently selected one)}
+\item{optimization_number}{The optimization run from which to get / set the data}
 }
 \value{
 Returns either the requested attribute when using a getter function or the updated acmap object when using the setter function.

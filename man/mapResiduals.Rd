@@ -8,10 +8,15 @@ mapResiduals(map, exclude_nd = FALSE, optimization_number = 1)
 }
 \arguments{
 \item{map}{The acmap object}
+
+\item{exclude_nd}{Should values associated with non-detectable measurements
+like <10 be set to NA}
+
+\item{optimization_number}{The optimization number}
 }
 \value{
-Returns a matrix of stresses, showing how much each antigen and sera
-measurement contributes to stress in the selected or specified optimization.
+Returns a matrix of residuals, showing the residual error between
+map distance and table distance for each antigen-sera pair.
 }
 \description{
 This is the difference between the table distance and the map distance

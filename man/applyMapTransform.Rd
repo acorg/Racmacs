@@ -4,17 +4,18 @@
 \alias{applyMapTransform}
 \title{Apply the current map transformation}
 \usage{
-applyMapTransform(coords, map, optimization_number = NULL)
+applyMapTransform(coords, map, optimization_number = 1)
 }
 \arguments{
 \item{coords}{Coordinates to transform}
 
 \item{map}{The acmap object}
 
-\item{optimization_number}{The optimization number (by default the selected one)}
+\item{optimization_number}{The optimization number}
 }
 \description{
-Applies the current map transformation to a set of coordinates
+Applies the map transformation associated with a selected optimization run to
+a set of coordinates.
 }
 \seealso{
 Other {functions relating to map transformation}: 

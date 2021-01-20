@@ -6,10 +6,10 @@
 \alias{srNames}
 \alias{srNames<-}
 \alias{srIDs<-}
-\alias{srNamesFull}
-\alias{srNamesAbbreviated}
 \alias{srDates}
 \alias{srDates<-}
+\alias{srNamesFull}
+\alias{srNamesAbbreviated}
 \alias{srReference}
 \title{Getting and setting sera attributes}
 \usage{
@@ -21,13 +21,13 @@ srIDs(map)
 
 srIDs<-(map)
 
-srNamesFull(map)
-
-srNamesAbbreviated(map)
-
 srDates(map)
 
 srDates<-(map)
+
+srNamesFull(map)
+
+srNamesAbbreviated(map)
 
 srReference(map)
 }
@@ -41,7 +41,7 @@ Returns either the requested attribute when using a getter function or the updat
 These functions get and set the sera attributes for a map.
 }
 \seealso{
-\code{\link{agAttributes}}
+\code{agAttributes()}
 
 Other {antigen and sera attribute functions}: 
 \code{\link{agAttributes}},

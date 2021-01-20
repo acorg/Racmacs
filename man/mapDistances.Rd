@@ -9,14 +9,14 @@ mapDistances(map, optimization_number = 1)
 \arguments{
 \item{map}{The acmap data object}
 
-\item{optimization_number}{The optimization data to access (defaults to the currently selected optimization)}
+\item{optimization_number}{The optimization number}
 }
 \value{
 Returns a matrix of map distances with antigens as rows and sera as columns.
 }
 \description{
-Takes the acmap object and calculate distances between antigens and sera for the
-currently selected or specified optimization.
+Takes the acmap object and calculates euclidean distances between antigens
+and sera for the currently selected or specified optimization.
 }
 \seealso{
 Other {map diagnostic functions}{functions relating to map stress calculation}: 

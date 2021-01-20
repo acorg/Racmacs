@@ -79,7 +79,7 @@ plotspec_setter <- function(pttype, fn, checker_fn = NULL){
 #'   "agOutlineWidth", "srOutlineWidth", "agOutlineWidth<-", "srOutlineWidth<-",
 #'   "agRotation", "srRotation", "agRotation<-", "srRotation<-",
 #'   "agAspect", "srAspect", "agAspect<-", "srAspect<-",
-#'   "agShape", "srShape", "agShape<-", "srShape<-",
+#'   "agShape", "srShape", "agShape<-", "srShape<-"
 #'   ),
 #'   args = c("map")
 #' )

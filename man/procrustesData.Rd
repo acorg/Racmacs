@@ -2,7 +2,7 @@
 % Please edit documentation in R/map_procrustes.R
 \name{procrustesData}
 \alias{procrustesData}
-\title{Not yet implemented}
+\title{Return procrustes data on a map comparison}
 \usage{
 procrustesData(
   map,
@@ -13,6 +13,31 @@ procrustesData(
   scaling = FALSE
 )
 }
+\arguments{
+\item{map}{The acmap data object}
+
+\item{comparison_map}{The acmap data object to procrustes against}
+
+\item{optimization_number}{The map optimization to use in the procrustes
+calculation (other optimization runs are discarded)}
+
+\item{comparison_optimization_number}{The optimization run int the comparison
+map to compare against}
+
+\item{translation}{Should translation be allowed}
+
+\item{scaling}{Should scaling be allowed (generally not recommended unless
+comparing maps made with different assays)}
+}
+\value{
+Returns a list with information on antigenic distances between the
+aligned maps, and the rmsd of the point differences split by antigen
+points, serum points and total, or all points. The distances are a vector
+matching the number of points in the main map, with NA in the position of
+any points not found in the comparison map.
+}
 \description{
-Not yet implemented
+Returns information about how similar point positions are in two maps,
+to get an idea of how similar antigenic positions are in for example
+maps made from two different datasets.
 }

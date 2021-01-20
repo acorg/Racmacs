@@ -12,50 +12,33 @@ procrustesMap(
   translation = TRUE,
   scaling = FALSE
 )
-
-procrustesMap(
-  map,
-  comparison_map,
-  optimization_number = 1,
-  comparison_optimization_number = 1,
-  translation = TRUE,
-  scaling = FALSE
-)
 }
 \arguments{
 \item{map}{The acmap data object}
 
 \item{comparison_map}{The acmap data object to procrustes against}
 
-\item{optimization_number}{The map optimization to use in the procrustes calculation (defaults to the currently selected optimization)}
+\item{optimization_number}{The map optimization to use in the procrustes
+calculation (other optimization runs are discarded)}
 
-\item{translation}{Should translation be performed?}
+\item{comparison_optimization_number}{The optimization run int the comparison
+map to compare against}
 
-\item{scaling}{Should scaling be performed?}
+\item{translation}{Should translation be allowed}
 
-\item{antigens}{Antigens to include in the procrustes, specified either by name or index or FALSE for excluding all.}
-
-\item{sera}{Sera to include in the procrustes, specified either by name or index or FALSE for excluding all.}
-
-\item{target_optimization_number}{The target map optimization to use in the procrustes calculation (defaults to the currently selected optimization)}
-
-\item{passage_matching}{Should passage matching be performed (not currently implemented)}
+\item{scaling}{Should scaling be allowed (generally not recommended unless
+comparing maps made with different assays)}
 }
 \value{
-Returns procrustes information from the map to the target.
-
-Returns procrustes information from the map to the target.
+Returns an acmap object with procrustes information added, which will
+be shown when the map is plotted. To avoid ambiguity about which optimization
+run the procrustes was applied to, only the optimization run specified by
+\code{optimization_number} is kept in the map returned.
 }
 \description{
 Returns information from one map procrusted to another.
-
-Returns information from one map procrusted to another.
 }
 \seealso{
-Other {functions to compare maps}: 
-\code{\link{realignMap}()},
-\code{\link{realignOptimizations}()}
-
 Other {functions to compare maps}: 
 \code{\link{realignMap}()},
 \code{\link{realignOptimizations}()}

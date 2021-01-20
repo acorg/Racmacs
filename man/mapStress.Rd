@@ -9,7 +9,7 @@ mapStress(map, optimization_number = NULL)
 \arguments{
 \item{map}{The acmap data object}
 
-\item{optimization_number}{The optimization run to get / set the data (by default the currently selected one)}
+\item{optimization_number}{The optimization run from which to get / set the data}
 }
 \value{
 Returns the current map stress value for the specified optimization run.

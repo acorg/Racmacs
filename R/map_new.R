@@ -36,6 +36,15 @@ acmap <- function(
   ...
 ){
 
+  # Check input
+  extras <- names(list(...))
+  if(sum(!extras %in% formalArgs(addOptimization)) > 0){
+    stop(sprintf(
+      "Unrecognised arguments: %s",
+      paste(extras[!extras %in% formalArgs(addOptimization)], collapse = ", ")
+    ))
+  }
+
   # Infer the number of antigens and sera
   num_antigens <- NULL
   num_sera     <- NULL

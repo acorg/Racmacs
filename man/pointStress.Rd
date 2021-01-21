@@ -12,9 +12,14 @@ agStress(map, antigens = TRUE, optimization_number = 1)
 
 srStress(map, sera = TRUE, optimization_number = 1)
 
-srStressPerTiter(map, sera = TRUE, optimization_number = 1)
+srStressPerTiter(map, sera = TRUE, optimization_number = 1, exclude_nd = FALSE)
 
-agStressPerTiter(map, antigens = TRUE, optimization_number = 1)
+agStressPerTiter(
+  map,
+  antigens = TRUE,
+  optimization_number = 1,
+  exclude_nd = FALSE
+)
 }
 \arguments{
 \item{map}{The acmap data object}

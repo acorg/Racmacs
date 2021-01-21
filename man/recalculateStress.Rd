@@ -4,7 +4,7 @@
 \alias{recalculateStress}
 \title{Recalculate the stress associated with an acmap optimization}
 \usage{
-recalculateStress(map, optimization_number = NULL)
+recalculateStress(map, optimization_number = 1)
 }
 \arguments{
 \item{map}{The acmap data object}
@@ -12,7 +12,7 @@ recalculateStress(map, optimization_number = NULL)
 \item{optimization_number}{The optimization number}
 }
 \value{
-Returns the recalculted map stress for a given optimization
+Returns the recalculated map stress for a given optimization
 }
 \description{
 Recalculates the stress associated with the currently selected or user-specifed optimization.

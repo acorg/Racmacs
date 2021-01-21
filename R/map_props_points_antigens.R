@@ -113,7 +113,7 @@ agGroups <- function(map){
 #' Getting and setting antigen sequence information
 #'
 #' @param map The acmap data object
-#' @val A character matrix of sequences with rows equal to the number of antigens
+#' @param val A character matrix of sequences with rows equal to the number of antigens
 #'
 #' @name agSequences
 #'

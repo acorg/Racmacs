@@ -83,7 +83,7 @@ as.plotly <- function(gp, tooltip = "text", scaling = NULL){
 ggplot_theme <- function(cex = 1){
   ggplot2::theme(
     text = ggplot2::element_text(
-      family = "Arial"
+      family = NULL
     ),
     plot.margin = ggplot2::unit(c(2,1,1,1)*cex, "cm"),
     panel.background = ggplot2::element_blank(),

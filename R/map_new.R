@@ -19,8 +19,6 @@
 #'   a file with the function `read.acmap()` and create a new acmap object
 #'   within an R session using the `acmap()` function.
 #'
-#' @example examples/example_make_map_from_scratch.R
-#'
 #' @family {functions for working with map data}
 #' @seealso See `optimizeMap()` for generating new optimizations
 #'   estimating antigen similarity from the acmap titer data.

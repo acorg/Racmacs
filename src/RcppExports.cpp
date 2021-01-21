@@ -154,15 +154,17 @@ BEGIN_RCPP
 END_RCPP
 }
 // ac_relaxOptimization
-AcOptimization ac_relaxOptimization(AcOptimization opt, AcTiterTable titers, AcOptimizerOptions options);
-RcppExport SEXP _Racmacs_ac_relaxOptimization(SEXP optSEXP, SEXP titersSEXP, SEXP optionsSEXP) {
+AcOptimization ac_relaxOptimization(AcOptimization opt, AcTiterTable titers, arma::uvec fixed_antigens, arma::uvec fixed_sera, AcOptimizerOptions options);
+RcppExport SEXP _Racmacs_ac_relaxOptimization(SEXP optSEXP, SEXP titersSEXP, SEXP fixed_antigensSEXP, SEXP fixed_seraSEXP, SEXP optionsSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< AcOptimization >::type opt(optSEXP);
     Rcpp::traits::input_parameter< AcTiterTable >::type titers(titersSEXP);
+    Rcpp::traits::input_parameter< arma::uvec >::type fixed_antigens(fixed_antigensSEXP);
+    Rcpp::traits::input_parameter< arma::uvec >::type fixed_sera(fixed_seraSEXP);
     Rcpp::traits::input_parameter< AcOptimizerOptions >::type options(optionsSEXP);
-    rcpp_result_gen = Rcpp::wrap(ac_relaxOptimization(opt, titers, options));
+    rcpp_result_gen = Rcpp::wrap(ac_relaxOptimization(opt, titers, fixed_antigens, fixed_sera, options));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -1105,8 +1107,8 @@ BEGIN_RCPP
 END_RCPP
 }
 // ac_relax_coords
-double ac_relax_coords(const arma::mat& tabledist_matrix, const arma::umat& titertype_matrix, arma::mat& ag_coords, arma::mat& sr_coords, const AcOptimizerOptions& options);
-RcppExport SEXP _Racmacs_ac_relax_coords(SEXP tabledist_matrixSEXP, SEXP titertype_matrixSEXP, SEXP ag_coordsSEXP, SEXP sr_coordsSEXP, SEXP optionsSEXP) {
+double ac_relax_coords(const arma::mat& tabledist_matrix, const arma::umat& titertype_matrix, arma::mat& ag_coords, arma::mat& sr_coords, const AcOptimizerOptions& options, const arma::uvec& fixed_antigens, const arma::uvec& fixed_sera);
+RcppExport SEXP _Racmacs_ac_relax_coords(SEXP tabledist_matrixSEXP, SEXP titertype_matrixSEXP, SEXP ag_coordsSEXP, SEXP sr_coordsSEXP, SEXP optionsSEXP, SEXP fixed_antigensSEXP, SEXP fixed_seraSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -1115,7 +1117,9 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< arma::mat& >::type ag_coords(ag_coordsSEXP);
     Rcpp::traits::input_parameter< arma::mat& >::type sr_coords(sr_coordsSEXP);
     Rcpp::traits::input_parameter< const AcOptimizerOptions& >::type options(optionsSEXP);
-    rcpp_result_gen = Rcpp::wrap(ac_relax_coords(tabledist_matrix, titertype_matrix, ag_coords, sr_coords, options));
+    Rcpp::traits::input_parameter< const arma::uvec& >::type fixed_antigens(fixed_antigensSEXP);
+    Rcpp::traits::input_parameter< const arma::uvec& >::type fixed_sera(fixed_seraSEXP);
+    rcpp_result_gen = Rcpp::wrap(ac_relax_coords(tabledist_matrix, titertype_matrix, ag_coords, sr_coords, options, fixed_antigens, fixed_sera));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -1322,7 +1326,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_Racmacs_ac_table_colbases", (DL_FUNC) &_Racmacs_ac_table_colbases, 3},
     {"_Racmacs_ac_table_distances", (DL_FUNC) &_Racmacs_ac_table_distances, 2},
     {"_Racmacs_ac_newOptimization", (DL_FUNC) &_Racmacs_ac_newOptimization, 3},
-    {"_Racmacs_ac_relaxOptimization", (DL_FUNC) &_Racmacs_ac_relaxOptimization, 3},
+    {"_Racmacs_ac_relaxOptimization", (DL_FUNC) &_Racmacs_ac_relaxOptimization, 5},
     {"_Racmacs_ac_optimize_map", (DL_FUNC) &_Racmacs_ac_optimize_map, 6},
     {"_Racmacs_ac_new_antigen", (DL_FUNC) &_Racmacs_ac_new_antigen, 1},
     {"_Racmacs_ac_ag_get_id", (DL_FUNC) &_Racmacs_ac_ag_get_id, 1},
@@ -1408,7 +1412,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_Racmacs_ac_move_trapped_points", (DL_FUNC) &_Racmacs_ac_move_trapped_points, 6},
     {"_Racmacs_ac_noisy_bootstrap_map", (DL_FUNC) &_Racmacs_ac_noisy_bootstrap_map, 8},
     {"_Racmacs_ac_coords_stress", (DL_FUNC) &_Racmacs_ac_coords_stress, 4},
-    {"_Racmacs_ac_relax_coords", (DL_FUNC) &_Racmacs_ac_relax_coords, 5},
+    {"_Racmacs_ac_relax_coords", (DL_FUNC) &_Racmacs_ac_relax_coords, 7},
     {"_Racmacs_ac_runOptimizations", (DL_FUNC) &_Racmacs_ac_runOptimizations, 5},
     {"_Racmacs_ac_stress_blob_grid", (DL_FUNC) &_Racmacs_ac_stress_blob_grid, 6},
     {"_Racmacs_numeric_titers", (DL_FUNC) &_Racmacs_numeric_titers, 1},

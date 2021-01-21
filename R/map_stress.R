@@ -206,18 +206,23 @@ mapResiduals <- function(
 #' @param map The acmap data object
 #' @param optimization_number The optimization number
 #'
-#' @return Returns the recalculted map stress for a given optimization
+#' @return Returns the recalculated map stress for a given optimization
 #'
 #' @family {map diagnostic functions}{functions relating to map stress calculation}
 #' @seealso See `pointStress()` for getting the stress of individual points.
 #' @export
-recalculateStress <- function(map, optimization_number = NULL){
-  ac_calcStress(
-    ag_coords   = agBaseCoords(map, optimization_number),
-    sr_coords   = srBaseCoords(map, optimization_number),
-    titer_table = titerTableFlat(map),
-    colbases    = colBases(map, optimization_number)
+recalculateStress <- function(map, optimization_number = 1){
+
+  check.acmap(map)
+  check.optnum(map, optimization_number)
+
+  ac_coords_stress(
+    tabledist_matrix = tableDistances(map, optimization_number),
+    titertype_matrix = titertypesTable(map),
+    ag_coords = agBaseCoords(map, optimization_number),
+    sr_coords = srBaseCoords(map, optimization_number)
   )
+
 }
 
 

@@ -157,10 +157,17 @@ AcOptimization ac_newOptimization(
 AcOptimization ac_relaxOptimization(
     AcOptimization opt,
     AcTiterTable titers,
+    arma::uvec fixed_antigens,
+    arma::uvec fixed_sera,
     AcOptimizerOptions options
 ){
 
-  opt.relax_from_titer_table(titers, options);
+  opt.relax_from_titer_table(
+    titers,
+    options,
+    fixed_antigens,
+    fixed_sera
+  );
   return opt;
 
 }

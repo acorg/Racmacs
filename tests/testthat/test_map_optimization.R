@@ -9,6 +9,7 @@ map <- read.acmap(test_path("../testdata/testmap.ace"))
 titerTable(map)[1,3:4] <- "*"
 titerTable(map)[4,1:2] <- "*"
 
+
 test_that("Getting numeric titers",{
 
   titers <- titerTable(map)
@@ -120,8 +121,38 @@ test_that("Relax existing maps", {
   stress2        <- mapStress(map_relax)
   stress2_2      <- mapStress(map_relax, 2)
 
+  expect_equal(round(stress2, 4), 95.0448)
+  expect_equal(round(stress2_2, 4), 95.0448)
+
   expect_lt(stress2, stress1)
   expect_lt(stress2_2, stress1_2)
+
+})
+
+# Optimizing with fixed points
+test_that("Relax a map with fixed coords", {
+
+  map_unrelaxed      <- map
+  agCoords(map_unrelaxed)    <- agCoords(map_unrelaxed) + 1
+  srCoords(map_unrelaxed)    <- srCoords(map_unrelaxed) - 1
+
+  map_relaxed_fixed_ags <- relaxMap(map_unrelaxed, fixed_antigens = TRUE)
+  expect_true(isTRUE(all.equal(agCoords(map_unrelaxed), agCoords(map_relaxed_fixed_ags))))
+  expect_false(isTRUE(all.equal(srCoords(map_unrelaxed), srCoords(map_relaxed_fixed_ags))))
+
+  map_relaxed_fixed_sr  <- relaxMap(map_unrelaxed, fixed_sera = TRUE)
+  expect_false(isTRUE(all.equal(agCoords(map_unrelaxed), agCoords(map_relaxed_fixed_sr))))
+  expect_true(isTRUE(all.equal(srCoords(map_unrelaxed), srCoords(map_relaxed_fixed_sr))))
+
+  map_relaxed_fixed_all <- relaxMap(map_unrelaxed, fixed_antigens = TRUE, fixed_sera = TRUE)
+  expect_true(all.equal(agCoords(map_unrelaxed), agCoords(map_relaxed_fixed_all)))
+  expect_true(all.equal(srCoords(map_unrelaxed), srCoords(map_relaxed_fixed_all)))
+
+  map_relaxed_fixed_specific <- relaxMap(map_unrelaxed, fixed_antigens = c(2,3), fixed_sera = c(1,4))
+  expect_true(isTRUE(all.equal(agCoords(map_unrelaxed)[c(2,3),], agCoords(map_relaxed_fixed_specific)[c(2,3),])))
+  expect_true(isTRUE(all.equal(srCoords(map_unrelaxed)[c(1,4),], srCoords(map_relaxed_fixed_specific)[c(1,4),])))
+  expect_false(isTRUE(all.equal(agCoords(map_unrelaxed)[-c(2,3),], agCoords(map_relaxed_fixed_specific)[-c(2,3),])))
+  expect_false(isTRUE(all.equal(srCoords(map_unrelaxed)[-c(1,4),], srCoords(map_relaxed_fixed_specific)[-c(1,4),])))
 
 })
 
@@ -223,4 +254,12 @@ test_that("Randomize map coordinates", {
   expect_true(sum(srCoords(map) - srCoords(rmap)) != 0)
 
 })
+
+
+
+
+
+
+
+
 

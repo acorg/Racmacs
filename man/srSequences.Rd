@@ -11,6 +11,8 @@ srSequences(map) <- value
 }
 \arguments{
 \item{map}{The acmap data object}
+
+\item{value}{A character matrix of sequences with rows equal to the number of sera}
 }
 \description{
 Getting and setting sera sequence information

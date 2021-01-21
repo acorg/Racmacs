@@ -15,15 +15,15 @@
 \usage{
 srNames(map)
 
-srNames<-(map)
+srNames(map) <- value
 
 srIDs(map)
 
-srIDs<-(map)
+srIDs(map) <- value
 
 srDates(map)
 
-srDates<-(map)
+srDates(map) <- value
 
 srNamesFull(map)
 
@@ -33,6 +33,8 @@ srReference(map)
 }
 \arguments{
 \item{map}{The acmap data object}
+
+\item{value}{New value to set}
 }
 \value{
 Returns either the requested attribute when using a getter function or the updated acmap object when using the setter function.

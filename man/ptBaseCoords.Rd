@@ -10,16 +10,18 @@
 \usage{
 agBaseCoords(map, optimization_number = 1)
 
-agBaseCoords<-(map, optimization_number = 1)
+agBaseCoords(map, optimization_number = 1) <- value
 
 srBaseCoords(map, optimization_number = 1)
 
-srBaseCoords<-(map, optimization_number = 1)
+srBaseCoords(map, optimization_number = 1) <- value
 }
 \arguments{
 \item{map}{The acmap data object}
 
 \item{optimization_number}{The optimization run from which to get / set the data}
+
+\item{value}{New value to set}
 }
 \value{
 Returns either the requested attribute when using a getter function or the updated acmap object when using the setter function.

@@ -1,16 +1,17 @@
 
-// [[Rcpp::depends(rapidjsonr)]]
 // #include <cstdio>
 #include <string.h>
 #include <RcppArmadillo.h>
-#include <rapidjson/document.h>
-#include <rapidjson/stringbuffer.h>
-#include <rapidjson/writer.h>
-// #include <rapidjson/filereadstream.h>
 #include "acmap_map.h"
 #include "acmap_point.h"
 #include "acmap_optimization.h"
 
+#include "json_assert.h"
+// [[Rcpp::depends(rapidjsonr)]]
+#include <rapidjson/document.h>
+#include <rapidjson/stringbuffer.h>
+#include <rapidjson/writer.h>
+// #include <rapidjson/filereadstream.h>
 using namespace rapidjson;
 
 // Create a double value

@@ -7,7 +7,7 @@ context("Test function stability")
 
 
 # Get functions exported in the namespace
-ns <- readLines(test_path("../../NAMESPACE"))
+ns <- readLines(system.file("NAMESPACE", package = "Racmacs"))
 ns <- ns[grepl("^export\\(", ns)]
 fns <- gsub("^export\\([\"]*", "", ns)
 fns <- gsub("[\"]*\\)$", "", fns)

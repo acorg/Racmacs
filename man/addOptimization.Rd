@@ -24,7 +24,8 @@ addOptimization(
 
 \item{minimum_column_basis}{The minimum column basis to use for the new optimization}
 
-\item{...}{Further optimization parameters}
+\item{fixed_column_bases}{A vector of fixed column bases with NA for sera
+where the minimum column basis should be applied}
 }
 \value{
 Returns the acmap data object with new optimization added (but not selected).

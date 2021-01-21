@@ -7,12 +7,14 @@
 \usage{
 mapComment(map, optimization_number = 1)
 
-mapComment<-(map, optimization_number = 1)
+mapComment(map, optimization_number = 1) <- value
 }
 \arguments{
 \item{map}{The acmap data object}
 
 \item{optimization_number}{The optimization run from which to get / set the data}
+
+\item{value}{New value to set}
 }
 \value{
 Gets or sets and map comments for the specified optimization run.

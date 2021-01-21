@@ -19,7 +19,7 @@ properties.
 }
 \seealso{
 Other {functions to work with map optimizations}: 
-\code{\link{keepSingleOptimization}()},
+\code{\link{keepOptimizations}()},
 \code{\link{removeOptimizations}()},
 \code{\link{sortOptimizations}()}
 }

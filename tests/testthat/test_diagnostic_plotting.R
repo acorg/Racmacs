@@ -5,6 +5,15 @@ context("Diagnostic plotting")
 
 map <- read.acmap(test_path("../testdata/testmap_h3subset.ace"))
 
+test_that("plot a map", {
+
+  export.plot.test(
+    plot(map),
+    "plot_map.pdf"
+  )
+
+})
+
 test_that("plot map v table distances", {
 
   export.plot.test(

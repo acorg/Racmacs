@@ -16,7 +16,7 @@ Sorts all the optimization runs for a given map object by stress
 }
 \seealso{
 Other {functions to work with map optimizations}: 
-\code{\link{keepSingleOptimization}()},
+\code{\link{keepOptimizations}()},
 \code{\link{optimizationProperties}},
 \code{\link{removeOptimizations}()}
 }

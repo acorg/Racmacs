@@ -7,10 +7,12 @@
 \usage{
 mapName(map)
 
-mapName<-(map)
+mapName(map) <- value
 }
 \arguments{
 \item{map}{The acmap data object}
+
+\item{value}{New value to set}
 }
 \value{
 Returns either the requested attribute when using a getter function or the updated acmap object when using the setter function.

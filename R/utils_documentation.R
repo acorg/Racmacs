@@ -7,7 +7,8 @@
 # Parameter descriptions
 parameters <- c(
   map = "The acmap data object",
-  optimization_number = "The optimization run from which to get / set the data"
+  optimization_number = "The optimization run from which to get / set the data",
+  value = "New value to set"
 )
 
 
@@ -26,6 +27,9 @@ roxygen_tags <- function(
   returns = NULL
 ){
 
+  # Work out which are setter functions
+  setters <- grepl("<-$", methods)
+
   # The @export tags for adding the functions to the namespace
   exporttags <- c(
     paste0("@export ", methods),
@@ -35,15 +39,24 @@ roxygen_tags <- function(
   # The @usage tags for example usage
   usagetags <- c("@usage")
   for(x in seq_along(methods)){
+
+    tag <- sprintf(
+      "%s(%s)",
+      methods[x],
+      paste0(args, collapse = ", ")
+    )
+
+    if(setters[x]){
+      tag <- gsub("<-", "", tag, fixed = T)
+      tag <- paste0(tag, " <- value")
+    }
+
     usagetags <- c(
       usagetags,
-      sprintf(
-        "%s(%s)",
-        methods[x],
-        paste0(args, collapse = ", ")
-      )
+      tag,
+      ""
     )
-    usagetags <- c(usagetags, "")
+
   }
 
   # Determine which arguments to include based on if the method is a settable method
@@ -53,6 +66,9 @@ roxygen_tags <- function(
 
   # The @param tags for parameter descriptions
   argnames <- trimws(gsub("\\=.*$", "", args))
+  if(sum(setters) > 0){
+    argnames <- c(argnames, "value")
+  }
   paramtags <- paste(
     "@param",
     argnames,
@@ -71,7 +87,7 @@ roxygen_tags <- function(
 # This is a small utility function for outputting an inline image of one of the
 # viewer buttons when writing vignettes that refer to them
 btn_img <- function(btn){
-  base64 <- system(paste("base64", shQuote(normalizePath(paste0("../dev/icons/buttons/", btn, ".svg")))), intern = T)
+  base64 <- base64enc::base64encode(system.file(paste0("extdata/icons/buttons/", btn,".svg"), package = "Racmacs"))
   paste0("<img src='data:image/svg+xml;base64,", base64, "' style='height:1em; padding:1px; box-sizing: content-box; vertical-align: middle; border-radius: 3px; border: 1px solid #CCCCCC; margin-top:-4px; margin-bottom:-2px;'/>")
 }
 

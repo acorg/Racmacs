@@ -39,7 +39,7 @@ acmap <- function(
   if(sum(!extras %in% methods::formalArgs(addOptimization)) > 0){
     stop(sprintf(
       "Unrecognised arguments: %s",
-      paste(extras[!extras %in% formalArgs(addOptimization)], collapse = ", ")
+      paste(extras[!extras %in% methods::formalArgs(addOptimization)], collapse = ", ")
     ))
   }
 

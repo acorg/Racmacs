@@ -371,6 +371,8 @@ mapRelaxed <- function(
 #'
 #' @param map The acmap data object
 #' @param optimization_number The map optimization number
+#' @param stepsize Grid spacing in antigenic units of the search grid to use
+#'   when searching for hemisphering positions
 #'
 #' @return Returns a data frame with information on any points that were found
 #'   to be hemisphering or trapped.
@@ -379,8 +381,8 @@ mapRelaxed <- function(
 #'
 checkHemisphering <- function(
   map,
-  stepsize = 0.1,
-  optimization_number = 1
+  optimization_number = 1,
+  stepsize = 0.1
   ){
 
   stop("Not yet implemented")

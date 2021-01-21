@@ -229,7 +229,7 @@ relaxMap <- function(
 
   # Run relaxation
   map$optimizations[[optimization_number]] <- ac_relaxOptimization(
-    map$optimizations[[optimization_number]],
+    opt = map$optimizations[[optimization_number]],
     titers = titerTable(map),
     fixed_antigens = fixed_antigens - 1,
     fixed_sera = fixed_sera - 1,
@@ -246,6 +246,8 @@ relaxMap <- function(
 #'
 #' @param map The acmap data object
 #' @param optimization_number The map optimization number
+#' @param fixed_antigens Antigens to set fixed positions for when relaxing
+#' @param fixed_sera Sera to set fixed positions for when relaxing
 #' @param options List of named optimizer options, see `RacOptimizer.options()`
 #'
 #' @return Returns an updated map object
@@ -256,17 +258,25 @@ relaxMap <- function(
 relaxMapOneStep <- function(
   map,
   optimization_number = 1,
+  fixed_antigens = FALSE,
+  fixed_sera = FALSE,
   options = list()
-) {
+){
 
   # Get options
   options <- do.call(RacOptimizer.options, options)
   options$maxit <- 1
 
+  # Convert point references to indices
+  fixed_antigens <- get_ag_indices(fixed_antigens, map)
+  fixed_sera     <- get_sr_indices(fixed_sera, map)
+
   # Update optimization
   map$optimizations[[optimization_number]] <- ac_relaxOptimization(
-    map$optimizations[[optimization_number]],
+    opt = map$optimizations[[optimization_number]],
     titers = titerTable(map),
+    fixed_antigens = fixed_antigens - 1,
+    fixed_sera = fixed_sera - 1,
     options = options
   )
   map

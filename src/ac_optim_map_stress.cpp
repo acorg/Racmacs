@@ -400,6 +400,7 @@ void ac_relaxOptimizations(
   Progress p(num_optimizations, true, pb);
 
   // Run and return optimization results
+  #pragma omp parallel for schedule(dynamic)
   for(int i=0; i<num_optimizations; i++){
 
     // Run the optimization

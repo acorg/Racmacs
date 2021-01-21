@@ -8,13 +8,13 @@
 \alias{fixedColBases<-}
 \title{Getting and setting column bases}
 \usage{
-minColBasis(map, optimization_number = NULL)
+minColBasis(map, optimization_number = 1)
 
-minColBasis<-(map, optimization_number = NULL)
+minColBasis<-(map, optimization_number = 1)
 
-fixedColBases(map, optimization_number = NULL)
+fixedColBases(map, optimization_number = 1)
 
-fixedColBases<-(map, optimization_number = NULL)
+fixedColBases<-(map, optimization_number = 1)
 }
 \arguments{
 \item{map}{The acmap data object}

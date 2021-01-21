@@ -5,7 +5,7 @@
 \title{Plot an antigenic map}
 \usage{
 \method{plot}{acmap}(
-  map,
+  x,
   optimization_number = 1,
   xlim = NULL,
   ylim = NULL,
@@ -23,8 +23,6 @@
 )
 }
 \arguments{
-\item{map}{The acmap to plot}
-
 \item{optimization_number}{The optimization number to plot}
 
 \item{xlim}{optional x axis limits}
@@ -52,6 +50,8 @@
 \item{cex}{point size expansion factor}
 
 \item{...}{additional arguments, not used}
+
+\item{map}{The acmap to plot}
 }
 \description{
 Method for plotting an antigenic map in two dimensions

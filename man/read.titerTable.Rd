@@ -4,7 +4,7 @@
 \alias{read.titerTable}
 \title{Read in a table of titer data}
 \usage{
-read.titerTable(filepath, Fnum_to_SRname = FALSE)
+read.titerTable(filepath)
 }
 \arguments{
 \item{filepath}{Path to the table of titer data}

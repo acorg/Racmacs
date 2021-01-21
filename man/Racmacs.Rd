@@ -45,20 +45,6 @@ stress):
 \item \strong{Stress}, the stress of this optimization.
 \item \strong{Dimensions}, the number of dimensions of this optimization.
 }
-
-A map may only have one optimization associated with it, simply representing
-the optimal position of points in the map after number of optimization runs.
-However it may also have a number of optimizations, perhaps representing the
-different solutions for best antigen and serum positions based on different
-random starting conditions in the optimizer, or perhaps giving the map
-optimization in different numbers of dimensions.
-
-At any one time a map object has one of the optimizations \emph{selected} (by
-default the first one). Any information you read from this map that comes
-from a optimization (for example \link{agCoords} ) and any functions that you
-perform that relate to a optimization (for example \link{relaxMap}), will be
-performed on the selected optimization by default. You can get and set the
-selected optimization with \link{selectOptimization}.
 }
 
 \subsection{Plotting styles}{
@@ -98,7 +84,6 @@ plotted, the main ones include:
 \item \link{numSera}
 \item \link{numPoints}
 \item \link{numOptimizations}
-\item \link{selectedOptimization}
 }
 
 \strong{Get and set plotting information}

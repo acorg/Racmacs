@@ -6,6 +6,11 @@
 \usage{
 mapDimensions(map, optimization_number = 1)
 }
+\arguments{
+\item{map}{The acmap data object}
+
+\item{optimization_number}{The optimization run from which to get / set the data}
+}
 \value{
 Returns the number of map dimensions for the specified optimization run.
 }

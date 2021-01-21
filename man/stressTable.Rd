@@ -8,6 +8,8 @@ stressTable(map, optimization_number = 1)
 }
 \arguments{
 \item{map}{The acmap object}
+
+\item{optimization_number}{The optimization number for which to calculate stresses}
 }
 \value{
 Returns a matrix of stresses, showing how much each antigen and sera

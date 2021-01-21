@@ -53,7 +53,7 @@ execute <- function(command){
       eval(command)
     },
     error = function(e){
-      showNotification(e$message, closeButton = FALSE, duration = 1, type = "error")
+      shiny::showNotification(e$message, closeButton = FALSE, duration = 1, type = "error")
       message(e$message)
     }
   )

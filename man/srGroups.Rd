@@ -9,6 +9,11 @@ srGroups(map)
 
 srGroups(map) <- value
 }
+\arguments{
+\item{map}{The acmap object}
+
+\item{value}{A character or factor vector of groupings to apply to the sera}
+}
 \description{
 These functions get and set the sera groupings for a map.
 }

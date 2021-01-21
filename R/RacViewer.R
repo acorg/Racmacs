@@ -15,7 +15,6 @@
 #' @param elementId DOM element ID
 #'
 #' @import htmlwidgets
-#' @noRd
 #' @export
 RacViewer <- function(
   map,
@@ -83,7 +82,6 @@ RacViewer <- function(
 #'   is useful if you want to save an expression in a variable.
 #'
 #' @name RacViewer-shiny
-#' @noRd
 #' @export
 RacViewerOutput <- function(outputId, width = '100%', height = '100%'){
   htmlwidgets::shinyWidgetOutput(outputId, 'RacViewer', width, height, package = 'Racmacs')
@@ -91,29 +89,10 @@ RacViewerOutput <- function(outputId, width = '100%', height = '100%'){
 
 
 #' @rdname RacViewer-shiny
-#' @noRd
 #' @export
 renderRacViewer <- function(expr, env = parent.frame(), quoted = FALSE) {
   if (!quoted) { expr <- substitute(expr) } # force quoted
   htmlwidgets::shinyRenderWidget(expr, RacViewerOutput, env, quoted = TRUE)
-}
-
-
-
-#' Create a proxy RacViewer object
-#'
-#' @param id ID of RacViewer instance
-#' @param session Session object of shiny application
-#'
-#' @return Returns a chart proxy
-#' @noRd
-#' @export
-RacViewerProxy <- function(id, session = shiny::getDefaultReactiveDomain()){
-
-  proxy        <- list( id = shinyId, session = session )
-  class(proxy) <- "RacViewerProxy"
-
-  return(proxy)
 }
 
 

@@ -106,8 +106,6 @@ get_sr_indices <- function(
 #' @export
 #' @family {functions for working with map data}
 #'
-#' @example examples/example_map_subset.R
-#'
 subsetMap <- function(
   map,
   antigens = TRUE,
@@ -115,13 +113,55 @@ subsetMap <- function(
   ){
 
   # Match by antigen and sera name if character vectors are specified
-  antigens <- na.omit(get_ag_indices(antigens, map))
-  sera     <- na.omit(get_sr_indices(sera, map))
+  antigens <- stats::na.omit(get_ag_indices(antigens, map))
+  sera     <- stats::na.omit(get_sr_indices(sera, map))
 
   # Subset the map
   map <- ac_subset_map(
     map,
     antigens - 1,
+    sera - 1
+  )
+
+  # Return the subsetted map
+  map
+
+}
+
+
+subsetAntigens <- function(
+  map,
+  antigens = TRUE
+  ){
+
+  # Match by antigen and sera name if character vectors are specified
+  antigens <- na.omit(get_ag_indices(antigens, map))
+
+  # Subset the map
+  map <- ac_subset_map(
+    map,
+    antigens - 1,
+    seq_len(numSera(map)) - 1
+  )
+
+  # Return the subsetted map
+  map
+
+}
+
+
+subsetSera <- function(
+  map,
+  sera = TRUE
+){
+
+  # Match by antigen and sera name if character vectors are specified
+  sera <- na.omit(get_sr_indices(sera, map))
+
+  # Subset the map
+  map <- ac_subset_map(
+    map,
+    seq_len(numAntigens(map)) - 1,
     sera - 1
   )
 
@@ -169,16 +209,16 @@ orderSera <- function(map, order){
 
 #' @export
 #' @rdname removePoints
-removeAntigens <- function(map, antigen_indices){
-  antigen_indices <- get_ag_indices(antigen_indices, map)
-  subsetAntigens(map, which(!seq_len(numAntigens(map)) %in% antigen_indices))
+removeAntigens <- function(map, antigens){
+  antigens <- get_ag_indices(antigens, map)
+  subsetAntigens(map, which(!seq_len(numAntigens(map)) %in% antigens))
 }
 
 #' @export
 #' @rdname removePoints
-removeSera <- function(map, sera_indices){
-  sera_indices <- get_sr_indices(sera_indices, map)
-  subsetSera(map, which(!seq_len(numSera(map)) %in% sera_indices))
+removeSera <- function(map, sera){
+  sera <- get_sr_indices(sera, map)
+  subsetSera(map, which(!seq_len(numSera(map)) %in% sera))
 }
 
 

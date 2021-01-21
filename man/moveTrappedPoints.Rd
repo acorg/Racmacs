@@ -24,9 +24,6 @@ when searching for more optimal positions}
 trapped points then relaxing the map to be performed}
 
 \item{options}{List of named optimizer options, see \code{RacOptimizer.options()}}
-
-\item{realign_optimizations}{Should optimizations be realigned to match each
-other as closely as possible after any trapped points are moved}
 }
 \value{
 Returns the acmap object with updated coordinates (if any trapped

@@ -72,7 +72,6 @@ edit_srNames <- function(
 #' If not supplied then the default dictionary that comes with Racmacs will be used.
 #'
 #' @return Returns the updated map data object
-#' @noRd
 #' @export
 #'
 update_ferret_seraNames <- function(
@@ -86,15 +85,18 @@ update_ferret_seraNames <- function(
   }
 
   # Read in csv file
-  dictionary <- read.csv(file   = dictionary_file,
-                         header = FALSE,
-                         stringsAsFactors = FALSE)
+  dictionary <- utils::read.csv(
+    file   = dictionary_file,
+    header = FALSE,
+    stringsAsFactors = FALSE
+  )
 
   # Update the map file
-  edit_srNames(map       = map,
-               old_names = dictionary[,1],
-               new_names = dictionary[,2],
-               warnings  = FALSE)
+  edit_srNames(
+    map       = map,
+    old_names = dictionary[,1],
+    new_names = dictionary[,2]
+  )
 
 }
 

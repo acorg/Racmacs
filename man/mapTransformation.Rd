@@ -7,13 +7,13 @@
 \alias{mapTranslation<-}
 \title{Reading map transformation data}
 \usage{
-mapTransformation(map, optimization_number = NULL)
+mapTransformation(map, optimization_number = 1)
 
-mapTransformation<-(map, optimization_number = NULL)
+mapTransformation<-(map, optimization_number = 1)
 
-mapTranslation(map, optimization_number = NULL)
+mapTranslation(map, optimization_number = 1)
 
-mapTranslation<-(map, optimization_number = NULL)
+mapTranslation<-(map, optimization_number = 1)
 }
 \arguments{
 \item{map}{The acmap data object}

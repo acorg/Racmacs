@@ -127,7 +127,7 @@ srShape        <- plotspec_getter("sr", ac_plotspec_get_shape)
 # Extra functions that include a color validation step
 validate_colors <- function(cols){
   tryCatch(
-    col2rgb(cols),
+    grDevices::col2rgb(cols),
     error = function(e){
       stop(e$message, call. = FALSE)
     }
@@ -155,7 +155,22 @@ validate_colors <- function(cols){
 }
 
 
-# Functions that set point drawing order
+#' Get and set point drawing order in map
+#'
+#' Point drawing order is a vector of indices defining the order in
+#' which points should be draw when plotting or viewing a map. Points
+#' are indexed in the same order as antigens then followed by
+#' sera.
+#'
+#' @param map An acmap object
+#' @param value The point drawing order
+#'
+#' @return Returns the map object with point drawing order information updated
+#'
+#' @name ptDrawingOrder
+#'
+
+#' @rdname ptDrawingOrder
 #' @export
 ptDrawingOrder <- function(map){
   drawing_order <- map$pt_drawing_order
@@ -163,6 +178,7 @@ ptDrawingOrder <- function(map){
   drawing_order
 }
 
+#' @rdname ptDrawingOrder
 #' @export
 `ptDrawingOrder<-` <- function(map, value){
   if(!is.numeric(value)) stop("drawing order must be numeric", call. = FALSE)

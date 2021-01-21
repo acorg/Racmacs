@@ -3,17 +3,16 @@
 \name{keepSingleOptimization}
 \alias{keepSingleOptimization}
 \alias{keepOptimizations}
-\alias{keepBestOptimization}
 \title{Keep specified optimization runs}
 \usage{
 keepOptimizations(map, optimization_numbers)
 
 keepSingleOptimization(map, optimization_number = 1)
-
-keepBestOptimization(map)
 }
 \arguments{
 \item{map}{The acmap object}
+
+\item{optimization_number}{The optimization run to keep}
 }
 \description{
 Keep only data from specified optimization runs, either a specified

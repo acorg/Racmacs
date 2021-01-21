@@ -23,7 +23,7 @@
 #' @export
 #'
 plot.acmap <- function(
-  map,
+  x,
   optimization_number = 1,
   xlim = NULL,
   ylim = NULL,
@@ -40,12 +40,12 @@ plot.acmap <- function(
   ...){
 
   # Do dimension checks
-  if(mapDimensions(map, optimization_number) != 2){ stop("Plotting is only supported for 2D maps, please try view()") }
+  if(mapDimensions(x, optimization_number) != 2){ stop("Plotting is only supported for 2D maps, please try view()") }
   if(optimization_number != 1 && plot_blobs){ warning("Optimization number ignored when plotting blobs") }
 
   # Get coords
-  ag_coords <- agCoords(map, optimization_number)
-  sr_coords <- srCoords(map, optimization_number)
+  ag_coords <- agCoords(x, optimization_number)
+  sr_coords <- srCoords(x, optimization_number)
 
   plot_coords <- c()
   if(plot_ags){ plot_coords <- rbind(plot_coords, ag_coords) }
@@ -55,8 +55,8 @@ plot.acmap <- function(
   if(is.null(ylim)){ ylim <- c(floor(min(plot_coords[,2], na.rm = TRUE))-padding, ceiling(max(plot_coords[,2], na.rm = TRUE))+padding) }
 
   # Setup plot
-  plot.new()
-  plot.window(
+  graphics::plot.new()
+  graphics::plot.window(
     xlim = xlim,
     ylim = ylim,
     xaxs = "i",
@@ -68,19 +68,23 @@ plot.acmap <- function(
   for(x in seq(from = xlim[1], to = xlim[2], by = 1)){
     if(x == xlim[1] | x == xlim[2]) col <- grid.margin.col
     else                            col <- grid.col
-    lines(x = c(x,x),
-          y = ylim,
-          col = col,
-          xpd = TRUE)
+    graphics::lines(
+      x = c(x,x),
+      y = ylim,
+      col = col,
+      xpd = TRUE
+    )
   }
 
   for(y in seq(from = ylim[1], to = ylim[2], by = 1)){
     if(y == ylim[1] | y == ylim[2]) col <- grid.margin.col
     else                            col <- grid.col
-    lines(x = xlim,
-          y = c(y,y),
-          col = col,
-          xpd = TRUE)
+    graphics::lines(
+      x = xlim,
+      y = c(y,y),
+      col = col,
+      xpd = TRUE
+    )
   }
 
   # Function to get pch from shape
@@ -95,7 +99,7 @@ plot.acmap <- function(
 
   # Plot points
   pts <- mapPoints(
-    map                 = map,
+    map                 = x,
     optimization_number = optimization_number
   )
 
@@ -109,11 +113,11 @@ plot.acmap <- function(
   }
 
   ## Hide antigens and sera
-  if(!plot_ags || missing(ag_coords)) { pts$shown[map_pts$pt_type == "ag"] <- FALSE }
-  if(!plot_sr  || missing(sr_coords)) { pts$shown[map_pts$pt_type == "sr"] <- FALSE }
+  if(!plot_ags || missing(ag_coords)) { pts$shown[pts$pt_type == "ag"] <- FALSE }
+  if(!plot_sr  || missing(sr_coords)) { pts$shown[pts$pt_type == "sr"] <- FALSE }
 
   ## Get point blobs
-  pt_blobs <- ptStressBlobs(map)
+  pt_blobs <- ptStressBlobs(x)
   pts$blob <- !sapply(pt_blobs, is.null)
 
   ## Adjust alpha
@@ -121,11 +125,11 @@ plot.acmap <- function(
   if(!is.null(outline.alpha)){ pts$outline <- grDevices::adjustcolor(pts$outline, alpha.f = outline.alpha) }
 
   ## Plot the points
-  pt_order <- ptDrawingOrder(map)
+  pt_order <- ptDrawingOrder(x)
   plotted_pt_order <- pt_order[pts$shown[pt_order]]
   if(plot_blobs){ plotted_pt_order <- plotted_pt_order[!pts$blob[plotted_pt_order]] }
 
-  points(
+  graphics::points(
     x   = pts$coords[plotted_pt_order,,drop=F],
     pch = get_pch(pts$shape[plotted_pt_order]),
     bg  = pts$fill[plotted_pt_order],
@@ -150,17 +154,21 @@ plot.acmap <- function(
 
   ## Add labels if requested
   if(plot_labels){
-    text(x = ag_coords[,1],
-         y = ag_coords[,2],
-         labels = agNames(map),
-         pos = 3,
-         offset = 1)
+    graphics::text(
+      x = ag_coords[,1],
+      y = ag_coords[,2],
+      labels = agNames(x),
+      pos = 3,
+      offset = 1
+    )
 
-    text(x = sr_coords[,1],
-         y = sr_coords[,2],
-         labels = srNames(map),
-         pos = 3,
-         offset = 1)
+    graphics::text(
+      x = sr_coords[,1],
+      y = sr_coords[,2],
+      labels = srNames(x),
+      pos = 3,
+      offset = 1
+    )
   }
 
 }
@@ -193,17 +201,21 @@ setup_acmap <- function(
   }
 
   # Set up plot
-  if (newplot) { plot.new() }
-  par(mar=mar)
-  plot.window(xlim=x_range,
-              ylim=y_range,
-              xaxs="i", yaxs="i")
-  box(lwd = box_lwd,
-      col = box_col)
+  if (newplot) { graphics::plot.new() }
+  graphics::par(mar=mar)
+  graphics::plot.window(
+    xlim=x_range,
+    ylim=y_range,
+    xaxs="i", yaxs="i"
+  )
+  graphics::box(
+    lwd = box_lwd,
+    col = box_col
+  )
 
   # Plot grid
-  lapply(as.list(min(x_range):max(x_range)),function(x){abline(v=x, col=grid_col)})
-  lapply(as.list(min(y_range):max(y_range)),function(x){abline(h=x, col=grid_col)})
+  lapply(as.list(min(x_range):max(x_range)),function(x){graphics::abline(v=x, col=grid_col)})
+  lapply(as.list(min(y_range):max(y_range)),function(x){graphics::abline(h=x, col=grid_col)})
 
 }
 

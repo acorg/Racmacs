@@ -47,7 +47,7 @@ optimization_setter <- function(fn, checker_fn = NULL){
 #'   "agBaseCoords", "agBaseCoords<-",
 #'   "srBaseCoords", "srBaseCoords<-"
 #'   ),
-#'   args    = c("map", "optimization_number = NULL")
+#'   args    = c("map", "optimization_number = 1")
 #' )
 #'
 agBaseCoords <- optimization_getter(ac_opt_get_ag_base_coords)
@@ -68,7 +68,7 @@ srBaseCoords <- optimization_getter(ac_opt_get_sr_base_coords)
 #'   "mapTransformation", "mapTransformation<-",
 #'   "mapTranslation", "mapTranslation<-"
 #'   ),
-#'   args = c("map", "optimization_number = NULL")
+#'   args = c("map", "optimization_number = 1")
 #' )
 #'
 mapTransformation     <- optimization_getter(ac_opt_get_transformation)
@@ -107,7 +107,7 @@ mapTranslation        <- optimization_getter(ac_opt_get_translation)
 #'   "minColBasis", "minColBasis<-",
 #'   "fixedColBases", "fixedColBases<-"
 #'   ),
-#'   args       = c("map", "optimization_number = NULL")
+#'   args       = c("map", "optimization_number = 1")
 #' )
 #'
 minColBasis       <- optimization_getter(ac_opt_get_mincolbasis)
@@ -132,7 +132,7 @@ colBases <- function(map, optimization_number = 1){
 #' @family {map optimization attribute functions}
 #' @eval roxygen_tags(
 #'   methods    = c("mapStress"),
-#'   args       = c("map", "optimization_number = NULL"),
+#'   args       = c("map", "optimization_number = 1"),
 #'   returns    = "Returns the current map stress value for the specified optimization run."
 #' )
 mapStress     <- optimization_getter(ac_opt_get_stress)
@@ -143,8 +143,11 @@ mapStress     <- optimization_getter(ac_opt_get_stress)
 #'
 #' @name mapDimensions
 #' @family {map optimization attribute functions}
-#' @returns Returns the number of map dimensions for the specified optimization run.
-#' @export
+#' @eval roxygen_tags(
+#'   methods    = c("mapDimensions"),
+#'   args       = c("map", "optimization_number = 1"),
+#'   returns    = "Returns the number of map dimensions for the specified optimization run."
+#' )
 #'
 mapDimensions <- optimization_getter(ac_opt_get_dimensions)
 
@@ -154,7 +157,7 @@ mapDimensions <- optimization_getter(ac_opt_get_dimensions)
 #' @family {map optimization attribute functions}
 #' @eval roxygen_tags(
 #'   methods    = c("mapComment", "mapComment<-"),
-#'   args       = c("map", "optimization_number = NULL"),
+#'   args       = c("map", "optimization_number = 1"),
 #'   returns    = "Gets or sets and map comments for the specified optimization run."
 #' )
 mapComment     <- optimization_getter(ac_opt_get_comment)

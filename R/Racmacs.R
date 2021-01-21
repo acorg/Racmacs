@@ -43,20 +43,6 @@ NULL
 #' - __Minimum column basis__, the minimum column basis assumed when calculating this optimization.
 #' - __Stress__, the stress of this optimization.
 #' - __Dimensions__, the number of dimensions of this optimization.
-#'
-#' A map may only have one optimization associated with it, simply representing
-#' the optimal position of points in the map after number of optimization runs.
-#' However it may also have a number of optimizations, perhaps representing the
-#' different solutions for best antigen and serum positions based on different
-#' random starting conditions in the optimizer, or perhaps giving the map
-#' optimization in different numbers of dimensions.
-#'
-#' At any one time a map object has one of the optimizations _selected_ (by
-#' default the first one). Any information you read from this map that comes
-#' from a optimization (for example [agCoords] ) and any functions that you
-#' perform that relate to a optimization (for example [relaxMap]), will be
-#' performed on the selected optimization by default. You can get and set the
-#' selected optimization with [selectOptimization].
 #' }
 #'
 #' \subsection{Plotting styles}{
@@ -91,7 +77,6 @@ NULL
 #' - [numSera]
 #' - [numPoints]
 #' - [numOptimizations]
-#' - [selectedOptimization]
 #'
 #' __Get and set plotting information__
 #' - [agFill]

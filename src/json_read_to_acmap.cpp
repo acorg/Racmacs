@@ -5,7 +5,7 @@
 #include "acmap_point.h"
 #include "acmap_optimization.h"
 
-
+#include "json_assert.h"
 // [[Rcpp::depends(rapidjsonr)]]
 #include <rapidjson/document.h>
 // #include <rapidjson/filereadstream.h>

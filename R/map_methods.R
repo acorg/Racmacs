@@ -50,7 +50,7 @@ view.default <- function(x, ...){
 #'
 #' View a racmap object in the interactive viewer.
 #'
-#' @param map The acmap data object
+#' @param x The acmap data object
 #' @param options A named list of viewer options to pass to
 #'   `RacViewer.options()`
 #' @param ... Additional arguments to be passed to `RacViewer()`
@@ -72,7 +72,7 @@ view.default <- function(x, ...){
 #' @export
 #'
 view.acmap <- function(
-  map,
+  x,
   ...,
   .jsCode = NULL,
   .jsData = NULL,
@@ -86,19 +86,19 @@ view.acmap <- function(
 
   # Pass on only the selected optimization
   if(!keep_all_optimization_runs){
-    map <- keepSingleOptimization(map)
+    x <- keepSingleOptimization(x)
   }
 
   # Add a procrustes grid if the main map is 3d and the comparitor map is 2d
-  if(!is.null(map$procrustes) && !isFALSE(show_procrustes)){
-    if(mapDimensions(map) == 3 && ncol(map$procrustes$ag_coords) == 2){
-      map <- add_procrustes_grid(map)
+  if(!is.null(x$procrustes) && !isFALSE(show_procrustes)){
+    if(mapDimensions(x) == 3 && ncol(x$procrustes$ag_coords) == 2){
+      x <- add_procrustes_grid(x)
     }
   }
 
   # View the map data in the viewer
   widget <- RacViewer(
-    map = map,
+    map = x,
     options = options,
     ...
   )
@@ -121,18 +121,18 @@ view.acmap <- function(
   }
 
   # Add any procrustes lines
-  if(!is.null(map$procrustes) && !isFALSE(show_procrustes)){
+  if(!is.null(x$procrustes) && !isFALSE(show_procrustes)){
 
     widget <- htmlwidgets::onRender(
       x      = widget,
       jsCode = "function(el, x, data) { el.viewer.addProcrustesToBaseCoords(data) }",
-      data   = I(map$procrustes)
+      data   = I(x$procrustes)
     )
 
   }
 
   # Show any blob data
-  stressblobdata <- viewer_stressblobdata(map)
+  stressblobdata <- viewer_stressblobdata(x)
   if(!is.null(stressblobdata) && !isFALSE(show_stressblobs)){
     widget <- htmlwidgets::onRender(
       x      = widget,
@@ -142,7 +142,7 @@ view.acmap <- function(
   }
 
   # Add any map legends
-  if(!is.null(map$legend)){
+  if(!is.null(x$legend)){
     widget <- htmlwidgets::onRender(
       x      = widget,
       jsCode = sprintf("function(el, x, data) {
@@ -150,7 +150,7 @@ view.acmap <- function(
         div.innerHTML      = `%s`;
         div.racviewer      = el.viewer;
         el.viewer.viewport.div.appendChild(div);
-      }", as.character(make_html_legend(map$legend))),
+      }", as.character(make_html_legend(x$legend))),
       data   = NULL
     )
   }

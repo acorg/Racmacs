@@ -5,7 +5,7 @@
 \title{Viewing racmap objects}
 \usage{
 \method{view}{acmap}(
-  map,
+  x,
   ...,
   .jsCode = NULL,
   .jsData = NULL,
@@ -18,7 +18,7 @@
 )
 }
 \arguments{
-\item{map}{The acmap data object}
+\item{x}{The acmap data object}
 
 \item{...}{Additional arguments to be passed to \code{RacViewer()}}
 

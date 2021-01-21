@@ -24,23 +24,23 @@ class MapOptimizer {
   public:
 
     // ATTRIBUTES
+    arma::mat ag_coords;
+    arma::mat sr_coords;
     arma::mat tabledist_matrix;
     arma::umat titertype_matrix;
     arma::mat mapdist_matrix;
-    arma::mat ag_coords;
-    arma::mat sr_coords;
     arma::uword num_dims;
     arma::uword num_ags;
     arma::uword num_sr;
     arma::uvec moveable_ags;
     arma::uvec moveable_sr;
-
-    arma::mat gradients;
+    arma::mat ag_gradients;
+    arma::mat sr_gradients;
     double gradient;
     double stress;
 
     // CONSTRUCTOR FUNCTION
-    // Without fixed points
+    // Constructor without fixed points provided
     MapOptimizer(
       arma::mat ag_start_coords,
       arma::mat sr_start_coords,
@@ -49,51 +49,50 @@ class MapOptimizer {
       arma::uword dims
     ){
 
-      tabledist_matrix = tabledist;
-      titertype_matrix = titertype;
-      num_dims = dims;
-
-      num_ags = tabledist_matrix.n_rows;
-      num_sr = tabledist_matrix.n_cols;
-
-      mapdist_matrix = arma::mat(num_ags, num_sr, arma::fill::zeros);
-      ag_coords = ag_start_coords;
-      sr_coords = sr_start_coords;
-
       moveable_ags = arma::regspace<arma::uvec>(0, num_ags - 1);
       moveable_sr = arma::regspace<arma::uvec>(0, num_sr - 1);
 
-      gradients.zeros(num_ags + num_sr, num_dims);
-      update_map_dist_matrix();
+      MapOptimizer(
+        ag_start_coords,
+        sr_start_coords,
+        tabledist,
+        titertype,
+        dims,
+        moveable_ags,
+        moveable_sr
+      );
 
     }
 
-    // With fixed points
+    // Constructor with fixed points provided
     MapOptimizer(
       arma::mat ag_start_coords,
       arma::mat sr_start_coords,
       arma::mat tabledist,
       arma::umat titertype,
       arma::uword dims,
-      arma::uvec moveable_ags_in,
-      arma::uvec moveable_sr_in
-    ){
+      arma::uvec moveable_ags,
+      arma::uvec moveable_sr
+    )
+      :ag_coords(ag_start_coords),
+       sr_coords(sr_start_coords),
+       tabledist_matrix(tabledist),
+       titertype_matrix(titertype),
+       num_dims(dims),
+       moveable_ags(moveable_ags),
+       moveable_sr(moveable_sr)
+      {
 
-      tabledist_matrix = tabledist;
-      titertype_matrix = titertype;
-      num_dims = dims;
-
+      // Setup map dist matrices
       num_ags = tabledist_matrix.n_rows;
       num_sr = tabledist_matrix.n_cols;
-
       mapdist_matrix = arma::mat(num_ags, num_sr, arma::fill::zeros);
-      ag_coords = ag_start_coords;
-      sr_coords = sr_start_coords;
 
-      moveable_ags = moveable_ags_in;
-      moveable_sr = moveable_sr_in;
+      // Setup the gradient vectors
+      ag_gradients.zeros(num_ags, num_dims);
+      sr_gradients.zeros(num_sr, num_dims);
 
-      gradients.zeros(num_ags + num_sr, num_dims);
+      // Update the map distance matrix according to coordinates
       update_map_dist_matrix();
 
     }
@@ -105,8 +104,13 @@ class MapOptimizer {
         arma::mat &grad
     ){
 
+      // Update coords from parameters
       update_map_coords(pars);
+
+      // Update the distance matrix according to the new coords
       update_map_dist_matrix();
+
+      // Calculate and return the stress
       return calculate_stress();
 
     }
@@ -118,19 +122,25 @@ class MapOptimizer {
         arma::mat &grad
     ){
 
-      // Update coords from parameters and the distance matrix
+      // Update coords from parameters
       update_map_coords(pars);
-      update_map_dist_matrix();
 
-      // Update the gradients
+      // Update the gradients and distance matrix according to the new coords
+      update_map_dist_matrix();
       update_gradients();
 
       // Apply the gradients of moveable points to grad
       if( moveable_ags.n_elem > 0 ){
-        grad.rows(0, moveable_ags.n_elem - 1) = gradients.rows( moveable_ags );
+        grad.rows(
+          0,
+          moveable_ags.n_elem - 1
+        ) = ag_gradients.rows( moveable_ags );
       }
       if( moveable_sr.n_elem > 0 ){
-        grad.rows(moveable_ags.n_elem, moveable_ags.n_elem + moveable_sr.n_elem - 1) = gradients.rows( moveable_sr + num_ags );
+        grad.rows(
+          moveable_ags.n_elem,
+          moveable_ags.n_elem + moveable_sr.n_elem - 1
+        ) = sr_gradients.rows( moveable_sr );
       }
 
       // Calculate and return the stress
@@ -142,7 +152,8 @@ class MapOptimizer {
     void update_gradients(){
 
       // Setup to update gradients
-      gradients.zeros();
+      ag_gradients.zeros();
+      sr_gradients.zeros();
 
       // Now we cycle through each antigen and sera and calculate the gradient
       for(arma::uword ag = 0; ag < num_ags; ++ag) {
@@ -163,8 +174,8 @@ class MapOptimizer {
           // Now calculate the gradient for each coordinate
           for(arma::uword i = 0; i < num_dims; ++i) {
             gradient = ibase*(ag_coords(ag,i) - sr_coords(sr,i));
-            gradients(ag,i) -= gradient;
-            gradients(sr + num_ags,i) += gradient;
+            ag_gradients(ag,i) -= gradient;
+            sr_gradients(sr,i) += gradient;
           }
 
         }

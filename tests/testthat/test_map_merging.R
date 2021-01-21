@@ -214,10 +214,12 @@ test_that("Merge tables", {
 # Frozen and relaxed overlay
 test_that("Frozen and relaxed overlay", {
 
+
   frozen_overlay_merge12 <- mergeMaps(
     list(mergemap1, mergemap2),
     method = "frozen-overlay"
   )
+
 
   relaxed_overlay_merge12 <- mergeMaps(
     list(mergemap1, mergemap2),

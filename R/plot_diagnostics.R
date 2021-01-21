@@ -20,19 +20,23 @@ plot_map_table_distance <- function(
   line_of_equality = TRUE
 ){
 
-  # Calculate map distances
+  # Calculate distances and types
   map_distances <- mapDistances(map, optimization_number)
-
-  # Calculate table distances
   table_distances <- tableDistances(map, optimization_number)
+  titer_types <- titertypesTable(map)
 
   # Format data
   map_dists   <- as.vector(map_distances)
-  table_dists <- as.vector(table_distances$distances)
-  lessthans   <- as.vector(table_distances$lessthans)
-  dist_pairs  <- expand.grid(rownames(table_distances$distances),
-                             colnames(table_distances$distances))
-  dist_names  <- paste0("SR: ", dist_pairs[,2], ", AG: ", dist_pairs[,1])
+  table_dists <- as.vector(table_distances)
+  lessthans   <- as.vector(titer_types == 2)
+  dist_pairs  <- expand.grid(
+    agNames(map),
+    srNames(map)
+  )
+  dist_names  <- paste0(
+    "SR: ", dist_pairs[,2],
+    ", AG: ", dist_pairs[,1]
+  )
 
   # Remove NAs
   na_vals     <- is.na(map_dists) | is.na(table_dists)

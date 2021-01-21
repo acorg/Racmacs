@@ -354,7 +354,7 @@ namespace Rcpp {
       opt["progress_bar_length"]
     };
 
-  };
+  }
 
 
   // TO: ACOPTIMIZATION
@@ -404,14 +404,14 @@ namespace Rcpp {
     // Return the object
     return acopt;
 
-  };
+  }
 
   // TO: ACTITER
   template <>
   AcTiter as(SEXP sxp){
     std::string titer = as<std::string>(sxp);
     return AcTiter(titer);
-  };
+  }
 
   // TO: ACTITERTABLE
   template <>
@@ -437,7 +437,7 @@ namespace Rcpp {
 
     return titertable;
 
-  };
+  }
 
   // TO: ACTITER VECTOR
   template <>

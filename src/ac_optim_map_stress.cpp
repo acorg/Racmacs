@@ -346,7 +346,7 @@ double ac_relax_coords(
   sr_coords = map.sr_coords;
   return map.calculate_stress();
 
-};
+}
 
 
 // Generate a bunch of optimizations with randomized coordinates

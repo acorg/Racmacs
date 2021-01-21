@@ -47,20 +47,29 @@ class MapOptimizer {
       arma::mat tabledist,
       arma::umat titertype,
       arma::uword dims
-    ){
+    )
+      :ag_coords(ag_start_coords),
+       sr_coords(sr_start_coords),
+       tabledist_matrix(tabledist),
+       titertype_matrix(titertype),
+       num_dims(dims),
+       num_ags(tabledist.n_rows),
+       num_sr(tabledist.n_cols)
+    {
 
+      // Set default moveable antigens and sera to all
       moveable_ags = arma::regspace<arma::uvec>(0, num_ags - 1);
       moveable_sr = arma::regspace<arma::uvec>(0, num_sr - 1);
 
-      MapOptimizer(
-        ag_start_coords,
-        sr_start_coords,
-        tabledist,
-        titertype,
-        dims,
-        moveable_ags,
-        moveable_sr
-      );
+      // Setup map dist matrices
+      mapdist_matrix = arma::mat(num_ags, num_sr, arma::fill::zeros);
+
+      // Setup the gradient vectors
+      ag_gradients.zeros(num_ags, num_dims);
+      sr_gradients.zeros(num_sr, num_dims);
+
+      // Update the map distance matrix according to coordinates
+      update_map_dist_matrix();
 
     }
 
@@ -79,13 +88,13 @@ class MapOptimizer {
        tabledist_matrix(tabledist),
        titertype_matrix(titertype),
        num_dims(dims),
+       num_ags(tabledist.n_rows),
+       num_sr(tabledist.n_cols),
        moveable_ags(moveable_ags),
        moveable_sr(moveable_sr)
       {
 
       // Setup map dist matrices
-      num_ags = tabledist_matrix.n_rows;
-      num_sr = tabledist_matrix.n_cols;
       mapdist_matrix = arma::mat(num_ags, num_sr, arma::fill::zeros);
 
       // Setup the gradient vectors

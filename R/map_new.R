@@ -38,7 +38,7 @@ acmap <- function(
 
   # Check input
   extras <- names(list(...))
-  if(sum(!extras %in% formalArgs(addOptimization)) > 0){
+  if(sum(!extras %in% methods::formalArgs(addOptimization)) > 0){
     stop(sprintf(
       "Unrecognised arguments: %s",
       paste(extras[!extras %in% formalArgs(addOptimization)], collapse = ", ")

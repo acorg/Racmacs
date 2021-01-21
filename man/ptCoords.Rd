@@ -22,6 +22,8 @@ srCoords(map, optimization_number = 1) <- value
 \item{map}{The acmap object}
 
 \item{optimization_number}{The optimization number from which to get / set the coordinates}
+
+\item{value}{A matrix of new coordinates to set}
 }
 \description{
 Getting and setting of antigen and serum coordinates in a map optimization run (by default

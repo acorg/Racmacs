@@ -6,9 +6,9 @@
 \alias{removeSera}
 \title{Remove antigens and sera}
 \usage{
-removeAntigens(map, antigen_indices)
+removeAntigens(map, antigens)
 
-removeSera(map, sera_indices)
+removeSera(map, sera)
 }
 \arguments{
 \item{map}{The map data object}

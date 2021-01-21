@@ -6,6 +6,7 @@
 #'
 #' @param map The acmap object
 #' @param optimization_number The optimization number from which to get / set the coordinates
+#' @param value A matrix of new coordinates to set
 #'
 #' @details These functions get and set point coordinates in a map. By default these coordinates
 #' refer to the currently selected optimization run, unless otherwise specified through the

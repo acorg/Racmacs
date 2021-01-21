@@ -147,9 +147,9 @@ summary.ac_dimtest <- function(
 
     # Store the results
     mean_rmse_detectable[x]    <- mean(predictions_detectable_rmses, na.rm = T)
-    var_rmse_detectable[x]     <- var(predictions_detectable_rmses, na.rm = T)
+    var_rmse_detectable[x]     <- stats::var(predictions_detectable_rmses, na.rm = T)
     mean_rmse_nondetectable[x] <- mean(predictions_nondetectable_rmses, na.rm = T)
-    var_rmse_nondetectable[x]  <- var(predictions_nondetectable_rmses, na.rm = T)
+    var_rmse_nondetectable[x]  <- stats::var(predictions_nondetectable_rmses, na.rm = T)
 
 
   }

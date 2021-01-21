@@ -29,6 +29,8 @@ agStressPerTiter(
 \item{optimization_number}{The optimization number}
 
 \item{sera}{Which sera to check stress for, specified by index or name (defaults to all sera).}
+
+\item{exclude_nd}{Should non-detectable values (e.g. <10) be excluded when calculating point stress?}
 }
 \description{
 Functions to get stress associated with individual points in a map.

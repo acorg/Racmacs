@@ -118,6 +118,7 @@ logtiterTable <- function(map){
 #' Get a stress table from an acmap
 #'
 #' @param map The acmap object
+#' @param optimization_number The optimization number for which to calculate stresses
 #'
 #' @return Returns a matrix of stresses, showing how much each antigen and sera
 #'   measurement contributes to stress in the selected or specified optimization.
@@ -234,6 +235,7 @@ recalculateStress <- function(map, optimization_number = 1){
 #' @param optimization_number The optimization number
 #' @param antigens Which antigens to check stress for, specified by index or name (defaults to all antigens).
 #' @param sera Which sera to check stress for, specified by index or name (defaults to all sera).
+#' @param exclude_nd Should non-detectable values (e.g. <10) be excluded when calculating point stress?
 #'
 #' @seealso See `mapStress()` for getting the total map stress directly.
 #' @family {map diagnostic functions}{functions relating to map stress calculation}

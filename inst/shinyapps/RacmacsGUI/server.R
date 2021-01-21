@@ -45,7 +45,7 @@ server <- function(input, output, session) {
   ## Loading a map file
   observeEvent(input$mapDataLoaded, {
 
-    showNotification(
+    shiny::showNotification(
       ui = "Loading map data...",
       duration = NULL,
       closeButton = FALSE,
@@ -57,7 +57,7 @@ server <- function(input, output, session) {
     session$sendCustomMessage("loadMapData", as.json(storage$map))
     message("Map loaded.")
 
-    showNotification(
+    shiny::showNotification(
       ui = "Loading map data... complete.",
       duration = 1,
       closeButton = FALSE,
@@ -70,7 +70,7 @@ server <- function(input, output, session) {
   ## Loading a table file
   observeEvent(input$tableDataLoaded, {
 
-    showNotification(
+    shiny::showNotification(
       ui = "Loading table data...",
       duration = NULL,
       closeButton = FALSE,
@@ -83,7 +83,7 @@ server <- function(input, output, session) {
     session$sendCustomMessage("loadMapData", as.json(storage$map))
     message("Table loaded.")
 
-    showNotification(
+    shiny::showNotification(
       ui = "Loading table data... complete.",
       duration = 1,
       closeButton = FALSE,
@@ -163,7 +163,7 @@ server <- function(input, output, session) {
 
   ## Switching to a new optimization
   observeEvent(input$optimizationChanged, {
-    selectedOptimization(storage$map) <- input$optimizationChanged + 1
+    stop()
   })
 
   ## Reflecting the map
@@ -179,7 +179,7 @@ server <- function(input, output, session) {
   ## Running new optimisations
   observeEvent(input$runOptimizations, {
 
-    showNotification(
+    shiny::showNotification(
       ui = "Optimizing map...",
       duration = NULL,
       closeButton = FALSE,
@@ -198,7 +198,7 @@ server <- function(input, output, session) {
       realign_optimizations    = TRUE
     )
 
-    showNotification(
+    shiny::showNotification(
       ui = "Optimizing map... complete.",
       duration = 1,
       closeButton = FALSE,
@@ -221,23 +221,23 @@ server <- function(input, output, session) {
   ## Map relaxed
   observeEvent(input$relaxMap, {
     if(mapRelaxed(storage$map)){
-      showNotification("Map fully relaxed", closeButton = FALSE, duration = 1, type = "message")
+      shiny::showNotification("Map fully relaxed", closeButton = FALSE, duration = 1, type = "message")
     } else {
-      showNotification("Relaxing map...", closeButton = FALSE, duration = NULL, type = "message", id = "relax")
+      shiny::showNotification("Relaxing map...", closeButton = FALSE, duration = NULL, type = "message", id = "relax")
       storage$map <- relaxMap(storage$map)
       session$sendCustomMessage("animateCoords", list(
         antigens = agCoords(storage$map),
         sera     = srCoords(storage$map)
       ))
       message("Map relaxed, new stress = ", round(mapStress(storage$map), 2), ".")
-      showNotification("Relaxing map... complete", closeButton = FALSE, duration = 1, type = "message", id = "relax")
+      shiny::showNotification("Relaxing map... complete", closeButton = FALSE, duration = 1, type = "message", id = "relax")
     }
   })
 
   ## Relax map one step
   observeEvent(input$relaxMapOneStep, {
     if(mapRelaxed(storage$map)){
-      showNotification("Map fully relaxed", closeButton = FALSE, duration = 1, type = "message")
+      shiny::showNotification("Map fully relaxed", closeButton = FALSE, duration = 1, type = "message")
     } else {
       storage$map <- relaxMapOneStep(storage$map)
       session$sendCustomMessage("animateCoords", list(
@@ -262,7 +262,7 @@ server <- function(input, output, session) {
   ## Add stress blobs
   observeEvent(input$stressBlobs, {
 
-    # showNotification(
+    # shiny::showNotification(
     #   ui = "Calculating blobs...",
     #   duration = NULL,
     #   closeButton = FALSE,
@@ -299,7 +299,7 @@ server <- function(input, output, session) {
       data = blob_data
     )
 
-    # showNotification(
+    # shiny::showNotification(
     #   ui = "Calculating blobs... complete.",
     #   duration = 1,
     #   closeButton = FALSE,
@@ -315,7 +315,7 @@ server <- function(input, output, session) {
   ## Add hemisphering data
   observeEvent(input$checkHemisphering, {
 
-    showNotification(
+    shiny::showNotification(
       ui = "Checking for hemisphering points...",
       duration = NULL,
       closeButton = FALSE,
@@ -335,7 +335,7 @@ server <- function(input, output, session) {
 
     })
 
-    showNotification(
+    shiny::showNotification(
       ui = "Checking for hemisphering points... complete.",
       duration = 1,
       closeButton = FALSE,
@@ -348,7 +348,7 @@ server <- function(input, output, session) {
   ## Move trapped points
   observeEvent(input$moveTrappedPoints, {
 
-    showNotification(
+    shiny::showNotification(
       ui = "Moving trapped points...",
       duration = NULL,
       closeButton = FALSE,
@@ -364,7 +364,7 @@ server <- function(input, output, session) {
     ))
     message("done.")
 
-    showNotification(
+    shiny::showNotification(
       ui = "Moving trapped points... complete.",
       duration = 1,
       closeButton = FALSE,
@@ -377,7 +377,7 @@ server <- function(input, output, session) {
   ## Procrustes
   observeEvent(input$procrustesDataLoaded, {
 
-    showNotification(
+    shiny::showNotification(
       ui = "Calculating procrustes... ",
       duration = NULL,
       closeButton = FALSE,
@@ -408,7 +408,7 @@ server <- function(input, output, session) {
     # Reload the map data
     session$sendCustomMessage("reloadMapData", as.json(storage$map))
 
-    showNotification(
+    shiny::showNotification(
       ui = "Calculating procrustes... complete.",
       duration = 1,
       closeButton = FALSE,
@@ -421,7 +421,7 @@ server <- function(input, output, session) {
   ## Orient optimizations
   observeEvent(input$alignOptimizations, {
 
-    showNotification(
+    shiny::showNotification(
       ui = "Aligning optimizations... ",
       duration = NULL,
       closeButton = FALSE,
@@ -439,7 +439,7 @@ server <- function(input, output, session) {
 
     message("done.")
 
-    showNotification(
+    shiny::showNotification(
       ui = "Aligning optimizations... complete.",
       duration = 1,
       closeButton = FALSE,
@@ -454,7 +454,7 @@ server <- function(input, output, session) {
   ## Remove optimizations
   observeEvent(input$removeOptimizations, {
 
-    showNotification(
+    shiny::showNotification(
       ui = "Removing optimizations... ",
       duration = NULL,
       closeButton = FALSE,
@@ -472,7 +472,7 @@ server <- function(input, output, session) {
 
     message("done.")
 
-    showNotification(
+    shiny::showNotification(
       ui = "Removing optimizations... complete.",
       duration = 1,
       closeButton = FALSE,
@@ -486,7 +486,7 @@ server <- function(input, output, session) {
   ## Load point styles
   observeEvent(input$pointStyleDataLoaded, {
 
-    showNotification(
+    shiny::showNotification(
       ui = "Loading point styles... ",
       duration = NULL,
       closeButton = FALSE,
@@ -507,7 +507,7 @@ server <- function(input, output, session) {
 
     message("done.")
 
-    showNotification(
+    shiny::showNotification(
       ui = "Loading point styles... complete.",
       duration = 1,
       closeButton = FALSE,

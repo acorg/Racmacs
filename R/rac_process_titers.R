@@ -12,25 +12,29 @@
 #' @family {functions for working with map data}
 #' @export
 #'
-read.titerTable <- function(filepath, Fnum_to_SRname = FALSE){
+read.titerTable <- function(filepath){
 
   if(grepl("\\.csv$", filepath)){
 
     # Read from csv
-    titer_table <- read.csv(file             = filepath,
-                         row.names        = 1,
-                         check.names      = FALSE,
-                         stringsAsFactors = FALSE,
-                         colClasses       = 'character')
+    titer_table <- utils::read.csv(
+      file             = filepath,
+      row.names        = 1,
+      check.names      = FALSE,
+      stringsAsFactors = FALSE,
+      colClasses       = 'character'
+    )
 
   } else if(grepl("\\.xls$", filepath) | grepl("\\.xlsx$", filepath)){
 
     # Read from xls
-    titer_table <- gdata::read.xls(xls              = filepath,
-                                   row.names        = 1,
-                                   check.names      = FALSE,
-                                   stringsAsFactors = FALSE,
-                                   colClasses='character')
+    titer_table <- gdata::read.xls(
+      xls              = filepath,
+      row.names        = 1,
+      check.names      = FALSE,
+      stringsAsFactors = FALSE,
+      colClasses='character'
+    )
 
   } else if(grepl("\\.txt$", filepath)){
 

@@ -173,29 +173,30 @@ realignOptimizations <- function(
 # when comparing a 2d map to a 3d map with procrustes
 add_procrustes_grid <- function(map){
 
-  # Get the comparator coordinates
-  comp_coords <- rbind(
-    map$procrustes$comparison_coords$ag,
-    map$procrustes$comparison_coords$sr
-  )
-
-  # Calculate grid limits and the grid points
-  plims <- plot_lims(comp_coords)
-  x <- seq(from = plims$xlim[1], to = plims$xlim[2])
-  y <- seq(from = plims$ylim[1], to = plims$ylim[2])
-  grid_coords <- as.matrix(expand.grid(x, y))
-  grid_coords <- cbind(grid_coords, 0)
-  grid_coords <- apply_procrustes(grid_coords, map$procrustes$pc_transform)
-
-  # Add the surface to the map
-  r3js::surface3js(
-    map,
-    x = matrix(grid_coords[,1], length(x), length(y)),
-    y = matrix(grid_coords[,2], length(x), length(y)),
-    z = matrix(grid_coords[,3], length(x), length(y)),
-    wireframe = TRUE,
-    col = "#cccccc"
-  )
+  # # Get the comparator coordinates
+  # comp_coords <- rbind(
+  #   map$procrustes$comparison_coords$ag,
+  #   map$procrustes$comparison_coords$sr
+  # )
+  #
+  # # Calculate grid limits and the grid points
+  # plims <- plot_lims(comp_coords)
+  # x <- seq(from = plims$xlim[1], to = plims$xlim[2])
+  # y <- seq(from = plims$ylim[1], to = plims$ylim[2])
+  # grid_coords <- as.matrix(expand.grid(x, y))
+  # grid_coords <- cbind(grid_coords, 0)
+  # grid_coords <- apply_procrustes(grid_coords, map$procrustes$pc_transform)
+  #
+  # # Add the surface to the map
+  # r3js::surface3js(
+  #   map,
+  #   x = matrix(grid_coords[,1], length(x), length(y)),
+  #   y = matrix(grid_coords[,2], length(x), length(y)),
+  #   z = matrix(grid_coords[,3], length(x), length(y)),
+  #   wireframe = TRUE,
+  #   col = "#cccccc"
+  # )
+  map
 
 }
 

@@ -72,6 +72,10 @@ srGroupValues       <- sera_getter(ac_sr_get_group)
 #' Getting and setting sera groups
 #'
 #' These functions get and set the sera groupings for a map.
+#'
+#' @param map The acmap object
+#' @param value A character or factor vector of groupings to apply to the sera
+#'
 #' @name srGroups
 #' @family {antigen and sera attribute functions}
 
@@ -106,12 +110,23 @@ srGroups <- function(map){
 
 }
 
+
+#' Getting and setting sera sequence information
+#'
+#' @param map The acmap data object
+#' @val A character matrix of sequences with rows equal to the number of sera
+#'
+#' @name srSequences
+#'
+
+#' @rdname srSequences
 #' @export
 srSequences <- function(map){
   check.acmap(map)
   do.call(rbind, lapply(map$sera, function(sr){ strsplit(sr$sequence, "")[[1]] }))
 }
 
+#' @rdname srSequences
 #' @export
 `srSequences<-` <- function(map, value){
   check.acmap(map)

@@ -8,13 +8,13 @@
 \alias{srBaseCoords<-}
 \title{Getting and setting base coordinates}
 \usage{
-agBaseCoords(map, optimization_number = NULL)
+agBaseCoords(map, optimization_number = 1)
 
-agBaseCoords<-(map, optimization_number = NULL)
+agBaseCoords<-(map, optimization_number = 1)
 
-srBaseCoords(map, optimization_number = NULL)
+srBaseCoords(map, optimization_number = 1)
 
-srBaseCoords<-(map, optimization_number = NULL)
+srBaseCoords<-(map, optimization_number = 1)
 }
 \arguments{
 \item{map}{The acmap data object}

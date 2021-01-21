@@ -85,7 +85,7 @@ as.json <- function(map){
 
   acmap_to_json(
     map = map,
-    version = paste0("racmacs-ace-v", packageVersion("Racmacs"))
+    version = paste0("racmacs-ace-v", utils::packageVersion("Racmacs"))
   )
 
 }
@@ -123,7 +123,7 @@ save.coords <- function(
   type   <- c(rep("antigen", length(antigens)), rep("sera", length(sera)))
   name   <- c(agNames(map)[antigens], srNames(map)[sera])
   coords <- rbind(agCoords(map)[antigens,], srCoords(map)[sera,])
-  write.csv(
+  utils::write.csv(
     x = cbind(type, name, coords),
     file = filename,
     row.names = FALSE
@@ -159,7 +159,7 @@ save.titerTable <- function(
     stop("File format must be .csv")
   }
 
-  write.csv(
+  utils::write.csv(
     x = titerTable(map)[antigens, sera],
     file = filename
   )

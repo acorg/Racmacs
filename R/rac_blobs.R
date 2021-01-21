@@ -189,6 +189,17 @@ viewer_stressblobdata <- function(map){
   )
 }
 
+#' Fetch information on stress blob size
+#'
+#' Returns a vector of stress blob sizes for each point, helpful for
+#' programatically finding the points with the most uncertainty.
+#'
+#' @param map acmap with stress blob information added
+#'
+#' @name ptStressBlobSize
+#'
+
+#' @rdname ptStressBlobSize
 #' @export
 agStressBlobSize <- function(map){
   check.acmap(map)
@@ -197,6 +208,7 @@ agStressBlobSize <- function(map){
   }, numeric(1))
 }
 
+#' @rdname ptStressBlobSize
 #' @export
 srStressBlobSize <- function(map){
   check.acmap(map)
@@ -204,6 +216,7 @@ srStressBlobSize <- function(map){
     calcBlobSize(sr$stress_blob)
   }, numeric(1))
 }
+
 
 calcBlobSize <- function(blob){
 

@@ -4,7 +4,7 @@
 \alias{checkHemisphering}
 \title{Check for hemisphering or trapped points}
 \usage{
-checkHemisphering(map, stepsize = 0.1, optimization_number = NULL)
+checkHemisphering(map, stepsize = 0.1, optimization_number = 1)
 }
 \arguments{
 \item{map}{The acmap data object}

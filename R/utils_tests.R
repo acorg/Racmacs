@@ -2,14 +2,14 @@
 # Function to export a plot to the testoutput folder
 export.plot.test <- function(code, filename, plotwidth = 8, plotheight = 8){
 
-  rootdir <- test_path("../testoutput/plots")
+  rootdir <- testthat::test_path("../testoutput/plots")
   testfile <- file.path(normalizePath(rootdir), filename)
 
-  pdf(testfile, plotwidth, plotheight)
+  grDevices::pdf(testfile, plotwidth, plotheight)
   print(code)
-  dev.off()
+  grDevices::dev.off()
 
-  expect_true(file.exists(testfile))
+  testthat::expect_true(file.exists(testfile))
 
 }
 

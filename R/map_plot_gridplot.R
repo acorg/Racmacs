@@ -63,7 +63,7 @@ grid.plot.acmap <- function(
 
   # Setup viewport for plotting
   viewport <- grid::vpStack(
-    vp_with_margins(par("mai")),
+    vp_with_margins(graphics::par("mai")),
     vp_with_fixed_aspect(
       xlim, ylim
     )
@@ -145,8 +145,8 @@ grid.plot.acmap <- function(
   pts$shown[rowSums(is.na(pts$coords)) > 0] <- FALSE
 
   ## Hide antigens and sera
-  if(!plot_ags || missing(ag_coords)) { pts$shown[map_pts$pt_type == "ag"] <- FALSE }
-  if(!plot_sr  || missing(sr_coords)) { pts$shown[map_pts$pt_type == "sr"] <- FALSE }
+  if(!plot_ags || missing(ag_coords)) { pts$shown[pts$pt_type == "ag"] <- FALSE }
+  if(!plot_sr  || missing(sr_coords)) { pts$shown[pts$pt_type == "sr"] <- FALSE }
 
   ## Get point blobs
   pt_blobs <- ptStressBlobs(map)

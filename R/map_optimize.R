@@ -179,7 +179,7 @@ RacOptimizer.options <- function(
 
   # This is a hack to attempt to see if messages are currently suppressed
   if(is.null(report_progress)){
-    report_progress <- length(capture.output(message("a"), type = "message")) > 0
+    report_progress <- length(utils::capture.output(message("a"), type = "message")) > 0
   }
 
   list(
@@ -311,7 +311,7 @@ randomizeCoords <- function(
 
   random_coords <- function(nrow, ndim, min, max){
     matrix(
-      data = runif(nrow*ndim, min, max),
+      data = stats::runif(nrow*ndim, min, max),
       nrow = nrow,
       ncol = ndim
     )
@@ -380,7 +380,7 @@ mapRelaxed <- function(
 checkHemisphering <- function(
   map,
   stepsize = 0.1,
-  optimization_number = NULL
+  optimization_number = 1
   ){
 
   stop("Not yet implemented")
@@ -406,8 +406,6 @@ checkHemisphering <- function(
 #'   when searching for more optimal positions
 #' @param max_iterations The maximum number of interations of searching for
 #'   trapped points then relaxing the map to be performed
-#' @param realign_optimizations Should optimizations be realigned to match each
-#'   other as closely as possible after any trapped points are moved
 #' @param options List of named optimizer options, see `RacOptimizer.options()`
 #'
 #' @return Returns the acmap object with updated coordinates (if any trapped

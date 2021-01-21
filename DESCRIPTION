@@ -6,6 +6,7 @@ Date: 2019-06-10
 Author: Sam Wilks
 Maintainer: Sam Wilks <sw463@cam.ac.uk>
 Description: A toolkit for making antigenic maps from assay data such as HI assays.
+Depends: R (>= 4.0)
 Imports: 
     Rcpp,
     RcppArmadillo,
@@ -32,8 +33,7 @@ Suggests:
     knitr,
     rmarkdown,
     misc3d,
-    r3js,
-    plotly
+    r3js
 RoxygenNote: 7.1.0
 Roxygen: list(markdown = TRUE)
 LinkingTo: Rcpp, RcppArmadillo, RcppProgress, RcppEnsmallen, rapidjsonr

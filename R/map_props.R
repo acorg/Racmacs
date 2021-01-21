@@ -26,6 +26,9 @@ mapName <- function(map){
 #' normally not a problem unless the map is a result of merging two titer tables
 #' together previously and you then go on the merge the titers again.
 #'
+#' @param map The acmap object
+#' @param value A character matrix of titers to set
+#'
 #' @name titerTable
 #' @family {map attribute functions}
 #'
@@ -98,6 +101,7 @@ titerTableFlat <- function(map){
 #' Functions to get and set the underlying titer table layers of a map (see details).
 #'
 #' @param map The acmap object
+#' @param value A list of titer table character vectors to set
 #'
 #' @details When you merge maps with `mergeMaps()` repeated antigen - serum
 #'   titers are merged to create a new titer table but information on the
@@ -242,14 +246,23 @@ keepOptimizations <- function(map, optimization_numbers){
   map
 }
 
+#' Keep only a single optimization run
+#'
+#' @param map The acmap object
+#' @param optimization_number The optimization run to keep
+#'
 #' @export
-#' @rdname keepSingleOptimization
+#'
 keepSingleOptimization <- function(map, optimization_number = 1) {
   keepOptimizations(map, optimization_number)
 }
 
+#' Keep only the lowest stress map optimization
+#'
+#' @param map The acmap object
+#'
 #' @export
-#' @rdname keepSingleOptimization
+#'
 keepBestOptimization <- function(map) {
   map <- sortOptimizations(map)
   keepOptimizations(map, 1)

@@ -4,7 +4,7 @@
 \alias{mapStress}
 \title{Get the current map stress}
 \usage{
-mapStress(map, optimization_number = NULL)
+mapStress(map, optimization_number = 1)
 }
 \arguments{
 \item{map}{The acmap data object}

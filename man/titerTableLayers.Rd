@@ -11,6 +11,8 @@ titerTableLayers(map) <- value
 }
 \arguments{
 \item{map}{The acmap object}
+
+\item{value}{A list of titer table character vectors to set}
 }
 \description{
 Functions to get and set the underlying titer table layers of a map (see details).

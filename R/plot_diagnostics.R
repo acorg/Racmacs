@@ -56,10 +56,10 @@ plot_map_table_distance <- function(
       map_dists   = map_dists,
       table_dists = table_dists,
       titertype   = titertype,
-      text        = dist_names
+      dist_names  = dist_names
     ),
     ggplot2::aes(
-      text = text
+      text = dist_names
     )
   ) +
     ggplot2::geom_point(
@@ -147,7 +147,7 @@ plot_sr_titers <- function(
 
   # Plot the result
   gp <- ggplot2::ggplot(
-    data = na.omit(
+    data = stats::na.omit(
         data.frame(
         ag_distances = ag_distances,
         ag_logtiters = ag_logtiters,
@@ -196,7 +196,7 @@ plotly_sr_titers <- function(
   serum,
   xlim = NULL,
   ylim = NULL,
-  optimization_number = NULL
+  optimization_number = 1
 ){
 
   plotly::ggplotly(
@@ -216,7 +216,7 @@ plotly_sr_titers <- function(
 agMeanResiduals <- function(map, exclude_nd = TRUE){
 
   residuals <- mapResiduals(map)
-  if(exclude_nd) residuals[titerTypes(map) != "measured"] <- NA
+  if(exclude_nd) residuals[titertypesTable(map) != 1] <- NA
   rowMeans(residuals, na.rm = T)
 
 }
@@ -225,7 +225,7 @@ agMeanResiduals <- function(map, exclude_nd = TRUE){
 srMeanResiduals <- function(map, exclude_nd = TRUE){
 
   residuals <- mapResiduals(map)
-  if(exclude_nd) residuals[titerTypes(map) != "measured"] <- NA
+  if(exclude_nd) residuals[titertypesTable(map) != 1] <- NA
   colMeans(residuals, na.rm = T)
 
 }
@@ -246,7 +246,7 @@ plot_agMeanResiduals <- function(map, exclude_nd = TRUE, .plot = TRUE){
   )
 }
 
-#' @export
+
 plot_srMeanResiduals <- function(map, exclude_nd = TRUE, .plot = TRUE){
   hist_ggplot(
     names  = srNames(map),
@@ -268,18 +268,18 @@ plotly_agMeanResiduals <- function(...){ plotlyfn(plot_agMeanResiduals)(...) }
 
 
 plot_agStressPerTiter <- function(map, .plot = TRUE){
-  hist_ggplot(
-    names  = agNames(map),
-    values = agStressPerTiter(map),
-    title  = "Antigen stress per titer",
-    subtitle = switch(
-      exclude_nd,
-      "TRUE"  = "(nd excluded)",
-      "FALSE" = "(nd excluded)"
-    ),
-    vline = 0,
-    .plot = .plot
-  )
+  # hist_ggplot(
+  #   names  = agNames(map),
+  #   values = agStressPerTiter(map),
+  #   title  = "Antigen stress per titer",
+  #   subtitle = switch(
+  #     exclude_nd,
+  #     "TRUE"  = "(nd excluded)",
+  #     "FALSE" = "(nd excluded)"
+  #   ),
+  #   vline = 0,
+  #   .plot = .plot
+  # )
 }
 
 
@@ -288,18 +288,18 @@ plotly_agStressPerTiter <- function(...){ plotlyfn(plot_agStressPerTiter)(...) }
 
 
 plot_srStressPerTiter <- function(map, .plot = TRUE){
-  hist_ggplot(
-    names  = srNames(map),
-    values = srStressPerTiter(map),
-    title  = "Serum stress per titer",
-    subtitle = switch(
-      exclude_nd,
-      "TRUE"  = "(nd excluded)",
-      "FALSE" = "(nd excluded)"
-    ),
-    vline = 0,
-    .plot = .plot
-  )
+  # hist_ggplot(
+  #   names  = srNames(map),
+  #   values = srStressPerTiter(map),
+  #   title  = "Serum stress per titer",
+  #   subtitle = switch(
+  #     exclude_nd,
+  #     "TRUE"  = "(nd excluded)",
+  #     "FALSE" = "(nd excluded)"
+  #   ),
+  #   vline = 0,
+  #   .plot = .plot
+  # )
 }
 
 
@@ -328,7 +328,7 @@ hist_ggplot <- function(names, values, title, subtitle = "", vline = NULL, .plot
       title    = title,
       subtitle = subtitle
     ) +
-    Racmacs:::ggplot_theme() -> gp
+    ggplot_theme() -> gp
 
   if(!is.null(vline)){
     gp <- gp + ggplot2::geom_vline(

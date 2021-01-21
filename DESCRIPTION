@@ -39,6 +39,6 @@ RoxygenNote: 7.1.0
 Roxygen: list(markdown = TRUE)
 LinkingTo: Rcpp, RcppArmadillo, RcppProgress, RcppEnsmallen, rapidjsonr
 VignetteBuilder: knitr
-License: AGPL-3 | file LICENCE
 URL: https://github.com/acorg/Racmacs
 BugReports: https://github.com/acorg/Racmacs/issues
+License: AGPL-3

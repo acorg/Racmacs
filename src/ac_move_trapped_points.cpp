@@ -1,7 +1,9 @@
 
 #include <RcppArmadillo.h>
 
+#ifdef _OPENMP
 #include <omp.h>
+#endif
 // [[Rcpp::plugins(openmp)]]
 
 #include "acmap_optimization.h"

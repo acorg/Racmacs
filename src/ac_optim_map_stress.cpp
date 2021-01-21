@@ -3,7 +3,9 @@
 #include <RcppArmadillo.h>
 #include <RcppEnsmallen.h>
 
+#ifdef _OPENMP
 #include <omp.h>
+#endif
 // [[Rcpp::plugins(openmp)]]
 // #include <Rcpp/Benchmark/Timer.h>
 

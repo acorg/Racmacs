@@ -49,8 +49,8 @@ ac_newOptimization <- function(dimensions, num_antigens, num_sera) {
     .Call('_Racmacs_ac_newOptimization', PACKAGE = 'Racmacs', dimensions, num_antigens, num_sera)
 }
 
-ac_relaxOptimization <- function(opt, titers, options) {
-    .Call('_Racmacs_ac_relaxOptimization', PACKAGE = 'Racmacs', opt, titers, options)
+ac_relaxOptimization <- function(opt, titers, fixed_antigens, fixed_sera, options) {
+    .Call('_Racmacs_ac_relaxOptimization', PACKAGE = 'Racmacs', opt, titers, fixed_antigens, fixed_sera, options)
 }
 
 ac_optimize_map <- function(map, num_dims, num_optimizations, min_col_basis, fixed_col_bases, options) {
@@ -393,8 +393,8 @@ ac_coords_stress <- function(tabledist_matrix, titertype_matrix, ag_coords, sr_c
     .Call('_Racmacs_ac_coords_stress', PACKAGE = 'Racmacs', tabledist_matrix, titertype_matrix, ag_coords, sr_coords)
 }
 
-ac_relax_coords <- function(tabledist_matrix, titertype_matrix, ag_coords, sr_coords, options) {
-    .Call('_Racmacs_ac_relax_coords', PACKAGE = 'Racmacs', tabledist_matrix, titertype_matrix, ag_coords, sr_coords, options)
+ac_relax_coords <- function(tabledist_matrix, titertype_matrix, ag_coords, sr_coords, options, fixed_antigens, fixed_sera) {
+    .Call('_Racmacs_ac_relax_coords', PACKAGE = 'Racmacs', tabledist_matrix, titertype_matrix, ag_coords, sr_coords, options, fixed_antigens, fixed_sera)
 }
 
 ac_runOptimizations <- function(titertable, colbases, num_dims, num_optimizations, options) {

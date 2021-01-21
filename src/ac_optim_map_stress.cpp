@@ -29,18 +29,25 @@ class MapOptimizer {
     arma::mat mapdist_matrix;
     arma::mat ag_coords;
     arma::mat sr_coords;
-    int num_dims;
-    int num_ags;
-    int num_sr;
+    arma::uword num_dims;
+    arma::uword num_ags;
+    arma::uword num_sr;
+    arma::uvec moveable_ags;
+    arma::uvec moveable_sr;
+
+    arma::mat gradients;
+    double gradient;
+    double stress;
 
     // CONSTRUCTOR FUNCTION
+    // Without fixed points
     MapOptimizer(
       arma::mat ag_start_coords,
       arma::mat sr_start_coords,
       arma::mat tabledist,
       arma::umat titertype,
-      int dims
-    ) {
+      arma::uword dims
+    ){
 
       tabledist_matrix = tabledist;
       titertype_matrix = titertype;
@@ -53,6 +60,40 @@ class MapOptimizer {
       ag_coords = ag_start_coords;
       sr_coords = sr_start_coords;
 
+      moveable_ags = arma::regspace<arma::uvec>(0, num_ags - 1);
+      moveable_sr = arma::regspace<arma::uvec>(0, num_sr - 1);
+
+      gradients.zeros(num_ags + num_sr, num_dims);
+      update_map_dist_matrix();
+
+    }
+
+    // With fixed points
+    MapOptimizer(
+      arma::mat ag_start_coords,
+      arma::mat sr_start_coords,
+      arma::mat tabledist,
+      arma::umat titertype,
+      arma::uword dims,
+      arma::uvec moveable_ags_in,
+      arma::uvec moveable_sr_in
+    ){
+
+      tabledist_matrix = tabledist;
+      titertype_matrix = titertype;
+      num_dims = dims;
+
+      num_ags = tabledist_matrix.n_rows;
+      num_sr = tabledist_matrix.n_cols;
+
+      mapdist_matrix = arma::mat(num_ags, num_sr, arma::fill::zeros);
+      ag_coords = ag_start_coords;
+      sr_coords = sr_start_coords;
+
+      moveable_ags = moveable_ags_in;
+      moveable_sr = moveable_sr_in;
+
+      gradients.zeros(num_ags + num_sr, num_dims);
       update_map_dist_matrix();
 
     }
@@ -81,13 +122,31 @@ class MapOptimizer {
       update_map_coords(pars);
       update_map_dist_matrix();
 
+      // Update the gradients
+      update_gradients();
+
+      // Apply the gradients of moveable points to grad
+      if( moveable_ags.n_elem > 0 ){
+        grad.rows(0, moveable_ags.n_elem - 1) = gradients.rows( moveable_ags );
+      }
+      if( moveable_sr.n_elem > 0 ){
+        grad.rows(moveable_ags.n_elem, moveable_ags.n_elem + moveable_sr.n_elem - 1) = gradients.rows( moveable_sr + num_ags );
+      }
+
+      // Calculate and return the stress
+      return calculate_stress();
+
+    }
+
+    // CALCULATING STRESS GRADIENTS
+    void update_gradients(){
+
       // Setup to update gradients
-      double gradient = 0;
-      grad.zeros();
+      gradients.zeros();
 
       // Now we cycle through each antigen and sera and calculate the gradient
-      for(int ag = 0; ag < num_ags; ++ag) {
-        for(int sr = 0; sr < num_sr; ++sr) {
+      for(arma::uword ag = 0; ag < num_ags; ++ag) {
+        for(arma::uword sr = 0; sr < num_sr; ++sr) {
 
           // Skip unmeasured titers
           if(titertype_matrix(ag,sr) == 0){
@@ -102,17 +161,14 @@ class MapOptimizer {
           );
 
           // Now calculate the gradient for each coordinate
-          for(int i = 0; i < num_dims; ++i) {
+          for(arma::uword i = 0; i < num_dims; ++i) {
             gradient = ibase*(ag_coords(ag,i) - sr_coords(sr,i));
-            grad(ag,i) -= gradient;
-            grad(sr + num_ags,i) += gradient;
+            gradients(ag,i) -= gradient;
+            gradients(sr + num_ags,i) += gradient;
           }
 
         }
       }
-
-      // Calculate and return the stress
-      return calculate_stress();
 
     }
 
@@ -120,11 +176,11 @@ class MapOptimizer {
     double calculate_stress(){
 
       // Set the start stress
-      double stress = 0;
+      stress = 0;
 
       // Now we cycle through and sum up the stresses
-      for(int ag = 0; ag < num_ags; ++ag) {
-        for(int sr = 0; sr < num_sr; ++sr) {
+      for(arma::uword ag = 0; ag < num_ags; ++ag) {
+        for(arma::uword sr = 0; sr < num_sr; ++sr) {
 
           // Skip unmeasured titers
           if(titertype_matrix(ag,sr) == 0){
@@ -151,20 +207,20 @@ class MapOptimizer {
       const arma::mat &pars
     ){
 
-      for(int ag = 0; ag < num_ags; ++ag) {
-        for(int i = 0; i < num_dims; ++i) {
+      for(arma::uword i = 0; i < moveable_ags.n_elem; ++i) {
+        for(arma::uword j = 0; j < num_dims; ++j) {
 
           // Update the coordinates
-          ag_coords(ag,i) = pars(ag,i);
+          ag_coords(moveable_ags(i),j) = pars(i, j);
 
         }
       }
 
-      for(int sr = 0; sr < num_sr; ++sr) {
-        for(int i = 0; i < num_dims; ++i) {
+      for(arma::uword i = 0; i < moveable_sr.n_elem; ++i) {
+        for(arma::uword j = 0; j < num_dims; ++j) {
 
           // Update the coordinates
-          sr_coords(sr,i) = pars(sr+num_ags,i);
+          sr_coords(moveable_sr(i),j) = pars(i + moveable_ags.n_elem, j);
 
         }
       }
@@ -174,15 +230,15 @@ class MapOptimizer {
     // UPDATE THE MAP DISTANCE MATRIX
     void update_map_dist_matrix(){
 
-      for (int ag = 0; ag < num_ags; ag++) {
-        for (int sr = 0; sr < num_sr; sr++) {
+      for (arma::uword ag = 0; ag < num_ags; ag++) {
+        for (arma::uword sr = 0; sr < num_sr; sr++) {
 
           // Only calculate distances where ag and sr were titrated
           if(titertype_matrix(ag,sr) != 0){
 
             // Calculate the euclidean distance
             double map_dist = 0;
-            for(int i = 0; i < num_dims; ++i) {
+            for(arma::uword i = 0; i < num_dims; ++i) {
               map_dist += pow(ag_coords(ag, i) - sr_coords(sr, i), 2);
             }
             mapdist_matrix(ag,sr) = sqrt(map_dist);
@@ -229,11 +285,17 @@ double ac_relax_coords(
     const arma::umat &titertype_matrix,
     arma::mat &ag_coords,
     arma::mat &sr_coords,
-    const AcOptimizerOptions &options
+    const AcOptimizerOptions &options,
+    const arma::uvec &fixed_antigens,
+    const arma::uvec &fixed_sera
 ){
 
   // Set variables
-  int num_dims = ag_coords.n_cols;
+  arma::uword num_dims = ag_coords.n_cols;
+  arma::uvec moveable_antigens = arma::regspace<arma::uvec>(0, ag_coords.n_rows - 1);
+  arma::uvec moveable_sera = arma::regspace<arma::uvec>(0, sr_coords.n_rows - 1);
+  moveable_antigens.shed_rows(fixed_antigens);
+  moveable_sera.shed_rows(fixed_sera);
 
   // Create the map object for the map optimizer
   MapOptimizer map(
@@ -241,25 +303,26 @@ double ac_relax_coords(
     sr_coords,
     tabledist_matrix,
     titertype_matrix,
-    num_dims
+    num_dims,
+    moveable_antigens,
+    moveable_sera
   );
 
   // Create the vector of parameters
-  arma::mat pars = arma::join_cols(ag_coords, sr_coords);
+  arma::mat pars = arma::join_cols(
+    ag_coords.rows(moveable_antigens),
+    sr_coords.rows(moveable_sera)
+  );
 
   // Perform the optimization
   ens::L_BFGS lbfgs;
   lbfgs.MaxIterations() = options.maxit;
   lbfgs.Optimize(map, pars);
 
-  // Update the coordinates to match the optimized coordinates
-  map.update_map_coords(pars);
-  double stress = map.calculate_stress();
-
   // Return the result
   ag_coords = map.ag_coords;
   sr_coords = map.sr_coords;
-  return stress;
+  return map.calculate_stress();
 
 };
 
@@ -337,7 +400,6 @@ void ac_relaxOptimizations(
   Progress p(num_optimizations, true, pb);
 
   // Run and return optimization results
-  #pragma omp parallel for schedule(dynamic)
   for(int i=0; i<num_optimizations; i++){
 
     // Run the optimization

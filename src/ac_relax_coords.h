@@ -10,7 +10,9 @@ double ac_relax_coords(
     const arma::umat &titertype_matrix,
     arma::mat &ag_coords,
     arma::mat &sr_coords,
-    const AcOptimizerOptions &options
+    const AcOptimizerOptions &options,
+    const arma::uvec &fixed_antigens,
+    const arma::uvec &fixed_sera
 );
 
 #endif

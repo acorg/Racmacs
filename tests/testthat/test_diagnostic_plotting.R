@@ -3,8 +3,21 @@ library(testthat)
 library(Racmacs)
 context("Diagnostic plotting")
 
-map <- read.acmap(test_path("../testdata/testmap.ace"))
-warning("Need some more tests of diagnostic plotting")
+map <- read.acmap(test_path("../testdata/testmap_h3subset.ace"))
+
+test_that("plot map v table distances", {
+
+  export.plot.test(
+    plot_map_table_distance(map),
+    "plot_map_table_distances.pdf"
+  )
+
+  export.plotly.test(
+    plotly_map_table_distance(map),
+    "plot_map_table_distances.html"
+  )
+
+})
 
 # plot_map_table_distance(map)
 # plotly_map_table_distance(map)

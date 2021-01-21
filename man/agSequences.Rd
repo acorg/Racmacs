@@ -11,6 +11,8 @@ agSequences(map) <- value
 }
 \arguments{
 \item{map}{The acmap data object}
+
+\item{value}{A character matrix of sequences with rows equal to the number of antigens}
 }
 \description{
 Getting and setting antigen sequence information

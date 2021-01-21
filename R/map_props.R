@@ -225,17 +225,15 @@ removeOptimizations <- function(map) {
 
 #' Keep specified optimization runs
 #'
-#' Keep only data from specified optimization runs, either a specified
-#' optimization, or the "best" (lowest stress) optimization, or a vector of
-#' optimizations
+#' Keep only data from specified optimization runs.
 #'
 #' @param map The acmap object
+#' @param optimization_numbers Optimizations to keep
 #'
 #' @family {functions to work with map optimizations}
-#' @name keepSingleOptimization
-
+#'
 #' @export
-#' @rdname keepSingleOptimization
+#'
 keepOptimizations <- function(map, optimization_numbers){
   check.numericvector(optimization_numbers)
   check.acmap(map)

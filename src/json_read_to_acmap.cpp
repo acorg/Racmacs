@@ -1,13 +1,14 @@
 
-// [[Rcpp::depends(rapidjsonr)]]
 // #include <cstdio>
 #include <RcppArmadillo.h>
-#include <rapidjson/document.h>
-// #include <rapidjson/filereadstream.h>
 #include "acmap_map.h"
 #include "acmap_point.h"
 #include "acmap_optimization.h"
 
+
+// [[Rcpp::depends(rapidjsonr)]]
+#include <rapidjson/document.h>
+// #include <rapidjson/filereadstream.h>
 using namespace rapidjson;
 
 // Function for extracting double, using arma::datum::nan for null

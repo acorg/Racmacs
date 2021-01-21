@@ -6,7 +6,7 @@ export.plot.test <- function(code, filename, plotwidth = 8, plotheight = 8){
   testfile <- file.path(normalizePath(rootdir), filename)
 
   grDevices::pdf(testfile, plotwidth, plotheight)
-  print(code)
+  utils::capture.output(print(code))
   grDevices::dev.off()
 
   testthat::expect_true(file.exists(testfile))
@@ -17,7 +17,7 @@ export.plot.test <- function(code, filename, plotwidth = 8, plotheight = 8){
 # Function to export a plotly widget to a test page
 export.plotly.test <- function(widget, filename){
 
-  rootdir <- test_path("../testoutput/plots")
+  rootdir <- testthat::test_path("../testoutput/plots")
   testfile <- file.path(normalizePath(rootdir), filename)
 
   htmlwidgets::saveWidget(
@@ -27,7 +27,7 @@ export.plotly.test <- function(widget, filename){
     libdir        = ".lib"
   )
 
-  expect_true(file.exists(testfile))
+  testthat::expect_true(file.exists(testfile))
 
 }
 
@@ -37,7 +37,7 @@ export.plotly.test <- function(widget, filename){
 # to help with debugging
 export.viewer.test <- function(widget, filename, widgetname = "RacViewer"){
 
-  rootdir <- test_path("../testoutput/viewer")
+  rootdir <- testthat::test_path("../testoutput/viewer")
   testfile <- file.path(normalizePath(rootdir), filename)
 
   htmlwidgets::saveWidget(
@@ -68,7 +68,7 @@ export.viewer.test <- function(widget, filename, widgetname = "RacViewer"){
   writeLines(plotdata, testfile)
 
   # Add a test to check plot was outputted correctly
-  expect_true(file.exists(testfile))
+  testthat::expect_true(file.exists(testfile))
 
 }
 

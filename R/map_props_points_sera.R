@@ -114,7 +114,7 @@ srGroups <- function(map){
 #' Getting and setting sera sequence information
 #'
 #' @param map The acmap data object
-#' @param val A character matrix of sequences with rows equal to the number of sera
+#' @param value A character matrix of sequences with rows equal to the number of sera
 #'
 #' @name srSequences
 #'

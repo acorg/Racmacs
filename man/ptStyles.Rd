@@ -40,68 +40,70 @@ agShown(map)
 
 srShown(map)
 
-agShown<-(map)
+agShown(map) <- value
 
-srShown<-(map)
+srShown(map) <- value
 
 agSize(map)
 
 srSize(map)
 
-agSize<-(map)
+agSize(map) <- value
 
-srSize<-(map)
+srSize(map) <- value
 
 agFill(map)
 
 srFill(map)
 
-agFill<-(map)
+agFill(map) <- value
 
-srFill<-(map)
+srFill(map) <- value
 
 agOutline(map)
 
 srOutline(map)
 
-agOutline<-(map)
+agOutline(map) <- value
 
-srOutline<-(map)
+srOutline(map) <- value
 
 agOutlineWidth(map)
 
 srOutlineWidth(map)
 
-agOutlineWidth<-(map)
+agOutlineWidth(map) <- value
 
-srOutlineWidth<-(map)
+srOutlineWidth(map) <- value
 
 agRotation(map)
 
 srRotation(map)
 
-agRotation<-(map)
+agRotation(map) <- value
 
-srRotation<-(map)
+srRotation(map) <- value
 
 agAspect(map)
 
 srAspect(map)
 
-agAspect<-(map)
+agAspect(map) <- value
 
-srAspect<-(map)
+srAspect(map) <- value
 
 agShape(map)
 
 srShape(map)
 
-agShape<-(map)
+agShape(map) <- value
 
-srShape<-(map)
+srShape(map) <- value
 }
 \arguments{
 \item{map}{The acmap data object}
+
+\item{value}{New value to set}
 }
 \value{
 Returns either the requested attribute when using a getter function or the updated acmap object when using the setter function.

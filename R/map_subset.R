@@ -135,7 +135,7 @@ subsetAntigens <- function(
   ){
 
   # Match by antigen and sera name if character vectors are specified
-  antigens <- na.omit(get_ag_indices(antigens, map))
+  antigens <- stats::na.omit(get_ag_indices(antigens, map))
 
   # Subset the map
   map <- ac_subset_map(
@@ -156,7 +156,7 @@ subsetSera <- function(
 ){
 
   # Match by antigen and sera name if character vectors are specified
-  sera <- na.omit(get_sr_indices(sera, map))
+  sera <- stats::na.omit(get_sr_indices(sera, map))
 
   # Subset the map
   map <- ac_subset_map(

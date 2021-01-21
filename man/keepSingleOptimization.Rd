@@ -2,11 +2,8 @@
 % Please edit documentation in R/map_props.R
 \name{keepSingleOptimization}
 \alias{keepSingleOptimization}
-\alias{keepOptimizations}
-\title{Keep specified optimization runs}
+\title{Keep only a single optimization run}
 \usage{
-keepOptimizations(map, optimization_numbers)
-
 keepSingleOptimization(map, optimization_number = 1)
 }
 \arguments{
@@ -15,14 +12,5 @@ keepSingleOptimization(map, optimization_number = 1)
 \item{optimization_number}{The optimization run to keep}
 }
 \description{
-Keep only data from specified optimization runs, either a specified
-optimization, or the "best" (lowest stress) optimization, or a vector of
-optimizations
+Keep only a single optimization run
 }
-\seealso{
-Other {functions to work with map optimizations}: 
-\code{\link{optimizationProperties}},
-\code{\link{removeOptimizations}()},
-\code{\link{sortOptimizations}()}
-}
-\concept{{functions to work with map optimizations}}

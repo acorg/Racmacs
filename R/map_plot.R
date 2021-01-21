@@ -3,7 +3,7 @@
 #'
 #' Method for plotting an antigenic map in two dimensions
 #'
-#' @param map The acmap to plot
+#' @param x The acmap to plot
 #' @param optimization_number The optimization number to plot
 #' @param xlim optional x axis limits
 #' @param ylim optional y axis limits
@@ -65,23 +65,23 @@ plot.acmap <- function(
   )
 
   # Plot grid
-  for(x in seq(from = xlim[1], to = xlim[2], by = 1)){
-    if(x == xlim[1] | x == xlim[2]) col <- grid.margin.col
+  for(n in seq(from = xlim[1], to = xlim[2], by = 1)){
+    if(n == xlim[1] | n == xlim[2]) col <- grid.margin.col
     else                            col <- grid.col
     graphics::lines(
-      x = c(x,x),
+      x = c(n,n),
       y = ylim,
       col = col,
       xpd = TRUE
     )
   }
 
-  for(y in seq(from = ylim[1], to = ylim[2], by = 1)){
-    if(y == ylim[1] | y == ylim[2]) col <- grid.margin.col
+  for(n in seq(from = ylim[1], to = ylim[2], by = 1)){
+    if(n == ylim[1] | n == ylim[2]) col <- grid.margin.col
     else                            col <- grid.col
     graphics::lines(
       x = xlim,
-      y = c(y,y),
+      y = c(n,n),
       col = col,
       xpd = TRUE
     )
@@ -142,7 +142,7 @@ plot.acmap <- function(
   if(plot_blobs){
     lapply(pt_order, function(x){
       lapply(pt_blobs[[x]], function(blob){
-        polygon(
+        graphics::polygon(
           x = blob$x,
           y = blob$y,
           border = pts$outline[x],

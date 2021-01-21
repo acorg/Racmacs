@@ -15,15 +15,15 @@
 \usage{
 agNames(map)
 
-agNames<-(map)
+agNames(map) <- value
 
 agIDs(map)
 
-agIDs<-(map)
+agIDs(map) <- value
 
 agDates(map)
 
-agDates<-(map)
+agDates(map) <- value
 
 agNamesFull(map)
 
@@ -33,6 +33,8 @@ agReference(map)
 }
 \arguments{
 \item{map}{The acmap data object}
+
+\item{value}{New value to set}
 }
 \value{
 Returns either the requested attribute when using a getter function or the updated acmap object when using the setter function.

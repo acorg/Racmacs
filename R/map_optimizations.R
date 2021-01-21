@@ -8,7 +8,8 @@
 #' @param sr_coords Sera coordinates for the new optimization (0 if not specified)
 #' @param number_of_dimensions The number of dimensions of the new optimization
 #' @param minimum_column_basis The minimum column basis to use for the new optimization
-#' @param ... Further optimization parameters
+#' @param fixed_column_bases A vector of fixed column bases with NA for sera
+#'   where the minimum column basis should be applied
 #'
 #' @return Returns the acmap data object with new optimization added (but not selected).
 #'

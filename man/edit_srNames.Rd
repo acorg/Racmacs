@@ -4,7 +4,7 @@
 \alias{edit_srNames}
 \title{Edit sera names in an acmap}
 \usage{
-edit_srNames(map, old_names, new_names, warnings = TRUE)
+edit_srNames(map, old_names, new_names)
 }
 \arguments{
 \item{map}{The map data object to be updated}

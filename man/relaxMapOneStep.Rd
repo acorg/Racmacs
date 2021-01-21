@@ -4,12 +4,22 @@
 \alias{relaxMapOneStep}
 \title{Relax a map one step in the optimiser}
 \usage{
-relaxMapOneStep(map, optimization_number = 1, options = list())
+relaxMapOneStep(
+  map,
+  optimization_number = 1,
+  fixed_antigens = FALSE,
+  fixed_sera = FALSE,
+  options = list()
+)
 }
 \arguments{
 \item{map}{The acmap data object}
 
 \item{optimization_number}{The map optimization number}
+
+\item{fixed_antigens}{Antigens to set fixed positions for when relaxing}
+
+\item{fixed_sera}{Sera to set fixed positions for when relaxing}
 
 \item{options}{List of named optimizer options, see \code{RacOptimizer.options()}}
 }

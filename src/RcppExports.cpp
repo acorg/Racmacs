@@ -1031,6 +1031,18 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// ac_merge_frozen_merge
+AcMap ac_merge_frozen_merge(std::vector<AcMap> maps, AcOptimizerOptions options);
+RcppExport SEXP _Racmacs_ac_merge_frozen_merge(SEXP mapsSEXP, SEXP optionsSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< std::vector<AcMap> >::type maps(mapsSEXP);
+    Rcpp::traits::input_parameter< AcOptimizerOptions >::type options(optionsSEXP);
+    rcpp_result_gen = Rcpp::wrap(ac_merge_frozen_merge(maps, options));
+    return rcpp_result_gen;
+END_RCPP
+}
 // ac_merge_incremental
 AcMap ac_merge_incremental(const std::vector<AcMap>& maps, int num_dims, int num_optimizations, std::string min_colbasis, AcOptimizerOptions options);
 RcppExport SEXP _Racmacs_ac_merge_incremental(SEXP mapsSEXP, SEXP num_dimsSEXP, SEXP num_optimizationsSEXP, SEXP min_colbasisSEXP, SEXP optionsSEXP) {
@@ -1407,6 +1419,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_Racmacs_ac_merge_reoptimized", (DL_FUNC) &_Racmacs_ac_merge_reoptimized, 4},
     {"_Racmacs_ac_merge_frozen_overlay", (DL_FUNC) &_Racmacs_ac_merge_frozen_overlay, 1},
     {"_Racmacs_ac_merge_relaxed_overlay", (DL_FUNC) &_Racmacs_ac_merge_relaxed_overlay, 2},
+    {"_Racmacs_ac_merge_frozen_merge", (DL_FUNC) &_Racmacs_ac_merge_frozen_merge, 2},
     {"_Racmacs_ac_merge_incremental", (DL_FUNC) &_Racmacs_ac_merge_incremental, 5},
     {"_Racmacs_ac_merge_titers", (DL_FUNC) &_Racmacs_ac_merge_titers, 2},
     {"_Racmacs_ac_move_trapped_points", (DL_FUNC) &_Racmacs_ac_move_trapped_points, 6},

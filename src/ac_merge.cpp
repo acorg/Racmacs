@@ -354,7 +354,7 @@ AcMap ac_merge_frozen_overlay(
 
   // Check input
   if(maps.size() > 2){
-    Rf_error("Frozen overlay only works with 2 maps");
+    Rf_error("This type of merge only works with 2 maps");
   }
   if(maps[0].num_optimizations() == 0 || maps[1].num_optimizations() == 0){
     Rf_error("Map does not have any optimizations to merge");
@@ -411,7 +411,8 @@ AcMap ac_merge_frozen_overlay(
 
 
 // == RELAXED OVERLAY MERGE ======
-// This is the same as the frozen-overlay but points in the resulting map are then allowed to relax.
+// This is the same as the frozen-overlay but points in the resulting map are
+// then allowed to relax.
 // [[Rcpp::export]]
 AcMap ac_merge_relaxed_overlay(
     std::vector<AcMap> maps,
@@ -428,6 +429,43 @@ AcMap ac_merge_relaxed_overlay(
   );
 
   // Return the result
+  return merged_map;
+
+}
+
+
+// == FROZEN MERGE ======
+// In this version, positions of all points in the first map are fixed and
+// remain fixed, so the original map does not change. The second map is then
+// realigned to the first as closely as possible and then all the new points
+// appearing in the second map are allowed to relax into their new positions.
+// [[Rcpp::export]]
+AcMap ac_merge_frozen_merge(
+    std::vector<AcMap> maps,
+    AcOptimizerOptions options
+){
+
+  // Start with a frozen merge
+  AcMap merged_map = ac_merge_frozen_overlay(maps);
+
+  // Find matching points from map 1
+  arma::uvec map1_ag_matches = arma::conv_to< arma::uvec >::from( ac_match_points(maps[0].antigens, merged_map.antigens) );
+  arma::uvec map1_sr_matches = arma::conv_to< arma::uvec >::from( ac_match_points(maps[0].sera, merged_map.sera) );
+
+  // Move the matching points back to their position in map 1, undoing any averaging
+  // done by ac_merge_frozen_overlay
+  merged_map.optimizations[0].set_ag_base_coords( map1_ag_matches, maps[0].optimizations[0].get_ag_base_coords() );
+  merged_map.optimizations[0].set_sr_base_coords( map1_sr_matches, maps[0].optimizations[0].get_sr_base_coords() );
+
+  // Now relax the map while fixing points in map 1
+  merged_map.optimizations[0].relax_from_titer_table(
+      merged_map.titer_table_flat,
+      options,
+      map1_ag_matches,
+      map1_sr_matches
+  );
+
+  // Return the map
   return merged_map;
 
 }
@@ -522,7 +560,8 @@ AcMap ac_merge_incremental(
   // Set the merged map
   AcMap merged_map = maps[0];
 
-  // Set fixed column bases to all ignored, setting fixed colbases isn't included in inc merge yet.
+  // Set fixed column bases to all ignored, setting fixed colbases isn't
+  // included in inc merge yet.
   arma::vec fixed_colbases = arma::vec( merged_map.sera.size() );
   fixed_colbases.fill( arma::datum::nan );
 

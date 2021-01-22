@@ -567,7 +567,7 @@ namespace Rcpp {
     // Optimizations
     if(list.containsElementNamed("optimizations")){
       List optimizations = list["optimizations"];
-      for(arma::uword i=0; i<optimizations.size(); i++){
+      for(int i=0; i<optimizations.size(); i++){
         acmap.optimizations.push_back(as<AcOptimization>(wrap(optimizations[i])));
       }
     }
@@ -575,7 +575,7 @@ namespace Rcpp {
     // Titer table layers
     if(list.containsElementNamed("titer_table_layers")){
       List titer_table_layers = list["titer_table_layers"];
-      for(arma::uword i=0; i<titer_table_layers.size(); i++){
+      for(int i=0; i<titer_table_layers.size(); i++){
         acmap.titer_table_layers.push_back(as<AcTiterTable>(wrap(titer_table_layers[i])));
       }
     }

@@ -373,6 +373,10 @@ ac_merge_relaxed_overlay <- function(maps, options) {
     .Call('_Racmacs_ac_merge_relaxed_overlay', PACKAGE = 'Racmacs', maps, options)
 }
 
+ac_merge_frozen_merge <- function(maps, options) {
+    .Call('_Racmacs_ac_merge_frozen_merge', PACKAGE = 'Racmacs', maps, options)
+}
+
 ac_merge_incremental <- function(maps, num_dims, num_optimizations, min_colbasis, options) {
     .Call('_Racmacs_ac_merge_incremental', PACKAGE = 'Racmacs', maps, num_dims, num_optimizations, min_colbasis, options)
 }

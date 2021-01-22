@@ -248,6 +248,26 @@ test_that("Frozen merge", {
     method = "frozen-merge"
   )
 
+  expect_true(isTRUE(all.equal(
+    agBaseCoords(mergemap1),
+    agBaseCoords(frozen_merge12)[match(agNames(mergemap1), agNames(frozen_merge12)),]
+  )))
+
+  expect_false(isTRUE(all.equal(
+    agBaseCoords(mergemap1),
+    agBaseCoords(frozen_merge12)[-match(agNames(mergemap1), agNames(frozen_merge12)),]
+  )))
+
+  expect_true(isTRUE(all.equal(
+    srBaseCoords(mergemap1),
+    srBaseCoords(frozen_merge12)[match(srNames(mergemap1), srNames(frozen_merge12)),]
+  )))
+
+  expect_false(isTRUE(all.equal(
+    srBaseCoords(mergemap1),
+    srBaseCoords(frozen_merge12)[-match(srNames(mergemap1), srNames(frozen_merge12)),]
+  )))
+
   expect_equal(
     numOptimizations(frozen_merge12),
     1

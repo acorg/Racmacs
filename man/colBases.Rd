@@ -9,11 +9,8 @@
 \title{Getting and setting column bases}
 \usage{
 minColBasis(map, optimization_number = 1)
-
 minColBasis(map, optimization_number = 1) <- value
-
 fixedColBases(map, optimization_number = 1)
-
 fixedColBases(map, optimization_number = 1) <- value
 }
 \arguments{

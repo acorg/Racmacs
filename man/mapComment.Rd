@@ -6,7 +6,6 @@
 \title{Get or set an optimization run comment}
 \usage{
 mapComment(map, optimization_number = 1)
-
 mapComment(map, optimization_number = 1) <- value
 }
 \arguments{

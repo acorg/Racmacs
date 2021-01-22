@@ -9,23 +9,25 @@ Description: A toolkit for making antigenic maps from assay data such as HI assa
 Depends: R (>= 4.0)
 Imports: 
     Rcpp,
-    RcppArmadillo,
-    RcppProgress,
     parallel,
     roptim,
-    jsonlite, 
-    stringr, 
-    MCMCpack, 
+    jsonlite,
+    stringr,
+    MCMCpack,
     tibble,
-    gdata, 
-    geometry, 
-    gplots, 
-    ks, 
-    shinyFiles, 
-    shinyjs, 
-    htmlwidgets, 
+    gdata,
+    geometry,
+    gplots,
+    ks,
+    shiny,
+    shinyFiles,
+    shinyjs,
+    htmlwidgets,
     crayon,
-    ggplot2
+    ggplot2,
+    htmltools,
+    methods,
+    rstudioapi
 LazyData: TRUE
 Suggests: 
     testthat,
@@ -35,9 +37,14 @@ Suggests:
     misc3d,
     r3js,
     base64enc
-RoxygenNote: 7.1.0
+RoxygenNote: 7.1.1
 Roxygen: list(markdown = TRUE)
-LinkingTo: Rcpp, RcppArmadillo, RcppProgress, RcppEnsmallen, rapidjsonr
+LinkingTo: 
+    Rcpp, 
+    RcppArmadillo, 
+    RcppProgress, 
+    RcppEnsmallen, 
+    rapidjsonr
 VignetteBuilder: knitr
 URL: https://github.com/acorg/Racmacs
 BugReports: https://github.com/acorg/Racmacs/issues

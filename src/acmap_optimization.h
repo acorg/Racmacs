@@ -2,6 +2,7 @@
 #include <RcppArmadillo.h>
 #include "procrustes.h"
 #include "utils.h"
+#include "utils_error.h"
 #include "utils_transformation.h"
 #include "ac_titers.h"
 #include "acmap_titers.h"
@@ -60,22 +61,6 @@ class AcOptimization {
     int get_dimensions() const { return ag_base_coords.n_cols; }
 
     // Setters
-    void set_ag_base_coords( arma::mat ag_base_coords_in ){
-      if(ag_base_coords_in.n_rows != ag_base_coords.n_rows){
-        char msg[400];
-        std::sprintf(msg, "ag_base_coords rows (%i) does not match input rows (%i)", ag_base_coords.n_rows, ag_base_coords_in.n_rows);
-        Rf_error(msg);
-      }
-      ag_base_coords = ag_base_coords_in;
-    }
-    void set_sr_base_coords( arma::mat sr_base_coords_in ){
-      if(sr_base_coords_in.n_rows != sr_base_coords.n_rows){
-        char msg[400];
-        std::sprintf(msg, "sr_base_coords rows (%i) does not match input rows (%i)", sr_base_coords.n_rows, sr_base_coords_in.n_rows);
-        Rf_error(msg);
-      }
-      sr_base_coords = sr_base_coords_in;
-    }
     void set_comment( std::string comment_in ){ comment = comment_in; }
     void set_transformation( arma::mat transformation_in ){ transformation = transformation_in; }
     void set_translation( arma::mat translation_in ){ translation = translation_in; }
@@ -101,6 +86,75 @@ class AcOptimization {
       min_column_basis = min_column_basis_in;
 
     }
+
+
+    // Setting antigen base coords
+    void set_ag_base_coords( arma::mat ag_base_coords_in ){
+      // Check input
+      if(ag_base_coords_in.n_cols != ag_base_coords.n_cols){
+        ac_error("ag_base_coords cols (%i) does not match input cols (%i)", ag_base_coords.n_cols, ag_base_coords_in.n_cols);
+      }
+      if(ag_base_coords_in.n_rows != ag_base_coords.n_rows){
+        ac_error("ag_base_coords rows (%i) does not match input rows (%i)", ag_base_coords.n_rows, ag_base_coords_in.n_rows);
+      }
+      // Update coords
+      ag_base_coords = ag_base_coords_in;
+    }
+
+
+    // Setting sera base coords
+    void set_sr_base_coords( arma::mat sr_base_coords_in ){
+      // Check input
+      if(sr_base_coords_in.n_cols != sr_base_coords.n_cols){
+        ac_error("sr_base_coords cols (%i) does not match input cols (%i)", sr_base_coords.n_cols, sr_base_coords_in.n_cols);
+      }
+      if(sr_base_coords_in.n_rows != sr_base_coords.n_rows){
+        ac_error("sr_base_coords rows (%i) does not match input rows (%i)", sr_base_coords.n_rows, sr_base_coords_in.n_rows);
+      }
+      // Update coords
+      sr_base_coords = sr_base_coords_in;
+    }
+
+
+    // Setting coords of a subset of ags
+    void set_ag_base_coords(
+        arma::uvec ag_indices,
+        arma::mat ag_base_coords_in
+    ){
+      // Check input
+      if(ag_base_coords_in.n_cols != ag_base_coords.n_cols){
+        ac_error("ag_base_coords cols (%i) does not match input cols (%i)", ag_base_coords.n_cols, ag_base_coords_in.n_cols);
+      }
+      if(ag_base_coords_in.n_rows != ag_indices.n_elem){
+        ac_error("ag_indices length (%i) does not match input rows (%i)", ag_indices.n_elem, ag_base_coords_in.n_rows);
+      }
+      if(ag_indices.max() > ag_base_coords.n_rows - 1){
+        ac_error("ag_indices max (%i) exceeds max antigen index (%i)", ag_indices.max(), ag_base_coords.n_rows - 1);
+      }
+      // Update coords
+      ag_base_coords.rows( ag_indices ) = ag_base_coords_in;
+    }
+
+
+    // Setting coords of a subset of sr
+    void set_sr_base_coords(
+        arma::uvec sr_indices,
+        arma::mat sr_base_coords_in
+    ){
+      // Check input
+      if(sr_base_coords_in.n_cols != sr_base_coords.n_cols){
+        ac_error("sr_base_coords cols (%i) does not match input cols (%i)", sr_base_coords.n_cols, sr_base_coords_in.n_cols);
+      }
+      if(sr_base_coords_in.n_rows != sr_indices.n_elem){
+        ac_error("sr_indices length (%i) does not match input rows (%i)", sr_indices.n_elem, sr_base_coords_in.n_rows);
+      }
+      if(sr_indices.max() > sr_base_coords.n_rows - 1){
+        ac_error("sr_indices max (%i) exceeds max antigen index (%i)", sr_indices.max(), sr_base_coords.n_rows - 1);
+      }
+      // Update coords
+      sr_base_coords.rows( sr_indices ) = sr_base_coords_in;
+    }
+
 
     // Get dimensions
     int dim() const {

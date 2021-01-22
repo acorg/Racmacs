@@ -91,9 +91,6 @@ class AcOptimization {
     // Setting antigen base coords
     void set_ag_base_coords( arma::mat ag_base_coords_in ){
       // Check input
-      if(ag_base_coords_in.n_cols != ag_base_coords.n_cols){
-        ac_error("ag_base_coords cols (%i) does not match input cols (%i)", ag_base_coords.n_cols, ag_base_coords_in.n_cols);
-      }
       if(ag_base_coords_in.n_rows != ag_base_coords.n_rows){
         ac_error("ag_base_coords rows (%i) does not match input rows (%i)", ag_base_coords.n_rows, ag_base_coords_in.n_rows);
       }
@@ -105,9 +102,6 @@ class AcOptimization {
     // Setting sera base coords
     void set_sr_base_coords( arma::mat sr_base_coords_in ){
       // Check input
-      if(sr_base_coords_in.n_cols != sr_base_coords.n_cols){
-        ac_error("sr_base_coords cols (%i) does not match input cols (%i)", sr_base_coords.n_cols, sr_base_coords_in.n_cols);
-      }
       if(sr_base_coords_in.n_rows != sr_base_coords.n_rows){
         ac_error("sr_base_coords rows (%i) does not match input rows (%i)", sr_base_coords.n_rows, sr_base_coords_in.n_rows);
       }
@@ -122,9 +116,6 @@ class AcOptimization {
         arma::mat ag_base_coords_in
     ){
       // Check input
-      if(ag_base_coords_in.n_cols != ag_base_coords.n_cols){
-        ac_error("ag_base_coords cols (%i) does not match input cols (%i)", ag_base_coords.n_cols, ag_base_coords_in.n_cols);
-      }
       if(ag_base_coords_in.n_rows != ag_indices.n_elem){
         ac_error("ag_indices length (%i) does not match input rows (%i)", ag_indices.n_elem, ag_base_coords_in.n_rows);
       }
@@ -142,9 +133,6 @@ class AcOptimization {
         arma::mat sr_base_coords_in
     ){
       // Check input
-      if(sr_base_coords_in.n_cols != sr_base_coords.n_cols){
-        ac_error("sr_base_coords cols (%i) does not match input cols (%i)", sr_base_coords.n_cols, sr_base_coords_in.n_cols);
-      }
       if(sr_base_coords_in.n_rows != sr_indices.n_elem){
         ac_error("sr_indices length (%i) does not match input rows (%i)", sr_indices.n_elem, sr_base_coords_in.n_rows);
       }

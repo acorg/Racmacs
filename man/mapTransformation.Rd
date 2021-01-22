@@ -8,11 +8,8 @@
 \title{Reading map transformation data}
 \usage{
 mapTransformation(map, optimization_number = 1)
-
 mapTransformation(map, optimization_number = 1) <- value
-
 mapTranslation(map, optimization_number = 1)
-
 mapTranslation(map, optimization_number = 1) <- value
 }
 \arguments{

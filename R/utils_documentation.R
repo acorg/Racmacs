@@ -53,8 +53,7 @@ roxygen_tags <- function(
 
     usagetags <- c(
       usagetags,
-      tag,
-      ""
+      tag
     )
 
   }

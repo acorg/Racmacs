@@ -6,7 +6,6 @@
 \title{Getting and setting the map name}
 \usage{
 mapName(map)
-
 mapName(map) <- value
 }
 \arguments{

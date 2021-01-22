@@ -14,21 +14,13 @@
 \title{Getting and setting sera attributes}
 \usage{
 srNames(map)
-
 srNames(map) <- value
-
 srIDs(map)
-
 srIDs(map) <- value
-
 srDates(map)
-
 srDates(map) <- value
-
 srNamesFull(map)
-
 srNamesAbbreviated(map)
-
 srReference(map)
 }
 \arguments{

@@ -37,67 +37,36 @@
 \title{Getting and setting point plotting styles}
 \usage{
 agShown(map)
-
 srShown(map)
-
 agShown(map) <- value
-
 srShown(map) <- value
-
 agSize(map)
-
 srSize(map)
-
 agSize(map) <- value
-
 srSize(map) <- value
-
 agFill(map)
-
 srFill(map)
-
 agFill(map) <- value
-
 srFill(map) <- value
-
 agOutline(map)
-
 srOutline(map)
-
 agOutline(map) <- value
-
 srOutline(map) <- value
-
 agOutlineWidth(map)
-
 srOutlineWidth(map)
-
 agOutlineWidth(map) <- value
-
 srOutlineWidth(map) <- value
-
 agRotation(map)
-
 srRotation(map)
-
 agRotation(map) <- value
-
 srRotation(map) <- value
-
 agAspect(map)
-
 srAspect(map)
-
 agAspect(map) <- value
-
 srAspect(map) <- value
-
 agShape(map)
-
 srShape(map)
-
 agShape(map) <- value
-
 srShape(map) <- value
 }
 \arguments{

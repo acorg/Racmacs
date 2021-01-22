@@ -14,21 +14,13 @@
 \title{Getting and setting antigen attributes}
 \usage{
 agNames(map)
-
 agNames(map) <- value
-
 agIDs(map)
-
 agIDs(map) <- value
-
 agDates(map)
-
 agDates(map) <- value
-
 agNamesFull(map)
-
 agNamesAbbreviated(map)
-
 agReference(map)
 }
 \arguments{

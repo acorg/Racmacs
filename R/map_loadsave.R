@@ -21,19 +21,21 @@ read.acmap <- function(
   optimization_number = NULL,
   sort_optimizations  = FALSE,
   align_optimizations = FALSE
-  ){
+  ) {
 
   # Expand the file path and check that the file exists
-  if(!file.exists(filename)) stop("File '", filename, "' not found", call. = FALSE)
+  if (!file.exists(filename)) {
+    stop("File '", filename, "' not found", call. = FALSE)
+  }
 
   # Read the data from the file
   jsondata <- paste(readLines(filename, warn = FALSE), collapse = "\n")
   map <- json_to_acmap(jsondata)
 
   # Apply arguments
-  if(!is.null(optimization_number)) map <- keepOptimizations(map, optimization_number)
-  if(sort_optimizations) map <- sortOptimizations(map)
-  if(align_optimizations) map <- realignOptimizations(map)
+  if (!is.null(optimization_number)) map <- keepOptimizations(map, optimization_number)
+  if (sort_optimizations) map <- sortOptimizations(map)
+  if (align_optimizations) map <- realignOptimizations(map)
 
   # Return the map
   map
@@ -57,11 +59,11 @@ read.acmap <- function(
 save.acmap <- function(
   map,
   filename
-  ){
+  ) {
 
   # Check file extension
   nfilechar <- nchar(filename)
-  if(substr(filename, nfilechar-3, nfilechar) != ".ace"){
+  if (substr(filename, nfilechar - 3, nfilechar) != ".ace") {
     stop("File format must be '.ace'", call. = FALSE)
   }
 
@@ -81,7 +83,7 @@ save.acmap <- function(
 #' @family {functions for working with map data}
 #' @export
 #'
-as.json <- function(map){
+as.json <- function(map) {
 
   acmap_to_json(
     map = map,
@@ -98,8 +100,10 @@ as.json <- function(map){
 #'
 #' @param map The acmap data object.
 #' @param filename Path to the file.
-#' @param antigens Antigens to include, either as a numeric vector of indices or character vector of names.
-#' @param sera Sera to include, either as a numeric vector of indices or character vector of names.
+#' @param antigens Antigens to include, either as a numeric vector of indices or
+#'   character vector of names.
+#' @param sera Sera to include, either as a numeric vector of indices or
+#'   character vector of names.
 #'
 #' @export
 #'
@@ -110,19 +114,19 @@ save.coords <- function(
   filename,
   antigens = TRUE,
   sera = TRUE
-  ){
+  ) {
 
   antigens <- get_ag_indices(antigens, map)
   sera     <- get_sr_indices(sera, map)
 
   nfilechar <- nchar(filename)
-  if(substr(filename, nfilechar-3, nfilechar) != ".csv"){
+  if (substr(filename, nfilechar - 3, nfilechar) != ".csv") {
     stop("File format must be .csv")
   }
 
   type   <- c(rep("antigen", length(antigens)), rep("sera", length(sera)))
   name   <- c(agNames(map)[antigens], srNames(map)[sera])
-  coords <- rbind(agCoords(map)[antigens,], srCoords(map)[sera,])
+  coords <- rbind(agCoords(map)[antigens, ], srCoords(map)[sera, ])
   utils::write.csv(
     x = cbind(type, name, coords),
     file = filename,
@@ -137,8 +141,10 @@ save.coords <- function(
 #'
 #' @param map The acmap data object.
 #' @param filename Path to the file.
-#' @param antigens Antigens to include, either as a numeric vector of indices or character vector of names.
-#' @param sera Sera to include, either as a numeric vector of indices or character vector of names.
+#' @param antigens Antigens to include, either as a numeric vector of indices or
+#'   character vector of names.
+#' @param sera Sera to include, either as a numeric vector of indices or
+#'   character vector of names.
 #'
 #' @export
 #'
@@ -149,13 +155,13 @@ save.titerTable <- function(
   filename,
   antigens = TRUE,
   sera = TRUE
-  ){
+  ) {
 
   antigens <- get_ag_indices(antigens, map)
   sera     <- get_sr_indices(sera, map)
 
   nfilechar <- nchar(filename)
-  if(substr(filename, nfilechar-3, nfilechar) != ".csv"){
+  if (substr(filename, nfilechar - 3, nfilechar) != ".csv") {
     stop("File format must be .csv")
   }
 
@@ -165,4 +171,3 @@ save.titerTable <- function(
   )
 
 }
-

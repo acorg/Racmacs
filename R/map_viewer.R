@@ -21,7 +21,7 @@ RacViewer.options <- function(
   # Check input
   check.string(viewer.controls)
   check.string(grid.display)
-  if(!is.na(point.opacity)) check.numeric(point.opacity)
+  if (!is.na(point.opacity)) check.numeric(point.opacity)
 
   list(
     viewer.controls = viewer.controls,
@@ -50,10 +50,10 @@ export_viewer <- function(
   file,
   selfcontained = TRUE,
   ...
-  ){
+  ) {
 
   # Check file has .html extension
-  if(!grepl("\\.html$", file)){
+  if (!grepl("\\.html$", file)) {
     stop("File extension must be '.html'")
   }
 
@@ -79,4 +79,3 @@ export_viewer <- function(
   invisible(widget)
 
 }
-

@@ -2,15 +2,17 @@
 # Function for title case
 simpleCap <- function(x) {
   s <- strsplit(x, " ")[[1]]
-  paste(toupper(substring(s, 1,1)), substring(s, 2),
-        sep="", collapse=" ")
+  paste(toupper(substring(s, 1, 1)), substring(s, 2),
+        sep = "", collapse = " ")
 }
 
 # Function for standardising names locally
-standardizeStrainName <- function(name,
-                                   default_species = NA,
-                                   default_virus_type = "A",
-                                   default_virus_subtype = "HXNX") {
+standardizeStrainName <- function(
+  name,
+  default_species = NA,
+  default_virus_type = "A",
+  default_virus_subtype = "HXNX"
+  ) {
 
   # Save original name
   original_name <- name
@@ -31,13 +33,13 @@ standardizeStrainName <- function(name,
   # Strip any suffix
   suffix <- stringr::str_extract(name, "[^\\/]+$")
   suffix <- stringr::str_extract(suffix, "[_\\s].*$")
-  name   <- gsub(paste0(suffix,"$"), "", name)
+  name   <- gsub(paste0(suffix, "$"), "", name)
   suffix <- gsub("^(_|\\s)", "", suffix)
 
   # Strip any prefix
   prefix <- stringr::str_extract(name, "^[^\\/]+")
   prefix <- stringr::str_extract(prefix, "^.*[_\\s]")
-  name   <- gsub(paste0("^",prefix), "", name)
+  name   <- gsub(paste0("^", prefix), "", name)
   prefix <- gsub("(_|\\s)$", "", prefix)
 
   # Strip year and convert to 4 digit format
@@ -48,7 +50,7 @@ standardizeStrainName <- function(name,
                  "20\\1", year)
   name   <- gsub("(.*)/.*?$", "\\1", name)
 
-  if(grepl("[^0-9]+", year)) {
+  if (grepl("[^0-9]+", year)) {
     stop(parse_error)
   }
 
@@ -62,22 +64,30 @@ standardizeStrainName <- function(name,
 
   # Strip place name and standardise
   place <- stringr::str_match(name, "(.*/|^)(.*?$)")[3]
-  if(place %in% tolower(acmacs_placeAbvs$abv)) {
+  if (place %in% tolower(acmacs_placeAbvs$abv)) {
 
-    if(place %in% ambig_places$abv) {
-      assumed_place <- ambig_places$placename[match(place, tolower(ambig_places$abv))]
-      warning(paste0('Place name "', place,'" is ambiguous, have assumed it means "', assumed_place,'"\n'))
+    if (place %in% ambig_places$abv) {
+      assumed_place <- ambig_places$placename[
+        match(place, tolower(ambig_places$abv))
+      ]
+      warning(sprintf(
+        "Place name '%s' is ambiguous, have assumed it means '%s' \n",
+        place,
+        assumed_place
+      ))
       place <- assumed_place
     }
     else {
-      place <- acmacs_placeAbvs$placename[match(place, tolower(acmacs_placeAbvs$abv))]
+      place <- acmacs_placeAbvs$placename[
+        match(place, tolower(acmacs_placeAbvs$abv))
+      ]
     }
 
     place <- tolower(place)
   }
   place <- gsub("(-|_|\\s)", "", place)
 
-  if(grepl("[0-9]+", place)) {
+  if (grepl("[0-9]+", place)) {
     stop(parse_error)
   }
   name  <- gsub("(.*/|^)(.*?$)", "\\1", name)
@@ -91,14 +101,14 @@ standardizeStrainName <- function(name,
 
   # Look for virus type in name
   virus_type <- NA
-  if(grepl("^a", virus_type)) { virus_type <- "A" }
-  if(grepl("^b", virus_type)) { virus_type <- "B" }
-  if(is.na(virus_type)) { virus_type <- default_virus_type}
+  if (grepl("^a", virus_type)) virus_type <- "A"
+  if (grepl("^b", virus_type)) virus_type <- "B"
+  if (is.na(virus_type)) virus_type <- default_virus_type
   name <- gsub(paste0("^", tolower(virus_type)), "", name)
 
   # Now look for virus subtype
   subtype_regex <- "(^|\\(|\\/)h([1-9]|x)n?([1-9]|x)?(\\)|\\/)"
-  if(grepl(subtype_regex, name)) {
+  if (grepl(subtype_regex, name)) {
     virus_subtype <- stringr::str_match(name, subtype_regex)[1]
     virus_subtype <- gsub("(\\/|\\(|\\))", "", virus_subtype)
 
@@ -115,7 +125,7 @@ standardizeStrainName <- function(name,
 
   # Look for species-type
   name <- gsub("/", "", name)
-  if(name == "") {
+  if (name == "") {
     species <- default_species
   }
   else {
@@ -125,15 +135,17 @@ standardizeStrainName <- function(name,
   }
 
   # Deal with extras
-  if(is.na(suffix) & !is.na(prefix))  { extras <- prefix }
-  if(!is.na(suffix) & is.na(prefix))  { extras <- suffix }
-  if(!is.na(suffix) & !is.na(prefix)) { extras <- paste(prefix, suffix, sep = "_") }
+  if (is.na(suffix) & !is.na(prefix))  extras <- prefix
+  if (!is.na(suffix) & is.na(prefix))  extras <- suffix
+  if (!is.na(suffix) & !is.na(prefix)) {
+    extras <- paste(prefix, suffix, sep = "_")
+  }
 
-  if(is.na(suffix) & is.na(prefix))  {
+  if (is.na(suffix) & is.na(prefix)) {
     extras     <- NA
     extra_text <- ""
   }
-  else              {
+  else {
     all_extras <- stringr::str_split(extras, "(_|\\s)")[[1]]
     all_extras <- gsub("r([a-z][0-9]{3}[a-z])", "\\1", all_extras)
 
@@ -145,24 +157,28 @@ standardizeStrainName <- function(name,
   }
 
   # Now return name in standard format
-  basic_name <- paste0(virus_type,"(",virus_subtype,")/",
-                       gsub(" ", "_", place),"/",
-                       identifier, "/",
-                       year)
+  basic_name <- paste0(
+    virus_type, "(", virus_subtype, ")/",
+    gsub(" ", "_", place), "/",
+    identifier, "/",
+    year
+  )
 
-  if(is.na(species)) {
+  if (is.na(species)) {
     species_text <- ""
   }
   else {
-    species_text <- paste0(species,"/")
+    species_text <- paste0(species, "/")
   }
 
-  full_name  <- paste0(virus_type,"(",virus_subtype,")/",
-                       species_text,
-                       gsub(" ", "_", place),"/",
-                       identifier, "/",
-                       year,
-                       extra_text)
+  full_name  <- paste0(
+    virus_type, "(", virus_subtype, ")/",
+    species_text,
+    gsub(" ", "_", place), "/",
+    identifier, "/",
+    year,
+    extra_text
+  )
 
   # Set attributes
   output <- c()
@@ -188,8 +204,10 @@ standardizeStrainName <- function(name,
 #'
 #' @param names Strain names to be standardised
 #' @param default_species Are the strains isolated from a particular species?
-#' @param default_virus_type Default virus type to be used \(if no type found in name\)
-#' @param default_virus_subtype Default virus subtype to be used \(if no subtype found in name\)
+#' @param default_virus_type Default virus type to be used (if no type found in
+#'   name)
+#' @param default_virus_subtype Default virus subtype to be used (if no subtype
+#'   found in name)
 #'
 #' @return Returns a tibble of standardised names and extracted information
 #' @export
@@ -211,8 +229,8 @@ standardizeStrainNames <- function(
 
   # Return output
   output <- list()
-  for(attribute in names(name_list[[1]])) {
-    attr_vector <- sapply(name_list, function(x){
+  for (attribute in names(name_list[[1]])) {
+    attr_vector <- sapply(name_list, function(x) {
       as.vector(unlist(x[[attribute]]))
     })
     output[[attribute]] <- attr_vector
@@ -226,8 +244,3 @@ standardizeStrainNames <- function(
   tibble::as_tibble(output)
 
 }
-
-
-
-
-

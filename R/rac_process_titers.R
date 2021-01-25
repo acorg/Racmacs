@@ -12,9 +12,9 @@
 #' @family {functions for working with map data}
 #' @export
 #'
-read.titerTable <- function(filepath){
+read.titerTable <- function(filepath) {
 
-  if(grepl("\\.csv$", filepath)){
+  if (grepl("\\.csv$", filepath)) {
 
     # Read from csv
     titer_table <- utils::read.csv(
@@ -22,10 +22,10 @@ read.titerTable <- function(filepath){
       row.names        = 1,
       check.names      = FALSE,
       stringsAsFactors = FALSE,
-      colClasses       = 'character'
+      colClasses       = "character"
     )
 
-  } else if(grepl("\\.xls$", filepath) | grepl("\\.xlsx$", filepath)){
+  } else if (grepl("\\.xls$", filepath) | grepl("\\.xlsx$", filepath)) {
 
     # Read from xls
     titer_table <- gdata::read.xls(
@@ -33,10 +33,10 @@ read.titerTable <- function(filepath){
       row.names        = 1,
       check.names      = FALSE,
       stringsAsFactors = FALSE,
-      colClasses='character'
+      colClasses       = "character"
     )
 
-  } else if(grepl("\\.txt$", filepath)){
+  } else if (grepl("\\.txt$", filepath)) {
 
     # Read from tab delimted txt
     fileLines <- readLines(filepath, warn = FALSE)
@@ -45,7 +45,12 @@ read.titerTable <- function(filepath){
     fileLines <- fileLines[!grepl("^;", fileLines)]
 
     # Read line content
-    rows <- lapply(fileLines, function(x){ scan(text = x, what="c", quiet=TRUE) })
+    rows <- lapply(
+      fileLines,
+      function(x) {
+        scan(text = x, what = "c", quiet = TRUE)
+      }
+    )
 
     # Remove empty rows
     rows <- rows[sapply(rows, length) > 0]
@@ -58,8 +63,8 @@ read.titerTable <- function(filepath){
     titer_table <- do.call(rbind, rows[-header_rows])
 
     # Take row names from the first column
-    rownames(titer_table) <- titer_table[,1]
-    titer_table <- titer_table[,-1]
+    rownames(titer_table) <- titer_table[, 1]
+    titer_table <- titer_table[, -1]
 
     # Apply column names
     colnames(titer_table) <- rows[[header_rows[1]]]
@@ -67,7 +72,7 @@ read.titerTable <- function(filepath){
   } else {
 
     # Unsupported filetype
-    stop("File type '", tools::file_ext(filepath),"' not supported.")
+    stop("File type '", tools::file_ext(filepath), "' not supported.")
 
   }
 
@@ -81,13 +86,15 @@ read.titerTable <- function(filepath){
   titer_table <- trimws(titer_table)
 
   # Replace blanks with "*"
-  if(sum(titer_table == "") > 0){
+  if (sum(titer_table == "") > 0) {
     titer_table[titer_table == ""] <- "*"
-    warning('Missing values ("*") introduced into HI table by coercion.', call. = FALSE)
+    warning(
+      'Missing values ("*") introduced into HI table by coercion.',
+      call. = FALSE
+    )
   }
 
   # Return HI table
   titer_table
 
 }
-

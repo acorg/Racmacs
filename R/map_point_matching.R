@@ -15,7 +15,7 @@ NULL
 match_mapAntigens <- function(
   map1,
   map2
-){
+) {
 
   # Convert indices
   indices <- ac_match_map_ags(map1, map2)
@@ -30,7 +30,7 @@ match_mapAntigens <- function(
 match_mapSera <- function(
   map1,
   map2
-){
+) {
 
   # Convert indices
   indices <- ac_match_map_sr(map1, map2)
@@ -38,7 +38,3 @@ match_mapSera <- function(
   as.vector(indices + 1)
 
 }
-
-
-
-

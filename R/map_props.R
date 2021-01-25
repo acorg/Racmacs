@@ -8,12 +8,12 @@
 #'   args    = c("map")
 #' )
 #'
-mapName <- function(map){
+mapName <- function(map) {
   check.acmap(map)
   map$name
 }
 
-`mapName<-` <- function(map, value){
+`mapName<-` <- function(map, value) {
   check.acmap(map)
   map$name <- value
   map
@@ -35,7 +35,7 @@ mapName <- function(map){
 
 #' @export
 #' @rdname titerTable
-titerTable <- function(map){
+titerTable <- function(map) {
 
   check.acmap(map)
   titers <- titerTableFlat(map)
@@ -48,7 +48,7 @@ titerTable <- function(map){
 
 #' @export
 #' @rdname titerTable
-`titerTable<-` <- function(map, value){
+`titerTable<-` <- function(map, value) {
 
   check.acmap(map)
 
@@ -81,15 +81,15 @@ titerTable <- function(map){
 #' @name titerTableFlat
 
 #' @rdname titerTable
-titerTableFlat <- function(map){
+titerTableFlat <- function(map) {
   check.acmap(map)
   map$titer_table_flat
 }
 
 #' @rdname titerTable
-`titerTableFlat<-` <- function(map, value){
+`titerTableFlat<-` <- function(map, value) {
   check.acmap(map)
-  if(is.data.frame(value)) value <- as.matrix(value)
+  if (is.data.frame(value)) value <- as.matrix(value)
   mode(value)        <- "character"
   map$titer_table_flat <- value
   map
@@ -98,7 +98,8 @@ titerTableFlat <- function(map){
 
 #' Getting and setting titer table layers
 #'
-#' Functions to get and set the underlying titer table layers of a map (see details).
+#' Functions to get and set the underlying titer table layers of a map (see
+#' details).
 #'
 #' @param map The acmap object
 #' @param value A list of titer table character vectors to set
@@ -115,30 +116,30 @@ titerTableFlat <- function(map){
 #' @family {map attribute functions}
 #' @export
 #'
-titerTableLayers <- function(map){
+titerTableLayers <- function(map) {
   check.acmap(map)
   map$titer_table_layers
 }
 
 #' @rdname titerTableLayers
-`titerTableLayers<-` <- function(map, value){
+`titerTableLayers<-` <- function(map, value) {
 
   # Check input
   check.acmap(map)
-  if(!is.list(value)){
+  if (!is.list(value)) {
     stop("Titer table layers must be a list of titer tables")
   }
 
   # Update layers
-  value <- lapply(value, function(titers){
-    if(is.data.frame(titers)) titers <- as.matrix(titers)
+  value <- lapply(value, function(titers) {
+    if (is.data.frame(titers)) titers <- as.matrix(titers)
     mode(titers) <- "character"
     titers
   })
   map$titer_table_layers <- value
 
   # Update the flat titer layer
-  if(length(value) > 1){
+  if (length(value) > 1) {
     titerTableFlat(map) <- ac_merge_titer_layers(value)
   } else {
     titerTableFlat(map) <- value[[1]]
@@ -168,13 +169,13 @@ sortOptimizations <- function(map) {
 
 # Helper function for getting a vector of properties associated with each
 # optimization run, like stress
-allMapProperties <- function(map, getter){
+allMapProperties <- function(map, getter) {
   check.acmap(map)
   vapply(
     seq_len(numOptimizations(map)),
-    function(i){
+    function(i) {
       value <- getter(map, i)
-      if(is.null(value)) value <- NA
+      if (is.null(value)) value <- NA
       value
     },
     numeric(1)
@@ -234,12 +235,10 @@ removeOptimizations <- function(map) {
 #'
 #' @export
 #'
-keepOptimizations <- function(map, optimization_numbers){
+keepOptimizations <- function(map, optimization_numbers) {
   check.numericvector(optimization_numbers)
   check.acmap(map)
-  if(numOptimizations(map) == 0) stop("Map has no optimization runs", call. = FALSE)
-  if(min(optimization_numbers) < 1) stop("Invalid optimization number", call. = FALSE)
-  if(max(optimization_numbers) > numOptimizations(map)) stop("Invalid optimization number", call. = FALSE)
+  lapply(optimization_numbers, check.optnum, map = map)
   map$optimizations <- map$optimizations[optimization_numbers]
   map
 }
@@ -304,5 +303,3 @@ numOptimizations <- function(map) {
   check.acmap(map)
   length(map$optimizations)
 }
-
-

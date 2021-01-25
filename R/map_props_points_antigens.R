@@ -1,11 +1,11 @@
 
 # Function factory for antigen getter functions
-antigens_getter <- function(fn){
+antigens_getter <- function(fn) {
   eval(
     substitute(env = list(
       fn = fn
     ), expr = {
-      function(map){
+      function(map) {
         check.acmap(map)
         sapply(map$antigens, fn)
       }
@@ -14,17 +14,20 @@ antigens_getter <- function(fn){
 }
 
 # Function factory for antigen setter functions
-antigens_setter <- function(fn){
+antigens_setter <- function(fn) {
   eval(
     substitute(env = list(
       fn = fn
     ), expr = {
-      function(map, value){
-        if(is.null(value)){ stop("Cannot set null value") }
+      function(map, value) {
+        if (is.null(value)) stop("Cannot set null value")
         check.acmap(map)
-        map$antigens <- lapply(seq_along(map$antigens), function(x){
-          fn(map$antigens[[x]], value[x])
-        })
+        map$antigens <- lapply(
+          seq_along(map$antigens),
+          function(x) {
+            fn(map$antigens[[x]], value[x])
+          }
+        )
         map
       }
     })
@@ -73,18 +76,19 @@ agGroupValues       <- antigens_getter(ac_ag_get_group) # Not exported
 #' These functions get and set the antigen groupings for a map.
 #'
 #' @param map The acmap object
-#' @param value A character or factor vector of groupings to apply to the antigens
+#' @param value A character or factor vector of groupings to apply to the
+#'   antigens
 #'
 #' @name agGroups
 #' @family {antigen and sera attribute functions}
 
 #' @rdname agGroups
 #' @export
-agGroups <- function(map){
+agGroups <- function(map) {
 
   check.acmap(map)
   aglevels <- map$ag_group_levels
-  if(length(aglevels) == 0) return(NULL)
+  if (length(aglevels) == 0) return(NULL)
   factor(
     x = aglevels[agGroupValues(map) + 1],
     levels = aglevels
@@ -94,14 +98,14 @@ agGroups <- function(map){
 
 #' @rdname agGroups
 #' @export
-`agGroups<-` <- function(map, value){
+`agGroups<-` <- function(map, value) {
 
   check.acmap(map)
-  if(is.null(value)){
+  if (is.null(value)) {
     agGroupValues(map) <- 0
     map$ag_group_levels <- NULL
   } else {
-    if(!is.factor(value)) value <- as.factor(value)
+    if (!is.factor(value)) value <- as.factor(value)
     agGroupValues(map) <- as.numeric(value) - 1
     map$ag_group_levels <- levels(value)
   }
@@ -113,26 +117,33 @@ agGroups <- function(map){
 #' Getting and setting antigen sequence information
 #'
 #' @param map The acmap data object
-#' @param value A character matrix of sequences with rows equal to the number of antigens
+#' @param value A character matrix of sequences with rows equal to the number of
+#'   antigens
 #'
 #' @name agSequences
 #'
 
 #' @rdname agSequences
 #' @export
-agSequences <- function(map){
+agSequences <- function(map) {
   check.acmap(map)
-  do.call(rbind, lapply(map$antigens, function(ag){ strsplit(ag$sequence, "")[[1]] }))
+  do.call(
+    rbind,
+    lapply(map$antigens, function(ag) {
+      strsplit(ag$sequence, "")[[1]]
+    })
+  )
 }
 
 #' @rdname agSequences
 #' @export
-`agSequences<-` <- function(map, value){
+`agSequences<-` <- function(map, value) {
   check.acmap(map)
-  if(nrow(value) != numAntigens(map)) stop("Number of sequences does not match number of antigens")
-  for(x in seq_len(numAntigens(map))){
-    map$antigens[[x]]$sequence <- paste0(value[x,], collapse = "")
+  if (nrow(value) != numAntigens(map)) {
+    stop("Number of sequences does not match number of antigens")
+  }
+  for (x in seq_len(numAntigens(map))) {
+    map$antigens[[x]]$sequence <- paste0(value[x, ], collapse = "")
   }
   map
 }
-

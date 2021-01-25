@@ -1,11 +1,11 @@
 
 # Function factory for sera getter functions
-sera_getter <- function(fn){
+sera_getter <- function(fn) {
   eval(
     substitute(env = list(
       fn = fn
     ), expr = {
-      function(map){
+      function(map) {
         check.acmap(map)
         sapply(map$sera, fn)
       }
@@ -14,15 +14,15 @@ sera_getter <- function(fn){
 }
 
 # Function factory for sera setter functions
-sera_setter <- function(fn){
+sera_setter <- function(fn) {
   eval(
     substitute(env = list(
       fn = fn
     ), expr = {
-      function(map, value){
-        if(is.null(value)){ stop("Cannot set null value") }
+      function(map, value) {
+        if (is.null(value)) stop("Cannot set null value")
         check.acmap(map)
-        map$sera <- lapply(seq_along(map$sera), function(x){
+        map$sera <- lapply(seq_along(map$sera), function(x) {
           fn(map$sera[[x]], value[x])
         })
         map
@@ -81,11 +81,11 @@ srGroupValues       <- sera_getter(ac_sr_get_group)
 
 #' @rdname srGroups
 #' @export
-srGroups <- function(map){
+srGroups <- function(map) {
 
   check.acmap(map)
   srlevels <- map$sr_group_levels
-  if(length(srlevels) == 0) return(NULL)
+  if (length(srlevels) == 0) return(NULL)
   factor(
     x = srlevels[srGroupValues(map) + 1],
     levels = srlevels
@@ -95,14 +95,14 @@ srGroups <- function(map){
 
 #' @rdname srGroups
 #' @export
-`srGroups<-` <- function(map, value){
+`srGroups<-` <- function(map, value) {
 
   check.acmap(map)
-  if(is.null(value)){
+  if (is.null(value)) {
     srGroupValues(map) <- 0
     map$sr_group_levels <- NULL
   } else {
-    if(!is.factor(value)) value <- as.factor(value)
+    if (!is.factor(value)) value <- as.factor(value)
     srGroupValues(map) <- as.numeric(value) - 1
     map$sr_group_levels <- levels(value)
   }
@@ -114,26 +114,33 @@ srGroups <- function(map){
 #' Getting and setting sera sequence information
 #'
 #' @param map The acmap data object
-#' @param value A character matrix of sequences with rows equal to the number of sera
+#' @param value A character matrix of sequences with rows equal to the number of
+#'   sera
 #'
 #' @name srSequences
 #'
 
 #' @rdname srSequences
 #' @export
-srSequences <- function(map){
+srSequences <- function(map) {
   check.acmap(map)
-  do.call(rbind, lapply(map$sera, function(sr){ strsplit(sr$sequence, "")[[1]] }))
+  do.call(
+    rbind,
+    lapply(map$sera, function(sr) {
+      strsplit(sr$sequence, "")[[1]]
+    })
+  )
 }
 
 #' @rdname srSequences
 #' @export
-`srSequences<-` <- function(map, value){
+`srSequences<-` <- function(map, value) {
   check.acmap(map)
-  if(nrow(value) != numSera(map)) stop("Number of sequences does not match number of sera")
-  for(x in seq_len(numSera(map))){
-    map$sera[[x]]$sequence <- paste0(value[x,], collapse = "")
+  if (nrow(value) != numSera(map)) {
+    stop("Number of sequences does not match number of sera")
+  }
+  for (x in seq_len(numSera(map))) {
+    map$sera[[x]]$sequence <- paste0(value[x, ], collapse = "")
   }
   map
 }
-

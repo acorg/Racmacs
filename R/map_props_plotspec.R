@@ -1,6 +1,6 @@
 
 # Function factory for plotspec getter functions
-plotspec_getter <- function(pttype, fn){
+plotspec_getter <- function(pttype, fn) {
   eval(
     substitute(env = list(
       pttype = pttype,

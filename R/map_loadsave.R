@@ -33,9 +33,15 @@ read.acmap <- function(
   map <- json_to_acmap(jsondata)
 
   # Apply arguments
-  if (!is.null(optimization_number)) map <- keepOptimizations(map, optimization_number)
-  if (sort_optimizations) map <- sortOptimizations(map)
-  if (align_optimizations) map <- realignOptimizations(map)
+  if (!is.null(optimization_number)) {
+    map <- keepOptimizations(map, optimization_number)
+  }
+  if (sort_optimizations) {
+    map <- sortOptimizations(map)
+  }
+  if (align_optimizations) {
+    map <- realignOptimizations(map)
+  }
 
   # Return the map
   map

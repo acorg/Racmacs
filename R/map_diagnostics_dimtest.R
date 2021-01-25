@@ -6,14 +6,19 @@
 #'
 #' @param map The acmap data object
 #' @param dimensions_to_test A numeric vector of dimensions to be tested
-#' @param test_proportion The proportion of data to be used as the test set for each test run
+#' @param test_proportion The proportion of data to be used as the test set for
+#'   each test run
 #' @param minimum_column_basis The minimum column basis to use
-#' @param fixed_column_bases A vector of fixed column bases with NA for sera where the minimum column basis should be applied
-#' @param number_of_optimizations The number of optimizations to perform when creating each map for the dimension test
-#' @param replicates_per_dimension The number of tests to perform per dimension tested
+#' @param fixed_column_bases A vector of fixed column bases with NA for sera
+#'   where the minimum column basis should be applied
+#' @param number_of_optimizations The number of optimizations to perform when
+#'   creating each map for the dimension test
+#' @param replicates_per_dimension The number of tests to perform per dimension
+#'   tested
 #' @param options Map optimizer options, see `RacOptimizer.options()`
 #'
-#' @return Returns a table of results, including the dimensions tested and the standard deviation of predicted vs residual error.
+#' @return Returns a table of results, including the dimensions tested and the
+#'   standard deviation of predicted vs residual error.
 #' @export
 #'
 #' @family {map diagnostic functions}
@@ -27,17 +32,20 @@ dimensionTestMap <- function(
   number_of_optimizations  = 1000,
   replicates_per_dimension = 100,
   options                  = list()
-  ){
+  ) {
 
   # Set optimizer options
   options <- do.call(RacOptimizer.options, options)
 
   # Set progress
-  message(sprintf("Performing dimension test, %s replicates per dimension", replicates_per_dimension))
+  message(sprintf(
+    "Performing dimension test, %s replicates per dimension",
+    replicates_per_dimension
+  ))
   progress <- ac_progress_bar(replicates_per_dimension)
 
   # Get results
-  results <- lapply(seq_len(replicates_per_dimension), function(x){
+  results <- lapply(seq_len(replicates_per_dimension), function(x) {
     result <- ac_dimension_test_map(
       titer_table                  = titerTable(map),
       dimensions_to_test           = dimensions_to_test,
@@ -52,7 +60,7 @@ dimensionTestMap <- function(
   })
 
   # Correct indices of test results to base 1
-  results <- lapply(results, function(result){
+  results <- lapply(results, function(result) {
     result$test_indices <- result$test_indices + 1
     result
   })
@@ -69,8 +77,8 @@ dimensionTestMap <- function(
 
 #' Summarize dimension test results
 #'
-#' S3 method for class 'ac_dimtest', returning information on the cross-validation results
-#' for each dimension tested.
+#' S3 method for class 'ac_dimtest', returning information on the
+#' cross-validation results for each dimension tested.
 #'
 #' @param object An object as returned by `dimensionTestMap()`
 #' @param ... Additional unused arguments
@@ -78,24 +86,24 @@ dimensionTestMap <- function(
 #' @details For each run, the ag-sr titers that were randomly excluded are
 #'   predicted according to their relative positions in the map trained without
 #'   them. An RMSE is then calculated by comparing predicted titers inferred
-#'   from the map on the log scale to the actual log titers. This is done separately
-#'   for detectable titers (e.g. 40) and non-detectable titers (e.g. <10). For
-#'   non-detectable titers, if the predicted titer is the same or lower than the
-#'   log-titer threshold, the error is set to 0.
+#'   from the map on the log scale to the actual log titers. This is done
+#'   separately for detectable titers (e.g. 40) and non-detectable titers (e.g.
+#'   <10). For non-detectable titers, if the predicted titer is the same or
+#'   lower than the log-titer threshold, the error is set to 0.
 #'
 #' @return Returns a data frame with the following columns. "dimensions" : the
 #'   dimension tested, "mean_rmse_detectable" : mean prediction rmse for
-#'   detectable titers across all runs. "var_rmse_detectable" the variance
-#'   of the prediction rmse for detectable titers across all runs, useful for
-#'   estimating confidence intervals. "mean_rmse_nondetectable" and "var_rmse_nondetectable"
-#'   the equivalent for non-detectable titers
+#'   detectable titers across all runs. "var_rmse_detectable" the variance of
+#'   the prediction rmse for detectable titers across all runs, useful for
+#'   estimating confidence intervals. "mean_rmse_nondetectable" and
+#'   "var_rmse_nondetectable" the equivalent for non-detectable titers
 #'
 #' @export
 #'
 summary.ac_dimtest <- function(
   object,
   ...
-){
+) {
 
   # Get actual log titers
   measured_logtiters <- log_titers(object$titers)
@@ -107,14 +115,14 @@ summary.ac_dimtest <- function(
 
   # Get a matrix of log titers for each run
   logtiters_per_run <- matrix(NA, num_test_runs, num_tested)
-  for(run in seq_len(num_test_runs)){
-    logtiters_per_run[run,] <- measured_logtiters[results[[run]]$test_indices]
+  for (run in seq_len(num_test_runs)) {
+    logtiters_per_run[run, ] <- measured_logtiters[results[[run]]$test_indices]
   }
 
   # Get a matrix of titer types for each run
   titertypes_per_run <- matrix(NA, num_test_runs, num_tested)
-  for(run in seq_len(num_test_runs)){
-    titertypes_per_run[run,] <- titer_types[results[[run]]$test_indices]
+  for (run in seq_len(num_test_runs)) {
+    titertypes_per_run[run, ] <- titer_types[results[[run]]$test_indices]
   }
 
   # Get summary statistics for each dimension
@@ -123,12 +131,12 @@ summary.ac_dimtest <- function(
   mean_rmse_nondetectable <- rep(NA, length(dims_tested))
   var_rmse_nondetectable  <- rep(NA, length(dims_tested))
 
-  for(x in seq_along(dims_tested)){
+  for (x in seq_along(dims_tested)) {
 
     # Get a matrix of predicted log titers for each run
     predictions_per_run <- matrix(NA, num_test_runs, num_tested)
-    for(run in seq_len(num_test_runs)){
-      predictions_per_run[run,] <- results[[run]]$predictions[[x]]
+    for (run in seq_len(num_test_runs)) {
+      predictions_per_run[run, ] <- results[[run]]$predictions[[x]]
     }
 
     # Work out the summary
@@ -138,12 +146,19 @@ summary.ac_dimtest <- function(
     predictions_nondetectable_per_run <- predictions_per_run
     predictions_nondetectable_per_run[titertypes_per_run != 2] <- NA
 
-    predictions_detectable_rmses <- apply(predictions_detectable_per_run, 1, function(x){
+    predictions_detectable_rmses <- apply(
+      predictions_detectable_per_run,
+      1, function(x) {
+        sqrt(mean(x^2, na.rm = T))
+      }
+    )
+    predictions_nondetectable_rmses <- apply(
+      predictions_nondetectable_per_run,
+      1,
+      function(x) {
       sqrt(mean(x^2, na.rm = T))
-    })
-    predictions_nondetectable_rmses <- apply(predictions_nondetectable_per_run, 1, function(x){
-      sqrt(mean(x^2, na.rm = T))
-    })
+      }
+    )
 
     # Store the results
     mean_rmse_detectable[x]    <- mean(predictions_detectable_rmses, na.rm = T)
@@ -163,10 +178,3 @@ summary.ac_dimtest <- function(
   )
 
 }
-
-
-
-
-
-
-

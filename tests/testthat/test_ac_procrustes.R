@@ -10,8 +10,8 @@ test_that("R and C++ give same procrustes result", {
   matrix1 <- matrix(rnorm(8), 4, 2)
   matrix2 <- matrix(rnorm(8), 4, 2)
 
-  for(translation in c(TRUE, FALSE)){
-    for(dilation in c(TRUE, FALSE)){
+  for (translation in c(TRUE, FALSE)) {
+    for (dilation in c(TRUE, FALSE)) {
 
       mcmc_proc <- MCMCpack::procrustes(
         matrix1,
@@ -63,8 +63,8 @@ test_that("R and C++ give same procrustes result in 3d", {
     c(1.0871,        0,   2.7961)
   )
 
-  for(translation in c(TRUE, FALSE)){
-    for(dilation in c(TRUE, FALSE)){
+  for (translation in c(TRUE, FALSE)) {
+    for (dilation in c(TRUE, FALSE)) {
 
       mcmc_proc <- R_procrustes(
         matrix1,

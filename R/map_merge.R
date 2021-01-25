@@ -61,7 +61,7 @@ mergeMaps <- function(
   number_of_optimizations,
   minimum_column_basis = "none",
   options = list()
-  ){
+  ) {
 
   # Check input
   lapply(maps, check.acmap)
@@ -70,7 +70,7 @@ mergeMaps <- function(
   options <- do.call(RacOptimizer.options, options)
 
   # Apply the relevant merge method
-  switch (
+  switch(
     method,
     # Table merge
     `table` = {
@@ -134,10 +134,9 @@ mergeMaps <- function(
 #' @export
 mergeReport <- function(
   maps
-  ){
+  ) {
 
   lapply(maps, check.acmap)
   stop("mergeReport not yet implemented")
 
 }
-

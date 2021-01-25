@@ -5,10 +5,10 @@ mapGUI <- function(
   serverfn = NULL,
   height = NULL,
   width = NULL,
-  ...){
+  ...) {
 
   # Check RStudio is running
-  if(!rstudioapi::isAvailable()){
+  if (!rstudioapi::isAvailable()) {
     stop("This code must be run from within RStudio.")
   }
 
@@ -17,7 +17,7 @@ mapGUI <- function(
   ui_elements[[1]] <- RacViewerOutput("racViewer", height = "100%")
 
   # If javascript provided, include it with extendShinyjs
-  if(!is.null(jsinit)){
+  if (!is.null(jsinit)) {
     ui_elements[[2]] <- shinyjs::useShinyjs()
     ui_elements[[3]] <- shinyjs::extendShinyjs(text = jsinit)
   }
@@ -34,16 +34,16 @@ mapGUI <- function(
     })
 
     # Run any additional server functions provided
-    if(!is.null(serverfn)){
+    if (!is.null(serverfn)) {
       serverfn(input, output, ...)
     }
 
   }
 
   # Decide where to open the viewer
-  if(is.null(height) && is.null(width)){
+  if (is.null(height) && is.null(width)) {
     viewer <- shiny::paneViewer()
-  } else if(!is.null(height) && !is.null(width)) {
+  } else if (!is.null(height) && !is.null(width)) {
     viewer <- shiny::dialogViewer("Mini viewer", width, height)
   } else {
     stop("Either neither or both of 'height' and 'width' must be provided.")
@@ -59,4 +59,3 @@ mapGUI <- function(
   })
 
 }
-

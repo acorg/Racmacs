@@ -9,12 +9,12 @@
 #' @export
 #' @noRd
 #'
-print.acmap <- function(x, ...){
+print.acmap <- function(x, ...) {
 
   # Print short descriptor
   cat(crayon::green("<acmap>\n"))
   mapname <- mapName(x)
-  if(is.null(mapname)) mapname <- "[unnamed]"
+  if (is.null(mapname)) mapname <- "[unnamed]"
   cat(sprintf("%s\n", mapname))
   cat(sprintf("...%s antigens\n", numAntigens(x)))
   cat(sprintf("...%s sera\n", numSera(x)))
@@ -30,7 +30,7 @@ print.acmap <- function(x, ...){
 #' @param ... Additional arguments, not used.
 #'
 #' @export
-view <- function(x, ...){
+view <- function(x, ...) {
   UseMethod("view", x)
 }
 
@@ -41,7 +41,7 @@ view <- function(x, ...){
 #' @param ... Additional arguments, passed to print.
 #'
 #' @export
-view.default <- function(x, ...){
+view.default <- function(x, ...) {
   print(x)
 }
 
@@ -82,16 +82,16 @@ view.acmap <- function(
   show_stressblobs = NULL,
   keep_all_optimization_runs = FALSE,
   options = list()
-  ){
+  ) {
 
   # Pass on only the selected optimization
-  if(!keep_all_optimization_runs){
+  if (!keep_all_optimization_runs) {
     x <- keepSingleOptimization(x)
   }
 
-  # Add a procrustes grid if the main map is 3d and the comparitor map is 2d
-  if(!is.null(x$procrustes) && !isFALSE(show_procrustes)){
-    if(mapDimensions(x) == 3 && ncol(x$procrustes$ag_coords) == 2){
+  # Add a procrustes grid if the main map is 3d and the comparator map is 2d
+  if (!is.null(x$procrustes) && !isFALSE(show_procrustes)) {
+    if (mapDimensions(x) == 3 && ncol(x$procrustes$ag_coords) == 2) {
       x <- add_procrustes_grid(x)
     }
   }
@@ -104,7 +104,7 @@ view.acmap <- function(
   )
 
   # Make any antigen and serum selections
-  if(!is.null(select_ags)){
+  if (!is.null(select_ags)) {
     widget <- htmlwidgets::onRender(
       x      = widget,
       jsCode = "function(el, x, data) { el.viewer.selectAntigensByIndices(data) }",
@@ -112,7 +112,7 @@ view.acmap <- function(
     )
   }
 
-  if(!is.null(select_sr)){
+  if (!is.null(select_sr)) {
     widget <- htmlwidgets::onRender(
       x      = widget,
       jsCode = "function(el, x, data) { el.viewer.selectSeraByIndices(data) }",
@@ -121,7 +121,7 @@ view.acmap <- function(
   }
 
   # Add any procrustes lines
-  if(!is.null(x$procrustes) && !isFALSE(show_procrustes)){
+  if (!is.null(x$procrustes) && !isFALSE(show_procrustes)) {
 
     widget <- htmlwidgets::onRender(
       x      = widget,
@@ -133,7 +133,7 @@ view.acmap <- function(
 
   # Show any blob data
   stressblobdata <- viewer_stressblobdata(x)
-  if(!is.null(stressblobdata) && !isFALSE(show_stressblobs)){
+  if (!is.null(stressblobdata) && !isFALSE(show_stressblobs)) {
     widget <- htmlwidgets::onRender(
       x      = widget,
       jsCode = "function(el, x, data) { el.viewer.addStressBlobs(data) }",
@@ -142,7 +142,7 @@ view.acmap <- function(
   }
 
   # Add any map legends
-  if(!is.null(x$legend)){
+  if (!is.null(x$legend)) {
     widget <- htmlwidgets::onRender(
       x      = widget,
       jsCode = sprintf("function(el, x, data) {
@@ -156,7 +156,7 @@ view.acmap <- function(
   }
 
   # Execute any additional javascript code
-  if(!is.null(.jsCode)){
+  if (!is.null(.jsCode)) {
     widget <- htmlwidgets::onRender(
       x      = widget,
       jsCode = .jsCode,
@@ -168,5 +168,3 @@ view.acmap <- function(
   widget
 
 }
-
-

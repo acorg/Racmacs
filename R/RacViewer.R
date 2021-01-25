@@ -7,7 +7,8 @@
 #' @param rotation Viewer rotation
 #' @param translation Viewer translation
 #' @param zoom Viewer zoom
-#' @param options A named list of viewer options supplied to `racviewer.options()`
+#' @param options A named list of viewer options supplied to
+#'   `racviewer.options()`
 #' @param width Width of the widget
 #' @param height Height of the widget
 #' @param plotdata r3js plot data
@@ -42,7 +43,7 @@ RacViewer <- function(
   }
 
   # forward options using x
-  x = list(
+  x <- list(
     mapData  = mapdata,
     plotdata = jsonlite::toJSON(map$plot),
     options  = jsonlite::toJSON(
@@ -53,11 +54,11 @@ RacViewer <- function(
 
   # create widget
   htmlwidgets::createWidget(
-    name = 'RacViewer',
+    name = "RacViewer",
     x,
     width = width,
     height = height,
-    package = 'Racmacs',
+    package = "Racmacs",
     elementId = elementId,
     sizingPolicy = htmlwidgets::sizingPolicy(
       viewer.padding  = 0,
@@ -83,15 +84,20 @@ RacViewer <- function(
 #'
 #' @name RacViewer-shiny
 #' @export
-RacViewerOutput <- function(outputId, width = '100%', height = '100%'){
-  htmlwidgets::shinyWidgetOutput(outputId, 'RacViewer', width, height, package = 'Racmacs')
+RacViewerOutput <- function(outputId, width = "100%", height = "100%") {
+  htmlwidgets::shinyWidgetOutput(
+    outputId,
+    "RacViewer",
+    width, height,
+    package = "Racmacs"
+  )
 }
 
 
 #' @rdname RacViewer-shiny
 #' @export
 renderRacViewer <- function(expr, env = parent.frame(), quoted = FALSE) {
-  if (!quoted) { expr <- substitute(expr) } # force quoted
+  if (!quoted) expr <- substitute(expr) # force quoted
   htmlwidgets::shinyRenderWidget(expr, RacViewerOutput, env, quoted = TRUE)
 }
 
@@ -113,7 +119,7 @@ snapshotMap <- function(
   height = 800,
   filename = NULL,
   ...
-  ){
+  ) {
 
   # Check input
   check.acmap(map)
@@ -133,7 +139,9 @@ snapshotMap <- function(
   # Run the screenshot command
   command <- paste0(
     "cd ", tmpdir, "; ",
-    chrome, " --headless --disable-gpu --screenshot --window-size=", width,",", height," ", pagepath
+    chrome,
+    " --headless --disable-gpu --screenshot --window-size=",
+    width, ",", height, " ", pagepath
   )
   system(command, ignore.stdout = TRUE, ignore.stderr = TRUE)
 
@@ -141,7 +149,7 @@ snapshotMap <- function(
   screenshot <- file.path(tmpdir, "screenshot.png")
 
   # Save the screenshot to a file or output the base64 img data
-  if(is.null(filename)){
+  if (is.null(filename)) {
 
     system2("base64", screenshot, TRUE)
 
@@ -155,5 +163,3 @@ snapshotMap <- function(
   }
 
 }
-
-

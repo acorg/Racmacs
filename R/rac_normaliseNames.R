@@ -62,19 +62,15 @@ standardizeStrainName <- function(name,
 
   # Strip place name and standardise
   place <- stringr::str_match(name, "(.*/|^)(.*?$)")[3]
-  place_abvs <- acmacs_placeAbvs()
-  if(place %in% tolower(place_abvs[,1])) {
+  if(place %in% tolower(acmacs_placeAbvs$abv)) {
 
-    ambig_places <- rbind(c("vn", "vietnam"),
-                          c("hn", "hanoi"))
-
-    if(place %in% ambig_places[,1]) {
-      assumed_place <- ambig_places[,2][match(place, tolower(ambig_places[,1]))]
+    if(place %in% ambig_places$abv) {
+      assumed_place <- ambig_places$placename[match(place, tolower(ambig_places$abv))]
       warning(paste0('Place name "', place,'" is ambiguous, have assumed it means "', assumed_place,'"\n'))
       place <- assumed_place
     }
     else {
-      place <- place_abvs[,2][match(place, tolower(place_abvs[,1]))]
+      place <- acmacs_placeAbvs$placename[match(place, tolower(acmacs_placeAbvs$abv))]
     }
 
     place <- tolower(place)

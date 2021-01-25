@@ -5,7 +5,7 @@
 ac_progress_bar <- function(
   size,
   width = getOption("width")
-  ){
+  ) {
 
   message(rep("-", width), appendLF = FALSE)
   list(
@@ -19,9 +19,9 @@ ac_progress_bar <- function(
 ac_update_progress <- function(
   progressbar,
   progress
-){
+) {
 
-  progress_width <- round((progress / progressbar$size)*progressbar$width)
+  progress_width <- round((progress / progressbar$size) * progressbar$width)
   message("\r", appendLF = FALSE)
   message(
     rep("=", progress_width),
@@ -29,4 +29,3 @@ ac_update_progress <- function(
   )
 
 }
-

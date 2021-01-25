@@ -21,7 +21,7 @@ setLegend <- function(
   fill,
   style.bottom = "8px",
   style.right = "8px"
-  ){
+  ) {
 
   # Check input
   check.acmap(map)
@@ -42,15 +42,13 @@ setLegend <- function(
 # Helper function to create the html used for a legend
 make_html_legend <- function(
   args
-  ){
+  ) {
 
   # Set variables
   args$box.width      <- "14px"
   args$box.height     <- "14px"
   args$font.size      <- "14px"
   args$legend.spacing <- "4px"
-
-  # "this.parentElement.parentElement.parentElement.racviewer.selectPointsByIndices([0,1])"
 
   # Create the legend holder
   div.legend <- htmltools::div(
@@ -62,14 +60,23 @@ make_html_legend <- function(
   )
 
   # Add the legend entries
-  for(x in seq_along(args$legend)){
+  for (x in seq_along(args$legend)) {
 
     # Create the entry
     div.entry <- htmltools::div(
-      style = sprintf("line-height:%s; margin:%s;", args$font.size, args$legend.spacing),
+      style = sprintf(
+        "line-height:%s; margin:%s;",
+        args$font.size, args$legend.spacing
+      ),
       htmltools::div(
         style = sprintf(
-          "line-height:%s;width:%s;height:%s;background-color:%s;display:inline-block;",
+          paste0(
+            "line-height:%s;",
+            "width:%s;",
+            "height:%s;",
+            "background-color:%s;",
+            "display:inline-block;"
+          ),
           args$font.size,
           args$box.width,
           args$box.height,
@@ -98,4 +105,3 @@ make_html_legend <- function(
   div.legend
 
 }
-

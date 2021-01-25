@@ -2,7 +2,8 @@
 #' Realign map to match another
 #'
 #' Realigns the coordinates of a map to match a target map as closely as
-#' possible, based on a [procrustes analysis](https://en.wikipedia.org/wiki/Procrustes_analysis).
+#' possible, based on a
+#' [procrustes analysis](https://en.wikipedia.org/wiki/Procrustes_analysis).
 #' Note that all optimization runs will be separately aligned to match as
 #' closely as possible the first optimization run of the target map.
 #'
@@ -21,7 +22,7 @@ realignMap <- function(
   target_map,
   translation = TRUE,
   scaling     = FALSE
-  ){
+  ) {
 
   # Check input
   check.acmap(map)
@@ -52,9 +53,9 @@ realignMap <- function(
 #'   comparing maps made with different assays)
 #'
 #' @return Returns an acmap object with procrustes information added, which will
-#'   be shown when the map is plotted. To avoid ambiguity about which optimization
-#'   run the procrustes was applied to, only the optimization run specified by
-#'   `optimization_number` is kept in the map returned.
+#'   be shown when the map is plotted. To avoid ambiguity about which
+#'   optimization run the procrustes was applied to, only the optimization run
+#'   specified by `optimization_number` is kept in the map returned.
 #' @family {functions to compare maps}
 #' @export
 #'
@@ -65,7 +66,7 @@ procrustesMap <- function(
   comparison_optimization_number = 1,
   translation = TRUE,
   scaling     = FALSE
-  ){
+  ) {
 
   # Get the procrustes coords
   pc_coords <- ac_procrustes_map_coords(
@@ -120,7 +121,7 @@ procrustesData <- function(
   comparison_optimization_number = 1,
   translation = TRUE,
   scaling     = FALSE
-){
+  ) {
 
   # Perform the procrustes
   map <- procrustesMap(
@@ -156,7 +157,7 @@ procrustesData <- function(
 #'
 realignOptimizations <- function(
   map
-  ){
+  ) {
 
   check.acmap(map)
 
@@ -171,7 +172,7 @@ realignOptimizations <- function(
 
 # This is a function to add a grid to a map indicating the original 2d plane,
 # when comparing a 2d map to a 3d map with procrustes
-add_procrustes_grid <- function(map){
+add_procrustes_grid <- function(map) {
 
   # # Get the comparator coordinates
   # comp_coords <- rbind(
@@ -199,5 +200,3 @@ add_procrustes_grid <- function(map){
   map
 
 }
-
-

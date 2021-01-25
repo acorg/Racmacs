@@ -1,13 +1,13 @@
 
 # Function factory for antigen getter functions
-optimization_getter <- function(fn){
+optimization_getter <- function(fn) {
   eval(
     substitute(env = list(
       fn = fn
     ), expr = {
-      function(map, optimization_number = 1){
+      function(map, optimization_number = 1) {
         optimization <- map$optimizations[[optimization_number]]
-        if(is.null(optimization)){ stop("Optimization run not found") }
+        if (is.null(optimization)) stop("Optimization run not found")
         fn(optimization)
       }
     })
@@ -15,16 +15,16 @@ optimization_getter <- function(fn){
 }
 
 # Function factory for antigen setter functions
-optimization_setter <- function(fn, checker_fn = NULL){
+optimization_setter <- function(fn, checker_fn = NULL) {
   eval(
     substitute(env = list(
       fn = fn
     ), expr = {
-      function(map, optimization_number = 1, value){
-        if(is.null(value)){ stop("Cannot set null value") }
-        if(!is.null(checker_fn)){ checker_fn(value) }
+      function(map, optimization_number = 1, value) {
+        if (is.null(value)) stop("Cannot set null value")
+        if (!is.null(checker_fn)) checker_fn(value)
         optimization <- map$optimizations[[optimization_number]]
-        if(is.null(optimization)){ stop("Optimization run not found") }
+        if (is.null(optimization)) stop("Optimization run not found")
         map$optimizations[[optimization_number]] <- fn(optimization, value)
         map
       }
@@ -35,7 +35,8 @@ optimization_setter <- function(fn, checker_fn = NULL){
 
 #' Getting and setting base coordinates
 #'
-#' These functions get and set the base coordinates for a given optimization run.
+#' These functions get and set the base coordinates for a given optimization
+#' run.
 #'
 #' @name ptBaseCoords
 #' @seealso
@@ -52,14 +53,20 @@ optimization_setter <- function(fn, checker_fn = NULL){
 #'
 agBaseCoords <- optimization_getter(ac_opt_get_ag_base_coords)
 srBaseCoords <- optimization_getter(ac_opt_get_sr_base_coords)
-`agBaseCoords<-` <- optimization_setter(ac_opt_set_ag_base_coords, check.numericmatrix)
-`srBaseCoords<-` <- optimization_setter(ac_opt_set_sr_base_coords, check.numericmatrix)
+`agBaseCoords<-` <- optimization_setter(
+  ac_opt_set_ag_base_coords,
+  check.numericmatrix
+)
+`srBaseCoords<-` <- optimization_setter(
+  ac_opt_set_sr_base_coords,
+  check.numericmatrix
+)
 
 
 #' Reading map transformation data
 #'
-#' These functions can be used to query and if necessary set the map transformation
-#' and map translation attributes for a given optimization run.
+#' These functions can be used to query and if necessary set the map
+#' transformation and map translation attributes for a given optimization run.
 #'
 #' @name mapTransformation
 #' @family {map optimization attribute functions}
@@ -73,8 +80,14 @@ srBaseCoords <- optimization_getter(ac_opt_get_sr_base_coords)
 #'
 mapTransformation     <- optimization_getter(ac_opt_get_transformation)
 mapTranslation        <- optimization_getter(ac_opt_get_translation)
-`mapTransformation<-` <- optimization_setter(ac_opt_set_transformation, check.numericmatrix)
-`mapTranslation<-`    <- optimization_setter(ac_opt_set_translation, check.numericmatrix)
+`mapTransformation<-` <- optimization_setter(
+  ac_opt_set_transformation,
+  check.numericmatrix
+)
+`mapTranslation<-`    <- optimization_setter(
+  ac_opt_set_translation,
+  check.numericmatrix
+)
 
 
 #' Getting and setting column bases
@@ -112,11 +125,17 @@ mapTranslation        <- optimization_getter(ac_opt_get_translation)
 #'
 minColBasis       <- optimization_getter(ac_opt_get_mincolbasis)
 fixedColBases     <- optimization_getter(ac_opt_get_fixedcolbases)
-`minColBasis<-`   <- optimization_setter(ac_opt_set_mincolbasis, check.string)
-`fixedColBases<-` <- optimization_setter(ac_opt_set_fixedcolbases, check.numericvector)
+`minColBasis<-`   <- optimization_setter(
+  ac_opt_set_mincolbasis,
+  check.string
+)
+`fixedColBases<-` <- optimization_setter(
+  ac_opt_set_fixedcolbases,
+  check.numericvector
+)
 
 #' @export
-colBases <- function(map, optimization_number = 1){
+colBases <- function(map, optimization_number = 1) {
 
   ac_table_colbases(
     titerTable(map),
@@ -133,7 +152,7 @@ colBases <- function(map, optimization_number = 1){
 #' @eval roxygen_tags(
 #'   methods    = c("mapStress"),
 #'   args       = c("map", "optimization_number = 1"),
-#'   returns    = "Returns the current map stress value for the specified optimization run."
+#'   returns    = "Returns the map stress value for the optimization run."
 #' )
 mapStress     <- optimization_getter(ac_opt_get_stress)
 `mapStress<-` <- optimization_setter(ac_opt_set_stress, check.numeric)
@@ -146,7 +165,7 @@ mapStress     <- optimization_getter(ac_opt_get_stress)
 #' @eval roxygen_tags(
 #'   methods    = c("mapDimensions"),
 #'   args       = c("map", "optimization_number = 1"),
-#'   returns    = "Returns the number of map dimensions for the specified optimization run."
+#'   returns    = "Returns the number of dimensions for the optimization run."
 #' )
 #'
 mapDimensions <- optimization_getter(ac_opt_get_dimensions)
@@ -158,10 +177,7 @@ mapDimensions <- optimization_getter(ac_opt_get_dimensions)
 #' @eval roxygen_tags(
 #'   methods    = c("mapComment", "mapComment<-"),
 #'   args       = c("map", "optimization_number = 1"),
-#'   returns    = "Gets or sets and map comments for the specified optimization run."
+#'   returns    = "Gets or sets map comments for the optimization run."
 #' )
 mapComment     <- optimization_getter(ac_opt_get_comment)
 `mapComment<-` <- optimization_setter(ac_opt_set_comment, check.string)
-
-
-

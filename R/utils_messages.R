@@ -2,7 +2,7 @@
 ## Some utility functions for outputting errors, warnings and messages
 
 # Output an error that refers to a list of strains
-strain_list_error <- function(error, strains){
+strain_list_error <- function(error, strains) {
 
   stop(
     paste0(
@@ -16,7 +16,7 @@ strain_list_error <- function(error, strains){
 }
 
 # Output a warning that refers to a list of strains
-strain_list_warning <- function(warning, strains){
+strain_list_warning <- function(warning, strains) {
 
   warning(
     paste0(
@@ -30,7 +30,6 @@ strain_list_warning <- function(warning, strains){
 }
 
 # Small function to output a message or not depending on a 'verbose' argument
-vmessage <- function(verbose, ...){
-  if(verbose) message(...)
+vmessage <- function(verbose, ...) {
+  if (verbose) message(...)
 }
-

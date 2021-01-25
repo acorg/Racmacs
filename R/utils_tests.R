@@ -1,6 +1,6 @@
 
 # Function to export a plot to the testoutput folder
-export.plot.test <- function(code, filename, plotwidth = 8, plotheight = 8){
+export.plot.test <- function(code, filename, plotwidth = 8, plotheight = 8) {
 
   rootdir <- testthat::test_path("../testoutput/plots")
   testfile <- file.path(normalizePath(rootdir), filename)
@@ -15,7 +15,7 @@ export.plot.test <- function(code, filename, plotwidth = 8, plotheight = 8){
 
 
 # Function to export a plotly widget to a test page
-export.plotly.test <- function(widget, filename){
+export.plotly.test <- function(widget, filename) {
 
   rootdir <- testthat::test_path("../testoutput/plots")
   testfile <- file.path(normalizePath(rootdir), filename)
@@ -33,9 +33,9 @@ export.plotly.test <- function(widget, filename){
 
 
 # Function to export a viewer widget instance as a plot to the testoutput folder
-# it also replaces library paths in each file to match library paths in the package
-# to help with debugging
-export.viewer.test <- function(widget, filename, widgetname = "RacViewer"){
+# it also replaces library paths in each file to match library paths in the
+# package to help with debugging
+export.viewer.test <- function(widget, filename, widgetname = "RacViewer") {
 
   rootdir <- testthat::test_path("../testoutput/viewer")
   testfile <- file.path(normalizePath(rootdir), filename)
@@ -47,10 +47,13 @@ export.viewer.test <- function(widget, filename, widgetname = "RacViewer"){
     libdir        = ".lib"
   )
 
-  unlink(file.path(rootdir, paste0(".lib/", widgetname,"-1.0.0")), recursive = T)
+  unlink(
+    file.path(rootdir, paste0(".lib/", widgetname, "-1.0.0")),
+    recursive = T
+  )
 
   plotdata <- readLines(testfile)
-  if(widgetname == "RacViewer"){
+  if (widgetname == "RacViewer") {
     plotdata <- gsub(
       pattern     = paste0(".lib/", widgetname, "-1.0.0/"),
       replacement = paste0("../../../inst/htmlwidgets/", widgetname, "/lib/"),
@@ -71,6 +74,3 @@ export.viewer.test <- function(widget, filename, widgetname = "RacViewer"){
   testthat::expect_true(file.exists(testfile))
 
 }
-
-
-

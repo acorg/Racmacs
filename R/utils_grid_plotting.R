@@ -12,14 +12,14 @@ custom_grob <- function(
   aspect,
   gp,
   vp
-){
+) {
 
   container <- grid::viewport(
     x = grid::unit(x, "native"),
     y = grid::unit(y, "native"),
-    width = grid::unit(size*10*aspect, "points"),
-    height = grid::unit(size*10, "points"),
-    angle = -180*rotation/pi
+    width = grid::unit(size * 10 * aspect, "points"),
+    height = grid::unit(size * 10, "points"),
+    angle = -180 * rotation / pi
   )
 
   grid::polygonGrob(
@@ -41,14 +41,14 @@ circle_grob <- function(
   aspect,
   gp,
   vp
-){
+) {
 
   container <- grid::viewport(
     x = grid::unit(x, "native"),
     y = grid::unit(y, "native"),
-    width = grid::unit(size*10*aspect, "points"),
-    height = grid::unit(size*10, "points"),
-    angle = -180*rotation/pi
+    width = grid::unit(size * 10 * aspect, "points"),
+    height = grid::unit(size * 10, "points"),
+    angle = -180 * rotation / pi
   )
 
   grid::circleGrob(
@@ -68,14 +68,14 @@ box_grob <- function(
   aspect,
   gp,
   vp
-){
+) {
 
   container <- grid::viewport(
     x = grid::unit(x, "native"),
     y = grid::unit(y, "native"),
-    width = grid::unit(size*10*aspect, "points"),
-    height = grid::unit(size*10, "points"),
-    angle = -180*rotation/pi
+    width = grid::unit(size * 10 * aspect, "points"),
+    height = grid::unit(size * 10, "points"),
+    angle = -180 * rotation / pi
   )
 
   grid::rectGrob(
@@ -90,7 +90,7 @@ box_grob <- function(
 # TRIANGLE
 triangle_grob <- function(
   ...
-){
+) {
   custom_grob(
     xcoords = c(0.0669873, 0.9330127, 0.5),
     ycoords = c(0.25, 0.25, 1.0),
@@ -101,13 +101,13 @@ triangle_grob <- function(
 # EGG
 egg_grob <- function(
   ...
-){
+) {
   a <- 0.5
   b <- 0.4
   angles <- seq(from = -pi, to = pi, length.out = 100)
   custom_grob(
-    xcoords = b*cos(angles/4)*sin(angles) + 0.5,
-    ycoords = -a*cos(angles) + 0.5,
+    xcoords = b * cos(angles / 4) * sin(angles) + 0.5,
+    ycoords = -a * cos(angles) + 0.5,
     ...
   )
 }
@@ -115,7 +115,7 @@ egg_grob <- function(
 # UGLY EGG
 uglyegg_grob <- function(
   ...
-){
+) {
   custom_grob(
     xcoords = c(0.5, 0.05, 0.15, 0.50, 0.85, 0.95),
     ycoords = c(0, 0.2, 0.8, 1, 0.8, 0.2),
@@ -126,16 +126,16 @@ uglyegg_grob <- function(
 
 # Function to create a viewport with margins
 vp_with_margins <- function(
-  mar = c(0.1,0.1,0.1,0.1),
+  mar = c(0.1, 0.1, 0.1, 0.1),
   units = "inches"
-){
+) {
 
   # Create a grid layout
   gl <- grid::grid.layout(
     nrow = 3,
     ncol = 3,
-    widths = grid::unit(c(mar[2],1,mar[4]),c(units,"null",units)),
-    height = grid::unit(c(mar[3],1,mar[1]),c(units,"null",units)),
+    widths = grid::unit(c(mar[2], 1, mar[4]), c(units, "null", units)),
+    height = grid::unit(c(mar[3], 1, mar[1]), c(units, "null", units)),
     respect = FALSE
   )
 
@@ -143,7 +143,7 @@ vp_with_margins <- function(
   grid::vpTree(
     grid::viewport(layout = gl),
     grid::vpList(
-      grid::viewport( layout.pos.row = 2, layout.pos.col = 2 )
+      grid::viewport(layout.pos.row = 2, layout.pos.col = 2)
     )
   )
 
@@ -152,9 +152,9 @@ vp_with_margins <- function(
 
 # Function to create viewport with a fixed aspect
 vp_with_fixed_aspect <- function(
-  xlim = c(0,1),
-  ylim = c(0,1)
-){
+  xlim = c(0, 1),
+  ylim = c(0, 1)
+) {
 
   # Calculate aspect
   aspect <- ylim / xlim
@@ -182,5 +182,3 @@ vp_with_fixed_aspect <- function(
   )
 
 }
-
-

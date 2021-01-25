@@ -3,15 +3,16 @@
 # FUNCTIONS FOR DOING GRID PLOTTING OF MAPS IN R
 # Using the grid plotting system in R is a bit cumbersome but it's the only way
 # to achieve proper plotting of custom point shapes like, eggs, ugly eggs, and
-# to allow for rotation of points and changing the aspect ratios.
-# see also utils_grid_plotting.R
+# to allow for rotation of points and changing the aspect ratios. see also
+# utils_grid_plotting.R
 # ================
 
 #' Plot an antigenic map using the grid system
 #'
-#' Plot an antigenic map using the 'grid' plotting system, this is harder to edit afterwards but
-#' allows maps with custom point shapes like "EGG" and "UGLYEGG" to be plotted, or maps where
-#' point aspect or rotation has been altered.
+#' Plot an antigenic map using the 'grid' plotting system, this is harder to
+#' edit afterwards but allows maps with custom point shapes like "EGG" and
+#' "UGLYEGG" to be plotted, or maps where point aspect or rotation has been
+#' altered.
 #'
 #' @param map The acmap to plot
 #' @param optimization_number The optimization number to plot
@@ -25,7 +26,8 @@
 #' @param grid.margin.col grid margin color
 #' @param fill.alpha alpha for point fill
 #' @param outline.alpha alpha for point outline
-#' @param padding padding at limits of the antigenic map, ignored if xlim or ylim set explicitly
+#' @param padding padding at limits of the antigenic map, ignored if xlim or
+#'   ylim set explicitly
 #' @param cex point size expansion factor
 #'
 #' @export
@@ -44,22 +46,37 @@ grid.plot.acmap <- function(
   fill.alpha    = 0.8,
   outline.alpha = 0.8,
   padding = 1,
-  cex = 1){
+  cex = 1
+  ) {
 
   # Do dimension checks
-  if(mapDimensions(map, optimization_number) != 2){ stop("Plotting is only supported for 2D maps, please try view()") }
-  if(optimization_number != 1 && plot_blobs){ warning("Optimization number ignored when plotting blobs") }
+  if (mapDimensions(map, optimization_number) != 2) {
+    stop("Plotting is only supported for 2D maps, please try view()")
+  }
+  if (optimization_number != 1 && plot_blobs) {
+    warning("Optimization number ignored when plotting blobs")
+  }
 
   # Get coords
   ag_coords <- agCoords(map, optimization_number)
   sr_coords <- srCoords(map, optimization_number)
 
   plot_coords <- c()
-  if(plot_ags){ plot_coords <- rbind(plot_coords, ag_coords) }
-  if(plot_sr) { plot_coords <- rbind(plot_coords, sr_coords) }
+  if (plot_ags) plot_coords <- rbind(plot_coords, ag_coords)
+  if (plot_sr)  plot_coords <- rbind(plot_coords, sr_coords)
 
-  if(is.null(xlim)){ xlim <- c(floor(min(plot_coords[,1], na.rm = TRUE))-padding, ceiling(max(plot_coords[,1], na.rm = TRUE))+padding) }
-  if(is.null(ylim)){ ylim <- c(floor(min(plot_coords[,2], na.rm = TRUE))-padding, ceiling(max(plot_coords[,2], na.rm = TRUE))+padding) }
+  if (is.null(xlim)) {
+    xlim <- c(
+      floor(min(plot_coords[, 1], na.rm = TRUE)) - padding,
+      ceiling(max(plot_coords[, 1], na.rm = TRUE)) + padding
+    )
+  }
+  if (is.null(ylim)) {
+    ylim <- c(
+      floor(min(plot_coords[, 2], na.rm = TRUE)) - padding,
+      ceiling(max(plot_coords[, 2], na.rm = TRUE)) + padding
+    )
+  }
 
   # Setup viewport for plotting
   viewport <- grid::vpStack(
@@ -77,9 +94,9 @@ grid.plot.acmap <- function(
   ## X lines
   xlines <- lapply(
     seq(from = xlim[1], to = xlim[2], by = 1),
-    function(x){
+    function(x) {
       grid::linesGrob(
-        x = c(x,x),
+        x = c(x, x),
         y = ylim,
         gp = linesgp,
         default.units = "native",
@@ -91,10 +108,10 @@ grid.plot.acmap <- function(
   ## Y lines
   ylines <- lapply(
     seq(from = ylim[1], to = ylim[2], by = 1),
-    function(y){
+    function(y) {
       grid::linesGrob(
         x = xlim,
-        y = c(y,y),
+        y = c(y, y),
         gp = linesgp,
         default.units = "native",
         vp = viewport
@@ -105,8 +122,8 @@ grid.plot.acmap <- function(
   ## Outer box
   marginlines <- list(
     grid::rectGrob(
-      x = sum(xlim)/2,
-      y = sum(ylim)/2,
+      x = sum(xlim) / 2,
+      y = sum(ylim) / 2,
       width = diff(xlim),
       height = diff(ylim),
       default.units = "native",
@@ -126,7 +143,7 @@ grid.plot.acmap <- function(
   )
 
   # Function to get pch from shape
-  get_pch = function(shapes){
+  get_pch <- function(shapes) {
     shapes[tolower(shapes) == "circle"]   <- 21
     shapes[tolower(shapes) == "box"]      <- 22
     shapes[tolower(shapes) == "triangle"] <- 24
@@ -145,30 +162,36 @@ grid.plot.acmap <- function(
   pts$shown[rowSums(is.na(pts$coords)) > 0] <- FALSE
 
   ## Hide antigens and sera
-  if(!plot_ags || missing(ag_coords)) { pts$shown[pts$pt_type == "ag"] <- FALSE }
-  if(!plot_sr  || missing(sr_coords)) { pts$shown[pts$pt_type == "sr"] <- FALSE }
+  if (!plot_ags || missing(ag_coords)) pts$shown[pts$pt_type == "ag"] <- FALSE
+  if (!plot_sr  || missing(sr_coords)) pts$shown[pts$pt_type == "sr"] <- FALSE
 
   ## Get point blobs
   pt_blobs <- ptStressBlobs(map)
   pts$blob <- !sapply(pt_blobs, is.null)
 
   ## Adjust alpha
-  if(!is.null(fill.alpha))   { pts$fill    <- grDevices::adjustcolor(pts$fill,    alpha.f = fill.alpha)    }
-  if(!is.null(outline.alpha)){ pts$outline <- grDevices::adjustcolor(pts$outline, alpha.f = outline.alpha) }
+  if (!is.null(fill.alpha)) {
+    pts$fill <- grDevices::adjustcolor(pts$fill,    alpha.f = fill.alpha)
+  }
+  if (!is.null(outline.alpha)) {
+    pts$outline <- grDevices::adjustcolor(pts$outline, alpha.f = outline.alpha)
+  }
 
   ## Plot the points
   pt_order <- ptDrawingOrder(map)
   plotted_pt_order <- pt_order[pts$shown[pt_order]]
-  if(plot_blobs){ plotted_pt_order <- plotted_pt_order[!pts$blob[plotted_pt_order]] }
+  if (plot_blobs) {
+    plotted_pt_order <- plotted_pt_order[!pts$blob[plotted_pt_order]]
+  }
 
   # Function to plot regular points
-  plot_points <- function(pts, indices){
+  plot_points <- function(pts, indices) {
 
     grid::pointsGrob(
-      x   = pts$coords[indices,1],
-      y   = pts$coords[indices,2],
+      x   = pts$coords[indices, 1],
+      y   = pts$coords[indices, 2],
       pch = get_pch(pts$shape[indices]),
-      size = grid::unit(pts$size[indices]*cex*0.2, "char"),
+      size = grid::unit(pts$size[indices] * cex * 0.2, "char"),
       gp = grid::gpar(
         col  = pts$outline[indices],
         fill = pts$fill[indices],
@@ -189,7 +212,7 @@ grid.plot.acmap <- function(
     outlinewidth,
     rotation,
     aspect
-  ){
+  ) {
 
     # Set gpar
     gp <- grid::gpar(
@@ -226,17 +249,17 @@ grid.plot.acmap <- function(
   ## that needs to be plotted with polygon
   gpoints <- list()
   pt_plot_batch <- c()
-  for(i in plotted_pt_order){
+  for (i in plotted_pt_order) {
 
     # Check if it is a non-standard shape, plot separately if so
-    if(
+    if (
       !pts$shape[i] %in% c("CIRCLE", "BOX", "TRIANGLE")
       || pts$rotation[i] != 0
       || pts$aspect[i] != 1
-      ){
+    ) {
 
       # Plot last batch of points
-      if(length(pt_plot_batch) > 0){
+      if (length(pt_plot_batch) > 0) {
         gpoints <- c(gpoints, list(plot_points(pts, pt_plot_batch)))
       }
 
@@ -246,11 +269,11 @@ grid.plot.acmap <- function(
       # Do a special plot for the special shape
       gpoints <- c(gpoints, list(
         plot_special_point(
-          coord        = pts$coords[i,,drop=F],
+          coord        = pts$coords[i, , drop = F],
           shape        = pts$shape[i],
           fill         = pts$fill[i],
           outline      = pts$outline[i],
-          size         = pts$size[i]*cex*0.2,
+          size         = pts$size[i] * cex * 0.2,
           outlinewidth = pts$outline_width[i],
           rotation     = pts$rotation[i],
           aspect       = pts$aspect[i]
@@ -266,38 +289,9 @@ grid.plot.acmap <- function(
   }
 
   # Plot remaining points
-  if(length(pt_plot_batch) > 0){
+  if (length(pt_plot_batch) > 0) {
     gpoints <- c(gpoints, list(plot_points(pts, pt_plot_batch)))
   }
-
-  # ## Plot blobs
-  # if(plot_blobs){
-  #   lapply(pt_order, function(x){
-  #     lapply(pt_blobs[[x]], function(blob){
-  #       polygon(
-  #         x = blob$x,
-  #         y = blob$y,
-  #         border = pts$outline[x],
-  #         col = pts$fill[x]
-  #       )
-  #     })
-  #   })
-  # }
-
-  # ## Add labels if requested
-  # if(plot_labels){
-  #   text(x = ag_coords[,1],
-  #        y = ag_coords[,2],
-  #        labels = agNames(map),
-  #        pos = 3,
-  #        offset = 1)
-  #
-  #   text(x = sr_coords[,1],
-  #        y = sr_coords[,2],
-  #        labels = srNames(map),
-  #        pos = 3,
-  #        offset = 1)
-  # }
 
   # Draw the plot
   grid::grid.newpage()
@@ -310,4 +304,3 @@ grid.plot.acmap <- function(
   )
 
 }
-

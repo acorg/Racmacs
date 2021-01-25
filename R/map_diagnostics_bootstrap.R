@@ -30,18 +30,21 @@ bootstrapMap <- function(
   ag_noise_sd              = 0.7,
   titer_noise_sd           = 0.7,
   options                  = list()
-){
+) {
 
   # Check there are already some map optimizations
-  if(numOptimizations(map) == 0){
-    stop("First run some optimizations on this map with 'optimizeMap()'", call. = FALSE)
+  if (numOptimizations(map) == 0) {
+    stop(
+      "First run some optimizations on this map with 'optimizeMap()'",
+      call. = FALSE
+    )
   }
 
   # Set options
   options <- do.call(RacOptimizer.options, options)
 
   # Run the bootstrap
-  map$bootstrap <- lapply(seq_len(bootstrap_repeats), function(x){
+  map$bootstrap <- lapply(seq_len(bootstrap_repeats), function(x) {
 
     # Do a bootstrap run
     bs_result <- ac_noisy_bootstrap_map(
@@ -86,33 +89,40 @@ bootstrapMap <- function(
 
 #' @rdname mapBootstrapCoords
 #' @export
-mapBootstrap_agCoords <- function(map){
+mapBootstrap_agCoords <- function(map) {
 
   # Return the data
   num_antigens <- numAntigens(map)
-  lapply(mapBootstrap_ptCoords(map), function(x){ x[seq_len(num_antigens),,drop=F] })
+  lapply(mapBootstrap_ptCoords(map), function(x) {
+    x[seq_len(num_antigens), , drop = F]
+  })
 
 }
 
 #' @rdname mapBootstrapCoords
 #' @export
-mapBootstrap_srCoords <- function(map){
+mapBootstrap_srCoords <- function(map) {
 
   # Return the data
   num_antigens <- numAntigens(map)
-  lapply(mapBootstrap_ptCoords(map), function(x){ x[-seq_len(num_antigens),,drop=F] })
+  lapply(mapBootstrap_ptCoords(map), function(x) {
+    x[-seq_len(num_antigens), , drop = F]
+  })
 
 }
 
 # Underlying function to get bootstrap coordinates
-mapBootstrap_ptCoords <- function(map){
+mapBootstrap_ptCoords <- function(map) {
 
   # Get bootstrap data
   bootstrap <- map$bootstrap
-  if(is.null(bootstrap)) stop("There are no bootstrap repeats associated with this map, create some first using 'bootstrapMap()'")
+  if (is.null(bootstrap)) stop(strwrap(
+    "There are no bootstrap repeats associated with this map,
+    create some first using 'bootstrapMap()'"
+  ))
 
   # Apply the map transformation to the bootstrap coordinates
-  lapply(bootstrap, function(result){
+  lapply(bootstrap, function(result) {
     applyMapTransform(
       coords = result$coords,
       map = map
@@ -120,7 +130,6 @@ mapBootstrap_ptCoords <- function(map){
   })
 
 }
-
 
 #' Calculate a blob geometry representing bootstrap point position variation
 #'
@@ -130,8 +139,10 @@ mapBootstrap_ptCoords <- function(map){
 #' that capture the requested point density.
 #'
 #' @param coords matrix of a points coordinates across the bootstrap repeats
-#' @param conf.level the confidence level, i.e. proportion of point variation the blob should capture
-#' @param smoothing the amount of smoothing to perform when performing the kernel density estimate
+#' @param conf.level the confidence level, i.e. proportion of point variation
+#'   the blob should capture
+#' @param smoothing the amount of smoothing to perform when performing the
+#'   kernel density estimate
 #'
 #' @noRd
 #'
@@ -139,16 +150,24 @@ coordDensityBlob <- function(
   coords,
   conf.level = 0.68,
   smoothing = 6
-  ){
+  ) {
 
   # Check dimensions
-  if(ncol(coords) != 2) stop("Bootstrap blobs are only supported for 2 dimensions")
+  if (ncol(coords) != 2) {
+    stop("Bootstrap blobs are only supported for 2 dimensions")
+  }
 
   # Check confidence level
-  if(conf.level != round(conf.level, 2)) stop("Confidence level must be to the nearest percent")
+  if (conf.level != round(conf.level, 2)) {
+    stop("Confidence level must be to the nearest percent")
+  }
 
   # Perform a kernal density fit
-  kd_fit <- ks::kde(coords, gridsize = 50, H = ks::Hpi(x = coords, nstage = 2, deriv.order = 0)*smoothing)
+  kd_fit <- ks::kde(
+    coords,
+    gridsize = 50,
+    H = ks::Hpi(x = coords, nstage = 2, deriv.order = 0) * smoothing
+  )
 
   # Calculate the contour blob
   contour_blob(
@@ -158,9 +177,3 @@ coordDensityBlob <- function(
   )
 
 }
-
-
-
-
-
-

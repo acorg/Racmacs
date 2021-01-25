@@ -4,7 +4,8 @@
 #' Takes the acmap object and, assuming the column bases associated with the
 #' currently selected or specifed optimization, returns the table distances
 #' calculated from the titer data. For more information on column bases and
-#' their role in antigenic cartography see `vignette("intro-to-antigenic-cartography")`
+#' their role in antigenic cartography see
+#' `vignette("intro-to-antigenic-cartography")`
 #'
 #' @param map The acmap data object
 #' @param optimization_number The optimization number
@@ -12,14 +13,15 @@
 #' @return Returns a matrix of numeric table distances
 #' @export
 #'
-#' @family {map diagnostic functions}{functions relating to map stress calculation}
+#' @family {map diagnostic functions}
+#'   {functions relating to map stress calculation}
 #'
 tableDistances <- function(
   map,
   optimization_number = 1
-  ){
+  ) {
 
-  if(numOptimizations(map) == 0){
+  if (numOptimizations(map) == 0) {
     stop("This map has no optimizations for which to calculate table distances")
   }
   ac_table_distances(
@@ -47,7 +49,7 @@ tableColbases <- function(
   titer_table,
   minimum_column_basis = "none",
   fixed_column_bases = rep(NA, ncol(titer_table))
-  ){
+  ) {
 
   check.charactermatrix(titer_table)
   check.string(minimum_column_basis)
@@ -69,17 +71,19 @@ tableColbases <- function(
 #' @param map The acmap data object
 #' @param optimization_number The optimization number
 #'
-#' @return Returns a matrix of map distances with antigens as rows and sera as columns.
+#' @return Returns a matrix of map distances with antigens as rows and sera as
+#'   columns.
 #' @export
 #'
-#' @family {map diagnostic functions}{functions relating to map stress calculation}
+#' @family {map diagnostic functions}
+#'   {functions relating to map stress calculation}
 #'
 mapDistances <- function(
   map,
   optimization_number = 1
-  ){
+  ) {
 
-  if(numOptimizations(map) == 0){
+  if (numOptimizations(map) == 0) {
     stop("This map has no optimizations for which to calculate map distances")
   }
 
@@ -102,9 +106,10 @@ mapDistances <- function(
 #' @return Returns a matrix of titers converted to the log scale
 #' @export
 #'
-#' @family {map diagnostic functions}{functions relating to map stress calculation}
+#' @family {map diagnostic functions}
+#'   {functions relating to map stress calculation}
 #'
-logtiterTable <- function(map){
+logtiterTable <- function(map) {
 
   matrix(
     log_titers(titerTable(map)),
@@ -118,20 +123,23 @@ logtiterTable <- function(map){
 #' Get a stress table from an acmap
 #'
 #' @param map The acmap object
-#' @param optimization_number The optimization number for which to calculate stresses
+#' @param optimization_number The optimization number for which to calculate
+#'   stresses
 #'
 #' @return Returns a matrix of stresses, showing how much each antigen and sera
-#'   measurement contributes to stress in the selected or specified optimization.
+#'   measurement contributes to stress in the selected or specified
+#'   optimization.
 #' @export
 #'
-#' @family {map diagnostic functions}{functions relating to map stress calculation}
+#' @family {map diagnostic functions}
+#'   {functions relating to map stress calculation}
 #'
 stressTable <- function(
   map,
   optimization_number = 1
-  ){
+  ) {
 
-  if(numOptimizations(map) == 0){
+  if (numOptimizations(map) == 0) {
     stop("This map has no optimizations for which to calculate a stress table")
   }
 
@@ -141,13 +149,13 @@ stressTable <- function(
   sr_coords   <- srBaseCoords(map, optimization_number)
 
   stress_table <- matrix(NaN, numAntigens(map), numSera(map))
-  for(ag in seq_len(numAntigens(map))){
-    for(sr in seq_len(numSera(map))){
+  for (ag in seq_len(numAntigens(map))) {
+    for (sr in seq_len(numSera(map))) {
       stress_table[ag, sr] <- ac_coords_stress(
-        tabledist_matrix = table_dist[ag,sr,drop=F],
-        titertype_matrix = titer_types[ag,sr,drop=F],
-        ag_coords = ag_coords[ag,,drop=F],
-        sr_coords = sr_coords[sr,,drop=F]
+        tabledist_matrix = table_dist[ag, sr, drop = F],
+        titertype_matrix = titer_types[ag, sr, drop = F],
+        ag_coords = ag_coords[ag, , drop = F],
+        sr_coords = sr_coords[sr, , drop = F]
       )
     }
   }
@@ -169,16 +177,20 @@ stressTable <- function(
 #'   map distance and table distance for each antigen-sera pair.
 #' @export
 #'
-#' @family {map diagnostic functions}{functions relating to map stress calculation}
+#' @family {map diagnostic functions}
+#'   {functions relating to map stress calculation}
 #'
 mapResiduals <- function(
   map,
   exclude_nd          = FALSE,
   optimization_number = 1
-){
+) {
 
-  if(numOptimizations(map) == 0){
-    stop("This map has no optimizations for which to calculate a residual table")
+  if (numOptimizations(map) == 0) {
+    stop(strwrap(
+      "This map has no optimizations for which
+      to calculate a residual table"
+    ))
   }
 
   map_dist    <- mapDistances(map, optimization_number)
@@ -187,7 +199,7 @@ mapResiduals <- function(
 
   residuals <- table_dist - map_dist
 
-  if(exclude_nd){
+  if (exclude_nd) {
     residuals[map_dist > table_dist & titer_types == 2] <- NA
     residuals[map_dist < table_dist & titer_types == 3] <- NA
   } else {
@@ -202,17 +214,22 @@ mapResiduals <- function(
 
 #' Recalculate the stress associated with an acmap optimization
 #'
-#' Recalculates the stress associated with the currently selected or user-specifed optimization.
+#' Recalculates the stress associated with the currently selected or
+#' user-specifed optimization.
 #'
 #' @param map The acmap data object
 #' @param optimization_number The optimization number
 #'
 #' @return Returns the recalculated map stress for a given optimization
 #'
-#' @family {map diagnostic functions}{functions relating to map stress calculation}
+#' @family {map diagnostic functions}
+#'   {functions relating to map stress calculation}
 #' @seealso See `pointStress()` for getting the stress of individual points.
 #' @export
-recalculateStress <- function(map, optimization_number = 1){
+recalculateStress <- function(
+  map,
+  optimization_number = 1
+  ) {
 
   check.acmap(map)
   check.optnum(map, optimization_number)
@@ -233,12 +250,16 @@ recalculateStress <- function(map, optimization_number = 1){
 #'
 #' @param map The acmap data object
 #' @param optimization_number The optimization number
-#' @param antigens Which antigens to check stress for, specified by index or name (defaults to all antigens).
-#' @param sera Which sera to check stress for, specified by index or name (defaults to all sera).
-#' @param exclude_nd Should non-detectable values (e.g. <10) be excluded when calculating point stress?
+#' @param antigens Which antigens to check stress for, specified by index or
+#'   name (defaults to all antigens).
+#' @param sera Which sera to check stress for, specified by index or name
+#'   (defaults to all sera).
+#' @param exclude_nd Should non-detectable values (e.g. <10) be excluded when
+#'   calculating point stress?
 #'
 #' @seealso See `mapStress()` for getting the total map stress directly.
-#' @family {map diagnostic functions}{functions relating to map stress calculation}
+#' @family {map diagnostic functions}
+#'   {functions relating to map stress calculation}
 #' @name pointStress
 #'
 
@@ -248,14 +269,14 @@ agStress <- function(
   map,
   antigens            = TRUE,
   optimization_number = 1
-){
+) {
 
   # Convert to indices
   antigens <- get_ag_indices(antigens, map, warnings = TRUE)
 
   # Calculate the stress
   stress_table <- stressTable(map, optimization_number)
-  rowSums(stress_table[antigens,])
+  rowSums(stress_table[antigens, ])
 
 }
 
@@ -265,14 +286,14 @@ srStress <- function(
   map,
   sera                = TRUE,
   optimization_number = 1
-){
+) {
 
   # Convert to indices
   sera <- get_sr_indices(sera, map, warnings = TRUE)
 
   # Calculate the stress
   stress_table <- stressTable(map, optimization_number)
-  colSums(stress_table[,sera])
+  colSums(stress_table[, sera])
 
 }
 
@@ -283,7 +304,7 @@ srStressPerTiter <- function(
   sera                = TRUE,
   optimization_number = 1,
   exclude_nd          = FALSE
-){
+) {
 
   # Convert to indices
   sera <- get_sr_indices(sera, map, warnings = TRUE)
@@ -296,9 +317,9 @@ srStressPerTiter <- function(
   )
 
   # Calculate the serum likelihood
-  vapply(sera, function(serum){
+  vapply(sera, function(serum) {
 
-    sr_residuals <- map_residuals[,serum]
+    sr_residuals <- map_residuals[, serum]
     sr_residuals <- sr_residuals[!is.na(sr_residuals)]
     sqrt((sum(sr_residuals^2) / length(sr_residuals)))
 
@@ -314,7 +335,7 @@ agStressPerTiter <- function(
   antigens            = TRUE,
   optimization_number = 1,
   exclude_nd          = FALSE
-){
+) {
 
   # Convert to indices
   antigens <- get_ag_indices(antigens, map, warnings = TRUE)
@@ -327,9 +348,9 @@ agStressPerTiter <- function(
   )
 
   # Calculate the serum likelihood
-  vapply(antigens, function(antigen){
+  vapply(antigens, function(antigen) {
 
-    ag_residuals <- map_residuals[antigen,]
+    ag_residuals <- map_residuals[antigen, ]
     ag_residuals <- ag_residuals[!is.na(ag_residuals)]
     sqrt((sum(ag_residuals^2) / length(ag_residuals)))
 
@@ -340,7 +361,7 @@ agStressPerTiter <- function(
 
 # Get a matrix of numeric titer types, where < or > is removed
 # 40 => 40, <10 => 10, >1280 => 1280
-numerictiterTable <- function(map){
+numerictiterTable <- function(map) {
 
   matrix(
     numeric_titers(titerTable(map)),
@@ -352,7 +373,7 @@ numerictiterTable <- function(map){
 
 # Get a matrix of integer types representing the titer types
 # 0: unmeasured, 1: measurable, 2: lessthan, 3: morethan
-titertypesTable <- function(map){
+titertypesTable <- function(map) {
 
   matrix(
     titer_types_int(titerTable(map)),
@@ -361,4 +382,3 @@ titertypesTable <- function(map){
   )
 
 }
-

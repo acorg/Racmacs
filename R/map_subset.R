@@ -13,17 +13,19 @@ get_ag_indices <- function(
   antigens = TRUE,
   map,
   warnings = TRUE
-  ){
+  ) {
 
   # Default to all points if null passed
-  if(isTRUE(antigens)) return(seq_len(numAntigens(map)))
+  if (isTRUE(antigens)) return(seq_len(numAntigens(map)))
 
   # Default to no points if null passed
-  if(is.null(antigens) || isFALSE(antigens) || length(antigens) == 0) return(c())
+  if (is.null(antigens)
+      || isFALSE(antigens)
+      || length(antigens) == 0) return(c())
 
   # Deal with selection by indices
-  if(is.numeric(antigens)){
-    if((min(antigens) < 1 || max(antigens) > numAntigens(map))){
+  if (is.numeric(antigens)) {
+    if ((min(antigens) < 1 || max(antigens) > numAntigens(map))) {
       stop("Antigen indices do not match the number of antigens", call. = FALSE)
     }
     return(antigens)
@@ -31,15 +33,25 @@ get_ag_indices <- function(
 
   ag_names   <- agNames(map)
   ag_matches <- match(antigens, ag_names)
-  if(warnings && sum(is.na(ag_matches)) != 0) {
-    strain_list_warning("The following antigens were not found in the map and were ignored:", antigens[is.na(ag_matches)])
+  if (warnings && sum(is.na(ag_matches)) != 0) {
+    strain_list_warning(
+      "The following antigens were not found in the map and were ignored:",
+      antigens[is.na(ag_matches)]
+    )
   }
 
   # Check that antigens were not found more than once
-  num_matches <- vapply(antigens[!is.na(ag_matches)], function(ag) sum(ag %in% ag_names), numeric(1))
+  num_matches <- vapply(
+    antigens[!is.na(ag_matches)],
+    function(ag) sum(ag %in% ag_names),
+    numeric(1)
+  )
   multimatched_ags <- num_matches != 1
-  if(sum(multimatched_ags) != 0){
-    strain_list_error("The following antigens were found multiple times:", antigens[multimatched_ags])
+  if (sum(multimatched_ags) != 0) {
+    strain_list_error(
+      "The following antigens were found multiple times:",
+      antigens[multimatched_ags]
+    )
   }
 
   ag_matches
@@ -51,7 +63,8 @@ get_ag_indices <- function(
 #'
 #' @param sera The sera to get indices
 #' @param map The acmap object
-#' @param warnings Should warnings be output about sera that were specified by name but not found in the map
+#' @param warnings Should warnings be output about sera that were specified by
+#'   name but not found in the map
 #'
 #' @return Returns the indices of matches sera
 #' @noRd
@@ -60,17 +73,17 @@ get_sr_indices <- function(
   sera = TRUE,
   map,
   warnings = TRUE
-  ){
+  ) {
 
   # Default to all sera if null passed
-  if(isTRUE(sera)) return(seq_len(numSera(map)))
+  if (isTRUE(sera)) return(seq_len(numSera(map)))
 
   # Default to no points if null passed
-  if(is.null(sera) || isFALSE(sera) || length(sera) == 0) return(c())
+  if (is.null(sera) || isFALSE(sera) || length(sera) == 0) return(c())
 
   # Deal with selection by indices
-  if(is.numeric(sera)){
-    if((min(sera) < 1 || max(sera) > numSera(map))){
+  if (is.numeric(sera)) {
+    if ((min(sera) < 1 || max(sera) > numSera(map))) {
       stop("Sera indices do not match the number of sera", call. = FALSE)
     }
     return(sera)
@@ -78,15 +91,25 @@ get_sr_indices <- function(
 
   sr_names   <- srNames(map)
   sr_matches <- match(sera, sr_names)
-  if(warnings && sum(is.na(sr_matches)) > 0) {
-    strain_list_warning("The following sera were not found in the map and were ignored:", sera[is.na(sr_matches)])
+  if (warnings && sum(is.na(sr_matches)) > 0) {
+    strain_list_warning(
+      "The following sera were not found in the map and were ignored:",
+      sera[is.na(sr_matches)]
+    )
   }
 
   # Check that sera were not found more than once
-  num_matches <- vapply(sera[!is.na(sr_matches)], function(sr) sum(sr %in% sr_names), numeric(1))
+  num_matches <- vapply(
+    sera[!is.na(sr_matches)],
+    function(sr) sum(sr %in% sr_names),
+    numeric(1)
+  )
   multimatched_sr <- num_matches != 1
-  if(sum(multimatched_sr) != 0){
-    strain_list_error("The following sera were found multiple times:", sera[multimatched_sr])
+  if (sum(multimatched_sr) != 0) {
+    strain_list_error(
+      "The following sera were found multiple times:",
+      sera[multimatched_sr]
+    )
   }
 
   sr_matches
@@ -110,7 +133,7 @@ subsetMap <- function(
   map,
   antigens = TRUE,
   sera     = TRUE
-  ){
+  ) {
 
   # Match by antigen and sera name if character vectors are specified
   antigens <- stats::na.omit(get_ag_indices(antigens, map))
@@ -132,7 +155,7 @@ subsetMap <- function(
 subsetAntigens <- function(
   map,
   antigens = TRUE
-  ){
+  ) {
 
   # Match by antigen and sera name if character vectors are specified
   antigens <- stats::na.omit(get_ag_indices(antigens, map))
@@ -153,7 +176,7 @@ subsetAntigens <- function(
 subsetSera <- function(
   map,
   sera = TRUE
-){
+) {
 
   # Match by antigen and sera name if character vectors are specified
   sera <- stats::na.omit(get_sr_indices(sera, map))
@@ -184,13 +207,13 @@ subsetSera <- function(
 
 #' @export
 #' @rdname orderPoints
-orderAntigens <- function(map, order){
+orderAntigens <- function(map, order) {
   subsetAntigens(map, order)
 }
 
 #' @export
 #' @rdname orderPoints
-orderSera <- function(map, order){
+orderSera <- function(map, order) {
   subsetSera(map, order)
 }
 
@@ -209,19 +232,14 @@ orderSera <- function(map, order){
 
 #' @export
 #' @rdname removePoints
-removeAntigens <- function(map, antigens){
+removeAntigens <- function(map, antigens) {
   antigens <- get_ag_indices(antigens, map)
   subsetAntigens(map, which(!seq_len(numAntigens(map)) %in% antigens))
 }
 
 #' @export
 #' @rdname removePoints
-removeSera <- function(map, sera){
+removeSera <- function(map, sera) {
   sera <- get_sr_indices(sera, map)
   subsetSera(map, which(!seq_len(numSera(map)) %in% sera))
 }
-
-
-
-
-

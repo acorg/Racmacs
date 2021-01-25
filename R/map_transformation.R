@@ -15,7 +15,7 @@ applyMapTransform <- function(
   coords,
   map,
   optimization_number = 1
-){
+) {
 
   # Check input
   check.numericmatrix(coords)
@@ -37,7 +37,8 @@ applyMapTransform <- function(
 #'
 #' @param map The acmap object
 #' @param translation Translation to apply (as vector or n x 1 matrix)
-#' @param optimization_number The optimization number (or NULL to apply to all optimizations)
+#' @param optimization_number The optimization number (or NULL to apply to all
+#'   optimizations)
 #'
 #' @family {functions relating to map transformation}
 #' @export
@@ -46,13 +47,15 @@ translateMap <- function(
   map,
   translation,
   optimization_number = NULL
-  ){
+  ) {
 
   # Check input
-  if(is.vector(translation)) translation <- matrix(translation, ncol = 1)
+  if (is.vector(translation)) translation <- matrix(translation, ncol = 1)
 
   # Determine which optimizations to rotate
-  if(is.null(optimization_number)) optimization_number <- seq_len(numOptimizations(map))
+  if (is.null(optimization_number)) {
+    optimization_number <- seq_len(numOptimizations(map))
+  }
 
   # Rotate the optimizations
   map$optimizations[optimization_number] <- lapply(
@@ -72,7 +75,8 @@ translateMap <- function(
 #'
 #' @param map The acmap object
 #' @param axis Axis of reflection
-#' @param optimization_number The optimization number (or NULL to apply to all optimizations)
+#' @param optimization_number The optimization number (or NULL to apply to all
+#'   optimizations)
 #'
 #' @family {functions relating to map transformation}
 #' @export
@@ -81,19 +85,21 @@ reflectMap <- function(
   map,
   axis = "x",
   optimization_number = NULL
-  ){
+  ) {
 
   # Set the axis num
-  if(is.null(axis)){
+  if (is.null(axis)) {
     axis_num <- 3
-  } else if ( axis %in% c("x", "y", "z") ){
+  } else if (axis %in% c("x", "y", "z")) {
     axis_num <- match(axis, c("x", "y", "z"))
   } else {
     stop("Reflection is only supported in x, y or z dimensions")
   }
 
   # Determine which optimizations to rotate
-  if(is.null(optimization_number)) optimization_number <- seq_len(numOptimizations(map))
+  if (is.null(optimization_number)) {
+    optimization_number <- seq_len(numOptimizations(map))
+  }
 
   # Rotate the optimizations
   map$optimizations[optimization_number] <- lapply(
@@ -114,7 +120,8 @@ reflectMap <- function(
 #' @param map The acmap object
 #' @param degrees Degrees of rotation
 #' @param axis Axis of rotation (if 3D), specified as "x", "y", or "z"
-#' @param optimization_number The optimization number (or NULL to apply to all optimizations)
+#' @param optimization_number The optimization number (or NULL to apply to all
+#'   optimizations)
 #'
 #' @family {functions relating to map transformation}
 #' @export
@@ -124,19 +131,21 @@ rotateMap <- function(
   degrees,
   axis = NULL,
   optimization_number = NULL
-  ){
+  ) {
 
   # Set the axis num
-  if(is.null(axis)){
+  if (is.null(axis)) {
     axis_num <- 3
-  } else if ( axis %in% c("x", "y", "z") ){
+  } else if (axis %in% c("x", "y", "z")) {
     axis_num <- match(axis, c("x", "y", "z"))
   } else {
     stop("Rotation is only supported in x, y or z dimensions")
   }
 
   # Determine which optimizations to rotate
-  if(is.null(optimization_number)) optimization_number <- seq_len(numOptimizations(map))
+  if (is.null(optimization_number)) {
+    optimization_number <- seq_len(numOptimizations(map))
+  }
 
   # Rotate the optimizations
   map$optimizations[optimization_number] <- lapply(
@@ -149,6 +158,3 @@ rotateMap <- function(
   map
 
 }
-
-
-

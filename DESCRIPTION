@@ -45,6 +45,8 @@ LinkingTo:
     RcppProgress, 
     RcppEnsmallen, 
     rapidjsonr
+Remotes: 
+    shwilks/r3js
 VignetteBuilder: knitr
 URL: https://github.com/acorg/Racmacs
 BugReports: https://github.com/acorg/Racmacs/issues

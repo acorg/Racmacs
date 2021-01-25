@@ -30,14 +30,14 @@ RacViewer <- function(
   ) {
 
   # Get map data as json
-  if(is.null(map)) mapdata <- NULL
-  else             mapdata <- as.json(map)
+  if (is.null(map)) mapdata <- NULL
+  else              mapdata <- as.json(map)
 
   # Parse options
   options <- do.call(RacViewer.options, options)
 
   # Add a rotating grid to the plotdata if specified
-  if(options$grid.display == "rotate"){
+  if (options$grid.display == "rotate") {
     map <- addMapGrid(map)
   }
 

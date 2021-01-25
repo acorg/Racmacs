@@ -21,16 +21,16 @@
 #' @details This is the core function to run map optimizations. In essence, for
 #'   each optimization run, points are randomly distributed in n-dimensional
 #'   space, the L-BFGS gradient-based optimization algorithm is applied to move
-#'   points into an optimal position. Depending on the map, this may not
-#'   be a trivial optimization process and results will depend upon the starting
+#'   points into an optimal position. Depending on the map, this may not be a
+#'   trivial optimization process and results will depend upon the starting
 #'   conditions so multiple optimization runs may be required. For a full
 #'   explanation see `vignette("intro-to-antigenic-cartography")`.
 #'
-#'   ## Minimum column basis and fixed column bases
-#'   Fixed column bases is a vector of fixed column bases for each sera, where
-#'   NA is specified (the default) column bases will be calculated according to
-#'   the `minimum_column_basis` setting. Again for a full explanation of
-#'   column bases and what they mean see `vignette("intro-to-antigenic-cartography")`.
+#'   ## Minimum column basis and fixed column bases Fixed column bases is a
+#'   vector of fixed column bases for each sera, where NA is specified (the
+#'   default) column bases will be calculated according to the
+#'   `minimum_column_basis` setting. Again for a full explanation of column
+#'   bases and what they mean see `vignette("intro-to-antigenic-cartography")`.
 #'
 #' @return Returns the acmap object updated with new optimizations.
 #'
@@ -49,10 +49,12 @@ optimizeMap <- function(
   sort_optimizations = TRUE,
   verbose  = TRUE,
   options = list()
-  ){
+  ) {
 
   # Warn about overwriting previous optimizations
-  if(numOptimizations(map) > 0) vmessage(verbose, "Discarding previous optimization runs.")
+  if (numOptimizations(map) > 0) {
+    vmessage(verbose, "Discarding previous optimization runs.")
+  }
   map <- removeOptimizations(map)
 
   # Get optimizer options
@@ -72,7 +74,14 @@ optimizeMap <- function(
 
   tend <- Sys.time()
   tlength <- round(tend - tstart, 2)
-  vmessage(verbose, "Took ", format(unclass(tlength)), " ", attr(tlength, "units"), "\n")
+  vmessage(
+    verbose,
+    "Took ",
+    format(unclass(tlength)),
+    " ",
+    attr(tlength, "units"),
+    "\n"
+  )
 
   # Return the optimised map
   map
@@ -116,7 +125,7 @@ make.acmap <- function(
   sort_optimizations      = TRUE,
   verbose                 = TRUE,
   options                 = list()
-  ){
+  ) {
 
   # Make the chart
   map <- acmap(
@@ -175,11 +184,13 @@ RacOptimizer.options <- function(
   check.numeric(maxit)
   check.numeric(num_cores)
   check.numeric(progress_bar_length)
-  if(!is.null(report_progress)) check.logical(report_progress)
+  if (!is.null(report_progress)) check.logical(report_progress)
 
   # This is a hack to attempt to see if messages are currently suppressed
-  if(is.null(report_progress)){
-    report_progress <- length(utils::capture.output(message("a"), type = "message")) > 0
+  if (is.null(report_progress)) {
+    report_progress <- length(
+      utils::capture.output(message("a"), type = "message")
+    ) > 0
   }
 
   list(
@@ -207,7 +218,8 @@ RacOptimizer.options <- function(
 #'
 #' @return Returns an acmap object with the optimization relaxed.
 #'
-#' @seealso See `optimizeMap()` for performing new optimization runs from random starting coordinates.
+#' @seealso See `optimizeMap()` for performing new optimization runs from random
+#'   starting coordinates.
 #'
 #' @family {map optimization functions}
 #' @export
@@ -261,7 +273,7 @@ relaxMapOneStep <- function(
   fixed_antigens = FALSE,
   fixed_sera = FALSE,
   options = list()
-){
+) {
 
   # Get options
   options <- do.call(RacOptimizer.options, options)
@@ -309,9 +321,9 @@ randomizeCoords <- function(
   table_dists <- tableDistances(map, optimization_number = optimization_number)
   max_table_dist <- max(table_dists, na.rm = TRUE)
 
-  random_coords <- function(nrow, ndim, min, max){
+  random_coords <- function(nrow, ndim, min, max) {
     matrix(
-      data = stats::runif(nrow*ndim, min, max),
+      data = stats::runif(nrow * ndim, min, max),
       nrow = nrow,
       ncol = ndim
     )
@@ -320,15 +332,15 @@ randomizeCoords <- function(
   agBaseCoords(map) <- random_coords(
     nrow = numAntigens(map),
     ndim = mapDimensions(map, optimization_number = optimization_number),
-    min  = -(max_table_dist*table_dist_factor)/2,
-    max  = (max_table_dist*table_dist_factor)/2
+    min  = -(max_table_dist * table_dist_factor) / 2,
+    max  = (max_table_dist * table_dist_factor) / 2
   )
 
   srBaseCoords(map) <- random_coords(
     nrow = numSera(map),
     ndim = mapDimensions(map, optimization_number = optimization_number),
-    min  = -(max_table_dist*table_dist_factor)/2,
-    max  = (max_table_dist*table_dist_factor)/2
+    min  = -(max_table_dist * table_dist_factor) / 2,
+    max  = (max_table_dist * table_dist_factor) / 2
   )
 
   map
@@ -352,13 +364,17 @@ mapRelaxed <- function(
   map,
   optimization_number = 1,
   options = list()
-  ){
+  ) {
 
   # Check stress
-  stress         <- mapStress(map, optimization_number)
+  stress <- mapStress(map, optimization_number)
 
   # Relax map
-  relaxed_map    <- relaxMapOneStep(map, optimization_number, options = do.call(RacOptimizer.options, options))
+  relaxed_map <- relaxMapOneStep(
+    map,
+    optimization_number,
+    options = do.call(RacOptimizer.options, options)
+  )
   relaxed_stress <- mapStress(relaxed_map, optimization_number)
 
   # Compare stress
@@ -383,7 +399,7 @@ checkHemisphering <- function(
   map,
   optimization_number = 1,
   stepsize = 0.1
-  ){
+  ) {
 
   stop("Not yet implemented")
 
@@ -393,10 +409,10 @@ checkHemisphering <- function(
 #' Move trapped points
 #'
 #' Sometimes points in a map optimization run get trapped in local optima, this
-#' function tries to combat this by doing a grid search for each point individually
-#' moving points if a better optima is found. Note that this only performs grid
-#' searches individually so won't find cases where a group of points are trapped
-#' together in a local optima.
+#' function tries to combat this by doing a grid search for each point
+#' individually moving points if a better optima is found. Note that this only
+#' performs grid searches individually so won't find cases where a group of
+#' points are trapped together in a local optima.
 #'
 #' The search is iterative, searching for and moving points that are found to be
 #' trapped before relaxing the map and searching again, stopping either when no
@@ -421,7 +437,7 @@ moveTrappedPoints <- function(
   grid_spacing = 0.25,
   max_iterations = 10,
   options = list()
-  ){
+  ) {
 
   # Move trapped points in the optimization
   map$optimizations[[optimization_number]] <- ac_move_trapped_points(
@@ -440,5 +456,3 @@ moveTrappedPoints <- function(
   map
 
 }
-
-

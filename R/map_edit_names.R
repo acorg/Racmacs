@@ -13,10 +13,10 @@ edit_agNames <- function(
   map,
   old_names,
   new_names
-  ){
+  ) {
 
   # Check the length of the old and new names are the same
-  if(length(old_names) != length(new_names)){
+  if (length(old_names) != length(new_names)) {
     stop("The lengths of old names and new names must match")
   }
 
@@ -46,10 +46,10 @@ edit_srNames <- function(
   map,
   old_names,
   new_names
-  ){
+  ) {
 
   # Check the length of the old and new names are the same
-  if(length(old_names) != length(new_names)){
+  if (length(old_names) != length(new_names)) {
     stop("The lengths of old names and new names must match")
   }
 
@@ -68,8 +68,9 @@ edit_srNames <- function(
 #' Update the ferret serum names to match antigens
 #'
 #' @param map The map data object
-#' @param dictionary_file The path to the dictionary file you want to use (should be .csv).
-#' If not supplied then the default dictionary that comes with Racmacs will be used.
+#' @param dictionary_file The path to the dictionary file you want to use
+#'   (should be .csv). If not supplied then the default dictionary that comes
+#'   with Racmacs will be used.
 #'
 #' @return Returns the updated map data object
 #' @export
@@ -77,11 +78,14 @@ edit_srNames <- function(
 update_ferret_seraNames <- function(
   map,
   dictionary_file = NULL
-  ){
+  ) {
 
   # Read from default dictionary if not supplied
-  if(is.null(dictionary_file)){
-    dictionary_file <- system.file("extdata/ferret_ag_dictionary.csv", package="Racmacs")
+  if (is.null(dictionary_file)) {
+    dictionary_file <- system.file(
+      "extdata/ferret_ag_dictionary.csv",
+      package = "Racmacs"
+    )
   }
 
   # Read in csv file
@@ -94,13 +98,8 @@ update_ferret_seraNames <- function(
   # Update the map file
   edit_srNames(
     map       = map,
-    old_names = dictionary[,1],
-    new_names = dictionary[,2]
+    old_names = dictionary[, 1],
+    new_names = dictionary[, 2]
   )
 
 }
-
-
-
-
-

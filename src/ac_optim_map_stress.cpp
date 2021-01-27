@@ -111,8 +111,7 @@ class MapOptimizer {
     // EVALUATE OBJECTIVE FUNCTION
     // This is needed for optimization methods that don't evaluate the gradient
     double Evaluate(
-        const arma::mat &pars,
-        arma::mat &grad
+        const arma::mat &pars
     ){
 
       // Update coords from parameters

@@ -141,18 +141,10 @@ class MapOptimizer {
       update_gradients();
 
       // Apply the gradients of moveable points to grad
-      if( moveable_ags.n_elem > 0 ){
-        grad.rows(
-          0,
-          moveable_ags.n_elem - 1
-        ) = ag_gradients.rows( moveable_ags );
-      }
-      if( moveable_sr.n_elem > 0 ){
-        grad.rows(
-          moveable_ags.n_elem,
-          moveable_ags.n_elem + moveable_sr.n_elem - 1
-        ) = sr_gradients.rows( moveable_sr );
-      }
+      grad = arma::join_cols(
+        ag_gradients.rows( moveable_ags ),
+        sr_gradients.rows( moveable_sr )
+      );
 
       // Calculate and return the stress
       return calculate_stress();
@@ -167,26 +159,26 @@ class MapOptimizer {
       sr_gradients.zeros();
 
       // Now we cycle through each antigen and sera and calculate the gradient
-      for(arma::uword ag = 0; ag < num_ags; ++ag) {
-        for(arma::uword sr = 0; sr < num_sr; ++sr) {
+      for(arma::uword sr = 0; sr < num_sr; ++sr) {
+        for(arma::uword ag = 0; ag < num_ags; ++ag) {
 
           // Skip unmeasured titers
-          if(titertype_matrix(ag,sr) == 0){
+          if(titertype_matrix.at(ag,sr) == 0){
             continue;
           }
 
           // Calculate inc_base
           double ibase = inc_base(
-            mapdist_matrix(ag,sr),
-            tabledist_matrix(ag,sr),
-            titertype_matrix(ag,sr)
+            mapdist_matrix.at(ag,sr),
+            tabledist_matrix.at(ag,sr),
+            titertype_matrix.at(ag,sr)
           );
 
           // Now calculate the gradient for each coordinate
           for(arma::uword i = 0; i < num_dims; ++i) {
-            gradient = ibase*(ag_coords(ag,i) - sr_coords(sr,i));
-            ag_gradients(ag,i) -= gradient;
-            sr_gradients(sr,i) += gradient;
+            gradient = ibase*(ag_coords.at(ag,i) - sr_coords.at(sr,i));
+            ag_gradients.at(ag,i) -= gradient;
+            sr_gradients.at(sr,i) += gradient;
           }
 
         }
@@ -201,19 +193,19 @@ class MapOptimizer {
       stress = 0;
 
       // Now we cycle through and sum up the stresses
-      for(arma::uword ag = 0; ag < num_ags; ++ag) {
-        for(arma::uword sr = 0; sr < num_sr; ++sr) {
+      for(arma::uword sr = 0; sr < num_sr; ++sr) {
+        for(arma::uword ag = 0; ag < num_ags; ++ag) {
 
           // Skip unmeasured titers
-          if(titertype_matrix(ag,sr) == 0){
+          if(titertype_matrix.at(ag,sr) == 0){
             continue;
           }
 
           // Now calculate the stress
           stress += ac_ptStress(
-            mapdist_matrix(ag,sr),
-            tabledist_matrix(ag,sr),
-            titertype_matrix(ag,sr)
+            mapdist_matrix.at(ag,sr),
+            tabledist_matrix.at(ag,sr),
+            titertype_matrix.at(ag,sr)
           );
 
         }
@@ -229,21 +221,15 @@ class MapOptimizer {
       const arma::mat &pars
     ){
 
-      for(arma::uword i = 0; i < moveable_ags.n_elem; ++i) {
-        for(arma::uword j = 0; j < num_dims; ++j) {
-
-          // Update the coordinates
-          ag_coords(moveable_ags(i),j) = pars(i, j);
-
+      for(arma::uword j = 0; j < num_dims; ++j) {
+        for(arma::uword i = 0; i < moveable_ags.n_elem; ++i) {
+          ag_coords.at(moveable_ags(i),j) = pars.at(i, j);
         }
       }
 
-      for(arma::uword i = 0; i < moveable_sr.n_elem; ++i) {
-        for(arma::uword j = 0; j < num_dims; ++j) {
-
-          // Update the coordinates
-          sr_coords(moveable_sr(i),j) = pars(i + moveable_ags.n_elem, j);
-
+      for(arma::uword j = 0; j < num_dims; ++j) {
+        for(arma::uword i = 0; i < moveable_sr.n_elem; ++i) {
+          sr_coords.at(moveable_sr(i),j) = pars.at(i + moveable_ags.n_elem, j);
         }
       }
 
@@ -252,20 +238,16 @@ class MapOptimizer {
     // UPDATE THE MAP DISTANCE MATRIX
     void update_map_dist_matrix(){
 
-      for (arma::uword ag = 0; ag < num_ags; ag++) {
-        for (arma::uword sr = 0; sr < num_sr; sr++) {
+      for (arma::uword sr = 0; sr < num_sr; sr++) {
+        for (arma::uword ag = 0; ag < num_ags; ag++) {
 
           // Only calculate distances where ag and sr were titrated
-          if(titertype_matrix(ag,sr) != 0){
+          if(titertype_matrix.at(ag,sr) == 0) continue;
 
-            // Calculate the euclidean distance
-            double map_dist = 0;
-            for(arma::uword i = 0; i < num_dims; ++i) {
-              map_dist += pow(ag_coords(ag, i) - sr_coords(sr, i), 2);
-            }
-            mapdist_matrix(ag,sr) = sqrt(map_dist);
-
-          }
+          // Calculate the euclidean distance
+          mapdist_matrix.at(ag,sr) = sqrt(arma::accu(arma::square(
+            ag_coords.row(ag) - sr_coords.row(sr)
+          )));
 
         }
       }

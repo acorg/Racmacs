@@ -73,6 +73,10 @@ ac_ag_get_reference <- function(ag) {
     .Call('_Racmacs_ac_ag_get_reference', PACKAGE = 'Racmacs', ag)
 }
 
+ac_ag_get_passage <- function(ag) {
+    .Call('_Racmacs_ac_ag_get_passage', PACKAGE = 'Racmacs', ag)
+}
+
 ac_ag_get_name <- function(ag) {
     .Call('_Racmacs_ac_ag_get_name', PACKAGE = 'Racmacs', ag)
 }
@@ -103,6 +107,10 @@ ac_ag_set_date <- function(ag, value) {
 
 ac_ag_set_reference <- function(ag, value) {
     .Call('_Racmacs_ac_ag_set_reference', PACKAGE = 'Racmacs', ag, value)
+}
+
+ac_ag_set_passage <- function(ag, value) {
+    .Call('_Racmacs_ac_ag_set_passage', PACKAGE = 'Racmacs', ag, value)
 }
 
 ac_ag_set_name <- function(ag, value) {
@@ -289,6 +297,10 @@ ac_sr_get_reference <- function(sr) {
     .Call('_Racmacs_ac_sr_get_reference', PACKAGE = 'Racmacs', sr)
 }
 
+ac_sr_get_passage <- function(sr) {
+    .Call('_Racmacs_ac_sr_get_passage', PACKAGE = 'Racmacs', sr)
+}
+
 ac_sr_get_name <- function(sr) {
     .Call('_Racmacs_ac_sr_get_name', PACKAGE = 'Racmacs', sr)
 }
@@ -319,6 +331,10 @@ ac_sr_set_date <- function(sr, value) {
 
 ac_sr_set_reference <- function(sr, value) {
     .Call('_Racmacs_ac_sr_set_reference', PACKAGE = 'Racmacs', sr, value)
+}
+
+ac_sr_set_passage <- function(sr, value) {
+    .Call('_Racmacs_ac_sr_set_passage', PACKAGE = 'Racmacs', sr, value)
 }
 
 ac_sr_set_name <- function(sr, value) {

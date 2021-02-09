@@ -11,6 +11,7 @@
 \alias{srNamesFull}
 \alias{srNamesAbbreviated}
 \alias{srReference}
+\alias{srPassage}
 \title{Getting and setting sera attributes}
 \usage{
 srNames(map)
@@ -22,6 +23,7 @@ srDates(map) <- value
 srNamesFull(map)
 srNamesAbbreviated(map)
 srReference(map)
+srPassage(map)
 }
 \arguments{
 \item{map}{The acmap data object}

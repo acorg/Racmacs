@@ -11,6 +11,7 @@
 \alias{agNamesFull}
 \alias{agNamesAbbreviated}
 \alias{agReference}
+\alias{agPassage}
 \title{Getting and setting antigen attributes}
 \usage{
 agNames(map)
@@ -22,6 +23,7 @@ agDates(map) <- value
 agNamesFull(map)
 agNamesAbbreviated(map)
 agReference(map)
+agPassage(map)
 }
 \arguments{
 \item{map}{The acmap data object}

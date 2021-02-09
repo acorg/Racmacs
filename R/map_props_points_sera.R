@@ -47,7 +47,8 @@ sera_setter <- function(fn) {
 #'   "srDates", "srDates<-",
 #'   "srNamesFull",
 #'   "srNamesAbbreviated",
-#'   "srReference"
+#'   "srReference",
+#'   "srPassage"
 #'   ),
 #'   args    = c("map")
 #' )
@@ -58,6 +59,7 @@ srReference         <- sera_getter(ac_sr_get_reference)
 srNames             <- sera_getter(ac_sr_get_name)
 srNamesFull         <- sera_getter(ac_sr_get_name_full)
 srNamesAbbreviated  <- sera_getter(ac_sr_get_name_abbreviated)
+srPassage           <- sera_getter(ac_sr_get_passage)
 srGroupValues       <- sera_getter(ac_sr_get_group)
 
 `srIDs<-`               <- sera_setter(ac_sr_set_id)
@@ -66,6 +68,7 @@ srGroupValues       <- sera_getter(ac_sr_get_group)
 `srNames<-`             <- sera_setter(ac_sr_set_name)
 `srNamesFull<-`         <- sera_setter(ac_sr_set_name_full)
 `srNamesAbbreviated<-`  <- sera_setter(ac_sr_set_name_abbreviated)
+`srPassage<-`           <- sera_setter(ac_sr_set_passage)
 `srGroupValues<-`       <- sera_setter(ac_sr_set_group)
 
 

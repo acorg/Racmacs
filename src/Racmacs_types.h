@@ -172,6 +172,7 @@ namespace Rcpp {
         _["date"] = ag.get_date(),
         _["group"] = ag.get_group(),
         _["sequence"] = ag.get_sequence(),
+        _["passage"] = ag.get_passage(),
 
         // Plotspec
         _["plotspec"] = as<List>(wrap(ag.plotspec))
@@ -199,6 +200,7 @@ namespace Rcpp {
         _["date"] = sr.get_date(),
         _["group"] = sr.get_group(),
         _["sequence"] = sr.get_sequence(),
+        _["passage"] = sr.get_passage(),
 
         // Plotspec
         _["plotspec"] = as<List>(wrap(sr.plotspec))
@@ -552,6 +554,7 @@ namespace Rcpp {
     if(list.containsElementNamed("date")) ag.set_date(list["date"]);
     if(list.containsElementNamed("group")) ag.set_group(list["group"]);
     if(list.containsElementNamed("sequence")) ag.set_sequence(list["sequence"]);
+    if(list.containsElementNamed("passage")) ag.set_passage(list["passage"]);
 
     // Plotspec
     if(list.containsElementNamed("plotspec")) ag.plotspec = as<AcPlotspec>(list["plotspec"]);
@@ -576,6 +579,7 @@ namespace Rcpp {
     if(list.containsElementNamed("date")) sr.set_date(list["date"]);
     if(list.containsElementNamed("group")) sr.set_group(list["group"]);
     if(list.containsElementNamed("sequence")) sr.set_sequence(list["sequence"]);
+    if(list.containsElementNamed("passage")) sr.set_passage(list["passage"]);
 
     // Plotspec
     if(list.containsElementNamed("plotspec")) sr.plotspec = as<AcPlotspec>(list["plotspec"]);

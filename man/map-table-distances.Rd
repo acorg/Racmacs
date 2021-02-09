@@ -25,7 +25,8 @@ plotly_map_table_distance(
 \arguments{
 \item{map}{The acmap data object}
 
-\item{optimization_number}{The optimization number from which to take map and table distances}
+\item{optimization_number}{The optimization number from which to take map and
+table distances}
 
 \item{xlim}{The x limits of the plot}
 

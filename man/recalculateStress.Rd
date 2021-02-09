@@ -15,12 +15,14 @@ recalculateStress(map, optimization_number = 1)
 Returns the recalculated map stress for a given optimization
 }
 \description{
-Recalculates the stress associated with the currently selected or user-specifed optimization.
+Recalculates the stress associated with the currently selected or
+user-specifed optimization.
 }
 \seealso{
 See \code{pointStress()} for getting the stress of individual points.
 
-Other {map diagnostic functions}{functions relating to map stress calculation}: 
+Other {map diagnostic functions}
+{functions relating to map stress calculation}: 
 \code{\link{logtiterTable}()},
 \code{\link{mapDistances}()},
 \code{\link{mapResiduals}()},
@@ -28,4 +30,5 @@ Other {map diagnostic functions}{functions relating to map stress calculation}:
 \code{\link{stressTable}()},
 \code{\link{tableDistances}()}
 }
-\concept{{map diagnostic functions}{functions relating to map stress calculation}}
+\concept{{map diagnostic functions}
+{functions relating to map stress calculation}}

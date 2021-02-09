@@ -18,7 +18,8 @@ $log2(x/10)$, lessthan values are reduced by 1 on the log scale and greater
 than values are increased by 1, hence <10 => -1 and >1280 => 8
 }
 \seealso{
-Other {map diagnostic functions}{functions relating to map stress calculation}: 
+Other {map diagnostic functions}
+{functions relating to map stress calculation}: 
 \code{\link{mapDistances}()},
 \code{\link{mapResiduals}()},
 \code{\link{pointStress}},
@@ -26,4 +27,5 @@ Other {map diagnostic functions}{functions relating to map stress calculation}:
 \code{\link{stressTable}()},
 \code{\link{tableDistances}()}
 }
-\concept{{map diagnostic functions}{functions relating to map stress calculation}}
+\concept{{map diagnostic functions}
+{functions relating to map stress calculation}}

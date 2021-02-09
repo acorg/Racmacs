@@ -12,7 +12,8 @@ agGroups(map) <- value
 \arguments{
 \item{map}{The acmap object}
 
-\item{value}{A character or factor vector of groupings to apply to the antigens}
+\item{value}{A character or factor vector of groupings to apply to the
+antigens}
 }
 \description{
 These functions get and set the antigen groupings for a map.

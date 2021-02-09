@@ -31,7 +31,8 @@ Optimize antigen and serum positions starting from their current coordinates
 in the selected or specified optimization.
 }
 \seealso{
-See \code{optimizeMap()} for performing new optimization runs from random starting coordinates.
+See \code{optimizeMap()} for performing new optimization runs from random
+starting coordinates.
 
 Other {map optimization functions}: 
 \code{\link{make.acmap}()},

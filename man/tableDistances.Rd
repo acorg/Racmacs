@@ -18,10 +18,12 @@ Returns a matrix of numeric table distances
 Takes the acmap object and, assuming the column bases associated with the
 currently selected or specifed optimization, returns the table distances
 calculated from the titer data. For more information on column bases and
-their role in antigenic cartography see \code{vignette("intro-to-antigenic-cartography")}
+their role in antigenic cartography see
+\code{vignette("intro-to-antigenic-cartography")}
 }
 \seealso{
-Other {map diagnostic functions}{functions relating to map stress calculation}: 
+Other {map diagnostic functions}
+{functions relating to map stress calculation}: 
 \code{\link{logtiterTable}()},
 \code{\link{mapDistances}()},
 \code{\link{mapResiduals}()},
@@ -29,4 +31,5 @@ Other {map diagnostic functions}{functions relating to map stress calculation}:
 \code{\link{recalculateStress}()},
 \code{\link{stressTable}()}
 }
-\concept{{map diagnostic functions}{functions relating to map stress calculation}}
+\concept{{map diagnostic functions}
+{functions relating to map stress calculation}}

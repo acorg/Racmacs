@@ -47,7 +47,8 @@
 
 \item{outline.alpha}{alpha for point outline}
 
-\item{padding}{padding at limits of the antigenic map, ignored if xlim or ylim set explicitly}
+\item{padding}{padding at limits of the antigenic map, ignored if xlim or
+ylim set explicitly}
 
 \item{cex}{point size expansion factor}
 

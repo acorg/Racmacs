@@ -30,7 +30,8 @@ RacViewer(
 
 \item{show_procrustes}{should procrustes lines be shown}
 
-\item{options}{A named list of viewer options supplied to \code{racviewer.options()}}
+\item{options}{A named list of viewer options supplied to
+\code{racviewer.options()}}
 
 \item{width}{Width of the widget}
 

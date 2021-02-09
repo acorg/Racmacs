@@ -20,20 +20,25 @@ dimensionTestMap(
 
 \item{dimensions_to_test}{A numeric vector of dimensions to be tested}
 
-\item{test_proportion}{The proportion of data to be used as the test set for each test run}
+\item{test_proportion}{The proportion of data to be used as the test set for
+each test run}
 
 \item{minimum_column_basis}{The minimum column basis to use}
 
-\item{fixed_column_bases}{A vector of fixed column bases with NA for sera where the minimum column basis should be applied}
+\item{fixed_column_bases}{A vector of fixed column bases with NA for sera
+where the minimum column basis should be applied}
 
-\item{number_of_optimizations}{The number of optimizations to perform when creating each map for the dimension test}
+\item{number_of_optimizations}{The number of optimizations to perform when
+creating each map for the dimension test}
 
-\item{replicates_per_dimension}{The number of tests to perform per dimension tested}
+\item{replicates_per_dimension}{The number of tests to perform per dimension
+tested}
 
 \item{options}{Map optimizer options, see \code{RacOptimizer.options()}}
 }
 \value{
-Returns a table of results, including the dimensions tested and the standard deviation of predicted vs residual error.
+Returns a table of results, including the dimensions tested and the
+standard deviation of predicted vs residual error.
 }
 \description{
 Take a map object and perform cross-validation, seeing how well titers are

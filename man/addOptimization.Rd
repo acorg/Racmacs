@@ -16,19 +16,23 @@ addOptimization(
 \arguments{
 \item{map}{The acmap data object}
 
-\item{ag_coords}{Antigen coordinates for the new optimization (0 if not specified)}
+\item{ag_coords}{Antigen coordinates for the new optimization (0 if not
+specified)}
 
-\item{sr_coords}{Sera coordinates for the new optimization (0 if not specified)}
+\item{sr_coords}{Sera coordinates for the new optimization (0 if not
+specified)}
 
 \item{number_of_dimensions}{The number of dimensions of the new optimization}
 
-\item{minimum_column_basis}{The minimum column basis to use for the new optimization}
+\item{minimum_column_basis}{The minimum column basis to use for the new
+optimization}
 
 \item{fixed_column_bases}{A vector of fixed column bases with NA for sera
 where the minimum column basis should be applied}
 }
 \value{
-Returns the acmap data object with new optimization added (but not selected).
+Returns the acmap data object with new optimization added (but not
+selected).
 }
 \description{
 Function to add a new optimization to an acmap object, with specified values.

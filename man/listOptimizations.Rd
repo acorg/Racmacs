@@ -13,8 +13,10 @@ listOptimizations(map)
 Returns a list of lists with information about the optimizations
 }
 \description{
-Gets the details associated with the all the optimizations of an acmap object as a list.
+Gets the details associated with the all the optimizations of an acmap object
+as a list.
 }
 \seealso{
-See \code{getOptimization()} for getting information about a single optimization.
+See \code{getOptimization()} for getting information about a single
+optimization.
 }

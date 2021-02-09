@@ -21,7 +21,8 @@ Returns the map aligned to the target map
 }
 \description{
 Realigns the coordinates of a map to match a target map as closely as
-possible, based on a \href{https://en.wikipedia.org/wiki/Procrustes_analysis}{procrustes analysis}.
+possible, based on a
+\href{https://en.wikipedia.org/wiki/Procrustes_analysis}{procrustes analysis}.
 Note that all optimization runs will be separately aligned to match as
 closely as possible the first optimization run of the target map.
 }

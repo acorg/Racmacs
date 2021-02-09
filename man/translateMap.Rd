@@ -11,7 +11,8 @@ translateMap(map, translation, optimization_number = NULL)
 
 \item{translation}{Translation to apply (as vector or n x 1 matrix)}
 
-\item{optimization_number}{The optimization number (or NULL to apply to all optimizations)}
+\item{optimization_number}{The optimization number (or NULL to apply to all
+optimizations)}
 }
 \description{
 Translates map coordinates

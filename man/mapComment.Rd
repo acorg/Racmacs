@@ -16,7 +16,7 @@ mapComment(map, optimization_number = 1) <- value
 \item{value}{New value to set}
 }
 \value{
-Gets or sets and map comments for the specified optimization run.
+Gets or sets map comments for the optimization run.
 }
 \description{
 Get or set an optimization run comment

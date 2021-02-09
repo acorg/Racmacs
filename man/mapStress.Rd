@@ -12,7 +12,7 @@ mapStress(map, optimization_number = 1)
 \item{optimization_number}{The optimization run from which to get / set the data}
 }
 \value{
-Returns the current map stress value for the specified optimization run.
+Returns the map stress value for the optimization run.
 }
 \description{
 Get the current map stress

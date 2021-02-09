@@ -16,7 +16,8 @@ information about an antigenic map. You can read in a new acmap object from a
 file with the function \link{read.acmap} and create a new acmap object within an
 R session using the \link{acmap} function.
 
-Key information associated with each acmap object is summarized in the sections below.
+Key information associated with each acmap object is summarized in the
+sections below.
 }
 
 \subsection{The titer table}{
@@ -39,9 +40,11 @@ Each optimization has the following main attributes (see the vignette on
 optimizing antigenic maps for more details on minimum column bases and
 stress):
 \itemize{
-\item \strong{Antigen coordinates}, the coordinates of each antigen in this optimization.
+\item \strong{Antigen coordinates}, the coordinates of each antigen in this
+optimization.
 \item \strong{Sera coordinates}, the coordinates of each serum in this optimization.
-\item \strong{Minimum column basis}, the minimum column basis assumed when calculating this optimization.
+\item \strong{Minimum column basis}, the minimum column basis assumed when calculating
+this optimization.
 \item \strong{Stress}, the stress of this optimization.
 \item \strong{Dimensions}, the number of dimensions of this optimization.
 }

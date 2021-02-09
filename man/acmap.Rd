@@ -20,7 +20,8 @@ acmap(
 
 \item{titer_table}{Table of titer data}
 
-\item{ag_coords}{Antigenic coordinates for an optimization run record (optional)}
+\item{ag_coords}{Antigenic coordinates for an optimization run record
+(optional)}
 
 \item{sr_coords}{Sera coordinates for an optimization run record (optional)}
 
@@ -41,8 +42,8 @@ a file with the function \code{read.acmap()} and create a new acmap object
 within an R session using the \code{acmap()} function.
 }
 \seealso{
-See \code{optimizeMap()} for generating new optimizations
-estimating antigen similarity from the acmap titer data.
+See \code{optimizeMap()} for generating new optimizations estimating
+antigen similarity from the acmap titer data.
 
 Other {functions for working with map data}: 
 \code{\link{as.json}()},

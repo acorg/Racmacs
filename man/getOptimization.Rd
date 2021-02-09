@@ -15,8 +15,8 @@ getOptimization(map, optimization_number = 1)
 Returns a list with information about the optimization
 }
 \description{
-Gets the details associated with the currently selected or specifed acmap optimization
-as a list.
+Gets the details associated with the currently selected or specifed acmap
+optimization as a list.
 }
 \seealso{
 See \code{listOptimizations()} for getting information about all

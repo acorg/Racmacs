@@ -11,7 +11,8 @@ reflectMap(map, axis = "x", optimization_number = NULL)
 
 \item{axis}{Axis of reflection}
 
-\item{optimization_number}{The optimization number (or NULL to apply to all optimizations)}
+\item{optimization_number}{The optimization number (or NULL to apply to all
+optimizations)}
 }
 \description{
 Reflects map coordinates

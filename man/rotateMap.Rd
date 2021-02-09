@@ -13,7 +13,8 @@ rotateMap(map, degrees, axis = NULL, optimization_number = NULL)
 
 \item{axis}{Axis of rotation (if 3D), specified as "x", "y", or "z"}
 
-\item{optimization_number}{The optimization number (or NULL to apply to all optimizations)}
+\item{optimization_number}{The optimization number (or NULL to apply to all
+optimizations)}
 }
 \description{
 Apply a rotation to an antigenic map

@@ -29,7 +29,9 @@ srReference(map)
 \item{value}{New value to set}
 }
 \value{
-Returns either the requested attribute when using a getter function or the updated acmap object when using the setter function.
+Returns either the requested attribute when using a getter function or
+
+the updated acmap object when using the setter function.
 }
 \description{
 These functions get and set the sera attributes for a map.

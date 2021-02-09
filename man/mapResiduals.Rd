@@ -22,7 +22,8 @@ map distance and table distance for each antigen-sera pair.
 This is the difference between the table distance and the map distance
 }
 \seealso{
-Other {map diagnostic functions}{functions relating to map stress calculation}: 
+Other {map diagnostic functions}
+{functions relating to map stress calculation}: 
 \code{\link{logtiterTable}()},
 \code{\link{mapDistances}()},
 \code{\link{pointStress}},
@@ -30,4 +31,5 @@ Other {map diagnostic functions}{functions relating to map stress calculation}:
 \code{\link{stressTable}()},
 \code{\link{tableDistances}()}
 }
-\concept{{map diagnostic functions}{functions relating to map stress calculation}}
+\concept{{map diagnostic functions}
+{functions relating to map stress calculation}}

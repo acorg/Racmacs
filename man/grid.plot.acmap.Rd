@@ -13,6 +13,7 @@ grid.plot.acmap(
   plot_sr = TRUE,
   plot_labels = FALSE,
   plot_blobs = TRUE,
+  plot_hemisphering = TRUE,
   grid.col = "grey90",
   grid.margin.col = grid.col,
   fill.alpha = 0.8,
@@ -46,14 +47,16 @@ grid.plot.acmap(
 
 \item{outline.alpha}{alpha for point outline}
 
-\item{padding}{padding at limits of the antigenic map, ignored if xlim or ylim set explicitly}
+\item{padding}{padding at limits of the antigenic map, ignored if xlim or
+ylim set explicitly}
 
 \item{cex}{point size expansion factor}
 }
 \description{
-Plot an antigenic map using the 'grid' plotting system, this is harder to edit afterwards but
-allows maps with custom point shapes like "EGG" and "UGLYEGG" to be plotted, or maps where
-point aspect or rotation has been altered.
+Plot an antigenic map using the 'grid' plotting system, this is harder to
+edit afterwards but allows maps with custom point shapes like "EGG" and
+"UGLYEGG" to be plotted, or maps where point aspect or rotation has been
+altered.
 }
 \seealso{
 Other {functions to view maps}: 

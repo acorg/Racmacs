@@ -9,8 +9,9 @@ update_ferret_seraNames(map, dictionary_file = NULL)
 \arguments{
 \item{map}{The map data object}
 
-\item{dictionary_file}{The path to the dictionary file you want to use (should be .csv).
-If not supplied then the default dictionary that comes with Racmacs will be used.}
+\item{dictionary_file}{The path to the dictionary file you want to use
+(should be .csv). If not supplied then the default dictionary that comes
+with Racmacs will be used.}
 }
 \value{
 Returns the updated map data object

@@ -12,14 +12,16 @@ mapDistances(map, optimization_number = 1)
 \item{optimization_number}{The optimization number}
 }
 \value{
-Returns a matrix of map distances with antigens as rows and sera as columns.
+Returns a matrix of map distances with antigens as rows and sera as
+columns.
 }
 \description{
 Takes the acmap object and calculates euclidean distances between antigens
 and sera for the currently selected or specified optimization.
 }
 \seealso{
-Other {map diagnostic functions}{functions relating to map stress calculation}: 
+Other {map diagnostic functions}
+{functions relating to map stress calculation}: 
 \code{\link{logtiterTable}()},
 \code{\link{mapResiduals}()},
 \code{\link{pointStress}},
@@ -27,4 +29,5 @@ Other {map diagnostic functions}{functions relating to map stress calculation}:
 \code{\link{stressTable}()},
 \code{\link{tableDistances}()}
 }
-\concept{{map diagnostic functions}{functions relating to map stress calculation}}
+\concept{{map diagnostic functions}
+{functions relating to map stress calculation}}

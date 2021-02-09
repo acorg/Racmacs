@@ -24,13 +24,16 @@ agStressPerTiter(
 \arguments{
 \item{map}{The acmap data object}
 
-\item{antigens}{Which antigens to check stress for, specified by index or name (defaults to all antigens).}
+\item{antigens}{Which antigens to check stress for, specified by index or
+name (defaults to all antigens).}
 
 \item{optimization_number}{The optimization number}
 
-\item{sera}{Which sera to check stress for, specified by index or name (defaults to all sera).}
+\item{sera}{Which sera to check stress for, specified by index or name
+(defaults to all sera).}
 
-\item{exclude_nd}{Should non-detectable values (e.g. <10) be excluded when calculating point stress?}
+\item{exclude_nd}{Should non-detectable values (e.g. <10) be excluded when
+calculating point stress?}
 }
 \description{
 Functions to get stress associated with individual points in a map.
@@ -38,7 +41,8 @@ Functions to get stress associated with individual points in a map.
 \seealso{
 See \code{mapStress()} for getting the total map stress directly.
 
-Other {map diagnostic functions}{functions relating to map stress calculation}: 
+Other {map diagnostic functions}
+{functions relating to map stress calculation}: 
 \code{\link{logtiterTable}()},
 \code{\link{mapDistances}()},
 \code{\link{mapResiduals}()},
@@ -46,4 +50,5 @@ Other {map diagnostic functions}{functions relating to map stress calculation}:
 \code{\link{stressTable}()},
 \code{\link{tableDistances}()}
 }
-\concept{{map diagnostic functions}{functions relating to map stress calculation}}
+\concept{{map diagnostic functions}
+{functions relating to map stress calculation}}

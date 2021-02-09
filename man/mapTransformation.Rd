@@ -20,11 +20,13 @@ mapTranslation(map, optimization_number = 1) <- value
 \item{value}{New value to set}
 }
 \value{
-Returns either the requested attribute when using a getter function or the updated acmap object when using the setter function.
+Returns either the requested attribute when using a getter function or
+
+the updated acmap object when using the setter function.
 }
 \description{
-These functions can be used to query and if necessary set the map transformation
-and map translation attributes for a given optimization run.
+These functions can be used to query and if necessary set the map
+transformation and map translation attributes for a given optimization run.
 }
 \seealso{
 Other {map optimization attribute functions}: 

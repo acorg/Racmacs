@@ -31,9 +31,9 @@ comparing maps made with different assays)}
 }
 \value{
 Returns an acmap object with procrustes information added, which will
-be shown when the map is plotted. To avoid ambiguity about which optimization
-run the procrustes was applied to, only the optimization run specified by
-\code{optimization_number} is kept in the map returned.
+be shown when the map is plotted. To avoid ambiguity about which
+optimization run the procrustes was applied to, only the optimization run
+specified by \code{optimization_number} is kept in the map returned.
 }
 \description{
 Returns information from one map procrusted to another.

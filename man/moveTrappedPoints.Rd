@@ -31,10 +31,10 @@ points found)
 }
 \description{
 Sometimes points in a map optimization run get trapped in local optima, this
-function tries to combat this by doing a grid search for each point individually
-moving points if a better optima is found. Note that this only performs grid
-searches individually so won't find cases where a group of points are trapped
-together in a local optima.
+function tries to combat this by doing a grid search for each point
+individually moving points if a better optima is found. Note that this only
+performs grid searches individually so won't find cases where a group of
+points are trapped together in a local optima.
 }
 \details{
 The search is iterative, searching for and moving points that are found to be

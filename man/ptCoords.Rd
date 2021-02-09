@@ -21,27 +21,31 @@ srCoords(map, optimization_number = 1) <- value
 \arguments{
 \item{map}{The acmap object}
 
-\item{optimization_number}{The optimization number from which to get / set the coordinates}
+\item{optimization_number}{The optimization number from which to get / set
+the coordinates}
 
 \item{value}{A matrix of new coordinates to set}
 }
 \description{
-Getting and setting of antigen and serum coordinates in a map optimization run (by default
-the currently selected one).
+Getting and setting of antigen and serum coordinates in a map optimization
+run (by default the currently selected one).
 }
 \details{
-These functions get and set point coordinates in a map. By default these coordinates
-refer to the currently selected optimization run, unless otherwise specified through the
-\code{optimization_number} argument.
+These functions get and set point coordinates in a map. By default
+these coordinates refer to the currently selected optimization run, unless
+otherwise specified through the \code{optimization_number} argument.
 
-99\\% of the time \code{agCoords()} and \code{srCoords()} are the functions you'll want to use but
-you should note that the outputs are actually the map base coordinates after the transformation and
-translation associated with the optimization run has been applied (see \code{mapTransformation()} and
-\code{mapTranslation()} for more details). When you set the antigen or serum coordinates through these
-functions, the transformed coordinates are "baked" in and the map transformation and translation
-are reset. Consequently if you want to apply a transformation to all coordinates generally, you are
-better off modifying the map translation and transformation directly, as is done by functions like
-\code{rotateMap()} and \code{translateMap()}.
+99\\% of the time \code{agCoords()} and \code{srCoords()} are the functions you'll
+want to use but you should note that the outputs are actually the map base
+coordinates after the transformation and translation associated with the
+optimization run has been applied (see \code{mapTransformation()} and
+\code{mapTranslation()} for more details). When you set the antigen or serum
+coordinates through these functions, the transformed coordinates are
+"baked" in and the map transformation and translation are reset.
+Consequently if you want to apply a transformation to all coordinates
+generally, you are better off modifying the map translation and
+transformation directly, as is done by functions like \code{rotateMap()} and
+\code{translateMap()}.
 }
 \seealso{
 \code{agBaseCoords()}

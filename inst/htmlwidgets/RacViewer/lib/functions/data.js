@@ -262,20 +262,26 @@ Racmacs.Data = class Data {
         let colbases;
         let mincolbasis;
 
+        // Apply minimum column basis
+        if(this.data.c.P[pnum].m){
+            mincolbasis = this.data.c.P[pnum].m;
+        } else {
+            mincolbasis = "none";
+        }
+        colbases = Racmacs.utils.calcColBases({
+            titers: this.table(),
+            mincolbasis: mincolbasis
+        });
+        
+        // Apply fixed column bases
         if(this.data.c.P[pnum].C){
             // Forced column bases
-            colbases = this.data.c.P[pnum].C;
-        } else {
-            // Minimum column bases
-            if(this.data.c.P[pnum].m){
-                mincolbasis = this.data.c.P[pnum].m;
-            } else {
-                mincolbasis = "none";
+            var fixed_colbases = this.data.c.P[pnum].C;
+            for(var j=0; j<fixed_colbases.length; j++){
+                if (fixed_colbases[j] !== null) {
+                    colbases[j] = fixed_colbases[j];
+                }
             }
-            colbases = Racmacs.utils.calcColBases({
-                titers: this.table(),
-                mincolbasis: mincolbasis
-            });
         }
 
         if(i === null){

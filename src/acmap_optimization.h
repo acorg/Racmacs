@@ -52,8 +52,6 @@ class AcOptimization {
     std::string get_min_column_basis() const { return min_column_basis; }
     arma::vec get_fixed_column_bases() const { return fixed_column_bases; }
     double get_fixed_column_bases(int i) const { return fixed_column_bases(i); }
-    arma::mat get_ag_base_coords() const { return ag_base_coords; }
-    arma::mat get_sr_base_coords() const { return sr_base_coords; }
     std::string get_comment() const { return comment; }
     arma::mat get_transformation() const { return transformation; }
     arma::mat get_translation() const { return translation; }
@@ -88,6 +86,23 @@ class AcOptimization {
     }
 
 
+    // Getting antigen base coords
+    arma::mat get_ag_base_coords() const { return ag_base_coords; }
+    arma::vec get_ag_base_coords( arma::uword& ag ) const {
+      return arma::vectorise(
+        ag_base_coords.row(ag)
+      );
+    }
+
+    // Getting sera base coords
+    arma::mat get_sr_base_coords() const { return sr_base_coords; }
+    arma::vec get_sr_base_coords( arma::uword& sr ) const {
+      return arma::vectorise(
+        sr_base_coords.row(sr)
+      );
+    }
+
+
     // Setting antigen base coords
     void set_ag_base_coords( arma::mat ag_base_coords_in ){
       // Check input
@@ -107,6 +122,38 @@ class AcOptimization {
       }
       // Update coords
       sr_base_coords = sr_base_coords_in;
+    }
+
+
+    // Setting coords of a specific ag
+    void set_ag_base_coords(
+        arma::uword ag_index,
+        arma::vec ag_base_coords_in
+    ){
+      // Check input
+      if(ag_base_coords_in.n_elem != ag_base_coords.n_cols){
+        ac_error("antigen coords length (%i) exceeds antigen coords dimensions (%i)", ag_base_coords_in.n_elem, ag_base_coords.n_cols);
+      }
+      // Update coords
+      for(arma::uword i=0; i<ag_base_coords.n_cols; i++){
+        ag_base_coords( ag_index, i ) = ag_base_coords_in(i);
+      }
+    }
+
+
+    // Setting coords of a specific sr
+    void set_sr_base_coords(
+        arma::uword sr_index,
+        arma::vec sr_base_coords_in
+    ){
+      // Check input
+      if(sr_base_coords_in.n_elem != sr_base_coords.n_cols){
+        ac_error("sera coords length (%i) exceeds sera coords dimensions (%i)", sr_base_coords_in.n_elem, sr_base_coords.n_cols);
+      }
+      // Update coords
+      for(arma::uword i=0; i<sr_base_coords.n_cols; i++){
+        ag_base_coords( sr_index, i ) = sr_base_coords_in(i);
+      }
     }
 
 

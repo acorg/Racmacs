@@ -104,7 +104,7 @@ arma::mat check_sr_trapped_points(
 }
 
 
-// Function to find an move trapped coordinates
+// Function to find and move trapped coordinates
 // [[Rcpp::export]]
 AcOptimization ac_move_trapped_points(
   AcOptimization optimization,

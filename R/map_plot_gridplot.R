@@ -41,6 +41,7 @@ grid.plot.acmap <- function(
   plot_sr  = TRUE,
   plot_labels = FALSE,
   plot_blobs = TRUE,
+  plot_hemisphering = TRUE,
   grid.col = "grey90",
   grid.margin.col = grid.col,
   fill.alpha    = 0.8,
@@ -60,6 +61,10 @@ grid.plot.acmap <- function(
   # Get coords
   ag_coords <- agCoords(map, optimization_number)
   sr_coords <- srCoords(map, optimization_number)
+
+  # Get diagnostics
+  ag_diagnostics <- agDiagnostics(map, optimization_number)
+  sr_diagnostics <- srDiagnostics(map, optimization_number)
 
   plot_coords <- c()
   if (plot_ags) plot_coords <- rbind(plot_coords, ag_coords)
@@ -166,7 +171,7 @@ grid.plot.acmap <- function(
   if (!plot_sr  || missing(sr_coords)) pts$shown[pts$pt_type == "sr"] <- FALSE
 
   ## Get point blobs
-  pt_blobs <- ptStressBlobs(map)
+  pt_blobs <- ptStressBlobs(map, optimization_number)
   pts$blob <- !sapply(pt_blobs, is.null)
 
   ## Adjust alpha
@@ -293,11 +298,102 @@ grid.plot.acmap <- function(
     gpoints <- c(gpoints, list(plot_points(pts, pt_plot_batch)))
   }
 
+  ## Plot blobs
+  gblobs <- list()
+  if (plot_blobs) {
+    for (i in pt_order) {
+      for (blob in pt_blobs[[i]]) {
+        gblob <- grid::xsplineGrob(
+          x   = blob$x,
+          y   = blob$y,
+          gp = grid::gpar(
+            col  = pts$outline[i],
+            fill = pts$fill[i],
+            lwd = pts$outline_width[i]
+          ),
+          open = FALSE,
+          shape = 0,
+          default.units = "native",
+          vp = viewport
+        )
+        gblobs <- c(gblobs, list(gblob))
+      }
+    }
+  }
+
+  ## Plot hemisphering
+  ghemis <- list()
+  pt_hemis <- ptHemisphering(map, optimization_number)
+
+  if (plot_hemisphering) {
+    for (i in seq_along(pt_hemis)) {
+      hemis <- pt_hemis[[i]]
+      if (!is.null(hemis)) {
+
+
+        # Draw an outline round the point
+        gpoint <- grid::pointsGrob(
+          x   = pts$coords[i, 1],
+          y   = pts$coords[i, 2],
+          pch = get_pch(pts$shape[i]),
+          size = grid::unit(pts$size[i] * cex * 0.2, "char"),
+          gp = grid::gpar(
+            col  = pts$outline[i],
+            fill = "transparent",
+            lwd = pts$outline_width[i]*2
+          ),
+          vp = viewport
+        )
+        gpoints <- c(gpoints, list(gpoint))
+
+        # Draw the hemisphering lines
+        for (hemi in hemis) {
+
+          # Set style based on diagnosis
+          if (hemi$diagnosis == "hemisphering") {
+            arrowends <- "both"
+            arrowcol  <- "black"
+          }
+          if (hemi$diagnosis == "trapped") {
+            arrowends <- "last"
+            arrowcol  <- "red"
+          }
+          if (hemi$diagnosis == "hemisphering-trapped") {
+            arrowends <- "both"
+            arrowcol  <- "red"
+          }
+
+          ghemi <- grid::linesGrob(
+            x   = c(pts$coords[i,1], hemi$coords[1]),
+            y   = c(pts$coords[i,2], hemi$coords[2]),
+            gp = grid::gpar(
+              col  = arrowcol,
+              fill = arrowcol,
+              lwd = 2
+            ),
+            arrow = grid::arrow(
+              type = "closed",
+              ends = arrowends,
+              length = grid::unit(8, "points"),
+              angle = 20
+            ),
+            default.units = "native",
+            vp = viewport
+          )
+          ghemis <- c(ghemis, list(ghemi))
+
+        }
+      }
+    }
+  }
+
   # Draw the plot
   grid::grid.newpage()
   gelements <- c(
-    glines, # Grid lines
-    gpoints # Points
+    glines,  # Grid lines
+    gpoints, # Points
+    gblobs,  # Blobs
+    ghemis   # Hemisphering
   )
   grid::grid.draw(
     do.call(grid::gList, gelements)

@@ -60,8 +60,7 @@ stressBlobs <- function(
 
   # Calculate blob data for antigens
   if (antigens) {
-    map$antigens <- lapply(
-      seq_along(map$antigens), function(agnum) {
+    for (agnum in seq_along(map$antigens)) {
 
       blobgrid <- ac_stress_blob_grid(
         testcoords = agBaseCoords(map)[agnum, ],
@@ -72,21 +71,21 @@ stressBlobs <- function(
         grid_spacing = grid_spacing
       )
 
-      antigen <- map$antigens[[agnum]]
-      antigen$stress_blob <- contour_blob(
+      agDiagnostics(
+        map,
+        optimization_number
+      )[[agnum]]$stress_blob <- contour_blob(
         grid_values = blobgrid$grid,
         grid_points = blobgrid$coords,
         value_lim   = blobgrid$stress_lim
       )
-      antigen
 
-    })
+    }
   }
 
   # Calculate blob data for sera
   if (sera) {
-    map$sera <- lapply(
-      seq_along(map$sera), function(srnum) {
+    for (srnum in seq_along(map$sera)) {
 
       blobgrid <- ac_stress_blob_grid(
         testcoords = srBaseCoords(map)[srnum, ],
@@ -97,15 +96,16 @@ stressBlobs <- function(
         grid_spacing = grid_spacing
       )
 
-      serum <- map$sera[[srnum]]
-      serum$stress_blob <- contour_blob(
+      srDiagnostics(
+        map,
+        optimization_number
+      )[[srnum]]$stress_blob <- contour_blob(
         grid_values = blobgrid$grid,
         grid_points = blobgrid$coords,
         value_lim   = blobgrid$stress_lim
       )
-      serum
 
-    })
+    }
   }
 
   # Return the map with blob data
@@ -114,14 +114,14 @@ stressBlobs <- function(
 }
 
 # Functions for fetching blob information
-agStressBlobs <- function(map) {
-  lapply(map$antigens, function(ag) ag$stress_blob)
+agStressBlobs <- function(map, optimization_number = 1) {
+  lapply(agDiagnostics(map, optimization_number), function(ag) ag$stress_blob)
 }
-srStressBlobs <- function(map) {
-  lapply(map$sera, function(sr) sr$stress_blob)
+srStressBlobs <- function(map, optimization_number = 1) {
+  lapply(srDiagnostics(map, optimization_number), function(sr) sr$stress_blob)
 }
-ptStressBlobs <- function(map) {
-  c(agStressBlobs(map), srStressBlobs(map))
+ptStressBlobs <- function(map, optimization_number = 1) {
+  c(agStressBlobs(map, optimization_number), srStressBlobs(map, optimization_number))
 }
 
 #' Fit a contour blob
@@ -201,24 +201,27 @@ viewer_stressblobdata <- function(map) {
 #' programatically finding the points with the most uncertainty.
 #'
 #' @param map acmap with stress blob information added
+#' @param optimization_number optimization number for which to calculate blob size
 #'
 #' @name ptStressBlobSize
 #'
 
 #' @rdname ptStressBlobSize
 #' @export
-agStressBlobSize <- function(map) {
+agStressBlobSize <- function(map, optimization_number = 1) {
   check.acmap(map)
-  vapply(map$antigens, function(ag) {
+  check.optnum(map, optimization_number)
+  vapply(agDiagnostics(map, optimization_number), function(ag) {
     calcBlobSize(ag$stress_blob)
   }, numeric(1))
 }
 
 #' @rdname ptStressBlobSize
 #' @export
-srStressBlobSize <- function(map) {
+srStressBlobSize <- function(map, optimization_number = 1) {
   check.acmap(map)
-  vapply(map$sera, function(sr) {
+  check.optnum(map, optimization_number)
+  vapply(srDiagnostics(map, optimization_number), function(sr) {
     calcBlobSize(sr$stress_blob)
   }, numeric(1))
 }

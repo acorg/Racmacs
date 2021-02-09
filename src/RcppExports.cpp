@@ -224,6 +224,16 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// ac_ag_get_passage
+std::string ac_ag_get_passage(const AcAntigen& ag);
+RcppExport SEXP _Racmacs_ac_ag_get_passage(SEXP agSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::traits::input_parameter< const AcAntigen& >::type ag(agSEXP);
+    rcpp_result_gen = Rcpp::wrap(ac_ag_get_passage(ag));
+    return rcpp_result_gen;
+END_RCPP
+}
 // ac_ag_get_name
 std::string ac_ag_get_name(const AcAntigen& ag);
 RcppExport SEXP _Racmacs_ac_ag_get_name(SEXP agSEXP) {
@@ -304,6 +314,17 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< AcAntigen >::type ag(agSEXP);
     Rcpp::traits::input_parameter< bool >::type value(valueSEXP);
     rcpp_result_gen = Rcpp::wrap(ac_ag_set_reference(ag, value));
+    return rcpp_result_gen;
+END_RCPP
+}
+// ac_ag_set_passage
+AcAntigen ac_ag_set_passage(AcAntigen ag, std::string value);
+RcppExport SEXP _Racmacs_ac_ag_set_passage(SEXP agSEXP, SEXP valueSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::traits::input_parameter< AcAntigen >::type ag(agSEXP);
+    Rcpp::traits::input_parameter< std::string >::type value(valueSEXP);
+    rcpp_result_gen = Rcpp::wrap(ac_ag_set_passage(ag, value));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -793,6 +814,16 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// ac_sr_get_passage
+std::string ac_sr_get_passage(const AcSerum& sr);
+RcppExport SEXP _Racmacs_ac_sr_get_passage(SEXP srSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::traits::input_parameter< const AcSerum& >::type sr(srSEXP);
+    rcpp_result_gen = Rcpp::wrap(ac_sr_get_passage(sr));
+    return rcpp_result_gen;
+END_RCPP
+}
 // ac_sr_get_name
 std::string ac_sr_get_name(const AcSerum& sr);
 RcppExport SEXP _Racmacs_ac_sr_get_name(SEXP srSEXP) {
@@ -873,6 +904,17 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< AcSerum >::type sr(srSEXP);
     Rcpp::traits::input_parameter< bool >::type value(valueSEXP);
     rcpp_result_gen = Rcpp::wrap(ac_sr_set_reference(sr, value));
+    return rcpp_result_gen;
+END_RCPP
+}
+// ac_sr_set_passage
+AcSerum ac_sr_set_passage(AcSerum sr, std::string value);
+RcppExport SEXP _Racmacs_ac_sr_set_passage(SEXP srSEXP, SEXP valueSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::traits::input_parameter< AcSerum >::type sr(srSEXP);
+    Rcpp::traits::input_parameter< std::string >::type value(valueSEXP);
+    rcpp_result_gen = Rcpp::wrap(ac_sr_set_passage(sr, value));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -1360,6 +1402,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_Racmacs_ac_ag_get_id", (DL_FUNC) &_Racmacs_ac_ag_get_id, 1},
     {"_Racmacs_ac_ag_get_date", (DL_FUNC) &_Racmacs_ac_ag_get_date, 1},
     {"_Racmacs_ac_ag_get_reference", (DL_FUNC) &_Racmacs_ac_ag_get_reference, 1},
+    {"_Racmacs_ac_ag_get_passage", (DL_FUNC) &_Racmacs_ac_ag_get_passage, 1},
     {"_Racmacs_ac_ag_get_name", (DL_FUNC) &_Racmacs_ac_ag_get_name, 1},
     {"_Racmacs_ac_ag_get_name_full", (DL_FUNC) &_Racmacs_ac_ag_get_name_full, 1},
     {"_Racmacs_ac_ag_get_name_abbreviated", (DL_FUNC) &_Racmacs_ac_ag_get_name_abbreviated, 1},
@@ -1368,6 +1411,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_Racmacs_ac_ag_set_id", (DL_FUNC) &_Racmacs_ac_ag_set_id, 2},
     {"_Racmacs_ac_ag_set_date", (DL_FUNC) &_Racmacs_ac_ag_set_date, 2},
     {"_Racmacs_ac_ag_set_reference", (DL_FUNC) &_Racmacs_ac_ag_set_reference, 2},
+    {"_Racmacs_ac_ag_set_passage", (DL_FUNC) &_Racmacs_ac_ag_set_passage, 2},
     {"_Racmacs_ac_ag_set_name", (DL_FUNC) &_Racmacs_ac_ag_set_name, 2},
     {"_Racmacs_ac_ag_set_name_full", (DL_FUNC) &_Racmacs_ac_ag_set_name_full, 2},
     {"_Racmacs_ac_ag_set_name_abbreviated", (DL_FUNC) &_Racmacs_ac_ag_set_name_abbreviated, 2},
@@ -1414,6 +1458,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_Racmacs_ac_sr_get_id", (DL_FUNC) &_Racmacs_ac_sr_get_id, 1},
     {"_Racmacs_ac_sr_get_date", (DL_FUNC) &_Racmacs_ac_sr_get_date, 1},
     {"_Racmacs_ac_sr_get_reference", (DL_FUNC) &_Racmacs_ac_sr_get_reference, 1},
+    {"_Racmacs_ac_sr_get_passage", (DL_FUNC) &_Racmacs_ac_sr_get_passage, 1},
     {"_Racmacs_ac_sr_get_name", (DL_FUNC) &_Racmacs_ac_sr_get_name, 1},
     {"_Racmacs_ac_sr_get_name_full", (DL_FUNC) &_Racmacs_ac_sr_get_name_full, 1},
     {"_Racmacs_ac_sr_get_name_abbreviated", (DL_FUNC) &_Racmacs_ac_sr_get_name_abbreviated, 1},
@@ -1422,6 +1467,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_Racmacs_ac_sr_set_id", (DL_FUNC) &_Racmacs_ac_sr_set_id, 2},
     {"_Racmacs_ac_sr_set_date", (DL_FUNC) &_Racmacs_ac_sr_set_date, 2},
     {"_Racmacs_ac_sr_set_reference", (DL_FUNC) &_Racmacs_ac_sr_set_reference, 2},
+    {"_Racmacs_ac_sr_set_passage", (DL_FUNC) &_Racmacs_ac_sr_set_passage, 2},
     {"_Racmacs_ac_sr_set_name", (DL_FUNC) &_Racmacs_ac_sr_set_name, 2},
     {"_Racmacs_ac_sr_set_name_full", (DL_FUNC) &_Racmacs_ac_sr_set_name_full, 2},
     {"_Racmacs_ac_sr_set_name_abbreviated", (DL_FUNC) &_Racmacs_ac_sr_set_name_abbreviated, 2},

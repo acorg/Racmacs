@@ -21,6 +21,8 @@ std::string ac_ag_get_date( const AcAntigen &ag ){ return ag.get_date(); }
 // [[Rcpp::export(rng = false)]]
 bool ac_ag_get_reference( const AcAntigen &ag ){ return ag.get_reference(); }
 // [[Rcpp::export(rng = false)]]
+std::string ac_ag_get_passage( const AcAntigen &ag ){ return ag.get_passage(); }
+// [[Rcpp::export(rng = false)]]
 std::string ac_ag_get_name( const AcAntigen &ag ){ return ag.get_name(); }
 // [[Rcpp::export(rng = false)]]
 std::string ac_ag_get_name_full( const AcAntigen &ag ){ return ag.get_name_full(); }
@@ -41,6 +43,8 @@ AcAntigen ac_ag_set_id( AcAntigen ag, std::string value ){ ag.set_id(value); ret
 AcAntigen ac_ag_set_date( AcAntigen ag, std::string value ){ ag.set_date(value); return ag; }
 // [[Rcpp::export(rng = false)]]
 AcAntigen ac_ag_set_reference( AcAntigen ag, bool value ){  ag.set_reference(value); return ag; }
+// [[Rcpp::export(rng = false)]]
+AcAntigen ac_ag_set_passage( AcAntigen ag, std::string value ){ ag.set_passage(value); return ag; }
 // [[Rcpp::export(rng = false)]]
 AcAntigen ac_ag_set_name( AcAntigen ag, std::string value ){ ag.set_name(value); return ag; }
 // [[Rcpp::export(rng = false)]]

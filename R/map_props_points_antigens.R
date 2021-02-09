@@ -50,7 +50,8 @@ antigens_setter <- function(fn) {
 #'   "agDates", "agDates<-",
 #'   "agNamesFull",
 #'   "agNamesAbbreviated",
-#'   "agReference"
+#'   "agReference",
+#'   "agPassage"
 #'   ),
 #'   args    = c("map")
 #' )
@@ -61,6 +62,7 @@ agReference         <- antigens_getter(ac_ag_get_reference)
 agNames             <- antigens_getter(ac_ag_get_name)
 agNamesFull         <- antigens_getter(ac_ag_get_name_full)
 agNamesAbbreviated  <- antigens_getter(ac_ag_get_name_abbreviated)
+agPassage           <- antigens_getter(ac_ag_get_passage)
 agGroupValues       <- antigens_getter(ac_ag_get_group) # Not exported
 
 `agIDs<-`               <- antigens_setter(ac_ag_set_id)
@@ -69,6 +71,7 @@ agGroupValues       <- antigens_getter(ac_ag_get_group) # Not exported
 `agNames<-`             <- antigens_setter(ac_ag_set_name)
 `agNamesFull<-`         <- antigens_setter(ac_ag_set_name_full)
 `agNamesAbbreviated<-`  <- antigens_setter(ac_ag_set_name_abbreviated)
+`agPassage<-`           <- antigens_setter(ac_ag_set_passage)
 `agGroupValues<-`       <- antigens_setter(ac_ag_set_group) # Not exported
 
 #' Getting and setting antigen groups

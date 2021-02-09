@@ -177,6 +177,7 @@ std::string acmap_to_json(
     Value agval(kObjectType);
 
     agval.AddMember("N", strval(ag.get_name(), allocator), allocator);
+    agval.AddMember("P", strval(ag.get_passage(), allocator), allocator);
     // set_group_values
     // set_date
     // set_reference
@@ -198,6 +199,7 @@ std::string acmap_to_json(
     Value srval(kObjectType);
 
     srval.AddMember("N", strval(sr.get_name(), allocator), allocator);
+    srval.AddMember("P", strval(sr.get_passage(), allocator), allocator);
     // set_group_values
     // set_date
     // set_reference

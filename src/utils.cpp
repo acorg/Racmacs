@@ -94,6 +94,34 @@ arma::mat subset_rows(
 }
 
 
+// Helper function to get unique rows of a matrix
+arma::mat unique_rows(
+    const arma::mat& m
+){
+
+  arma::uvec ulmt = arma::zeros<arma::uvec>(m.n_rows);
+
+  for (arma::uword i = 0; i < m.n_rows; i++) {
+    for (arma::uword j = i + 1; j < m.n_rows; j++) {
+      if (
+          arma::approx_equal(
+            m.row(i),
+            m.row(j),
+            "absdiff",
+            0.001
+          )
+      ) {
+        ulmt(j) = 1;
+        break;
+      }
+    }
+  }
+
+  return m.rows(find(ulmt == 0));
+
+}
+
+
 // Check if openmp is used to run code in parallel
 // [[Rcpp::export]]
 bool parallel_mode(){

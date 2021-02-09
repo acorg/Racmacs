@@ -6,12 +6,14 @@
 \alias{srStressBlobSize}
 \title{Fetch information on stress blob size}
 \usage{
-agStressBlobSize(map)
+agStressBlobSize(map, optimization_number = 1)
 
-srStressBlobSize(map)
+srStressBlobSize(map, optimization_number = 1)
 }
 \arguments{
 \item{map}{acmap with stress blob information added}
+
+\item{optimization_number}{optimization number for which to calculate blob size}
 }
 \description{
 Returns a vector of stress blob sizes for each point, helpful for

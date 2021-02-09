@@ -27,4 +27,8 @@ arma::uvec na_row_indices(
     const arma::mat &X
 );
 
+arma::mat unique_rows(
+        const arma::mat& m
+);
+
 #endif

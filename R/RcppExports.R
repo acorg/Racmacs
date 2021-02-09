@@ -345,6 +345,10 @@ ac_dimension_test_map <- function(titer_table, dimensions_to_test, test_proporti
     .Call('_Racmacs_ac_dimension_test_map', PACKAGE = 'Racmacs', titer_table, dimensions_to_test, test_proportion, minimum_column_basis, fixed_column_bases, num_optimizations, options)
 }
 
+ac_hemi_test <- function(optimization, tabledists, titertypes, grid_spacing, stress_lim, options) {
+    .Call('_Racmacs_ac_hemi_test', PACKAGE = 'Racmacs', optimization, tabledists, titertypes, grid_spacing, stress_lim, options)
+}
+
 ac_match_map_ags <- function(map1, map2) {
     .Call('_Racmacs_ac_match_map_ags', PACKAGE = 'Racmacs', map1, map2)
 }

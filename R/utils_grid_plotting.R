@@ -135,7 +135,7 @@ vp_with_margins <- function(
     nrow = 3,
     ncol = 3,
     widths = grid::unit(c(mar[2], 1, mar[4]), c(units, "null", units)),
-    height = grid::unit(c(mar[3], 1, mar[1]), c(units, "null", units)),
+    heights = grid::unit(c(mar[3], 1, mar[1]), c(units, "null", units)),
     respect = FALSE
   )
 
@@ -157,14 +157,14 @@ vp_with_fixed_aspect <- function(
 ) {
 
   # Calculate aspect
-  aspect <- ylim / xlim
+  aspect <- diff(ylim) / diff(xlim)
 
   # Create layout
   gl <- grid::grid.layout(
     nrow = 1,
     ncol = 1,
     widths = grid::unit(1, "null"),
-    height = grid::unit(aspect, "null"),
+    heights = grid::unit(aspect, "null"),
     respect = TRUE
   )
 

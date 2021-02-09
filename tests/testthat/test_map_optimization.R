@@ -4,11 +4,112 @@ library(testthat)
 context("Optimizing maps")
 set.seed(100)
 
+# map <- read.acmap(test_path("../../inst/extdata/h3map2004.ace"))
+# start <- Sys.time()
+# map <- optimizeMap(
+#   map = map,
+#   number_of_dimensions = 2,
+#   number_of_optimizations = 100,
+#   minimum_column_basis = "none"
+# )
+# end <- Sys.time()
+# print(end - start)
+# # map <- moveTrappedPoints(map)
+# grid.plot.acmap(checkHemisphering(map))
+# stop()
+
+# Generate some toy data
+ag_coords <- cbind(-4:4, runif(9, -1, 1))
+sr_coords <- cbind(runif(9, -1, 1), -4:4)
+colbases  <- round(runif(9, 3, 6))
+colbasesmat <- matrix(colbases, 9, 9, byrow = T)
+distmat <- as.matrix(dist(rbind(ag_coords, sr_coords)))[seq_len(9), -seq_len(9)]
+logtiters <- colbasesmat - distmat
+titers <- 2 ^ logtiters * 10
+mode(titers) <- "character"
+
+# Create a perfect representation of the toy data
+perfect_map <- acmap(
+  titer_table = titers,
+  ag_coords = ag_coords,
+  sr_coords = sr_coords
+)
+
+# Setup a perfect optimization to test
+test_that("Optimizing a perfect map", {
+
+  # Try the perfect map with optimization
+  perfect_map_opt <- optimizeMap(
+    map = perfect_map,
+    number_of_dimensions = 2,
+    number_of_optimizations = 1000,
+    fixed_column_bases = colbases
+  )
+
+  # Check output
+  pcdata <- procrustesData(perfect_map_opt, perfect_map)
+  expect_equal(numOptimizations(perfect_map_opt), 1000)
+  expect_lt(pcdata$total_rmsd, 0.001)
+
+})
+
+# Finding trapped points
+test_that("Finding hemisphering points", {
+
+  # Create an antigen hemisphering point
+  hemi_map_ag <- perfect_map
+  titerTable(hemi_map_ag)[1, -c(2,7)] <- "*"
+
+  hemi_map_ag <- optimizeMap(
+    map = hemi_map_ag,
+    number_of_dimensions = 2,
+    number_of_optimizations = 1000,
+    fixed_column_bases = colbases
+  )
+  hemi_map_ag <- checkHemisphering(hemi_map_ag, stress_lim = 0.1)
+
+  expect_false(is.null(agHemisphering(hemi_map_ag)[[1]]))
+
+  export.plot.test(
+    grid.plot.acmap(hemi_map_ag),
+    "hemisphering_ags.pdf"
+  )
+
+
+  # Create a sera hemisphering point
+  hemi_map_sr <- perfect_map
+  titerTable(hemi_map_sr)[-c(1,7), 6] <- "*"
+
+  hemi_map_sr <- optimizeMap(
+    map = hemi_map_sr,
+    number_of_dimensions = 2,
+    number_of_optimizations = 1000,
+    fixed_column_bases = colbases
+  )
+  hemi_map_sr <- checkHemisphering(hemi_map_sr, stress_lim = 0.1)
+
+  expect_false(is.null(srHemisphering(hemi_map_sr)[[6]]))
+
+  export.plot.test(
+    grid.plot.acmap(hemi_map_sr),
+    "hemisphering_sr.pdf"
+  )
+
+})
+
 # Read testmap
 map <- read.acmap(test_path("../testdata/testmap.ace"))
 titerTable(map)[1,3:4] <- "*"
 titerTable(map)[4,1:2] <- "*"
 
+colbase_matrix <- matrix(
+  data = colBases(map),
+  nrow = numAntigens(map),
+  ncol = numSera(map),
+  byrow = TRUE
+)
+
+mapDistances(map) + colbase_matrix
 
 test_that("Getting numeric titers",{
 
@@ -245,6 +346,7 @@ test_that("Optimizing a map with just a data frame", {
 
 largemap <- read.acmap(test_path("../testdata/testmap_large.ace"))
 
+
 # Relax existing maps
 map_relax      <- map
 largemap_relax <- largemap
@@ -252,7 +354,7 @@ largemap_relax <- largemap
 test_that("Relax existing maps", {
 
   agCoords(map_relax)    <- agCoords(map_relax) + 1
-  agCoords(map_relax, 2) <- agCoords(map_relax, 2) -1
+  agCoords(map_relax, 2) <- agCoords(map_relax, 2) - 1
 
   stress1        <- mapStress(map_relax)
   stress1_2      <- mapStress(map_relax, 2)
@@ -270,6 +372,7 @@ test_that("Relax existing maps", {
   expect_lt(stress2_2, stress1_2)
 
 })
+
 
 # Optimizing with fixed points
 test_that("Relax a map with fixed coords", {
@@ -329,37 +432,6 @@ test_that("Optimizing existing maps", {
 
 })
 
-# Hemisphere testing
-map3      <- map
-largemap3 <- largemap
-test_that("Hemisphere testing", {
-
-  # Expect error when testing a map that is not fully relaxed
-  agCoords(map3)    <- agCoords(map3) + 1
-  agCoords(map3, 2) <- agCoords(map3, 2) + 1
-  expect_error(checkHemisphering(map3, stepsize = 0.25))
-  expect_error(checkHemisphering(map3, stepsize = 0.25, optimization_number = 2))
-
-  # Simple hemisphere testing on main optimization
-  map3 <- relaxMap(map3)
-  hemi <- checkHemisphering(map3, stepsize = 0.25)
-  expect_equal(nrow(hemi), 0)
-
-  # Simple hemisphere testing on other optimization
-  map3 <- relaxMap(map3, 2)
-  hemi <- checkHemisphering(map3, stepsize = 0.25, optimization_number = 2)
-  expect_equal(nrow(hemi), 0)
-
-  # Hemisphere testing on large map with trapped points
-  largemap3 <- relaxMap(largemap3)
-  hemi <- checkHemisphering(largemap3, stepsize = 0.25)
-  expect_equal(
-    hemi$diagnosis,
-    c("trapped", "trapped")
-  )
-
-})
-
 
 # Moving trapped points
 map4 <- map
@@ -381,9 +453,11 @@ test_that("Moving trapped points", {
 
   # Moving trapped points on large map with trapped points
   largemap4 <- relaxMap(largemap4)
-  largemap4 <- moveTrappedPoints(largemap4, grid_spacing = 0.25)
-  hemi      <- checkHemisphering(largemap4)
-  expect_equal(nrow(hemi), 0)
+  largemap4moved <- moveTrappedPoints(largemap4, grid_spacing = 0.25)
+  expect_lt(
+    mapStress(largemap4moved),
+    mapStress(largemap4)
+  )
 
 })
 
@@ -396,12 +470,3 @@ test_that("Randomize map coordinates", {
   expect_true(sum(srCoords(map) - srCoords(rmap)) != 0)
 
 })
-
-
-
-
-
-
-
-
-

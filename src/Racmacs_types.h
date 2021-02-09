@@ -8,6 +8,7 @@
 #include "ac_noisy_bootstrap.h"
 #include "ac_stress_blobs.h"
 #include "ac_optim_map_stress.h"
+#include "ac_hemi_test.h"
 #include "utils_error.h"
 
 #ifndef Racmacs__RacmacsWrap__h
@@ -261,6 +262,55 @@ namespace Rcpp {
     // Set class attribute and return
     out.attr("class") = CharacterVector::create("acmap", "list");
     return wrap(out);
+
+  }
+
+  // Hemisphere testing output
+  template<>
+  SEXP wrap(const HemiDiagnosis& hemidiagnosis){
+
+    return List::create(
+      _["coords"] = as<NumericVector>(wrap(hemidiagnosis.coords)),
+      _["diagnosis"] = hemidiagnosis.diagnosis
+    );
+
+  }
+
+  template<>
+  SEXP wrap(const HemiData& hemidata){
+
+    List diagnoses = List::create();
+    for(auto &diagnosis : hemidata.diagnoses){
+      diagnoses.push_back( as<List>(wrap(diagnosis)) );
+    }
+
+    return List::create(
+      _["index"] = hemidata.index,
+      _["diagnoses"] = diagnoses
+    );
+
+  }
+
+  template<>
+  SEXP wrap(const HemiTestOutput& hemioutput){
+
+    List antigens = List::create();
+    List sera = List::create();
+
+    for(auto &ag : hemioutput.antigens){
+      antigens.push_back(as<List>(wrap(ag)));
+    }
+
+    for(auto &sr : hemioutput.sera){
+      sera.push_back(as<List>(wrap(sr)));
+    }
+
+    return wrap(
+      List::create(
+        _["antigens"] = antigens,
+        _["sera"] = sera
+      )
+    );
 
   }
 

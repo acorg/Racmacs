@@ -948,6 +948,22 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// ac_hemi_test
+HemiTestOutput ac_hemi_test(AcOptimization optimization, arma::mat tabledists, arma::umat titertypes, double grid_spacing, double stress_lim, AcOptimizerOptions options);
+RcppExport SEXP _Racmacs_ac_hemi_test(SEXP optimizationSEXP, SEXP tabledistsSEXP, SEXP titertypesSEXP, SEXP grid_spacingSEXP, SEXP stress_limSEXP, SEXP optionsSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< AcOptimization >::type optimization(optimizationSEXP);
+    Rcpp::traits::input_parameter< arma::mat >::type tabledists(tabledistsSEXP);
+    Rcpp::traits::input_parameter< arma::umat >::type titertypes(titertypesSEXP);
+    Rcpp::traits::input_parameter< double >::type grid_spacing(grid_spacingSEXP);
+    Rcpp::traits::input_parameter< double >::type stress_lim(stress_limSEXP);
+    Rcpp::traits::input_parameter< AcOptimizerOptions >::type options(optionsSEXP);
+    rcpp_result_gen = Rcpp::wrap(ac_hemi_test(optimization, tabledists, titertypes, grid_spacing, stress_lim, options));
+    return rcpp_result_gen;
+END_RCPP
+}
 // ac_match_map_ags
 arma::ivec ac_match_map_ags(AcMap const& map1, AcMap const& map2);
 RcppExport SEXP _Racmacs_ac_match_map_ags(SEXP map1SEXP, SEXP map2SEXP) {
@@ -1412,6 +1428,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_Racmacs_ac_sr_set_group", (DL_FUNC) &_Racmacs_ac_sr_set_group, 2},
     {"_Racmacs_ac_sr_set_group_levels", (DL_FUNC) &_Racmacs_ac_sr_set_group_levels, 2},
     {"_Racmacs_ac_dimension_test_map", (DL_FUNC) &_Racmacs_ac_dimension_test_map, 7},
+    {"_Racmacs_ac_hemi_test", (DL_FUNC) &_Racmacs_ac_hemi_test, 6},
     {"_Racmacs_ac_match_map_ags", (DL_FUNC) &_Racmacs_ac_match_map_ags, 2},
     {"_Racmacs_ac_match_map_sr", (DL_FUNC) &_Racmacs_ac_match_map_sr, 2},
     {"_Racmacs_ac_merge_titer_layers", (DL_FUNC) &_Racmacs_ac_merge_titer_layers, 1},

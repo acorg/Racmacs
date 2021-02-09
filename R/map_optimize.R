@@ -378,7 +378,7 @@ mapRelaxed <- function(
   relaxed_stress <- mapStress(relaxed_map, optimization_number)
 
   # Compare stress
-  isTRUE(all.equal(relaxed_stress, stress))
+  isTRUE(stress - relaxed_stress < 0.0001)
 
 }
 
@@ -398,10 +398,40 @@ mapRelaxed <- function(
 checkHemisphering <- function(
   map,
   optimization_number = 1,
-  stepsize = 0.1
+  grid_spacing = 0.25,
+  stress_lim = 0.1,
+  options = list()
   ) {
 
-  stop("Not yet implemented")
+  # Check map is relaxed
+  if (!mapRelaxed(map, optimization_number, options)) {
+    stop("Map optimization is not fully relaxed", call. = FALSE)
+  }
+
+  # Perform the hemi test
+  result <- ac_hemi_test(
+    optimization = map$optimizations[[optimization_number]],
+    tabledists = tableDistances(map, optimization_number),
+    titertypes = titertypesTable(map),
+    grid_spacing = grid_spacing,
+    stress_lim = stress_lim,
+    options = do.call(RacOptimizer.options, options)
+  )
+
+  # Store the result
+  for (i in seq_along(result$antigens)) {
+    agDiagnostics(map, optimization_number)[[
+      result$antigens[[i]]$index + 1
+    ]]$hemi <- result$antigens[[i]]$diagnoses
+  }
+  for (i in seq_along(result$sera)) {
+    srDiagnostics(map, optimization_number)[[
+      result$sera[[i]]$index + 1
+    ]]$hemi <- result$sera[[i]]$diagnoses
+  }
+
+  # Return the map
+  map
 
 }
 
@@ -456,3 +486,17 @@ moveTrappedPoints <- function(
   map
 
 }
+
+
+# Functions for fetching hemisphering information
+agHemisphering <- function(map, optimization_number = 1) {
+  lapply(agDiagnostics(map, optimization_number), function(ag) ag$hemi)
+}
+srHemisphering <- function(map, optimization_number = 1) {
+  lapply(srDiagnostics(map, optimization_number), function(sr) sr$hemi)
+}
+ptHemisphering <- function(map, optimization_number = 1) {
+  c(agHemisphering(map, optimization_number), srHemisphering(map, optimization_number))
+}
+
+

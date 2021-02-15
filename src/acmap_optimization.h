@@ -443,6 +443,8 @@ class AcOptimization {
       ag_base_coords = ag_base_coords.rows(ags);
       sr_base_coords = sr_base_coords.rows(sr);
       fixed_column_bases = fixed_column_bases.elem(sr);
+      ag_diagnostics = subset_vector(ag_diagnostics, ags);
+      sr_diagnostics = subset_vector(sr_diagnostics, sr);
 
     }
 

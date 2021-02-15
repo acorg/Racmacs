@@ -6,6 +6,7 @@
 #include "utils_transformation.h"
 #include "ac_titers.h"
 #include "acmap_titers.h"
+#include "acmap_diagnostics.h"
 #include "ac_optimizer_options.h"
 #include "ac_relax_coords.h"
 #include "ac_coords_stress.h"
@@ -28,6 +29,8 @@ class AcOptimization {
 
   public:
 
+    std::vector<AcDiagnostics> ag_diagnostics;
+    std::vector<AcDiagnostics> sr_diagnostics;
     double stress = arma::datum::nan;
 
     // Constructors
@@ -45,6 +48,8 @@ class AcOptimization {
       min_column_basis = "none";
       fixed_column_bases = arma::vec(num_sera);
       fixed_column_bases.fill(arma::datum::nan);
+      ag_diagnostics.resize(num_antigens);
+      sr_diagnostics.resize(num_sera);
 
     }
 

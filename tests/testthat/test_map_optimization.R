@@ -63,18 +63,22 @@ test_that("Finding hemisphering points", {
   hemi_map_ag <- optimizeMap(
     map = hemi_map_ag,
     number_of_dimensions = 2,
-    number_of_optimizations = 1000,
+    number_of_optimizations = 1,
     fixed_column_bases = colbases
   )
   hemi_map_ag <- checkHemisphering(hemi_map_ag, stress_lim = 0.1)
+  mapDimensions(hemi_map_ag, 1)
 
   expect_false(is.null(agHemisphering(hemi_map_ag)[[1]]))
-
   export.plot.test(
     grid.plot.acmap(hemi_map_ag),
     "hemisphering_ags.pdf"
   )
 
+  export.viewer.test(
+    view(hemi_map_ag),
+    "hemisphering_ags.html"
+  )
 
   # Create a sera hemisphering point
   hemi_map_sr <- perfect_map
@@ -83,7 +87,7 @@ test_that("Finding hemisphering points", {
   hemi_map_sr <- optimizeMap(
     map = hemi_map_sr,
     number_of_dimensions = 2,
-    number_of_optimizations = 1000,
+    number_of_optimizations = 1,
     fixed_column_bases = colbases
   )
   hemi_map_sr <- checkHemisphering(hemi_map_sr, stress_lim = 0.1)
@@ -93,6 +97,11 @@ test_that("Finding hemisphering points", {
   export.plot.test(
     grid.plot.acmap(hemi_map_sr),
     "hemisphering_sr.pdf"
+  )
+
+  export.viewer.test(
+    view(hemi_map_sr),
+    "hemisphering_sr.html"
   )
 
 })

@@ -83,6 +83,7 @@ grid.plot.acmap <- function(
     )
   }
 
+
   # Setup viewport for plotting
   viewport <- grid::vpStack(
     vp_with_margins(graphics::par("mai")),

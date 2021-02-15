@@ -153,7 +153,7 @@ std::vector<HemiData> ac_hemi_test_points(
 
 
 // [[Rcpp::export]]
-HemiTestOutput ac_hemi_test(
+AcOptimization ac_hemi_test(
     AcOptimization optimization,
     arma::mat tabledists,
     arma::umat titertypes,
@@ -163,10 +163,13 @@ HemiTestOutput ac_hemi_test(
 ){
 
   // Setup output
-  HemiTestOutput hemioutput;
+  arma::uword num_antigens = optimization.num_ags();
+  arma::uword num_sera = optimization.num_sr();
+  std::vector<HemiData> hemi_antigens(num_antigens);
+  std::vector<HemiData> hemi_sera(num_sera);
 
   // Test antigens
-  hemioutput.antigens = ac_hemi_test_points(
+  hemi_antigens = ac_hemi_test_points(
     optimization.get_ag_base_coords(),
     optimization.get_sr_base_coords(),
     tabledists,
@@ -177,7 +180,7 @@ HemiTestOutput ac_hemi_test(
   );
 
   // Test sera
-  hemioutput.sera = ac_hemi_test_points(
+  hemi_sera = ac_hemi_test_points(
     optimization.get_sr_base_coords(),
     optimization.get_ag_base_coords(),
     tabledists.t(),
@@ -187,7 +190,13 @@ HemiTestOutput ac_hemi_test(
     options
   );
 
-  // Return output
-  return hemioutput;
+  // Update optimization diagnostic info
+  for (auto &hemidata : hemi_antigens) {
+    optimization.ag_diagnostics[hemidata.index].hemi = hemidata.diagnoses;
+  }
+  for (auto &hemidata : hemi_sera) {
+    optimization.sr_diagnostics[hemidata.index].hemi = hemidata.diagnoses;
+  }
+  return optimization;
 
 }

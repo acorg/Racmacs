@@ -409,7 +409,7 @@ checkHemisphering <- function(
   }
 
   # Perform the hemi test
-  result <- ac_hemi_test(
+  map$optimizations[[optimization_number]] <- ac_hemi_test(
     optimization = map$optimizations[[optimization_number]],
     tabledists = tableDistances(map, optimization_number),
     titertypes = titertypesTable(map),
@@ -417,18 +417,6 @@ checkHemisphering <- function(
     stress_lim = stress_lim,
     options = do.call(RacOptimizer.options, options)
   )
-
-  # Store the result
-  for (i in seq_along(result$antigens)) {
-    agDiagnostics(map, optimization_number)[[
-      result$antigens[[i]]$index + 1
-    ]]$hemi <- result$antigens[[i]]$diagnoses
-  }
-  for (i in seq_along(result$sera)) {
-    srDiagnostics(map, optimization_number)[[
-      result$sera[[i]]$index + 1
-    ]]$hemi <- result$sera[[i]]$diagnoses
-  }
 
   # Return the map
   map

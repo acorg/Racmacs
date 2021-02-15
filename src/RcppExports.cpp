@@ -991,7 +991,7 @@ BEGIN_RCPP
 END_RCPP
 }
 // ac_hemi_test
-HemiTestOutput ac_hemi_test(AcOptimization optimization, arma::mat tabledists, arma::umat titertypes, double grid_spacing, double stress_lim, AcOptimizerOptions options);
+AcOptimization ac_hemi_test(AcOptimization optimization, arma::mat tabledists, arma::umat titertypes, double grid_spacing, double stress_lim, AcOptimizerOptions options);
 RcppExport SEXP _Racmacs_ac_hemi_test(SEXP optimizationSEXP, SEXP tabledistsSEXP, SEXP titertypesSEXP, SEXP grid_spacingSEXP, SEXP stress_limSEXP, SEXP optionsSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;

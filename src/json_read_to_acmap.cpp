@@ -142,6 +142,7 @@ AcMap json_to_acmap(
 
 
   // == ANTIGENS ========================
+  // Rcpp::Rcout << "\n" << "ANTIGENS";
   for( int i=0; i<num_antigens; i++ ){
 
     const Value& ag = a[i];
@@ -160,6 +161,7 @@ AcMap json_to_acmap(
 
 
   // == SERA ============================
+  // Rcpp::Rcout << "\n" << "SERA";
   for( int i=0; i<num_sera; i++ ){
 
     const Value& sr = s[i];
@@ -178,6 +180,7 @@ AcMap json_to_acmap(
 
 
   // == TITERS ==========================
+  // Rcpp::Rcout << "\n" << "TITERS";
   if(c.HasMember("t")){
     const Value& t = c["t"];
 
@@ -206,6 +209,7 @@ AcMap json_to_acmap(
     }
 
     // Titer layers
+    // Rcpp::Rcout << "\n" << "TITER LAYERS";
     if (t.HasMember("L")){
 
       // Setup titer table layers
@@ -228,6 +232,7 @@ AcMap json_to_acmap(
   }
 
   // == PLOTSPEC =====================
+  // Rcpp::Rcout << "\n" << "PLOTSPEC";
   const Value& p = c["p"]; // plotspec
   const Value& pindices = p["p"];
   const Value& pstyles = p["P"];
@@ -248,6 +253,7 @@ AcMap json_to_acmap(
   }
 
   // == OPTIMIZATION RUNS ======================
+  // Rcpp::Rcout << "\n" << "OPTIMIZATIONS";
   if(c.HasMember("P")){
 
     const Value& P = c["P"]; // optimizations aka "projections"
@@ -258,7 +264,12 @@ AcMap json_to_acmap(
       const Value& Opt = P[i];
 
       // Create optimization
-      int num_dims = Opt["l"][0].Size();
+      arma::uword num_dims = 0;
+      for (int pt=0; pt < num_points; pt++) {
+        if (Opt["l"][pt].Size() > num_dims) {
+          num_dims = Opt["l"][pt].Size();
+        }
+      }
       AcOptimization optimization( num_dims, num_antigens, num_sera );
 
       // Set coords
@@ -302,6 +313,7 @@ AcMap json_to_acmap(
   }
 
   // == EXTRAS =====================
+  // Rcpp::Rcout << "\n" << "EXTRAS";
   if(c.HasMember("x")){
     const Value& x = c["x"]; // extra items
 
@@ -334,6 +346,7 @@ AcMap json_to_acmap(
   }
 
   // Return the map
+  // Rcpp::Rcout << "\n" << "DONE";
   return map;
 
 }

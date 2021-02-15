@@ -31,4 +31,19 @@ arma::mat unique_rows(
         const arma::mat& m
 );
 
+// Template for subsetting a vector
+template<typename T>
+std::vector<T> subset_vector(
+        std::vector<T> vec,
+        arma::uvec indices
+){
+
+    std::vector<T> subvec(indices.n_elem);
+    for (arma::uword i=0; i < indices.n_elem; i++) {
+        subvec[i] = vec[indices(i)];
+    }
+    return subvec;
+
+}
+
 #endif

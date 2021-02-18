@@ -15,6 +15,11 @@ Racmacs.Viewer.prototype.load = function(
     this.clearAntigensAndSera();
     this.controlpanel.disableProjectionTabs();
 
+    // Set viewer controls
+    if(options["viewer.controls"] !== "hidden") this.controlpanel.show();
+    if(options["viewer.controls"] === "optimizations") this.controlpanel.tabset.showTab("projections");
+
+
     // Plot new map data
     if(mapData === null){
 
@@ -158,8 +163,6 @@ Racmacs.Viewer.prototype.load = function(
         }
 
         // Deal with viewer options
-        if(options["viewer.controls"] === "shown")  this.controlpanel.show();
-        if(options["viewer.controls"] === "hidden") this.controlpanel.hide();
         if(options["point.opacity"] !== undefined && options["point.opacity"] !== null)  this.styleset.noselections.unhovered.unselected.opacity = options["point.opacity"];
         this.updatePointStyles();
 

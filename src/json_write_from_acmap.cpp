@@ -140,6 +140,28 @@ Value json_point_style(
 
 }
 
+// Create a point diagnostics record
+Value pt_diagnostics_to_json(
+    const AcDiagnostics& d,
+    Document::AllocatorType& allocator
+){
+
+  Value ptdiag(kObjectType);
+
+  // Hemisphering info
+  Value pthemi(kArrayType);
+  for(arma::uword i=0; i<d.hemi.size(); i++){
+    Value hemi(kObjectType);
+    hemi.AddMember("d", strval(d.hemi[i].diagnosis, allocator), allocator);
+    hemi.AddMember("c", vec_to_json_array(d.hemi[i].coords, allocator), allocator);
+    pthemi.PushBack(hemi, allocator);
+  }
+  ptdiag.AddMember("h", pthemi, allocator);
+
+  return ptdiag;
+
+}
+
 
 // [[Rcpp::export]]
 std::string acmap_to_json(
@@ -349,6 +371,46 @@ std::string acmap_to_json(
     xs.PushBack(srx, allocator);
   }
   x.AddMember("s", xs, allocator);
+
+  // = OPTIMIZATIONS =
+  Value xp(kArrayType);
+  for(arma::uword i=0; i<map.optimizations.size(); i++){
+
+    Value optx(kObjectType);
+
+    // Translation
+    optx.AddMember("t", vec_to_json_array(map.optimizations[i].get_translation(), allocator), allocator);
+
+    // AG Diagnostics
+    Value optxagd(kArrayType);
+    for(arma::uword ag=0; ag<map.optimizations[i].ag_diagnostics.size(); ag++){
+      optxagd.PushBack(
+        pt_diagnostics_to_json(
+          map.optimizations[i].ag_diagnostics[ag],
+          allocator
+        ),
+        allocator
+      );
+    }
+
+    // SR Diagnostics
+    Value optxsrd(kArrayType);
+    for(arma::uword ag=0; ag<map.optimizations[i].ag_diagnostics.size(); ag++){
+      optxagd.PushBack(
+        pt_diagnostics_to_json(
+          map.optimizations[i].ag_diagnostics[ag],
+          allocator
+        ),
+        allocator
+      );
+    }
+
+    optx.AddMember("ad", optxagd, allocator);
+    optx.AddMember("sd", optxsrd, allocator);
+    xp.PushBack(optx, allocator);
+
+  }
+  x.AddMember("p", xp, allocator);
 
   // = OTHER =
   x.AddMember("agv", str_vec_to_json(map.get_ag_group_levels(), allocator), allocator);

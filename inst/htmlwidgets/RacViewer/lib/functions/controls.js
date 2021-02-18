@@ -104,11 +104,11 @@ Racmacs.ControlPanel = class ControlPanel {
         loadpointstyle.div.classList.add("shiny-element");
         pointstylepanel.appendChild(loadpointstyle.div);
 
-        this.tabset.addTab({
-            id : "pointstylepanel",
-            name: "Point styles",
-            content: pointstylepanel
-        });
+        // this.tabset.addTab({
+        //     id : "pointstylepanel",
+        //     name: "Point styles",
+        //     content: pointstylepanel
+        // });
 
         // Add Filter
         var filter = new Racmacs.Filter(this.viewer);

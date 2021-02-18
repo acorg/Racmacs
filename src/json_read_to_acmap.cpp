@@ -1,65 +1,5 @@
 
-// #include <cstdio>
-#include <RcppArmadillo.h>
-#include "acmap_map.h"
-#include "acmap_point.h"
-#include "acmap_optimization.h"
-
-#include "json_assert.h"
-// [[Rcpp::depends(rapidjsonr)]]
-#include <rapidjson/document.h>
-// #include <rapidjson/filereadstream.h>
-using namespace rapidjson;
-
-// Function for extracting double, using arma::datum::nan for null
-double get_double(
-    const Value& v
-){
-  double x;
-  if(v.IsNull()){
-    x = arma::datum::nan;
-  } else {
-    x = v.GetDouble();
-  }
-  return x;
-}
-
-// Function for extracting armadillo vector from json array
-arma::vec vec_from_json_array(
-  const Value& array
-){
-
-  arma::vec v(array.Size());
-  for(SizeType i=0; i<array.Size(); i++){
-    v(i) = get_double(array[i]);
-  }
-  return v;
-
-}
-
-arma::uvec uvec_from_json_array(
-  const Value& array
-){
-
-  arma::uvec v(array.Size());
-  for(SizeType i=0; i<array.Size(); i++){
-    v(i) = array[i].GetInt();
-  }
-  return v;
-
-}
-
-std::vector<std::string> strvec_from_json_array(
-  const Value& array
-){
-
-  std::vector<std::string> v(array.Size());
-  for(SizeType i=0; i<array.Size(); i++){
-    v[i] = array[i].GetString();
-  }
-  return v;
-
-}
+#include "json_read_to_acmap.h"
 
 // Function for setting point style
 template <typename T>
@@ -239,7 +179,7 @@ AcMap json_to_acmap(
 
   // Set drawing order
   if(p.HasMember("d")){
-    map.set_pt_drawing_order( uvec_from_json_array(p["d"]) );
+    map.set_pt_drawing_order( parse<arma::uvec>(p["d"]) );
   }
 
   // Style antigens
@@ -277,7 +217,7 @@ AcMap json_to_acmap(
       coords.fill( arma::datum::nan );
       for( int pt=0; pt < num_points; pt++){
         for( SizeType dim=0; dim < Opt["l"][pt].Size(); dim++){
-          coords(pt, dim) = get_double(Opt["l"][pt][dim]);
+          coords(pt, dim) = parse<double>(Opt["l"][pt][dim]);
         }
       }
 
@@ -286,20 +226,20 @@ AcMap json_to_acmap(
 
       // Set details
       if(Opt.HasMember("c")) optimization.set_comment(Opt["c"].GetString());
-      if(Opt.HasMember("s")) optimization.set_stress(get_double(Opt["s"]));
+      if(Opt.HasMember("s")) optimization.set_stress(parse<double>(Opt["s"]));
       if(Opt.HasMember("m")) optimization.set_min_column_basis(Opt["m"].GetString());
       if(Opt.HasMember("C")){
-        optimization.set_fixed_column_bases( vec_from_json_array(Opt["C"]) );
+        optimization.set_fixed_column_bases( parse<arma::vec>(Opt["C"]) );
       }
       if(Opt.HasMember("t")){
-        arma::vec transformation = vec_from_json_array(Opt["t"]);
+        arma::vec transformation = parse<arma::vec>(Opt["t"]);
         int dim = transformation.n_elem / 2;
         optimization.set_transformation(
           arma::reshape( transformation, dim, dim)
         );
       }
       if(Opt.HasMember("T")){
-        optimization.set_translation( vec_from_json_array(Opt["T"]) );
+        optimization.set_translation( parse<arma::vec>(Opt["T"]) );
       }
 
       // Add to optimizations
@@ -339,9 +279,18 @@ AcMap json_to_acmap(
       }
     }
 
+    // = OPTIMIZATIONS =
+    if(x.HasMember("p")){
+      const Value& xp = x["p"];
+      for(SizeType i=0; i<xp.Size(); i++){
+        const Value& xpi = xp[i];
+        if(xpi.HasMember("t")) map.optimizations[i].set_translation( parse<arma::mat>(xpi["t"]) );
+      }
+    }
+
     // = OTHER =
-    if(x.HasMember("agv")) map.set_ag_group_levels( strvec_from_json_array(x["agv"]) );
-    if(x.HasMember("srv")) map.set_sr_group_levels( strvec_from_json_array(x["srv"]) );
+    if(x.HasMember("agv")) map.set_ag_group_levels( parse<std::vector<std::string>>(x["agv"]) );
+    if(x.HasMember("srv")) map.set_sr_group_levels( parse<std::vector<std::string>>(x["srv"]) );
 
   }
 

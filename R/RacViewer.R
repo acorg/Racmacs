@@ -19,9 +19,6 @@
 #' @export
 RacViewer <- function(
   map,
-  rotation,
-  translation,
-  zoom,
   plotdata  = NULL,
   show_procrustes = FALSE,
   options   = list(),

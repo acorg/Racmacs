@@ -297,7 +297,7 @@ class AcTiterTable {
     bool titer_measured(
       const int& ag,
       const int& sr
-    ){
+    ) const {
       return titer_types(ag, sr) != 0;
     }
 

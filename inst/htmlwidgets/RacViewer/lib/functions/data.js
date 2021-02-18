@@ -39,10 +39,10 @@ Racmacs.Data = class Data {
     // Selected projection
     projection(num){
         if(!this.data){ return(0) }
-        if(this.data.selected_optimization == null){
-            return(0)
-        }
         if(typeof(num) === "undefined"){
+            if(this.data.selected_optimization == null){
+                return(0);
+            }
             return(this.data.selected_optimization);
         } else {
             return(num);
@@ -136,8 +136,8 @@ Racmacs.Data = class Data {
 
     translation(){
         let pnum = this.projection();
-        if(this.data.c.x.transformation && this.data.c.x.translation && this.data.c.x.translation[pnum]){
-            return(this.data.c.x.translation[pnum]);
+        if(this.data.c.x.p && this.data.c.x.p[pnum].t){
+            return(this.data.c.x.p[pnum].t);
         } else {
             return(new Array(this.dimensions(pnum)).fill(0));
         }
@@ -187,13 +187,13 @@ Racmacs.Data = class Data {
     }
 
     agBaseCoords(i){
-        if(this.data.c.P.length == 0) return(null)
+        if(this.data.c.P.length == 0) return(null);
         let pnum = this.projection();
         return(this.data.c.P[pnum].l[i].slice());
     }
 
     agCoords(i){
-        if(this.data.c.P.length == 0) return(null)
+        if(this.data.c.P.length == 0) return(null);
         return(
             Racmacs.utils.transformTranslateCoords(
                 this.agBaseCoords(i),
@@ -397,14 +397,15 @@ Racmacs.Data = class Data {
     }
 
     hemisphering(num){
-        let pnum = this.projection(num);
-        if(!this.data.diagnostics
-            || !this.data.diagnostics[pnum]
-            || !this.data.diagnostics[pnum].hemisphering){ 
-            return(null) 
-        } else {
-            return(this.data.diagnostics[pnum].hemisphering)
-        }
+        // let pnum = this.projection(num);
+        // console.log(this.data.c.x.p[pnum].ad);
+        // if(!this.data.diagnostics
+        //     || !this.data.diagnostics[pnum]
+        //     || !this.data.diagnostics[pnum].hemisphering){ 
+        //     return(null) 
+        // } else {
+        //     return(this.data.diagnostics[pnum].hemisphering)
+        // }
     }
 
     // Bootstrap data

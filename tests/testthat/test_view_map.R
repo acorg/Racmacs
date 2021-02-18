@@ -4,6 +4,38 @@ context("Viewing a map")
 
 map <- read.acmap(test_path("../testdata/testmap.ace"))
 
+# Viewing a null map
+test_that("Viewing a map", {
+
+  export.viewer.test(
+    RacViewer(
+      map = NULL,
+      options = list(
+        viewer.controls = "shown"
+      )
+    ),
+    filename = "map_null.html"
+  )
+
+})
+
+# Viewing a aligned optimizations
+test_that("Viewing aligned optimizations", {
+
+  map <- read.acmap(test_path("../testdata/h3map2004.ace"))
+  map <- realignOptimizations(map)
+  export.viewer.test(
+    RacViewer(
+      map = map,
+      options = list(
+        viewer.controls = "optimizations"
+      )
+    ),
+    filename = "map_aligned_optimizations.html"
+  )
+
+})
+
 # Viewing maps
 test_that("Viewing a map", {
 

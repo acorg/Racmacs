@@ -233,7 +233,7 @@ AcMap json_to_acmap(
       }
       if(Opt.HasMember("t")){
         arma::vec transformation = parse<arma::vec>(Opt["t"]);
-        int dim = transformation.n_elem / 2;
+        int dim = sqrt(transformation.n_elem);
         optimization.set_transformation(
           arma::reshape( transformation, dim, dim)
         );

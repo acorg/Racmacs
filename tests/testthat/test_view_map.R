@@ -5,7 +5,7 @@ context("Viewing a map")
 map <- read.acmap(test_path("../testdata/testmap.ace"))
 
 # Viewing a null map
-test_that("Viewing a map", {
+test_that("Viewing a null map", {
 
   export.viewer.test(
     RacViewer(
@@ -15,6 +15,30 @@ test_that("Viewing a map", {
       )
     ),
     filename = "map_null.html"
+  )
+
+})
+
+# Viewing a null map
+test_that("Viewing a map then reload with no optimizations", {
+
+  widget <- RacViewer(
+    map = map,
+    options = list(
+      viewer.controls = "optimizations"
+    )
+  )
+
+  map_no_opts <- removeOptimizations(map)
+  widget <- htmlwidgets::onRender(
+    x      = widget,
+    jsCode = "function(el, x, data) { el.viewer.load(JSON.parse(data), { maintain_viewpoint:true }); }",
+    data   = as.json(map_no_opts)
+  )
+
+  export.viewer.test(
+    widget,
+    filename = "map_switch_to_no_opts.html"
   )
 
 })

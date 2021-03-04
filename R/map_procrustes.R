@@ -151,6 +151,10 @@ ptProcrustes <- function(map, optimization_number = 1) {
   map$optimizations[[optimization_number]]$procrustes
 }
 
+hasProcrustes <- function(map, optimization_number = 1) {
+  !is.null(ptProcrustes(map, optimization_number))
+}
+
 
 #' Realigns optimizations in the map
 #'

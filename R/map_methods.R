@@ -123,7 +123,10 @@ view.acmap <- function(
   }
 
   # Add any procrustes lines
-  if (!is.null(x$procrustes) && !isFALSE(show_procrustes)) {
+  if (
+    hasProcrustes(x, optimization_number)
+    && !isFALSE(show_procrustes)
+    ) {
 
     widget <- htmlwidgets::onRender(
       x      = widget,

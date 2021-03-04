@@ -60,7 +60,7 @@ check.charactermatrix <- function(x) {
 # Check the optimization number is valid
 check.optnum <- function(map, optimization_number) {
   if (numOptimizations(map) == 0) {
-    stop("Map has no optimization runs yet", call. = FALSE)
+    stop("Map has no optimization runs", call. = FALSE)
   }
   if (optimization_number > numOptimizations(map)) {
     stop(

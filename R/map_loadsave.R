@@ -118,9 +118,13 @@ as.json <- function(map) {
 save.coords <- function(
   map,
   filename,
+  optimization_number = 1,
   antigens = TRUE,
   sera = TRUE
   ) {
+
+  check.acmap(map)
+  check.optnum(map, optimization_number)
 
   antigens <- get_ag_indices(antigens, map)
   sera     <- get_sr_indices(sera, map)
@@ -132,7 +136,10 @@ save.coords <- function(
 
   type   <- c(rep("antigen", length(antigens)), rep("sera", length(sera)))
   name   <- c(agNames(map)[antigens], srNames(map)[sera])
-  coords <- rbind(agCoords(map)[antigens, ], srCoords(map)[sera, ])
+  coords <- rbind(
+    agCoords(map, optimization_number)[antigens, ],
+    srCoords(map, optimization_number)[sera, ]
+  )
   utils::write.csv(
     x = cbind(type, name, coords),
     file = filename,

@@ -335,8 +335,8 @@ class AcTiterTable {
     ) const {
 
       // Check input
-      if(arma::accu(titer_types) == 0) Rf_error("Table has no measurable titers");
       if(fixed_colbases.n_elem != nsr()) Rf_error("fixed_colbases does not match number of sera");
+      if(arma::accu(titer_types) == 0) return fixed_colbases;
 
       // Calculate column bases
       arma::mat log_titers = arma::log2(numeric_titers / 10.0);
@@ -371,12 +371,23 @@ class AcTiterTable {
       arma::vec colbases
     ) const {
 
+      // Set distances as log titers
       arma::mat dists = arma::log2(numeric_titers / 10.0);
+
+      // Subtract colbases from each log titer row to arrive at distance
       for(arma::uword i=0; i<dists.n_rows; i++){
         dists.row(i) = colbases.as_row() - dists.row(i);
       }
-      dists = arma::clamp(dists, 0, dists.max());
+
+      // Do not allow distances < 0
+      if (std::isfinite(dists.max())) {
+        dists = arma::clamp(dists, 0, dists.max());
+      }
+
+      // Replace na titers with na dists
       dists.elem( arma::find(titer_types == 0) ).fill( arma::datum::nan );
+
+      // Return distance matrix
       return dists;
 
     }

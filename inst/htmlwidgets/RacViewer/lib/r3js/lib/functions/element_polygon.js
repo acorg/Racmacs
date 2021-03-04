@@ -121,7 +121,7 @@ R3JS.element.Polygon2d = class Polygon2d extends R3JS.element.base {
 // Sphere constructor
 R3JS.element.constructors.polygon3d = function(
     plotobj,
-    plotdims
+    viewer
     ){
 
     // Make the object
@@ -129,7 +129,8 @@ R3JS.element.constructors.polygon3d = function(
         vertices   : plotobj.vertices,
         faces      : plotobj.faces,
         normals    : plotobj.normals,
-        properties : plotobj.properties
+        properties : plotobj.properties,
+        aspect     : viewer.scene.plotdims.aspect
     });
     
     // Return the object
@@ -161,7 +162,7 @@ R3JS.element.Polygon3d = class Polygon3d extends R3JS.element.base {
                 new THREE.Vector3(
                     args.vertices[i][0],// - object.position.x,
                     args.vertices[i][1],// - object.position.y,
-                    args.vertices[i][2]// - object.position.z
+                    args.vertices[i][2],// - object.position.z
                 )
             );
         }
@@ -170,20 +171,21 @@ R3JS.element.Polygon3d = class Polygon3d extends R3JS.element.base {
         for(var i=0; i<args.faces.length; i++){
             geometry.faces.push(
                 new THREE.Face3( 
-                    args.faces[i][2]-1, 
-                    args.faces[i][1]-1, 
-                    args.faces[i][0]-1
+                    args.faces[i][0], 
+                    args.faces[i][1], 
+                    args.faces[i][2]
                 )
             );
         }
 
         // Add normals
         if(args.normals !== undefined){
+            var normals = args.normals;
             for(var i=0; i<geometry.faces.length; i++){
                 geometry.faces[i].vertexNormals = [
-                    new THREE.Vector3().fromArray( args.normals[geometry.faces[i].a] ),
-                    new THREE.Vector3().fromArray( args.normals[geometry.faces[i].b] ),
-                    new THREE.Vector3().fromArray( args.normals[geometry.faces[i].c] )
+                    new THREE.Vector3().fromArray( normals[geometry.faces[i].a] ),
+                    new THREE.Vector3().fromArray( normals[geometry.faces[i].b] ),
+                    new THREE.Vector3().fromArray( normals[geometry.faces[i].c] ),
                 ];
             }
         } else {

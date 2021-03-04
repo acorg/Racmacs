@@ -75,6 +75,7 @@ ptCoords <- function(map, optimization_number = 1) {
     optimization,
     value
   )
+  optStress(map, optimization_number) <- mapStress(map, optimization_number)
   map
 }
 
@@ -90,5 +91,6 @@ ptCoords <- function(map, optimization_number = 1) {
     optimization,
     value
   )
+  optStress(map, optimization_number) <- mapStress(map, optimization_number)
   map
 }

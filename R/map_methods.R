@@ -51,6 +51,7 @@ view.default <- function(x, ...) {
 #' View a racmap object in the interactive viewer.
 #'
 #' @param x The acmap data object
+#' @param optimization_number The optimization number to view
 #' @param options A named list of viewer options to pass to
 #'   `RacViewer.options()`
 #' @param ... Additional arguments to be passed to `RacViewer()`
@@ -61,8 +62,8 @@ view.default <- function(x, ...) {
 #' @param select_sr A vector of serum indices to select in the plot
 #' @param show_procrustes If the map contains procrustes information, should
 #'   procrustes lines be shown by default?
-#' @param show_stressblobs If the map contains stress blob information, should
-#'   stress blobs be shown by default?
+#' @param show_diagnostics If the map contains diagnostics information like
+#'   stress blobs or hemisphering, should it be shown by default?
 #' @param keep_all_optimization_runs Should information on all the optimization
 #'   runs be kept in the viewer, or just view the currently selected
 #'   optimisation run.
@@ -73,20 +74,21 @@ view.default <- function(x, ...) {
 #'
 view.acmap <- function(
   x,
+  optimization_number = 1,
   ...,
   .jsCode = NULL,
   .jsData = NULL,
   select_ags = NULL,
   select_sr  = NULL,
   show_procrustes = NULL,
-  show_stressblobs = NULL,
+  show_diagnostics = NULL,
   keep_all_optimization_runs = FALSE,
   options = list()
   ) {
 
   # Pass on only the selected optimization
   if (!keep_all_optimization_runs) {
-    x <- keepSingleOptimization(x)
+    x <- keepSingleOptimization(x, optimization_number)
   }
 
   # Add a procrustes grid if the main map is 3d and the comparator map is 2d
@@ -126,19 +128,37 @@ view.acmap <- function(
     widget <- htmlwidgets::onRender(
       x      = widget,
       jsCode = "function(el, x, data) { el.viewer.addProcrustesToBaseCoords(data) }",
-      data   = I(x$procrustes)
+      data   = I(ptProcrustes(x, optimization_number))
     )
 
   }
 
   # Show any blob data
-  stressblobdata <- viewer_stressblobdata(x)
-  if (!is.null(stressblobdata) && !isFALSE(show_stressblobs)) {
+  if (
+    hasStressBlobs(x, optimization_number)
+    && !isFALSE(show_diagnostics)
+    ) {
+
     widget <- htmlwidgets::onRender(
       x      = widget,
       jsCode = "function(el, x, data) { el.viewer.addStressBlobs(data) }",
-      data   = I(stressblobdata)
+      data   = I(ptStressBlobs(x, optimization_number))
     )
+
+  }
+
+  # Show any hemisphering data
+  if (
+    hasHemisphering(x, optimization_number)
+    && !isFALSE(show_diagnostics)
+    ) {
+
+    widget <- htmlwidgets::onRender(
+      x      = widget,
+      jsCode = "function(el, x, data) { el.viewer.showHemisphering(data) }",
+      data   = I(ptHemisphering(x,optimization_number))
+    )
+
   }
 
   # Add any map legends

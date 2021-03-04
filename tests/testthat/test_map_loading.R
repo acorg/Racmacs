@@ -17,6 +17,7 @@ test_that("Errors reading in", {
 map_full <- read.acmap(filename = save_file)
 
 test_that("Reading in", {
+  expect_false(is.nan(optStress(map_full, 1)))
   expect_equal(numOptimizations(map_full), 3)
 })
 
@@ -33,3 +34,7 @@ test_that("Reading in stress ordered", {
   )
 })
 
+test_that("Reading in 2004map", {
+  map <- read.acmap(test_path("../testdata/h3map2004.ace"))
+  expect_false(is.nan(optStress(map, 1)))
+})

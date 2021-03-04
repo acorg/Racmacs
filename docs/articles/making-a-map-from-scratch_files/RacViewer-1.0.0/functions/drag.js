@@ -43,7 +43,6 @@ Racmacs.DragPanel = class DragPanel {
 	    var buttons = document.createElement("div");
         this.div.appendChild(buttons);
 
-        // Only add accept option if in gui mode
         var accept = new Racmacs.utils.Button({
         	label:"Accept",
         	fn: function(){ viewer.exitDragMode(true) }

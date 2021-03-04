@@ -36,7 +36,8 @@ Suggests:
     rmarkdown,
     misc3d,
     r3js,
-    base64enc
+    base64enc,
+    shinytest
 RoxygenNote: 7.1.1
 Roxygen: list(markdown = TRUE)
 LinkingTo: 

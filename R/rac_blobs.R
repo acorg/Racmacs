@@ -37,16 +37,14 @@
 #'
 stressBlobs <- function(
   map,
-  stress_lim        = 1,
-  grid_spacing      = 0.25,
-  antigens          = TRUE,
-  sera              = TRUE,
-  .check_relaxation = TRUE,
-  .options          = list()
+  optimization_number = 1,
+  stress_lim          = 1,
+  grid_spacing        = 0.25,
+  antigens            = TRUE,
+  sera                = TRUE,
+  .check_relaxation   = TRUE,
+  .options            = list()
   ) {
-
-  # Only run on current optimization
-  optimization_number <- 1
 
   # Check dimensions
   if (!mapDimensions(map) %in% c(2, 3)) {
@@ -63,9 +61,9 @@ stressBlobs <- function(
     for (agnum in seq_along(map$antigens)) {
 
       blobgrid <- ac_stress_blob_grid(
-        testcoords = agBaseCoords(map)[agnum, ],
-        coords     = srBaseCoords(map),
-        tabledists = tableDistances(map)[agnum, ],
+        testcoords = agBaseCoords(map, optimization_number)[agnum, ],
+        coords     = srBaseCoords(map, optimization_number),
+        tabledists = tableDistances(map, optimization_number)[agnum, ],
         titertypes = titertypesTable(map)[agnum, ],
         stress_lim = stress_lim,
         grid_spacing = grid_spacing
@@ -88,9 +86,9 @@ stressBlobs <- function(
     for (srnum in seq_along(map$sera)) {
 
       blobgrid <- ac_stress_blob_grid(
-        testcoords = srBaseCoords(map)[srnum, ],
-        coords     = agBaseCoords(map),
-        tabledists = tableDistances(map)[, srnum],
+        testcoords = srBaseCoords(map, optimization_number)[srnum, ],
+        coords     = agBaseCoords(map, optimization_number),
+        tabledists = tableDistances(map, optimization_number)[, srnum],
         titertypes = titertypesTable(map)[, srnum],
         stress_lim = stress_lim,
         grid_spacing = grid_spacing
@@ -122,6 +120,9 @@ srStressBlobs <- function(map, optimization_number = 1) {
 }
 ptStressBlobs <- function(map, optimization_number = 1) {
   c(agStressBlobs(map, optimization_number), srStressBlobs(map, optimization_number))
+}
+hasStressBlobs <- function(map, optimization_number = 1) {
+  sum(vapply(ptStressBlobs(map, optimization_number), function(x) length(x) > 0, logical(1))) > 0
 }
 
 #' Fit a contour blob
@@ -187,13 +188,6 @@ contour_blob <- function(
 
 }
 
-# Function to convert to the RacViewer stress blob data
-viewer_stressblobdata <- function(map) {
-  list(
-    antigens = lapply(map$antigens, function(ag) ag$stress_blob),
-    sera = lapply(map$sera, function(sr) sr$stress_blob)
-  )
-}
 
 #' Fetch information on stress blob size
 #'

@@ -226,10 +226,9 @@ AcMap json_to_acmap(
 
       // Set details
       if(Opt.HasMember("c")) optimization.set_comment(Opt["c"].GetString());
-      if(Opt.HasMember("s")) optimization.set_stress(parse<double>(Opt["s"]));
       if(Opt.HasMember("m")) optimization.set_min_column_basis(Opt["m"].GetString());
       if(Opt.HasMember("C")){
-        optimization.set_fixed_column_bases( parse<arma::vec>(Opt["C"]) );
+        optimization.set_fixed_column_bases( parse<arma::vec>(Opt["C"]));
       }
       if(Opt.HasMember("t")){
         arma::vec transformation = parse<arma::vec>(Opt["t"]);
@@ -239,8 +238,9 @@ AcMap json_to_acmap(
         );
       }
       if(Opt.HasMember("T")){
-        optimization.set_translation( parse<arma::vec>(Opt["T"]) );
+        optimization.set_translation( parse<arma::vec>(Opt["T"]));
       }
+      if(Opt.HasMember("s")) optimization.set_stress(parse<double>(Opt["s"]));
 
       // Add to optimizations
       optimizations[i] = optimization;
@@ -284,13 +284,13 @@ AcMap json_to_acmap(
       const Value& xp = x["p"];
       for(SizeType i=0; i<xp.Size(); i++){
         const Value& xpi = xp[i];
-        if(xpi.HasMember("t")) map.optimizations[i].set_translation( parse<arma::mat>(xpi["t"]) );
+        if(xpi.HasMember("t")) map.optimizations[i].set_translation( parse<arma::mat>(xpi["t"]));
       }
     }
 
     // = OTHER =
-    if(x.HasMember("agv")) map.set_ag_group_levels( parse<std::vector<std::string>>(x["agv"]) );
-    if(x.HasMember("srv")) map.set_sr_group_levels( parse<std::vector<std::string>>(x["srv"]) );
+    if(x.HasMember("agv")) map.set_ag_group_levels( parse<std::vector<std::string>>(x["agv"]));
+    if(x.HasMember("srv")) map.set_sr_group_levels( parse<std::vector<std::string>>(x["srv"]));
 
   }
 

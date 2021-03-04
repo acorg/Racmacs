@@ -6,6 +6,7 @@
 \usage{
 stressBlobs(
   map,
+  optimization_number = 1,
   stress_lim = 1,
   grid_spacing = 0.25,
   antigens = TRUE,

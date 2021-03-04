@@ -6,19 +6,22 @@
 \usage{
 \method{view}{acmap}(
   x,
+  optimization_number = 1,
   ...,
   .jsCode = NULL,
   .jsData = NULL,
   select_ags = NULL,
   select_sr = NULL,
   show_procrustes = NULL,
-  show_stressblobs = NULL,
+  show_diagnostics = NULL,
   keep_all_optimization_runs = FALSE,
   options = list()
 )
 }
 \arguments{
 \item{x}{The acmap data object}
+
+\item{optimization_number}{The optimization number to view}
 
 \item{...}{Additional arguments to be passed to \code{RacViewer()}}
 
@@ -34,8 +37,8 @@ and rendered}
 \item{show_procrustes}{If the map contains procrustes information, should
 procrustes lines be shown by default?}
 
-\item{show_stressblobs}{If the map contains stress blob information, should
-stress blobs be shown by default?}
+\item{show_diagnostics}{If the map contains diagnostics information like
+stress blobs or hemisphering, should it be shown by default?}
 
 \item{keep_all_optimization_runs}{Should information on all the optimization
 runs be kept in the viewer, or just view the currently selected

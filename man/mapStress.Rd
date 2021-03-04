@@ -2,20 +2,17 @@
 % Please edit documentation in R/map_props_optimizations.R
 \name{mapStress}
 \alias{mapStress}
-\title{Get the current map stress}
+\title{Calculate the current map stress}
 \usage{
 mapStress(map, optimization_number = 1)
 }
 \arguments{
-\item{map}{The acmap data object}
+\item{map}{The acmap object}
 
-\item{optimization_number}{The optimization run from which to get / set the data}
-}
-\value{
-Returns the map stress value for the optimization run.
+\item{optimization_number}{The optimization number for which to calculate stress}
 }
 \description{
-Get the current map stress
+Calculate the current map stress
 }
 \seealso{
 Other {map optimization attribute functions}: 

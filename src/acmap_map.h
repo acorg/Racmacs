@@ -56,6 +56,13 @@ class AcMap {
 
     }
 
+    // Invalidate all calculated optimization stresses, for example when titers are changed
+    void invalidate_stresses() {
+      for(auto &optimization : optimizations){
+        optimization.invalidate_stress();
+      }
+    };
+
     // Get and set ag and sr group levels
     std::vector<std::string> get_ag_group_levels() const { return ag_group_levels; }
     std::vector<std::string> get_sr_group_levels() const { return sr_group_levels; }
@@ -63,7 +70,7 @@ class AcMap {
     void set_sr_group_levels( std::vector<std::string> levels ){ sr_group_levels = levels; }
 
     // Get and set titers from a single titer table, resetting any layers
-    AcTiterTable get_titer_table(){
+    AcTiterTable get_titer_table() const {
       return titer_table_flat;
     }
 
@@ -72,10 +79,11 @@ class AcMap {
     ){
       titer_table_flat = titers;
       titer_table_layers.clear();
+      invalidate_stresses();
     }
 
     // Get and set the flat version of the titer table directly
-    AcTiterTable get_titer_table_flat(){
+    AcTiterTable get_titer_table_flat() const {
       return titer_table_flat;
     }
 
@@ -86,7 +94,7 @@ class AcMap {
     }
 
     // Get and set titers from vector of titer layers
-    std::vector<AcTiterTable> get_titer_table_layers(){
+    std::vector<AcTiterTable> get_titer_table_layers() const {
       if(titer_table_layers.size() == 0){
         return std::vector<AcTiterTable>{ titer_table_flat };
       } else {
@@ -99,14 +107,18 @@ class AcMap {
     ){
       titer_table_flat = ac_merge_titer_layers(titers);
       titer_table_layers = titers;
+      invalidate_stresses();
     }
 
     // Remove antigen(s)
     void remove_antigen(int agnum){
       antigens.erase(antigens.begin()+agnum);
       titer_table_flat.remove_antigen(agnum);
-      for(arma::uword i=0; i<titer_table_layers.size(); i++){
-        titer_table_layers[i].remove_antigen(agnum);
+      for(auto &titer_table_layer : titer_table_layers){
+        titer_table_layer.remove_antigen(agnum);
+      }
+      for(auto &optimization : optimizations){
+        optimization.remove_antigen(agnum);
       }
     }
 
@@ -122,6 +134,9 @@ class AcMap {
       titer_table_flat.remove_serum(srnum);
       for(auto &titer_table_layer : titer_table_layers){
         titer_table_layer.remove_serum(srnum);
+      }
+      for(auto &optimization : optimizations){
+        optimization.remove_serum(srnum);
       }
     }
 
@@ -171,6 +186,9 @@ class AcMap {
       for(auto &optimization : optimizations){
         optimization.subset(ags, sr);
       }
+
+      // Invalidate stresses
+      invalidate_stresses();
 
     }
 
@@ -233,8 +251,8 @@ class AcMap {
 
       // Add colbases information
       for(auto &optimization : optimizations){
-        optimization.set_min_column_basis(min_col_basis);
-        optimization.set_fixed_column_bases(fixed_col_bases);
+        optimization.set_min_column_basis(min_col_basis, false); // Do not invalidate stress
+        optimization.set_fixed_column_bases(fixed_col_bases, false); // Do not invalidate stress
       }
 
     }

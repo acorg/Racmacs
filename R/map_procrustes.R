@@ -68,6 +68,14 @@ procrustesMap <- function(
   scaling     = FALSE
   ) {
 
+  # Check input
+  check.acmap(map)
+  check.acmap(comparison_map)
+  check.logical(translation)
+  check.logical(scaling)
+  check.optnum(map, optimization_number)
+  check.optnum(comparison_map, comparison_optimization_number)
+
   # Get the procrustes coords
   pc_coords <- ac_procrustes_map_coords(
     base_map = map,
@@ -78,11 +86,8 @@ procrustesMap <- function(
     scaling = scaling
   )
 
-  # Keep only the optimization number used
-  map <- keepOptimizations(map, optimization_number)
-
   # Add the data to the map
-  map$procrustes <- pc_coords
+  map$optimizations[[optimization_number]]$procrustes <- pc_coords
 
   # Return the map
   map
@@ -135,10 +140,15 @@ procrustesData <- function(
 
   # Get the procrustes data
   ac_procrustes_map_data(
-    map$optimizations[[1]],
-    map$procrustes
+    map$optimizations[[optimization_number]],
+    map$optimizations[[optimization_number]]$procrustes
   )
 
+}
+
+# Functions for fetching procrustes information
+ptProcrustes <- function(map, optimization_number = 1) {
+  map$optimizations[[optimization_number]]$procrustes
 }
 
 

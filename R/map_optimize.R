@@ -233,6 +233,7 @@ relaxMap <- function(
   ) {
 
   # Get options
+  if (sum(titerTable(map) != "*") == 0) stop("Table has no measurable titers")
   options <- do.call(RacOptimizer.options, options)
 
   # Convert point references to indices
@@ -329,14 +330,14 @@ randomizeCoords <- function(
     )
   }
 
-  agBaseCoords(map) <- random_coords(
+  agBaseCoords(map, optimization_number) <- random_coords(
     nrow = numAntigens(map),
     ndim = mapDimensions(map, optimization_number = optimization_number),
     min  = -(max_table_dist * table_dist_factor) / 2,
     max  = (max_table_dist * table_dist_factor) / 2
   )
 
-  srBaseCoords(map) <- random_coords(
+  srBaseCoords(map, optimization_number) <- random_coords(
     nrow = numSera(map),
     ndim = mapDimensions(map, optimization_number = optimization_number),
     min  = -(max_table_dist * table_dist_factor) / 2,
@@ -486,5 +487,7 @@ srHemisphering <- function(map, optimization_number = 1) {
 ptHemisphering <- function(map, optimization_number = 1) {
   c(agHemisphering(map, optimization_number), srHemisphering(map, optimization_number))
 }
-
+hasHemisphering <- function(map, optimization_number = 1) {
+  sum(vapply(ptHemisphering(map, optimization_number), function(x) length(x) > 0, logical(1))) > 0
+}
 

@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Add stress blob data to a map object — stressBlobs • Racmacs</title>
+<title>Calculate stress blobs data for an antigenic map — stressBlobs • Racmacs</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -48,8 +48,11 @@
   <link href="../extra.css" rel="stylesheet">
   
 
-<meta property="og:title" content="Add stress blob data to a map object — stressBlobs" />
-<meta property="og:description" content="Add stress blob data to a map object" />
+<meta property="og:title" content="Calculate stress blobs data for an antigenic map — stressBlobs" />
+<meta property="og:description" content="This function is to help give an idea of how well coordinated each point is
+in a map, and to give some idea of uncertainty in it's position. It works
+by moving each point in a grid search and seeing how the total map stress
+changes, see details." />
 <meta property="og:image" content="/logo.png" />
 
 
@@ -82,7 +85,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">Racmacs</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.13</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.3</span>
       </span>
     </div>
 
@@ -121,23 +124,27 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Add stress blob data to a map object</h1>
+    <h1>Calculate stress blobs data for an antigenic map</h1>
     <small class="dont-index">Source: <a href='https://github.com/acorg/Racmacs/blob/master/R/rac_blobs.R'><code>R/rac_blobs.R</code></a></small>
     <div class="hidden name"><code>stressBlobs.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Add stress blob data to a map object</p>
+    <p>This function is to help give an idea of how well coordinated each point is
+in a map, and to give some idea of uncertainty in it's position. It works
+by moving each point in a grid search and seeing how the total map stress
+changes, see details.</p>
     </div>
 
     <pre class="usage"><span class='fu'>stressBlobs</span>(
   <span class='no'>map</span>,
+  <span class='kw'>optimization_number</span> <span class='kw'>=</span> <span class='fl'>1</span>,
   <span class='kw'>stress_lim</span> <span class='kw'>=</span> <span class='fl'>1</span>,
+  <span class='kw'>grid_spacing</span> <span class='kw'>=</span> <span class='fl'>0.25</span>,
   <span class='kw'>antigens</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
   <span class='kw'>sera</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>grid_spacing</span> <span class='kw'>=</span> <span class='fl'>0.25</span>,
-  <span class='kw'>.progress</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>.check_relaxation</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>
+  <span class='kw'>.check_relaxation</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>.options</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>()
 )</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -152,34 +159,48 @@
       <td><p>The blob stress limit</p></td>
     </tr>
     <tr>
+      <th>grid_spacing</th>
+      <td><p>Grid spacing to use when searching map space and
+inferring the blob</p></td>
+    </tr>
+    <tr>
       <th>antigens</th>
-      <td><p>Antigens to calculate blobs for (TRUE for all FALSE for none, or specified by name or index)</p></td>
+      <td><p>Should stress blobs be calculated for antigens</p></td>
     </tr>
     <tr>
       <th>sera</th>
-      <td><p>Sera to calculate blobs for (TRUE for all FALSE for none, or specified by name or index)</p></td>
+      <td><p>Should stress blobs be calculated for sera</p></td>
     </tr>
     <tr>
-      <th>grid_spacing</th>
-      <td><p>Grid spacing to use when calculating the blob</p></td>
+      <th>.check_relaxation</th>
+      <td><p>Should a check be performed that the map is fully
+relaxed (all points in a local optima) before the search is performed</p></td>
     </tr>
     <tr>
-      <th>data</th>
-      <td><p>The stress data to add (calculated if not provided)</p></td>
-    </tr>
-    <tr>
-      <th>optimization_number</th>
-      <td><p>The optimization number (defaults to the currently selected one)</p></td>
-    </tr>
-    <tr>
-      <th>progress_fn</th>
-      <td><p>Function to use for progress reporting</p></td>
+      <th>.options</th>
+      <td><p>List of named optimizer options to use when checking map
+relaxation, see <code><a href='RacOptimizer.options.html'>RacOptimizer.options()</a></code></p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>Returns the acmap data object with stress blob information added</p>
+    <p>Returns the acmap data object with stress blob information added,
+which will be shown when the map is plotted</p>
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>The region or regions of the plot where total map stress is not
+increased above a certain threshold (<code>stress_lim</code>) are shown when the map
+is plotted. This function is really to check whether point positions are
+clearly very uncertain, for example the underlying titers may support an
+antigen being a certain distance away from a group of other points but due
+to the positions of the sera against which it was titrated the direction
+would be unclear, and you might see a blob that forms an arc or "banana"
+that represents this. Note that it is not really a confidence interval
+since a point may be well coordinated in terms of the optimization but
+it's position may still be defined by perhaps only one particular titer
+which is itself uncertain. For something more akin to confidence intervals
+you can use other diagnostic functions like <code><a href='bootstrapMap.html'>bootstrapMap()</a></code>.</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

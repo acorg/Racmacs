@@ -82,7 +82,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">Racmacs</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.13</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.3</span>
       </span>
     </div>
 
@@ -133,14 +133,10 @@
     <pre class="usage"><span class='fu'>procrustesMap</span>(
   <span class='no'>map</span>,
   <span class='no'>comparison_map</span>,
-  <span class='kw'>antigens</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>sera</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>optimization_number</span> <span class='kw'>=</span> <span class='fl'>1</span>,
+  <span class='kw'>comparison_optimization_number</span> <span class='kw'>=</span> <span class='fl'>1</span>,
   <span class='kw'>translation</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>scaling</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>optimization_number</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>comparison_optimization_number</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>passage_matching</span> <span class='kw'>=</span> <span class='st'>"ignore"</span>,
-  <span class='kw'>description</span> <span class='kw'>=</span> <span class='kw'>NULL</span>
+  <span class='kw'>scaling</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>
 )</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -155,38 +151,32 @@
       <td><p>The acmap data object to procrustes against</p></td>
     </tr>
     <tr>
-      <th>antigens</th>
-      <td><p>Antigens to include in the procrustes, specified either by name or index or FALSE for excluding all.</p></td>
+      <th>optimization_number</th>
+      <td><p>The map optimization to use in the procrustes
+calculation (other optimization runs are discarded)</p></td>
     </tr>
     <tr>
-      <th>sera</th>
-      <td><p>Sera to include in the procrustes, specified either by name or index or FALSE for excluding all.</p></td>
+      <th>comparison_optimization_number</th>
+      <td><p>The optimization run int the comparison
+map to compare against</p></td>
     </tr>
     <tr>
       <th>translation</th>
-      <td><p>Should translation be performed?</p></td>
+      <td><p>Should translation be allowed</p></td>
     </tr>
     <tr>
       <th>scaling</th>
-      <td><p>Should scaling be performed?</p></td>
-    </tr>
-    <tr>
-      <th>optimization_number</th>
-      <td><p>The map optimization to use in the procrustes calculation (defaults to the currently selected optimization)</p></td>
-    </tr>
-    <tr>
-      <th>passage_matching</th>
-      <td><p>Should passage matching be performed (not currently implemented)</p></td>
-    </tr>
-    <tr>
-      <th>target_optimization_number</th>
-      <td><p>The target map optimization to use in the procrustes calculation (defaults to the currently selected optimization)</p></td>
+      <td><p>Should scaling be allowed (generally not recommended unless
+comparing maps made with different assays)</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>Returns procrustes information from the map to the target.</p>
+    <p>Returns an acmap object with procrustes information added, which will
+be shown when the map is plotted. To avoid ambiguity about which
+optimization run the procrustes was applied to, only the optimization run
+specified by <code>optimization_number</code> is kept in the map returned.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p>Other functions to compare maps: 

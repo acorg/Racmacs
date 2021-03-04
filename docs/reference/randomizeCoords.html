@@ -50,7 +50,9 @@
 
 <meta property="og:title" content="Randomize map coordinates — randomizeCoords" />
 <meta property="og:description" content="Moves map coordinates back into random starting conditions, as performed
-before each optimization run." />
+before each optimization run. The maximum table distance is calculated
+then points are randomized in a box with side length equal to maximum
+table distance multiplied by table_dist_factor" />
 <meta property="og:image" content="/logo.png" />
 
 
@@ -83,7 +85,7 @@ before each optimization run." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">Racmacs</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.13</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.3</span>
       </span>
     </div>
 
@@ -129,10 +131,12 @@ before each optimization run." />
 
     <div class="ref-description">
     <p>Moves map coordinates back into random starting conditions, as performed
-before each optimization run.</p>
+before each optimization run. The maximum table distance is calculated
+then points are randomized in a box with side length equal to maximum
+table distance multiplied by <code>table_dist_factor</code></p>
     </div>
 
-    <pre class="usage"><span class='fu'>randomizeCoords</span>(<span class='no'>map</span>, <span class='kw'>optimization_number</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
+    <pre class="usage"><span class='fu'>randomizeCoords</span>(<span class='no'>map</span>, <span class='kw'>optimization_number</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>table_dist_factor</span> <span class='kw'>=</span> <span class='fl'>2</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -143,7 +147,12 @@ before each optimization run.</p>
     </tr>
     <tr>
       <th>optimization_number</th>
-      <td><p>The map optimization number (defaults to the currently selected optimization)</p></td>
+      <td><p>The map optimization number to randomize</p></td>
+    </tr>
+    <tr>
+      <th>table_dist_factor</th>
+      <td><p>The expansion factor for the box size in which
+points are randomized.</p></td>
     </tr>
     </table>
 

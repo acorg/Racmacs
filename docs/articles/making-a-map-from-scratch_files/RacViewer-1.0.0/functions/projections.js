@@ -92,6 +92,9 @@ Racmacs.ProjectionTable = class ProjectionTable extends Racmacs.TableList {
             ],
             fn : function(){
                 viewer.switchToProjection(this.num);
+            },
+            hoverfn : function(){
+                // viewer.procrustesToProjection(this.num);
             }
           });
           
@@ -103,6 +106,14 @@ Racmacs.ProjectionTable = class ProjectionTable extends Racmacs.TableList {
 
         // Add selected marker to new row
         this.selectRow(num, false);
+
+    }
+
+    updateStress(num, stress){
+
+        if(this.rows[num]) {
+            this.rows[num].childNodes[0].innerHTML = stress;
+        }
 
     }
 
@@ -177,40 +188,10 @@ Racmacs.Viewer.prototype.switchToProjection = function(num){
         this.projectionList.selectProjection(num);
     }
 
-    // Update diagnostic data
-    // Remove blobs
+    // Remove diagnostics
     this.removeBlobs();
-    if(this.blobTable){ this.blobTable.clear() }
-
-    // Remove hemisphering data
-    this.removeHemispheringData();
-
-    // Remove procrustes
+    this.hideHemisphering();
     this.removeProcrustes();
-    if(this.procrustesTable){ this.procrustesTable.clear() }
-
-    // Add new diagnostic info
-    var stress_blobs = this.data.stressBlobs();
-    if(stress_blobs !== null){
-        for(var i=0; i<stress_blobs.length; i++){
-            this.addBlobs(stress_blobs[i]);
-        }
-    }
-
-    var hemisphering = this.data.hemisphering();
-    if(hemisphering !== null){
-        this.hemispheringTable.hidePlaceholder();
-        this.addHemispheringData(hemisphering);
-    }
-
-    // // Add procrustes info
-    // var procrustes = this.data.procrustes();
-    // if(procrustes !== null){
-
-    //     this.addProcrustesData(procrustes);
-
-    // }
-
 
     // Render viewer
     this.render();
@@ -219,5 +200,16 @@ Racmacs.Viewer.prototype.switchToProjection = function(num){
     this.updateStress();
 
 }
+
+
+Racmacs.Viewer.prototype.procrustesToProjection = function(num){
+
+    this.addProcrustesToBaseCoords({
+        pt_coords : this.data.transformedCoords(num)
+    });
+
+}
+
+
 
 

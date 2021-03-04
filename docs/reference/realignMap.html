@@ -49,7 +49,11 @@
   
 
 <meta property="og:title" content="Realign map to match another — realignMap" />
-<meta property="og:description" content="Realigns the coordinates of a map to match a target map as closely as possible." />
+<meta property="og:description" content="Realigns the coordinates of a map to match a target map as closely as
+possible, based on a
+procrustes analysis.
+Note that all optimization runs will be separately aligned to match as
+closely as possible the first optimization run of the target map." />
 <meta property="og:image" content="/logo.png" />
 
 
@@ -82,7 +86,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">Racmacs</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.13</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.3</span>
       </span>
     </div>
 
@@ -127,22 +131,14 @@
     </div>
 
     <div class="ref-description">
-    <p>Realigns the coordinates of a map to match a target map as closely as possible.</p>
+    <p>Realigns the coordinates of a map to match a target map as closely as
+possible, based on a
+<a href='https://en.wikipedia.org/wiki/Procrustes_analysis'>procrustes analysis</a>.
+Note that all optimization runs will be separately aligned to match as
+closely as possible the first optimization run of the target map.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>realignMap</span>(
-  <span class='no'>map</span>,
-  <span class='no'>target_map</span>,
-  <span class='kw'>antigens</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>sera</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>translation</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>scaling</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>optimization_number</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>target_optimization_number</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>passage_matching</span> <span class='kw'>=</span> <span class='st'>"ignore"</span>,
-  <span class='kw'>warnings</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>.alignToBaseCoords</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>
-)</pre>
+    <pre class="usage"><span class='fu'>realignMap</span>(<span class='no'>map</span>, <span class='no'>target_map</span>, <span class='kw'>translation</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>scaling</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -156,36 +152,19 @@
       <td><p>The acmap to realign to.</p></td>
     </tr>
     <tr>
-      <th>antigens</th>
-      <td><p>Antigens to include when calculating the closest realignment, specified either by name or index or FALSE for excluding all.</p></td>
+      <th>translation</th>
+      <td><p>Should translation be allowed</p></td>
     </tr>
     <tr>
-      <th>sera</th>
-      <td><p>Sera to include when calculating the closest realignment, specified either by name or index or FALSE for excluding all.</p></td>
-    </tr>
-    <tr>
-      <th>optimization_number</th>
-      <td><p>The optimization from the map to realign (default is the currently selected one)</p></td>
-    </tr>
-    <tr>
-      <th>target_optimization_number</th>
-      <td><p>The optimization from the target map to realign to (default is the currently selected one)</p></td>
-    </tr>
-    <tr>
-      <th>passage_matching</th>
-      <td><p>The type of passage matching to be performed.</p></td>
-    </tr>
-    <tr>
-      <th>alignTargetToMain</th>
-      <td><p>Should the target map be realigned to match the main map (default is to
-realign main map to match target map) - this is sometimes useful if you want to
-match based on antigen and serum indices from the main map.</p></td>
+      <th>scaling</th>
+      <td><p>Should scaling be allowed (generally not recommended unless
+comparing maps made with different assays)</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>Returns the map aligned to the target map (or the target map aligned to the main map if alignTargetToMain is TRUE)</p>
+    <p>Returns the map aligned to the target map</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p>Other functions to compare maps: 

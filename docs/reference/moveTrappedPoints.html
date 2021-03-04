@@ -49,8 +49,11 @@
   
 
 <meta property="og:title" content="Move trapped points — moveTrappedPoints" />
-<meta property="og:description" content="Iteratively searches for and moves points that are found to be trapped in a
-optimization, stopping when no more trapped points are found." />
+<meta property="og:description" content="Sometimes points in a map optimization run get trapped in local optima, this
+function tries to combat this by doing a grid search for each point
+individually moving points if a better optima is found. Note that this only
+performs grid searches individually so won't find cases where a group of
+points are trapped together in a local optima." />
 <meta property="og:image" content="/logo.png" />
 
 
@@ -83,7 +86,7 @@ optimization, stopping when no more trapped points are found." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">Racmacs</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.13</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.3</span>
       </span>
     </div>
 
@@ -128,15 +131,19 @@ optimization, stopping when no more trapped points are found." />
     </div>
 
     <div class="ref-description">
-    <p>Iteratively searches for and moves points that are found to be trapped in a
-optimization, stopping when no more trapped points are found.</p>
+    <p>Sometimes points in a map optimization run get trapped in local optima, this
+function tries to combat this by doing a grid search for each point
+individually moving points if a better optima is found. Note that this only
+performs grid searches individually so won't find cases where a group of
+points are trapped together in a local optima.</p>
     </div>
 
     <pre class="usage"><span class='fu'>moveTrappedPoints</span>(
   <span class='no'>map</span>,
-  <span class='kw'>stepsize</span> <span class='kw'>=</span> <span class='fl'>0.1</span>,
-  <span class='kw'>optimization_number</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>vverbose</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>
+  <span class='kw'>optimization_number</span> <span class='kw'>=</span> <span class='fl'>1</span>,
+  <span class='kw'>grid_spacing</span> <span class='kw'>=</span> <span class='fl'>0.25</span>,
+  <span class='kw'>max_iterations</span> <span class='kw'>=</span> <span class='fl'>10</span>,
+  <span class='kw'>options</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>()
 )</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -148,13 +155,33 @@ optimization, stopping when no more trapped points are found.</p>
     </tr>
     <tr>
       <th>optimization_number</th>
-      <td><p>The map optimization number (defaults to the currently selected optimization)</p></td>
+      <td><p>The map optimization number to apply it to</p></td>
+    </tr>
+    <tr>
+      <th>grid_spacing</th>
+      <td><p>Grid spacing in antigenic units of the search grid to use
+when searching for more optimal positions</p></td>
+    </tr>
+    <tr>
+      <th>max_iterations</th>
+      <td><p>The maximum number of interations of searching for
+trapped points then relaxing the map to be performed</p></td>
+    </tr>
+    <tr>
+      <th>options</th>
+      <td><p>List of named optimizer options, see <code><a href='RacOptimizer.options.html'>RacOptimizer.options()</a></code></p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>Returns the acmap object with updated coordinates</p>
+    <p>Returns the acmap object with updated coordinates (if any trapped
+points found)</p>
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>The search is iterative, searching for and moving points that are found to be
+trapped before relaxing the map and searching again, stopping either when no
+more trapped points are found or <code>max_iterations</code> is reached.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p>Other map optimization functions: 

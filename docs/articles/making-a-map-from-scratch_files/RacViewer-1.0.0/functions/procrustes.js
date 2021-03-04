@@ -1,104 +1,4 @@
 
-Racmacs.ProcrustesPanel = class ProcrustesPanel {
-
-    constructor(viewer){
-
-        // Create holder div
-        this.div = document.createElement("div");
-        this.div.classList.add("procrustes-tab");
-
-        var procrustesTable = new Racmacs.ProcrustesTable(viewer);
-        this.div.appendChild(procrustesTable.div);
-        
-        var newProcrustesWell = new Racmacs.utils.InputWell({
-            inputs: [
-                { id: "optimization", value: 1, label : "Optimization number" },
-            ],
-            submit: "Calculate procrustes to file",
-            fn : function(args){ viewer.onProcrustes(args) }
-        });
-        this.div.appendChild(newProcrustesWell.div);
-        newProcrustesWell.div.classList.add("shiny-element");
-
-    }
-
-
-}
-
-
-Racmacs.ProcrustesTable = class ProcrustesTable extends Racmacs.TableList {
-
-    constructor(viewer){
-
-        // Generate skeleton
-        super({
-            title   : "Procrustes",
-            checkbox_check_fn : function(){},
-            checkbox_uncheck_fn : function(){
-                viewer.removeProcrustes();
-            },
-            headers : ["Map", "Projection", "Antigens", "Sera"]
-        });
-
-        // Bind to viewer
-        viewer.procrustesTable = this;
-        this.viewer = viewer;
-
-        // Add additional divs
-        this.details_panel = this.addDiv("details-panel"); 
-        this.details_panel.classList.add("shiny-element");
-        
-        this.description = document.createElement("div");
-        this.description.classList.add("description");
-        this.details_panel.appendChild(this.description);
-
-        this.scaling = document.createElement("div");
-        this.scaling.classList.add("scaling");
-        this.details_panel.appendChild(this.scaling);
-
-        this.translation = document.createElement("div");
-        this.translation.classList.add("translation");
-        this.details_panel.appendChild(this.translation);
-
-        this.agrmsd = document.createElement("div");
-        this.agrmsd.classList.add("agrmsd");
-        this.details_panel.appendChild(this.agrmsd);
-
-        this.srrmsd = document.createElement("div");
-        this.srrmsd.classList.add("srrmsd");
-        this.details_panel.appendChild(this.srrmsd);
-
-        this.rmsd = document.createElement("div");
-        this.rmsd.classList.add("rmsd");
-        this.details_panel.appendChild(this.rmsd);
-        
-    }
-
-    addData(data){
-
-        var procrustesTable = this;
-        this.addRow({
-            content : [data.target_map, data.target_optimization_number, data.antigens, data.sera],
-            fn : function(){
-                procrustesTable.viewer.showProcrustes(data);
-            }
-        });
-
-    }
-
-}
-
-Racmacs.Viewer.prototype.addProcrustesData = function(data){
-
-    if(this.procrustesTable){
-        for(var i=0; i<data.length; i++){
-            this.procrustesTable.addData(data[i]);
-        }
-    }
-
-}
-
-
 Racmacs.Viewer.prototype.showProcrustes = function(data){
 
     // Remove any current procrustes
@@ -182,7 +82,11 @@ Racmacs.Viewer.prototype.addProcrustesToBaseCoords = function(data){
     this.removeProcrustes();
 
     // Fetch the data
-    var pc_data = [].concat(data.ag, data.sr);
+    if (data.pt_coords) {
+        var pc_data = data.pt_coords;
+    } else {
+        var pc_data = [].concat(data.ag_coords, data.sr_coords);
+    }
 
     // Check data
     if(this.points.length !== pc_data.length){
@@ -254,16 +158,16 @@ Racmacs.Viewer.prototype.addProcrustesToBaseCoords = function(data){
         // this.scene.add(pc_grid);
     } else {
         arrowheadend    = "arrow";
-        arrowheadlength = 0.5;
+        arrowheadlength = 0.25;
     }
 
 
     // Add the arrows to the scene
     this.procrustes = new this.mapElements.procrustes({
         coords : arrow_coords,
-        size   : 4,
-        properties : { 
-            lwd : 2, 
+        size   : 2.5,
+        properties : {
+            lwd : 1.5, 
             arrowheadend : arrowheadend,
             arrowheadlength : arrowheadlength
         },

@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Keep a single optimization run — keepSingleOptimization • Racmacs</title>
+<title>Keep only a single optimization run — keepSingleOptimization • Racmacs</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -48,10 +48,8 @@
   <link href="../extra.css" rel="stylesheet">
   
 
-<meta property="og:title" content="Keep a single optimization run — keepSingleOptimization" />
-<meta property="og:description" content="Keep only data from a single optimization run, either a specified
-optimization (defaulting to the selected one), or the &quot;best&quot;
-(lowest stress) optimization" />
+<meta property="og:title" content="Keep only a single optimization run — keepSingleOptimization" />
+<meta property="og:description" content="Keep only a single optimization run" />
 <meta property="og:image" content="/logo.png" />
 
 
@@ -84,7 +82,7 @@ optimization (defaulting to the selected one), or the &quot;best&quot;
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">Racmacs</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.13</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.3</span>
       </span>
     </div>
 
@@ -123,36 +121,30 @@ optimization (defaulting to the selected one), or the &quot;best&quot;
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Keep a single optimization run</h1>
-    <small class="dont-index">Source: <a href='https://github.com/acorg/Racmacs/blob/master/R/map_chart.R'><code>R/map_chart.R</code></a></small>
+    <h1>Keep only a single optimization run</h1>
+    <small class="dont-index">Source: <a href='https://github.com/acorg/Racmacs/blob/master/R/map_props.R'><code>R/map_props.R</code></a></small>
     <div class="hidden name"><code>keepSingleOptimization.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Keep only data from a single optimization run, either a specified
-optimization (defaulting to the selected one), or the "best"
-(lowest stress) optimization</p>
+    <p>Keep only a single optimization run</p>
     </div>
 
-    <pre class="usage"><span class='fu'>keepSingleOptimization</span>(<span class='no'>map</span>, <span class='kw'>optimization_number</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)
-
-<span class='fu'>keepBestOptimization</span>(<span class='no'>map</span>)</pre>
+    <pre class="usage"><span class='fu'>keepSingleOptimization</span>(<span class='no'>map</span>, <span class='kw'>optimization_number</span> <span class='kw'>=</span> <span class='fl'>1</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>map</th>
-      <td><p>the map data object</p></td>
+      <td><p>The acmap object</p></td>
+    </tr>
+    <tr>
+      <th>optimization_number</th>
+      <td><p>The optimization run to keep</p></td>
     </tr>
     </table>
 
-    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
-
-    <div class='dont-index'><p>Other functions to work with map optimizations: 
-<code><a href='optimizationProperties.html'>optimizationProperties</a></code>,
-<code><a href='removeOptimizations.html'>removeOptimizations</a>()</code>,
-<code><a href='sortOptimizations.html'>sortOptimizations</a>()</code></p></div>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

@@ -49,7 +49,9 @@
   
 
 <meta property="og:title" content="Get the log titers from an acmap — logtiterTable" />
-<meta property="og:description" content="Get the log titers from an acmap" />
+<meta property="og:description" content="Converts titers to the log scale via via the transformation
+$log2(x/10)$, lessthan values are reduced by 1 on the log scale and greater
+than values are increased by 1, hence &amp;lt;10 =&amp;gt; -1 and &amp;gt;1280 =&amp;gt; 8" />
 <meta property="og:image" content="/logo.png" />
 
 
@@ -82,7 +84,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">Racmacs</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.13</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.3</span>
       </span>
     </div>
 
@@ -127,7 +129,9 @@
     </div>
 
     <div class="ref-description">
-    <p>Get the log titers from an acmap</p>
+    <p>Converts titers to the log scale via via the transformation
+$log2(x/10)$, lessthan values are reduced by 1 on the log scale and greater
+than values are increased by 1, hence &lt;10 =&gt; -1 and &gt;1280 =&gt; 8</p>
     </div>
 
     <pre class="usage"><span class='fu'>logtiterTable</span>(<span class='no'>map</span>)</pre>
@@ -139,18 +143,15 @@
       <th>map</th>
       <td><p>The acmap object</p></td>
     </tr>
-    <tr>
-      <th>optimization_number</th>
-      <td><p>The optimization data to access (defaults to the currently selected optimization)</p></td>
-    </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>Returns a list of matrices with the logged titers and whether the titers were discrete, morethan or lessthan.</p>
+    <p>Returns a matrix of titers converted to the log scale</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p>Other map diagnostic functionsfunctions relating to map stress calculation: 
+    <div class='dont-index'><p>Other map diagnostic functions
+functions relating to map stress calculation: 
 <code><a href='mapDistances.html'>mapDistances</a>()</code>,
 <code><a href='mapResiduals.html'>mapResiduals</a>()</code>,
 <code><a href='pointStress.html'>pointStress</a></code>,

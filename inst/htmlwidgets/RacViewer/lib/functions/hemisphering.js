@@ -1,12 +1,14 @@
 
-Racmacs.Viewer.prototype.showHemisphering = function(){
+// Show all hemisphering information
+Racmacs.Viewer.prototype.showHemisphering = function(data){
 
 	this.hemisphering_shown = true;
-	this.points.map( x => x.showHemisphering() );
+	this.points.map( (x,i) => x.showHemisphering(data[i]) );
 	this.render();
 
 }
 
+// Hide all hemisphering information
 Racmacs.Viewer.prototype.hideHemisphering = function(){
 
 	this.hemisphering_shown = false;
@@ -15,6 +17,63 @@ Racmacs.Viewer.prototype.hideHemisphering = function(){
 
 }
 
+// Show any hemisphering information associated with a point
+Racmacs.Point.prototype.showHemisphering = function(data){
+
+	// Remove previous hemisphering information
+	this.hideHemisphering();
+
+	// Add hemisphering data if found
+	if(data.length > 0){
+
+		// Setup to receive info you will pass to plot the arrows
+		var coords = [];
+		var doubleheaded = [];
+		var color = { r:[], g:[], b:[], a:[] };
+
+		// Cycle through the hemisphering information
+		for(var i=0; i<data.length; i++){
+
+			let from = this.coords;
+			let to   = data[i].coords;
+
+			while (from.length < 3) from.push(0);
+			while (to.length < 3)   to.push(0);
+
+			coords.push([from, to]);
+			doubleheaded.push( data[i].diagnosis == "hemisphering" || data[i].diagnosis == "hemisphering-trapped" );
+
+			// Define double-headedness and color of arrows based on diagnosis
+			if (data[i].diagnosis == "trapped" || data[i].diagnosis == "hemisphering-trapped") {
+				color.r.push(1); color.g.push(0); color.b.push(0); color.a.push(1);
+				color.r.push(1); color.g.push(0); color.b.push(0); color.a.push(1);
+			} else {
+				color.r.push(0); color.g.push(0); color.b.push(0); color.a.push(1);
+				color.r.push(0); color.g.push(0); color.b.push(0); color.a.push(1);
+			}
+
+		}
+
+		// Create the actual object you will add to the scene
+		this.hemisphering = new this.viewer.mapElements.procrustes({
+	        coords       : coords,
+	        size         : 4,
+	        doubleheaded : doubleheaded,
+	        properties : { 
+	            lwd : 2,
+	            color: color
+	        },
+	        viewer : this.viewer
+	    });
+
+		// Add the object to the scene
+		this.viewer.scene.add(this.hemisphering.object);
+
+	}
+
+}
+
+// Hide hemisphering information associated with a point
 Racmacs.Point.prototype.hideHemisphering = function(){
 	
 	if(this.hemisphering){
@@ -23,43 +82,4 @@ Racmacs.Point.prototype.hideHemisphering = function(){
 	}
 
 }
-
-Racmacs.Point.prototype.showHemisphering = function(){
-
-	this.removeHemispheringData();
-
-	var from = this.coords;
-	var to = [0,0,1];
-
-	to[0] = data.coords1;
-	to[1] = data.coords2;
-	if(data.coords3) to[2] = data.coords3;
-
-	this.hemisphering = new R3JS.element.glarrow({
-		coords : [[from, to]],
-		doubleheaded : data.diagnosis === "hemisphering",
-		viewer : this.viewer
-	});
-
-	this.viewer.scene.add(this.hemisphering.object);
-
-
-}
-
-Racmacs.Point.prototype.showHemisphering = function(){
-	if(this.hemisphering){
-		this.hemisphering.show();
-	}
-}
-
-Racmacs.Point.prototype.hideHemisphering = function(){
-	if(this.hemisphering){
-		this.hemisphering.hide();
-	}
-}
-
-
-
-
-
 

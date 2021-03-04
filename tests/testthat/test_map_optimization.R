@@ -302,9 +302,6 @@ test_that("Optimizing existing maps", {
 
 })
 
-  map_relaxed_fixed_sr  <- relaxMap(map_unrelaxed, fixed_sera = TRUE)
-  expect_false(isTRUE(all.equal(agCoords(map_unrelaxed), agCoords(map_relaxed_fixed_sr))))
-  expect_true(isTRUE(all.equal(srCoords(map_unrelaxed), srCoords(map_relaxed_fixed_sr))))
 
 # Moving trapped points
 map4 <- map

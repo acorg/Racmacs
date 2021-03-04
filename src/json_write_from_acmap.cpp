@@ -223,34 +223,57 @@ std::string acmap_to_json(
     Value optx(kObjectType);
 
     // Translation
-    optx.AddMember("t", jsonifya(map.optimizations[i].get_translation(), allocator), allocator);
-
-    // Diagnostics
-    Value optxd(kArrayType);
-
-    // AG Diagnostics
-    for(arma::uword ag=0; ag<map.optimizations[i].ag_diagnostics.size(); ag++){
-      optxd.PushBack(
-        jsonifya(
-          map.optimizations[i].ag_diagnostics[ag],
-          allocator
-        ),
+    optx.AddMember(
+      "t",
+      jsonifya(
+        arma::conv_to<arma::vec>::from(map.optimizations[i].get_translation()),
         allocator
-      );
-    }
+      ),
+      allocator
+    );
 
-    // SR Diagnostics
-    for(arma::uword sr=0; sr<map.optimizations[i].sr_diagnostics.size(); sr++){
-      optxd.PushBack(
-        jsonifya(
-          map.optimizations[i].sr_diagnostics[sr],
-          allocator
-        ),
-        allocator
-      );
-    }
+    // // Diagnostics
+    // Value optxh(kArrayType);
+    //
+    // // Hemisphering
+    // for(arma::uword ag=0; ag<map.optimizations[i].ag_diagnostics.size(); ag++){
+    //   if (map.optimizations[i].ag_diagnostics[ag].hemi.size() > 0) {
+    //     Value key(
+    //         std::to_string(ag).c_str(),
+    //         allocator
+    //     );
+    //     optxh.AddMember(
+    //       key,
+    //       jsonifya(
+    //         map.optimizations[i].ag_diagnostics[ag].hemi,
+    //         allocator
+    //       ),
+    //       allocator
+    //     );
+    //   }
+    // }
+    //
+    // for(arma::uword sr=0; sr<map.optimizations[i].sr_diagnostics.size(); sr++){
+    //   if (map.optimizations[i].sr_diagnostics[sr].hemi.size() > 0) {
+    //     Value key(
+    //         std::to_string(sr + num_antigens).c_str(),
+    //         allocator
+    //     );
+    //     optxh.AddMember(
+    //       key,
+    //       jsonifya(
+    //         map.optimizations[i].sr_diagnostics[sr].hemi,
+    //         allocator
+    //       ),
+    //       allocator
+    //     );
+    //   }
+    // }
+    //
+    // if (optxh.Size() > 0) {
+    //   optx.AddMember("h", optxh, allocator);
+    // }
 
-    optx.AddMember("d", optxd, allocator);
     xp.PushBack(optx, allocator);
 
   }

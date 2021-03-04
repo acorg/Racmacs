@@ -114,13 +114,13 @@
 <div id="using-stress-blobs" class="section level2">
 <h2 class="hasAnchor">
 <a href="#using-stress-blobs" class="anchor"></a>Using stress blobs</h2>
-<div class="sourceCode" id="cb1"><html><body><pre class="r">library(Racmacs)
-map_file &lt;- system.file("extdata/h3map2004_subset.ace", package = "Racmacs")
-map      &lt;- read.acmap(map_file)
-view(
-  stressBlobs(
-    map        = map,
-    stress_lim = 2
+<div class="sourceCode" id="cb1"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">Racmacs</span>)
+<span class="no">map_file</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span>(<span class="st">"extdata/h3map2004_subset.ace"</span>, <span class="kw">package</span> <span class="kw">=</span> <span class="st">"Racmacs"</span>)
+<span class="no">map</span>      <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/read.acmap.html">read.acmap</a></span>(<span class="no">map_file</span>)
+<span class="fu"><a href="../reference/view.html">view</a></span>(
+  <span class="fu"><a href="../reference/stressBlobs.html">stressBlobs</a></span>(
+    <span class="kw">map</span>        <span class="kw">=</span> <span class="no">map</span>,
+    <span class="kw">stress_lim</span> <span class="kw">=</span> <span class="fl">2</span>
   )
 )
 #&gt; 

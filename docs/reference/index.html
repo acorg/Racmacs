@@ -158,18 +158,6 @@
       </tr><tr>
         
         <td>
-          <p><code><a href="cloneMap.html">cloneMap()</a></code> </p>
-        </td>
-        <td><p>Clone an acmap object</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="convertingMaps.html">as.list(<i>&lt;racchart&gt;</i>)</a></code> <code><a href="convertingMaps.html">as.cpp()</a></code> <code><a href="convertingMaps.html">acmap.cpp()</a></code> </p>
-        </td>
-        <td><p>Converting between map formats</p></td>
-      </tr><tr>
-        
-        <td>
           <p><code><a href="orderPoints.html">orderAntigens()</a></code> <code><a href="orderPoints.html">orderSera()</a></code> </p>
         </td>
         <td><p>Order antigens and sera</p></td>
@@ -212,21 +200,9 @@
       </tr><tr>
         
         <td>
-          <p><code><a href="selectedOptimization.html">selectedOptimization()</a></code> <code><a href="selectedOptimization.html">`selectedOptimization&lt;-`()</a></code> </p>
-        </td>
-        <td><p>Get or set the selected optimization</p></td>
-      </tr><tr>
-        
-        <td>
           <p><code><a href="subsetMap.html">subsetMap()</a></code> </p>
         </td>
         <td><p>Subset an antigenic map</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="subsetPoints.html">subsetAntigens()</a></code> <code><a href="subsetPoints.html">subsetSera()</a></code> </p>
-        </td>
-        <td><p>Subset antigens and sera</p></td>
       </tr>
     </tbody><tbody>
       <tr>
@@ -279,9 +255,9 @@
       </tr><tr>
         
         <td>
-          <p><code><a href="keepSingleOptimization.html">keepSingleOptimization()</a></code> <code><a href="keepSingleOptimization.html">keepBestOptimization()</a></code> </p>
+          <p><code><a href="keepOptimizations.html">keepOptimizations()</a></code> </p>
         </td>
-        <td><p>Keep a single optimization run</p></td>
+        <td><p>Keep specified optimization runs</p></td>
       </tr><tr>
         
         <td>
@@ -318,7 +294,7 @@
         <td>
           <p><code><a href="bootstrapMap.html">bootstrapMap()</a></code> </p>
         </td>
-        <td><p>Perform a noisy bootstrap</p></td>
+        <td><p>Perform a noisy bootstrap on a map</p></td>
       </tr><tr>
         
         <td>
@@ -395,7 +371,13 @@
       <tr>
         
         <td>
-          <p><code><a href="plot.rac.html">plot(<i>&lt;rac&gt;</i>)</a></code> </p>
+          <p><code><a href="grid.plot.acmap.html">grid.plot.acmap()</a></code> </p>
+        </td>
+        <td><p>Plot an antigenic map using the grid system</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="plot.acmap.html">plot(<i>&lt;acmap&gt;</i>)</a></code> </p>
         </td>
         <td><p>Plot an antigenic map</p></td>
       </tr><tr>
@@ -435,13 +417,13 @@
       </tr><tr>
         
         <td>
-          <p><code><a href="name.html">name()</a></code> <code><a href="name.html">`name&lt;-`()</a></code> </p>
+          <p><code><a href="mapName.html">mapName()</a></code> <code><a href="mapName.html">`mapName&lt;-`()</a></code> </p>
         </td>
         <td><p>Getting and setting the map name</p></td>
       </tr><tr>
         
         <td>
-          <p><code><a href="titerTable.html">titerTable()</a></code> <code><a href="titerTable.html">`titerTable&lt;-`()</a></code> </p>
+          <p><code><a href="titerTable.html">titerTable()</a></code> <code><a href="titerTable.html">`titerTable&lt;-`()</a></code> <code><a href="titerTable.html">titerTableFlat()</a></code> <code><a href="titerTable.html">`titerTableFlat&lt;-`()</a></code> </p>
         </td>
         <td><p>Getting and setting map titers</p></td>
       </tr><tr>
@@ -515,7 +497,7 @@
       </tr><tr>
         
         <td>
-          <p><code><a href="colBases.html">minColBasis()</a></code> <code><a href="colBases.html">`minColBasis&lt;-`()</a></code> <code><a href="colBases.html">colBases()</a></code> <code><a href="colBases.html">`colBases&lt;-`()</a></code> </p>
+          <p><code><a href="colBases.html">minColBasis()</a></code> <code><a href="colBases.html">`minColBasis&lt;-`()</a></code> <code><a href="colBases.html">fixedColBases()</a></code> <code><a href="colBases.html">`fixedColBases&lt;-`()</a></code> </p>
         </td>
         <td><p>Getting and setting column bases</p></td>
       </tr><tr>
@@ -535,7 +517,7 @@
         <td>
           <p><code><a href="mapStress.html">mapStress()</a></code> </p>
         </td>
-        <td><p>Get the current map stress</p></td>
+        <td><p>Calculate the current map stress</p></td>
       </tr><tr>
         
         <td>
@@ -551,7 +533,7 @@
       </tr><tr>
         
         <td>
-          <p><code><a href="ptCoords.html">agCoords()</a></code> <code><a href="ptCoords.html">srCoords()</a></code> <code><a href="ptCoords.html">`agCoords&lt;-`()</a></code> <code><a href="ptCoords.html">`srCoords&lt;-`()</a></code> </p>
+          <p><code><a href="ptCoords.html">agCoords()</a></code> <code><a href="ptCoords.html">srCoords()</a></code> <code><a href="ptCoords.html">ptCoords()</a></code> <code><a href="ptCoords.html">`agCoords&lt;-`()</a></code> <code><a href="ptCoords.html">`srCoords&lt;-`()</a></code> </p>
         </td>
         <td><p>Getting and setting point coordinates</p></td>
       </tr>
@@ -576,7 +558,7 @@
       </tr><tr>
         
         <td>
-          <p><code><a href="ptStyles.html">agShown()</a></code> <code><a href="ptStyles.html">`agShown&lt;-`()</a></code> <code><a href="ptStyles.html">agSize()</a></code> <code><a href="ptStyles.html">`agSize&lt;-`()</a></code> <code><a href="ptStyles.html">agFill()</a></code> <code><a href="ptStyles.html">`agFill&lt;-`()</a></code> <code><a href="ptStyles.html">agOutline()</a></code> <code><a href="ptStyles.html">`agOutline&lt;-`()</a></code> <code><a href="ptStyles.html">agOutlineWidth()</a></code> <code><a href="ptStyles.html">`agOutlineWidth&lt;-`()</a></code> <code><a href="ptStyles.html">agRotation()</a></code> <code><a href="ptStyles.html">`agRotation&lt;-`()</a></code> <code><a href="ptStyles.html">agAspect()</a></code> <code><a href="ptStyles.html">`agAspect&lt;-`()</a></code> <code><a href="ptStyles.html">agShape()</a></code> <code><a href="ptStyles.html">`agShape&lt;-`()</a></code> <code><a href="ptStyles.html">agDrawingOrder()</a></code> <code><a href="ptStyles.html">`agDrawingOrder&lt;-`()</a></code> <code><a href="ptStyles.html">srShown()</a></code> <code><a href="ptStyles.html">`srShown&lt;-`()</a></code> <code><a href="ptStyles.html">srSize()</a></code> <code><a href="ptStyles.html">`srSize&lt;-`()</a></code> <code><a href="ptStyles.html">srFill()</a></code> <code><a href="ptStyles.html">`srFill&lt;-`()</a></code> <code><a href="ptStyles.html">srOutline()</a></code> <code><a href="ptStyles.html">`srOutline&lt;-`()</a></code> <code><a href="ptStyles.html">srOutlineWidth()</a></code> <code><a href="ptStyles.html">`srOutlineWidth&lt;-`()</a></code> <code><a href="ptStyles.html">srRotation()</a></code> <code><a href="ptStyles.html">`srRotation&lt;-`()</a></code> <code><a href="ptStyles.html">srAspect()</a></code> <code><a href="ptStyles.html">`srAspect&lt;-`()</a></code> <code><a href="ptStyles.html">srShape()</a></code> <code><a href="ptStyles.html">`srShape&lt;-`()</a></code> <code><a href="ptStyles.html">srDrawingOrder()</a></code> <code><a href="ptStyles.html">`srDrawingOrder&lt;-`()</a></code> </p>
+          <p><code><a href="ptStyles.html">agShown()</a></code> <code><a href="ptStyles.html">srShown()</a></code> <code><a href="ptStyles.html">`agShown&lt;-`()</a></code> <code><a href="ptStyles.html">`srShown&lt;-`()</a></code> <code><a href="ptStyles.html">agSize()</a></code> <code><a href="ptStyles.html">srSize()</a></code> <code><a href="ptStyles.html">`agSize&lt;-`()</a></code> <code><a href="ptStyles.html">`srSize&lt;-`()</a></code> <code><a href="ptStyles.html">agFill()</a></code> <code><a href="ptStyles.html">srFill()</a></code> <code><a href="ptStyles.html">`agFill&lt;-`()</a></code> <code><a href="ptStyles.html">`srFill&lt;-`()</a></code> <code><a href="ptStyles.html">agOutline()</a></code> <code><a href="ptStyles.html">srOutline()</a></code> <code><a href="ptStyles.html">`agOutline&lt;-`()</a></code> <code><a href="ptStyles.html">`srOutline&lt;-`()</a></code> <code><a href="ptStyles.html">agOutlineWidth()</a></code> <code><a href="ptStyles.html">srOutlineWidth()</a></code> <code><a href="ptStyles.html">`agOutlineWidth&lt;-`()</a></code> <code><a href="ptStyles.html">`srOutlineWidth&lt;-`()</a></code> <code><a href="ptStyles.html">agRotation()</a></code> <code><a href="ptStyles.html">srRotation()</a></code> <code><a href="ptStyles.html">`agRotation&lt;-`()</a></code> <code><a href="ptStyles.html">`srRotation&lt;-`()</a></code> <code><a href="ptStyles.html">agAspect()</a></code> <code><a href="ptStyles.html">srAspect()</a></code> <code><a href="ptStyles.html">`agAspect&lt;-`()</a></code> <code><a href="ptStyles.html">`srAspect&lt;-`()</a></code> <code><a href="ptStyles.html">agShape()</a></code> <code><a href="ptStyles.html">srShape()</a></code> <code><a href="ptStyles.html">`agShape&lt;-`()</a></code> <code><a href="ptStyles.html">`srShape&lt;-`()</a></code> </p>
         </td>
         <td><p>Getting and setting point plotting styles</p></td>
       </tr>
@@ -613,18 +595,6 @@
       </tr><tr>
         
         <td>
-          <p><code><a href="scaleMap.html">scaleMap()</a></code> </p>
-        </td>
-        <td><p>Scale a map</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="transformMap.html">transformMap()</a></code> </p>
-        </td>
-        <td><p>Transform a map</p></td>
-      </tr><tr>
-        
-        <td>
           <p><code><a href="translateMap.html">translateMap()</a></code> </p>
         </td>
         <td><p>Translate a map</p></td>
@@ -658,7 +628,7 @@
         <td>
           <p><code><a href="realignOptimizations.html">realignOptimizations()</a></code> </p>
         </td>
-        <td><p>Realigns optimizations in the map to the current optimization</p></td>
+        <td><p>Realigns optimizations in the map</p></td>
       </tr>
     </tbody><tbody>
       <tr>
@@ -684,12 +654,6 @@
           <p><code><a href="mergeReport.html">mergeReport()</a></code> </p>
         </td>
         <td><p>Return a merge report</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="mergeTiterTables.html">mergeTiterTables()</a></code> </p>
-        </td>
-        <td><p>Merge titer tables</p></td>
       </tr>
     </tbody><tbody>
       <tr>

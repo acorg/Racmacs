@@ -134,10 +134,9 @@
   <span class='no'>map</span>,
   <span class='kw'>ag_coords</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>sr_coords</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='no'>number_of_dimensions</span>,
-  <span class='kw'>minimum_column_basis</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>warnings</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='no'>...</span>
+  <span class='kw'>number_of_dimensions</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>minimum_column_basis</span> <span class='kw'>=</span> <span class='st'>"none"</span>,
+  <span class='kw'>fixed_column_bases</span> <span class='kw'>=</span> <span class='kw'>NULL</span>
 )</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -149,11 +148,13 @@
     </tr>
     <tr>
       <th>ag_coords</th>
-      <td><p>Antigen coordinates for the new optimization (random if not specified)</p></td>
+      <td><p>Antigen coordinates for the new optimization (0 if not
+specified)</p></td>
     </tr>
     <tr>
       <th>sr_coords</th>
-      <td><p>Sera coordinates for the new optimization (random if not specified)</p></td>
+      <td><p>Sera coordinates for the new optimization (0 if not
+specified)</p></td>
     </tr>
     <tr>
       <th>number_of_dimensions</th>
@@ -161,17 +162,20 @@
     </tr>
     <tr>
       <th>minimum_column_basis</th>
-      <td><p>The minimum column basis to use for the new optimization</p></td>
+      <td><p>The minimum column basis to use for the new
+optimization</p></td>
     </tr>
     <tr>
-      <th>...</th>
-      <td><p>Further optimization parameters</p></td>
+      <th>fixed_column_bases</th>
+      <td><p>A vector of fixed column bases with NA for sera
+where the minimum column basis should be applied</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>Returns the acmap data object with new optimization added (but not selected).</p>
+    <p>Returns the acmap data object with new optimization added (but not
+selected).</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

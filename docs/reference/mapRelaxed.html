@@ -49,7 +49,7 @@
   
 
 <meta property="og:title" content="Check if a map has been fully relaxed — mapRelaxed" />
-<meta property="og:description" content="Check if a map has been fully relaxed" />
+<meta property="og:description" content="Checks if the map optimization run can be relaxed further." />
 <meta property="og:image" content="/logo.png" />
 
 
@@ -127,10 +127,10 @@
     </div>
 
     <div class="ref-description">
-    <p>Check if a map has been fully relaxed</p>
+    <p>Checks if the map optimization run can be relaxed further.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>mapRelaxed</span>(<span class='no'>map</span>, <span class='kw'>optimization_number</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
+    <pre class="usage"><span class='fu'>mapRelaxed</span>(<span class='no'>map</span>, <span class='kw'>optimization_number</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>options</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>())</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -141,7 +141,11 @@
     </tr>
     <tr>
       <th>optimization_number</th>
-      <td><p>The map optimization number (defaults to the currently selected optimization)</p></td>
+      <td><p>The map optimization number</p></td>
+    </tr>
+    <tr>
+      <th>options</th>
+      <td><p>List of named optimizer options, see <code><a href='RacOptimizer.options.html'>RacOptimizer.options()</a></code></p></td>
     </tr>
     </table>
 

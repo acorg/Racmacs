@@ -49,8 +49,8 @@
   
 
 <meta property="og:title" content="Return calculated map distances for an acmap — mapDistances" />
-<meta property="og:description" content="Takes the acmap object and calculate distances between antigens and sera for the
-currently selected or specified optimization." />
+<meta property="og:description" content="Takes the acmap object and calculates euclidean distances between antigens
+and sera for the currently selected or specified optimization." />
 <meta property="og:image" content="/logo.png" />
 
 
@@ -128,11 +128,11 @@ currently selected or specified optimization." />
     </div>
 
     <div class="ref-description">
-    <p>Takes the acmap object and calculate distances between antigens and sera for the
-currently selected or specified optimization.</p>
+    <p>Takes the acmap object and calculates euclidean distances between antigens
+and sera for the currently selected or specified optimization.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>mapDistances</span>(<span class='no'>map</span>, <span class='kw'>optimization_number</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
+    <pre class="usage"><span class='fu'>mapDistances</span>(<span class='no'>map</span>, <span class='kw'>optimization_number</span> <span class='kw'>=</span> <span class='fl'>1</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -143,16 +143,18 @@ currently selected or specified optimization.</p>
     </tr>
     <tr>
       <th>optimization_number</th>
-      <td><p>The optimization data to access (defaults to the currently selected optimization)</p></td>
+      <td><p>The optimization number</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>Returns a matrix of map distances with antigens as rows and sera as columns.</p>
+    <p>Returns a matrix of map distances with antigens as rows and sera as
+columns.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p>Other map diagnostic functionsfunctions relating to map stress calculation: 
+    <div class='dont-index'><p>Other map diagnostic functions
+functions relating to map stress calculation: 
 <code><a href='logtiterTable.html'>logtiterTable</a>()</code>,
 <code><a href='mapResiduals.html'>mapResiduals</a>()</code>,
 <code><a href='pointStress.html'>pointStress</a></code>,

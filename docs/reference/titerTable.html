@@ -49,7 +49,21 @@
   
 
 <meta property="og:title" content="Getting and setting map titers — titerTable" />
-<meta property="og:description" content="Functions to get and set the map titer table." />
+<meta property="og:description" content="Functions to get and set the map titer table. Note that when setting the
+titer table like this any titer table layer information is lost, this is
+normally not a problem unless the map is a result of merging two titer tables
+together previously and you then go on the merge the titers again.
+These are underlying functions to get and set the &quot;flat&quot; version of the titer
+table only. When a map is merged, the titer tables are merged but a record of
+the original titers associated with each map are kept as titer table layers
+so that information on the original set of titers that made up the merge is
+not lost. At the same time, the merged titer version of the titer table is
+created and saved as the titer_table_flat attribute. When you access titers
+through the titerTable() function, the flat version of the titer table is
+retrieved (only really a relevant distinction for merged maps). When you set
+titers through titerTable&amp;lt;-() titer table layers are lost. These functions
+allow you to manipulate the flat version without effecting the titer table
+layers information." />
 <meta property="og:image" content="/logo.png" />
 
 
@@ -122,24 +136,54 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Getting and setting map titers</h1>
-    <small class="dont-index">Source: <a href='https://github.com/acorg/Racmacs/blob/master/R/map_titers.R'><code>R/map_titers.R</code></a></small>
+    <small class="dont-index">Source: <a href='https://github.com/acorg/Racmacs/blob/master/R/map_props.R'><code>R/map_props.R</code></a></small>
     <div class="hidden name"><code>titerTable.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Functions to get and set the map titer table.</p>
+    <p>Functions to get and set the map titer table. Note that when setting the
+titer table like this any titer table layer information is lost, this is
+normally not a problem unless the map is a result of merging two titer tables
+together previously and you then go on the merge the titers again.</p>
+<p>These are underlying functions to get and set the "flat" version of the titer
+table only. When a map is merged, the titer tables are merged but a record of
+the original titers associated with each map are kept as titer table layers
+so that information on the original set of titers that made up the merge is
+not lost. At the same time, the merged titer version of the titer table is
+created and saved as the titer_table_flat attribute. When you access titers
+through the <code>titerTable()</code> function, the flat version of the titer table is
+retrieved (only really a relevant distinction for merged maps). When you set
+titers through <code>titerTable&lt;-()</code> titer table layers are lost. These functions
+allow you to manipulate the flat version without effecting the titer table
+layers information.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>titerTable</span>(<span class='no'>map</span>, <span class='kw'>.name</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
+    <pre class="usage"><span class='fu'>titerTable</span>(<span class='no'>map</span>)
 
-<span class='fu'>titerTable</span>(<span class='no'>map</span>, <span class='kw'>.check</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>) <span class='kw'>&lt;-</span> <span class='no'>value</span></pre>
+<span class='fu'>titerTable</span>(<span class='no'>map</span>) <span class='kw'>&lt;-</span> <span class='no'>value</span>
 
+<span class='fu'>titerTableFlat</span>(<span class='no'>map</span>)
+
+<span class='fu'>titerTableFlat</span>(<span class='no'>map</span>) <span class='kw'>&lt;-</span> <span class='no'>value</span></pre>
+
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>map</th>
+      <td><p>The acmap object</p></td>
+    </tr>
+    <tr>
+      <th>value</th>
+      <td><p>A character matrix of titers to set</p></td>
+    </tr>
+    </table>
 
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p>Other map attribute functions: 
 <code><a href='acmapAttributes.html'>acmapAttributes</a></code>,
-<code><a href='name.html'>name</a></code>,
+<code><a href='mapName.html'>mapName</a>()</code>,
 <code><a href='titerTableLayers.html'>titerTableLayers</a>()</code></p></div>
 
   </div>

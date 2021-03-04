@@ -49,7 +49,8 @@
   
 
 <meta property="og:title" content="Getting and setting base coordinates — ptBaseCoords" />
-<meta property="og:description" content="These functions get and set the base coordinates for a given optimization run." />
+<meta property="og:description" content="These functions get and set the base coordinates for a given optimization
+run." />
 <meta property="og:image" content="/logo.png" />
 
 
@@ -127,14 +128,14 @@
     </div>
 
     <div class="ref-description">
-    <p>These functions get and set the base coordinates for a given optimization run.</p>
+    <p>These functions get and set the base coordinates for a given optimization
+run.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>agBaseCoords</span>(<span class='no'>map</span>, <span class='kw'>optimization_number</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>.name</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
-<span class='fu'>agBaseCoords</span>(<span class='no'>map</span>, <span class='kw'>optimization_number</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>.check</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>) <span class='kw'>&lt;-</span> <span class='no'>value</span>
-
-<span class='fu'>srBaseCoords</span>(<span class='no'>map</span>, <span class='kw'>optimization_number</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>.name</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
-<span class='fu'>srBaseCoords</span>(<span class='no'>map</span>, <span class='kw'>optimization_number</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>.check</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>) <span class='kw'>&lt;-</span> <span class='no'>value</span></pre>
+    <pre class="usage"><span class='fu'>agBaseCoords</span>(<span class='no'>map</span>, <span class='kw'>optimization_number</span> <span class='kw'>=</span> <span class='fl'>1</span>)
+<span class='fu'>agBaseCoords</span>(<span class='no'>map</span>, <span class='kw'>optimization_number</span> <span class='kw'>=</span> <span class='fl'>1</span>) <span class='kw'>&lt;-</span> <span class='no'>value</span>
+<span class='fu'>srBaseCoords</span>(<span class='no'>map</span>, <span class='kw'>optimization_number</span> <span class='kw'>=</span> <span class='fl'>1</span>)
+<span class='fu'>srBaseCoords</span>(<span class='no'>map</span>, <span class='kw'>optimization_number</span> <span class='kw'>=</span> <span class='fl'>1</span>) <span class='kw'>&lt;-</span> <span class='no'>value</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -145,32 +146,29 @@
     </tr>
     <tr>
       <th>optimization_number</th>
-      <td><p>The optimization run to get / set the data (by default the currently selected one)</p></td>
+      <td><p>The optimization run from which to get / set the data</p></td>
     </tr>
     <tr>
-      <th>.name</th>
-      <td><p>Should the output be labelled with corresponding antigen / sera names</p></td>
-    </tr>
-    <tr>
-      <th>.check</th>
-      <td><p>Should normal checks be applied for validity be applied when setting this value (used internally)</p></td>
+      <th>value</th>
+      <td><p>New value to set</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>Returns either the requested attribute when using a getter function or the updated acmap object when using the setter function.</p>
+    <p>Returns either the requested attribute when using a getter function or</p>
+<p>the updated acmap object when using the setter function.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p><code><a href='ptCoords.html'>agCoords</a></code>
-<code><a href='ptCoords.html'>srCoords</a></code></p>
+    <div class='dont-index'><p><code><a href='ptCoords.html'>agCoords()</a></code>
+<code><a href='ptCoords.html'>srCoords()</a></code></p>
 <p>Other map optimization attribute functions: 
 <code><a href='colBases.html'>colBases</a>()</code>,
 <code><a href='mapComment.html'>mapComment</a>()</code>,
 <code><a href='mapDimensions.html'>mapDimensions</a>()</code>,
 <code><a href='mapStress.html'>mapStress</a>()</code>,
 <code><a href='mapTransformation.html'>mapTransformation</a>()</code>,
-<code><a href='ptCoords.html'>ptCoords</a></code></p></div>
+<code><a href='ptCoords.html'>ptCoords</a>()</code></p></div>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

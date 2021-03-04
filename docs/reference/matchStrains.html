@@ -122,7 +122,7 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Find matching antigens or sera between 2 maps</h1>
-    <small class="dont-index">Source: <a href='https://github.com/acorg/Racmacs/blob/master/R/map_agsr_matching.R'><code>R/map_agsr_matching.R</code></a></small>
+    <small class="dont-index">Source: <a href='https://github.com/acorg/Racmacs/blob/master/R/map_point_matching.R'><code>R/map_point_matching.R</code></a></small>
     <div class="hidden name"><code>matchStrains.Rd</code></div>
     </div>
 
@@ -130,26 +130,27 @@
     <p>Find matching antigens or sera between 2 maps</p>
     </div>
 
-    <pre class="usage"><span class='fu'>match_mapAntigens</span>(<span class='no'>map1</span>, <span class='no'>map2</span>, <span class='kw'>passage_matching</span> <span class='kw'>=</span> <span class='st'>"ignore"</span>, <span class='kw'>warnings</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
+    <pre class="usage"><span class='fu'>match_mapAntigens</span>(<span class='no'>map1</span>, <span class='no'>map2</span>)
 
-<span class='fu'>match_mapSera</span>(<span class='no'>map1</span>, <span class='no'>map2</span>, <span class='kw'>passage_matching</span> <span class='kw'>=</span> <span class='st'>"ignore"</span>, <span class='kw'>warnings</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
+<span class='fu'>match_mapSera</span>(<span class='no'>map1</span>, <span class='no'>map2</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>map1</th>
-      <td><p>The names to match to.</p></td>
+      <td><p>The map to match names from.</p></td>
     </tr>
     <tr>
       <th>map2</th>
-      <td><p>The set of names from which to find matches.</p></td>
+      <td><p>The map to match names to.</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>Returns the indices of matching strains in map 2, or NA in the position of strains not found.</p>
+    <p>Returns the indices of matching strains in map 2, or NA in the
+position of strains not found.</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

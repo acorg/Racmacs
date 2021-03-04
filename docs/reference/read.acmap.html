@@ -133,10 +133,8 @@
     <pre class="usage"><span class='fu'>read.acmap</span>(
   <span class='no'>filename</span>,
   <span class='kw'>optimization_number</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>discard_other_optimizations</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
   <span class='kw'>sort_optimizations</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>align_optimizations</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>only_best_optimization</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>
+  <span class='kw'>align_optimizations</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>
 )</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -148,25 +146,18 @@
     </tr>
     <tr>
       <th>optimization_number</th>
-      <td><p>The optimization number to select (defaults to the first, see <code><a href='selectedOptimization.html'>selectedOptimization</a></code>).</p></td>
-    </tr>
-    <tr>
-      <th>discard_other_optimizations</th>
-      <td><p>Should other optimizations be discarded?</p></td>
+      <td><p>Numeric vector of optimization runs to keep, the
+default, NULL, keeps information on all optimization runs</p></td>
     </tr>
     <tr>
       <th>sort_optimizations</th>
-      <td><p>Should optimizations be sorted in order of stress when the map data is read?</p></td>
+      <td><p>Should optimizations be sorted in order of stress
+when the map data is read?</p></td>
     </tr>
     <tr>
       <th>align_optimizations</th>
       <td><p>Should optimizations be rotated and translated to
-match each other as closely as possible?</p></td>
-    </tr>
-    <tr>
-      <th>only_best_optimization</th>
-      <td><p>Should only the best (lowest stress) optimization
-be kept?</p></td>
+match the orientation of the first optimization as closely as possible?</p></td>
     </tr>
     </table>
 
@@ -178,27 +169,14 @@ be kept?</p></td>
     <div class='dont-index'><p>Other functions for working with map data: 
 <code><a href='acmap.html'>acmap</a>()</code>,
 <code><a href='as.json.html'>as.json</a>()</code>,
-<code><a href='cloneMap.html'>cloneMap</a>()</code>,
-<code><a href='convertingMaps.html'>convertingMaps</a></code>,
 <code><a href='orderPoints.html'>orderPoints</a></code>,
 <code><a href='read.titerTable.html'>read.titerTable</a>()</code>,
 <code><a href='removePoints.html'>removePoints</a></code>,
 <code><a href='save.acmap.html'>save.acmap</a>()</code>,
 <code><a href='save.coords.html'>save.coords</a>()</code>,
 <code><a href='save.titerTable.html'>save.titerTable</a>()</code>,
-<code><a href='selectedOptimization.html'>selectedOptimization</a>()</code>,
-<code><a href='subsetMap.html'>subsetMap</a>()</code>,
-<code><a href='subsetPoints.html'>subsetPoints</a></code></p></div>
+<code><a href='subsetMap.html'>subsetMap</a>()</code></p></div>
 
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'># Read in an acmap object from a file</span>
-<span class='no'>map_file_path</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>"extdata/h3map2004.ace"</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"Racmacs"</span>)
-<span class='no'>map</span> <span class='kw'>&lt;-</span> <span class='fu'>read.acmap</span>(<span class='no'>map_file_path</span>)
-
-<span class='co'># Read in a table of titer data and make a new acmap file from it</span>
-<span class='no'>titer_file_path</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>"extdata/h3map2004_hitable.csv"</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"Racmacs"</span>)
-<span class='no'>titer_data</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='read.titerTable.html'>read.titerTable</a></span>(<span class='no'>titer_file_path</span>)
-<span class='no'>map</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='convertingMaps.html'>acmap.cpp</a></span>(<span class='kw'>table</span> <span class='kw'>=</span> <span class='no'>titer_data</span>)</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

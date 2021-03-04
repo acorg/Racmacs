@@ -130,7 +130,13 @@
     <p>Check for hemisphering or trapped points</p>
     </div>
 
-    <pre class="usage"><span class='fu'>checkHemisphering</span>(<span class='no'>map</span>, <span class='kw'>stepsize</span> <span class='kw'>=</span> <span class='fl'>0.1</span>, <span class='kw'>optimization_number</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
+    <pre class="usage"><span class='fu'>checkHemisphering</span>(
+  <span class='no'>map</span>,
+  <span class='kw'>optimization_number</span> <span class='kw'>=</span> <span class='fl'>1</span>,
+  <span class='kw'>grid_spacing</span> <span class='kw'>=</span> <span class='fl'>0.25</span>,
+  <span class='kw'>stress_lim</span> <span class='kw'>=</span> <span class='fl'>0.1</span>,
+  <span class='kw'>options</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>()
+)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -141,7 +147,12 @@
     </tr>
     <tr>
       <th>optimization_number</th>
-      <td><p>The map optimization number (defaults to the currently selected optimization)</p></td>
+      <td><p>The map optimization number</p></td>
+    </tr>
+    <tr>
+      <th>stepsize</th>
+      <td><p>Grid spacing in antigenic units of the search grid to use
+when searching for hemisphering positions</p></td>
     </tr>
     </table>
 

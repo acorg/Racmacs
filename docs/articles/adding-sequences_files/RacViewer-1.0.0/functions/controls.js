@@ -104,11 +104,11 @@ Racmacs.ControlPanel = class ControlPanel {
         loadpointstyle.div.classList.add("shiny-element");
         pointstylepanel.appendChild(loadpointstyle.div);
 
-        this.tabset.addTab({
-            id : "pointstylepanel",
-            name: "Point styles",
-            content: pointstylepanel
-        });
+        // this.tabset.addTab({
+        //     id : "pointstylepanel",
+        //     name: "Point styles",
+        //     content: pointstylepanel
+        // });
 
         // Add Filter
         var filter = new Racmacs.Filter(this.viewer);
@@ -563,6 +563,8 @@ Racmacs.TableList = class TableList {
         // Set event listener
         var tablelist = this;
         row.mouseup = args.fn;
+        row.hover = args.hoverfn;
+        row.dehover = args.dehoverfn;
         if(this.selectable !== false){
             row.addEventListener("mouseup", function(){
                 tablelist.selectRow(this.num);
@@ -572,17 +574,18 @@ Racmacs.TableList = class TableList {
 
         if(args.hoverfn){
             row.addEventListener("mouseenter", function(){
-                args.hoverfn();
+                this.hover();
             });
         }
         if(args.dehoverfn){
             row.addEventListener("mouseleave", function(){
-                args.dehoverfn();
+                this.dehover();
             });
         }
 
         // Return the row
         this.rows.push(row);
+        return(row);
 
     }
 

@@ -163,15 +163,15 @@ Racmacs.utils.transformCoords = function(
  		if(transformation.length == 4){
 	    	// Standard 2D transform
 	    	return([
-                coords[0]*transformation[0] + coords[1]*transformation[2],
-                coords[0]*transformation[1] + coords[1]*transformation[3]
+                coords[0]*transformation[0] + coords[1]*transformation[1],
+                coords[0]*transformation[2] + coords[1]*transformation[3]
 	        ]);
 	    } else {
 	    	// 2D to 3D transform
 	    	return([
-	    		coords[0]*transformation[0] + coords[1]*transformation[3],
-                coords[0]*transformation[1] + coords[1]*transformation[4],
-                coords[0]*transformation[2] + coords[1]*transformation[5]
+	    		coords[0]*transformation[0] + coords[1]*transformation[1],
+                coords[0]*transformation[2] + coords[1]*transformation[3],
+                coords[0]*transformation[4] + coords[1]*transformation[5]
 	    	]);
 	    }
 
@@ -202,7 +202,7 @@ Racmacs.utils.translateCoords = function(
 	coords, 
 	translation
 ){
-
+	
     if(coords.length == 2){
     	
     	if(translation.length == 2){
@@ -248,10 +248,13 @@ Racmacs.utils.transformTranslateCoords = function(
 	transformation,
 	translation
 ){
-    
-    if(coords[0] === null) return(coords.map(x => null))
-    coords = Racmacs.utils.transformCoords(coords, transformation);
-    coords = Racmacs.utils.translateCoords(coords, translation);
+
+	if (transformation !== null) { 
+		coords = Racmacs.utils.transformCoords(coords, transformation);
+	}
+    if (translation !== null) { 
+    	coords = Racmacs.utils.translateCoords(coords, translation);
+    }
     return(coords);
 
 }

@@ -51,7 +51,9 @@
 <meta property="og:title" content="Return calculated table distances for an acmap — tableDistances" />
 <meta property="og:description" content="Takes the acmap object and, assuming the column bases associated with the
 currently selected or specifed optimization, returns the table distances
-calculated from the titer data." />
+calculated from the titer data. For more information on column bases and
+their role in antigenic cartography see
+vignette(&quot;intro-to-antigenic-cartography&quot;)" />
 <meta property="og:image" content="/logo.png" />
 
 
@@ -131,10 +133,12 @@ calculated from the titer data." />
     <div class="ref-description">
     <p>Takes the acmap object and, assuming the column bases associated with the
 currently selected or specifed optimization, returns the table distances
-calculated from the titer data.</p>
+calculated from the titer data. For more information on column bases and
+their role in antigenic cartography see
+<code><a href='../articles/intro-to-antigenic-cartography.html'>vignette("intro-to-antigenic-cartography")</a></code></p>
     </div>
 
-    <pre class="usage"><span class='fu'>tableDistances</span>(<span class='no'>map</span>, <span class='kw'>optimization_number</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
+    <pre class="usage"><span class='fu'>tableDistances</span>(<span class='no'>map</span>, <span class='kw'>optimization_number</span> <span class='kw'>=</span> <span class='fl'>1</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -145,17 +149,17 @@ calculated from the titer data.</p>
     </tr>
     <tr>
       <th>optimization_number</th>
-      <td><p>The optimization data to access (defaults to the currently selected optimization)</p></td>
+      <td><p>The optimization number</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>Returns a list with a matrix of numeric table distances and whether
-they are associated with more than or less than titers.</p>
+    <p>Returns a matrix of numeric table distances</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p>Other map diagnostic functionsfunctions relating to map stress calculation: 
+    <div class='dont-index'><p>Other map diagnostic functions
+functions relating to map stress calculation: 
 <code><a href='logtiterTable.html'>logtiterTable</a>()</code>,
 <code><a href='mapDistances.html'>mapDistances</a>()</code>,
 <code><a href='mapResiduals.html'>mapResiduals</a>()</code>,

@@ -132,7 +132,13 @@ in the selected or specified optimization." />
 in the selected or specified optimization.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>relaxMap</span>(<span class='no'>map</span>, <span class='kw'>optimization_number</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
+    <pre class="usage"><span class='fu'>relaxMap</span>(
+  <span class='no'>map</span>,
+  <span class='kw'>optimization_number</span> <span class='kw'>=</span> <span class='fl'>1</span>,
+  <span class='kw'>fixed_antigens</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>fixed_sera</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>options</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>()
+)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -143,16 +149,29 @@ in the selected or specified optimization.</p>
     </tr>
     <tr>
       <th>optimization_number</th>
-      <td><p>The optimization to relax (defaults to the currently selected optimization)</p></td>
+      <td><p>The optimization number to relax</p></td>
+    </tr>
+    <tr>
+      <th>fixed_antigens</th>
+      <td><p>Antigens to set fixed positions for when relaxing</p></td>
+    </tr>
+    <tr>
+      <th>fixed_sera</th>
+      <td><p>Sera to set fixed positions for when relaxing</p></td>
+    </tr>
+    <tr>
+      <th>options</th>
+      <td><p>List of named optimizer options, see <code><a href='RacOptimizer.options.html'>RacOptimizer.options()</a></code></p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>Returns an acmap object with the newly relaxed point coordinates.</p>
+    <p>Returns an acmap object with the optimization relaxed.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p>See <code><a href='optimizeMap.html'>optimizeMap</a></code> for performing new optimization runs from random starting coordinates.</p>
+    <div class='dont-index'><p>See <code><a href='optimizeMap.html'>optimizeMap()</a></code> for performing new optimization runs from random
+starting coordinates.</p>
 <p>Other map optimization functions: 
 <code><a href='make.acmap.html'>make.acmap</a>()</code>,
 <code><a href='moveTrappedPoints.html'>moveTrappedPoints</a>()</code>,

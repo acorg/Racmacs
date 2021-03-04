@@ -42,130 +42,79 @@ Racmacs.HemispheringTable = class HemispheringTable extends Racmacs.TableList {
         this.checkbox.uncheck(false);
         this.checkbox.disable();
 
-	}
+	this.hemisphering_shown = true;
+	this.points.map( (x,i) => x.showHemisphering(data[i]) );
+	this.render();
 
 }
 
-Racmacs.Viewer.prototype.showHemisphering = function(){
-
-	if(this.data.hemisphering() !== null){
-
-		this.hemisphering_shown = true;
-		this.points.map( x => x.showHemisphering() );
-		this.render();
-
-		if(this.hemispheringTable){
-			this.hemispheringTable.checkbox.check(false);
-		}
-
-	} else {
-		console.warn('No hemisphering data to show for projection '+this.mapData.projection);
-	}
-
-}
-
+// Hide all hemisphering information
 Racmacs.Viewer.prototype.hideHemisphering = function(){
 
 	this.hemisphering_shown = false;
 	this.points.map( x => x.hideHemisphering() );
 	this.render();
 
-	if(this.hemispheringTable){
-		this.hemispheringTable.checkbox.uncheck(false);
-	}
-
 }
 
-Racmacs.Viewer.prototype.removeHemispheringData = function(){
-	
-	// Hide hemisphering
+// Show any hemisphering information associated with a point
+Racmacs.Point.prototype.showHemisphering = function(data){
+
+	// Remove previous hemisphering information
 	this.hideHemisphering();
 
-	// Remove hemisphering data from points
-	for(var i=0; i<this.points.length; i++){
-		this.points[i].removeHemispheringData();
-	}
+	// Add hemisphering data if found
+	if(data.length > 0){
 
-	// Remove hemisphering data from table
-	if(this.hemispheringTable){ 
-        this.hemispheringTable.clear();
-        this.hemispheringTable.showPlaceholder();
-    }
+		// Setup to receive info you will pass to plot the arrows
+		var coords = [];
+		var doubleheaded = [];
+		var color = { r:[], g:[], b:[], a:[] };
 
-}
-
-Racmacs.Viewer.prototype.addHemispheringData = function(data){
-
-	// Remove any existing hemisphering data
-	this.removeHemispheringData();
-
-	// Add hemisphering data to the points
-	for(var i=0; i<data.length; i++){
-		if(data[i].type == "antigen"){
-			this.antigens[data[i].num - 1].addHemispheringData(data[i]);
-			if(this.antigens[data[i].num - 1].name !== data[i].name){
-				throw("Names don't match");
-			}
-		}
-		if(data[i].type == "serum"){
-			this.sera[data[i].num - 1].addHemispheringData(data[i]);
-			if(this.sera[data[i].num - 1].name !== data[i].name){
-				throw("Names don't match");
-			}
-		}
-	}
-
-	// Add hemisphering data to the table
-	if(this.hemispheringTable){
-
-		var viewer = this;
-		this.hemispheringTable.hidePlaceholder();
-		
+		// Cycle through the hemisphering information
 		for(var i=0; i<data.length; i++){
-			this.hemispheringTable.checkbox.enable();
-			this.hemispheringTable.addRow({
-				content : [
-					data[i].type,
-					data[i].name,
-					data[i].num,
-					data[i].diagnosis
-				],
-				hoverfn : function(){
-					if(this.data.type == "antigen"){
-						viewer.antigens[this.data.num - 1].hover();
-						if(!viewer.hemisphering_shown){
-							viewer.antigens[this.data.num - 1].showHemisphering();
-						}
-					}
-					if(this.data.type == "serum"){
-						viewer.sera[this.data.num - 1].hover();
-						if(!viewer.hemisphering_shown){
-							viewer.sera[this.data.num - 1].showHemisphering();
-						}
-					}
-				},
-				dehoverfn : function(){
-					if(this.data.type == "antigen"){
-						viewer.antigens[this.data.num - 1].dehover();
-						if(!viewer.hemisphering_shown){
-							viewer.antigens[this.data.num - 1].hideHemisphering();
-						}
-					}
-					if(this.data.type == "serum"){
-						viewer.sera[this.data.num - 1].dehover();
-						if(!viewer.hemisphering_shown){
-							viewer.sera[this.data.num - 1].hideHemisphering();
-						}
-					}
-				},
-				data : data[i]
-			});
+
+			let from = this.coords;
+			let to   = data[i].coords;
+
+			while (from.length < 3) from.push(0);
+			while (to.length < 3)   to.push(0);
+
+			coords.push([from, to]);
+			doubleheaded.push( data[i].diagnosis == "hemisphering" || data[i].diagnosis == "hemisphering-trapped" );
+
+			// Define double-headedness and color of arrows based on diagnosis
+			if (data[i].diagnosis == "trapped" || data[i].diagnosis == "hemisphering-trapped") {
+				color.r.push(1); color.g.push(0); color.b.push(0); color.a.push(1);
+				color.r.push(1); color.g.push(0); color.b.push(0); color.a.push(1);
+			} else {
+				color.r.push(0); color.g.push(0); color.b.push(0); color.a.push(1);
+				color.r.push(0); color.g.push(0); color.b.push(0); color.a.push(1);
+			}
+
 		}
+
+		// Create the actual object you will add to the scene
+		this.hemisphering = new this.viewer.mapElements.procrustes({
+	        coords       : coords,
+	        size         : 4,
+	        doubleheaded : doubleheaded,
+	        properties : { 
+	            lwd : 2,
+	            color: color
+	        },
+	        viewer : this.viewer
+	    });
+
+		// Add the object to the scene
+		this.viewer.scene.add(this.hemisphering.object);
+
 	}
 
 }
 
-Racmacs.Point.prototype.removeHemispheringData = function(){
+// Hide hemisphering information associated with a point
+Racmacs.Point.prototype.hideHemisphering = function(){
 	
 	if(this.hemisphering){
 		this.viewer.scene.remove(this.hemisphering.object);
@@ -173,44 +122,4 @@ Racmacs.Point.prototype.removeHemispheringData = function(){
 	}
 
 }
-
-Racmacs.Point.prototype.addHemispheringData = function(data){
-
-	this.removeHemispheringData();
-
-	var from = this.coords;
-	var to = [0,0,1];
-
-	to[0] = data.coords1;
-	to[1] = data.coords2;
-	if(data.coords3) to[2] = data.coords3;
-
-	this.hemisphering = new R3JS.element.glarrow({
-		coords : [[from, to]],
-		doubleheaded : data.diagnosis === "hemisphering",
-		viewer : this.viewer
-	});
-
-	this.viewer.scene.add(this.hemisphering.object);
-	this.hemisphering.hide();
-
-
-}
-
-Racmacs.Point.prototype.showHemisphering = function(){
-	if(this.hemisphering){
-		this.hemisphering.show();
-	}
-}
-
-Racmacs.Point.prototype.hideHemisphering = function(){
-	if(this.hemisphering){
-		this.hemisphering.hide();
-	}
-}
-
-
-
-
-
 

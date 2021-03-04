@@ -121,14 +121,16 @@ R3JS.element.Polygon2d = class Polygon2d extends R3JS.element.base {
 // Sphere constructor
 R3JS.element.constructors.polygon3d = function(
     plotobj,
-    plotdims
+    viewer
     ){
 
     // Make the object
     var element = new R3JS.element.Polygon3d({
         vertices   : plotobj.vertices,
         faces      : plotobj.faces,
-        properties : plotobj.properties
+        normals    : plotobj.normals,
+        properties : plotobj.properties,
+        aspect     : viewer.scene.plotdims.aspect
     });
     
     // Return the object
@@ -160,7 +162,7 @@ R3JS.element.Polygon3d = class Polygon3d extends R3JS.element.base {
                 new THREE.Vector3(
                     args.vertices[i][0],// - object.position.x,
                     args.vertices[i][1],// - object.position.y,
-                    args.vertices[i][2]// - object.position.z
+                    args.vertices[i][2],// - object.position.z
                 )
             );
         }
@@ -169,17 +171,28 @@ R3JS.element.Polygon3d = class Polygon3d extends R3JS.element.base {
         for(var i=0; i<args.faces.length; i++){
             geometry.faces.push(
                 new THREE.Face3( 
-                    args.faces[i][2]-1, 
-                    args.faces[i][1]-1, 
-                    args.faces[i][0]-1
+                    args.faces[i][0], 
+                    args.faces[i][1], 
+                    args.faces[i][2]
                 )
             );
         }
 
-        // Merge vertices and compute normals
-        geometry.mergeVertices();
-        geometry.computeVertexNormals();
-        geometry.computeFaceNormals();
+        // Add normals
+        if(args.normals !== undefined){
+            var normals = args.normals;
+            for(var i=0; i<geometry.faces.length; i++){
+                geometry.faces[i].vertexNormals = [
+                    new THREE.Vector3().fromArray( normals[geometry.faces[i].a] ),
+                    new THREE.Vector3().fromArray( normals[geometry.faces[i].b] ),
+                    new THREE.Vector3().fromArray( normals[geometry.faces[i].c] ),
+                ];
+            }
+        } else {
+            // geometry.mergeVertices();
+            // geometry.computeVertexNormals();
+            geometry.computeFaceNormals();
+        }
 
         // Convert to buffer geometry
         var fillgeometry = new THREE.BufferGeometry().fromGeometry( geometry );
@@ -250,33 +263,6 @@ R3JS.element.Polygon3d = class Polygon3d extends R3JS.element.base {
     }
 
 }
-
-//     function convertBlob2D(object, blob){
-
-//         var fill    = object.children[0];
-//         var outline = object.children[1];
-
-//         // Work out geometry
-//         for(var i=0; i<blob.length; i++){
-//             var blobShape = new THREE.Shape();
-//             blobShape.moveTo( blob[i].x[0]-object.position.x, blob[i].y[0]-object.position.y );
-//             for(var j=0; j<blob[i].x.length; j++){
-//                 blobShape.lineTo(blob[i].x[j]-object.position.x, blob[i].y[j]-object.position.y);
-//             }
-            
-//             var blobshapegeo = new THREE.ShapeGeometry( blobShape );
-//             var blobgeo      = new THREE.BufferGeometry().fromGeometry( blobshapegeo );
-//         }
-        
-//         var bloboutlinegeo = convert2Outline(blobshapegeo.vertices, 0.1);
-//         bloboutlinegeo     = new THREE.BufferGeometry().fromGeometry( bloboutlinegeo );
-
-//         object.rotation.z = 0;
-
-//         fill.geometry    = blobgeo;
-//         outline.geometry = bloboutlinegeo;
-
-//     }
 
 
 

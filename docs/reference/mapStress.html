@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Get the current map stress — mapStress • Racmacs</title>
+<title>Calculate the current map stress — mapStress • Racmacs</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -48,8 +48,8 @@
   <link href="../extra.css" rel="stylesheet">
   
 
-<meta property="og:title" content="Get the current map stress — mapStress" />
-<meta property="og:description" content="Get the current map stress" />
+<meta property="og:title" content="Calculate the current map stress — mapStress" />
+<meta property="og:description" content="Calculate the current map stress" />
 <meta property="og:image" content="/logo.png" />
 
 
@@ -121,33 +121,30 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Get the current map stress</h1>
+    <h1>Calculate the current map stress</h1>
     <small class="dont-index">Source: <a href='https://github.com/acorg/Racmacs/blob/master/R/map_props_optimizations.R'><code>R/map_props_optimizations.R</code></a></small>
     <div class="hidden name"><code>mapStress.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Get the current map stress</p>
+    <p>Calculate the current map stress</p>
     </div>
 
-    <pre class="usage"><span class='fu'>mapStress</span>(<span class='no'>map</span>, <span class='kw'>optimization_number</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
+    <pre class="usage"><span class='fu'>mapStress</span>(<span class='no'>map</span>, <span class='kw'>optimization_number</span> <span class='kw'>=</span> <span class='fl'>1</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>map</th>
-      <td><p>The acmap data object</p></td>
+      <td><p>The acmap object</p></td>
     </tr>
     <tr>
       <th>optimization_number</th>
-      <td><p>The optimization run to get / set the data (by default the currently selected one)</p></td>
+      <td><p>The optimization number for which to calculate stress</p></td>
     </tr>
     </table>
 
-    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
-
-    <p>Returns the current map stress value for the specified optimization run.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p>Other map optimization attribute functions: 
@@ -156,7 +153,7 @@
 <code><a href='mapDimensions.html'>mapDimensions</a>()</code>,
 <code><a href='mapTransformation.html'>mapTransformation</a>()</code>,
 <code><a href='ptBaseCoords.html'>ptBaseCoords</a></code>,
-<code><a href='ptCoords.html'>ptCoords</a></code></p></div>
+<code><a href='ptCoords.html'>ptCoords</a>()</code></p></div>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

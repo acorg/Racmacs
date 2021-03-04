@@ -6,6 +6,11 @@ Racmacs.Viewer.prototype.load = function(
     plotdata
     ){
 
+    if(options.maintain_viewpoint){ 
+        var selected_points = this.getSelectedPointIndices(); 
+        var selected_projection = this.data.projection();
+    }
+
     // Clear previous plots
     this.contentLoaded = false;
     this.data.clear();
@@ -16,7 +21,7 @@ Racmacs.Viewer.prototype.load = function(
     this.controlpanel.disableProjectionTabs();
 
     // Plot new map data
-    if(mapData === null){
+    if(mapData === null) {
 
         this.setTitle("Racmacs viewer");
         this.viewport.showPlaceholder();
@@ -58,7 +63,9 @@ Racmacs.Viewer.prototype.load = function(
         this.addAntigensAndSera();
 
         // Set dims from map data
-        this.setDims();
+        if(!options.maintain_viewpoint){
+            this.setDims();
+        }
 
         // Load the hi table
         this.hideTable();
@@ -69,7 +76,9 @@ Racmacs.Viewer.prototype.load = function(
         }
 
         // Add points to the plot
-        this.addAgSrPoints();
+        if(this.data.numProjections() > 0) {
+            this.addAgSrPoints();
+        }
 
         // Update the stress
         this.updateStress();
@@ -85,7 +94,9 @@ Racmacs.Viewer.prototype.load = function(
         this.projectionList.populate();
 
         // Reset the camera transformation
-        this.resetTransformation();
+        if(!options.maintain_viewpoint){
+            this.resetTransformation();
+        }
 
         // Switch to the right projection
         if(mapData && this.data.numProjections() > 0){
@@ -121,29 +132,33 @@ Racmacs.Viewer.prototype.load = function(
         this.viewport.onwindowresize();
 
         // Set camera zoom
-        var zoom = this.data.getViewerSetting("zoom")
-        if(zoom === null){
-            
-            var xlim = this.data.xlim();
-            var ylim = this.data.ylim();
-            var zlim = this.data.zlim();
+        if(this.data.numProjections() > 0 && !options.maintain_viewpoint) {
+        
+            var zoom = this.data.getViewerSetting("zoom");
+            if(zoom === null){
+                
+                var xlim = this.data.xlim();
+                var ylim = this.data.ylim();
+                var zlim = this.data.zlim();
 
-            var scale = this.scene.getWorldScale();
-            xlim = [xlim[0]*scale[0], xlim[1]*scale[0]];
-            ylim = [ylim[0]*scale[1], ylim[1]*scale[1]];
-            zlim = [zlim[0]*scale[1], zlim[1]*scale[1]];
+                var scale = this.scene.getWorldScale();
+                xlim = [xlim[0]*scale[0], xlim[1]*scale[0]];
+                ylim = [ylim[0]*scale[1], ylim[1]*scale[1]];
+                zlim = [zlim[0]*scale[1], zlim[1]*scale[1]];
 
-            this.camera.zoomToLims({
-                x : xlim,
-                y : ylim,
-                z : zlim
-            });
-            this.camera.setDefaultZoom();
+                this.camera.zoomToLims({
+                    x : xlim,
+                    y : ylim,
+                    z : zlim
+                });
+                this.camera.setDefaultZoom();
 
-        } else {
+            } else {
 
-            this.camera.setZoom(zoom);
-            this.camera.setDefaultZoom();
+                this.camera.setZoom(zoom);
+                this.camera.setDefaultZoom();
+
+            }
 
         }
 

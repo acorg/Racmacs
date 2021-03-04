@@ -84,7 +84,7 @@
 <div class="page-header"><h1 class="hasAnchor">
 <a href="#racmacs" class="anchor"></a>Racmacs</h1></div>
 <p>The Racmacs package provides a toolkit for making antigenic maps from assay data such as HI assays, as described in <a href="https://doi.org/10.1126/science.1097211">Smith et al. 2004</a>.</p>
-<p>For a general introduction to using Racmacs to make an antigenic map from titer data see the article “<a href="articles/making-a-map-from-scratch.html">Making an antigenic map from titer data</a>”. For an introduction to the principles of antigenic cartography more generally see “<a href="articles/intro-to-antigenic-cartography.html">An introduction to antigenic cartography</a>”. For documentation of the functions available see the <a href="reference/index.html">reference</a> section.</p>
+<p>For a general introduction to using Racmacs to make an antigenic map from titer data see the article <a href="https://acorg.github.io/Racmacs/articles/making-a-map-from-scratch.html">Making an antigenic map from titer data</a>. For documentation of the functions available see the <a href="https://acorg.github.io/Racmacs/reference/index.html">references</a> section.</p>
 <div id="installation-instructions" class="section level2">
 <h2 class="hasAnchor">
 <a href="#installation-instructions" class="anchor"></a>Installation instructions</h2>
@@ -94,22 +94,38 @@
 <p>If not already installed, install the <code>devtools</code> package, this provides functions to help with installation.</p>
 <div class="sourceCode" id="cb1"><pre class="r"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span>(<span class="st">"devtools"</span>)</pre></div>
 </div>
-<div id="install-acmacsr" class="section level3">
-<h3 class="hasAnchor">
-<a href="#install-acmacsr" class="anchor"></a>Install acmacs.r</h3>
-<p><a href="https://github.com/acorg/acmacs.r">acmacs.r</a> is the underlying package on which Racmacs is built. While Racmacs adds a lot of additional functionality of its own, all the underlying optimization routines for making the maps are contained within acmacs.r. Unfortunately there is currently no version for windows but mac and linux versions are available. Depending upon your operating system run one of the commands below.</p>
-<div class="sourceCode" id="cb2"><pre class="r"><span class="co"># Mac</span>
-<span class="kw pkg">remotes</span><span class="kw ns">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_url.html">install_url</a></span>(<span class="st">"https://github.com/acorg/acmacs.r/releases/download/v5.0/acmacs.r_5.0_R_macOS-10.14.tgz"</span>, <span class="kw">build</span> <span class="kw">=</span> <span class="fl">FALSE</span>)
-
-<span class="co"># Linux</span>
-<span class="kw pkg">remotes</span><span class="kw ns">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_url.html">install_url</a></span>(<span class="st">"https://github.com/acorg/acmacs.r/releases/download/v5.0.1/acmacs.r_5.1_R_x86_64-pc-linux-gnu.tar.gz"</span>, <span class="kw">build</span> <span class="kw">=</span> <span class="fl">FALSE</span>)</pre></div>
-</div>
 <div id="install-racmacs" class="section level3">
 <h3 class="hasAnchor">
 <a href="#install-racmacs" class="anchor"></a>Install Racmacs</h3>
 <p>Now you can install Racmacs directly from the latest development source code. In future pre-built binary versions will also be included.</p>
-<div class="sourceCode" id="cb3"><pre class="r"><span class="co"># To build from github source</span>
+<div class="sourceCode" id="cb2"><pre class="r"><span class="co"># To build from github source</span>
 <span class="kw pkg">devtools</span><span class="kw ns">::</span><span class="fu"><a href="https://devtools.r-lib.org//reference/remote-reexports.html">install_github</a></span>(<span class="st">"acorg/Racmacs"</span>)</pre></div>
+<div id="building-racmacs-to-run-code-in-parallel" class="section level4">
+<h4 class="hasAnchor">
+<a href="#building-racmacs-to-run-code-in-parallel" class="anchor"></a>Building Racmacs to run code in parallel</h4>
+<p>Racmacs uses <a href="https://www.openmp.org">OpenMP</a> instructions to specify when code, for example map optimization runs, can be run in parallel to increase performance. The resulting speed-up can be significant, but you need to check whether the compiler you use supports OpenMP. The default compiler on mac systems for example is <code>clang</code> which does not support OpenMP and will compile Racmacs as a single-threaded program.</p>
+<p>Luckily in these cases it is relatively easy to install to install an alternative compiler like <code>gcc</code> which does support OpenMP and will compile Racmacs as a multi-threaded program. To do this you need to first install gcc and then tell R that you would like to use the gcc compiler instead.</p>
+<p><strong>Installing gcc</strong><br>
+The easiest way to install gcc is through <a href="https://brew.sh">homebrew</a>. First download homebrew if you haven’t already then simply run:</p>
+<pre><code>brew install gcc</code></pre>
+<p>This will then install the <code>g++</code> compiler executable</p>
+<p><strong>Changing the default compiler in R</strong><br>
+To change the default compiler in R, you can specify this in your local <code>Makevars</code> file. This exists in the <code>.R</code> folder in your home folder, i.e. <code>~/.R/Makevars</code>. It is possible you will have to create the <code>.R</code> folder and the <code>Makevars</code> text file.</p>
+<p>Once done, add the following lines to the <code>Makevars</code> file:</p>
+<pre><code>CXX=/usr/local/bin/g++-10
+CXX1X=/usr/local/bin/g++-10
+CXX11=/usr/local/bin/g++-10
+SHLIB_CXXLD=/usr/local/bin/g++-10
+FC=/usr/local/bin/gfortran-10
+F77=/usr/local/bin/gfortran-10
+MAKE=make -j8
+
+SHLIB_OPENMP_CFLAGS=-fopenmp
+SHLIB_OPENMP_CXXFLAGS=-fopenmp
+SHLIB_OPENMP_FCFLAGS=-fopenmp
+SHLIB_OPENMP_FFLAGS=-fopenmp</code></pre>
+<p>Now when you try and install and build the package from source things should be setup to use g++, with support for OpenMP parallization now included.</p>
+</div>
 </div>
 </div>
 </div>

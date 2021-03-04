@@ -150,11 +150,11 @@
 <span class="no">map</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/optimizeMap.html">optimizeMap</a></span>(
   <span class="kw">map</span>                     <span class="kw">=</span> <span class="no">map</span>,
   <span class="kw">number_of_dimensions</span>    <span class="kw">=</span> <span class="fl">2</span>,
-  <span class="kw">number_of_optimizations</span> <span class="kw">=</span> <span class="fl">15</span>,
+  <span class="kw">number_of_optimizations</span> <span class="kw">=</span> <span class="fl">500</span>,
   <span class="kw">minimum_column_basis</span>    <span class="kw">=</span> <span class="st">"none"</span>
 )
 <span class="co">#&gt; a</span>
-<span class="co">#&gt; Took 1.04 secs</span></pre></body></html></div>
+<span class="co">#&gt; Took 22.39 secs</span></pre></body></html></div>
 <p>By default the resulting map optimizations are sorted by their stress, so that the optimization that resulted in the lowest map stress (i.e. usually thought of as the best solution), will be first and will be the default optimization run selected and therefore will be the one used when querying anything like antigen and serum coordinates, map stress etc. unless otherwise specified.</p>
 </div>
 <div id="viewing-the-map" class="section level2">
@@ -175,11 +175,11 @@
 <span class="no">map3d</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/make.acmap.html">make.acmap</a></span>(
   <span class="kw">titer_table</span>             <span class="kw">=</span> <span class="no">titer_table</span>,
   <span class="kw">number_of_dimensions</span>    <span class="kw">=</span> <span class="fl">3</span>,
-  <span class="kw">number_of_optimizations</span> <span class="kw">=</span> <span class="fl">15</span>,
+  <span class="kw">number_of_optimizations</span> <span class="kw">=</span> <span class="fl">500</span>,
   <span class="kw">minimum_column_basis</span>    <span class="kw">=</span> <span class="st">"none"</span>
 )
 <span class="co">#&gt; a</span>
-<span class="co">#&gt; Took 1.84 secs</span>
+<span class="co">#&gt; Took 39.35 secs</span>
 
 <span class="co"># View the result</span>
 <span class="fu">view</span>(<span class="no">map3d</span>)</pre></body></html></div>

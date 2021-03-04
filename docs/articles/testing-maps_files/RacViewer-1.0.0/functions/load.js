@@ -20,6 +20,10 @@ Racmacs.Viewer.prototype.load = function(
     this.clearAntigensAndSera();
     this.controlpanel.disableProjectionTabs();
 
+    // Set viewer controls
+    if(options["viewer.controls"] !== "hidden") this.controlpanel.show();
+    if(options["viewer.controls"] === "optimizations") this.controlpanel.tabset.showTab("projections");
+
     // Plot new map data
     if(mapData === null) {
 
@@ -47,13 +51,6 @@ Racmacs.Viewer.prototype.load = function(
             this.controlpanel.disableProjectionTabs();
             this.viewport.showPlaceholder();
             this.animated = false;
-        }
-
-        // Get current viewpoint
-        if(options.maintain_viewpoint){
-            var translation     = this.scene.getTranslation();
-            var zoom            = this.camera.getZoom();
-            var selected_points = this.getSelectedPointIndices();
         }
 
         // Update viewer title
@@ -101,13 +98,6 @@ Racmacs.Viewer.prototype.load = function(
         // Switch to the right projection
         if(mapData && this.data.numProjections() > 0){
             this.switchToProjection(this.data.projection());
-        }
-
-        // Return the original viewpoint
-        if(options.maintain_viewpoint){
-            this.camera.setZoom(zoom);
-            this.scene.setTranslation(translation);
-            this.selectByPointIndices(selected_points);
         }
 
         // Populate the plot with any plotting data
@@ -173,10 +163,14 @@ Racmacs.Viewer.prototype.load = function(
         }
 
         // Deal with viewer options
-        if(options["viewer.controls"] === "shown")  this.controlpanel.show();
-        if(options["viewer.controls"] === "hidden") this.controlpanel.hide();
         if(options["point.opacity"] !== undefined && options["point.opacity"] !== null)  this.styleset.noselections.unhovered.unselected.opacity = options["point.opacity"];
         this.updatePointStyles();
+
+        // Reselect any points
+        if(options.maintain_viewpoint){ 
+            this.selectByPointIndices(selected_points); 
+            this.switchToProjection(selected_projection);
+        }
 
         // Run the function to toggle plot content that is shown dynamically based on scene rotation
         if(this.scene.dynamic) this.scene.showhideDynamics(this.camera.camera);
@@ -191,7 +185,6 @@ Racmacs.Viewer.prototype.load = function(
         new CustomEvent('racViewerMapLoaded', { detail : this })
     );
 
-    console.log(options);
 
 }
 

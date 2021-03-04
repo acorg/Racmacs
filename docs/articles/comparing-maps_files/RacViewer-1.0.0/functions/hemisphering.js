@@ -1,46 +1,6 @@
 
-Racmacs.HemispheringTable = class HemispheringTable extends Racmacs.TableList {
-
-	constructor(viewer){
-
-		// Set up table
-		super({
-			title   : "Hemisphering / trapped points",
-			headers : ["Type", "Name", "Num", "Diagnosis"],
-			checkbox_check_fn   : function(){ 
-				viewer.showHemisphering()
-			},
-			checkbox_uncheck_fn : function(){
-				viewer.hideHemisphering()
-			},
-			selectable : false
-		});
-
-		// Link to viewer
-		this.viewer = viewer;
-		viewer.hemispheringTable = this;
-
-		// Add event list
-		var noneSelected_deselected_opacity = viewer.styleset.noselections.unhovered.unselected.opacity;
-        var plusSelected_deselected_opacity = viewer.styleset.selections.unhovered.unselected.opacity;
-
-        var hemispheringTable = this;
-		this.tableHolder.addEventListener("mouseenter", function(){
-			if(hemispheringTable.rows.length > 0){
-	            viewer.graphics.noneSelected.deselected.opacity = plusSelected_deselected_opacity;
-	            viewer.updatePointStyles();
-        	}
-        });
-        this.tableHolder.addEventListener("mouseleave", function(){
-        	if(hemispheringTable.rows.length > 0){
-	            viewer.graphics.noneSelected.deselected.opacity = noneSelected_deselected_opacity;
-	            viewer.updatePointStyles();
-	        }
-        });
-
-        // Start with checkbox unchecked and disabled by default
-        this.checkbox.uncheck(false);
-        this.checkbox.disable();
+// Show all hemisphering information
+Racmacs.Viewer.prototype.showHemisphering = function(data){
 
 	this.hemisphering_shown = true;
 	this.points.map( (x,i) => x.showHemisphering(data[i]) );

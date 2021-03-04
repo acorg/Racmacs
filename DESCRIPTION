@@ -1,8 +1,8 @@
 Package: Racmacs
 Type: Package
-Title: Interface R with acmacs
-Version: 1.0.17
-Date: 2019-06-10
+Title: R Antigenic Cartography Macros
+Version: 1.1.3
+Date: 2021-01-22
 Author: Sam Wilks
 Maintainer: Sam Wilks <sw463@cam.ac.uk>
 Description: A toolkit for making antigenic maps from assay data such as HI assays.

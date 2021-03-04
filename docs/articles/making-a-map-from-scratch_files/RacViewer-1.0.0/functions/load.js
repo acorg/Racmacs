@@ -166,6 +166,12 @@ Racmacs.Viewer.prototype.load = function(
         if(options["point.opacity"] !== undefined && options["point.opacity"] !== null)  this.styleset.noselections.unhovered.unselected.opacity = options["point.opacity"];
         this.updatePointStyles();
 
+        // Reselect any points
+        if(options.maintain_viewpoint){ 
+            this.selectByPointIndices(selected_points); 
+            this.switchToProjection(selected_projection);
+        }
+
         // Run the function to toggle plot content that is shown dynamically based on scene rotation
         if(this.scene.dynamic) this.scene.showhideDynamics(this.camera.camera);
 

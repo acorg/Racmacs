@@ -9,8 +9,7 @@ map <- read.acmap(filename = test_path("../testdata/testmap.ace"))
 ## Test defaults
 test_that("Test acmap defaults", {
 
-  map <- acmap(table = matrix(2^(1:12 + 4), 3, 4)*10)
-  map <- optimizeMap(map, number_of_dimensions = 2, number_of_optimizations = 1, minimum_column_basis = "none")
+  map <- acmap(titer_table = matrix(2^(4:9), 3, 2)*10)
 
   expect_equal(agFill(map),             rep("green", 3)       )
   expect_equal(agOutline(map),          rep("black", 3)       )
@@ -21,15 +20,14 @@ test_that("Test acmap defaults", {
   expect_equal(agSize(map),             rep(5, 3)             )
   expect_equal(agShown(map),            rep(TRUE, 3)          )
 
-  expect_equal(srFill(map),             rep("transparent", 4) )
-  expect_equal(srOutline(map),          rep("black", 4)       )
-  expect_equal(srAspect(map),           rep(1, 4)             )
-  expect_equal(srRotation(map),         rep(0, 4)             )
-  expect_equal(srOutlineWidth(map),     rep(1, 4)             )
-  expect_equal(srDrawingOrder(map),     rep(1, 4)             )
-  expect_equal(srShape(map),            rep("BOX", 4)         )
-  expect_equal(srSize(map),             rep(5, 4)             )
-  expect_equal(srShown(map),            rep(TRUE, 4)          )
+  expect_equal(srFill(map),             rep("transparent", 2) )
+  expect_equal(srOutline(map),          rep("black", 2)       )
+  expect_equal(srAspect(map),           rep(1, 2)             )
+  expect_equal(srRotation(map),         rep(0, 2)             )
+  expect_equal(srOutlineWidth(map),     rep(1, 2)             )
+  expect_equal(srShape(map),            rep("BOX", 2)         )
+  expect_equal(srSize(map),             rep(5, 2)             )
+  expect_equal(srShown(map),            rep(TRUE, 2)          )
 
 })
 
@@ -73,14 +71,8 @@ test_that("Edit plotspec details", {
 
 test_that("Applying a plotspec", {
 
-  test_that("Applying a plotspec", {
-
-    map <- make.map(table = matrix(2^(1:12 + 4), 3, 4)*10)
-    map <- optimizeMap(map, number_of_dimensions = 2, number_of_optimizations = 1, minimum_column_basis = "none")
-
-    map1 <- cloneMap(map)
-    map2 <- cloneMap(map)
-    map3 <- cloneMap(map)
+  map <- acmap(titer_table = matrix(2^(4:9), 3, 2)*10)
+  map <- optimizeMap(map, number_of_dimensions = 2, number_of_optimizations = 1, minimum_column_basis = "none")
 
   map1 <- map
   map2 <- map

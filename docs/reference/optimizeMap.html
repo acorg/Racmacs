@@ -85,7 +85,7 @@ random starting conditions will be added to the acmap object." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">Racmacs</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.16</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.3</span>
       </span>
     </div>
 
@@ -141,13 +141,8 @@ random starting conditions will be added to the acmap object.</p>
   <span class='no'>number_of_dimensions</span>,
   <span class='no'>number_of_optimizations</span>,
   <span class='kw'>minimum_column_basis</span> <span class='kw'>=</span> <span class='st'>"none"</span>,
-  <span class='kw'>fixed_column_bases</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>move_trapped_points</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>discard_previous_optimizations</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>fixed_column_bases</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span>(<span class='fl'>NA</span>, <span class='fu'><a href='acmapAttributes.html'>numSera</a></span>(<span class='no'>map</span>)),
   <span class='kw'>sort_optimizations</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>realign_optimizations</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>dimensional_annealing</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>stepsize</span> <span class='kw'>=</span> <span class='fl'>0.1</span>,
   <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
   <span class='kw'>options</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>()
 )</pre>
@@ -173,15 +168,8 @@ random starting conditions will be added to the acmap object.</p>
     </tr>
     <tr>
       <th>fixed_column_bases</th>
-      <td><p>A vector of fixed values to use as column bases directly, rather than calculating them from the titer table.</p></td>
-    </tr>
-    <tr>
-      <th>move_trapped_points</th>
-      <td><p>Should trapped points be searched for and removed, one of 'none', 'best' or 'all' (see details)</p></td>
-    </tr>
-    <tr>
-      <th>discard_previous_optimizations</th>
-      <td><p>Should previous optimizations associated with this map be discarded?</p></td>
+      <td><p>A vector of fixed values to use as column bases
+directly, rather than calculating them from the titer table.</p></td>
     </tr>
     <tr>
       <th>sort_optimizations</th>
@@ -194,16 +182,8 @@ afterwards?</p></td>
 <code><a href='RacOptimizer.options.html'>RacOptimizer.options()</a></code></p></td>
     </tr>
     <tr>
-      <th>dimensional_annealing</th>
-      <td><p>Should dimensional annealing be applied?</p></td>
-    </tr>
-    <tr>
-      <th>stepsize</th>
-      <td><p>Step size to use when searching for trapped points (lower will be a finer search)</p></td>
-    </tr>
-    <tr>
-      <th>verbose</th>
-      <td><p>Should progress be reported?</p></td>
+      <th>options</th>
+      <td><p>List of named optimizer options, see <code><a href='RacOptimizer.options.html'>RacOptimizer.options()</a></code></p></td>
     </tr>
     <tr>
       <th>vverbose</th>

@@ -172,7 +172,7 @@ contour_blob <- function(
 
     blob <- list(
       vertices = contour_fit$vertices,
-      faces    = contour_fit$triangles,
+      faces    = contour_fit$triangles - 1,
       normals  = contour_fit$normals
     )
 

@@ -1,17 +1,15 @@
 
+// Here we can include functions to run on different loading states,
+// currently unused
+$(window).on("load", function(){});
+$(document).on('shiny:sessioninitialized', function(event) {});
 
-$(window).on("load", function(){
 
-});
-
-$(document).on('shiny:sessioninitialized', function(event) {
-
-});
-
+// Functions to run when the app session disconnects, leaving just the viewer
 $(document).on('shiny:disconnected', function(event) {
 
   // Hide the shiny elements
-  racmacsviewer.controlpanel.hideShinyElements();
+  racmacsviewer.exitGUImode();
 
 });
 
@@ -23,10 +21,16 @@ window.addEventListener("racViewerLoaded", function(e){
   var viewer = e.detail;
   racmacsviewer = viewer;
 
-  // Show the shiny elements
-  viewer.controlpanel.showShinyElements();
+  // Show the shiny-app-specific button elements in the viewer
+  viewer.enterGUImode();
 
-  // Get the file loaders
+  // Loaders and savers, these functions run a click event on the underlying
+  // but hidden load and save file buttons provided by the shiny load file
+  // functions, this allows us to have our own load file buttons nested in the
+  // custom GUI but to use the functionality of the shiny built in load file
+  // buttons
+
+  // Get references to the hidden shiny file loaders and savers
   var mapfileloader        = document.getElementById("mapDataLoaded");
   var procrustesfileloader = document.getElementById("procrustesDataLoaded");
   var tablefileloader      = document.getElementById("tableDataLoaded");
@@ -36,47 +40,74 @@ window.addEventListener("racViewerLoaded", function(e){
   var tablefilesaver = document.getElementById("tableDataSaved");
   var coordsfilesaver = document.getElementById("coordsDataSaved");
 
-
-  // Set methods to receive data from session
-  Shiny.addCustomMessageHandler("loadMapData", function(data){
-    viewer.load(JSON.parse(data));
-  });
-  Shiny.addCustomMessageHandler("reloadMapData", function(data){
-    viewer.load(JSON.parse(data), { maintain_viewpoint:true });
-  });
-  Shiny.addCustomMessageHandler("animateCoords",       function(data){
-    viewer.animateToCoords(data);
-    viewer.clearDiagnostics();
-  });
-  Shiny.addCustomMessageHandler("setCoords",           function(data){
-    viewer.setCoords(data);
-    viewer.clearDiagnostics();
-  });
-  Shiny.addCustomMessageHandler("addHemispheringData", function(data){
-    viewer.addHemispheringData(data);
-  });
-
-  // Loaders
-  viewer.onLoadMap           = function(){ mapfileloader.click()        };
-  viewer.onLoadTable         = function(){
+  // Link click events from the GUI load buttons
+  viewer.onLoadMap = function(){
+    mapfileloader.click()
+  };
+  viewer.onLoadTable = function(){
     tablefileloader.click();
     this.controlpanel.tabset.showTab("hitable");
   };
-  viewer.onLoadPointStyles   = function(){ pointstylefileloader.click() };
+  viewer.onLoadPointStyles = function(){
+    pointstylefileloader.click()
+  };
 
-  // Savers
-  viewer.onSaveMap           = function(){
+  // Link click events from the GUI save buttons
+  viewer.onSaveMap = function(){
     Shiny.setInputValue("selectedPoints", viewer.getSelectedPointIndices(), { priority : "event" });
     mapfilesaver.click()
   };
-  viewer.onSaveTable         = function(){
+  viewer.onSaveTable = function(){
     Shiny.setInputValue("selectedPoints", viewer.getSelectedPointIndices(), { priority : "event" });
     tablefilesaver.click()
   };
-  viewer.onSaveCoords        = function(){
+  viewer.onSaveCoords = function(){
     Shiny.setInputValue("selectedPoints", viewer.getSelectedPointIndices(), { priority : "event" });
     coordsfilesaver.click()
   };
+
+
+  // Set methods to receive data from session, passing the data onto the
+  // javascript viewer to be updated and displayed appropriately
+  Shiny.addCustomMessageHandler("loadMapData", function(data){
+    viewer.load(JSON.parse(data));
+  });
+
+  Shiny.addCustomMessageHandler("reloadMapData", function(data){
+    viewer.load(JSON.parse(data), { maintain_viewpoint:true });
+  });
+
+  Shiny.addCustomMessageHandler("updateMapData", function(data){
+    var selected_opt = viewer.data.projection();
+    viewer.data.load(JSON.parse(data));
+    viewer.data.setProjection(selected_opt);
+  });
+
+  Shiny.addCustomMessageHandler("animateCoords", function(data){
+    viewer.animateToCoords(data);
+    viewer.clearDiagnostics();
+  });
+
+  Shiny.addCustomMessageHandler("setCoords", function(data){
+    viewer.setCoords(data);
+    viewer.clearDiagnostics();
+  });
+
+  Shiny.addCustomMessageHandler("addBlobData", function(data){
+    viewer.addStressBlobs(data);
+  });
+
+  Shiny.addCustomMessageHandler("addHemispheringData", function(data){
+    viewer.showHemisphering(data);
+  });
+
+  Shiny.addCustomMessageHandler("addProcrustesData", function(data){
+    viewer.addProcrustesToBaseCoords(data);
+  });
+
+
+  // Set methods to send data to the app session in the background, reporting
+  // that the user has done something like click a button
 
   // Flip map
   viewer.onReflectMap = function(axis){
@@ -90,15 +121,17 @@ window.addEventListener("racViewerLoaded", function(e){
     procrustesfileloader.click();
   };
 
-  // Signals
-  viewer.onRelaxMap          = function(){
+  // Relaxing the map
+  viewer.onRelaxMap = function(){
     Shiny.setInputValue("relaxMap", true, { priority : "event" });
   };
 
+  // Relaxing the map one step
   viewer.onRelaxMapOneStep = function(){
     Shiny.setInputValue("relaxMapOneStep", true, { priority : "event" });
   };
 
+  // Randomizing points
   viewer.onRandomizeMap = function(){
     Shiny.setInputValue("randomizeMap", true, { priority : "event" });
   };

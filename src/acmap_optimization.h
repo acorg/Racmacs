@@ -69,15 +69,25 @@ class AcOptimization {
     void set_translation( arma::mat translation_in ){ translation = translation_in; }
     void set_stress( double stress_in ){ stress = stress_in; }
 
-    void set_fixed_column_bases( arma::vec fixed_column_bases_in ){
+    void set_fixed_column_bases(
+        arma::vec fixed_column_bases_in,
+        bool reset_stress = true
+      ){
+
+      // Check fixed col bases validity
       if(fixed_column_bases_in.n_elem != sr_base_coords.n_rows){
         Rf_error("Fixed column base length does not match the number of sera");
       }
       fixed_column_bases = fixed_column_bases_in;
+
+      // Invalidate stress
+      if (reset_stress) invalidate_stress();
+
     }
 
     void set_min_column_basis(
-      const std::string min_column_basis_in
+      const std::string min_column_basis_in,
+      bool reset_stress = true
     ){
 
       // Check min col basis validity
@@ -88,8 +98,13 @@ class AcOptimization {
       // Set min col basis
       min_column_basis = min_column_basis_in;
 
+      // Invalidate stress
+      if (reset_stress) invalidate_stress();
+
     }
 
+    // Invalidate the currently calculated stress, for example when points are moved
+    void invalidate_stress() { stress = arma::datum::nan; }
 
     // Getting antigen base coords
     arma::mat get_ag_base_coords() const { return ag_base_coords; }
@@ -116,6 +131,7 @@ class AcOptimization {
       }
       // Update coords
       ag_base_coords = ag_base_coords_in;
+      invalidate_stress();
     }
 
 
@@ -127,6 +143,7 @@ class AcOptimization {
       }
       // Update coords
       sr_base_coords = sr_base_coords_in;
+      invalidate_stress();
     }
 
 
@@ -143,6 +160,7 @@ class AcOptimization {
       for(arma::uword i=0; i<ag_base_coords.n_cols; i++){
         ag_base_coords( ag_index, i ) = ag_base_coords_in(i);
       }
+      invalidate_stress();
     }
 
 
@@ -159,6 +177,7 @@ class AcOptimization {
       for(arma::uword i=0; i<sr_base_coords.n_cols; i++){
         ag_base_coords( sr_index, i ) = sr_base_coords_in(i);
       }
+      invalidate_stress();
     }
 
 
@@ -176,6 +195,7 @@ class AcOptimization {
       }
       // Update coords
       ag_base_coords.rows( ag_indices ) = ag_base_coords_in;
+      invalidate_stress();
     }
 
 
@@ -193,6 +213,7 @@ class AcOptimization {
       }
       // Update coords
       sr_base_coords.rows( sr_indices ) = sr_base_coords_in;
+      invalidate_stress();
     }
 
 
@@ -210,7 +231,7 @@ class AcOptimization {
     }
 
     // Retrieve point base coordinates (ag then sera)
-    arma::mat ptBaseCoords(){
+    arma::mat ptBaseCoords() const {
       return arma::join_cols(
         ag_base_coords,
         sr_base_coords
@@ -246,7 +267,7 @@ class AcOptimization {
     // Apply the optimization transform to an arbitrary set of coordinates
     arma::mat applyTransformation(
       arma::mat coords
-    ) const{
+    ) const {
       return transform_coords(
         coords,
         transformation,
@@ -258,8 +279,8 @@ class AcOptimization {
     void bake_transformation(){
 
       // Set the base coordinates
-      set_ag_base_coords(agCoords());
-      set_sr_base_coords(srCoords());
+      ag_base_coords = agCoords();
+      sr_base_coords = srCoords();
 
       // Reset transformation and translation
       set_transformation(
@@ -342,7 +363,7 @@ class AcOptimization {
     // Calculate the column bases
     arma::vec calc_colbases(
        AcTiterTable titers
-    ){
+    ) const {
       return titers.colbases(
         min_column_basis,
         fixed_column_bases
@@ -362,6 +383,7 @@ class AcOptimization {
       arma::mat coeff = arma::princomp(coords);
       ag_base_coords = ag_base_coords*coeff.cols(0, dims);
       sr_base_coords = sr_base_coords*coeff.cols(0, dims);
+      invalidate_stress();
 
     }
 
@@ -376,6 +398,7 @@ class AcOptimization {
       sr_base_coords.randu();
       ag_base_coords = ag_base_coords*(max-min) + min;
       sr_base_coords = sr_base_coords*(max-min) + min;
+      invalidate_stress();
 
     }
 
@@ -434,6 +457,22 @@ class AcOptimization {
 
     }
 
+    // Removing antigens and sera
+    void remove_antigen(
+        arma::uword ag
+    ){
+      ag_base_coords.shed_row(ag);
+      ag_diagnostics.erase(ag_diagnostics.begin() + ag);
+    }
+
+    void remove_serum(
+        arma::uword sr
+    ){
+      sr_base_coords.shed_row(sr);
+      sr_diagnostics.erase(sr_diagnostics.begin() + sr);
+      fixed_column_bases.shed_row(sr);
+    }
+
     // Subsetting
     void subset(
         arma::uvec ags,
@@ -445,6 +484,7 @@ class AcOptimization {
       fixed_column_bases = fixed_column_bases.elem(sr);
       ag_diagnostics = subset_vector(ag_diagnostics, ags);
       sr_diagnostics = subset_vector(sr_diagnostics, sr);
+      invalidate_stress();
 
     }
 

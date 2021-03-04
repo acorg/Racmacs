@@ -164,27 +164,22 @@ Value jsonifya(
 
 }
 
-// From point diagnostics
-template <>
-Value jsonifya(
-    const AcDiagnostics& d,
-    Document::AllocatorType& allocator
-){
-
-  Value ptdiag(kObjectType);
-
-  // Hemisphering info
-  Value pthemi(kArrayType);
-  for(arma::uword i=0; i<d.hemi.size(); i++){
-    Value hemi(kObjectType);
-    hemi.AddMember("d", jsonifya(d.hemi[i].diagnosis, allocator), allocator);
-    hemi.AddMember("c", jsonifya(d.hemi[i].coords, allocator), allocator);
-    pthemi.PushBack(hemi, allocator);
-  }
-  ptdiag.AddMember("h", pthemi, allocator);
-
-  return ptdiag;
-
-}
+// // From point hemisphering info
+// template <>
+// Value jsonifya(
+//     const std::vector<HemiDiagnosis>& hemidata,
+//     Document::AllocatorType& allocator
+// ){
+//
+//   Value pthemi(kArrayType);
+//   for(arma::uword i=0; i<hemidata.size(); i++){
+//     Value hemi(kObjectType);
+//     hemi.AddMember("d", jsonifya(hemidata[i].diagnosis, allocator), allocator);
+//     hemi.AddMember("c", jsonifya(hemidata[i].coords, allocator), allocator);
+//     pthemi.PushBack(hemi, allocator);
+//   }
+//   return pthemi;
+//
+// }
 
 #endif

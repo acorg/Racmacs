@@ -146,16 +146,33 @@ colBases <- function(map, optimization_number = 1) {
 }
 
 
-#' Get the current map stress
+#' Calculate the current map stress
+#'
+#' @param map The acmap object
+#' @param optimization_number The optimization number for which to calculate stress
+#'
 #' @name mapStress
 #' @family {map optimization attribute functions}
-#' @eval roxygen_tags(
-#'   methods    = c("mapStress"),
-#'   args       = c("map", "optimization_number = 1"),
-#'   returns    = "Returns the map stress value for the optimization run."
-#' )
-mapStress     <- optimization_getter(ac_opt_get_stress)
-`mapStress<-` <- optimization_setter(ac_opt_set_stress, check.numeric)
+#' @export
+#'
+mapStress <- function(
+  map,
+  optimization_number = 1
+  ){
+
+  ac_coords_stress(
+    tabledist_matrix = tableDistances(map, optimization_number),
+    titertype_matrix = titertypesTable(map),
+    ag_coords = agBaseCoords(map, optimization_number),
+    sr_coords = srBaseCoords(map, optimization_number)
+  )
+
+}
+
+
+# Functions to get and set the optimization stress value directly, not exported
+optStress     <- optimization_getter(ac_opt_get_stress)
+`optStress<-` <- optimization_setter(ac_opt_set_stress, check.numeric)
 
 
 #' Get the current map dimensions

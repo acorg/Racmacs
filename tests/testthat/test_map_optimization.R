@@ -51,6 +51,9 @@ test_that("Optimizing a perfect map", {
   expect_equal(numOptimizations(perfect_map_opt), 1000)
   expect_lt(pcdata$total_rmsd, 0.001)
 
+  # Check stresses are calculated correctly
+  expect_lt(optStress(perfect_map_opt, 1), 0.001)
+
 })
 
 # Finding trapped points
@@ -332,8 +335,13 @@ test_that("Moving trapped points", {
 # Randomizing coordinates
 test_that("Randomize map coordinates", {
 
+  orig_stress <- mapStress(map)
   rmap <- randomizeCoords(map)
+  new_stress <- mapStress(rmap)
+
   expect_true(sum(agCoords(map) - agCoords(rmap)) != 0)
   expect_true(sum(srCoords(map) - srCoords(rmap)) != 0)
+  expect_gt(new_stress, orig_stress)
+  expect_true(is.na(optStress(rmap)))
 
 })

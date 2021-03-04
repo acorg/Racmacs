@@ -6,9 +6,6 @@
 \usage{
 RacViewer(
   map,
-  rotation,
-  translation,
-  zoom,
   plotdata = NULL,
   show_procrustes = FALSE,
   options = list(),
@@ -19,12 +16,6 @@ RacViewer(
 }
 \arguments{
 \item{map}{The map data object}
-
-\item{rotation}{Viewer rotation}
-
-\item{translation}{Viewer translation}
-
-\item{zoom}{Viewer zoom}
 
 \item{plotdata}{r3js plot data}
 
@@ -38,6 +29,12 @@ RacViewer(
 \item{height}{Height of the widget}
 
 \item{elementId}{DOM element ID}
+
+\item{rotation}{Viewer rotation}
+
+\item{translation}{Viewer translation}
+
+\item{zoom}{Viewer zoom}
 }
 \description{
 This creates an html widget for viewing antigenic maps.

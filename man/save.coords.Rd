@@ -4,7 +4,13 @@
 \alias{save.coords}
 \title{Save acmap coordinate data to a file}
 \usage{
-save.coords(map, filename, antigens = TRUE, sera = TRUE)
+save.coords(
+  map,
+  filename,
+  optimization_number = 1,
+  antigens = TRUE,
+  sera = TRUE
+)
 }
 \arguments{
 \item{map}{The acmap data object.}

@@ -202,7 +202,7 @@ Racmacs.utils.translateCoords = function(
 	coords, 
 	translation
 ){
-
+	
     if(coords.length == 2){
     	
     	if(translation.length == 2){
@@ -248,9 +248,13 @@ Racmacs.utils.transformTranslateCoords = function(
 	transformation,
 	translation
 ){
-    
-    coords = Racmacs.utils.transformCoords(coords, transformation);
-    coords = Racmacs.utils.translateCoords(coords, translation);
+
+	if (transformation !== null) { 
+		coords = Racmacs.utils.transformCoords(coords, transformation);
+	}
+    if (translation !== null) { 
+    	coords = Racmacs.utils.translateCoords(coords, translation);
+    }
     return(coords);
 
 }

@@ -552,10 +552,6 @@ AcOptimization as(SEXP sxp){
   // Populate
   acopt.set_ag_base_coords( ag_base_coords );
   acopt.set_sr_base_coords( sr_base_coords );
-
-  if(opt.containsElementNamed("stress")) {
-    acopt.set_stress( as<double>(wrap(opt["stress"])) );
-  }
   if(opt.containsElementNamed("transformation")) {
     acopt.set_transformation( as<arma::mat>(wrap(opt["transformation"])) );
   }
@@ -582,6 +578,9 @@ AcOptimization as(SEXP sxp){
     for (arma::uword i=0; i<sr_diagnostics.size(); i++) {
       acopt.sr_diagnostics[i] = as<AcDiagnostics>(wrap(sr_diagnostics[i]));
     }
+  }
+  if(opt.containsElementNamed("stress")) {
+    acopt.set_stress( as<double>(wrap(opt["stress"])) );
   }
 
   // Return the object

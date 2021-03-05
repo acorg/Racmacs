@@ -55,8 +55,12 @@ plotspec_setter <- function(pttype, fn, checker_fn = NULL) {
       } else {
         function(map, value) {
           check.acmap(map)
-          if (is.null(value)) { stop("Cannot set null value") }
-          if (!is.null(checker_fn)) { checker_fn(value) }
+          if (is.null(value)) {
+            stop("Cannot set null value")
+          }
+          if (!is.null(checker_fn)) {
+            checker_fn(value)
+          }
           if (length(value) == 1) {
             value <- rep_len(value, numSera(map))
           } else if (length(value) != numSera(map)) {

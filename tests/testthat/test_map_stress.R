@@ -32,5 +32,3 @@ test_that("point stress per titer", {
   expect_equal(length(sr_stress_per_titer), numSera(map))
 
 })
-
-

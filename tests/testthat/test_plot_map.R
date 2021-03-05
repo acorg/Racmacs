@@ -14,6 +14,3 @@ test_that("Plotting a bare bones", {
   expect_null(x)
 
 })
-
-
-

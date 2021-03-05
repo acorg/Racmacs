@@ -490,4 +490,3 @@ ptHemisphering <- function(map, optimization_number = 1) {
 hasHemisphering <- function(map, optimization_number = 1) {
   sum(vapply(ptHemisphering(map, optimization_number), function(x) length(x) > 0, logical(1))) > 0
 }
-

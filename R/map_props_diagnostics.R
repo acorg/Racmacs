@@ -2,7 +2,7 @@
 agDiagnostics <- function(
   map,
   optimization_number = 1
-  ){
+  ) {
 
   out <- map$optimizations[[optimization_number]]$ag_diagnostics
   if (is.null(out)) out <- lapply(seq_len(numAntigens(map)), function(x) NULL)
@@ -14,7 +14,7 @@ agDiagnostics <- function(
   map,
   optimization_number = 1,
   value
-  ){
+  ) {
 
   map$optimizations[[optimization_number]]$ag_diagnostics <- value
   map
@@ -24,7 +24,7 @@ agDiagnostics <- function(
 srDiagnostics <- function(
   map,
   optimization_number = 1
-){
+  ) {
 
   out <- map$optimizations[[optimization_number]]$sr_diagnostics
   if (is.null(out)) out <- lapply(seq_len(numSera(map)), function(x) NULL)
@@ -36,7 +36,7 @@ srDiagnostics <- function(
   map,
   optimization_number = 1,
   value
-){
+  ) {
 
   map$optimizations[[optimization_number]]$sr_diagnostics <- value
   map

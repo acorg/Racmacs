@@ -14,10 +14,10 @@ rot_mat <- matrix(
 inv_rot_mat <- t(rot_mat)
 
 coords1 <- matrix(runif(10), ncol = 2)
-coords2 <- coords1%*%rot_mat
-coords3 <- coords2%*%inv_rot_mat
+coords2 <- coords1 %*% rot_mat
+coords3 <- coords2 %*% inv_rot_mat
 
-trans_mat <- matrix(c(2.4,3.8), nrow = 1)
+trans_mat <- matrix(c(2.4, 3.8), nrow = 1)
 
 
 # Create new maps
@@ -47,25 +47,25 @@ matching_sr <- rbind(
   c(2, 5)
 )
 
-for(x in seq_len(nrow(matching_ags))){
-  ag_names1[matching_ags[x,1]] <- paste("Matched antigen", x)
-  ag_names2[matching_ags[x,2]] <- paste("Matched antigen", x)
+for (x in seq_len(nrow(matching_ags))) {
+  ag_names1[matching_ags[x, 1]] <- paste("Matched antigen", x)
+  ag_names2[matching_ags[x, 2]] <- paste("Matched antigen", x)
 }
 
-for(x in seq_len(nrow(matching_sr))){
-  sr_names1[matching_sr[x,1]] <- paste("Matched sera", x)
-  sr_names2[matching_sr[x,2]] <- paste("Matched sera", x)
+for (x in seq_len(nrow(matching_sr))) {
+  sr_names1[matching_sr[x, 1]] <- paste("Matched sera", x)
+  sr_names2[matching_sr[x, 2]] <- paste("Matched sera", x)
 }
 
 
 # Generate coordinates
-ag_coords1 <- matrix(runif(num_ags[1]*2)*10, ncol = 2)
-ag_coords2 <- matrix(runif(num_ags[2]*2)*10, ncol = 2)
+ag_coords1 <- matrix(runif(num_ags[1] * 2) * 10, ncol = 2)
+ag_coords2 <- matrix(runif(num_ags[2] * 2) * 10, ncol = 2)
 rownames(ag_coords1) <- ag_names1
 rownames(ag_coords2) <- ag_names2
 
-sr_coords1 <- matrix(runif(num_sr[1]*2)*10, ncol = 2)
-sr_coords2 <- matrix(runif(num_sr[2]*2)*10, ncol = 2)
+sr_coords1 <- matrix(runif(num_sr[1] * 2) * 10, ncol = 2)
+sr_coords2 <- matrix(runif(num_sr[2] * 2) * 10, ncol = 2)
 rownames(sr_coords1) <- sr_names1
 rownames(sr_coords2) <- sr_names2
 
@@ -93,18 +93,18 @@ ag_order1rot <- sample(seq_along(ag_names1))
 sr_order1rot <- sample(seq_along(sr_names1))
 
 ## Add some name mismatches
-ag_mismatches1rot <- c(1,6)
-sr_mismatches1rot <- c(2,3)
+ag_mismatches1rot <- c(1, 6)
+sr_mismatches1rot <- c(2, 3)
 ag_names1rot <- ag_names1[ag_order1rot]
 sr_names1rot <- sr_names1[sr_order1rot]
 ag_names1rot[ag_mismatches1rot] <- paste("Mismatched antigen", ag_mismatches1rot)
 sr_names1rot[sr_mismatches1rot] <- paste("Mismatched sera",    sr_mismatches1rot)
 
 ## Rotate and translate the coordinates
-ag_coords1rot <- ag_coords1%*%rot_mat + matrix(trans_mat, num_ags[1], 2, byrow = TRUE)
-sr_coords1rot <- sr_coords1%*%rot_mat + matrix(trans_mat, num_sr[1],  2, byrow = TRUE)
-ag_coords1rot <- ag_coords1rot[ag_order1rot,]
-sr_coords1rot <- sr_coords1rot[sr_order1rot,]
+ag_coords1rot <- ag_coords1 %*% rot_mat + matrix(trans_mat, num_ags[1], 2, byrow = TRUE)
+sr_coords1rot <- sr_coords1 %*% rot_mat + matrix(trans_mat, num_sr[1],  2, byrow = TRUE)
+ag_coords1rot <- ag_coords1rot[ag_order1rot, ]
+sr_coords1rot <- sr_coords1rot[sr_order1rot, ]
 
 map1rot <- acmap(
   ag_coords = ag_coords1rot,
@@ -145,8 +145,8 @@ test_that("Procrustes a map to itself", {
 test_that("Realign to a transformed version", {
 
   omap1 <- realignMap(map1, map1rot)
-  expect_equal(unname(srCoords(omap1)[sr_order1rot,]), unname(srCoords(map1rot)))
-  expect_equal(unname(agCoords(omap1)[ag_order1rot,]), unname(agCoords(map1rot)))
+  expect_equal(unname(srCoords(omap1)[sr_order1rot, ]), unname(srCoords(map1rot)))
+  expect_equal(unname(agCoords(omap1)[ag_order1rot, ]), unname(agCoords(map1rot)))
 
 })
 
@@ -162,8 +162,8 @@ test_that("Procrustes to a transformed version", {
 
   expected_pc_coords_ag <- agCoords(map1rot)
   expected_pc_coords_sr <- srCoords(map1rot)
-  expected_pc_coords_ag[ag_mismatches1rot,] <- NA
-  expected_pc_coords_sr[sr_mismatches1rot,] <- NA
+  expected_pc_coords_ag[ag_mismatches1rot, ] <- NA
+  expected_pc_coords_sr[sr_mismatches1rot, ] <- NA
 
   expect_equal(round(pc1$ag_dists, 5), expected_ag_dists)
   expect_equal(round(pc1$sr_dists, 5), expected_sr_dists)
@@ -178,18 +178,18 @@ test_that("Procrustes to a transformed version", {
 # Realign a map that's been rotated into 3D
 test_that("Realigning 2D to 3D and back", {
 
-  coords2d <- matrix(c(2,3,1,8,3,3,2,9,1,0), 5, 2)
-  coords3d <- coords2d %*% rotation_matrix_3D(1.2, "y")[1:2,]
+  coords2d <- matrix(c(2, 3, 1, 8, 3, 3, 2, 9, 1, 0), 5, 2)
+  coords3d <- coords2d %*% rotation_matrix_3D(1.2, "y")[1:2, ]
 
   map2d <- acmap(
-    ag_coords = coords2d[1:3,],
-    sr_coords = coords2d[4:5,],
+    ag_coords = coords2d[1:3, ],
+    sr_coords = coords2d[4:5, ],
     minimum_column_basis = "none"
   )
 
   map3d <- acmap(
-    ag_coords = coords3d[1:3,],
-    sr_coords = coords3d[4:5,],
+    ag_coords = coords3d[1:3, ],
+    sr_coords = coords3d[4:5, ],
     minimum_column_basis = "none"
   )
 
@@ -217,22 +217,22 @@ test_that("Realigning 2D to 3D and back", {
 # Realign a map that's been rotated into 3D
 test_that("Realigning 2D to 3D and back in a rotated map", {
 
-  coords2d <- matrix(c(2,3,1,8,3,3,2,9,1,0), 5, 2)
+  coords2d <- matrix(c(2, 3, 1, 8, 3, 3, 2, 9, 1, 0), 5, 2)
 
   map2d <- acmap(
-    ag_coords = coords2d[1:3,],
-    sr_coords = coords2d[4:5,],
+    ag_coords = coords2d[1:3, ],
+    sr_coords = coords2d[4:5, ],
     minimum_column_basis = "none"
   )
 
   map3d <- acmap(
-    ag_coords = coords2d[1:3,],
-    sr_coords = coords2d[4:5,],
+    ag_coords = coords2d[1:3, ],
+    sr_coords = coords2d[4:5, ],
     minimum_column_basis = "none"
   )
 
   mapTransformation(map3d) <- rotation_matrix_3D(1, "x")
-  mapTranslation(map3d)    <- matrix(c(1,2))
+  mapTranslation(map3d)    <- matrix(c(1, 2))
 
   pc2d3d <- procrustesData(
     map2d,
@@ -336,8 +336,8 @@ test_that("Realigning map optimizations 2D to 3D", {
 test_that("Procrustes maps with na coords", {
 
   map1na <- map1
-  agCoords(map1na)[1:2,] <- NA
-  srCoords(map1na)[1,] <- NA
+  agCoords(map1na)[1:2, ] <- NA
+  srCoords(map1na)[1, ] <- NA
 
   export.viewer.test(
     view(map1na),
@@ -357,5 +357,3 @@ test_that("Procrustes maps with na coords", {
   )
 
 })
-
-

@@ -1,12 +1,12 @@
 
 # Save map
-server_saveMapData <- function(env){
+server_saveMapData <- function(env) {
 
   savepath <- shinyFiles::parseSavePath(
     env$save_volumes,
     env$input$mapDataSaved
   )$datapath
-  req(savepath)
+  shiny::req(savepath)
 
   message("Saving map...", appendLF = F)
 
@@ -31,10 +31,10 @@ server_saveMapData <- function(env){
 
 
 # Save table
-server_saveTableData <- function(env){
+server_saveTableData <- function(env) {
 
   savepath <- shinyFiles::parseSavePath(env$save_volumes, env$input$tableDataSaved)$datapath
-  req(savepath)
+  shiny::req(savepath)
 
   message("Saving table...", appendLF = F)
 
@@ -52,13 +52,13 @@ server_saveTableData <- function(env){
 
 
 # Save coords
-server_saveCoordsData <- function(env){
+server_saveCoordsData <- function(env) {
 
   savepath <- shinyFiles::parseSavePath(
     env$save_volumes,
     env$input$coordsDataSaved
   )$datapath
-  req(savepath)
+  shiny::req(savepath)
 
   message("Saving coords...", appendLF = F)
 

@@ -4,7 +4,7 @@ library(testthat)
 context("Test local map creation (test_map_creation.R)")
 
 # Set test table
-testtable <- matrix(2^(1:6)*10, 3, 2)
+testtable <- matrix(2 ^ (1:6) * 10, 3, 2)
 
 # Bare bones creation
 test_that("Bare bones creation", {
@@ -23,8 +23,8 @@ test_that("Bare bones creation", {
   ag_names <- paste("Antigen", 1:5)
   sr_names <- paste("Serum", 1:5)
 
-  ag_coords <- matrix(1:10,5,2)
-  sr_coords <- matrix(11:20,5,2)
+  ag_coords <- matrix(1:10, 5, 2)
+  sr_coords <- matrix(11:20, 5, 2)
 
   ag_coords3d <- cbind(ag_coords, 2)
   sr_coords3d <- cbind(sr_coords, 2)
@@ -79,5 +79,3 @@ test_that("Making a map and optimizing", {
     minimum_column_basis    = "none"
   )
 })
-
-

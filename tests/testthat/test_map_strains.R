@@ -15,7 +15,7 @@ ptattributes <- tibble::tribble(
 test_that("Edit map strain details", {
 
   # Name testing
-  for(n in seq_len(nrow(ptattributes))){
+  for (n in seq_len(nrow(ptattributes))) {
 
     property       <- ptattributes$attr[n]
     edit_supported <- ptattributes$settable[n]
@@ -30,7 +30,7 @@ test_that("Edit map strain details", {
     ag_names_new <- paste0(agGetterFunction(map), "_NEW")
     sr_names_new <- paste0(srGetterFunction(map), "_NEW")
 
-    if(edit_supported){
+    if (edit_supported) {
       agGetterFunction(map) <- ag_names_new
       srGetterFunction(map) <- sr_names_new
       expect_equal(agGetterFunction(map), ag_names_new)
@@ -91,5 +91,3 @@ test_that("Mix of known and unknown dates", {
   )
 
 })
-
-

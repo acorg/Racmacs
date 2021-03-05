@@ -341,7 +341,7 @@ grid.plot.acmap <- function(
           gp = grid::gpar(
             col  = pts$outline[i],
             fill = "transparent",
-            lwd = pts$outline_width[i]*2
+            lwd = pts$outline_width[i] * 2
           ),
           vp = viewport
         )
@@ -365,8 +365,8 @@ grid.plot.acmap <- function(
           }
 
           ghemi <- grid::linesGrob(
-            x   = c(pts$coords[i,1], hemi$coords[1]),
-            y   = c(pts$coords[i,2], hemi$coords[2]),
+            x   = c(pts$coords[i, 1], hemi$coords[1]),
+            y   = c(pts$coords[i, 2], hemi$coords[2]),
             gp = grid::gpar(
               col  = arrowcol,
               fill = arrowcol,

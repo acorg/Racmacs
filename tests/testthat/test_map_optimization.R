@@ -61,7 +61,7 @@ test_that("Finding hemisphering points", {
 
   # Create an antigen hemisphering point
   hemi_map_ag <- perfect_map
-  titerTable(hemi_map_ag)[1, -c(2,7)] <- "*"
+  titerTable(hemi_map_ag)[1, -c(2, 7)] <- "*"
 
   hemi_map_ag <- optimizeMap(
     map = hemi_map_ag,
@@ -85,7 +85,7 @@ test_that("Finding hemisphering points", {
 
   # Create a sera hemisphering point
   hemi_map_sr <- perfect_map
-  titerTable(hemi_map_sr)[-c(1,7), 6] <- "*"
+  titerTable(hemi_map_sr)[-c(1, 7), 6] <- "*"
 
   hemi_map_sr <- optimizeMap(
     map = hemi_map_sr,
@@ -111,8 +111,8 @@ test_that("Finding hemisphering points", {
 
 # Read testmap
 map <- read.acmap(test_path("../testdata/testmap.ace"))
-titerTable(map)[1,3:4] <- "*"
-titerTable(map)[4,1:2] <- "*"
+titerTable(map)[1, 3:4] <- "*"
+titerTable(map)[4, 1:2] <- "*"
 
 colbase_matrix <- matrix(
   data = colBases(map),
@@ -123,7 +123,7 @@ colbase_matrix <- matrix(
 
 mapDistances(map) + colbase_matrix
 
-test_that("Getting numeric titers",{
+test_that("Getting numeric titers", {
 
   titers <- titerTable(map)
   titers <- gsub("[<>]", "", titers)
@@ -137,14 +137,14 @@ test_that("Getting numeric titers",{
 
 })
 
-test_that("Calculating table distances",{
+test_that("Calculating table distances", {
 
   colbases <- ac_table_colbases(
     titer_table = titerTable(map),
     fixed_col_bases = rep(NA, numSera(map)),
     min_col_basis = "none"
   )
-  expect_equal(colbases, c(8,9,9,9,8))
+  expect_equal(colbases, c(8, 9, 9, 9, 8))
 
   table_dists <- ac_table_distances(
     titer_table = titerTable(map),
@@ -160,7 +160,7 @@ test_that("Calculating table distances",{
   )
 
   expect_equal(
-    colbase_matrix - log2(numeric_titers/10),
+    colbase_matrix - log2(numeric_titers / 10),
     table_dists
   )
 
@@ -263,11 +263,11 @@ test_that("Relax a map with fixed coords", {
   expect_true(all.equal(agCoords(map_unrelaxed), agCoords(map_relaxed_fixed_all)))
   expect_true(all.equal(srCoords(map_unrelaxed), srCoords(map_relaxed_fixed_all)))
 
-  map_relaxed_fixed_specific <- relaxMap(map_unrelaxed, fixed_antigens = c(2,3), fixed_sera = c(1,4))
-  expect_true(isTRUE(all.equal(agCoords(map_unrelaxed)[c(2,3),], agCoords(map_relaxed_fixed_specific)[c(2,3),])))
-  expect_true(isTRUE(all.equal(srCoords(map_unrelaxed)[c(1,4),], srCoords(map_relaxed_fixed_specific)[c(1,4),])))
-  expect_false(isTRUE(all.equal(agCoords(map_unrelaxed)[-c(2,3),], agCoords(map_relaxed_fixed_specific)[-c(2,3),])))
-  expect_false(isTRUE(all.equal(srCoords(map_unrelaxed)[-c(1,4),], srCoords(map_relaxed_fixed_specific)[-c(1,4),])))
+  map_relaxed_fixed_specific <- relaxMap(map_unrelaxed, fixed_antigens = c(2, 3), fixed_sera = c(1, 4))
+  expect_true(isTRUE(all.equal(agCoords(map_unrelaxed)[c(2, 3), ], agCoords(map_relaxed_fixed_specific)[c(2, 3), ])))
+  expect_true(isTRUE(all.equal(srCoords(map_unrelaxed)[c(1, 4), ], srCoords(map_relaxed_fixed_specific)[c(1, 4), ])))
+  expect_false(isTRUE(all.equal(agCoords(map_unrelaxed)[-c(2, 3), ], agCoords(map_relaxed_fixed_specific)[-c(2, 3), ])))
+  expect_false(isTRUE(all.equal(srCoords(map_unrelaxed)[-c(1, 4), ], srCoords(map_relaxed_fixed_specific)[-c(1, 4), ])))
 
 })
 

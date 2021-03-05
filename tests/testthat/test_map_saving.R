@@ -4,8 +4,7 @@ library(testthat)
 context("Saving map data")
 
 test_that(
-  "Saving a map",
-  {
+  "Saving a map", {
 
     save_file <- test_path("../testdata/testmap.ace")
     temp      <- tempfile(fileext = ".ace")
@@ -18,8 +17,7 @@ test_that(
 )
 
 test_that(
-  "Map saves and loads additional attributes",
-  {
+  "Map saves and loads additional attributes", {
 
     map <- read.acmap(test_path("../testdata/testmap.ace"))
     expect_equal(agIDs(map), rep("", numAntigens(map)))
@@ -51,8 +49,8 @@ test_that(
     expect_equal(agGroups(map_loaded), as.factor(ag_groups))
     expect_equal(srGroups(map_loaded), as.factor(sr_groups))
 
-    ag_subset <- c(2,4,5)
-    sr_subset <- c(1,2,4)
+    ag_subset <- c(2, 4, 5)
+    sr_subset <- c(1, 2, 4)
     subset_map <- subsetMap(
       map,
       antigens = ag_subset,
@@ -68,15 +66,14 @@ test_that(
 )
 
 test_that(
-  "Map saves and loads group factors",
-  {
+  "Map saves and loads group factors", {
 
     map <- read.acmap(test_path("../testdata/testmap.ace"))
     ag_groups <- factor(paste0("AGGROUP", seq_len(numAntigens(map))))
     sr_groups <- factor(paste0("AGGROUP", seq_len(numSera(map))))
 
     ag_groups[3:4] <- NA
-    sr_groups[c(2,4)] <- NA
+    sr_groups[c(2, 4)] <- NA
 
     agGroups(map) <- ag_groups
     srGroups(map) <- sr_groups
@@ -91,8 +88,8 @@ test_that(
     expect_equal(agGroups(map_loaded), ag_groups)
     expect_equal(srGroups(map_loaded), sr_groups)
 
-    ag_subset <- c(2,4,5)
-    sr_subset <- c(1,2,4)
+    ag_subset <- c(2, 4, 5)
+    sr_subset <- c(1, 2, 4)
     subset_map <- subsetMap(
       map,
       antigens = ag_subset,
@@ -104,6 +101,3 @@ test_that(
 
   }
 )
-
-
-

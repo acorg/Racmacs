@@ -25,7 +25,7 @@ sera_names <- srNames(map)
 minimum_column_bases <- c("640", "none")
 dimensions           <- c(2, 3)
 
-for(x in seq_along(minimum_column_bases)){
+for (x in seq_along(minimum_column_bases)) {
 
   minimum_column_basis <- minimum_column_bases[x]
 
@@ -43,12 +43,12 @@ for(x in seq_along(minimum_column_bases)){
 
 # Setting crazy values of wrong type
 test_that("Incorrect inputs", {
-  expect_error( agBaseCoords(map) <- rep(1, 1000) )
-  expect_error( srBaseCoords(map) <- rep(1, 1000) )
-  expect_error( mapTransformation(map) <- rep(1, 1000) )
-  expect_error( mapTranslation(map) <- rep(1, 1000) )
-  expect_error( mapComment(map) <- rep(1, 1000) )
-  expect_error( mapStress(map) <- rep(1, 1000) )
+  expect_error(agBaseCoords(map) <- rep(1, 1000))
+  expect_error(srBaseCoords(map) <- rep(1, 1000))
+  expect_error(mapTransformation(map) <- rep(1, 1000))
+  expect_error(mapTranslation(map) <- rep(1, 1000))
+  expect_error(mapComment(map) <- rep(1, 1000))
+  expect_error(mapStress(map) <- rep(1, 1000))
 })
 
 # Wrong length mincolbasis
@@ -84,7 +84,7 @@ test_that("Error when column bases the wrong length", {
       ag_coords = ag_coords,
       sr_coords = sr_coords,
       minimum_column_basis = "fixed",
-      fixed_column_bases = c(4,3,4,5,9)
+      fixed_column_bases = c(4, 3, 4, 5, 9)
     ),
     regexp = "Fixed column base length does not match the number of sera"
   )
@@ -95,7 +95,7 @@ testmap <- addOptimization(
   map       = map,
   ag_coords = ag_coords,
   sr_coords = sr_coords,
-  fixed_column_bases = c(4,3,4,5)
+  fixed_column_bases = c(4, 3, 4, 5)
 )
 
 optimization_num <- numOptimizations(testmap)
@@ -104,8 +104,6 @@ optimization_num <- numOptimizations(testmap)
 test_that("Fixed column bases specified correctly upon adding optimization", {
   expect_equal(
     unname(colBases(testmap, optimization_num)),
-    c(4,3,4,5)
+    c(4, 3, 4, 5)
   )
 })
-
-

@@ -21,7 +21,7 @@ excluded_fns <- c(
 fns <- fns[!fns %in% excluded_fns]
 
 # Test each function
-for(fn_name in fns){
+for (fn_name in fns) {
 
   # if(fn_name == "titerTable<-") browser()
   test_that(
@@ -37,7 +37,7 @@ for(fn_name in fns){
       expect_error(do.call(fn, vals))
 
       # Check NULL
-      vals <- lapply(vals, function(x){ NULL })
+      vals <- lapply(vals, function(x) NULL)
       expect_error(do.call(fn, vals))
 
     }

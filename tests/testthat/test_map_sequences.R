@@ -54,9 +54,3 @@ test_that("H3 map with sequences", {
   )
 
 })
-
-
-
-
-
-

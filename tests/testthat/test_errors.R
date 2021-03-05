@@ -14,4 +14,3 @@ test_that("errors when no optimizations are available", {
   )
 
 })
-

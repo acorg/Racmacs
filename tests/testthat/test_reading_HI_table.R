@@ -39,7 +39,9 @@ test_that("Reading a table with asterisks", {
 # Read file with blanks
 test_that("Reading a table with blanks", {
 
-  expect_warning({ titer_table <- read.titerTable(test_path("../testdata/titer_tables/titer_table4_blank.csv")) })
+  expect_warning({
+    titer_table <- read.titerTable(test_path("../testdata/titer_tables/titer_table4_blank.csv"))
+  })
   expect_known_output(
     titer_table,
     test_path("../testdata/titer_tables/titer_table4.RData"),
@@ -47,6 +49,3 @@ test_that("Reading a table with blanks", {
   )
 
 })
-
-
-

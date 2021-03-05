@@ -35,7 +35,7 @@ convertSelectedPoints <- function(selections, map) {
 }
 
 # Require that a map is relaxed, otherwise stop execution of reactive function
-reqRelaxed <- function(map, optimization_num, session){
+reqRelaxed <- function(map, optimization_num, session) {
 
   relaxed <- mapRelaxed(map, optimization_num)
   if (!relaxed) {
@@ -46,7 +46,7 @@ reqRelaxed <- function(map, optimization_num, session){
       type = "error",
       session = session
     )
-    req(relaxed)
+    shiny::req(relaxed)
   }
 
 }
@@ -66,8 +66,7 @@ reqOptimizations <- function(
       type = "error",
       session = session
     )
-    req(has_optimizations)
+    shiny::req(has_optimizations)
   }
 
 }
-

@@ -7,7 +7,7 @@
 #
 #   set.seed(100)
 #   r3jsh5map <- h5map
-#   for(x in 2:length(h5map$ag_names)){
+#   for(x in 2:length(h5map$ag_names)) {
 #     r3jsh5map <- r3js::lines3js(data3js = r3jsh5map,
 #                                 x = c(h5map$ag_coords[x-1,1], h5map$ag_coords[x,1]),
 #                                 y = c(h5map$ag_coords[x-1,2], h5map$ag_coords[x,2]),

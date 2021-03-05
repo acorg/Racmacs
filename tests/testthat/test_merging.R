@@ -32,7 +32,7 @@ test_that("Test log titer conversion", {
 
 test_that("Test titer merging", {
 
-  for(x in seq_len(nrow(titer_merge_tests))){
+  for (x in seq_len(nrow(titer_merge_tests))) {
 
     expect_equal(
       titer_merge_tests$expected[x],
@@ -59,15 +59,15 @@ test_that("sd_lim working", {
 
 test_that("titer table merging working", {
 
-  titer_tables <- lapply(1:4, function(x){
+  titer_tables <- lapply(1:4, function(x) {
     matrix(
-      apply(titer_merge_tests[-(1:5),"sum"], 1, function(l){ l$sum[x] }),
+      apply(titer_merge_tests[-(1:5), "sum"], 1, function(l) l$sum[x] ),
       4, 2
     )
   })
 
   test_merged_table <- matrix(
-    unlist(titer_merge_tests[-(1:5),1]),
+    unlist(titer_merge_tests[-(1:5), 1]),
     4, 2
   )
 
@@ -77,5 +77,3 @@ test_that("titer table merging working", {
   )
 
 })
-
-

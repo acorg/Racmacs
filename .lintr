@@ -1,4 +1,4 @@
 linters: with_defaults(
   line_length_linter(120),
-  object_name_linter(c("snake_case", "camelCase"))
+  object_name_linter = NULL
   )

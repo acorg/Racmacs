@@ -159,7 +159,7 @@ view.acmap <- function(
     widget <- htmlwidgets::onRender(
       x      = widget,
       jsCode = "function(el, x, data) { el.viewer.showHemisphering(data) }",
-      data   = I(ptHemisphering(x,optimization_number))
+      data   = I(ptHemisphering(x, optimization_number))
     )
 
   }

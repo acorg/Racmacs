@@ -158,7 +158,7 @@ colBases <- function(map, optimization_number = 1) {
 mapStress <- function(
   map,
   optimization_number = 1
-  ){
+  ) {
 
   ac_coords_stress(
     tabledist_matrix = tableDistances(map, optimization_number),

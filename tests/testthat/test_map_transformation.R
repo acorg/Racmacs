@@ -14,8 +14,8 @@ map <- read.acmap(test_path("../testdata/testmap.ace"))
 # Add a 3D optimization
 map <- addOptimization(
   map,
-  ag_coords = matrix(runif(numAntigens(map)*3)*10, ncol = 3),
-  sr_coords = matrix(runif(numSera(map)*3)*10, ncol = 3),
+  ag_coords = matrix(runif(numAntigens(map) * 3) * 10, ncol = 3),
+  sr_coords = matrix(runif(numSera(map) * 3) * 10, ncol = 3),
   minimum_column_basis = "none"
 )
 
@@ -83,15 +83,15 @@ test_that("Applying the map transformation to coordinates", {
 
 
 # Resetting coordinates after rotation
-agCoords(map)[2,] <- c(12,20)
-srCoords(map)[3,] <- c(6,2)
-agCoords(map, optimization_number = 3)[1,] <- c(2,9,7)
-srCoords(map, optimization_number = 3)[5,] <- c(1,2,1)
+agCoords(map)[2, ] <- c(12, 20)
+srCoords(map)[3, ] <- c(6, 2)
+agCoords(map, optimization_number = 3)[1, ] <- c(2, 9, 7)
+srCoords(map, optimization_number = 3)[5, ] <- c(1, 2, 1)
 
-expected_ag_coords[2,] <- c(12,20)
-expected_sr_coords[3,] <- c(6,2)
-expected_ag_coords3D[1,] <- c(2,9,7)
-expected_sr_coords3D[5,] <- c(1,2,1)
+expected_ag_coords[2, ] <- c(12, 20)
+expected_sr_coords[3, ] <- c(6, 2)
+expected_ag_coords3D[1, ] <- c(2, 9, 7)
+expected_sr_coords3D[5, ] <- c(1, 2, 1)
 
 test_that("Setting coordinates after rotation", {
   expect_close(agCoords(map), expected_ag_coords)
@@ -104,10 +104,10 @@ test_that("Setting coordinates after rotation", {
 map <- reflectMap(map, "x", optimization_number = 1)
 map <- reflectMap(map, "x", optimization_number = 3)
 
-expected_ag_coords <- expected_ag_coords %*% matrix(c(1,0,0,-1), 2, 2)
-expected_sr_coords <- expected_sr_coords %*% matrix(c(1,0,0,-1), 2, 2)
-expected_ag_coords3D <- expected_ag_coords3D %*% matrix(c(1,0,0,0,-1,0,0,0,-1), 3, 3)
-expected_sr_coords3D <- expected_sr_coords3D %*% matrix(c(1,0,0,0,-1,0,0,0,-1), 3, 3)
+expected_ag_coords <- expected_ag_coords %*% matrix(c(1, 0, 0, -1), 2, 2)
+expected_sr_coords <- expected_sr_coords %*% matrix(c(1, 0, 0, -1), 2, 2)
+expected_sr_coords3D <- expected_sr_coords3D %*% matrix(c(1, 0, 0, 0, -1, 0, 0, 0, -1), 3, 3)
+expected_ag_coords3D <- expected_ag_coords3D %*% matrix(c(1, 0, 0, 0, -1, 0, 0, 0, -1), 3, 3)
 
 test_that("Reflecting in x axis", {
   expect_close(agCoords(map), expected_ag_coords)
@@ -118,15 +118,15 @@ test_that("Reflecting in x axis", {
 
 
 # Resetting coordinates after reflection
-agCoords(map)[2,] <- c(12,20)
-srCoords(map)[3,] <- c(6,2)
-agCoords(map, optimization_number = 3)[1,] <- c(2,9,7)
-srCoords(map, optimization_number = 3)[5,] <- c(1,2,1)
+agCoords(map)[2, ] <- c(12, 20)
+srCoords(map)[3, ] <- c(6, 2)
+agCoords(map, optimization_number = 3)[1, ] <- c(2, 9, 7)
+srCoords(map, optimization_number = 3)[5, ] <- c(1, 2, 1)
 
-expected_ag_coords[2,] <- c(12,20)
-expected_sr_coords[3,] <- c(6,2)
-expected_ag_coords3D[1,] <- c(2,9,7)
-expected_sr_coords3D[5,] <- c(1,2,1)
+expected_ag_coords[2, ] <- c(12, 20)
+expected_sr_coords[3, ] <- c(6, 2)
+expected_ag_coords3D[1, ] <- c(2, 9, 7)
+expected_sr_coords3D[5, ] <- c(1, 2, 1)
 
 test_that("Resetting coordinates after reflection", {
   expect_close(agCoords(map), expected_ag_coords)
@@ -140,10 +140,10 @@ test_that("Resetting coordinates after reflection", {
 map <- reflectMap(map, "y", optimization_number = 1)
 map <- reflectMap(map, "y", optimization_number = 3)
 
-expected_ag_coords <- expected_ag_coords %*% matrix(c(-1,0,0,1), 2, 2)
-expected_sr_coords <- expected_sr_coords %*% matrix(c(-1,0,0,1), 2, 2)
-expected_ag_coords3D <- expected_ag_coords3D %*% matrix(c(-1,0,0,0,1,0,0,0,-1), 3, 3)
-expected_sr_coords3D <- expected_sr_coords3D %*% matrix(c(-1,0,0,0,1,0,0,0,-1), 3, 3)
+expected_ag_coords <- expected_ag_coords %*% matrix(c(-1, 0, 0, 1), 2, 2)
+expected_sr_coords <- expected_sr_coords %*% matrix(c(-1, 0, 0, 1), 2, 2)
+expected_ag_coords3D <- expected_ag_coords3D %*% matrix(c(-1, 0, 0, 0, 1, 0, 0, 0, -1), 3, 3)
+expected_sr_coords3D <- expected_sr_coords3D %*% matrix(c(-1, 0, 0, 0, 1, 0, 0, 0, -1), 3, 3)
 
 test_that("Reflecting in y axis", {
   expect_close(agCoords(map), expected_ag_coords)
@@ -156,12 +156,10 @@ test_that("Reflecting in y axis", {
 # Reflecting in z axis
 map <- reflectMap(map, "z", optimization_number = 3)
 
-expected_ag_coords3D <- expected_ag_coords3D %*% matrix(c(-1,0,0,0,-1,0,0,0,1), 3, 3)
-expected_sr_coords3D <- expected_sr_coords3D %*% matrix(c(-1,0,0,0,-1,0,0,0,1), 3, 3)
+expected_ag_coords3D <- expected_ag_coords3D %*% matrix(c(-1, 0, 0, 0, -1, 0, 0, 0, 1), 3, 3)
+expected_sr_coords3D <- expected_sr_coords3D %*% matrix(c(-1, 0, 0, 0, -1, 0, 0, 0, 1), 3, 3)
 
 test_that("Reflecting in z axis", {
   expect_close(agCoords(map, 3), expected_ag_coords3D)
   expect_close(srCoords(map, 3), expected_sr_coords3D)
 })
-
-

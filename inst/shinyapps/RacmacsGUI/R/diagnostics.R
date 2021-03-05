@@ -1,6 +1,6 @@
 
 # Adding stress blob information
-server_stressBlobs <- function(env){
+server_stressBlobs <- function(env) {
 
   shiny::showNotification(
     ui = "Calculating stress blobs...",
@@ -62,7 +62,7 @@ server_stressBlobs <- function(env){
 
 
 # Check and add hemisphering information
-server_checkHemisphering <- function(env){
+server_checkHemisphering <- function(env) {
 
   # Check the map is relaxed
   reqRelaxed(env$storage$map, env$storage$opt_selected, env$session)
@@ -102,7 +102,7 @@ server_checkHemisphering <- function(env){
 }
 
 # Moving trapped points
-server_moveTrappedPoints <- function(env){
+server_moveTrappedPoints <- function(env) {
 
   shiny::showNotification(
     ui = "Moving trapped points...",
@@ -138,7 +138,7 @@ server_moveTrappedPoints <- function(env){
 }
 
 # Procrustes points
-server_procrustesMap <- function(env){
+server_procrustesMap <- function(env) {
 
   shiny::showNotification(
     ui = "Calculating procrustes... ",

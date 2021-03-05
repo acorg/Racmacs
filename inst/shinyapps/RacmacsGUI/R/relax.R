@@ -1,6 +1,6 @@
 
 # Relax map
-server_relaxMap <- function(env){
+server_relaxMap <- function(env) {
 
   if (mapRelaxed(env$storage$map, env$storage$opt_selected)) {
 
@@ -52,7 +52,7 @@ server_relaxMap <- function(env){
 }
 
 # Relax map on step
-server_relaxMapOneStep <- function(env){
+server_relaxMapOneStep <- function(env) {
 
   if (mapRelaxed(env$storage$map, env$storage$opt_selected)) {
 
@@ -86,10 +86,9 @@ server_relaxMapOneStep <- function(env){
 }
 
 # Randomizing coords
-server_randomizeMap <- function(env){
+server_randomizeMap <- function(env) {
 
   env$storage$map <- randomizeCoords(env$storage$map, env$storage$opt_selected)
   env$session$sendCustomMessage("reloadMapData", as.json(env$storage$map))
 
 }
-

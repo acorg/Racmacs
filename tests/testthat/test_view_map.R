@@ -63,7 +63,7 @@ test_that("Viewing aligned optimizations", {
 # Viewing maps
 test_that("Viewing a map", {
 
-  agCoords(map)[1,] <- c(5.1, 5.4)
+  agCoords(map)[1, ] <- c(5.1, 5.4)
   x <- view(map)
   expect_equal(class(x), c("RacViewer", "htmlwidget"))
   export.viewer.test(
@@ -228,4 +228,3 @@ test_that("Map snapshot", {
   expect_true(file.exists(snapshotfile))
 
 })
-

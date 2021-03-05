@@ -6,17 +6,17 @@ plotspec_getter <- function(pttype, fn) {
       pttype = pttype,
       fn = fn
     ), expr = {
-      if(pttype == "ag"){
-        function(map){
+      if (pttype == "ag") {
+        function(map) {
           check.acmap(map)
-          sapply(map$antigens, function(ag){
+          sapply(map$antigens, function(ag) {
             fn(ag$plotspec)
           })
         }
       } else {
-        function(map, value){
+        function(map, value) {
           check.acmap(map)
-          sapply(map$sera, function(sr){
+          sapply(map$sera, function(sr) {
             fn(sr$plotspec)
           })
         }
@@ -26,39 +26,43 @@ plotspec_getter <- function(pttype, fn) {
 }
 
 # Function factory for plotspec setter functions
-plotspec_setter <- function(pttype, fn, checker_fn = NULL){
+plotspec_setter <- function(pttype, fn, checker_fn = NULL) {
   eval(
     substitute(env = list(
       pttype = pttype,
       fn = fn
     ), expr = {
-      if(pttype == "ag"){
-        function(map, value){
+      if (pttype == "ag") {
+        function(map, value) {
           check.acmap(map)
-          if(is.null(value)){ stop("Cannot set null value") }
-          if(!is.null(checker_fn)){ checker_fn(value) }
-          if(length(value) == 1){
+          if (is.null(value)) {
+            stop("Cannot set null value")
+          }
+          if (!is.null(checker_fn)) {
+            checker_fn(value)
+          }
+          if (length(value) == 1) {
             value <- rep_len(value, numAntigens(map))
-          } else if(length(value) != numAntigens(map)){
+          } else if (length(value) != numAntigens(map)) {
             stop("Input does not match the number of antigens", call. = FALSE)
           }
-          map$antigens <- lapply(seq_along(map$antigens), function(x){
+          map$antigens <- lapply(seq_along(map$antigens), function(x) {
             map$antigens[[x]]$plotspec <- fn(map$antigens[[x]]$plotspec, value[x])
             map$antigens[[x]]
           })
           map
         }
       } else {
-        function(map, value){
+        function(map, value) {
           check.acmap(map)
-          if(is.null(value)){ stop("Cannot set null value") }
-          if(!is.null(checker_fn)){ checker_fn(value) }
-          if(length(value) == 1){
+          if (is.null(value)) { stop("Cannot set null value") }
+          if (!is.null(checker_fn)) { checker_fn(value) }
+          if (length(value) == 1) {
             value <- rep_len(value, numSera(map))
-          } else if(length(value) != numSera(map)){
+          } else if (length(value) != numSera(map)) {
             stop("Input does not match the number of sera", call. = FALSE)
           }
-          map$sera <- lapply(seq_along(map$sera), function(x){
+          map$sera <- lapply(seq_along(map$sera), function(x) {
             map$sera[[x]]$plotspec <- fn(map$sera[[x]]$plotspec, value[x])
             map$sera[[x]]
           })
@@ -125,31 +129,31 @@ srShape        <- plotspec_getter("sr", ac_plotspec_get_shape)
 `srShape<-`        <- plotspec_setter("sr", ac_plotspec_set_shape, check.charactervector)
 
 # Extra functions that include a color validation step
-validate_colors <- function(cols){
+validate_colors <- function(cols) {
   tryCatch(
     grDevices::col2rgb(cols),
-    error = function(e){
+    error = function(e) {
       stop(e$message, call. = FALSE)
     }
   )
 }
 
-`agFill<-` <- function(map, value){
+`agFill<-` <- function(map, value) {
   validate_colors(value)
   `agFill_raw<-`(map, value)
 }
 
-`srFill<-` <- function(map, value){
+`srFill<-` <- function(map, value) {
   validate_colors(value)
   `srFill_raw<-`(map, value)
 }
 
-`agOutline<-` <- function(map, value){
+`agOutline<-` <- function(map, value) {
   validate_colors(value)
   `agOutline_raw<-`(map, value)
 }
 
-`srOutline<-` <- function(map, value){
+`srOutline<-` <- function(map, value) {
   validate_colors(value)
   `srOutline_raw<-`(map, value)
 }
@@ -172,18 +176,17 @@ validate_colors <- function(cols){
 
 #' @rdname ptDrawingOrder
 #' @export
-ptDrawingOrder <- function(map){
+ptDrawingOrder <- function(map) {
   drawing_order <- map$pt_drawing_order
-  if(is.null(drawing_order)) drawing_order <- seq_len(numPoints(map))
+  if (is.null(drawing_order)) drawing_order <- seq_len(numPoints(map))
   drawing_order
 }
 
 #' @rdname ptDrawingOrder
 #' @export
-`ptDrawingOrder<-` <- function(map, value){
-  if(!is.numeric(value)) stop("drawing order must be numeric", call. = FALSE)
-  if(sort(value) != seq_along(value)) stop("drawing incorrectly specified", call. = FALSE)
+`ptDrawingOrder<-` <- function(map, value) {
+  if (!is.numeric(value)) stop("drawing order must be numeric", call. = FALSE)
+  if (sort(value) != seq_along(value)) stop("drawing incorrectly specified", call. = FALSE)
   map$pt_drawing_order <- value
   map
 }
-

@@ -45,5 +45,3 @@ test_that("Setting a rotating grid", {
   )
 
 })
-
-

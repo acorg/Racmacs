@@ -9,7 +9,7 @@ map <- read.acmap(filename = test_path("../testdata/testmap.ace"))
 ## Test defaults
 test_that("Test acmap defaults", {
 
-  map <- acmap(titer_table = matrix(2^(4:9), 3, 2)*10)
+  map <- acmap(titer_table = matrix(2^(4:9), 3, 2) * 10)
 
   expect_equal(agFill(map),             rep("green", 3)       )
   expect_equal(agOutline(map),          rep("black", 3)       )
@@ -46,7 +46,7 @@ plotspec_features <- list(
 
 test_that("Edit plotspec details", {
 
-  for(n in seq_along(plotspec_features)){
+  for (n in seq_along(plotspec_features)) {
 
     property         <- names(plotspec_features)[n]
     test_value       <- plotspec_features[[n]]
@@ -71,7 +71,7 @@ test_that("Edit plotspec details", {
 
 test_that("Applying a plotspec", {
 
-  map <- acmap(titer_table = matrix(2^(4:9), 3, 2)*10)
+  map <- acmap(titer_table = matrix(2^(4:9), 3, 2) * 10)
   map <- optimizeMap(map, number_of_dimensions = 2, number_of_optimizations = 1, minimum_column_basis = "none")
 
   map1 <- map
@@ -100,5 +100,3 @@ test_that("Applying a plotspec", {
   expect_equal(srFill(map3ps), c(srFill(map3)[1:2], srFill(map1)[-(1:2)]))
 
 })
-
-

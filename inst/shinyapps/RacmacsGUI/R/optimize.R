@@ -1,6 +1,6 @@
 
 # Running optimizations
-server_runOptimizations <- function(env){
+server_runOptimizations <- function(env) {
 
   shiny::showNotification(
     ui = "Optimizing map...",

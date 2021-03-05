@@ -56,5 +56,3 @@ test_that("plot map v table distances", {
 #
 # plot_srStressPerTiter(map)
 # plotly_srStressPerTiter(map)
-
-

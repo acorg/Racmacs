@@ -13,7 +13,7 @@ num_antigens <- numAntigens(map)
 num_sera     <- numSera(map)
 
 # Subset the maps
-test_map_subset <- function(map, ag_subset, sr_subset){
+test_map_subset <- function(map, ag_subset, sr_subset) {
 
   map_subset <- subsetMap(map, ag_subset, sr_subset)
   ag_subset <- get_ag_indices(ag_subset, map)
@@ -31,9 +31,9 @@ test_map_subset <- function(map, ag_subset, sr_subset){
   expect_equal(titerTable(map_subset), titerTable(map)[ag_subset, sr_subset])
 
   # Optimizations
-  for(x in seq_len(numOptimizations(map))){
-    expect_equal(agCoords(map_subset, x), agCoords(map, x)[ag_subset,,drop=F])
-    expect_equal(srCoords(map_subset, x), srCoords(map, x)[sr_subset,,drop=F])
+  for (x in seq_len(numOptimizations(map))) {
+    expect_equal(agCoords(map_subset, x), agCoords(map, x)[ag_subset, , drop = F])
+    expect_equal(srCoords(map_subset, x), srCoords(map, x)[sr_subset, , drop = F])
   }
 
 }
@@ -50,10 +50,9 @@ test_that("Error on incorrect subsetting", {
 
 test_that("Subset of map is correct", {
 
-  test_map_subset(map, seq_len(num_antigens-1), seq_len(num_sera-1))
-  test_map_subset(map, seq_len(num_antigens-1)+1, seq_len(num_sera-1)+1)
-  test_map_subset(map, c(1,1,2,3), c(2,2,2))
-  test_map_subset(map, c(2,1,2,3), c(3,2,1))
+  test_map_subset(map, seq_len(num_antigens - 1), seq_len(num_sera - 1))
+  test_map_subset(map, seq_len(num_antigens - 1) + 1, seq_len(num_sera - 1) + 1)
+  test_map_subset(map, c(1, 1, 2, 3), c(2, 2, 2))
+  test_map_subset(map, c(2, 1, 2, 3), c(3, 2, 1))
 
 })
-

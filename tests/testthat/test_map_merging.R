@@ -6,8 +6,8 @@ set.seed(100)
 context("Merging maps")
 
 # Setup titer subsets
-logtoraw <- function(x){
-  x[!is.na(x)] <- 2^x[!is.na(x)]*10
+logtoraw <- function(x) {
+  x[!is.na(x)] <- 2^x[!is.na(x)] * 10
   x[is.na(x)]  <- "*"
   x[x == "5"]  <- "<10"
   x
@@ -16,14 +16,14 @@ logtoraw <- function(x){
 ag_names <- paste("Antigen", 1:10)
 sr_names <- paste("Serum", 1:8)
 
-ag_subset1 <- c(4,2,3,9,8,6)
-sr_subset1 <- c(5,2,4)
+ag_subset1 <- c(4, 2, 3, 9, 8, 6)
+sr_subset1 <- c(5, 2, 4)
 
-ag_subset2 <- c(8,3,9,2)
-sr_subset2 <- c(2,4,6,8,7,1)
+ag_subset2 <- c(8, 3, 9, 2)
+sr_subset2 <- c(2, 4, 6, 8, 7, 1)
 
 logtiters <- matrix(
-  sample(-1:8, length(ag_names)*length(sr_names), replace = T),
+  sample(-1:8, length(ag_names) * length(sr_names), replace = T),
   length(ag_names),
   length(sr_names)
 )
@@ -113,7 +113,7 @@ test_that("Table merging", {
     sr_names[merged_sr_subset]
   )
 
-  for(x in seq_along(titerTableLayers(merged_map))){
+  for (x in seq_along(titerTableLayers(merged_map))) {
     expect_equal(
       nrow(titerTableLayers(merged_map)[[x]]),
       length(merged_ag_subset)
@@ -128,10 +128,10 @@ test_that("Table merging", {
 })
 
 map0 <- acmap(titer_table = matrix(logtoraw(-1:4),   3, 2))
-map1 <- acmap(titer_table = matrix(logtoraw(-1:4+1), 3, 2))
-map2 <- acmap(titer_table = matrix(logtoraw(-1:4+2), 3, 2))
-map3 <- acmap(titer_table = matrix(logtoraw(-1:4+3), 3, 2))
-map4 <- acmap(titer_table = matrix(logtoraw(-1:4+4), 3, 2))
+map1 <- acmap(titer_table = matrix(logtoraw(-1:4 + 1), 3, 2))
+map2 <- acmap(titer_table = matrix(logtoraw(-1:4 + 2), 3, 2))
+map3 <- acmap(titer_table = matrix(logtoraw(-1:4 + 3), 3, 2))
+map4 <- acmap(titer_table = matrix(logtoraw(-1:4 + 4), 3, 2))
 
 mergemap1 <- read.acmap(test_path("../testdata/test_mergemap1.ace"))
 mergemap2 <- read.acmap(test_path("../testdata/test_mergemap2.ace"))
@@ -151,8 +151,8 @@ test_that("Reading in titers from a map", {
 
 test_that("Titers from flat maps", {
 
-  expect_equal(unname(titerTable(map2)), matrix(logtoraw(-1:4+2), 3, 2))
-  expect_equal(titerTableLayers(map2), list(matrix(logtoraw(-1:4+2), 3, 2)))
+  expect_equal(unname(titerTable(map2)), matrix(logtoraw(-1:4 + 2), 3, 2))
+  expect_equal(titerTableLayers(map2), list(matrix(logtoraw(-1:4 + 2), 3, 2)))
 
 })
 
@@ -162,8 +162,8 @@ test_that("Merging titers", {
   # expect_equal(unname(titerTable(map13)), matrix(logtoraw(-1:4+2), 3, 2))
   expect_equal(unname(titerTable(map13)), matrix("*", 3, 2))
   expect_equal(titerTableLayers(map13), list(
-    matrix(logtoraw(-1:4+1), 3, 2),
-    matrix(logtoraw(-1:4+3), 3, 2)
+    matrix(logtoraw(-1:4 + 1), 3, 2),
+    matrix(logtoraw(-1:4 + 3), 3, 2)
   ))
 
 })
@@ -250,22 +250,22 @@ test_that("Frozen merge", {
 
   expect_true(isTRUE(all.equal(
     agBaseCoords(mergemap1),
-    agBaseCoords(frozen_merge12)[match(agNames(mergemap1), agNames(frozen_merge12)),]
+    agBaseCoords(frozen_merge12)[match(agNames(mergemap1), agNames(frozen_merge12)), ]
   )))
 
   expect_false(isTRUE(all.equal(
     agBaseCoords(mergemap1),
-    agBaseCoords(frozen_merge12)[-match(agNames(mergemap1), agNames(frozen_merge12)),]
+    agBaseCoords(frozen_merge12)[-match(agNames(mergemap1), agNames(frozen_merge12)), ]
   )))
 
   expect_true(isTRUE(all.equal(
     srBaseCoords(mergemap1),
-    srBaseCoords(frozen_merge12)[match(srNames(mergemap1), srNames(frozen_merge12)),]
+    srBaseCoords(frozen_merge12)[match(srNames(mergemap1), srNames(frozen_merge12)), ]
   )))
 
   expect_false(isTRUE(all.equal(
     srBaseCoords(mergemap1),
-    srBaseCoords(frozen_merge12)[-match(srNames(mergemap1), srNames(frozen_merge12)),]
+    srBaseCoords(frozen_merge12)[-match(srNames(mergemap1), srNames(frozen_merge12)), ]
   )))
 
   expect_equal(
@@ -296,7 +296,3 @@ test_that("Incremental merge", {
   })
 
 })
-
-
-
-

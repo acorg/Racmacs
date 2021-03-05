@@ -61,4 +61,3 @@ export.viewer.test(
   view(blobmap3d),
   filename = "map3d_with_stressblobs.html"
 )
-

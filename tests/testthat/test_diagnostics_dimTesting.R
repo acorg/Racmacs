@@ -13,7 +13,7 @@ titerTable(map)[4:6, 3] <- "*"
 titerTable(map)[8:10, 5] <- "*"
 
 # Set variables
-test_dims <- c(2,3,4)
+test_dims <- c(2, 3, 4)
 colbases_from_full <- FALSE
 
 # Run the dimension test
@@ -35,15 +35,15 @@ test_that("Dimension testing", {
 
 
   # Check correct number of predicted results
-  lapply(results, function(result){
+  lapply(results, function(result) {
     expect_equal(
       length(result$test_indices),
-      round(sum(titer_table != "*")*0.1)
+      round(sum(titer_table != "*") * 0.1)
     )
   })
 
   # Check test titers are always the measured ones
-  lapply(results, function(result){
+  lapply(results, function(result) {
     expect_equal(
       sum(titer_table[result$test_indices] == "*"),
       0
@@ -57,11 +57,11 @@ test_that("Dimension testing", {
   )
 
   # Check attributes for each run
-  lapply(results, function(result){
+  lapply(results, function(result) {
 
-    log_titer_table <- log2(numeric_titer_table/10)
-    if(!colbases_from_full) log_titer_table[result$test_indices] <- NA
-    colbases <- apply(log_titer_table, 2, max, na.rm=T)
+    log_titer_table <- log2(numeric_titer_table / 10)
+    if (!colbases_from_full) log_titer_table[result$test_indices] <- NA
+    colbases <- apply(log_titer_table, 2, max, na.rm = T)
     table_dists <- matrix(colbases, nrow(log_titer_table), ncol(log_titer_table), byrow = T) - log_titer_table
     titer_types <- matrix(NA, nrow(log_titer_table), ncol(log_titer_table))
     titer_types[] <- titer_types_int(titer_table)
@@ -71,14 +71,14 @@ test_that("Dimension testing", {
     expect_equal(length(result$coords), length(test_dims))
 
 
-    for(x in seq_along(result$dim)){
+    for (x in seq_along(result$dim)) {
       # Check maps are always relaxed
       train_titer_table <- titer_table
       train_titer_table[result$test_indices] <- "*"
       testmap <- acmap(titer_table = train_titer_table)
       testmap <- addOptimization(testmap, number_of_dimensions = 2)
-      agBaseCoords(testmap) <- result$coords[[x]][seq_len(numAntigens(map)),,drop=F]
-      srBaseCoords(testmap) <- result$coords[[x]][-seq_len(numAntigens(map)),,drop=F]
+      agBaseCoords(testmap) <- result$coords[[x]][seq_len(numAntigens(map)), , drop = F]
+      srBaseCoords(testmap) <- result$coords[[x]][-seq_len(numAntigens(map)), , drop = F]
       testmap <- relaxMap(testmap)
       expect_lt(
         mean(abs(rbind(
@@ -89,7 +89,7 @@ test_that("Dimension testing", {
       )
 
       # Check predicted titers are correct
-      agsrdists <- as.matrix(dist(result$coords[[x]]))[seq_len(numAntigens(map)),-seq_len(numAntigens(map))]
+      agsrdists <- as.matrix(dist(result$coords[[x]]))[seq_len(numAntigens(map)), -seq_len(numAntigens(map))]
       predicted_dists <- matrix(colbases, nrow(log_titer_table), ncol(log_titer_table), byrow = T) - agsrdists
 
       expect_equal(
@@ -105,10 +105,8 @@ test_that("Dimension testing", {
 test_that("Dimension testing summary", {
 
   dimtest_summary <- summary(dimtest)
-  expect_equal(dim(dimtest_summary), c(3,5))
+  expect_equal(dim(dimtest_summary), c(3, 5))
 
 })
 
 warning("Need further testing of the dimension test")
-
-

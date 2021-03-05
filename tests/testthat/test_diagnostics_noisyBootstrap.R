@@ -18,6 +18,3 @@ bsmap <- bootstrapMap(
 expect_equal(length(bsmap$bootstrap), num_bs_repeats)
 
 warning("Need some more bootstrap map tests")
-
-
-

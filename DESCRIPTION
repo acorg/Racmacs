@@ -27,7 +27,8 @@ Imports:
     ggplot2,
     htmltools,
     methods,
-    rstudioapi
+    rstudioapi,
+    rmarchingcubes
 LazyData: TRUE
 Suggests: 
     testthat,
@@ -46,7 +47,8 @@ LinkingTo:
     RcppEnsmallen, 
     rapidjsonr
 Remotes: 
-    shwilks/r3js
+    shwilks/r3js,
+    shwilks/rmarchingcubes
 VignetteBuilder: knitr
 URL: https://github.com/acorg/Racmacs
 BugReports: https://github.com/acorg/Racmacs/issues

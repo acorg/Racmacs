@@ -7,21 +7,25 @@ void check_valid_titer(
   std::string titer
 ){
 
-  // titer_expr("^[<>]?[0-9]+$");
-
-  // Remove first
-  if(titer.at(0) == '<' || titer.at(0) == '>'){
-    titer.erase(0,1);
-  }
-
-  // Check conversion
+  // Skip if titer at 0
   if(titer.at(0) != '*' || titer.length() != 1){
-    try {
-      std::stod(titer);
-    } catch(...) {
+
+    // Remove first
+    if(titer.at(0) == '<' || titer.at(0) == '>'){
+      titer.erase(0,1);
+    }
+
+    // Check remaining values are valid numeric
+    if(
+      titer.at(0) == '0'
+      || titer.find_first_not_of("0123456789") != std::string::npos
+      ) {
+
       std::string msg = "Invalid titer '"+titer+"'";
       Rf_error(msg.c_str());
+
     }
+
   }
 
 }

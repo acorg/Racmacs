@@ -82,7 +82,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">Racmacs</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.16</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.3</span>
       </span>
     </div>
 
@@ -131,40 +131,44 @@
     </div>
 
     <pre class="usage"><span class='fu'>mergeMaps</span>(
-  <span class='no'>...</span>,
+  <span class='no'>maps</span>,
   <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"table"</span>,
-  <span class='kw'>passage_matching</span> <span class='kw'>=</span> <span class='st'>"auto"</span>,
+  <span class='no'>number_of_dimensions</span>,
+  <span class='no'>number_of_optimizations</span>,
   <span class='kw'>minimum_column_basis</span> <span class='kw'>=</span> <span class='st'>"none"</span>,
-  <span class='kw'>number_of_optimizations</span> <span class='kw'>=</span> <span class='fl'>100</span>,
-  <span class='no'>number_of_dimensions</span>
+  <span class='kw'>options</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>()
 )</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>...</th>
-      <td><p>Antigenic map objects to merge</p></td>
+      <th>maps</th>
+      <td><p>List of acmaps to merge</p></td>
     </tr>
     <tr>
       <th>method</th>
-      <td><p>The merging method to use (see below)</p></td>
-    </tr>
-    <tr>
-      <th>passage_matching</th>
-      <td><p>Passage matching</p></td>
-    </tr>
-    <tr>
-      <th>minimum_column_basis</th>
-      <td><p>The minimum column basis to assume when creating new maps after a merge</p></td>
-    </tr>
-    <tr>
-      <th>number_of_optimizations</th>
-      <td><p>The number of optimization runs to perform when doing an 'incremental-merge' or 'reoptimized-merge'</p></td>
+      <td><p>The merge method to use, see details.</p></td>
     </tr>
     <tr>
       <th>number_of_dimensions</th>
-      <td><p>The number of dimensions when doing an 'incremental-merge' or 'reoptimized-merge'</p></td>
+      <td><p>For merging that generates new optimization runs,
+the number of dimensions.</p></td>
+    </tr>
+    <tr>
+      <th>number_of_optimizations</th>
+      <td><p>For merging that generates new optimization
+runs, the number of optimization runs to do.</p></td>
+    </tr>
+    <tr>
+      <th>minimum_column_basis</th>
+      <td><p>For merging that generates new optimization runs,
+the minimum column basis to use.</p></td>
+    </tr>
+    <tr>
+      <th>options</th>
+      <td><p>For merging that generates new optimization runs, optimizer
+settings (see <code><a href='RacOptimizer.options.html'>RacOptimizer.options()</a></code>).</p></td>
     </tr>
     </table>
 
@@ -173,41 +177,51 @@
     <p>Returns the merged map object</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>Maps can be merged in a number of ways depending upon the desired result.</p>
+    <p>Maps can be merged in a number of ways depending upon the desired
+result.</p>
 <h3>Method 'table'</h3>
-<p>As you would expect, this merges the tables of the two maps but does not attempt to create any new optimizations and any
+<p>As you would expect, this merges the tables of
+the two maps but does not attempt to create any new optimizations and any
 existing optimizations are lost.</p>
 
 <h3>Method 'reoptimized-merge'</h3>
-<p>This merges the tables and then does a specified number of fresh optimizations from random
-starting coordinates, ignoring any pre-existing optimization runs. It's exactly the same as doing a 'table' merge
-and running <code><a href='optimizeMap.html'>optimizeMap()</a></code> on the merged table.</p>
+<p>This merges the tables and then
+does a specified number of fresh optimizations from random starting
+coordinates, ignoring any pre-existing optimization runs. It's exactly the
+same as doing a 'table' merge and running <code><a href='optimizeMap.html'>optimizeMap()</a></code> on the merged
+table.</p>
 
 <h3>Method 'incremental-merge'</h3>
-<p>This takes the currently selected optimization in the first map and then merges in the additional
-maps in turn. Each time any points not already found in the first map (or the last map in the incremental
-merge chain) are randomised and everything is relaxed, this is repeated the specified number of times and
-the process is repeated.</p>
+<p>This takes the currently selected
+optimization in the first map and then merges in the additional maps in
+turn. Each time any points not already found in the first map (or the last
+map in the incremental merge chain) are randomised and everything is
+relaxed, this is repeated the specified number of times and the process is
+repeated.</p>
 
 <h3>Method 'frozen-overlay'</h3>
-<p>This fixes the positions of points in each map and tries to best match them simply through re-orientation.
-Once the best re-orientation is found, points that are in common between the maps are moved to the average
-position.</p>
+<p>This fixes the positions of points in
+each map and tries to best match them simply through re-orientation. Once
+the best re-orientation is found, points that are in common between the
+maps are moved to the average position.</p>
 
 <h3>Method 'relaxed-overlay'</h3>
-<p>This is the same as the frozen-overlay but points in the resulting map are then allowed to relax.</p>
+<p>This is the same as the
+frozen-overlay but points in the resulting map are then allowed to relax.</p>
 
 <h3>Method 'frozen-merge'</h3>
-<p>In this version, positions of all points in the first map are fixed and remain fixed, so the original map
-does not change. The second map is then realigned to the first as closely as possible and then all the new
-points appearing in the second map are allowed to relax into their new positions. This is a way to merge in
-new antigens and sera into a map without affecting the first one at all (and was first implemented in lisp).</p>
+<p>In this version, positions of all
+points in the first map are fixed and remain fixed, so the original map
+does not change. The second map is then realigned to the first as closely
+as possible and then all the new points appearing in the second map are
+allowed to relax into their new positions. This is a way to merge in new
+antigens and sera into a map without affecting the first one at all (and
+was first implemented in lisp).</p>
 
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p>Other map merging functions: 
-<code><a href='mergeReport.html'>mergeReport</a>()</code>,
-<code><a href='mergeTiterTables.html'>mergeTiterTables</a>()</code></p></div>
+<code><a href='mergeReport.html'>mergeReport</a>()</code></p></div>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

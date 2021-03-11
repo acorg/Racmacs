@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Realigns optimizations in the map to the current optimization — realignOptimizations • Racmacs</title>
+<title>Realigns optimizations in the map — realignOptimizations • Racmacs</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -48,8 +48,11 @@
   <link href="../extra.css" rel="stylesheet">
   
 
-<meta property="og:title" content="Realigns optimizations in the map to the current optimization — realignOptimizations" />
-<meta property="og:description" content="Realigns optimizations in the map to the current optimization" />
+<meta property="og:title" content="Realigns optimizations in the map — realignOptimizations" />
+<meta property="og:description" content="Realigns all map optimizations through rotatation and translation to match
+point positions as closely as possible to the first optimization run. This
+is done by default when optimizing a map and makes comparing point positions
+in each optimization run much easier to do by eye." />
 <meta property="og:image" content="/logo.png" />
 
 
@@ -82,7 +85,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">Racmacs</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.16</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.3</span>
       </span>
     </div>
 
@@ -121,36 +124,26 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Realigns optimizations in the map to the current optimization</h1>
+    <h1>Realigns optimizations in the map</h1>
     <small class="dont-index">Source: <a href='https://github.com/acorg/Racmacs/blob/master/R/map_procrustes.R'><code>R/map_procrustes.R</code></a></small>
     <div class="hidden name"><code>realignOptimizations.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Realigns optimizations in the map to the current optimization</p>
+    <p>Realigns all map optimizations through rotatation and translation to match
+point positions as closely as possible to the first optimization run. This
+is done by default when optimizing a map and makes comparing point positions
+in each optimization run much easier to do by eye.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>realignOptimizations</span>(
-  <span class='no'>map</span>,
-  <span class='kw'>antigens</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>sera</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>optimization_number</span> <span class='kw'>=</span> <span class='kw'>NULL</span>
-)</pre>
+    <pre class="usage"><span class='fu'>realignOptimizations</span>(<span class='no'>map</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>map</th>
-      <td><p>The acmap data</p></td>
-    </tr>
-    <tr>
-      <th>antigens</th>
-      <td><p>The antigens to include in the realignment, TRUE for all FALSE for none, or specified by name or index</p></td>
-    </tr>
-    <tr>
-      <th>sera</th>
-      <td><p>The sera to include in the realignment, TRUE for all FALSE for none, or specified by name or index</p></td>
+      <td><p>The acmap data object</p></td>
     </tr>
     </table>
 

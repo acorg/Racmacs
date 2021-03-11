@@ -4,26 +4,26 @@
 \alias{colBases}
 \alias{minColBasis}
 \alias{minColBasis<-}
-\alias{colBases<-}
+\alias{fixedColBases}
+\alias{fixedColBases<-}
 \title{Getting and setting column bases}
 \usage{
-minColBasis(map, optimization_number = NULL, .name = TRUE)
-minColBasis(map, optimization_number = NULL, .check = TRUE) <- value
-
-colBases(map, optimization_number = NULL, .name = TRUE)
-colBases(map, optimization_number = NULL, .check = TRUE) <- value
+minColBasis(map, optimization_number = 1)
+minColBasis(map, optimization_number = 1) <- value
+fixedColBases(map, optimization_number = 1)
+fixedColBases(map, optimization_number = 1) <- value
 }
 \arguments{
 \item{map}{The acmap data object}
 
-\item{optimization_number}{The optimization run to get / set the data (by default the currently selected one)}
+\item{optimization_number}{The optimization run from which to get / set the data}
 
-\item{.name}{Should the output be labelled with corresponding antigen / sera names}
-
-\item{.check}{Should normal checks be applied for validity be applied when setting this value (used internally)}
+\item{value}{New value to set}
 }
 \value{
-Returns either the requested attribute when using a getter function or the updated acmap object when using the setter function.
+Returns either the requested attribute when using a getter function or
+
+the updated acmap object when using the setter function.
 }
 \description{
 Functions to get and set column bases specified for an optimization run,
@@ -41,7 +41,7 @@ function with \verb{colBases()<-} will fix the column bases to the supplied
 vector of values.
 
 Note that although the output from \code{colBases()} might be the same in a case
-where a minimum column basis was set or a case whete column bases were set
+where a minimum column basis was set or a case where column bases were set
 explcitely, when a minimum column basis is set, the column bases will still
 depend on the log titers recorded against a given sera, so changing the
 titers may therefore change the actual column bases calculated. For fixed
@@ -55,6 +55,6 @@ Other {map optimization attribute functions}:
 \code{\link{mapStress}()},
 \code{\link{mapTransformation}()},
 \code{\link{ptBaseCoords}},
-\code{\link{ptCoords}}
+\code{\link{ptCoords}()}
 }
 \concept{{map optimization attribute functions}}

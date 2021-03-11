@@ -39,10 +39,10 @@ Racmacs.Data = class Data {
     // Selected projection
     projection(num){
         if(!this.data){ return(0) }
-        if(this.data.selected_optimization == null){
-            return(0)
-        }
         if(typeof(num) === "undefined"){
+            if(this.data.selected_optimization == null){
+                return(0);
+            }
             return(this.data.selected_optimization);
         } else {
             return(num);
@@ -109,47 +109,25 @@ Racmacs.Data = class Data {
         }
     }
 
-    transformation(){
+    transformation(num){
         if(this.data.c.P.length == 0) return(null)
-        let pnum = this.projection();
-        if(this.data.c.x.transformation && this.data.c.x.transformation[pnum]){
-            return(this.data.c.x.transformation[pnum]);
+        let pnum = this.projection(num);
+
+        if(this.data.c.P[pnum].t !== undefined){
+            return(this.data.c.P[pnum].t);
         } else {
-            if(this.data.c.P[pnum].t !== undefined){
-                return(this.data.c.P[pnum].t);
-            } else {
-                var dim = this.dimensions(pnum);
-                var transform = new Array(dim*dim).fill(0);
-                if(dim == 2){
-                    transform[0] = 1;
-                    transform[3] = 1;
-                }
-                if(dim == 3){
-                    transform[0] = 1;
-                    transform[4] = 1;
-                    transform[8] = 1;
-                }
-                return(transform);
-            }
+            return(null);
         }
+
     }
 
-    translation(){
-        let pnum = this.projection();
-        if(this.data.c.x.transformation && this.data.c.x.translation && this.data.c.x.translation[pnum]){
-            return(this.data.c.x.translation[pnum]);
+    translation(num){
+        let pnum = this.projection(num);
+        if(this.data.c.x.p && this.data.c.x.p[pnum].t){
+            return(this.data.c.x.p[pnum].t);
         } else {
-            return(new Array(this.dimensions(pnum)).fill(0));
+            return(null);
         }
-    }
-
-    setTransformation(t, num){
-        raise("cannot set transformation");
-        // let pnum = this.projection(num);
-        // if(!this.data.c.x) this.data.c.x = {};
-        // if(!this.data.c.x.transformation) this.data.c.x.transformation = [];
-        // while(this.data.c.x.transformation.length < pnum - 1) this.data.c.x.transformation.push([]);
-        // this.data.c.x.transformation[pnum] = t;
     }
 
     dimensions(num){
@@ -166,15 +144,15 @@ Racmacs.Data = class Data {
         return("none");
     }
 
-    transformedCoords(){
-        let pnum           = this.projection();
+    transformedCoords(num){
+        let pnum           = this.projection(num);
         let coords         = this.data.c.P[pnum].l.slice();
-        return(this.transformCoords(coords));
+        return(this.transformCoords(coords, pnum));
     }
 
-    transformCoords(coords){
-        let transformation = this.transformation();
-        let translation    = this.translation()
+    transformCoords(coords, num){
+        let transformation = this.transformation(num);
+        let translation    = this.translation(num)
         return(
             coords.map(
                 coord => Racmacs.utils.transformTranslateCoords(
@@ -186,66 +164,45 @@ Racmacs.Data = class Data {
         )
     }
 
-    agBaseCoords(i){
-        if(this.data.c.P.length == 0) return(null)
+    ptBaseCoords(i){
+        if(this.data.c.P.length == 0) return(null);
         let pnum = this.projection();
         return(this.data.c.P[pnum].l[i].slice());
     }
 
-    agCoords(i){
-        if(this.data.c.P.length == 0) return(null)
+    ptCoords(i){
+        if(this.data.c.P.length == 0) return(null);
         return(
             Racmacs.utils.transformTranslateCoords(
-                this.agBaseCoords(i),
+                this.ptBaseCoords(i),
                 this.transformation(),
                 this.translation()
             )
         )
     }
 
+    agBaseCoords(i){ return(this.ptBaseCoords(i)); }
+    srBaseCoords(i){ return(this.ptBaseCoords(i + this.numAntigens())); }
+    
+    agCoords(i){ return(this.ptCoords(i)); }
+    srCoords(i){ return(this.ptCoords(i + this.numAntigens())); }
+
     agSequences(i){
-        if(this.data.c.x.antigen_sequences){
-            if(i === undefined) return(this.data.c.x.antigen_sequences);
-            else                return(this.data.c.x.antigen_sequences[i]);
+        if(this.data.c.x.a[0].q){
+            if(i === undefined) return(this.data.c.x.a.map( p => p.q.split("") ));
+            else                return(this.data.c.x.a[i].q.split(""));
         } else {
             return(null);
         }
     }
 
     srSequences(i){
-        if(this.data.c.x.sera_sequences){
-            if(i === undefined) return(this.data.c.x.sera_sequences);
-            else                return(this.data.c.x.sera_sequences[i]);
+        if(this.data.c.x.s[0].q){
+            if(i === undefined) return(this.data.c.x.s.map( p => p.q.split("") ));
+            else                return(this.data.c.x.s[i].q.split(""));
         } else {
             return(null);
         }
-    }
-
-    set_agCoords(i, coords){
-        let pnum = this.projection();
-        this.data.c.P[pnum].l[i] = coords;
-    }
-
-    srBaseCoords(i){
-        if(this.data.c.P.length == 0) return(null)
-        let pnum = this.projection();
-        return(this.data.c.P[pnum].l[i + this.numAntigens()].slice());
-    }
-
-    srCoords(i){
-        if(this.data.c.P.length == 0) return(null)
-        return(
-            Racmacs.utils.transformTranslateCoords(
-                this.srBaseCoords(i),
-                this.transformation(),
-                this.translation()
-            )
-        );
-    }
-
-    set_srCoords(i, coords){
-        let pnum = this.projection();
-        this.data.c.P[pnum].l[i + this.numAntigens()] = coords;
     }
     
     colbases(i=null){ 
@@ -262,20 +219,26 @@ Racmacs.Data = class Data {
         let colbases;
         let mincolbasis;
 
+        // Apply minimum column basis
+        if(this.data.c.P[pnum].m){
+            mincolbasis = this.data.c.P[pnum].m;
+        } else {
+            mincolbasis = "none";
+        }
+        colbases = Racmacs.utils.calcColBases({
+            titers: this.table(),
+            mincolbasis: mincolbasis
+        });
+        
+        // Apply fixed column bases
         if(this.data.c.P[pnum].C){
             // Forced column bases
-            colbases = this.data.c.P[pnum].C;
-        } else {
-            // Minimum column bases
-            if(this.data.c.P[pnum].m){
-                mincolbasis = this.data.c.P[pnum].m;
-            } else {
-                mincolbasis = "none";
+            var fixed_colbases = this.data.c.P[pnum].C;
+            for(var j=0; j<fixed_colbases.length; j++){
+                if (fixed_colbases[j] !== null) {
+                    colbases[j] = fixed_colbases[j];
+                }
             }
-            colbases = Racmacs.utils.calcColBases({
-                titers: this.table(),
-                mincolbasis: mincolbasis
-            });
         }
 
         if(i === null){
@@ -376,8 +339,6 @@ Racmacs.Data = class Data {
         return(this.data.c.p.d);
     }
 
-
-
     // Diagnostics
     stressBlobs(num){
         let pnum = this.projection(num);
@@ -387,17 +348,6 @@ Racmacs.Data = class Data {
             return(null) 
         } else {
             return(this.data.diagnostics[pnum].stress_blobs)
-        }
-    }
-
-    hemisphering(num){
-        let pnum = this.projection(num);
-        if(!this.data.diagnostics
-            || !this.data.diagnostics[pnum]
-            || !this.data.diagnostics[pnum].hemisphering){ 
-            return(null) 
-        } else {
-            return(this.data.diagnostics[pnum].hemisphering)
         }
     }
 

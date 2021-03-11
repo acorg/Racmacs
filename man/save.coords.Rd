@@ -4,30 +4,39 @@
 \alias{save.coords}
 \title{Save acmap coordinate data to a file}
 \usage{
-save.coords(map, filename, antigens = TRUE, sera = TRUE)
+save.coords(
+  map,
+  filename,
+  optimization_number = 1,
+  antigens = TRUE,
+  sera = TRUE
+)
 }
 \arguments{
 \item{map}{The acmap data object.}
 
 \item{filename}{Path to the file.}
+
+\item{antigens}{Antigens to include, either as a numeric vector of indices or
+character vector of names.}
+
+\item{sera}{Sera to include, either as a numeric vector of indices or
+character vector of names.}
 }
 \description{
-Saves acmap coordinate data of all or specified antigens and sera to a .csv file.
+Saves acmap coordinate data of all or specified antigens and sera to a .csv
+file.
 }
 \seealso{
 Other {functions for working with map data}: 
 \code{\link{acmap}()},
 \code{\link{as.json}()},
-\code{\link{cloneMap}()},
-\code{\link{convertingMaps}},
 \code{\link{orderPoints}},
 \code{\link{read.acmap}()},
 \code{\link{read.titerTable}()},
 \code{\link{removePoints}},
 \code{\link{save.acmap}()},
 \code{\link{save.titerTable}()},
-\code{\link{selectedOptimization}()},
-\code{\link{subsetMap}()},
-\code{\link{subsetPoints}}
+\code{\link{subsetMap}()}
 }
 \concept{{functions for working with map data}}

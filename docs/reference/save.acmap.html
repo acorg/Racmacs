@@ -49,7 +49,9 @@
   
 
 <meta property="og:title" content="Save acmap data to a file — save.acmap" />
-<meta property="og:description" content="Save acmap data to a file in a given format, must be one of '.ace', '.save' or '.save.xs' (see details)." />
+<meta property="og:description" content="Save acmap data to a file. The preferred extension is &quot;.ace&quot;, although
+the format of the file will be a json file of map data compressed using
+'xz' compression." />
 <meta property="og:image" content="/logo.png" />
 
 
@@ -82,7 +84,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">Racmacs</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.16</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.3</span>
       </span>
     </div>
 
@@ -127,7 +129,9 @@
     </div>
 
     <div class="ref-description">
-    <p>Save acmap data to a file in a given format, must be one of '.ace', '.save' or '.save.xs' (see details).</p>
+    <p>Save acmap data to a file. The preferred extension is ".ace", although
+the format of the file will be a json file of map data compressed using
+'xz' compression.</p>
     </div>
 
     <pre class="usage"><span class='fu'>save.acmap</span>(<span class='no'>map</span>, <span class='no'>filename</span>)</pre>
@@ -145,27 +149,18 @@
     </tr>
     </table>
 
-    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
-
-    <p>Although several file formats are supported, you should save files
-with the '.ace' extension. This is the most recent, while the others are
-mostly there for backwards compatibility to other software.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p>Other functions for working with map data: 
 <code><a href='acmap.html'>acmap</a>()</code>,
 <code><a href='as.json.html'>as.json</a>()</code>,
-<code><a href='cloneMap.html'>cloneMap</a>()</code>,
-<code><a href='convertingMaps.html'>convertingMaps</a></code>,
 <code><a href='orderPoints.html'>orderPoints</a></code>,
 <code><a href='read.acmap.html'>read.acmap</a>()</code>,
 <code><a href='read.titerTable.html'>read.titerTable</a>()</code>,
 <code><a href='removePoints.html'>removePoints</a></code>,
 <code><a href='save.coords.html'>save.coords</a>()</code>,
 <code><a href='save.titerTable.html'>save.titerTable</a>()</code>,
-<code><a href='selectedOptimization.html'>selectedOptimization</a>()</code>,
-<code><a href='subsetMap.html'>subsetMap</a>()</code>,
-<code><a href='subsetPoints.html'>subsetPoints</a></code></p></div>
+<code><a href='subsetMap.html'>subsetMap</a>()</code></p></div>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

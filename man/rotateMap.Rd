@@ -11,9 +11,10 @@ rotateMap(map, degrees, axis = NULL, optimization_number = NULL)
 
 \item{degrees}{Degrees of rotation}
 
-\item{axis}{Axis of rotation (if 3D)}
+\item{axis}{Axis of rotation (if 3D), specified as "x", "y", or "z"}
 
-\item{optimization_number}{The optimization number (by default the selected one)}
+\item{optimization_number}{The optimization number (or NULL to apply to all
+optimizations)}
 }
 \description{
 Apply a rotation to an antigenic map
@@ -22,8 +23,6 @@ Apply a rotation to an antigenic map
 Other {functions relating to map transformation}: 
 \code{\link{applyMapTransform}()},
 \code{\link{reflectMap}()},
-\code{\link{scaleMap}()},
-\code{\link{transformMap}()},
 \code{\link{translateMap}()}
 }
 \concept{{functions relating to map transformation}}

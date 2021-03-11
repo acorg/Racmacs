@@ -2,30 +2,31 @@
 % Please edit documentation in R/map_props_optimizations.R
 \name{mapTransformation}
 \alias{mapTransformation}
-\alias{mapTranslation}
 \alias{mapTransformation<-}
+\alias{mapTranslation}
 \alias{mapTranslation<-}
 \title{Reading map transformation data}
 \usage{
-mapTransformation(map, optimization_number = NULL)
-mapTransformation(map, optimization_number = NULL, .check = TRUE) <- value
-
-mapTranslation(map, optimization_number = NULL)
-mapTranslation(map, optimization_number = NULL, .check = TRUE) <- value
+mapTransformation(map, optimization_number = 1)
+mapTransformation(map, optimization_number = 1) <- value
+mapTranslation(map, optimization_number = 1)
+mapTranslation(map, optimization_number = 1) <- value
 }
 \arguments{
 \item{map}{The acmap data object}
 
-\item{optimization_number}{The optimization run to get / set the data (by default the currently selected one)}
+\item{optimization_number}{The optimization run from which to get / set the data}
 
-\item{.check}{Should normal checks be applied for validity be applied when setting this value (used internally)}
+\item{value}{New value to set}
 }
 \value{
-Returns either the requested attribute when using a getter function or the updated acmap object when using the setter function.
+Returns either the requested attribute when using a getter function or
+
+the updated acmap object when using the setter function.
 }
 \description{
-These functions can be used to query and if necessary set the map transformation
-and map translation attributes for a given optimization run.
+These functions can be used to query and if necessary set the map
+transformation and map translation attributes for a given optimization run.
 }
 \seealso{
 Other {map optimization attribute functions}: 
@@ -34,6 +35,6 @@ Other {map optimization attribute functions}:
 \code{\link{mapDimensions}()},
 \code{\link{mapStress}()},
 \code{\link{ptBaseCoords}},
-\code{\link{ptCoords}}
+\code{\link{ptCoords}()}
 }
 \concept{{map optimization attribute functions}}

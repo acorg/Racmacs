@@ -9,9 +9,9 @@ subsetMap(map, antigens = TRUE, sera = TRUE)
 \arguments{
 \item{map}{The antigenic map object}
 
-\item{antigens}{Antigens to keep}
+\item{antigens}{Antigens to keep, defaults to all.}
 
-\item{sera}{Sera to keep}
+\item{sera}{Sera to keep, defaults to all.}
 }
 \value{
 Returns a new antigenic map containing only match antigens and sera
@@ -19,45 +19,16 @@ Returns a new antigenic map containing only match antigens and sera
 \description{
 Subset an antigenic map to contain only specified antigens and sera
 }
-\examples{
-
-# Subsetting an antigenic map -------
-
-## Subset the map by antigen and sera indices
-map_subset1 <- subsetMap(h3map2004,
-                         antigens = 1:4,
-                         sera     = 1:4)
-
-## Subset the map by antigen and sera names
-map_subset2 <- subsetMap(h3map2004,
-                         antigens = c("BI/2600/75", "HK/3/95"),
-                         sera     = c("HK/34/90", "NL/172/96"))
-
-## If nothing is given for the antigen or sera argument then the default is to select all
-map_subset3 <- subsetMap(h3map2004,
-                         antigens = c("BI/2600/75", "HK/3/95"))
-
-## A warning is returned if an antigen or sera are not found
-map_subset4 <- subsetMap(h3map2004,
-                         antigens = c("BI/2600/75", "BI/2700/75", "EN/975/75"),
-                         sera     = c("NL/172/96", "BE/172/89", "FU/172/02"))
-
-
-}
 \seealso{
 Other {functions for working with map data}: 
 \code{\link{acmap}()},
 \code{\link{as.json}()},
-\code{\link{cloneMap}()},
-\code{\link{convertingMaps}},
 \code{\link{orderPoints}},
 \code{\link{read.acmap}()},
 \code{\link{read.titerTable}()},
 \code{\link{removePoints}},
 \code{\link{save.acmap}()},
 \code{\link{save.coords}()},
-\code{\link{save.titerTable}()},
-\code{\link{selectedOptimization}()},
-\code{\link{subsetPoints}}
+\code{\link{save.titerTable}()}
 }
 \concept{{functions for working with map data}}

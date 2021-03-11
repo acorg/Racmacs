@@ -7,14 +7,10 @@
 procrustesMap(
   map,
   comparison_map,
-  antigens = TRUE,
-  sera = TRUE,
+  optimization_number = 1,
+  comparison_optimization_number = 1,
   translation = TRUE,
-  scaling = FALSE,
-  optimization_number = NULL,
-  comparison_optimization_number = NULL,
-  passage_matching = "ignore",
-  description = NULL
+  scaling = FALSE
 )
 }
 \arguments{
@@ -22,22 +18,22 @@ procrustesMap(
 
 \item{comparison_map}{The acmap data object to procrustes against}
 
-\item{antigens}{Antigens to include in the procrustes, specified either by name or index or FALSE for excluding all.}
+\item{optimization_number}{The map optimization to use in the procrustes
+calculation (other optimization runs are discarded)}
 
-\item{sera}{Sera to include in the procrustes, specified either by name or index or FALSE for excluding all.}
+\item{comparison_optimization_number}{The optimization run int the comparison
+map to compare against}
 
-\item{translation}{Should translation be performed?}
+\item{translation}{Should translation be allowed}
 
-\item{scaling}{Should scaling be performed?}
-
-\item{optimization_number}{The map optimization to use in the procrustes calculation (defaults to the currently selected optimization)}
-
-\item{passage_matching}{Should passage matching be performed (not currently implemented)}
-
-\item{target_optimization_number}{The target map optimization to use in the procrustes calculation (defaults to the currently selected optimization)}
+\item{scaling}{Should scaling be allowed (generally not recommended unless
+comparing maps made with different assays)}
 }
 \value{
-Returns procrustes information from the map to the target.
+Returns an acmap object with procrustes information added, which will
+be shown when the map is plotted. To avoid ambiguity about which
+optimization run the procrustes was applied to, only the optimization run
+specified by \code{optimization_number} is kept in the map returned.
 }
 \description{
 Returns information from one map procrusted to another.

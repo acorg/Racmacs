@@ -6,9 +6,9 @@
 \alias{removeSera}
 \title{Remove antigens and sera}
 \usage{
-removeAntigens(map, antigen_indices)
+removeAntigens(map, antigens)
 
-removeSera(map, sera_indices)
+removeSera(map, sera)
 }
 \arguments{
 \item{map}{The map data object}
@@ -24,16 +24,12 @@ Functions to remove antigens and sera from a map
 Other {functions for working with map data}: 
 \code{\link{acmap}()},
 \code{\link{as.json}()},
-\code{\link{cloneMap}()},
-\code{\link{convertingMaps}},
 \code{\link{orderPoints}},
 \code{\link{read.acmap}()},
 \code{\link{read.titerTable}()},
 \code{\link{save.acmap}()},
 \code{\link{save.coords}()},
 \code{\link{save.titerTable}()},
-\code{\link{selectedOptimization}()},
-\code{\link{subsetMap}()},
-\code{\link{subsetPoints}}
+\code{\link{subsetMap}()}
 }
 \concept{{functions for working with map data}}

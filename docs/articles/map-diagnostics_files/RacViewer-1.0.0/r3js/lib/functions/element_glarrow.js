@@ -37,10 +37,9 @@ R3JS.element.glarrow = class GLArrow extends R3JS.element.base {
         if(typeof(args.size) !== "object") args.size = Array(args.coords.length).fill(args.size);
         
         if(!args.properties)        args.properties        = {};
-        if(!args.properties.color)  args.properties.color  = {r:0, g:0, b:0};
+        if(!args.properties.color)  args.properties.color  = {r:0, g:0, b:0, a:1};
         if(!args.properties.aspect) args.properties.aspect = 0.35;
         if(!args.properties.lwd)    args.properties.lwd    = 2;
-
 
         // Make the line component
         var line_coords = [].concat(...args.coords);
@@ -97,6 +96,9 @@ R3JS.element.glarrow = class GLArrow extends R3JS.element.base {
         var arrowhead_coords   = [];
         var arrowhead_rotation = [];
 
+        var color = args.properties.color;
+        var arrowhead_color = { r:[], g:[], b:[], a:[] };
+
         for(var i=0; i<args.coords.length; i++){
 
             var rotation = -Math.PI/2 + Math.atan2(
@@ -110,17 +112,26 @@ R3JS.element.glarrow = class GLArrow extends R3JS.element.base {
                 arrowhead_rotation.push(rotation);
                 arrowhead_coords.push(args.coords[i][0]);
                 arrowhead_coords.push(args.coords[i][1]);
+                arrowhead_color.r.push( color.r[i] ); arrowhead_color.r.push( color.r[i] );
+                arrowhead_color.g.push( color.g[i] ); arrowhead_color.g.push( color.g[i] );
+                arrowhead_color.b.push( color.b[i] ); arrowhead_color.b.push( color.b[i] );
+                arrowhead_color.a.push( color.a[i] ); arrowhead_color.a.push( color.a[i] );
 
             } else {
 
                 arrowhead_rotation.push(rotation);
                 arrowhead_coords.push(args.coords[i][1]);
+                arrowhead_color.r.push( color.r[i] );
+                arrowhead_color.g.push( color.g[i] );
+                arrowhead_color.b.push( color.b[i] );
+                arrowhead_color.a.push( color.a[i] );
 
             }
         }
         
         // Set arrow rotation
         args.properties.rotation = arrowhead_rotation;
+        args.properties.color = arrowhead_color;
         
         // Make the arrow heads
         this.arrowhead = new R3JS.element.glarrowhead({
@@ -151,7 +162,7 @@ R3JS.element.glarrowhead = class GLArrowhead extends R3JS.element.base {
         // Set defaults
         if(!args.size)                    args.size = 1;
         if(!args.properties)              args.properties = {};
-        if(!args.properties.color)        args.properties.color = { r:0, g:0, b:0, a:0 };
+        if(!args.properties.color)        args.properties.color = { r:0, g:0, b:0, a:1 };
         if(!args.properties.fillcolor)    args.properties.fillcolor = args.properties.color;
         if(!args.properties.outlinecolor) args.properties.outlinecolor = args.properties.color;
         if(!args.properties.rotation)     args.properties.rotation = 0;
@@ -161,17 +172,19 @@ R3JS.element.glarrowhead = class GLArrowhead extends R3JS.element.base {
         if(!args.properties.color.a)      args.properties.color.a = 1;
 
         // Make sure everything is the right length
-        if(typeof(args.size) !== "object") args.size = Array(args.coords.length).fill(args.size);
+        if(args.size.length < args.coords.length) args.size = Array(args.coords.length).fill(args.size);
         
         if(typeof(args.properties.fillcolor.r) !== "object"){
             args.properties.fillcolor.r = Array(args.coords.length).fill(args.properties.fillcolor.r);
             args.properties.fillcolor.g = Array(args.coords.length).fill(args.properties.fillcolor.g);
             args.properties.fillcolor.b = Array(args.coords.length).fill(args.properties.fillcolor.b);
+            args.properties.fillcolor.a = Array(args.coords.length).fill(args.properties.fillcolor.a);
         };
         if(typeof(args.properties.outlinecolor.r) !== "object"){
             args.properties.outlinecolor.r = Array(args.coords.length).fill(args.properties.outlinecolor.r);
             args.properties.outlinecolor.g = Array(args.coords.length).fill(args.properties.outlinecolor.g);
             args.properties.outlinecolor.b = Array(args.coords.length).fill(args.properties.outlinecolor.b);
+            args.properties.outlinecolor.a = Array(args.coords.length).fill(args.properties.outlinecolor.a);
         };
 
         if(typeof(args.properties.fillcolor.a)    !== "object") args.properties.fillcolor.a    = Array(args.coords.length).fill(args.properties.fillcolor.a);

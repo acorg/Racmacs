@@ -12,27 +12,20 @@ save.acmap(map, filename)
 \item{filename}{Path to the file.}
 }
 \description{
-Save acmap data to a file in a given format, must be one of '.ace', '.save' or '.save.xs' (see details).
-}
-\details{
-Although several file formats are supported, you should save files
-with the '.ace' extension. This is the most recent, while the others are
-mostly there for backwards compatibility to other software.
+Save acmap data to a file. The preferred extension is ".ace", although
+the format of the file will be a json file of map data compressed using
+'xz' compression.
 }
 \seealso{
 Other {functions for working with map data}: 
 \code{\link{acmap}()},
 \code{\link{as.json}()},
-\code{\link{cloneMap}()},
-\code{\link{convertingMaps}},
 \code{\link{orderPoints}},
 \code{\link{read.acmap}()},
 \code{\link{read.titerTable}()},
 \code{\link{removePoints}},
 \code{\link{save.coords}()},
 \code{\link{save.titerTable}()},
-\code{\link{selectedOptimization}()},
-\code{\link{subsetMap}()},
-\code{\link{subsetPoints}}
+\code{\link{subsetMap}()}
 }
 \concept{{functions for working with map data}}

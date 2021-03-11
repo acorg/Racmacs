@@ -51,7 +51,7 @@ Racmacs.DragPanel = class DragPanel {
         buttons.appendChild(accept.div);
 
         var cancel = new Racmacs.utils.Button({
-        	label:"Cancel",
+        	label:"Reset",
         	fn: function(){ viewer.exitDragMode(false) }
         });
         cancel.div.style.marginLeft = "6px";

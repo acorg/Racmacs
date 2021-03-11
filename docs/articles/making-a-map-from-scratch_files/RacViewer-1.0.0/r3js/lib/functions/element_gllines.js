@@ -102,9 +102,10 @@ R3JS.element.gllines_fat = class GLLines_fat extends R3JS.element.base {
 
         // Convert single color to multiple
         if(typeof(args.properties.color.r) !== "object"){
-            args.properties.color.r = Array(args.coords.length).fill(args.properties.color.r);
-            args.properties.color.g = Array(args.coords.length).fill(args.properties.color.g);
-            args.properties.color.b = Array(args.coords.length).fill(args.properties.color.b);
+            args.properties.color.r = Array(args.coords.length*2).fill(args.properties.color.r);
+            args.properties.color.g = Array(args.coords.length*2).fill(args.properties.color.g);
+            args.properties.color.b = Array(args.coords.length*2).fill(args.properties.color.b);
+            args.properties.color.a = Array(args.coords.length*2).fill(args.properties.color.a);
         };
         
         // Make geometry

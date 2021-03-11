@@ -2,7 +2,8 @@
 #' Plot map vs table distances
 #'
 #' @param map The acmap data object
-#' @param optimization_number The optimization number from which to take map and table distances (defaults to the currently selected optimization)
+#' @param optimization_number The optimization number from which to take map and
+#'   table distances
 #' @param xlim The x limits of the plot
 #' @param ylim The y limits of the plot
 #' @param line_of_equality Should the line x=y be added
@@ -15,24 +16,28 @@
 #' @rdname map-table-distances
 plot_map_table_distance <- function(
   map,
-  optimization_number = NULL,
+  optimization_number = 1,
   xlim, ylim,
   line_of_equality = TRUE
-){
+) {
 
-  # Calculate map distances
+  # Calculate distances and types
   map_distances <- mapDistances(map, optimization_number)
-
-  # Calculate table distances
   table_distances <- tableDistances(map, optimization_number)
+  titer_types <- titertypesTable(map)
 
   # Format data
   map_dists   <- as.vector(map_distances)
-  table_dists <- as.vector(table_distances$distances)
-  lessthans   <- as.vector(table_distances$lessthans)
-  dist_pairs  <- expand.grid(rownames(table_distances$distances),
-                             colnames(table_distances$distances))
-  dist_names  <- paste0("SR: ", dist_pairs[,2], ", AG: ", dist_pairs[,1])
+  table_dists <- as.vector(table_distances)
+  lessthans   <- as.vector(titer_types == 2)
+  dist_pairs  <- expand.grid(
+    agNames(map),
+    srNames(map)
+  )
+  dist_names  <- paste0(
+    "SR: ", dist_pairs[, 2],
+    ", AG: ", dist_pairs[, 1]
+  )
 
   # Remove NAs
   na_vals     <- is.na(map_dists) | is.na(table_dists)
@@ -52,10 +57,10 @@ plot_map_table_distance <- function(
       map_dists   = map_dists,
       table_dists = table_dists,
       titertype   = titertype,
-      text        = dist_names
+      dist_names  = dist_names
     ),
     ggplot2::aes(
-      text = text
+      text = dist_names
     )
   ) +
     ggplot2::geom_point(
@@ -80,7 +85,7 @@ plot_map_table_distance <- function(
     ggplot2::ylab("Map distances")
 
   # Plot the line of equality only if requested
-  if(line_of_equality){
+  if (line_of_equality) {
     gp <- gp +
       ggplot2::geom_abline(
         slope     = 1,
@@ -98,10 +103,12 @@ plot_map_table_distance <- function(
 
 #' @export
 #' @rdname map-table-distances
-plotly_map_table_distance <- function(map,
-                                      optimization_number = NULL,
-                                      xlim,
-                                      ylim){
+plotly_map_table_distance <- function(
+  map,
+  optimization_number = 1,
+  xlim, ylim,
+  line_of_equality = TRUE
+  ) {
 
   gp <- plot_map_table_distance(
     map = map,
@@ -113,41 +120,41 @@ plotly_map_table_distance <- function(map,
 
 }
 
-#' Plot serum titers
-#'
-#' @name plot_sr_titers
-#' @family Map Diagnostics
 
-#' @export
-#' @rdname plot_sr_titers
 plot_sr_titers <- function(
   map,
   serum,
   xlim = NULL,
   ylim = NULL,
-  optimization_number = NULL,
+  optimization_number = 1,
   .plot = TRUE
-){
+  ) {
 
   serum <- get_sr_indices(map = map, sera = serum)
-  if(length(serum) > 1) stop("Please select a single serum to plot")
+  if (length(serum) > 1) stop("Please select a single serum to plot")
 
   # Get data
-  sr_colbase <- colBases(map, .name = FALSE)[serum]
+  sr_colbase <- colBases(map)[serum]
   sr_name    <- srNames(map)[serum]
 
-  ag_distances <- mapDistances(map, optimization_number = optimization_number)[,serum]
-  ag_titers    <- titerTable(map, .name = FALSE)[,serum]
-  ag_logtiters <- logtiterTable(map)[,serum]
+  ag_distances <- mapDistances(
+    map,
+    optimization_number = optimization_number
+  )[, serum]
+  ag_logtiters <- logtiterTable(map)[, serum]
   ag_names     <- agNames(map)
 
   # Set limits
-  if(is.null(xlim)) xlim <- c(0,  max(ag_distances, na.rm = T)+1)
-  if(is.null(ylim)) ylim <- c(-1, max(c(ag_logtiters, sr_colbase), na.rm = T)+1)
+  if (is.null(xlim)) {
+    xlim <- c(0,  max(ag_distances, na.rm = T) + 1)
+  }
+  if (is.null(ylim)) {
+    ylim <- c(-1, max(c(ag_logtiters, sr_colbase), na.rm = T) + 1)
+  }
 
   # Plot the result
   gp <- ggplot2::ggplot(
-    data = na.omit(
+    data = stats::na.omit(
         data.frame(
         ag_distances = ag_distances,
         ag_logtiters = ag_logtiters,
@@ -182,24 +189,22 @@ plot_sr_titers <- function(
     ) +
     ggplot2::scale_y_continuous(
       breaks = ylim[1]:ylim[2],
-      labels = 2^(ylim[1]:ylim[2])*10
+      labels = 2 ^ (ylim[1]:ylim[2]) * 10
     ) +
     ggplot_theme()
 
-  if(.plot) plot(gp)
+  if (.plot) plot(gp)
   gp
 
 }
 
-#' @export
-#' @rdname plot_sr_titers
 plotly_sr_titers <- function(
   map,
   serum,
   xlim = NULL,
   ylim = NULL,
-  optimization_number = NULL
-){
+  optimization_number = 1
+  ) {
 
   plotly::ggplotly(
     plot_sr_titers(
@@ -214,31 +219,26 @@ plotly_sr_titers <- function(
 
 }
 
-#' Plot stress per titer
-#'
-#' @name plot_stress_per_titer
-#' @family Map Diagnostics
 
-#' @export
-agMeanResiduals <- function(map, exclude_nd = TRUE){
+agMeanResiduals <- function(map, exclude_nd = TRUE) {
 
   residuals <- mapResiduals(map)
-  if(exclude_nd) residuals[titerTypes(map) != "measured"] <- NA
+  if (exclude_nd) residuals[titertypesTable(map) != 1] <- NA
   rowMeans(residuals, na.rm = T)
 
 }
 
-#' @export
-srMeanResiduals <- function(map, exclude_nd = TRUE){
+
+srMeanResiduals <- function(map, exclude_nd = TRUE) {
 
   residuals <- mapResiduals(map)
-  if(exclude_nd) residuals[titerTypes(map) != "measured"] <- NA
+  if (exclude_nd) residuals[titertypesTable(map) != 1] <- NA
   colMeans(residuals, na.rm = T)
 
 }
 
-#' @export
-plot_agMeanResiduals <- function(map, exclude_nd = TRUE, .plot = TRUE){
+
+plot_agMeanResiduals <- function(map, exclude_nd = TRUE, .plot = TRUE) {
   hist_ggplot(
     names  = agNames(map),
     values = agMeanResiduals(map, exclude_nd),
@@ -253,8 +253,8 @@ plot_agMeanResiduals <- function(map, exclude_nd = TRUE, .plot = TRUE){
   )
 }
 
-#' @export
-plot_srMeanResiduals <- function(map, exclude_nd = TRUE, .plot = TRUE){
+
+plot_srMeanResiduals <- function(map, exclude_nd = TRUE, .plot = TRUE) {
   hist_ggplot(
     names  = srNames(map),
     values = srMeanResiduals(map, exclude_nd),
@@ -269,53 +269,60 @@ plot_srMeanResiduals <- function(map, exclude_nd = TRUE, .plot = TRUE){
   )
 }
 
-#' @export
-plotly_agMeanResiduals <- function(...){ plotlyfn(plot_agMeanResiduals)(...) }
+
+plotly_agMeanResiduals <- function(...) plotlyfn(plot_agMeanResiduals)(...)
 
 
-#' @export
-plot_agStressPerTiter <- function(map, exclude_nd = TRUE, .plot = TRUE){
-  hist_ggplot(
-    names  = agNames(map),
-    values = agStressPerTiter(map, exclude_nd = exclude_nd),
-    title  = "Antigen stress per titer",
-    subtitle = switch(
-      exclude_nd,
-      "TRUE"  = "(nd excluded)",
-      "FALSE" = "(nd excluded)"
-    ),
-    vline = 0,
-    .plot = .plot
-  )
+
+plot_agStressPerTiter <- function(map, .plot = TRUE) {
+  # hist_ggplot(
+  #   names  = agNames(map),
+  #   values = agStressPerTiter(map),
+  #   title  = "Antigen stress per titer",
+  #   subtitle = switch(
+  #     exclude_nd,
+  #     "TRUE"  = "(nd excluded)",
+  #     "FALSE" = "(nd excluded)"
+  #   ),
+  #   vline = 0,
+  #   .plot = .plot
+  # )
 }
 
-#' @export
-plotly_agStressPerTiter <- function(...){ plotlyfn(plotly_agStressPerTiter)(...) }
+
+plotly_agStressPerTiter <- function(...) plotlyfn(plot_agStressPerTiter)(...)
 
 
-#' @export
-plot_srStressPerTiter <- function(map, exclude_nd = TRUE, .plot = TRUE){
-  hist_ggplot(
-    names  = srNames(map),
-    values = srStressPerTiter(map, exclude_nd = exclude_nd),
-    title  = "Serum stress per titer",
-    subtitle = switch(
-      exclude_nd,
-      "TRUE"  = "(nd excluded)",
-      "FALSE" = "(nd excluded)"
-    ),
-    vline = 0,
-    .plot = .plot
-  )
+
+plot_srStressPerTiter <- function(map, .plot = TRUE) {
+  # hist_ggplot(
+  #   names  = srNames(map),
+  #   values = srStressPerTiter(map),
+  #   title  = "Serum stress per titer",
+  #   subtitle = switch(
+  #     exclude_nd,
+  #     "TRUE"  = "(nd excluded)",
+  #     "FALSE" = "(nd excluded)"
+  #   ),
+  #   vline = 0,
+  #   .plot = .plot
+  # )
 }
 
-#' @export
-plotly_srStressPerTiter <- function(...){ plotlyfn(plotly_srStressPerTiter)(...) }
+
+plotly_srStressPerTiter <- function(...) plotlyfn(plot_srStressPerTiter)(...)
 
 
 
 # Generic function to output a histogram
-hist_ggplot <- function(names, values, title, subtitle = "", vline = NULL, .plot = TRUE){
+hist_ggplot <- function(
+  names,
+  values,
+  title,
+  subtitle = "",
+  vline = NULL,
+  .plot = TRUE
+  ) {
 
   gp <- ggplot2::ggplot(
     data = data.frame(names, values),
@@ -335,9 +342,9 @@ hist_ggplot <- function(names, values, title, subtitle = "", vline = NULL, .plot
       title    = title,
       subtitle = subtitle
     ) +
-    Racmacs:::ggplot_theme() -> gp
+    ggplot_theme() -> gp
 
-  if(!is.null(vline)){
+  if (!is.null(vline)) {
     gp <- gp + ggplot2::geom_vline(
       xintercept = vline,
       linetype = "dashed",
@@ -346,8 +353,7 @@ hist_ggplot <- function(names, values, title, subtitle = "", vline = NULL, .plot
     )
   }
 
-  if(.plot) plot(gp)
+  if (.plot) plot(gp)
   gp
 
 }
-

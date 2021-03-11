@@ -2,20 +2,17 @@
 % Please edit documentation in R/map_props_optimizations.R
 \name{mapStress}
 \alias{mapStress}
-\title{Get the current map stress}
+\title{Calculate the current map stress}
 \usage{
-mapStress(map, optimization_number = NULL)
+mapStress(map, optimization_number = 1)
 }
 \arguments{
-\item{map}{The acmap data object}
+\item{map}{The acmap object}
 
-\item{optimization_number}{The optimization run to get / set the data (by default the currently selected one)}
-}
-\value{
-Returns the current map stress value for the specified optimization run.
+\item{optimization_number}{The optimization number for which to calculate stress}
 }
 \description{
-Get the current map stress
+Calculate the current map stress
 }
 \seealso{
 Other {map optimization attribute functions}: 
@@ -24,6 +21,6 @@ Other {map optimization attribute functions}:
 \code{\link{mapDimensions}()},
 \code{\link{mapTransformation}()},
 \code{\link{ptBaseCoords}},
-\code{\link{ptCoords}}
+\code{\link{ptCoords}()}
 }
 \concept{{map optimization attribute functions}}

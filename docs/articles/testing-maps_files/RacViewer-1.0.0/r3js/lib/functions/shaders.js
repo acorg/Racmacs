@@ -944,37 +944,6 @@ R3JS.Shaders.FragmentShaderArrowHead = `
 
 `;
 
-// // Line shaders
-// function get_lineVertex_shader(){
-    
-//     return(`
-    	
-//     	uniform float amplitude;
-// 		attribute float visible;
-// 		// varying vec3 color;
-// 		void main() {
-// 			if(visible != 0.0){
-// 			    gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0 );
-// 		    }
-// 		}
-
-//     `);
-
-// }
-
-// function get_lineFragment_shader(){
-
-//     return(`
-// 		// uniform vec3 color;
-// 		// uniform float opacity;
-// 		// varying vec3 vColor;
-// 		void main() {
-// 			gl_FragColor = vec4( 0.0, 0.0, 0.0, 1.0 );
-// 		}
-// 	`);
-
-// }
-
 
 
 

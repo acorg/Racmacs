@@ -1,0 +1,594 @@
+
+# include <RcppArmadillo.h>
+# include "acmap_map.h"
+# include "acmap_titers.h"
+# include "ac_titers.h"
+# include "ac_matching.h"
+# include "ac_optimization.h"
+
+// For merging character titers
+AcTiter ac_merge_titers(
+    const std::vector<AcTiter>& titers,
+    double sd_lim
+){
+
+  // Return the titer if size 1
+  if(titers.size() == 1){
+    return titers[0];
+  }
+
+  // Get vectors of numeric titers and titer types
+  arma::vec numtiters = numeric_titers(titers);
+  arma::uvec ttypes = titer_types_int(titers);
+  arma::uvec nona = arma::find(ttypes != 0);
+
+  // 1. If there are > and < titers, result is *
+  if(arma::any(ttypes == 2) && arma::any(ttypes == 3)){
+    return AcTiter();
+  } else
+    // 2. If there are just *, result is *
+    if(arma::all(ttypes == 0)){
+      return AcTiter();
+    } else
+      // 3. If there are just lessthan titers, result is min of them, keeping lessthan
+      if(arma::all(ttypes.elem(nona) == 2)){
+        return AcTiter(
+          arma::min(numtiters),
+          2
+        );
+      } else
+        // 4. If there are just morethan titers, result is max of them, keeping morethan
+        if(arma::all(ttypes.elem(nona) == 3)){
+          return AcTiter(
+            arma::max(numtiters),
+            3
+          );
+        } else {
+
+          // 5. Convert > and < titers to their next values, i.e. <40 to 20, >10240 to 20480, etc. and take the log
+          arma::vec logtiters = log_titers(titers);
+
+          // 6. Compute SD, if SD > 1, result is *
+          if(sd_lim == sd_lim && arma::stddev(logtiters.elem(nona)) > sd_lim){
+            return AcTiter();
+          }
+          // 7. Otherwise return the mean (ignoring nas)
+          else{
+            return AcTiter(
+              std::pow(2.0, arma::mean(logtiters.elem(nona)))*10,
+              1
+            );
+          }
+        }
+
+}
+
+// For merging titer layers
+// [[Rcpp::export]]
+AcTiterTable ac_merge_titer_layers(
+    const std::vector<AcTiterTable>& titer_layers
+){
+
+  int num_ags = titer_layers[0].nags();
+  int num_sr  = titer_layers[0].nsr();
+  int num_layers = titer_layers.size();
+
+  AcTiterTable merged_table = AcTiterTable(
+    num_ags,
+    num_sr
+  );
+
+  std::vector<AcTiter> titers(num_layers, AcTiter());
+
+  for(int ag=0; ag<num_ags; ag++){
+    for(int sr=0; sr<num_sr; sr++){
+      for(int i=0; i<num_layers; i++){
+        titers[i] = titer_layers[i].get_titer(ag,sr);
+      }
+      merged_table.set_titer(
+        ag, sr,
+        ac_merge_titers(
+          titers
+        )
+      );
+    }
+  }
+
+  return merged_table;
+
+}
+
+
+// Check if point already in points
+template <typename T>
+bool pt_in_points(
+    const T& pt,
+    const std::vector<T>& pts
+){
+
+  for(auto &ptspt : pts){
+    if(ptspt.get_match_id() == pt.get_match_id()){
+      return true;
+    }
+  }
+  return false;
+
+}
+
+
+// Construct another titer table based on a subset of indices
+AcTiterTable subset_titer_table(
+  const AcTiterTable& titer_table,
+  const arma::ivec& agsubset,
+  const arma::ivec& srsubset
+){
+
+  AcTiterTable titer_table_subset(
+    agsubset.n_elem,
+    srsubset.n_elem
+  );
+
+  for(arma::uword ag=0; ag<agsubset.n_elem; ag++){
+    for(arma::uword sr=0; sr<srsubset.n_elem; sr++){
+      if(agsubset(ag) != -1 && srsubset(sr) != -1){
+        titer_table_subset.set_titer(
+          ag, sr,
+          titer_table.get_titer(
+            agsubset(ag),
+            srsubset(sr)
+          )
+        );
+      }
+    }
+  }
+
+  return titer_table_subset;
+
+}
+
+
+// Helper function for merging coordinates
+template <typename T>
+arma::mat merge_matching_pt_coords(
+    const std::vector<T>& merged_points,
+    const std::vector<T>& points1,
+    const std::vector<T>& points2,
+    const arma::mat& coords1,
+    const arma::mat& coords2
+){
+
+  // Check input
+  if(coords1.n_cols != coords2.n_cols){
+    Rf_error("Dimensions do not match");
+  }
+
+  // Create the merged coords
+  arma::mat merged_coords( merged_points.size(), coords1.n_cols );
+
+  // Get point matches
+  arma::ivec matches1 = ac_match_points(merged_points, points1);
+  arma::ivec matches2 = ac_match_points(merged_points, points2);
+
+  // Set coordinates
+  for(arma::uword i=0; i<merged_points.size(); i++){
+    if(matches1(i) > -1 && matches2(i) > -1){
+      // Both match
+      merged_coords.row(i) = (coords1.row(matches1(i)) + coords2.row(matches2(i))) / 2;
+    } else if(matches1(i) > -1){
+      // 1 matches
+      merged_coords.row(i) = coords1.row(matches1(i));
+    } else if(matches2(i) > -1){
+      // 2 matches
+      merged_coords.row(i) = coords2.row(matches2(i));
+    } else {
+      // No matches
+      Rf_error("No matches");
+    }
+  }
+
+  // Return the averaged coordinates
+  return merged_coords;
+
+}
+
+// Merging min column basis
+std::string merge_min_column_basis(
+    const std::vector<AcMap>& maps
+){
+
+  std::string min_col_basis = maps[0].optimizations[0].get_min_column_basis();
+  for(arma::uword i=1; i<maps.size(); i++){
+    if(min_col_basis != maps[i].optimizations[0].get_min_column_basis()){
+      Rcpp::Rcerr << "\nMinimum column basis of merged maps do not match, they will be taken from the first map";
+    }
+  }
+  return min_col_basis;
+
+}
+
+// Merging fixed column bases
+arma::vec merge_fixed_column_bases(
+    const std::vector<AcMap>& maps,
+    const std::vector<AcSerum>& merged_sera
+){
+
+  // Create the merged column bases
+  arma::vec merged_fixed_colbases( merged_sera.size() );
+  merged_fixed_colbases.fill( arma::datum::nan );
+
+  // Fetch column bases from maps
+  for(arma::uword i=0; i<maps.size(); i++){
+
+    arma::ivec matches = ac_match_points( maps[i].sera, merged_sera );
+    for(arma::uword j=0; j<matches.n_elem; j++){
+
+      double merged_colbase = merged_fixed_colbases( matches(j) );
+      double map_colbase = maps[i].optimizations[0].get_fixed_column_bases(j);
+
+      if(std::isfinite(merged_colbase) && merged_colbase != map_colbase){
+        // Warn if different fixed column bases used
+        Rcpp::Rcerr << "\nFixed column basis of merged maps do not match, they will be taken from the first map";
+      } else {
+        // Otherwise apply the fixed column base to the merge
+        merged_fixed_colbases( matches(j) ) = map_colbase;
+      }
+
+    }
+
+  }
+
+  // Return the fixed column basis
+  return merged_fixed_colbases;
+
+}
+
+
+
+// == TABLE MERGE ======
+// Just merge the map tables, any optimizations are lost. This function forms the basis
+// for all of the other merging functions
+// [[Rcpp::export]]
+AcMap ac_merge_tables(
+  std::vector<AcMap> maps
+){
+
+  // Setup for output
+  std::vector<AcAntigen> merged_antigens;
+  std::vector<AcSerum> merged_sera;
+  std::vector<AcTiterTable> merged_layers;
+
+  // Add antigens and sera
+  for(arma::uword i=0; i<maps.size(); i++){
+
+    for(arma::uword ag=0; ag<maps[i].antigens.size(); ag++){
+      if(!pt_in_points(maps[i].antigens[ag], merged_antigens)){
+        merged_antigens.push_back(maps[i].antigens[ag]);
+      }
+    }
+
+    for(arma::uword sr=0; sr<maps[i].sera.size(); sr++){
+      if(!pt_in_points(maps[i].sera[sr], merged_sera)){
+        merged_sera.push_back(maps[i].sera[sr]);
+      }
+    }
+
+  }
+
+  // Add titer table layers
+  for(arma::uword i=0; i<maps.size(); i++){
+
+    arma::ivec merged_map_ag_matches = ac_match_points(merged_antigens, maps[i].antigens);
+    arma::ivec merged_map_sr_matches = ac_match_points(merged_sera, maps[i].sera);
+
+    std::vector<AcTiterTable> titer_table_layers = maps[i].get_titer_table_layers();
+
+    for(arma::uword layer=0; layer<titer_table_layers.size(); layer++){
+      merged_layers.push_back(
+        subset_titer_table(
+          titer_table_layers[layer],
+          merged_map_ag_matches,
+          merged_map_sr_matches
+        )
+      );
+    }
+
+  }
+
+  // Create the map
+  AcMap merged_map = AcMap(
+    merged_antigens.size(),
+    merged_sera.size()
+  );
+
+  merged_map.antigens = merged_antigens;
+  merged_map.sera = merged_sera;
+  merged_map.set_titer_table_layers(
+    merged_layers
+  );
+
+  return merged_map;
+
+}
+
+
+// == REOPTIMIZED MERGE ======
+// Merge the tables then run some fresh optimizations
+// [[Rcpp::export]]
+AcMap ac_merge_reoptimized(
+  std::vector<AcMap> maps,
+  int num_dims,
+  int num_optimizations,
+  AcOptimizerOptions options
+){
+
+  // Merge the map tables
+  AcMap merged_map = ac_merge_tables(maps);
+
+  // Merge column bases
+  std::string min_col_basis = merge_min_column_basis( maps );
+  arma::vec fixed_col_bases = merge_fixed_column_bases( maps, merged_map.sera );
+
+  // Run the optimizations
+  merged_map.optimize(
+    num_dims,
+    num_optimizations,
+    min_col_basis,
+    fixed_col_bases,
+    options
+  );
+
+  // Return the map
+  return merged_map;
+
+}
+
+
+// == FROZEN OVERLAY MERGE ======
+// This fixes the positions of points in each map and tries to best match them simply through re-orientation.
+// Once the best re-orientation is found, points that are in common between the maps are moved to the average
+// position.
+// [[Rcpp::export]]
+AcMap ac_merge_frozen_overlay(
+  std::vector<AcMap> maps
+){
+
+  // Check input
+  if(maps.size() > 2){
+    Rf_error("This type of merge only works with 2 maps");
+  }
+  if(maps[0].num_optimizations() == 0 || maps[1].num_optimizations() == 0){
+    Rf_error("Map does not have any optimizations to merge");
+  }
+
+  // Merge the map tables
+  AcMap merged_map = ac_merge_tables(maps);
+
+  // Orient map 2 to map 1
+  maps[1].realign_to_map( maps[0] );
+
+  // Create a fresh optimization
+  AcOptimization opt(
+    maps[0].optimizations[0].dim(),
+    merged_map.antigens.size(),
+    merged_map.sera.size()
+  );
+
+  // Merge coordinates
+  opt.set_ag_base_coords(
+    merge_matching_pt_coords(
+      merged_map.antigens,
+      maps[0].antigens,
+      maps[1].antigens,
+      maps[0].optimizations[0].agCoords(),
+      maps[1].optimizations[0].agCoords()
+    )
+  );
+
+  opt.set_sr_base_coords(
+    merge_matching_pt_coords(
+      merged_map.sera,
+      maps[0].sera,
+      maps[1].sera,
+      maps[0].optimizations[0].srCoords(),
+      maps[1].optimizations[0].srCoords()
+    )
+  );
+
+  // Merge column bases
+  opt.set_min_column_basis( merge_min_column_basis(maps) );
+  opt.set_fixed_column_bases( merge_fixed_column_bases(maps, merged_map.sera) );
+
+  // Calculate stress
+  opt.recalculate_stress( merged_map.titer_table_flat );
+
+  // Add optimization
+  merged_map.optimizations.push_back( opt );
+
+  // Return the map
+  return merged_map;
+
+}
+
+
+// == RELAXED OVERLAY MERGE ======
+// This is the same as the frozen-overlay but points in the resulting map are
+// then allowed to relax.
+// [[Rcpp::export]]
+AcMap ac_merge_relaxed_overlay(
+    std::vector<AcMap> maps,
+    AcOptimizerOptions options
+){
+
+  // Do the frozen overlay
+  AcMap merged_map = ac_merge_frozen_overlay(maps);
+
+  // Relax the optimization
+  merged_map.optimizations[0].relax_from_titer_table(
+    merged_map.titer_table_flat,
+    options
+  );
+
+  // Return the result
+  return merged_map;
+
+}
+
+
+// == FROZEN MERGE ======
+// In this version, positions of all points in the first map are fixed and
+// remain fixed, so the original map does not change. The second map is then
+// realigned to the first as closely as possible and then all the new points
+// appearing in the second map are allowed to relax into their new positions.
+// [[Rcpp::export]]
+AcMap ac_merge_frozen_merge(
+    std::vector<AcMap> maps,
+    AcOptimizerOptions options
+){
+
+  // Start with a frozen merge
+  AcMap merged_map = ac_merge_frozen_overlay(maps);
+
+  // Find matching points from map 1
+  arma::uvec map1_ag_matches = arma::conv_to< arma::uvec >::from( ac_match_points(maps[0].antigens, merged_map.antigens) );
+  arma::uvec map1_sr_matches = arma::conv_to< arma::uvec >::from( ac_match_points(maps[0].sera, merged_map.sera) );
+
+  // Move the matching points back to their position in map 1, undoing any averaging
+  // done by ac_merge_frozen_overlay
+  merged_map.optimizations[0].set_ag_base_coords( map1_ag_matches, maps[0].optimizations[0].get_ag_base_coords() );
+  merged_map.optimizations[0].set_sr_base_coords( map1_sr_matches, maps[0].optimizations[0].get_sr_base_coords() );
+
+  // Now relax the map while fixing points in map 1
+  merged_map.optimizations[0].relax_from_titer_table(
+      merged_map.titer_table_flat,
+      options,
+      map1_ag_matches,
+      map1_sr_matches
+  );
+
+  // Return the map
+  return merged_map;
+
+}
+
+
+// == INCREMENTAL MERGE ======
+AcMap ac_merge_incremental_single(
+    const std::vector<AcMap>& maps,
+    int num_dims,
+    int num_optimizations,
+    std::string min_colbasis,
+    AcOptimizerOptions options
+){
+
+  // Check input
+  if(maps.size() != 2) Rf_error("Expecting 2 maps");
+
+  // Merge the maps
+  AcMap merged_map = ac_merge_tables(maps);
+
+  // Work out column bases
+  arma::vec fixed_colbases = arma::vec( merged_map.sera.size() );
+  fixed_colbases.fill( arma::datum::nan );
+  arma::vec colbases = merged_map.titer_table_flat.colbases( min_colbasis, fixed_colbases );
+
+  // Get table distance matrix and titer type matrix
+  arma::mat tabledist_matrix = merged_map.titer_table_flat.table_distances(colbases);
+  arma::umat titertype_matrix = merged_map.titer_table_flat.get_titer_types();
+
+  // Generate optimizations with random starting coords
+  std::vector<AcOptimization> optimizations = ac_generateOptimizations(
+    colbases,
+    tabledist_matrix,
+    titertype_matrix,
+    num_dims,
+    num_optimizations,
+    options
+  );
+
+  // Set coordinates of points found in map 1 back to their positions in map1
+  arma::uvec map1_ag_matches = arma::conv_to<arma::uvec>::from( ac_match_points(maps[0].antigens, merged_map.antigens) );
+  arma::uvec map1_sr_matches = arma::conv_to<arma::uvec>::from( ac_match_points(maps[0].sera, merged_map.sera) );
+
+  for(auto &optimization : optimizations){
+    arma::mat ag_base_coords = optimization.get_ag_base_coords();
+    arma::mat sr_base_coords = optimization.get_sr_base_coords();
+    ag_base_coords.rows( map1_ag_matches ) = maps[0].optimizations[0].get_ag_base_coords();
+    sr_base_coords.rows( map1_sr_matches ) = maps[0].optimizations[0].get_sr_base_coords();
+    optimization.set_ag_base_coords( ag_base_coords );
+    optimization.set_sr_base_coords( sr_base_coords );
+  }
+
+  // Relax the optimizations
+  ac_relaxOptimizations(
+    optimizations,
+    colbases,
+    tabledist_matrix,
+    titertype_matrix,
+    options
+  );
+
+  // Sort the optimizations by stress
+  sort_optimizations_by_stress(optimizations);
+
+  // Realign optimizations to the first one
+  align_optimizations(optimizations);
+
+  // Set column bases
+  for(auto &optimization : optimizations){
+    optimization.set_min_column_basis(min_colbasis);
+    optimization.set_fixed_column_bases(fixed_colbases);
+  }
+
+  // Add optimizations to merged map and return it
+  merged_map.optimizations = optimizations;
+  return merged_map;
+
+}
+
+// [[Rcpp::export]]
+AcMap ac_merge_incremental(
+    const std::vector<AcMap>& maps,
+    int num_dims,
+    int num_optimizations,
+    std::string min_colbasis,
+    AcOptimizerOptions options
+){
+
+  // Check input
+  if(maps.size() < 2) Rf_error("Expected at least 2 maps");
+
+  // Set the merged map
+  AcMap merged_map = maps[0];
+
+  // Set fixed column bases to all ignored, setting fixed colbases isn't
+  // included in inc merge yet.
+  arma::vec fixed_colbases = arma::vec( merged_map.sera.size() );
+  fixed_colbases.fill( arma::datum::nan );
+
+  // Perform an optimization on the first map, if not done already
+  if(merged_map.num_optimizations() == 0){
+    merged_map.optimize(
+      num_dims,
+      num_optimizations,
+      min_colbasis,
+      fixed_colbases,
+      options
+    );
+  }
+
+  // Do an incremental merge for each map in turn
+  for(arma::uword i=1; i < maps.size(); i++){
+    merged_map = ac_merge_incremental_single(
+      std::vector<AcMap> { merged_map, maps[i] },
+      num_dims,
+      num_optimizations,
+      min_colbasis,
+      options
+    );
+  }
+
+  // Return the merged map
+  return merged_map;
+
+}
+

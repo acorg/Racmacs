@@ -49,8 +49,8 @@
   
 
 <meta property="og:title" content="Getting and setting point coordinates — ptCoords" />
-<meta property="og:description" content="Getting and setting of antigen and serum coordinates in a map optimization run (by default
-the currently selected one)." />
+<meta property="og:description" content="Getting and setting of antigen and serum coordinates in a map optimization
+run (by default the currently selected one)." />
 <meta property="og:image" content="/logo.png" />
 
 
@@ -83,7 +83,7 @@ the currently selected one)." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">Racmacs</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.16</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.3</span>
       </span>
     </div>
 
@@ -123,22 +123,24 @@ the currently selected one)." />
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Getting and setting point coordinates</h1>
-    <small class="dont-index">Source: <a href='https://github.com/acorg/Racmacs/blob/master/R/map_coords.R'><code>R/map_coords.R</code></a></small>
+    <small class="dont-index">Source: <a href='https://github.com/acorg/Racmacs/blob/master/R/map_point_coords.R'><code>R/map_point_coords.R</code></a></small>
     <div class="hidden name"><code>ptCoords.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Getting and setting of antigen and serum coordinates in a map optimization run (by default
-the currently selected one).</p>
+    <p>Getting and setting of antigen and serum coordinates in a map optimization
+run (by default the currently selected one).</p>
     </div>
 
-    <pre class="usage"><span class='fu'>agCoords</span>(<span class='no'>map</span>, <span class='kw'>optimization_number</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>.name</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
+    <pre class="usage"><span class='fu'>agCoords</span>(<span class='no'>map</span>, <span class='kw'>optimization_number</span> <span class='kw'>=</span> <span class='fl'>1</span>)
 
-<span class='fu'>srCoords</span>(<span class='no'>map</span>, <span class='kw'>optimization_number</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>.name</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
+<span class='fu'>srCoords</span>(<span class='no'>map</span>, <span class='kw'>optimization_number</span> <span class='kw'>=</span> <span class='fl'>1</span>)
 
-<span class='fu'>agCoords</span>(<span class='no'>map</span>, <span class='kw'>optimization_number</span> <span class='kw'>=</span> <span class='kw'>NULL</span>) <span class='kw'>&lt;-</span> <span class='no'>value</span>
+<span class='fu'>ptCoords</span>(<span class='no'>map</span>, <span class='kw'>optimization_number</span> <span class='kw'>=</span> <span class='fl'>1</span>)
 
-<span class='fu'>srCoords</span>(<span class='no'>map</span>, <span class='kw'>optimization_number</span> <span class='kw'>=</span> <span class='kw'>NULL</span>) <span class='kw'>&lt;-</span> <span class='no'>value</span></pre>
+<span class='fu'>agCoords</span>(<span class='no'>map</span>, <span class='kw'>optimization_number</span> <span class='kw'>=</span> <span class='fl'>1</span>) <span class='kw'>&lt;-</span> <span class='no'>value</span>
+
+<span class='fu'>srCoords</span>(<span class='no'>map</span>, <span class='kw'>optimization_number</span> <span class='kw'>=</span> <span class='fl'>1</span>) <span class='kw'>&lt;-</span> <span class='no'>value</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -149,33 +151,37 @@ the currently selected one).</p>
     </tr>
     <tr>
       <th>optimization_number</th>
-      <td><p>The optimization number from which to get / set the coordinates</p></td>
+      <td><p>The optimization number from which to get / set
+the coordinates</p></td>
     </tr>
     <tr>
-      <th>.name</th>
-      <td><p>Should the row names of the coordinates be named according to the antigen / serum names</p></td>
+      <th>value</th>
+      <td><p>A matrix of new coordinates to set</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>These functions get and set point coordinates in a map. By default these coordinates
-refer to the currently selected optimization run, unless otherwise specified through the
-<code>optimization_number</code> argument.</p>
-<p>99\<!-- % of the time \code{agCoords()} and \code{serumCoords()} are the functions you'll want to use but -->
-you should note that the outputs are actually the map base coordinates after the transformation and
-translation associated with the optimization run has been applied (see <code><a href='mapTransformation.html'>mapTransformation()</a></code> and
-<code><a href='mapTransformation.html'>mapTranslation()</a></code> for more details). When you set the antigen or serum coordinates through these
-functions, the transformed coordinates are "baked" in and the map transformation and translation
-are reset. Consequently if you want to apply a transformation to all coordinates generally, you are
-better off modifying the map translation and transformation directly, as is done by functions like
-<code><a href='rotateMap.html'>rotateMap()</a></code> and <code><a href='translateMap.html'>translateMap()</a></code>.</p>
+    <p>These functions get and set point coordinates in a map. By default
+these coordinates refer to the currently selected optimization run, unless
+otherwise specified through the <code>optimization_number</code> argument.</p>
+<p>99\<!-- % of the time \code{agCoords()} and \code{srCoords()} are the functions you'll -->
+want to use but you should note that the outputs are actually the map base
+coordinates after the transformation and translation associated with the
+optimization run has been applied (see <code><a href='mapTransformation.html'>mapTransformation()</a></code> and
+<code><a href='mapTransformation.html'>mapTranslation()</a></code> for more details). When you set the antigen or serum
+coordinates through these functions, the transformed coordinates are
+"baked" in and the map transformation and translation are reset.
+Consequently if you want to apply a transformation to all coordinates
+generally, you are better off modifying the map translation and
+transformation directly, as is done by functions like <code><a href='rotateMap.html'>rotateMap()</a></code> and
+<code><a href='translateMap.html'>translateMap()</a></code>.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p><code><a href='ptBaseCoords.html'>agBaseCoords</a></code>
-<code><a href='ptBaseCoords.html'>srBaseCoords</a></code>
-<code><a href='mapTransformation.html'>mapTransformation</a></code>
-<code><a href='mapTransformation.html'>mapTranslation</a></code></p>
+    <div class='dont-index'><p><code><a href='ptBaseCoords.html'>agBaseCoords()</a></code>
+<code><a href='ptBaseCoords.html'>srBaseCoords()</a></code>
+<code><a href='mapTransformation.html'>mapTransformation()</a></code>
+<code><a href='mapTransformation.html'>mapTranslation()</a></code></p>
 <p>Other map optimization attribute functions: 
 <code><a href='colBases.html'>colBases</a>()</code>,
 <code><a href='mapComment.html'>mapComment</a>()</code>,

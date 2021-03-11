@@ -11,7 +11,8 @@ reflectMap(map, axis = "x", optimization_number = NULL)
 
 \item{axis}{Axis of reflection}
 
-\item{optimization_number}{The optimization number (by default the selected one)}
+\item{optimization_number}{The optimization number (or NULL to apply to all
+optimizations)}
 }
 \description{
 Reflects map coordinates
@@ -20,8 +21,6 @@ Reflects map coordinates
 Other {functions relating to map transformation}: 
 \code{\link{applyMapTransform}()},
 \code{\link{rotateMap}()},
-\code{\link{scaleMap}()},
-\code{\link{transformMap}()},
 \code{\link{translateMap}()}
 }
 \concept{{functions relating to map transformation}}

@@ -164,7 +164,7 @@ You can probably tell that this is not a pretty way to account for this potentia
 
 ### Converting a distance table to a map
 Now we have a distance table we have to convert this to some n-dimensional representation. This process is not uncommon, indeed it is 
-[multi-dimensional scaling](https://en.wikipedia.org/wiki/Multidimensional_scaling#Implementations) (MDS).
+[multi-dimensional scaling](https://en.wikipedia.org/wiki/Multidimensional_scaling) (MDS).
 
 What is more uncommon is that we will inevitably have multiple missing values in the distance table since what may seem like a full distance table at first is actually at best only half since we have no measure of antigen-antigen or serum-serum distances, as illustrated below.
 
@@ -177,7 +177,7 @@ A further complication is that generally there are many thresholded or "censored
 The steps of this optimisation process are very simple:
 
 1. Start with antigens and serum in random positions in n-dimensional space[^3].
-2. "relax" the map from these starting conditions using the [conjugate gradient method](https://en.wikipedia.org/wiki/Conjugate_gradient_method).
+2. "relax" the map from these starting conditions using an optimization routine, by default [L-BFGS](https://ensmallen.org/docs.html#l-bfgs).
 
 The optimiser aims to optimise the sum of the squared differences between the table distances (those from the original conversion of titer to distance table) and the map distances (straight-line distance between points in the n-dimensional space), as illustrated below.
 

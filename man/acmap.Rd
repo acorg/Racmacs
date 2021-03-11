@@ -4,70 +4,28 @@
 \alias{acmap}
 \title{Generate a new acmap object}
 \usage{
-acmap(...)
+acmap(
+  ag_names = NULL,
+  sr_names = NULL,
+  titer_table = NULL,
+  ag_coords = NULL,
+  sr_coords = NULL,
+  ...
+)
 }
 \arguments{
-\item{table_name}{Table name}
-
-\item{table}{Table of titer data}
-
 \item{ag_names}{Antigen names}
-
-\item{ag_date}{Antigen dates}
-
-\item{ag_reference}{Is antigen a reference virus}
 
 \item{sr_names}{Sera names}
 
-\item{ag_shown}{Antigen shown}
+\item{titer_table}{Table of titer data}
 
-\item{ag_size}{Antigen size}
+\item{ag_coords}{Antigenic coordinates for an optimization run record
+(optional)}
 
-\item{ag_cols_fill}{Antigen fill color}
+\item{sr_coords}{Sera coordinates for an optimization run record (optional)}
 
-\item{ag_cols_outline}{Antigen outline color}
-
-\item{ag_outline_width}{Antigen outline width}
-
-\item{ag_rotation}{Antigen rotation}
-
-\item{ag_aspect}{Antigen aspect}
-
-\item{ag_shape}{Antigen shape}
-
-\item{ag_drawing_order}{Antigen drawing order}
-
-\item{sr_shown}{Sera shown}
-
-\item{sr_size}{Sera size}
-
-\item{sr_cols_fill}{Sera fill color}
-
-\item{sr_cols_outline}{Sera outline color}
-
-\item{sr_outline_width}{Sera outline width}
-
-\item{sr_rotation}{Sera rotation}
-
-\item{sr_aspect}{Sera aspect}
-
-\item{sr_shape}{Sera shape}
-
-\item{sr_drawing_order}{Sera drawing order}
-
-\item{ag_coords}{Antigen coordinates}
-
-\item{sr_coords}{Sera coordinates}
-
-\item{comment}{Map comment}
-
-\item{minimum_column_basis}{Map minimum column bases}
-
-\item{transformation}{Map transformation}
-
-\item{colbases}{Map column bases}
-
-\item{optimizations}{A list of optimizations with appropriate attributes}
+\item{...}{Further arguments passed to \code{addOptimization()}}
 }
 \value{
 Returns the new acmap object
@@ -77,30 +35,18 @@ This function generates a new acmap object, the base object for storing map
 data in the Racmacs package.
 }
 \details{
-The fundamental unit of the Racmacs package is the \code{acmap} object, short for
-Antigenic Cartography MAP. This object contains all the information about an
-antigenic map. You can read in a new acmap object from a file with the
-function \code{\link{read.acmap}} and create a new acmap object within an R session
-using the \code{acmap} function.
-}
-\examples{
-# Read in an acmap object from a file
-map_file_path <- system.file("extdata/h3map2004.ace", package = "Racmacs")
-map <- read.acmap(map_file_path)
-
-# Read in a table of titer data and make a new acmap file from it
-titer_file_path <- system.file("extdata/h3map2004_hitable.csv", package = "Racmacs")
-titer_data <- read.titerTable(titer_file_path)
-map <- acmap.cpp(table = titer_data)
+The fundamental unit of the Racmacs package is the \code{acmap} object,
+short for Antigenic Cartography MAP. This object contains all the
+information about an antigenic map. You can read in a new acmap object from
+a file with the function \code{read.acmap()} and create a new acmap object
+within an R session using the \code{acmap()} function.
 }
 \seealso{
-See \code{\link{optimizeMap}} for generating new optimizations
-estimating antigen similarity from the acmap titer data.
+See \code{optimizeMap()} for generating new optimizations estimating
+antigen similarity from the acmap titer data.
 
 Other {functions for working with map data}: 
 \code{\link{as.json}()},
-\code{\link{cloneMap}()},
-\code{\link{convertingMaps}},
 \code{\link{orderPoints}},
 \code{\link{read.acmap}()},
 \code{\link{read.titerTable}()},
@@ -108,8 +54,6 @@ Other {functions for working with map data}:
 \code{\link{save.acmap}()},
 \code{\link{save.coords}()},
 \code{\link{save.titerTable}()},
-\code{\link{selectedOptimization}()},
-\code{\link{subsetMap}()},
-\code{\link{subsetPoints}}
+\code{\link{subsetMap}()}
 }
 \concept{{functions for working with map data}}

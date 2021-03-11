@@ -456,25 +456,6 @@ R3JS.Scene = class Scene {
         return(scale.toArray());
     }
 
-    // sceneCoordToPlot(coord){
-    //     var converted_coord = new THREE.Vector3().fromArray(coord);
-    //     converted_coord.multiply(this.plotPoints.scale);
-    //     converted_coord.add(this.plotPoints.position);
-    //     converted_coord.applyQuaternion(this.plotHolder.quaternion);
-    //     return(converted_coord.toArray());
-    // }
-
-    // sceneCoordsToPlot(coords){
-    //     var converted_coords = [];
-    //     for(var i=0; i<coords.length; i++){
-    //         converted_coords.push(
-    //             this.sceneCoordToPlot(coords[i])
-    //         );
-    //     }
-    //     return(converted_coords);
-    // }
-
-
 }
 
 

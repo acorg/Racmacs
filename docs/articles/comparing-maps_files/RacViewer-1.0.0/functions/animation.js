@@ -6,13 +6,18 @@ Racmacs.Point.prototype.animateToCoords = function(coords){
     if(viewer.animated_points.indexOf(this) === -1){
         viewer.animated_points.push(this);
     }
-    this.targetCoords = new THREE.Vector3().fromArray(coords);
-    this.startCoords  = this.coordsVector.clone();
+    
+    var targetCoords = new THREE.Vector3().fromArray(coords);
+    var startCoords  = this.coordsVector.clone();
+
+    // Set the movement vector
+    this.movementVector = targetCoords.sub(startCoords);
+    this.movementVector.multiplyScalar(1 / 20);
     this.targetSteps  = 20;
 
 }
 
-Racmacs.Point.prototype.stepToCoords = function(stepsize = 0.1){
+Racmacs.Point.prototype.stepToCoords = function(){
     
     if(this.targetSteps == 0){
 
@@ -25,17 +30,12 @@ Racmacs.Point.prototype.stepToCoords = function(stepsize = 0.1){
 
         // Remove target coords
         this.targetCoords = null;
-        this.startCoords  = null;
-        this.targetSteps  = null;
+        this.movementVector = null;
 
     } else {
         
-        // Set the movement vector
-        var movementVector = this.targetCoords.clone().sub(this.startCoords);
-        movementVector.multiplyScalar(1 - (this.targetSteps / 20));
-        
         // Set the coordinates to step to
-        var stepCoords = this.startCoords.clone().add(movementVector);
+        var stepCoords = this.coordsVector.clone().add(this.movementVector);
 
         // Step to the coordinates
         this.setPosition(
@@ -59,6 +59,10 @@ Racmacs.Viewer.prototype.animateToCoords = function(data){
 
     for(var i=0; i<data.sera.length; i++){
         this.sera[i].animateToCoords(data.sera[i]);
+    }
+
+    if (data.stress !== undefined) {
+        this.updateStress(data.stress);
     }
 
 }

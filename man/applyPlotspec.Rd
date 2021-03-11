@@ -12,7 +12,8 @@ applyPlotspec(map, source_map)
 \item{source_map}{An acmap object from which to copy point styles}
 }
 \value{
-Returns the acmap object with updated point styles (unmatched point styles unchanged)
+Returns the acmap object with updated point styles (unmatched point
+styles unchanged)
 }
 \description{
 Copy point style from matching antigens and sera in another acmap

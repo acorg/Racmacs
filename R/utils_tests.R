@@ -1,52 +1,23 @@
 
-run.maptests <- function(expr, bothclasses = FALSE, loadlocally = FALSE){
+# Function to export a plot to the testoutput folder
+export.plot.test <- function(code, filename, plotwidth = 8, plotheight = 8) {
 
-  if(loadlocally){
-    invisible(lapply(rev(list.files("R", full.names = T)), source))
-    warning("Functions loaded locally")
-  }
+  rootdir <- testthat::test_path("../testoutput/plots")
+  testfile <- file.path(normalizePath(rootdir), filename)
 
-  if(bothclasses){
-    for(maptype in c("racmap", "racmap.cpp")){
+  grDevices::pdf(testfile, plotwidth, plotheight)
+  utils::capture.output(print(code))
+  grDevices::dev.off()
 
-      set.seed(100)
-
-      if(maptype == "racmap")     {
-        read.map <- read.acmap
-        make.map <- acmap
-        make.newmap <- make.acmap
-      }
-      if(maptype == "racmap.cpp") {
-        read.map <- read.acmap.cpp
-        make.map <- acmap.cpp
-        make.newmap <- make.acmap.cpp
-      }
-
-      test_that <- function(desc, code){
-        testthat::test_that(
-          desc = paste0(maptype, ": ", desc),
-          code = code
-        )
-      }
-
-      eval(substitute(expr))
-
-    }
-  } else {
-    eval(substitute(expr))
-  }
+  testthat::expect_true(file.exists(testfile))
 
 }
 
 
-export.viewer.test <- function(widget, filename, widgetname = "RacViewer"){
+# Function to export a plotly widget to a test page
+export.plotly.test <- function(widget, filename) {
 
-  maptype <- get0("maptype", parent.frame())
-  if(is.null(maptype) || maptype == "racmap"){
-    rootdir <- test_path("../testoutput/viewer/racmap")
-  } else {
-    rootdir <- test_path("../testoutput/viewer/racmap.cpp")
-  }
+  rootdir <- testthat::test_path("../testoutput/plots")
   testfile <- file.path(normalizePath(rootdir), filename)
 
   htmlwidgets::saveWidget(
@@ -56,20 +27,43 @@ export.viewer.test <- function(widget, filename, widgetname = "RacViewer"){
     libdir        = ".lib"
   )
 
-  unlink(file.path(rootdir, paste0(".lib/", widgetname,"-1.0.0")), recursive = T)
+  testthat::expect_true(file.exists(testfile))
+
+}
+
+
+# Function to export a viewer widget instance as a plot to the testoutput folder
+# it also replaces library paths in each file to match library paths in the
+# package to help with debugging
+export.viewer.test <- function(widget, filename, widgetname = "RacViewer") {
+
+  rootdir <- testthat::test_path("../testoutput/viewer")
+  testfile <- file.path(normalizePath(rootdir), filename)
+
+  htmlwidgets::saveWidget(
+    widget,
+    file          = testfile,
+    selfcontained = FALSE,
+    libdir        = ".lib"
+  )
+
+  unlink(
+    file.path(rootdir, paste0(".lib/", widgetname, "-1.0.0")),
+    recursive = T
+  )
 
   plotdata <- readLines(testfile)
-  if(widgetname == "RacViewer"){
+  if (widgetname == "RacViewer") {
     plotdata <- gsub(
       pattern     = paste0(".lib/", widgetname, "-1.0.0/"),
-      replacement = paste0("../../../../inst/htmlwidgets/", widgetname, "/lib/"),
+      replacement = paste0("../../../inst/htmlwidgets/", widgetname, "/lib/"),
       x           = plotdata,
       fixed       = TRUE
     )
   } else {
     plotdata <- gsub(
       pattern     = paste0(".lib/", widgetname, "-1.0.0/"),
-      replacement = paste0("../../../../inst/htmlwidgets/"),
+      replacement = paste0("../../../inst/htmlwidgets/"),
       x           = plotdata,
       fixed       = TRUE
     )
@@ -77,9 +71,6 @@ export.viewer.test <- function(widget, filename, widgetname = "RacViewer"){
   writeLines(plotdata, testfile)
 
   # Add a test to check plot was outputted correctly
-  expect_true(file.exists(testfile))
+  testthat::expect_true(file.exists(testfile))
 
 }
-
-
-

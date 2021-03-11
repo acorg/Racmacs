@@ -66,13 +66,6 @@ R3JS.Viewport.prototype.onmousemove = function(event){
 R3JS.Viewport.prototype.ontouchmove = function(event){
 
     event.preventDefault();
-    // // Make a fake additional touch for testing
-    // event = {touches:[
-    //     {clientX : event.touches[0].clientX,
-    //      clientY : event.touches[0].clientY},
-    //     {clientX : 530,
-    //      clientY : 630}
-    // ]};
     
     var mouse = getMousePos(event.touches[0], this);
     this.mouse.deltaX = mouse.x - this.mouse.x;
@@ -132,14 +125,6 @@ R3JS.Viewport.prototype.onmouseup = function(event){
 R3JS.Viewport.prototype.ontouchdown = function(event){
     event.preventDefault();
     document.activeElement.blur();
-
-    // // Make a fake additional touch for testing
-    // event = {touches:[
-    //     {clientX : event.touches[0].clientX,
-    //      clientY : event.touches[0].clientY},
-    //     {clientX : 530,
-    //      clientY : 630}
-    // ]};
 
     this.touch.num = event.touches.length;
     if(event.touches.length == 1){

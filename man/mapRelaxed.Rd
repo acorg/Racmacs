@@ -4,18 +4,20 @@
 \alias{mapRelaxed}
 \title{Check if a map has been fully relaxed}
 \usage{
-mapRelaxed(map, optimization_number = NULL)
+mapRelaxed(map, optimization_number = 1, options = list())
 }
 \arguments{
 \item{map}{The acmap data object}
 
-\item{optimization_number}{The map optimization number (defaults to the currently selected optimization)}
+\item{optimization_number}{The map optimization number}
+
+\item{options}{List of named optimizer options, see \code{RacOptimizer.options()}}
 }
 \value{
 Returns TRUE or FALSE
 }
 \description{
-Check if a map has been fully relaxed
+Checks if the map optimization run can be relaxed further.
 }
 \seealso{
 Other {map diagnostic functions}: 

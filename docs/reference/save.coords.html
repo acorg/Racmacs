@@ -49,7 +49,8 @@
   
 
 <meta property="og:title" content="Save acmap coordinate data to a file — save.coords" />
-<meta property="og:description" content="Saves acmap coordinate data of all or specified antigens and sera to a .csv file." />
+<meta property="og:description" content="Saves acmap coordinate data of all or specified antigens and sera to a .csv
+file." />
 <meta property="og:image" content="/logo.png" />
 
 
@@ -82,7 +83,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">Racmacs</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.16</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.3</span>
       </span>
     </div>
 
@@ -127,10 +128,17 @@
     </div>
 
     <div class="ref-description">
-    <p>Saves acmap coordinate data of all or specified antigens and sera to a .csv file.</p>
+    <p>Saves acmap coordinate data of all or specified antigens and sera to a .csv
+file.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>save.coords</span>(<span class='no'>map</span>, <span class='no'>filename</span>, <span class='kw'>antigens</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>sera</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
+    <pre class="usage"><span class='fu'>save.coords</span>(
+  <span class='no'>map</span>,
+  <span class='no'>filename</span>,
+  <span class='kw'>optimization_number</span> <span class='kw'>=</span> <span class='fl'>1</span>,
+  <span class='kw'>antigens</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>sera</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>
+)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -143,6 +151,16 @@
       <th>filename</th>
       <td><p>Path to the file.</p></td>
     </tr>
+    <tr>
+      <th>antigens</th>
+      <td><p>Antigens to include, either as a numeric vector of indices or
+character vector of names.</p></td>
+    </tr>
+    <tr>
+      <th>sera</th>
+      <td><p>Sera to include, either as a numeric vector of indices or
+character vector of names.</p></td>
+    </tr>
     </table>
 
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
@@ -150,17 +168,13 @@
     <div class='dont-index'><p>Other functions for working with map data: 
 <code><a href='acmap.html'>acmap</a>()</code>,
 <code><a href='as.json.html'>as.json</a>()</code>,
-<code><a href='cloneMap.html'>cloneMap</a>()</code>,
-<code><a href='convertingMaps.html'>convertingMaps</a></code>,
 <code><a href='orderPoints.html'>orderPoints</a></code>,
 <code><a href='read.acmap.html'>read.acmap</a>()</code>,
 <code><a href='read.titerTable.html'>read.titerTable</a>()</code>,
 <code><a href='removePoints.html'>removePoints</a></code>,
 <code><a href='save.acmap.html'>save.acmap</a>()</code>,
 <code><a href='save.titerTable.html'>save.titerTable</a>()</code>,
-<code><a href='selectedOptimization.html'>selectedOptimization</a>()</code>,
-<code><a href='subsetMap.html'>subsetMap</a>()</code>,
-<code><a href='subsetPoints.html'>subsetPoints</a></code></p></div>
+<code><a href='subsetMap.html'>subsetMap</a>()</code></p></div>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

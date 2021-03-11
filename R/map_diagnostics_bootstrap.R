@@ -42,9 +42,14 @@ bootstrapMap <- function(
 
   # Set options
   options <- do.call(RacOptimizer.options, options)
+  options$report_progress <- FALSE
+
+  # Set progress bar
+  message("Running bootstrap repeats")
+  pb <- ac_progress_bar(bootstrap_repeats)
 
   # Run the bootstrap
-  map$bootstrap <- lapply(seq_len(bootstrap_repeats), function(x) {
+  map$optimizations[[1]]$bootstrap <- lapply(seq_len(bootstrap_repeats), function(x) {
 
     # Do a bootstrap run
     bs_result <- ac_noisy_bootstrap_map(
@@ -64,6 +69,9 @@ bootstrapMap <- function(
       ptCoords(map)
     )
 
+    # Update progress
+    ac_update_progress(pb, x)
+
     # Return the result
     bs_result
 
@@ -74,6 +82,19 @@ bootstrapMap <- function(
 
 }
 
+# Utility function to get bootstrap data
+bootstrapData <- function(map, optimization_number) {
+
+  map$optimization[[optimization_number]]$bootstrap
+
+}
+
+# Utility function to check if map has bootstrap data
+hasBootstrapData <- function(map, optimization_number) {
+
+  !is.null(bootstrapData(map, optimization_number))
+
+}
 
 
 #' Get bootstrap coordinates associated with a map
@@ -115,7 +136,7 @@ mapBootstrap_srCoords <- function(map) {
 mapBootstrap_ptCoords <- function(map) {
 
   # Get bootstrap data
-  bootstrap <- map$bootstrap
+  bootstrap <- map$optimizations[[1]]$bootstrap
   if (is.null(bootstrap)) stop(strwrap(
     "There are no bootstrap repeats associated with this map,
     create some first using 'bootstrapMap()'"
@@ -130,6 +151,88 @@ mapBootstrap_ptCoords <- function(map) {
   })
 
 }
+
+
+#' Calculate bootstrap blob data for an antigenic map
+#'
+#' This function takes a map for which the function `bootstrapMap()` has already
+#' been applied and draws contour blobs for each point illustrating how point
+#' position varies in each bootstrap repeat. The blobs are calculated using
+#' kernal density estimates according to these point distribution and drawn
+#' so as to encompass a given proportion of this variation according to the
+#' parameter `conf.level`. A `conf.level` set at 0.95 for example will draw
+#' blobs that are calculated to encompass 95% of the positional variation seen
+#' in the bootstrap repeats. Note however that the accuracy of these estimates
+#' will depend on the number of bootstrap repeats performed, for example whether
+#' 100 or 1000 repeats were performed in the initial calculations using
+#' `boostrapMap()`.
+#'
+#' @param map The acmap data object
+#' @param conf.level The proportion of positional variation captured by each blob
+#' @param smoothing The amount of smoothing to perform when performing the
+#'   kernel density estimate, larger equates to more smoothing
+#'
+#' @return Returns an acmap object that will then show the corresponding bootstrap
+#'   blobs when viewed or plotted.
+#'
+bootstrapBlobs <- function(
+  map,
+  conf.level = 0.68,
+  smoothing = 6
+  ) {
+
+  # Get coordinates
+  bootstrap_ag_coords <- mapBootstrap_agCoords(map)
+  bootstrap_sr_coords <- mapBootstrap_srCoords(map)
+
+  # Set progress bar
+  message("Calculating bootstrap blobs")
+  pb <- ac_progress_bar(numPoints(map))
+
+  # Calculate for antigens
+  for (agnum in seq_along(map$antigens)) {
+
+    agDiagnostics(map, 1)[[agnum]]$bootstrap_blob <- coordDensityBlob(
+      coords = t(sapply(bootstrap_ag_coords, function(x) x[agnum, ])),
+      conf.level = conf.level,
+      smoothing = smoothing
+    )
+    ac_update_progress(pb, agnum)
+
+  }
+
+  # Calculate for sera
+  for (srnum in seq_along(map$sera)) {
+
+    srDiagnostics(map, 1)[[srnum]]$bootstrap_blob <- coordDensityBlob(
+      coords = t(sapply(bootstrap_sr_coords, function(x) x[srnum, ])),
+      conf.level = conf.level,
+      smoothing = smoothing
+    )
+    ac_update_progress(pb, srnum + numAntigens(map))
+
+  }
+
+  # Return the updated map
+  map
+
+}
+
+
+# Functions for fetching bootstrap blob information
+agBootstrapBlobs <- function(map, optimization_number = 1) {
+  lapply(agDiagnostics(map, optimization_number), function(ag) ag$bootstrap_blob)
+}
+srBootstrapBlobs <- function(map, optimization_number = 1) {
+  lapply(srDiagnostics(map, optimization_number), function(sr) sr$bootstrap_blob)
+}
+ptBootstrapBlobs <- function(map, optimization_number = 1) {
+  c(agBootstrapBlobs(map, optimization_number), srBootstrapBlobs(map, optimization_number))
+}
+hasBootstrapBlobs <- function(map, optimization_number = 1) {
+  sum(vapply(ptBootstrapBlobs(map, optimization_number), function(x) length(x) > 0, logical(1))) > 0
+}
+
 
 #' Calculate a blob geometry representing bootstrap point position variation
 #'
@@ -149,31 +252,33 @@ mapBootstrap_ptCoords <- function(map) {
 coordDensityBlob <- function(
   coords,
   conf.level = 0.68,
-  smoothing = 6
+  smoothing = 1
   ) {
 
   # Check dimensions
-  if (ncol(coords) != 2) {
-    stop("Bootstrap blobs are only supported for 2 dimensions")
+  ndims <- ncol(coords)
+  if (ndims != 2 && ndims != 3) {
+    stop("Bootstrap blobs are only supported for 2 or 3 dimensions")
   }
 
   # Check confidence level
   if (conf.level != round(conf.level, 2)) {
-    stop("Confidence level must be to the nearest percent")
+    stop("conf.level must be to the nearest percent")
   }
 
   # Perform a kernal density fit
   kd_fit <- ks::kde(
     coords,
-    gridsize = 50,
+    gridsize = apply(coords, 2, function(x) ceiling(diff(range(x)) / 0.25)),
     H = ks::Hpi(x = coords, nstage = 2, deriv.order = 0) * smoothing
   )
 
   # Calculate the contour blob
+  # We have to negate things here so that 3d contours are calculated appropriately
   contour_blob(
-    grid_values = kd_fit$estimate,
+    grid_values = -kd_fit$estimate,
     grid_points = kd_fit$eval.points,
-    value_lim   = ks::contourLevels(kd_fit, prob = 1 - conf.level)
+    value_lim   = -ks::contourLevels(kd_fit, prob = 1 - conf.level)
   )
 
 }

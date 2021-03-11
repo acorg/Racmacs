@@ -221,7 +221,8 @@ SEXP wrap(const AcOptimization& acopt){
     _["stress"] = acopt.get_stress(),
     _["comment"] = acopt.get_comment(),
     _["ag_diagnostics"] = acopt.ag_diagnostics,
-    _["sr_diagnostics"] = acopt.sr_diagnostics
+    _["sr_diagnostics"] = acopt.sr_diagnostics,
+    _["bootstrap"] = acopt.bootstrap
   );
 
   // Set class attribute and return
@@ -505,6 +506,20 @@ AcSerum as(SEXP sxp){
 
 }
 
+// TO: NOISYBOOTSTRAP
+template <>
+NoisyBootstrapOutput as(SEXP sxp) {
+
+  List list = as<List>(sxp);
+  NoisyBootstrapOutput out;
+
+  out.ag_noise = as<arma::vec>(list["ag_noise"]);
+  out.coords = as<arma::mat>(list["coords"]);
+
+  return out;
+
+}
+
 // TO: ACDIAGNOSTICS
 template <>
 AcDiagnostics as(SEXP sxp){
@@ -578,6 +593,9 @@ AcOptimization as(SEXP sxp){
     for (arma::uword i=0; i<sr_diagnostics.size(); i++) {
       acopt.sr_diagnostics[i] = as<AcDiagnostics>(wrap(sr_diagnostics[i]));
     }
+  }
+  if(opt.containsElementNamed("bootstrap")) {
+    acopt.bootstrap = as<std::vector<NoisyBootstrapOutput>>(wrap(opt["bootstrap"]));
   }
   if(opt.containsElementNamed("stress")) {
     acopt.set_stress( as<double>(wrap(opt["stress"])) );

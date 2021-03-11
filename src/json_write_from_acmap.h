@@ -164,22 +164,26 @@ Value jsonifya(
 
 }
 
-// // From point hemisphering info
-// template <>
-// Value jsonifya(
-//     const std::vector<HemiDiagnosis>& hemidata,
-//     Document::AllocatorType& allocator
-// ){
-//
-//   Value pthemi(kArrayType);
-//   for(arma::uword i=0; i<hemidata.size(); i++){
-//     Value hemi(kObjectType);
-//     hemi.AddMember("d", jsonifya(hemidata[i].diagnosis, allocator), allocator);
-//     hemi.AddMember("c", jsonifya(hemidata[i].coords, allocator), allocator);
-//     pthemi.PushBack(hemi, allocator);
-//   }
-//   return pthemi;
-//
-// }
+// From arma::mat
+template <>
+Value jsonifya(
+    const std::vector<NoisyBootstrapOutput>& bootstraps,
+    Document::AllocatorType& allocator
+){
+
+  Value bs(kObjectType);
+  Value ag_noise(kArrayType);
+  Value coords(kArrayType);
+
+  for(auto &bootstrap : bootstraps){
+    ag_noise.PushBack(jsonifya(bootstrap.ag_noise, allocator), allocator);
+    coords.PushBack(jsonifya(bootstrap.coords, allocator), allocator);
+  }
+
+  bs.AddMember("coords", coords, allocator);
+  bs.AddMember("ag_noise", ag_noise, allocator);
+  return bs;
+
+}
 
 #endif

@@ -232,9 +232,15 @@ std::string acmap_to_json(
       allocator
     );
 
-    // // Diagnostics
-    // Value optxh(kArrayType);
-    //
+    // Bootstrapping
+    if (map.optimizations[i].bootstrap.size() > 0) {
+      optx.AddMember(
+        "b",
+        jsonifya(map.optimizations[i].bootstrap, allocator),
+        allocator
+      );
+    }
+
     // // Hemisphering
     // for(arma::uword ag=0; ag<map.optimizations[i].ag_diagnostics.size(); ag++){
     //   if (map.optimizations[i].ag_diagnostics[ag].hemi.size() > 0) {

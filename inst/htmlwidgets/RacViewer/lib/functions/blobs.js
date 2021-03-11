@@ -167,7 +167,7 @@ Racmacs.Point.prototype.addBlob = function(blob){
         this.blob = new R3JS.element.Polygon3d({
             faces    : faces,
             vertices : vertices,
-            normals  : normals,
+            // normals  : normals,
             properties : {
                 mat : "phong",
                 transparent : true,

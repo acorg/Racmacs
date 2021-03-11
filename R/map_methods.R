@@ -150,6 +150,34 @@ view.acmap <- function(
 
   }
 
+  # Show any bootstrap data
+  if (
+    hasBootstrapData(x, optimization_number)
+    && !isFALSE(show_diagnostics)
+  ) {
+
+    widget <- htmlwidgets::onRender(
+      x      = widget,
+      jsCode = "function(el, x, data) { el.viewer.showBootstrapPoints(data) }",
+      data   = I(bootstrapData(x, optimization_number))
+    )
+
+  }
+
+  # Show any bootstrap blob data
+  if (
+    hasBootstrapBlobs(x, optimization_number)
+    && !isFALSE(show_diagnostics)
+  ) {
+
+    widget <- htmlwidgets::onRender(
+      x      = widget,
+      jsCode = "function(el, x, data) { el.viewer.addStressBlobs(data) }",
+      data   = I(ptBootstrapBlobs(x, optimization_number))
+    )
+
+  }
+
   # Show any hemisphering data
   if (
     hasHemisphering(x, optimization_number)

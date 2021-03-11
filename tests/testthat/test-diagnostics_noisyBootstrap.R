@@ -53,5 +53,3 @@ test_that("Test map bootstrapping", {
 
 })
 
-
-warning("Need some more bootstrap map tests")

@@ -133,14 +133,19 @@ contour_blob <- function(
   value_lim
   ) {
 
-  if (dim(grid_values)[3] == 1) {
+  # Collapse 3d arrays into 2d if 3rd dimension is length 1
+  if (length(dim(grid_values)) == 3 && dim(grid_values)[3] == 1) {
+    grid_values <- grid_values[, , 1]
+  }
+
+  if (length(dim(grid_values)) == 2) {
 
     ## 2D
     ndims <- 2
     blob <- grDevices::contourLines(
       x = grid_points[[1]],
       y = grid_points[[2]],
-      z = grid_values[, , 1],
+      z = grid_values,
       levels = value_lim
     )
 

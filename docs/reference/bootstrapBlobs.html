@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Perform dimension testing on a map object — dimensionTestMap • Racmacs</title>
+<title>Calculate bootstrap blob data for an antigenic map — bootstrapBlobs • Racmacs</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -48,9 +48,18 @@
   <link href="../extra.css" rel="stylesheet">
   
 
-<meta property="og:title" content="Perform dimension testing on a map object — dimensionTestMap" />
-<meta property="og:description" content="Take a map object and perform cross-validation, seeing how well titers are
-predicted when they are excluded from the map." />
+<meta property="og:title" content="Calculate bootstrap blob data for an antigenic map — bootstrapBlobs" />
+<meta property="og:description" content="This function takes a map for which the function bootstrapMap() has already
+been applied and draws contour blobs for each point illustrating how point
+position varies in each bootstrap repeat. The blobs are calculated using
+kernal density estimates according to these point distribution and drawn
+so as to encompass a given proportion of this variation according to the
+parameter conf.level. A conf.level set at 0.95 for example will draw
+blobs that are calculated to encompass 95% of the positional variation seen
+in the bootstrap repeats. Note however that the accuracy of these estimates
+will depend on the number of bootstrap repeats performed, for example whether
+100 or 1000 repeats were performed in the initial calculations using
+boostrapMap()." />
 <meta property="og:image" content="/logo.png" />
 
 
@@ -122,26 +131,26 @@ predicted when they are excluded from the map." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Perform dimension testing on a map object</h1>
-    <small class="dont-index">Source: <a href='https://github.com/acorg/Racmacs/blob/master/R/map_diagnostics_dimtest.R'><code>R/map_diagnostics_dimtest.R</code></a></small>
-    <div class="hidden name"><code>dimensionTestMap.Rd</code></div>
+    <h1>Calculate bootstrap blob data for an antigenic map</h1>
+    <small class="dont-index">Source: <a href='https://github.com/acorg/Racmacs/blob/master/R/map_diagnostics_bootstrap.R'><code>R/map_diagnostics_bootstrap.R</code></a></small>
+    <div class="hidden name"><code>bootstrapBlobs.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Take a map object and perform cross-validation, seeing how well titers are
-predicted when they are excluded from the map.</p>
+    <p>This function takes a map for which the function <code><a href='bootstrapMap.html'>bootstrapMap()</a></code> has already
+been applied and draws contour blobs for each point illustrating how point
+position varies in each bootstrap repeat. The blobs are calculated using
+kernal density estimates according to these point distribution and drawn
+so as to encompass a given proportion of this variation according to the
+parameter <code>conf.level</code>. A <code>conf.level</code> set at 0.95 for example will draw
+blobs that are calculated to encompass 95% of the positional variation seen
+in the bootstrap repeats. Note however that the accuracy of these estimates
+will depend on the number of bootstrap repeats performed, for example whether
+100 or 1000 repeats were performed in the initial calculations using
+<code>boostrapMap()</code>.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>dimensionTestMap</span>(
-  <span class='no'>map</span>,
-  <span class='kw'>dimensions_to_test</span> <span class='kw'>=</span> <span class='fl'>1</span>:<span class='fl'>5</span>,
-  <span class='kw'>test_proportion</span> <span class='kw'>=</span> <span class='fl'>0.1</span>,
-  <span class='kw'>minimum_column_basis</span> <span class='kw'>=</span> <span class='st'>"none"</span>,
-  <span class='kw'>fixed_column_bases</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span>(<span class='fl'>NA</span>, <span class='fu'><a href='acmapAttributes.html'>numSera</a></span>(<span class='no'>map</span>)),
-  <span class='kw'>number_of_optimizations</span> <span class='kw'>=</span> <span class='fl'>1000</span>,
-  <span class='kw'>replicates_per_dimension</span> <span class='kw'>=</span> <span class='fl'>100</span>,
-  <span class='kw'>options</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>()
-)</pre>
+    <pre class="usage"><span class='fu'>bootstrapBlobs</span>(<span class='no'>map</span>, <span class='kw'>conf.level</span> <span class='kw'>=</span> <span class='fl'>0.68</span>, <span class='kw'>smoothing</span> <span class='kw'>=</span> <span class='fl'>6</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -151,49 +160,26 @@ predicted when they are excluded from the map.</p>
       <td><p>The acmap data object</p></td>
     </tr>
     <tr>
-      <th>dimensions_to_test</th>
-      <td><p>A numeric vector of dimensions to be tested</p></td>
+      <th>conf.level</th>
+      <td><p>The proportion of positional variation captured by each blob</p></td>
     </tr>
     <tr>
-      <th>test_proportion</th>
-      <td><p>The proportion of data to be used as the test set for
-each test run</p></td>
-    </tr>
-    <tr>
-      <th>minimum_column_basis</th>
-      <td><p>The minimum column basis to use</p></td>
-    </tr>
-    <tr>
-      <th>fixed_column_bases</th>
-      <td><p>A vector of fixed column bases with NA for sera
-where the minimum column basis should be applied</p></td>
-    </tr>
-    <tr>
-      <th>number_of_optimizations</th>
-      <td><p>The number of optimizations to perform when
-creating each map for the dimension test</p></td>
-    </tr>
-    <tr>
-      <th>replicates_per_dimension</th>
-      <td><p>The number of tests to perform per dimension
-tested</p></td>
-    </tr>
-    <tr>
-      <th>options</th>
-      <td><p>Map optimizer options, see <code><a href='RacOptimizer.options.html'>RacOptimizer.options()</a></code></p></td>
+      <th>smoothing</th>
+      <td><p>The amount of smoothing to perform when performing the
+kernel density estimate, larger equates to more smoothing</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>Returns a table of results, including the dimensions tested and the
-standard deviation of predicted vs residual error.</p>
+    <p>Returns an acmap object that will then show the corresponding bootstrap
+blobs when viewed or plotted.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p>Other map diagnostic functions: 
-<code><a href='bootstrapBlobs.html'>bootstrapBlobs</a>()</code>,
 <code><a href='bootstrapMap.html'>bootstrapMap</a>()</code>,
 <code><a href='checkHemisphering.html'>checkHemisphering</a>()</code>,
+<code><a href='dimensionTestMap.html'>dimensionTestMap</a>()</code>,
 <code><a href='mapRelaxed.html'>mapRelaxed</a>()</code></p></div>
 
   </div>

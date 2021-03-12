@@ -175,6 +175,8 @@ mapBootstrap_ptCoords <- function(map) {
 #' @return Returns an acmap object that will then show the corresponding bootstrap
 #'   blobs when viewed or plotted.
 #'
+#' @family {map diagnostic functions}
+#'
 bootstrapBlobs <- function(
   map,
   conf.level = 0.68,

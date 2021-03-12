@@ -49,6 +49,7 @@ dependencies:
       - r3js/lib/functions/element_grid.js
       - r3js/lib/functions/element_text.js
       - r3js/lib/functions/element_polygon.js
+      - r3js/lib/functions/element_triangles.js
       - r3js/lib/functions/selection.js
       - r3js/lib/functions/viewport.js
       - r3js/lib/functions/buttons.js

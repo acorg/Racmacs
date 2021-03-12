@@ -43,6 +43,7 @@ simulated.
 }
 \seealso{
 Other {map diagnostic functions}: 
+\code{\link{bootstrapBlobs}()},
 \code{\link{checkHemisphering}()},
 \code{\link{dimensionTestMap}()},
 \code{\link{mapRelaxed}()}

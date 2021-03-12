@@ -29,6 +29,7 @@ Check for hemisphering or trapped points
 }
 \seealso{
 Other {map diagnostic functions}: 
+\code{\link{bootstrapBlobs}()},
 \code{\link{bootstrapMap}()},
 \code{\link{dimensionTestMap}()},
 \code{\link{mapRelaxed}()}

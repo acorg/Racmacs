@@ -21,6 +21,7 @@ Checks if the map optimization run can be relaxed further.
 }
 \seealso{
 Other {map diagnostic functions}: 
+\code{\link{bootstrapBlobs}()},
 \code{\link{bootstrapMap}()},
 \code{\link{checkHemisphering}()},
 \code{\link{dimensionTestMap}()}

@@ -25,7 +25,8 @@ test_that("Test map bootstrapping", {
 
   # Calculating bootstrap blobs
   bsmap <- bootstrapBlobs(
-    bsmap, 0.68
+    bsmap,
+    0.68
   )
 
   # Viewing bootstrap blobs

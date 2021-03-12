@@ -31,6 +31,7 @@ class AcOptimization {
 
     std::vector<AcDiagnostics> ag_diagnostics;
     std::vector<AcDiagnostics> sr_diagnostics;
+    std::vector<NoisyBootstrapOutput> bootstrap;
     double stress = arma::datum::nan;
 
     // Constructors

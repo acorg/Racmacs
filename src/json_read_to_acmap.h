@@ -103,5 +103,35 @@ arma::mat parse(
 
 }
 
+// To bootstrap
+template <>
+NoisyBootstrapOutput parse(
+    const Value& v
+){
+
+  NoisyBootstrapOutput out;
+  out.ag_noise = parse<arma::vec>(v["ag_noise"]);
+  out.coords = parse<arma::mat>(v["coords"]);
+  return out;
+
+}
+
+template <>
+std::vector<NoisyBootstrapOutput> parse(
+    const Value& v
+){
+
+  const Value& ag_noise = v["ag_noise"];
+  const Value& coords = v["coords"];
+
+  arma::uword num_bootstrap = coords.Size();
+  std::vector<NoisyBootstrapOutput> out(num_bootstrap);
+  for (SizeType i = 0; i < num_bootstrap; i++) {
+    out[i].ag_noise = parse<arma::vec>(ag_noise[i]);
+    out[i].coords = parse<arma::mat>(coords[i]);
+  }
+  return out;
+
+}
 
 #endif

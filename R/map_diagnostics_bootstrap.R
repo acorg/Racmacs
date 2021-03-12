@@ -176,6 +176,7 @@ mapBootstrap_ptCoords <- function(map) {
 #'   blobs when viewed or plotted.
 #'
 #' @family {map diagnostic functions}
+#' @export
 #'
 bootstrapBlobs <- function(
   map,

@@ -1,5 +1,5 @@
 
-// Sphere constructor
+// Polygon constructor
 R3JS.element.constructors.polygon = function(
     plotobj,
     plotdims

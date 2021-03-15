@@ -118,7 +118,6 @@ procrustesMap <- function(
 #'   any points not found in the comparison map.
 #'
 #' @export
-#'
 procrustesData <- function(
   map,
   comparison_map,

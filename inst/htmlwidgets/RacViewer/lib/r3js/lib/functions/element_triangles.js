@@ -23,18 +23,9 @@ R3JS.element.Triangles = class Triangles extends R3JS.element.base {
     constructor(args){
 
         // Set defaults
-        if(args.properties === undefined)           args.properties           = {};
-        if(args.properties.color === undefined) {
-            args.properties.color     = {r:0,g:0,b:0,a:1};
-        } else {
-            args.properties.color     = {
-                r:args.properties.color.r[0],
-                g:args.properties.color.g[0],
-                b:args.properties.color.b[0],
-                a:1
-            }
-        }
-        if(args.properties.opacity !== undefined)   args.properties.color.a   = args.properties.opacity;
+        if(args.properties === undefined)         args.properties           = {};
+        if(args.properties.color === undefined)   args.properties.color     = {r:0,g:0,b:0,a:1};
+        if(args.properties.opacity !== undefined) args.properties.color.a   = args.properties.opacity;
 
         super();
 
@@ -69,7 +60,6 @@ R3JS.element.Triangles = class Triangles extends R3JS.element.base {
 
         // Set fill material
         var material = R3JS.Material(args.properties);
-        material.color.set("#ff0000");
 
         // Make fill object
         this.object = new THREE.Mesh(geometry, material);

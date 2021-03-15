@@ -15,7 +15,8 @@
 RacViewer.options <- function(
   point.opacity = NA,
   viewer.controls = "hidden",
-  grid.display = "static"
+  grid.display = "static",
+  grid.col = "#666666"
 ) {
 
   # Check input
@@ -26,7 +27,8 @@ RacViewer.options <- function(
   list(
     viewer.controls = viewer.controls,
     point.opacity = point.opacity,
-    grid.display = grid.display
+    grid.display = grid.display,
+    grid.col = grid.col
   )
 
 }

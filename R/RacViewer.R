@@ -36,7 +36,7 @@ RacViewer <- function(
 
   # Add a rotating grid to the plotdata if specified
   if (options$grid.display == "rotate") {
-    map <- addMapGrid(map)
+    map <- addMapGrid(map, options$grid.col)
   }
 
   # forward options using x

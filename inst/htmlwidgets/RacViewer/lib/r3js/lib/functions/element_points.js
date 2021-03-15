@@ -84,7 +84,7 @@ R3JS.element.Point = class Point extends R3JS.element.base {
             && args.properties.fillcolor.b == 1) {
           var geo = R3JS.Geometries[args.shape].outline(this.lwd);
           this.outline = new THREE.LineSegments(geo);
-          this.outline.material.linewidth = 10;
+          this.outline.material.linewidth = this.lwd;
           this.outline.element = this;
         } else {
           var geo = new THREE.BufferGeometry();

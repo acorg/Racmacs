@@ -78,19 +78,9 @@ R3JS.element.Point = class Point extends R3JS.element.base {
       if(args.properties.outlinecolor){
         args.properties.color = args.properties.outlinecolor;
         var mat = R3JS.Material(args.properties);
-        if (args.shape == "circle3d" 
-            && args.properties.fillcolor.r == 1
-            && args.properties.fillcolor.g == 1
-            && args.properties.fillcolor.b == 1) {
-          var geo = R3JS.Geometries[args.shape].outline(this.lwd);
-          this.outline = new THREE.LineSegments(geo);
-          this.outline.material.linewidth = this.lwd;
-          this.outline.element = this;
-        } else {
-          var geo = new THREE.BufferGeometry();
-          this.outline = new THREE.Mesh(geo, mat);
-          this.outline.element = this;
-        }
+        var geo = R3JS.Geometries[args.shape].outline(this.lwd);
+        this.outline = new THREE.Mesh(geo, mat);
+        this.outline.element = this;
         this.object.add(this.outline);
       }
 
@@ -159,8 +149,7 @@ R3JS.Geometries.circle3d = {
     return( new THREE.SphereBufferGeometry(0.1, 25, 25) );
   },
   outline : function(lwd){
-    var geometry = new THREE.SphereBufferGeometry(0.1, 6, 4);
-    return( new THREE.WireframeGeometry( geometry ) );
+    return( new THREE.BufferGeometry() );
   }
 }
 

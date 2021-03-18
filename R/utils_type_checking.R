@@ -78,3 +78,18 @@ format_titers <- function(titers) {
   titers[is.na(titers)] <- "*"
   titers
 }
+
+# Helper function to deprecate the 'table' argument
+table_arg_deprecated <- function(titer_table, table, ...){
+
+  if (!missing(table)) {
+    if (is.null(titer_table)) {
+      warning("Argument 'table' is deprecated, please use 'titer_table' instead")
+      titer_table <- table
+    } else {
+      stop("Only one of the arguments 'table' and 'titer_table' should be used")
+    }
+  }
+  titer_table
+
+}

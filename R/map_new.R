@@ -36,16 +36,8 @@ acmap <- function(
 ) {
 
   # Check input
-  extras <- names(list(...))
-  if (sum(!extras %in% methods::formalArgs(addOptimization)) > 0) {
-    stop(sprintf(
-      "Unrecognised arguments: %s",
-      paste(
-        extras[!extras %in% methods::formalArgs(addOptimization)],
-        collapse = ", "
-      )
-    ))
-  }
+  ellipsis::check_dots_used()
+  titer_table <- table_arg_deprecated(titer_table, ...)
 
   # Infer the number of antigens and sera
   num_antigens <- NULL

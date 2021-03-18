@@ -154,3 +154,14 @@ Racmacs.App.prototype.reflect = function(axis){
 
 }
 
+Racmacs.App.prototype.enterGUImode = function(){
+    
+    this.controlpanel.showShinyElements();
+
+}
+
+Racmacs.App.prototype.exitGUImode = function(){
+    
+    this.controlpanel.hideShinyElements();
+
+}

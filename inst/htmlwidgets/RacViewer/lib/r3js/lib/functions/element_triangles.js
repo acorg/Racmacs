@@ -5,7 +5,6 @@ R3JS.element.constructors.triangles = function(
     ){
 
     // Make the object
-    console.log(plotobj);
     var element = new R3JS.element.Triangles({
         vertices   : plotobj.vertices,
         properties : plotobj.properties
@@ -53,6 +52,25 @@ R3JS.element.Triangles = class Triangles extends R3JS.element.base {
 
         }
 
+        // Add vertex colors
+        for(var i=0; i<geometry.faces.length; i++){
+            geometry.faces[i].vertexColors[0] = new THREE.Color(
+                args.properties.color.r[i*3],
+                args.properties.color.g[i*3],
+                args.properties.color.b[i*3]
+            );
+            geometry.faces[i].vertexColors[1] = new THREE.Color(
+                args.properties.color.r[i*3+1],
+                args.properties.color.g[i*3+1],
+                args.properties.color.b[i*3+1]
+            );
+            geometry.faces[i].vertexColors[2] = new THREE.Color(
+                args.properties.color.r[i*3+2],
+                args.properties.color.g[i*3+2],
+                args.properties.color.b[i*3+2]
+            );
+        }
+
         // Convert to buffer geometry
         var geometry = new THREE.BufferGeometry().fromGeometry( geometry );
         geometry.computeFaceNormals();
@@ -60,6 +78,8 @@ R3JS.element.Triangles = class Triangles extends R3JS.element.base {
 
         // Set fill material
         var material = R3JS.Material(args.properties);
+        material.vertexColors = THREE.VertexColors;
+        material.color = new THREE.Color();
 
         // Make fill object
         this.object = new THREE.Mesh(geometry, material);

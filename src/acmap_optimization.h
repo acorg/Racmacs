@@ -373,7 +373,7 @@ class AcOptimization {
 
     // Reduce dimensions of optimization through principle component analysis
     void reduceDimensions(
-      int dims
+      arma::uword dims
     ){
 
       // Reduce coordinate dimensions

@@ -49,7 +49,31 @@ test_that("Optimizing a perfect map", {
   # Check output
   pcdata <- procrustesData(perfect_map_opt, perfect_map)
   expect_equal(numOptimizations(perfect_map_opt), 1000)
-  expect_lt(pcdata$total_rmsd, 0.001)
+  expect_lt(pcdata$total_rmsd, 0.01)
+
+  # Check stresses are calculated correctly
+  expect_lt(optStress(perfect_map_opt, 1), 0.001)
+
+})
+
+# Setup a perfect optimization to test
+test_that("Optimizing a perfect map with dimensional annealing", {
+
+  # Try the perfect map with optimization
+  perfect_map_opt <- optimizeMap(
+    map = perfect_map,
+    number_of_dimensions = 2,
+    number_of_optimizations = 1000,
+    fixed_column_bases = colbases,
+    options = list(
+      dim_annealing = TRUE
+    )
+  )
+
+  # Check output
+  pcdata <- procrustesData(perfect_map_opt, perfect_map)
+  expect_equal(numOptimizations(perfect_map_opt), 1000)
+  expect_lt(pcdata$total_rmsd, 0.01)
 
   # Check stresses are calculated correctly
   expect_lt(optStress(perfect_map_opt, 1), 0.001)

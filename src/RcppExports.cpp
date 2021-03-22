@@ -1194,15 +1194,15 @@ BEGIN_RCPP
 END_RCPP
 }
 // ac_runOptimizations
-std::vector<AcOptimization> ac_runOptimizations(const AcTiterTable& titertable, const arma::vec& colbases, const int& num_dims, const int& num_optimizations, const AcOptimizerOptions& options);
+std::vector<AcOptimization> ac_runOptimizations(const AcTiterTable& titertable, const arma::vec& colbases, const arma::uword& num_dims, const arma::uword& num_optimizations, const AcOptimizerOptions& options);
 RcppExport SEXP _Racmacs_ac_runOptimizations(SEXP titertableSEXP, SEXP colbasesSEXP, SEXP num_dimsSEXP, SEXP num_optimizationsSEXP, SEXP optionsSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< const AcTiterTable& >::type titertable(titertableSEXP);
     Rcpp::traits::input_parameter< const arma::vec& >::type colbases(colbasesSEXP);
-    Rcpp::traits::input_parameter< const int& >::type num_dims(num_dimsSEXP);
-    Rcpp::traits::input_parameter< const int& >::type num_optimizations(num_optimizationsSEXP);
+    Rcpp::traits::input_parameter< const arma::uword& >::type num_dims(num_dimsSEXP);
+    Rcpp::traits::input_parameter< const arma::uword& >::type num_optimizations(num_optimizationsSEXP);
     Rcpp::traits::input_parameter< const AcOptimizerOptions& >::type options(optionsSEXP);
     rcpp_result_gen = Rcpp::wrap(ac_runOptimizations(titertable, colbases, num_dims, num_optimizations, options));
     return rcpp_result_gen;

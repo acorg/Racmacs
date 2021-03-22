@@ -11,6 +11,7 @@
 #' @param plot_sr logical, should antigens be plotted
 #' @param plot_labels logical, should point labels be plotted
 #' @param plot_blobs logical, should stress blobs be plotted if present
+#' @param show_procrustes logical, should procrustes lines be shown, if present
 #' @param grid.col grid line color
 #' @param grid.margin.col grid margin color
 #' @param fill.alpha alpha for point fill
@@ -32,6 +33,7 @@ plot.acmap <- function(
   plot_sr  = TRUE,
   plot_labels = FALSE,
   plot_blobs = TRUE,
+  show_procrustes = TRUE,
   grid.col = "grey90",
   grid.margin.col = grid.col,
   fill.alpha    = 0.8,
@@ -194,6 +196,33 @@ plot.acmap <- function(
       pos = 3,
       offset = 1
     )
+  }
+
+  ## Add procrustes
+  if (
+    hasProcrustes(x, optimization_number)
+    && !isFALSE(show_procrustes)
+  ) {
+
+    pc_data <- ptProcrustes(x, optimization_number)
+    pc_coords <- rbind(pc_data$ag_coords, pc_data$sr_coords)
+    pc_coords <- applyMapTransform(pc_coords, x, optimization_number)
+    pt_coords <- ptCoords(x, optimization_number)
+
+    lapply(seq_len(numPoints(x)), function(i){
+      shape::Arrows(
+        x0 = pt_coords[i, 1],
+        y0 = pt_coords[i, 2],
+        x1 = pc_coords[i, 1],
+        y1 = pc_coords[i, 2],
+        arr.type = "triangle",
+        arr.adj = 1,
+        arr.length = 0.2,
+        arr.width = 0.15,
+        lwd = 2
+      )
+    })
+
   }
 
 }

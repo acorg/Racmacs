@@ -28,7 +28,8 @@ Imports:
     htmltools,
     methods,
     rstudioapi,
-    rmarchingcubes
+    rmarchingcubes,
+    shape
 LazyData: TRUE
 Suggests: 
     testthat,

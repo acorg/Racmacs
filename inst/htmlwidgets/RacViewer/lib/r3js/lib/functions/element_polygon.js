@@ -178,6 +178,25 @@ R3JS.element.Polygon3d = class Polygon3d extends R3JS.element.base {
             );
         }
 
+        // Add vertex colors
+        for(var i=0; i<geometry.faces.length; i++){
+            geometry.faces[i].vertexColors[0] = new THREE.Color(
+                args.properties.color.r[i*3],
+                args.properties.color.g[i*3],
+                args.properties.color.b[i*3]
+            );
+            geometry.faces[i].vertexColors[1] = new THREE.Color(
+                args.properties.color.r[i*3+1],
+                args.properties.color.g[i*3+1],
+                args.properties.color.b[i*3+1]
+            );
+            geometry.faces[i].vertexColors[2] = new THREE.Color(
+                args.properties.color.r[i*3+2],
+                args.properties.color.g[i*3+2],
+                args.properties.color.b[i*3+2]
+            );
+        }
+
         // Add normals
         if(args.normals !== undefined){
             var normals = args.normals;
@@ -191,7 +210,7 @@ R3JS.element.Polygon3d = class Polygon3d extends R3JS.element.base {
         } else {
             // geometry.mergeVertices();
             // geometry.computeVertexNormals();
-            geometry.computeFaceNormals();
+            // geometry.computeFaceNormals();
         }
 
         // Convert to buffer geometry
@@ -201,6 +220,8 @@ R3JS.element.Polygon3d = class Polygon3d extends R3JS.element.base {
         args.properties.color   = args.properties.fillcolor;
         args.properties.opacity = args.properties.fillcolor.a;
         var fillmaterial = R3JS.Material(args.properties);
+        fillmaterial.vertexColors = THREE.VertexColors;
+        fillmaterial.color = new THREE.Color();
 
         // Make fill object
         this.fill = new THREE.Mesh(fillgeometry, fillmaterial);

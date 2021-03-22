@@ -64,11 +64,23 @@ ptCoords <- function(map, optimization_number = 1) {
   )
 }
 
+# Set the antigen and serum coordinates
+#' @rdname ptCoords
+#' @export
+`ptCoords<-` <- function(map, optimization_number = 1, value) {
+  check.numericmatrix(value)
+  if (nrow(value) != numPoints(map)) stop("Replacement coordinates do not match the number of points in the map", call. = FALSE)
+  agCoords(map, optimization_number) <- value[seq_len(numAntigens(map)), , drop = FALSE]
+  srCoords(map, optimization_number) <- value[-seq_len(numAntigens(map)), , drop = FALSE]
+  map
+}
+
 # Set the antigen coordinates
 #' @rdname ptCoords
 #' @export
 `agCoords<-` <- function(map, optimization_number = 1, value) {
   check.acmap(map)
+  check.numericmatrix(value)
   optimization <- map$optimizations[[optimization_number]]
   if (is.null(optimization)) stop("optimization run not found")
   map$optimizations[[optimization_number]] <- ac_set_ag_coords(
@@ -85,6 +97,7 @@ ptCoords <- function(map, optimization_number = 1) {
 #' @export
 `srCoords<-` <- function(map, optimization_number = 1, value) {
   check.acmap(map)
+  check.numericmatrix(value)
   optimization <- map$optimizations[[optimization_number]]
   if (is.null(optimization)) stop("optimization run not found")
   map$optimizations[[optimization_number]] <- ac_set_sr_coords(

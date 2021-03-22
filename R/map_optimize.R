@@ -45,11 +45,16 @@ optimizeMap <- function(
   number_of_dimensions,
   number_of_optimizations,
   minimum_column_basis = "none",
-  fixed_column_bases = rep(NA, numSera(map)),
+  fixed_column_bases = NULL,
   sort_optimizations = TRUE,
   verbose  = TRUE,
   options = list()
   ) {
+
+  # Set arguments
+  if (is.null(fixed_column_bases)) {
+    fixed_column_bases <- rep(NA, numSera(map))
+  }
 
   # Warn about overwriting previous optimizations
   if (numOptimizations(map) > 0) {
@@ -121,17 +126,22 @@ make.acmap <- function(
   number_of_dimensions    = 2,
   number_of_optimizations = 100,
   minimum_column_basis    = "none",
-  fixed_column_bases      = rep(NA, ncol(titer_table)),
+  fixed_column_bases      = NULL,
   sort_optimizations      = TRUE,
   verbose                 = TRUE,
-  options                 = list()
+  options                 = list(),
+  ...
   ) {
+
+  # Check arguments
+  ellipsis::check_dots_used()
 
   # Make the chart
   map <- acmap(
     titer_table = titer_table,
     ag_names = ag_names,
-    sr_names = sr_names
+    sr_names = sr_names,
+    ...
   )
 
   # Run the optimizations

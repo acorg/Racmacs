@@ -88,6 +88,12 @@ R3JS.element.make = function(
             plotobj,
             viewer
         );
+    } else if(plotobj.type == "triangle"){
+        // Triangles
+        var element = this.constructors.triangles(
+            plotobj,
+            viewer
+        );
     } else if(plotobj.type == "shape"){
         // 3d shape
         var element = this.constructors.polygon3d(

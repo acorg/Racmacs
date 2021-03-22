@@ -38,7 +38,6 @@ Racmacs.Viewer.prototype.updateStress = function(stress){
 
   // Update any batch run viewers bound
   if(this.projectionList){
-      console.log(this.data.projection());
       this.projectionList.updateStress(
           this.data.projection(), 
           stress.toFixed(2)

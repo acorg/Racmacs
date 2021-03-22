@@ -37,12 +37,25 @@ tested}
 \item{options}{Map optimizer options, see \code{RacOptimizer.options()}}
 }
 \value{
-Returns a table of results, including the dimensions tested and the
-standard deviation of predicted vs residual error.
+Returns a data frame with the following columns. "dimensions" : the
+dimension tested, "mean_rmse_detectable" : mean prediction rmse for
+detectable titers across all runs. "var_rmse_detectable" the variance of
+the prediction rmse for detectable titers across all runs, useful for
+estimating confidence intervals. "mean_rmse_nondetectable" and
+"var_rmse_nondetectable" the equivalent for non-detectable titers
 }
 \description{
 Take a map object and perform cross-validation, seeing how well titers are
 predicted when they are excluded from the map.
+}
+\details{
+For each run, the ag-sr titers that were randomly excluded are
+predicted according to their relative positions in the map trained without
+them. An RMSE is then calculated by comparing predicted titers inferred
+from the map on the log scale to the actual log titers. This is done
+separately for detectable titers (e.g. 40) and non-detectable titers (e.g.
+<10). For non-detectable titers, if the predicted titer is the same or
+lower than the log-titer threshold, the error is set to 0.
 }
 \seealso{
 Other {map diagnostic functions}: 

@@ -30,8 +30,8 @@ void ac_relaxOptimizations(
 std::vector<AcOptimization> ac_runOptimizations(
     const AcTiterTable &titertable,
     const arma::vec &colbases,
-    const int &num_dims,
-    const int &num_optimizations,
+    const arma::uword &num_dims,
+    const arma::uword &num_optimizations,
     const AcOptimizerOptions &options
 );
 

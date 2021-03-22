@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Get or set the selected optimization — selectedOptimization • Racmacs</title>
+<title>Run dimtest result — runDimensionTestMap • Racmacs</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -48,8 +48,8 @@
   <link href="../extra.css" rel="stylesheet">
   
 
-<meta property="og:title" content="Get or set the selected optimization — selectedOptimization" />
-<meta property="og:description" content="Functions to get and set the currently selected optimization from an acmap object (see details)." />
+<meta property="og:title" content="Run dimtest result — runDimensionTestMap" />
+<meta property="og:description" content="Run dimtest result" />
 <meta property="og:image" content="/logo.png" />
 
 
@@ -82,7 +82,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">Racmacs</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.16</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.4</span>
       </span>
     </div>
 
@@ -121,54 +121,27 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Get or set the selected optimization</h1>
-    <small class="dont-index">Source: <a href='https://github.com/acorg/Racmacs/blob/master/R/map_chart.R'><code>R/map_chart.R</code></a></small>
-    <div class="hidden name"><code>selectedOptimization.Rd</code></div>
+    <h1>Run dimtest result</h1>
+    <small class="dont-index">Source: <a href='https://github.com/acorg/Racmacs/blob/master/R/map_diagnostics_dimtest.R'><code>R/map_diagnostics_dimtest.R</code></a></small>
+    <div class="hidden name"><code>runDimensionTestMap.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Functions to get and set the currently selected optimization from an acmap object (see details).</p>
+    <p>Run dimtest result</p>
     </div>
 
-    <pre class="usage"><span class='fu'>selectedOptimization</span>(<span class='no'>map</span>)
+    <pre class="usage"><span class='fu'>runDimensionTestMap</span>(
+  <span class='no'>map</span>,
+  <span class='kw'>dimensions_to_test</span> <span class='kw'>=</span> <span class='fl'>1</span>:<span class='fl'>5</span>,
+  <span class='kw'>test_proportion</span> <span class='kw'>=</span> <span class='fl'>0.1</span>,
+  <span class='kw'>minimum_column_basis</span> <span class='kw'>=</span> <span class='st'>"none"</span>,
+  <span class='kw'>fixed_column_bases</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span>(<span class='fl'>NA</span>, <span class='fu'><a href='acmapAttributes.html'>numSera</a></span>(<span class='no'>map</span>)),
+  <span class='kw'>number_of_optimizations</span> <span class='kw'>=</span> <span class='fl'>1000</span>,
+  <span class='kw'>replicates_per_dimension</span> <span class='kw'>=</span> <span class='fl'>100</span>,
+  <span class='kw'>options</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>()
+)</pre>
 
-<span class='fu'>selectedOptimization</span>(<span class='no'>map</span>) <span class='kw'>&lt;-</span> <span class='no'>value</span></pre>
 
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
-    <table class="ref-arguments">
-    <colgroup><col class="name" /><col class="desc" /></colgroup>
-    <tr>
-      <th>map</th>
-      <td><p>The acmap data object</p></td>
-    </tr>
-    </table>
-
-    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
-
-    <p>Returns the selected optimization number.</p>
-    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
-
-    <p>At any one time a map object has one of the optimizations <em>selected</em>
-(by default the first one). Any information you read from this map that
-comes from a optimization (for example <code><a href='ptCoords.html'>agCoords</a></code>) and any functions that
-you perform that relate to a optimization (for example <code><a href='relaxMap.html'>relaxMap</a></code>), will
-be performed on the selected optimization by default.</p>
-    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
-
-    <div class='dont-index'><p>Other functions for working with map data: 
-<code><a href='acmap.html'>acmap</a>()</code>,
-<code><a href='as.json.html'>as.json</a>()</code>,
-<code><a href='cloneMap.html'>cloneMap</a>()</code>,
-<code><a href='convertingMaps.html'>convertingMaps</a></code>,
-<code><a href='orderPoints.html'>orderPoints</a></code>,
-<code><a href='read.acmap.html'>read.acmap</a>()</code>,
-<code><a href='read.titerTable.html'>read.titerTable</a>()</code>,
-<code><a href='removePoints.html'>removePoints</a></code>,
-<code><a href='save.acmap.html'>save.acmap</a>()</code>,
-<code><a href='save.coords.html'>save.coords</a>()</code>,
-<code><a href='save.titerTable.html'>save.titerTable</a>()</code>,
-<code><a href='subsetMap.html'>subsetMap</a>()</code>,
-<code><a href='subsetPoints.html'>subsetPoints</a></code></p></div>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

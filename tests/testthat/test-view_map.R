@@ -99,6 +99,20 @@ test_that("Viewing a 3D map", {
 
 })
 
+# 3D map
+test_that("Viewing a 3D map with sphere outlines", {
+
+  # map <- read.acmap(test_path("../testdata/testmap_h3subset3d.ace"))
+  map <- read.acmap("~/Downloads/map-2.ace")
+  srShape(map) <- "CIRCLE"
+
+  export.viewer.test(
+    view(map),
+    filename = "map_3d_sphere_outlines.html"
+  )
+
+})
+
 # Exporting the viewer
 test_that("Exporting a map viewer", {
 

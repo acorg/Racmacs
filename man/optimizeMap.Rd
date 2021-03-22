@@ -9,7 +9,7 @@ optimizeMap(
   number_of_dimensions,
   number_of_optimizations,
   minimum_column_basis = "none",
-  fixed_column_bases = rep(NA, numSera(map)),
+  fixed_column_bases = NULL,
   sort_optimizations = TRUE,
   verbose = TRUE,
   options = list()

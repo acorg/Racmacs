@@ -6,6 +6,21 @@ context("Test local map creation (test_map_creation.R)")
 # Set test table
 testtable <- matrix(2 ^ (1:6) * 10, 3, 2)
 
+# Backwards compatibility
+test_that("table argument still works", {
+
+  # Making a map from a table
+  expect_warning({
+    map <- acmap(
+      table = testtable
+    )
+  }, "Argument 'table' is deprecated, please use 'titer_table' instead")
+
+  expect_equal(numAntigens(map), 3)
+  expect_equal(numSera(map), 2)
+
+})
+
 # Bare bones creation
 test_that("Bare bones creation", {
 
@@ -72,10 +87,27 @@ test_that("Removing optimizations", {
 
 # Using acmap
 test_that("Making a map and optimizing", {
-  make.acmap(
+  map <- make.acmap(
     titer_table             = testtable,
     number_of_dimensions    = 3,
     number_of_optimizations = 2,
     minimum_column_basis    = "none"
   )
+  expect_equal(numAntigens(map), 3)
+  expect_equal(numSera(map), 2)
 })
+
+test_that("Making a map and optimizing using table arg", {
+  expect_warning({
+    map <- make.acmap(
+      table                   = testtable,
+      number_of_dimensions    = 3,
+      number_of_optimizations = 2,
+      minimum_column_basis    = "none"
+    )
+  }, "Argument 'table' is deprecated, please use 'titer_table' instead")
+  expect_equal(numAntigens(map), 3)
+  expect_equal(numSera(map), 2)
+})
+
+

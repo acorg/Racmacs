@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Subset antigens and sera — subsetPoints • Racmacs</title>
+<title>Summarize dimension test results — dimtest_summary • Racmacs</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -48,8 +48,8 @@
   <link href="../extra.css" rel="stylesheet">
   
 
-<meta property="og:title" content="Subset antigens and sera — subsetPoints" />
-<meta property="og:description" content="Functions to keep only a subset of antigens and sera from a map" />
+<meta property="og:title" content="Summarize dimension test results — dimtest_summary" />
+<meta property="og:description" content="Summarize dimension test results" />
 <meta property="og:image" content="/logo.png" />
 
 
@@ -82,7 +82,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">Racmacs</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.16</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.4</span>
       </span>
     </div>
 
@@ -121,52 +121,18 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Subset antigens and sera</h1>
-    <small class="dont-index">Source: <a href='https://github.com/acorg/Racmacs/blob/master/R/map_subset.R'><code>R/map_subset.R</code></a></small>
-    <div class="hidden name"><code>subsetPoints.Rd</code></div>
+    <h1>Summarize dimension test results</h1>
+    <small class="dont-index">Source: <a href='https://github.com/acorg/Racmacs/blob/master/R/map_diagnostics_dimtest.R'><code>R/map_diagnostics_dimtest.R</code></a></small>
+    <div class="hidden name"><code>dimtest_summary.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Functions to keep only a subset of antigens and sera from a map</p>
+    <p>Summarize dimension test results</p>
     </div>
 
-    <pre class="usage"><span class='fu'>subsetAntigens</span>(<span class='no'>map</span>, <span class='no'>antigens</span>)
+    <pre class="usage"><span class='fu'>dimtest_summary</span>(<span class='no'>object</span>, <span class='no'>...</span>)</pre>
 
-<span class='fu'>subsetSera</span>(<span class='no'>map</span>, <span class='no'>sera</span>)</pre>
 
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
-    <table class="ref-arguments">
-    <colgroup><col class="name" /><col class="desc" /></colgroup>
-    <tr>
-      <th>map</th>
-      <td><p>The map data object</p></td>
-    </tr>
-    <tr>
-      <th>antigens</th>
-      <td><p>Antigens to keep (specified by name or index)</p></td>
-    </tr>
-    <tr>
-      <th>sera</th>
-      <td><p>Sera to keep (specified by name or index)</p></td>
-    </tr>
-    </table>
-
-    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
-
-    <div class='dont-index'><p>Other functions for working with map data: 
-<code><a href='acmap.html'>acmap</a>()</code>,
-<code><a href='as.json.html'>as.json</a>()</code>,
-<code><a href='cloneMap.html'>cloneMap</a>()</code>,
-<code><a href='convertingMaps.html'>convertingMaps</a></code>,
-<code><a href='orderPoints.html'>orderPoints</a></code>,
-<code><a href='read.acmap.html'>read.acmap</a>()</code>,
-<code><a href='read.titerTable.html'>read.titerTable</a>()</code>,
-<code><a href='removePoints.html'>removePoints</a></code>,
-<code><a href='save.acmap.html'>save.acmap</a>()</code>,
-<code><a href='save.coords.html'>save.coords</a>()</code>,
-<code><a href='save.titerTable.html'>save.titerTable</a>()</code>,
-<code><a href='selectedOptimization.html'>selectedOptimization</a>()</code>,
-<code><a href='subsetMap.html'>subsetMap</a>()</code></p></div>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

@@ -4,6 +4,7 @@
 \alias{ptCoords}
 \alias{agCoords}
 \alias{srCoords}
+\alias{ptCoords<-}
 \alias{agCoords<-}
 \alias{srCoords<-}
 \title{Getting and setting point coordinates}
@@ -13,6 +14,8 @@ agCoords(map, optimization_number = 1)
 srCoords(map, optimization_number = 1)
 
 ptCoords(map, optimization_number = 1)
+
+ptCoords(map, optimization_number = 1) <- value
 
 agCoords(map, optimization_number = 1) <- value
 

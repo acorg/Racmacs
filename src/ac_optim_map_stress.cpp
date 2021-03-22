@@ -432,8 +432,8 @@ void ac_relaxOptimizations(
 std::vector<AcOptimization> ac_runOptimizations(
     const AcTiterTable &titertable,
     const arma::vec &colbases,
-    const int &num_dims,
-    const int &num_optimizations,
+    const arma::uword &num_dims,
+    const arma::uword &num_optimizations,
     const AcOptimizerOptions &options
 ){
 
@@ -441,24 +441,45 @@ std::vector<AcOptimization> ac_runOptimizations(
   arma::mat tabledist_matrix = titertable.table_distances(colbases);
   arma::umat titertype_matrix = titertable.get_titer_types();
 
+  // Set dimensions to cycle through, for e.g. dimensional annealing
+  arma::uvec dim_set { num_dims };
+
+  if (options.dim_annealing && num_dims < 5) {
+    dim_set.set_size(2);
+    dim_set(0) = 5;
+    dim_set(1) = num_dims;
+  }
+
   // Generate optimizations with random starting coords
   std::vector<AcOptimization> optimizations = ac_generateOptimizations(
     colbases,
     tabledist_matrix,
     titertype_matrix,
-    num_dims,
+    dim_set(0),
     num_optimizations,
     options
   );
 
-  // Relax the optimizations
-  ac_relaxOptimizations(
-    optimizations,
-    colbases,
-    tabledist_matrix,
-    titertype_matrix,
-    options
-  );
+  // Now cycle "anneal" through the dimensions
+  for (arma::uword i=0; i<dim_set.n_elem; i++) {
+
+    // Relax the optimizations
+    ac_relaxOptimizations(
+      optimizations,
+      colbases,
+      tabledist_matrix,
+      titertype_matrix,
+      options
+    );
+
+    // Reduce dimensions to next step if doing dimensional annealing
+    if (i + 1 < dim_set.n_elem) {
+      for(auto &optimization : optimizations){
+        optimization.reduceDimensions(dim_set(i + 1));
+      }
+    }
+
+  }
 
   // Sort the optimizations by stress
   sort_optimizations_by_stress(optimizations);

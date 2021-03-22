@@ -21,52 +21,6 @@ R3JS.Viewer.prototype.eventListeners.push({
     }
 });
 
-// Racmacs.BootstrapPanel = class ProcrustesPanel {
-
-//     constructor(viewer){
-
-//         // Create holder div
-//         this.div = document.createElement("div");
-//         this.div.classList.add("bootstrap-tab");
-
-//         this.checkbox = new Racmacs.utils.Checkbox({
-//             check_fn   : function(){ viewer.bootstrapOn()  },
-//             uncheck_fn : function(){ viewer.bootstrapOff() },
-//             text : "Show bootstrap on selection"
-//         });
-
-//         this.div.appendChild(this.checkbox.div);
-
-//         // var procrustesTable = new Racmacs.ProcrustesTable(viewer);
-//         // this.div.appendChild(procrustesTable.div);
-        
-//         // var newProcrustesWell = new Racmacs.utils.InputWell({
-//         //     inputs: [
-//         //         { id: "optimization", value: 1, label : "Optimization number" },
-//         //     ],
-//         //     submit: "Calculate procrustes to file",
-//         //     fn : function(args){ viewer.onProcrustes(args) }
-//         // });
-//         // this.div.appendChild(newProcrustesWell.div);
-//         // newProcrustesWell.div.classList.add("shiny-element");
-
-//     }
-
-
-// }
-
-// Racmacs.Viewer.prototype.bootstrapOn = function(){
-
-// 	this.bootstrap_shown = true;
-
-// }
-
-// Racmacs.Viewer.prototype.bootstrapOff = function(){
-
-//     this.bootstrap_shown = false;
-	
-// }
-
 Racmacs.Point.prototype.showBootstrap = function(){
 
     if(bootstrap_coords[0].length < 3){
@@ -122,8 +76,7 @@ Racmacs.Viewer.prototype.showBootstrapPoints = function(bootstrapdata){
     // Add bootstrap points
     for(var i=0; i<this.points.length; i++){
         this.points[i].addBootstrapPoints({
-            ag_noise : bootstrapdata.ag_noise.map(x => x[i]),
-            coords : bootstrapdata.coords.map(x => x[i])
+            coords : bootstrapdata.map(x => x.coords[i])
         });
     }
 

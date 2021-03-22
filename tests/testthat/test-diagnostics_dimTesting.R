@@ -3,6 +3,31 @@ library(testthat)
 context("Dimension testing")
 set.seed(200)
 
+# Check the summary is being calculated properly
+test_that("Dimension test summary working correctly", {
+
+  map <- read.acmap(test_path("../testdata/testmap_h3subset.ace"))
+
+  dimresults <- runDimensionTestMap(
+    map = map,
+    dimensions_to_test = c(2,3),
+    fixed_column_bases = colBases(map),
+    test_proportion = 0.02,
+    replicates_per_dimension = 2
+  )
+
+  testtiter1 <- dimresults$titers[dimresults$results[[1]]$test_indices]
+  testtiter2 <- dimresults$titers[dimresults$results[[2]]$test_indices]
+  predtiter1 <- dimresults$results[[1]]$predictions[[1]]
+  predtiter2 <- dimresults$results[[2]]$predictions[[1]]
+
+  expect_equal(
+    mean(c(abs(predtiter1 - log_titers(testtiter1)), abs(predtiter2 - log_titers(testtiter2)))),
+    dimtest_summary(dimresults)$mean_rmse_detectable[1]
+  )
+
+})
+
 # Read testmap
 map <- read.acmap(test_path("../testdata/testmap.ace"))
 
@@ -17,7 +42,7 @@ test_dims <- c(2, 3, 4)
 colbases_from_full <- FALSE
 
 # Run the dimension test
-dimtest <- dimensionTestMap(
+dimtest <- runDimensionTestMap(
   map                      = map,
   dimensions_to_test       = test_dims,
   test_proportion          = 0.1,
@@ -104,9 +129,7 @@ test_that("Dimension testing", {
 
 test_that("Dimension testing summary", {
 
-  dimtest_summary <- summary(dimtest)
+  dimtest_summary <- dimtest_summary(dimtest)
   expect_equal(dim(dimtest_summary), c(3, 5))
 
 })
-
-warning("Need further testing of the dimension test")

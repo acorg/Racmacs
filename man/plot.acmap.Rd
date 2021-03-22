@@ -13,6 +13,7 @@
   plot_sr = TRUE,
   plot_labels = FALSE,
   plot_blobs = TRUE,
+  show_procrustes = TRUE,
   grid.col = "grey90",
   grid.margin.col = grid.col,
   fill.alpha = 0.8,
@@ -38,6 +39,8 @@
 \item{plot_labels}{logical, should point labels be plotted}
 
 \item{plot_blobs}{logical, should stress blobs be plotted if present}
+
+\item{show_procrustes}{logical, should procrustes lines be shown, if present}
 
 \item{grid.col}{grid line color}
 

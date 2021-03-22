@@ -6,7 +6,7 @@ set.seed(200)
 # Check the summary is being calculated properly
 test_that("Dimension test summary working correctly", {
 
-  map <- read.acmap("tests/testdata/testmap_h3subset.ace")
+  map <- read.acmap(test_path("../testdata/testmap_h3subset.ace"))
 
   dimresults <- runDimensionTestMap(
     map = map,

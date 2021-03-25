@@ -78,8 +78,8 @@ optimizeMap <- function(
   )
 
   # Check for disconnected or underconstrained points
-  ag_num_measured <- rowSums(titerTable(map) != "*")
-  sr_num_measured <- colSums(titerTable(map) != "*")
+  ag_num_measured <- rowSums(titertypesTable(map) == 1)
+  sr_num_measured <- colSums(titertypesTable(map) == 1)
 
   ag_disconnected <- ag_num_measured < number_of_dimensions
   sr_disconnected <- sr_num_measured < number_of_dimensions

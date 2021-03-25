@@ -77,6 +77,27 @@ optimizeMap <- function(
     options = options
   )
 
+  # Check for disconnected or underconstrained points
+  ag_num_measured <- rowSums(titerTable(map) != "*")
+  sr_num_measured <- colSums(titerTable(map) != "*")
+
+  ag_disconnected <- ag_num_measured < number_of_dimensions
+  sr_disconnected <- sr_num_measured < number_of_dimensions
+
+  ag_underconstrained <- ag_num_measured < number_of_dimensions + 1
+  sr_underconstrained <- sr_num_measured < number_of_dimensions + 1
+
+  if (sum(ag_disconnected) > 0) warn_disconnected("antigens", agNames(map)[ag_disconnected], number_of_dimensions)
+  if (sum(sr_disconnected) > 0) warn_disconnected("sera", srNames(map)[sr_disconnected], number_of_dimensions)
+
+  if (sum(ag_underconstrained) > 0) warn_underconstrained("antigens", agNames(map)[ag_underconstrained], number_of_dimensions)
+  if (sum(sr_underconstrained) > 0) warn_underconstrained("sera", srNames(map)[sr_underconstrained], number_of_dimensions)
+
+  # Set disconnected point coordinates to NaN
+  agCoords(map)[ag_disconnected,] <- NaN
+  srCoords(map)[sr_disconnected,] <- NaN
+
+  # Output finishing messages
   tend <- Sys.time()
   tlength <- round(tend - tstart, 2)
   vmessage(
@@ -499,4 +520,31 @@ ptHemisphering <- function(map, optimization_number = 1) {
 }
 hasHemisphering <- function(map, optimization_number = 1) {
   sum(vapply(ptHemisphering(map, optimization_number), function(x) length(x) > 0, logical(1))) > 0
+}
+
+
+# Functions for warning that points are disconnected / underconstrained
+warn_underconstrained <- function(type, strains, number_of_dimensions) {
+  strain_list_warning(
+    sprintf(
+      singleline("The following %s have do not have enough titrations to position
+                    in %s dimensions. Coordinates were still optimized but positions
+                    will be unreliable"),
+      type,
+      number_of_dimensions
+    ),
+    strains
+  )
+}
+
+warn_disconnected <- function(type, strains, number_of_dimensions) {
+  strain_list_warning(
+    sprintf(
+      singleline("The following %s are too underconstrained to position in %s dimensions
+                 and coordinates have been set to NaN:"),
+      type,
+      number_of_dimensions
+    ),
+    strains
+  )
 }

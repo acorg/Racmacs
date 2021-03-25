@@ -1,6 +1,13 @@
 
 ## Some utility functions for outputting errors, warnings and messages
 
+# Remove new lines from a multiline string
+singleline <- function(x) {
+  x <- gsub("\n", "", x)
+  x <- gsub(" +", " ", x)
+  x
+}
+
 # Output an error that refers to a list of strains
 strain_list_error <- function(error, strains) {
 

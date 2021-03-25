@@ -87,12 +87,12 @@ test_that("Finding hemisphering points", {
   hemi_map_ag <- perfect_map
   titerTable(hemi_map_ag)[1, -c(2, 7)] <- "*"
 
-  hemi_map_ag <- optimizeMap(
+  hemi_map_ag <- expect_warning(optimizeMap(
     map = hemi_map_ag,
     number_of_dimensions = 2,
     number_of_optimizations = 1,
     fixed_column_bases = colbases
-  )
+  ))
   hemi_map_ag <- checkHemisphering(hemi_map_ag, stress_lim = 0.1)
   mapDimensions(hemi_map_ag, 1)
 
@@ -111,12 +111,12 @@ test_that("Finding hemisphering points", {
   hemi_map_sr <- perfect_map
   titerTable(hemi_map_sr)[-c(1, 7), 6] <- "*"
 
-  hemi_map_sr <- optimizeMap(
+  hemi_map_sr <- expect_warning(optimizeMap(
     map = hemi_map_sr,
     number_of_dimensions = 2,
     number_of_optimizations = 1,
     fixed_column_bases = colbases
-  )
+  ))
   hemi_map_sr <- checkHemisphering(hemi_map_sr, stress_lim = 0.1)
 
   expect_false(is.null(srHemisphering(hemi_map_sr)[[6]]))
@@ -316,12 +316,12 @@ test_that("Relax a map with no titers", {
 test_that("Optimizing existing maps", {
 
   # Doing new optimizations
-  new_map <- optimizeMap(
+  new_map <- expect_warning(optimizeMap(
     map                          = map,
     number_of_dimensions         = 3,
     minimum_column_basis         = "none",
     number_of_optimizations      = 2
-  )
+  ))
   expect_equal(numOptimizations(new_map), 2)
 
 })

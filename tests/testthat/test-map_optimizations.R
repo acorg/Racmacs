@@ -6,7 +6,10 @@ context("Test optimization methods")
 # Create a toy HI table
 titer_table <- rbind(
   c("<10", "40",  "*",  "1280"),
-  c("<10", "<10", "80", "640")
+  c("<10", "<10", "80", "640"),
+  c("<10", "<10", "<10", "<10"),
+  c("<10", "<10", "<10", "<10"),
+  c("<10", "<10", "<10", "<10")
 )
 
 num_antigens <- nrow(titer_table)

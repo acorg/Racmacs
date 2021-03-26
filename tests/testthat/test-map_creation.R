@@ -4,7 +4,7 @@ library(testthat)
 context("Test local map creation (test_map_creation.R)")
 
 # Set test table
-testtable <- matrix(2 ^ (1:6) * 10, 3, 2)
+testtable <- matrix(2 ^ (1:6) * 10, 6, 4)
 
 # Backwards compatibility
 test_that("table argument still works", {
@@ -16,8 +16,8 @@ test_that("table argument still works", {
     )
   }, "Argument 'table' is deprecated, please use 'titer_table' instead")
 
-  expect_equal(numAntigens(map), 3)
-  expect_equal(numSera(map), 2)
+  expect_equal(numAntigens(map), 6)
+  expect_equal(numSera(map), 4)
 
 })
 
@@ -93,8 +93,8 @@ test_that("Making a map and optimizing", {
     number_of_optimizations = 2,
     minimum_column_basis    = "none"
   )
-  expect_equal(numAntigens(map), 3)
-  expect_equal(numSera(map), 2)
+  expect_equal(numAntigens(map), 6)
+  expect_equal(numSera(map), 4)
 })
 
 test_that("Making a map and optimizing using table arg", {
@@ -106,8 +106,8 @@ test_that("Making a map and optimizing using table arg", {
       minimum_column_basis    = "none"
     )
   }, "Argument 'table' is deprecated, please use 'titer_table' instead")
-  expect_equal(numAntigens(map), 3)
-  expect_equal(numSera(map), 2)
+  expect_equal(numAntigens(map), 6)
+  expect_equal(numSera(map), 4)
 })
 
 

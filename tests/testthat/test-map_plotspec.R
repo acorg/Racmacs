@@ -71,7 +71,7 @@ test_that("Edit plotspec details", {
 
 test_that("Applying a plotspec", {
 
-  map <- acmap(titer_table = matrix(2^(4:9), 3, 2) * 10)
+  map <- acmap(titer_table = matrix(2^(4:9), 6, 4) * 10)
   map <- optimizeMap(map, number_of_dimensions = 2, number_of_optimizations = 1, minimum_column_basis = "none")
 
   map1 <- map

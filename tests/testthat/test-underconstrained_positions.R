@@ -5,40 +5,47 @@ context("Test underconstrained positions")
 
 # Read titer_table with missing data
 
-titertable <- read.titerTable("../testdata/titer_tables/titer_table5_underconstrained.csv")
+titertable <- read.titerTable(test_path("../testdata/titer_tables/titer_table5_underconstrained.csv"))
 map <- acmap(titer_table = titertable)
 
 test_that("Warn of undercontrained positions", {
-  expect_warning(
+
+  # Check for warning
+  map <- expect_warning(
     optimizeMap(
       map = map,
       number_of_dimensions = 2,
       number_of_optimizations = 1,
       minimum_column_basis = "none",
     ),
-    "Some points are undercontrained for the given dimension"
+    paste(
+      "The following antigens have do not have enough titrations to position in 2 dimensions.",
+      "Coordinates were still optimized but positions will be unreliable\n\n'ANTIGEN 4'"
+    )
   )
+
+  # Check points were still positioned
+  expect_false(anyNA(agBaseCoords(map, 1)))
+
 })
 
-test_that("Optimize points if underconstrained but have finite positions", {
-  res <- optimizeMap(
-    map = map,
-    number_of_dimensions = 2,
-    number_of_optimizations = 1,
-    minimum_column_basis = "none",
-  )
-  expect_false(anyNA(agBaseCoords(res, 1)))
-})
 
-test_that("Error for undercontrained points with infinite positions", {
+test_that("Error for underconstrained points with infinite positions", {
+
   titerTable(map)[4, 2] <- "*"
-  expect_error(
+  map <- expect_warning(
     optimizeMap(
       map = map,
       number_of_dimensions = 2,
       number_of_optimizations = 1,
       minimum_column_basis = "none",
     ),
-    "Some points are undercontrained for the given dimension"
+    paste(
+      "The following antigens are too underconstrained to position in 2 dimensions",
+      "and coordinates have been set to NaN:\n\n'ANTIGEN 4'"
+    )
   )
+
+  expect_equal(agCoords(map)[4,], c(NaN, NaN))
+
 })

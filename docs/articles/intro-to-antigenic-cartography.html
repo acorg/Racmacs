@@ -39,7 +39,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">Racmacs</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.16</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.4</span>
       </span>
     </div>
 
@@ -75,7 +75,7 @@
 
       
 
-      </header><script src="intro-to-antigenic-cartography_files/accessible-code-block-0.0.1/empty-anchor.js"></script><link href="intro-to-antigenic-cartography_files/anchor-sections-1.0/anchor-sections.css" rel="stylesheet">
+      </header><script src="intro-to-antigenic-cartography_files/header-attrs-2.5/header-attrs.js"></script><link href="intro-to-antigenic-cartography_files/anchor-sections-1.0/anchor-sections.css" rel="stylesheet">
 <script src="intro-to-antigenic-cartography_files/anchor-sections-1.0/anchor-sections.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
@@ -199,7 +199,7 @@ At some point in the development of antigenic cartography it became obvious that
 <div id="converting-a-distance-table-to-a-map" class="section level3">
 <h3 class="hasAnchor">
 <a href="#converting-a-distance-table-to-a-map" class="anchor"></a>Converting a distance table to a map</h3>
-<p>Now we have a distance table we have to convert this to some n-dimensional representation. This process is not uncommon, indeed it is <a href="https://en.wikipedia.org/wiki/Multidimensional_scaling#Implementations">multi-dimensional scaling</a> (MDS).</p>
+<p>Now we have a distance table we have to convert this to some n-dimensional representation. This process is not uncommon, indeed it is <a href="https://en.wikipedia.org/wiki/Multidimensional_scaling">multi-dimensional scaling</a> (MDS).</p>
 <p>What is more uncommon is that we will inevitably have multiple missing values in the distance table since what may seem like a full distance table at first is actually at best only half since we have no measure of antigen-antigen or serum-serum distances, as illustrated below.</p>
 <div class="figure">
 <img src="figures/intro_fig5.png" alt=""><p class="caption">Comparing to a full distance table</p>
@@ -208,7 +208,7 @@ At some point in the development of antigenic cartography it became obvious that
 <p>The steps of this optimisation process are very simple:</p>
 <ol style="list-style-type: decimal">
 <li>Start with antigens and serum in random positions in n-dimensional space<a href="#fn3" class="footnote-ref" id="fnref3"><sup>3</sup></a>.</li>
-<li>“relax” the map from these starting conditions using the <a href="https://en.wikipedia.org/wiki/Conjugate_gradient_method">conjugate gradient method</a>.</li>
+<li>“relax” the map from these starting conditions using an optimization routine, by default <a href="https://ensmallen.org/docs.html#l-bfgs">L-BFGS</a>.</li>
 </ol>
 <p>The optimiser aims to optimise the sum of the squared differences between the table distances (those from the original conversion of titer to distance table) and the map distances (straight-line distance between points in the n-dimensional space), as illustrated below.</p>
 <p><img src="figures/intro_fig6.png" alt="Comparing map and table distances"> More specifically, each serum-antigen pair has an associated stress calculated as:</p>

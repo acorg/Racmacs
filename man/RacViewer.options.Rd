@@ -7,17 +7,22 @@
 RacViewer.options(
   point.opacity = NA,
   viewer.controls = "hidden",
-  grid.display = "static"
+  grid.display = "static",
+  grid.col = "#666666"
 )
 }
 \arguments{
 \item{point.opacity}{Default opacity for unselected points}
 
 \item{viewer.controls}{Should viewer controls be shown or hidden by default?}
+
+\item{grid.display}{For 3d maps, should the grid be fixed in the background
+or enclose and rotate along with the map}
 }
 \value{
 Returns a named list of viewer options
 }
 \description{
-This function facilitates setting racviewer options by returning a list of option settings.
+This function facilitates setting racviewer options by returning a list of
+option settings.
 }

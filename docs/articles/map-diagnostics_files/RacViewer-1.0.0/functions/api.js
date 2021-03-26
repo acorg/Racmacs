@@ -44,19 +44,15 @@ Racmacs.App.prototype.colorBySequenceAtPosition = function(position){
 // Fetching coordinates
 Racmacs.App.prototype.getAntigenCoords = function(){
 
-    var ag_coords;
-    if(this.mapdims.dimensions == 2) ag_coords = this.antigens.map( p => [p.coords[0], p.coords[1]] );
-    if(this.mapdims.dimensions == 3) ag_coords = this.antigens.map( p => p.coords );
-    return(ag_coords);
+    var ndims = this.data.dimensions();
+    return(this.antigens.map( p => p.getPosition().slice(0, ndims) ));
 
 }
 
 Racmacs.App.prototype.getSeraCoords = function(){
 
-    var sr_coords;
-    if(this.mapdims.dimensions == 2) sr_coords = this.sera.map( p => [p.coords[0], p.coords[1]] );
-    if(this.mapdims.dimensions == 3) sr_coords = this.sera.map( p => p.coords );
-    return(sr_coords);
+    var ndims = this.data.dimensions();
+    return(this.sera.map( p => p.getPosition().slice(0, ndims) ));
 
 }
 
@@ -70,6 +66,10 @@ Racmacs.App.prototype.setCoords = function(data){
     for(var i=0; i<data.sera.length; i++){
         if(data.sera[i].length == 2){ data.sera[i].push(0) }
         this.sera[i].setPosition(data.sera[i][0], data.sera[i][1], data.sera[i][2]);
+    }
+
+    if (data.stress !== undefined) {
+        this.updateStress(data.stress);
     }
 
     this.render();
@@ -151,5 +151,17 @@ Racmacs.App.prototype.reflect = function(axis){
 
     // Rerender the scene
     this.render();
+
+}
+
+Racmacs.App.prototype.enterGUImode = function(){
+    
+    this.controlpanel.showShinyElements();
+
+}
+
+Racmacs.App.prototype.exitGUImode = function(){
+    
+    this.controlpanel.hideShinyElements();
 
 }

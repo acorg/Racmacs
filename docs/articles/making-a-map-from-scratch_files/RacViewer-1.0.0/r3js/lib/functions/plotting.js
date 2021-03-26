@@ -37,62 +37,68 @@ R3JS.Material = function(properties){
 
 R3JS.element.make = function(
     plotobj, 
-    plotdims
+    viewer
     ){
 
     if(plotobj.type == "point"){
         // Point
         var element = this.constructors.point(
             plotobj,
-            plotdims
+            viewer
         );
     } else if(plotobj.type == "line"){
         // GL Points
         var element = this.constructors.line(
             plotobj,
-            plotdims
+            viewer
         );
     } else if(plotobj.type == "glpoints"){
         // GL Points
         var element = this.constructors.glpoints(
             plotobj,
-            plotdims
+            viewer
         );
     } else if(plotobj.type == "glline"){
         // GL line
         var element = this.constructors.glline(
             plotobj,
-            plotdims
+            viewer
         );
     } else if(plotobj.type == "text"){
         // Text
         var element = this.constructors.text(
             plotobj,
-            plotdims
+            viewer
         );
     } else if(plotobj.type == "sphere"){
         // Sphere
         var element = this.constructors.sphere(
             plotobj,
-            plotdims
+            viewer
         );
     } else if(plotobj.type == "surface"){
         // Surface
         var element = this.constructors.surface(
             plotobj,
-            plotdims
+            viewer
         );
     } else if(plotobj.type == "grid"){
         // Grid
         var element = this.constructors.grid(
             plotobj,
-            plotdims
+            viewer
+        );
+    } else if(plotobj.type == "triangle"){
+        // Triangles
+        var element = this.constructors.triangles(
+            plotobj,
+            viewer
         );
     } else if(plotobj.type == "shape"){
         // 3d shape
         var element = this.constructors.polygon3d(
             plotobj,
-            plotdims
+            viewer
         );
     } else {
         throw("Plot object type '"+plotobj.type+"' not recognised.");

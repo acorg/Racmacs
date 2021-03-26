@@ -11,9 +11,6 @@ Racmacs.DiagnosticsPanel = class DiagnosticsPanel {
         var btnpanel = new Racmacs.ButtonPanel(viewer);
         this.div.appendChild(btnpanel.div);
 
-        var hemispheringTable = new Racmacs.HemispheringTable(viewer);
-        this.div.appendChild(hemispheringTable.div);
-        
         // Create buttons div
         this.buttons = document.createElement("div");
         this.buttons.classList.add("buttons-div");

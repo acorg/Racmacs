@@ -8,17 +8,18 @@ logtiterTable(map)
 }
 \arguments{
 \item{map}{The acmap object}
-
-\item{optimization_number}{The optimization data to access (defaults to the currently selected optimization)}
 }
 \value{
-Returns a list of matrices with the logged titers and whether the titers were discrete, morethan or lessthan.
+Returns a matrix of titers converted to the log scale
 }
 \description{
-Get the log titers from an acmap
+Converts titers to the log scale via via the transformation
+$log2(x/10)$, lessthan values are reduced by 1 on the log scale and greater
+than values are increased by 1, hence <10 => -1 and >1280 => 8
 }
 \seealso{
-Other {map diagnostic functions}{functions relating to map stress calculation}: 
+Other {map diagnostic functions}
+{functions relating to map stress calculation}: 
 \code{\link{mapDistances}()},
 \code{\link{mapResiduals}()},
 \code{\link{pointStress}},
@@ -26,4 +27,5 @@ Other {map diagnostic functions}{functions relating to map stress calculation}:
 \code{\link{stressTable}()},
 \code{\link{tableDistances}()}
 }
-\concept{{map diagnostic functions}{functions relating to map stress calculation}}
+\concept{{map diagnostic functions}
+{functions relating to map stress calculation}}

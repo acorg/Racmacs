@@ -49,7 +49,8 @@
   
 
 <meta property="og:title" content="Getting and setting titer table layers — titerTableLayers" />
-<meta property="og:description" content="Functions to get and set the underlying titer table layers of a map (see details)." />
+<meta property="og:description" content="Functions to get and set the underlying titer table layers of a map (see
+details)." />
 <meta property="og:image" content="/logo.png" />
 
 
@@ -82,7 +83,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">Racmacs</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.16</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.4</span>
       </span>
     </div>
 
@@ -122,42 +123,46 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Getting and setting titer table layers</h1>
-    <small class="dont-index">Source: <a href='https://github.com/acorg/Racmacs/blob/master/R/map_props_chart.R'><code>R/map_props_chart.R</code></a></small>
+    <small class="dont-index">Source: <a href='https://github.com/acorg/Racmacs/blob/master/R/map_props.R'><code>R/map_props.R</code></a></small>
     <div class="hidden name"><code>titerTableLayers.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Functions to get and set the underlying titer table layers of a map (see details).</p>
+    <p>Functions to get and set the underlying titer table layers of a map (see
+details).</p>
     </div>
 
-    <pre class="usage"><span class='fu'>titerTableLayers</span>(<span class='no'>map</span>, <span class='kw'>.name</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
-<span class='fu'>titerTableLayers</span>(<span class='no'>map</span>, <span class='kw'>.check</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>) <span class='kw'>&lt;-</span> <span class='no'>value</span></pre>
+    <pre class="usage"><span class='fu'>titerTableLayers</span>(<span class='no'>map</span>)
+
+<span class='fu'>titerTableLayers</span>(<span class='no'>map</span>) <span class='kw'>&lt;-</span> <span class='no'>value</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>map</th>
-      <td><p>The acmap data object</p></td>
+      <td><p>The acmap object</p></td>
     </tr>
     <tr>
-      <th>.name</th>
-      <td><p>Should the output be labelled with corresponding antigen / sera names</p></td>
-    </tr>
-    <tr>
-      <th>.check</th>
-      <td><p>Should normal checks be applied for validity be applied when setting this value (used internally)</p></td>
+      <th>value</th>
+      <td><p>A list of titer table character vectors to set</p></td>
     </tr>
     </table>
 
-    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>Returns either the requested attribute when using a getter function or the updated acmap object when using the setter function.</p>
+    <p>When you merge maps with <code><a href='mergeMaps.html'>mergeMaps()</a></code> repeated antigen - serum
+titers are merged to create a new titer table but information on the
+original titers is not lost. The original titer tables, aligned to their
+new positions in the merged table, are kept as separate layers that can be
+accessed with these functions. If you have merged a whole bunch of
+different maps, these functions can be useful to check for example,
+variation in titer seen between a single antigen and serum pair.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p>Other map attribute functions: 
 <code><a href='acmapAttributes.html'>acmapAttributes</a></code>,
-<code><a href='name.html'>name</a></code>,
+<code><a href='mapName.html'>mapName</a>()</code>,
 <code><a href='titerTable.html'>titerTable</a>()</code></p></div>
 
   </div>

@@ -16,9 +16,11 @@ standardizeStrainNames(
 
 \item{default_species}{Are the strains isolated from a particular species?}
 
-\item{default_virus_type}{Default virus type to be used \(if no type found in name\)}
+\item{default_virus_type}{Default virus type to be used (if no type found in
+name)}
 
-\item{default_virus_subtype}{Default virus subtype to be used \(if no subtype found in name\)}
+\item{default_virus_subtype}{Default virus subtype to be used (if no subtype
+found in name)}
 }
 \value{
 Returns a tibble of standardised names and extracted information

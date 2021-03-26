@@ -4,7 +4,7 @@
 \alias{read.titerTable}
 \title{Read in a table of titer data}
 \usage{
-read.titerTable(filepath, Fnum_to_SRname = FALSE)
+read.titerTable(filepath)
 }
 \arguments{
 \item{filepath}{Path to the table of titer data}
@@ -23,16 +23,12 @@ Currently supported file formats are .csv and .xls and .txt
 Other {functions for working with map data}: 
 \code{\link{acmap}()},
 \code{\link{as.json}()},
-\code{\link{cloneMap}()},
-\code{\link{convertingMaps}},
 \code{\link{orderPoints}},
 \code{\link{read.acmap}()},
 \code{\link{removePoints}},
 \code{\link{save.acmap}()},
 \code{\link{save.coords}()},
 \code{\link{save.titerTable}()},
-\code{\link{selectedOptimization}()},
-\code{\link{subsetMap}()},
-\code{\link{subsetPoints}}
+\code{\link{subsetMap}()}
 }
 \concept{{functions for working with map data}}

@@ -24,19 +24,24 @@ Racmacs.StressElement = class StressElement {
 }
 
 
-Racmacs.Viewer.prototype.updateStress = function(){
+Racmacs.Viewer.prototype.updateStress = function(stress){
 
   // Create function to update the map stress
-  var stress = 0;
-  for(var i=0; i<this.sera.length; i++){
-    stress += this.sera[i].stress;
+  if(stress === undefined) {
+    var stress = 0;
+    for(var i=0; i<this.sera.length; i++){
+      stress += this.sera[i].stress;
+    }
+    this.stress.value = stress;
+    this.stress.update(stress);
   }
-  this.stress.value = stress;
-  this.stress.update(stress);
 
   // Update any batch run viewers bound
-  if(this.browsers && this.browsers.batch_runs){
-    this.browsers.batch_runs.updateRun(stress);
+  if(this.projectionList){
+      this.projectionList.updateStress(
+          this.data.projection(), 
+          stress.toFixed(2)
+      );
   }
 
 }

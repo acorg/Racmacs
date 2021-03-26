@@ -84,7 +84,7 @@ column bases." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">Racmacs</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.16</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.4</span>
       </span>
     </div>
 
@@ -134,11 +134,10 @@ either through the minimum column basis or through a vector of specified
 column bases.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>minColBasis</span>(<span class='no'>map</span>, <span class='kw'>optimization_number</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>.name</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
-<span class='fu'>minColBasis</span>(<span class='no'>map</span>, <span class='kw'>optimization_number</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>.check</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>) <span class='kw'>&lt;-</span> <span class='no'>value</span>
-
-<span class='fu'>colBases</span>(<span class='no'>map</span>, <span class='kw'>optimization_number</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>.name</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
-<span class='fu'>colBases</span>(<span class='no'>map</span>, <span class='kw'>optimization_number</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>.check</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>) <span class='kw'>&lt;-</span> <span class='no'>value</span></pre>
+    <pre class="usage"><span class='fu'>minColBasis</span>(<span class='no'>map</span>, <span class='kw'>optimization_number</span> <span class='kw'>=</span> <span class='fl'>1</span>)
+<span class='fu'>minColBasis</span>(<span class='no'>map</span>, <span class='kw'>optimization_number</span> <span class='kw'>=</span> <span class='fl'>1</span>) <span class='kw'>&lt;-</span> <span class='no'>value</span>
+<span class='fu'>fixedColBases</span>(<span class='no'>map</span>, <span class='kw'>optimization_number</span> <span class='kw'>=</span> <span class='fl'>1</span>)
+<span class='fu'>fixedColBases</span>(<span class='no'>map</span>, <span class='kw'>optimization_number</span> <span class='kw'>=</span> <span class='fl'>1</span>) <span class='kw'>&lt;-</span> <span class='no'>value</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -149,21 +148,18 @@ column bases.</p>
     </tr>
     <tr>
       <th>optimization_number</th>
-      <td><p>The optimization run to get / set the data (by default the currently selected one)</p></td>
+      <td><p>The optimization run from which to get / set the data</p></td>
     </tr>
     <tr>
-      <th>.name</th>
-      <td><p>Should the output be labelled with corresponding antigen / sera names</p></td>
-    </tr>
-    <tr>
-      <th>.check</th>
-      <td><p>Should normal checks be applied for validity be applied when setting this value (used internally)</p></td>
+      <th>value</th>
+      <td><p>New value to set</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>Returns either the requested attribute when using a getter function or the updated acmap object when using the setter function.</p>
+    <p>Returns either the requested attribute when using a getter function or</p>
+<p>the updated acmap object when using the setter function.</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>In general a map can have column bases that are specified either
@@ -175,7 +171,7 @@ calculated for a given optimization run. Setting column bases through this
 function with <code>colBases()&lt;-</code> will fix the column bases to the supplied
 vector of values.</p>
 <p>Note that although the output from <code>colBases()</code> might be the same in a case
-where a minimum column basis was set or a case whete column bases were set
+where a minimum column basis was set or a case where column bases were set
 explcitely, when a minimum column basis is set, the column bases will still
 depend on the log titers recorded against a given sera, so changing the
 titers may therefore change the actual column bases calculated. For fixed
@@ -189,7 +185,7 @@ independently of measured titers.</p>
 <code><a href='mapStress.html'>mapStress</a>()</code>,
 <code><a href='mapTransformation.html'>mapTransformation</a>()</code>,
 <code><a href='ptBaseCoords.html'>ptBaseCoords</a></code>,
-<code><a href='ptCoords.html'>ptCoords</a></code></p></div>
+<code><a href='ptCoords.html'>ptCoords</a>()</code></p></div>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

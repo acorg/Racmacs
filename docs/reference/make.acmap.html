@@ -49,7 +49,9 @@
   
 
 <meta property="og:title" content="Make an antigenic map from scratch — make.acmap" />
-<meta property="og:description" content="Make an antigenic map from scratch" />
+<meta property="og:description" content="This is a wrapper function for first making a map with table data then,
+running optimizations to make the map otherwise done with acmap()
+followed by optimizeMap()." />
 <meta property="og:image" content="/logo.png" />
 
 
@@ -82,7 +84,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">Racmacs</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.16</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.4</span>
       </span>
     </div>
 
@@ -122,29 +124,45 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Make an antigenic map from scratch</h1>
-    <small class="dont-index">Source: <a href='https://github.com/acorg/Racmacs/blob/master/R/map_making.R'><code>R/map_making.R</code></a></small>
+    <small class="dont-index">Source: <a href='https://github.com/acorg/Racmacs/blob/master/R/map_optimize.R'><code>R/map_optimize.R</code></a></small>
     <div class="hidden name"><code>make.acmap.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Make an antigenic map from scratch</p>
+    <p>This is a wrapper function for first making a map with table data then,
+running optimizations to make the map otherwise done with <code><a href='acmap.html'>acmap()</a></code>
+followed by <code><a href='optimizeMap.html'>optimizeMap()</a></code>.</p>
     </div>
 
     <pre class="usage"><span class='fu'>make.acmap</span>(
+  <span class='kw'>titer_table</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>ag_names</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>sr_names</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>number_of_dimensions</span> <span class='kw'>=</span> <span class='fl'>2</span>,
   <span class='kw'>number_of_optimizations</span> <span class='kw'>=</span> <span class='fl'>100</span>,
   <span class='kw'>minimum_column_basis</span> <span class='kw'>=</span> <span class='st'>"none"</span>,
   <span class='kw'>fixed_column_bases</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>move_trapped_points</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>parallel_optimization</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>sort_optimizations</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
   <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>vverbose</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>options</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(),
   <span class='no'>...</span>
 )</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>titer_table</th>
+      <td><p>A table of titer data</p></td>
+    </tr>
+    <tr>
+      <th>ag_names</th>
+      <td><p>A vector of antigen names</p></td>
+    </tr>
+    <tr>
+      <th>sr_names</th>
+      <td><p>A vector of sera names</p></td>
+    </tr>
     <tr>
       <th>number_of_dimensions</th>
       <td><p>The number of dimensions in the map</p></td>
@@ -158,23 +176,29 @@
       <td><p>The minimum column basis for the map</p></td>
     </tr>
     <tr>
-      <th>move_trapped_points</th>
-      <td><p>How should removal of trapped points be performed (see details)</p></td>
+      <th>fixed_column_bases</th>
+      <td><p>A vector of fixed values to use as column bases
+directly, rather than calculating them from the titer table.</p></td>
     </tr>
     <tr>
-      <th>...</th>
-      <td></td>
+      <th>sort_optimizations</th>
+      <td><p>Should optimizations be sorted by stress
+afterwards?</p></td>
+    </tr>
+    <tr>
+      <th>verbose</th>
+      <td><p>Should progress messages be reported, see also
+<code><a href='RacOptimizer.options.html'>RacOptimizer.options()</a></code></p></td>
+    </tr>
+    <tr>
+      <th>options</th>
+      <td><p>List of named optimizer options, see <code><a href='RacOptimizer.options.html'>RacOptimizer.options()</a></code></p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>Returns an antigenic map object of the corresponding class.</p>
-    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
-
-    <p>Hunting for and removal of trapped points can be performed for either none of
-the optimization runs ("none"), all of the optimization runs ("all") or only
-the best one found ("best").</p>
+    <p>Returns an acmap object that has optimization run results.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p>Other map optimization functions: 
@@ -184,15 +208,6 @@ the best one found ("best").</p>
 <code><a href='relaxMapOneStep.html'>relaxMapOneStep</a>()</code>,
 <code><a href='relaxMap.html'>relaxMap</a>()</code></p></div>
 
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'># Read in an acmap object from a file</span>
-<span class='no'>map_file_path</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>"extdata/h3map2004.ace"</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"Racmacs"</span>)
-<span class='no'>map</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='read.acmap.html'>read.acmap</a></span>(<span class='no'>map_file_path</span>)
-
-<span class='co'># Read in a table of titer data and make a new acmap file from it</span>
-<span class='no'>titer_file_path</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>"extdata/h3map2004_hitable.csv"</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"Racmacs"</span>)
-<span class='no'>titer_data</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='read.titerTable.html'>read.titerTable</a></span>(<span class='no'>titer_file_path</span>)
-<span class='no'>map</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='convertingMaps.html'>acmap.cpp</a></span>(<span class='kw'>table</span> <span class='kw'>=</span> <span class='no'>titer_data</span>)</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

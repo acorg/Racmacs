@@ -51,7 +51,7 @@ Now we have the titers in the correct format we can use it create an antigenic m
 ```{r making_an_acmap}
 # Create the acmap object, specifying the titer table
 map <- acmap(
-  table = titer_table
+  titer_table = titer_table
 )
 ```
 
@@ -93,7 +93,7 @@ Note that there is also a small utility function provided to allow you to create
 ```{r making_a_3d_map, out.width = '100%'}
 # Make the acmap object and run optimizations
 map3d <- make.acmap(
-  table                   = titer_table,
+  titer_table             = titer_table,
   number_of_dimensions    = 3,
   number_of_optimizations = 500,
   minimum_column_basis    = "none"

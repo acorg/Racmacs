@@ -83,7 +83,7 @@ predicted when they are excluded from the map." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">Racmacs</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.16</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.4</span>
       </span>
     </div>
 
@@ -123,7 +123,7 @@ predicted when they are excluded from the map." />
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Perform dimension testing on a map object</h1>
-    <small class="dont-index">Source: <a href='https://github.com/acorg/Racmacs/blob/master/R/map_diagnostics.R'><code>R/map_diagnostics.R</code></a></small>
+    <small class="dont-index">Source: <a href='https://github.com/acorg/Racmacs/blob/master/R/map_diagnostics_dimtest.R'><code>R/map_diagnostics_dimtest.R</code></a></small>
     <div class="hidden name"><code>dimensionTestMap.Rd</code></div>
     </div>
 
@@ -137,10 +137,10 @@ predicted when they are excluded from the map.</p>
   <span class='kw'>dimensions_to_test</span> <span class='kw'>=</span> <span class='fl'>1</span>:<span class='fl'>5</span>,
   <span class='kw'>test_proportion</span> <span class='kw'>=</span> <span class='fl'>0.1</span>,
   <span class='kw'>minimum_column_basis</span> <span class='kw'>=</span> <span class='st'>"none"</span>,
-  <span class='kw'>column_bases_from_master</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>fixed_column_bases</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span>(<span class='fl'>NA</span>, <span class='fu'><a href='acmapAttributes.html'>numSera</a></span>(<span class='no'>map</span>)),
   <span class='kw'>number_of_optimizations</span> <span class='kw'>=</span> <span class='fl'>1000</span>,
-  <span class='kw'>replicates_per_proportion</span> <span class='kw'>=</span> <span class='fl'>100</span>,
-  <span class='kw'>storage_directory</span> <span class='kw'>=</span> <span class='kw'>NULL</span>
+  <span class='kw'>replicates_per_dimension</span> <span class='kw'>=</span> <span class='fl'>100</span>,
+  <span class='kw'>options</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>()
 )</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -156,38 +156,55 @@ predicted when they are excluded from the map.</p>
     </tr>
     <tr>
       <th>test_proportion</th>
-      <td><p>The proportion of data to be used as the test set for each test run</p></td>
+      <td><p>The proportion of data to be used as the test set for
+each test run</p></td>
     </tr>
     <tr>
       <th>minimum_column_basis</th>
       <td><p>The minimum column basis to use</p></td>
     </tr>
     <tr>
-      <th>column_bases_from_master</th>
-      <td><p>Should column bases be calculated based on
-the full data set? If false, they will be recalculated based on the
-training set used for each run.</p></td>
+      <th>fixed_column_bases</th>
+      <td><p>A vector of fixed column bases with NA for sera
+where the minimum column basis should be applied</p></td>
     </tr>
     <tr>
       <th>number_of_optimizations</th>
-      <td><p>The number of optimizations to perform when creating each map for the dimension test</p></td>
+      <td><p>The number of optimizations to perform when
+creating each map for the dimension test</p></td>
     </tr>
     <tr>
-      <th>replicates_per_proportion</th>
-      <td><p>The number of random replicates to do per missing proportion tested</p></td>
+      <th>replicates_per_dimension</th>
+      <td><p>The number of tests to perform per dimension
+tested</p></td>
     </tr>
     <tr>
-      <th>storage_directory</th>
-      <td><p>Optionally the path to a directory where all the maps made in the dimension test will be saved</p></td>
+      <th>options</th>
+      <td><p>Map optimizer options, see <code><a href='RacOptimizer.options.html'>RacOptimizer.options()</a></code></p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>Returns a table of results, including the dimensions tested and the standard deviation of predicted vs residual error.</p>
+    <p>Returns a data frame with the following columns. "dimensions" : the
+dimension tested, "mean_rmse_detectable" : mean prediction rmse for
+detectable titers across all runs. "var_rmse_detectable" the variance of
+the prediction rmse for detectable titers across all runs, useful for
+estimating confidence intervals. "mean_rmse_nondetectable" and
+"var_rmse_nondetectable" the equivalent for non-detectable titers</p>
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>For each run, the ag-sr titers that were randomly excluded are
+predicted according to their relative positions in the map trained without
+them. An RMSE is then calculated by comparing predicted titers inferred
+from the map on the log scale to the actual log titers. This is done
+separately for detectable titers (e.g. 40) and non-detectable titers (e.g.
+&lt;10). For non-detectable titers, if the predicted titer is the same or
+lower than the log-titer threshold, the error is set to 0.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p>Other map diagnostic functions: 
+<code><a href='bootstrapBlobs.html'>bootstrapBlobs</a>()</code>,
 <code><a href='bootstrapMap.html'>bootstrapMap</a>()</code>,
 <code><a href='checkHemisphering.html'>checkHemisphering</a>()</code>,
 <code><a href='mapRelaxed.html'>mapRelaxed</a>()</code></p></div>

@@ -8,18 +8,25 @@
 \usage{
 plot_map_table_distance(
   map,
-  optimization_number = NULL,
+  optimization_number = 1,
   xlim,
   ylim,
   line_of_equality = TRUE
 )
 
-plotly_map_table_distance(map, optimization_number = NULL, xlim, ylim)
+plotly_map_table_distance(
+  map,
+  optimization_number = 1,
+  xlim,
+  ylim,
+  line_of_equality = TRUE
+)
 }
 \arguments{
 \item{map}{The acmap data object}
 
-\item{optimization_number}{The optimization number from which to take map and table distances (defaults to the currently selected optimization)}
+\item{optimization_number}{The optimization number from which to take map and
+table distances}
 
 \item{xlim}{The x limits of the plot}
 

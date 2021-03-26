@@ -4,20 +4,25 @@
 \alias{stressTable}
 \title{Get a stress table from an acmap}
 \usage{
-stressTable(map, optimization_number = NULL)
+stressTable(map, optimization_number = 1)
 }
 \arguments{
 \item{map}{The acmap object}
+
+\item{optimization_number}{The optimization number for which to calculate
+stresses}
 }
 \value{
 Returns a matrix of stresses, showing how much each antigen and sera
-measurement contributes to stress in the selected or specified optimization.
+measurement contributes to stress in the selected or specified
+optimization.
 }
 \description{
 Get a stress table from an acmap
 }
 \seealso{
-Other {map diagnostic functions}{functions relating to map stress calculation}: 
+Other {map diagnostic functions}
+{functions relating to map stress calculation}: 
 \code{\link{logtiterTable}()},
 \code{\link{mapDistances}()},
 \code{\link{mapResiduals}()},
@@ -25,4 +30,5 @@ Other {map diagnostic functions}{functions relating to map stress calculation}:
 \code{\link{recalculateStress}()},
 \code{\link{tableDistances}()}
 }
-\concept{{map diagnostic functions}{functions relating to map stress calculation}}
+\concept{{map diagnostic functions}
+{functions relating to map stress calculation}}

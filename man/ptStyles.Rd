@@ -3,102 +3,81 @@
 \name{ptStyles}
 \alias{ptStyles}
 \alias{agShown}
-\alias{agSize}
-\alias{agFill}
-\alias{agOutline}
-\alias{agOutlineWidth}
-\alias{agRotation}
-\alias{agAspect}
-\alias{agShape}
-\alias{agDrawingOrder}
 \alias{srShown}
-\alias{srSize}
-\alias{srFill}
-\alias{srOutline}
-\alias{srOutlineWidth}
-\alias{srRotation}
-\alias{srAspect}
-\alias{srShape}
-\alias{srDrawingOrder}
 \alias{agShown<-}
-\alias{agSize<-}
-\alias{agFill<-}
-\alias{agOutline<-}
-\alias{agOutlineWidth<-}
-\alias{agRotation<-}
-\alias{agAspect<-}
-\alias{agShape<-}
-\alias{agDrawingOrder<-}
 \alias{srShown<-}
+\alias{agSize}
+\alias{srSize}
+\alias{agSize<-}
 \alias{srSize<-}
+\alias{agFill}
+\alias{srFill}
+\alias{agFill<-}
 \alias{srFill<-}
+\alias{agOutline}
+\alias{srOutline}
+\alias{agOutline<-}
 \alias{srOutline<-}
+\alias{agOutlineWidth}
+\alias{srOutlineWidth}
+\alias{agOutlineWidth<-}
 \alias{srOutlineWidth<-}
+\alias{agRotation}
+\alias{srRotation}
+\alias{agRotation<-}
 \alias{srRotation<-}
+\alias{agAspect}
+\alias{srAspect}
+\alias{agAspect<-}
 \alias{srAspect<-}
+\alias{agShape}
+\alias{srShape}
+\alias{agShape<-}
 \alias{srShape<-}
-\alias{srDrawingOrder<-}
 \title{Getting and setting point plotting styles}
 \usage{
 agShown(map)
-agShown(map) <- value
-
-agSize(map)
-agSize(map) <- value
-
-agFill(map)
-agFill(map) <- value
-
-agOutline(map)
-agOutline(map) <- value
-
-agOutlineWidth(map)
-agOutlineWidth(map) <- value
-
-agRotation(map)
-agRotation(map) <- value
-
-agAspect(map)
-agAspect(map) <- value
-
-agShape(map)
-agShape(map) <- value
-
-agDrawingOrder(map)
-agDrawingOrder(map) <- value
-
 srShown(map)
+agShown(map) <- value
 srShown(map) <- value
-
+agSize(map)
 srSize(map)
+agSize(map) <- value
 srSize(map) <- value
-
+agFill(map)
 srFill(map)
+agFill(map) <- value
 srFill(map) <- value
-
+agOutline(map)
 srOutline(map)
+agOutline(map) <- value
 srOutline(map) <- value
-
+agOutlineWidth(map)
 srOutlineWidth(map)
+agOutlineWidth(map) <- value
 srOutlineWidth(map) <- value
-
+agRotation(map)
 srRotation(map)
+agRotation(map) <- value
 srRotation(map) <- value
-
+agAspect(map)
 srAspect(map)
+agAspect(map) <- value
 srAspect(map) <- value
-
+agShape(map)
 srShape(map)
+agShape(map) <- value
 srShape(map) <- value
-
-srDrawingOrder(map)
-srDrawingOrder(map) <- value
 }
 \arguments{
 \item{map}{The acmap data object}
+
+\item{value}{New value to set}
 }
 \value{
-Returns either the requested attribute when using a getter function or the updated acmap object when using the setter function.
+Returns either the requested attribute when using a getter function or
+
+the updated acmap object when using the setter function.
 }
 \description{
 These functions get and set the styles to use for each point when plotting.

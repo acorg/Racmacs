@@ -208,6 +208,7 @@ Racmacs.Viewer.prototype.addAgSrPoints = function(){
                     coords : points[i].coords,
                     size : points[i].size,
                     shape : shape,
+                    viewer: this,
                     properties : {
                         mat : "lambert",
                         fillcolor : {

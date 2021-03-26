@@ -723,11 +723,3 @@ Racmacs.Point = class Point {
     }
 
 }
-
-
-
-
-
-
-
-

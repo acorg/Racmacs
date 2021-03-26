@@ -83,7 +83,7 @@ data such as HI assays, as described in Smith et al. 2004 (1)." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">Racmacs</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.16</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.4</span>
       </span>
     </div>
 
@@ -143,7 +143,8 @@ object, short for Antigenic Cartography MAP. This object contains all the
 information about an antigenic map. You can read in a new acmap object from a
 file with the function <a href='read.acmap.html'>read.acmap</a> and create a new acmap object within an
 R session using the <a href='acmap.html'>acmap</a> function.</p>
-<p>Key information associated with each acmap object is summarized in the sections below.</p>
+<p>Key information associated with each acmap object is summarized in the
+sections below.</p>
 
 <h3>The titer table</h3>
 <p>Each <a href='acmap.html'>acmap</a> object is built upon a table of data of measurements the
@@ -161,25 +162,15 @@ optimizations or none at all.</p>
 <p>Each optimization has the following main attributes (see the vignette on
 optimizing antigenic maps for more details on minimum column bases and
 stress):</p><ul>
-<li><p><strong>Antigen coordinates</strong>, the coordinates of each antigen in this optimization.</p></li>
+<li><p><strong>Antigen coordinates</strong>, the coordinates of each antigen in this
+optimization.</p></li>
 <li><p><strong>Sera coordinates</strong>, the coordinates of each serum in this optimization.</p></li>
-<li><p><strong>Minimum column basis</strong>, the minimum column basis assumed when calculating this optimization.</p></li>
+<li><p><strong>Minimum column basis</strong>, the minimum column basis assumed when calculating
+this optimization.</p></li>
 <li><p><strong>Stress</strong>, the stress of this optimization.</p></li>
 <li><p><strong>Dimensions</strong>, the number of dimensions of this optimization.</p></li>
 </ul>
 
-<p>A map may only have one optimization associated with it, simply representing
-the optimal position of points in the map after number of optimization runs.
-However it may also have a number of optimizations, perhaps representing the
-different solutions for best antigen and serum positions based on different
-random starting conditions in the optimizer, or perhaps giving the map
-optimization in different numbers of dimensions.</p>
-<p>At any one time a map object has one of the optimizations <em>selected</em> (by
-default the first one). Any information you read from this map that comes
-from a optimization (for example <a href='ptCoords.html'>agCoords</a> ) and any functions that you
-perform that relate to a optimization (for example <a href='relaxMap.html'>relaxMap</a>), will be
-performed on the selected optimization by default. You can get and set the
-selected optimization with selectOptimization.</p>
 
 <h3>Plotting styles</h3>
 <p>The final type of information that is contained in the acmap object is
@@ -215,7 +206,6 @@ plotted, the main ones include:</p><ul>
 <li><p><a href='acmapAttributes.html'>numSera</a></p></li>
 <li><p><a href='acmapAttributes.html'>numPoints</a></p></li>
 <li><p><a href='acmapAttributes.html'>numOptimizations</a></p></li>
-<li><p><a href='selectedOptimization.html'>selectedOptimization</a></p></li>
 </ul>
 
 <p><strong>Get and set plotting information</strong></p><ul>

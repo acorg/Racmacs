@@ -1,26 +1,35 @@
 Package: Racmacs
 Type: Package
-Title: Interface R with acmacs
-Version: 1.0.17
-Date: 2019-06-10
+Title: R Antigenic Cartography Macros
+Version: 1.1.4
+Date: 2021-01-22
 Author: Sam Wilks
 Maintainer: Sam Wilks <sw463@cam.ac.uk>
 Description: A toolkit for making antigenic maps from assay data such as HI assays.
+Depends: R (>= 4.0)
 Imports: 
-    Rcpp, 
-    jsonlite, 
-    stringr, 
-    MCMCpack, 
+    Rcpp,
+    parallel,
+    roptim,
+    jsonlite,
+    stringr,
+    MCMCpack,
     tibble,
-    gdata, 
-    geometry, 
-    gplots, 
-    ks, 
-    shinyFiles, 
-    shinyjs, 
-    htmlwidgets, 
+    gdata,
+    geometry,
+    gplots,
+    ks,
+    shiny,
+    shinyFiles,
+    shinyjs,
+    htmlwidgets,
     crayon,
-    ggplot2
+    ggplot2,
+    htmltools,
+    methods,
+    rstudioapi,
+    rmarchingcubes,
+    shape
 LazyData: TRUE
 Suggests: 
     testthat,
@@ -29,11 +38,19 @@ Suggests:
     rmarkdown,
     misc3d,
     r3js,
-    plotly
-RoxygenNote: 7.1.0
+    base64enc
+RoxygenNote: 7.1.1
 Roxygen: list(markdown = TRUE)
-LinkingTo: Rcpp
+LinkingTo: 
+    Rcpp, 
+    RcppArmadillo, 
+    RcppProgress, 
+    RcppEnsmallen, 
+    rapidjsonr
+Remotes: 
+    shwilks/r3js,
+    shwilks/rmarchingcubes
 VignetteBuilder: knitr
-License: GPL-3
 URL: https://github.com/acorg/Racmacs
 BugReports: https://github.com/acorg/Racmacs/issues
+License: AGPL-3

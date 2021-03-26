@@ -5,18 +5,18 @@
 \alias{mapComment<-}
 \title{Get or set an optimization run comment}
 \usage{
-mapComment(map, optimization_number = NULL)
-mapComment(map, optimization_number = NULL, .check = TRUE) <- value
+mapComment(map, optimization_number = 1)
+mapComment(map, optimization_number = 1) <- value
 }
 \arguments{
 \item{map}{The acmap data object}
 
-\item{optimization_number}{The optimization run to get / set the data (by default the currently selected one)}
+\item{optimization_number}{The optimization run from which to get / set the data}
 
-\item{.check}{Should normal checks be applied for validity be applied when setting this value (used internally)}
+\item{value}{New value to set}
 }
 \value{
-Gets or sets and map comments for the specified optimization run.
+Gets or sets map comments for the optimization run.
 }
 \description{
 Get or set an optimization run comment
@@ -28,6 +28,6 @@ Other {map optimization attribute functions}:
 \code{\link{mapStress}()},
 \code{\link{mapTransformation}()},
 \code{\link{ptBaseCoords}},
-\code{\link{ptCoords}}
+\code{\link{ptCoords}()}
 }
 \concept{{map optimization attribute functions}}

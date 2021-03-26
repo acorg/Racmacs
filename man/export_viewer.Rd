@@ -9,9 +9,13 @@ export_viewer(map, file, selfcontained = TRUE, ...)
 \arguments{
 \item{map}{The acmap object}
 
-\item{file}{html file to output to}
+\item{file}{File to save HTML into}
 
-\item{selfcontained}{Self-contained html file}
+\item{selfcontained}{Whether to save the HTML as a single self-contained file
+(with external resources base64 encoded) or a file with external resources
+placed in an adjacent directory.}
+
+\item{...}{Further parameters to \code{view()}}
 }
 \description{
 Export a map in a standalone html viewer

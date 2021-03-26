@@ -2,27 +2,21 @@
 % Please edit documentation in R/map_procrustes.R
 \name{realignOptimizations}
 \alias{realignOptimizations}
-\title{Realigns optimizations in the map to the current optimization}
+\title{Realigns optimizations in the map}
 \usage{
-realignOptimizations(
-  map,
-  antigens = TRUE,
-  sera = TRUE,
-  optimization_number = NULL
-)
+realignOptimizations(map)
 }
 \arguments{
-\item{map}{The acmap data}
-
-\item{antigens}{The antigens to include in the realignment, TRUE for all FALSE for none, or specified by name or index}
-
-\item{sera}{The sera to include in the realignment, TRUE for all FALSE for none, or specified by name or index}
+\item{map}{The acmap data object}
 }
 \value{
 Returns the map with realigned optimizations
 }
 \description{
-Realigns optimizations in the map to the current optimization
+Realigns all map optimizations through rotatation and translation to match
+point positions as closely as possible to the first optimization run. This
+is done by default when optimizing a map and makes comparing point positions
+in each optimization run much easier to do by eye.
 }
 \seealso{
 Other {functions to compare maps}: 

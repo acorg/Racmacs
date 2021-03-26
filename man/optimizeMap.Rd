@@ -10,15 +10,9 @@ optimizeMap(
   number_of_optimizations,
   minimum_column_basis = "none",
   fixed_column_bases = NULL,
-  move_trapped_points = NULL,
-  discard_previous_optimizations = TRUE,
   sort_optimizations = TRUE,
-  realign_optimizations = TRUE,
-  dimensional_annealing = FALSE,
-  stepsize = 0.1,
   verbose = TRUE,
-  vverbose = FALSE,
-  parallel_optimization = TRUE
+  options = list()
 )
 }
 \arguments{
@@ -30,25 +24,16 @@ optimizeMap(
 
 \item{minimum_column_basis}{The minimum column basis to use (see details)}
 
-\item{fixed_column_bases}{A vector of fixed values to use as column bases directly, rather than calculating them from the titer table.}
+\item{fixed_column_bases}{A vector of fixed values to use as column bases
+directly, rather than calculating them from the titer table.}
 
-\item{move_trapped_points}{Should trapped points be searched for and removed, one of 'none', 'best' or 'all' (see details)}
+\item{sort_optimizations}{Should optimizations be sorted by stress
+afterwards?}
 
-\item{discard_previous_optimizations}{Should previous optimizations associated with this map be discarded?}
+\item{verbose}{Should progress messages be reported, see also
+\code{RacOptimizer.options()}}
 
-\item{sort_optimizations}{Should optimizations be sorted by stress afterwards?}
-
-\item{realign_optimizations}{Should optimizations be realigned to align as closely as possible with each other?}
-
-\item{dimensional_annealing}{Should dimensional annealing be applied?}
-
-\item{stepsize}{Step size to use when searching for trapped points (lower will be a finer search)}
-
-\item{verbose}{Should progress be reported?}
-
-\item{vverbose}{Should very detailed progress be reported?}
-
-\item{parallel_optimization}{Should optimization runs be performed in parallel}
+\item{options}{List of named optimizer options, see \code{RacOptimizer.options()}}
 }
 \value{
 Returns the acmap object updated with new optimizations.
@@ -56,28 +41,28 @@ Returns the acmap object updated with new optimizations.
 \description{
 Take an acmap object with a table of titer data and perform optimization runs
 to try and find the best arrangement of antigens and sera to represent their
-antigenic similarity. Optimizations generated from each run with different random
-starting conditions will be added to the acmap object.
+antigenic similarity. Optimizations generated from each run with different
+random starting conditions will be added to the acmap object.
 }
 \details{
-This is the core function to run map optimizations. In essence, for each optimization run, points are randomly distributed in
-5-dimensional space, the L-BFGS gradient-based optimization algorithm is applied to move points into an optimal position and then
-principal component analysis is used to reduce the number of dimensions and the process repeated until the desired number of dimensions is
-reached. Depending on the map, this may not be a trivial optimization process and results will depend upon the starting conditions.
+This is the core function to run map optimizations. In essence, for
+each optimization run, points are randomly distributed in n-dimensional
+space, the L-BFGS gradient-based optimization algorithm is applied to move
+points into an optimal position. Depending on the map, this may not be a
+trivial optimization process and results will depend upon the starting
+conditions so multiple optimization runs may be required. For a full
+explanation see \code{vignette("intro-to-antigenic-cartography")}.
+\subsection{Minimum column basis and fixed column bases Fixed column bases is a}{
 
-\subsection{Trapped points}{
-Each optimization run can be checked for trapped points which involves taking each point in turn and testing it in different alternative
-locations in the map. If a more optimal position is found, the point is moved and the process repeated.
-
-Although effective this is computationally quite expensive and so the default setting is to apply this only the 'best' (lowest stress) map.
-This step can alternatively be skipped by setting 'none' or applied to all optimization runs by specifying 'all'.
-}
-
-\subsection{Minimum column basis}{
+vector of fixed column bases for each sera, where NA is specified (the
+default) column bases will be calculated according to the
+\code{minimum_column_basis} setting. Again for a full explanation of column
+bases and what they mean see \code{vignette("intro-to-antigenic-cartography")}.
 }
 }
 \seealso{
-See \code{\link{relaxMap}} for optimizing a given optimization starting from its current coordinates.
+See \code{relaxMap()} for optimizing a given optimization starting from
+its current coordinates.
 
 Other {map optimization functions}: 
 \code{\link{make.acmap}()},

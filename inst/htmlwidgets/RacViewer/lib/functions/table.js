@@ -163,8 +163,8 @@ Racmacs.HItable = class HItable {
 			viewer.deselectAll();
 		});
 
-		var noneSelected_deselected_opacity = viewer.graphics.noneSelected.deselected.opacity;
-        var plusSelected_deselected_opacity = viewer.graphics.plusSelected.deselected.opacity;
+		var noneSelected_deselected_opacity = viewer.styleset.noselections.unhovered.unselected.opacity;
+		var plusSelected_deselected_opacity = viewer.styleset.selections.unhovered.unselected.opacity;
 
         container.addEventListener("mouseenter", function(){
             viewer.graphics.noneSelected.deselected.opacity = plusSelected_deselected_opacity;

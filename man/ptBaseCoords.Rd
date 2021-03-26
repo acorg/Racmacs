@@ -3,35 +3,35 @@
 \name{ptBaseCoords}
 \alias{ptBaseCoords}
 \alias{agBaseCoords}
-\alias{srBaseCoords}
 \alias{agBaseCoords<-}
+\alias{srBaseCoords}
 \alias{srBaseCoords<-}
 \title{Getting and setting base coordinates}
 \usage{
-agBaseCoords(map, optimization_number = NULL, .name = TRUE)
-agBaseCoords(map, optimization_number = NULL, .check = TRUE) <- value
-
-srBaseCoords(map, optimization_number = NULL, .name = TRUE)
-srBaseCoords(map, optimization_number = NULL, .check = TRUE) <- value
+agBaseCoords(map, optimization_number = 1)
+agBaseCoords(map, optimization_number = 1) <- value
+srBaseCoords(map, optimization_number = 1)
+srBaseCoords(map, optimization_number = 1) <- value
 }
 \arguments{
 \item{map}{The acmap data object}
 
-\item{optimization_number}{The optimization run to get / set the data (by default the currently selected one)}
+\item{optimization_number}{The optimization run from which to get / set the data}
 
-\item{.name}{Should the output be labelled with corresponding antigen / sera names}
-
-\item{.check}{Should normal checks be applied for validity be applied when setting this value (used internally)}
+\item{value}{New value to set}
 }
 \value{
-Returns either the requested attribute when using a getter function or the updated acmap object when using the setter function.
+Returns either the requested attribute when using a getter function or
+
+the updated acmap object when using the setter function.
 }
 \description{
-These functions get and set the base coordinates for a given optimization run.
+These functions get and set the base coordinates for a given optimization
+run.
 }
 \seealso{
-\code{\link{agCoords}}
-\code{\link{srCoords}}
+\code{agCoords()}
+\code{srCoords()}
 
 Other {map optimization attribute functions}: 
 \code{\link{colBases}()},
@@ -39,6 +39,6 @@ Other {map optimization attribute functions}:
 \code{\link{mapDimensions}()},
 \code{\link{mapStress}()},
 \code{\link{mapTransformation}()},
-\code{\link{ptCoords}}
+\code{\link{ptCoords}()}
 }
 \concept{{map optimization attribute functions}}

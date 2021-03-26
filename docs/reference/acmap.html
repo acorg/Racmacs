@@ -83,7 +83,7 @@ data in the Racmacs package." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">Racmacs</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.16</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.4</span>
       </span>
     </div>
 
@@ -132,134 +132,42 @@ data in the Racmacs package." />
 data in the Racmacs package.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>acmap</span>(<span class='no'>...</span>)</pre>
+    <pre class="usage"><span class='fu'>acmap</span>(
+  <span class='kw'>ag_names</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>sr_names</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>titer_table</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>ag_coords</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>sr_coords</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='no'>...</span>
+)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>table_name</th>
-      <td><p>Table name</p></td>
-    </tr>
-    <tr>
-      <th>table</th>
-      <td><p>Table of titer data</p></td>
-    </tr>
-    <tr>
       <th>ag_names</th>
       <td><p>Antigen names</p></td>
-    </tr>
-    <tr>
-      <th>ag_date</th>
-      <td><p>Antigen dates</p></td>
-    </tr>
-    <tr>
-      <th>ag_reference</th>
-      <td><p>Is antigen a reference virus</p></td>
     </tr>
     <tr>
       <th>sr_names</th>
       <td><p>Sera names</p></td>
     </tr>
     <tr>
-      <th>ag_shown</th>
-      <td><p>Antigen shown</p></td>
-    </tr>
-    <tr>
-      <th>ag_size</th>
-      <td><p>Antigen size</p></td>
-    </tr>
-    <tr>
-      <th>ag_cols_fill</th>
-      <td><p>Antigen fill color</p></td>
-    </tr>
-    <tr>
-      <th>ag_cols_outline</th>
-      <td><p>Antigen outline color</p></td>
-    </tr>
-    <tr>
-      <th>ag_outline_width</th>
-      <td><p>Antigen outline width</p></td>
-    </tr>
-    <tr>
-      <th>ag_rotation</th>
-      <td><p>Antigen rotation</p></td>
-    </tr>
-    <tr>
-      <th>ag_aspect</th>
-      <td><p>Antigen aspect</p></td>
-    </tr>
-    <tr>
-      <th>ag_shape</th>
-      <td><p>Antigen shape</p></td>
-    </tr>
-    <tr>
-      <th>ag_drawing_order</th>
-      <td><p>Antigen drawing order</p></td>
-    </tr>
-    <tr>
-      <th>sr_shown</th>
-      <td><p>Sera shown</p></td>
-    </tr>
-    <tr>
-      <th>sr_size</th>
-      <td><p>Sera size</p></td>
-    </tr>
-    <tr>
-      <th>sr_cols_fill</th>
-      <td><p>Sera fill color</p></td>
-    </tr>
-    <tr>
-      <th>sr_cols_outline</th>
-      <td><p>Sera outline color</p></td>
-    </tr>
-    <tr>
-      <th>sr_outline_width</th>
-      <td><p>Sera outline width</p></td>
-    </tr>
-    <tr>
-      <th>sr_rotation</th>
-      <td><p>Sera rotation</p></td>
-    </tr>
-    <tr>
-      <th>sr_aspect</th>
-      <td><p>Sera aspect</p></td>
-    </tr>
-    <tr>
-      <th>sr_shape</th>
-      <td><p>Sera shape</p></td>
-    </tr>
-    <tr>
-      <th>sr_drawing_order</th>
-      <td><p>Sera drawing order</p></td>
+      <th>titer_table</th>
+      <td><p>Table of titer data</p></td>
     </tr>
     <tr>
       <th>ag_coords</th>
-      <td><p>Antigen coordinates</p></td>
+      <td><p>Antigenic coordinates for an optimization run record
+(optional)</p></td>
     </tr>
     <tr>
       <th>sr_coords</th>
-      <td><p>Sera coordinates</p></td>
+      <td><p>Sera coordinates for an optimization run record (optional)</p></td>
     </tr>
     <tr>
-      <th>comment</th>
-      <td><p>Map comment</p></td>
-    </tr>
-    <tr>
-      <th>minimum_column_basis</th>
-      <td><p>Map minimum column bases</p></td>
-    </tr>
-    <tr>
-      <th>transformation</th>
-      <td><p>Map transformation</p></td>
-    </tr>
-    <tr>
-      <th>colbases</th>
-      <td><p>Map column bases</p></td>
-    </tr>
-    <tr>
-      <th>optimizations</th>
-      <td><p>A list of optimizations with appropriate attributes</p></td>
+      <th>...</th>
+      <td><p>Further arguments passed to <code><a href='addOptimization.html'>addOptimization()</a></code></p></td>
     </tr>
     </table>
 
@@ -268,19 +176,17 @@ data in the Racmacs package.</p>
     <p>Returns the new acmap object</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>The fundamental unit of the Racmacs package is the <code>acmap</code> object, short for
-Antigenic Cartography MAP. This object contains all the information about an
-antigenic map. You can read in a new acmap object from a file with the
-function <code><a href='read.acmap.html'>read.acmap</a></code> and create a new acmap object within an R session
-using the <code>acmap</code> function.</p>
+    <p>The fundamental unit of the Racmacs package is the <code>acmap</code> object,
+short for Antigenic Cartography MAP. This object contains all the
+information about an antigenic map. You can read in a new acmap object from
+a file with the function <code><a href='read.acmap.html'>read.acmap()</a></code> and create a new acmap object
+within an R session using the <code>acmap()</code> function.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p>See <code><a href='optimizeMap.html'>optimizeMap</a></code> for generating new optimizations
-estimating antigen similarity from the acmap titer data.</p>
+    <div class='dont-index'><p>See <code><a href='optimizeMap.html'>optimizeMap()</a></code> for generating new optimizations estimating
+antigen similarity from the acmap titer data.</p>
 <p>Other functions for working with map data: 
 <code><a href='as.json.html'>as.json</a>()</code>,
-<code><a href='cloneMap.html'>cloneMap</a>()</code>,
-<code><a href='convertingMaps.html'>convertingMaps</a></code>,
 <code><a href='orderPoints.html'>orderPoints</a></code>,
 <code><a href='read.acmap.html'>read.acmap</a>()</code>,
 <code><a href='read.titerTable.html'>read.titerTable</a>()</code>,
@@ -288,19 +194,8 @@ estimating antigen similarity from the acmap titer data.</p>
 <code><a href='save.acmap.html'>save.acmap</a>()</code>,
 <code><a href='save.coords.html'>save.coords</a>()</code>,
 <code><a href='save.titerTable.html'>save.titerTable</a>()</code>,
-<code><a href='selectedOptimization.html'>selectedOptimization</a>()</code>,
-<code><a href='subsetMap.html'>subsetMap</a>()</code>,
-<code><a href='subsetPoints.html'>subsetPoints</a></code></p></div>
+<code><a href='subsetMap.html'>subsetMap</a>()</code></p></div>
 
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'># Read in an acmap object from a file</span>
-<span class='no'>map_file_path</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>"extdata/h3map2004.ace"</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"Racmacs"</span>)
-<span class='no'>map</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='read.acmap.html'>read.acmap</a></span>(<span class='no'>map_file_path</span>)
-
-<span class='co'># Read in a table of titer data and make a new acmap file from it</span>
-<span class='no'>titer_file_path</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>"extdata/h3map2004_hitable.csv"</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"Racmacs"</span>)
-<span class='no'>titer_data</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='read.titerTable.html'>read.titerTable</a></span>(<span class='no'>titer_file_path</span>)
-<span class='no'>map</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='convertingMaps.html'>acmap.cpp</a></span>(<span class='kw'>table</span> <span class='kw'>=</span> <span class='no'>titer_data</span>)</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

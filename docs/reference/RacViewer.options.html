@@ -49,7 +49,8 @@
   
 
 <meta property="og:title" content="Set viewer options — RacViewer.options" />
-<meta property="og:description" content="This function facilitates setting racviewer options by returning a list of option settings." />
+<meta property="og:description" content="This function facilitates setting racviewer options by returning a list of
+option settings." />
 <meta property="og:image" content="/logo.png" />
 
 
@@ -82,7 +83,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">Racmacs</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.16</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.4</span>
       </span>
     </div>
 
@@ -127,13 +128,15 @@
     </div>
 
     <div class="ref-description">
-    <p>This function facilitates setting racviewer options by returning a list of option settings.</p>
+    <p>This function facilitates setting racviewer options by returning a list of
+option settings.</p>
     </div>
 
     <pre class="usage"><span class='fu'>RacViewer.options</span>(
   <span class='kw'>point.opacity</span> <span class='kw'>=</span> <span class='fl'>NA</span>,
   <span class='kw'>viewer.controls</span> <span class='kw'>=</span> <span class='st'>"hidden"</span>,
-  <span class='kw'>grid.display</span> <span class='kw'>=</span> <span class='st'>"static"</span>
+  <span class='kw'>grid.display</span> <span class='kw'>=</span> <span class='st'>"static"</span>,
+  <span class='kw'>grid.col</span> <span class='kw'>=</span> <span class='st'>"#666666"</span>
 )</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -146,6 +149,11 @@
     <tr>
       <th>viewer.controls</th>
       <td><p>Should viewer controls be shown or hidden by default?</p></td>
+    </tr>
+    <tr>
+      <th>grid.display</th>
+      <td><p>For 3d maps, should the grid be fixed in the background
+or enclose and rotate along with the map</p></td>
     </tr>
     </table>
 

@@ -4,10 +4,15 @@
 \alias{mapDimensions}
 \title{Get the current map dimensions}
 \usage{
-mapDimensions(map, optimization_number = NULL)
+mapDimensions(map, optimization_number = 1)
+}
+\arguments{
+\item{map}{The acmap data object}
+
+\item{optimization_number}{The optimization run from which to get / set the data}
 }
 \value{
-Returns the number of map dimensions for the specified optimization run.
+Returns the number of dimensions for the optimization run.
 }
 \description{
 Get the current map dimensions
@@ -19,6 +24,6 @@ Other {map optimization attribute functions}:
 \code{\link{mapStress}()},
 \code{\link{mapTransformation}()},
 \code{\link{ptBaseCoords}},
-\code{\link{ptCoords}}
+\code{\link{ptCoords}()}
 }
 \concept{{map optimization attribute functions}}

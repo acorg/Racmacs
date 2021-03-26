@@ -6,22 +6,40 @@
 \usage{
 moveTrappedPoints(
   map,
-  stepsize = 0.1,
-  optimization_number = NULL,
-  vverbose = FALSE
+  optimization_number = 1,
+  grid_spacing = 0.25,
+  max_iterations = 10,
+  options = list()
 )
 }
 \arguments{
 \item{map}{The acmap data object}
 
-\item{optimization_number}{The map optimization number (defaults to the currently selected optimization)}
+\item{optimization_number}{The map optimization number to apply it to}
+
+\item{grid_spacing}{Grid spacing in antigenic units of the search grid to use
+when searching for more optimal positions}
+
+\item{max_iterations}{The maximum number of interations of searching for
+trapped points then relaxing the map to be performed}
+
+\item{options}{List of named optimizer options, see \code{RacOptimizer.options()}}
 }
 \value{
-Returns the acmap object with updated coordinates
+Returns the acmap object with updated coordinates (if any trapped
+points found)
 }
 \description{
-Iteratively searches for and moves points that are found to be trapped in a
-optimization, stopping when no more trapped points are found.
+Sometimes points in a map optimization run get trapped in local optima, this
+function tries to combat this by doing a grid search for each point
+individually moving points if a better optima is found. Note that this only
+performs grid searches individually so won't find cases where a group of
+points are trapped together in a local optima.
+}
+\details{
+The search is iterative, searching for and moving points that are found to be
+trapped before relaxing the map and searching again, stopping either when no
+more trapped points are found or \code{max_iterations} is reached.
 }
 \seealso{
 Other {map optimization functions}: 

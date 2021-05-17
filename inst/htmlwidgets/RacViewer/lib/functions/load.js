@@ -69,7 +69,7 @@ Racmacs.Viewer.prototype.load = function(
 
         // Set the grid
         if(options["grid.display"] !== "rotate"){
-            this.setGrid();
+            this.setGrid(options);
         }
 
         // Add points to the plot

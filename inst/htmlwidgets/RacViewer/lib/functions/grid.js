@@ -1,5 +1,7 @@
 
-Racmacs.Viewer.prototype.setGrid = function(){
+Racmacs.Viewer.prototype.setGrid = function(
+    options = {}
+    ){
 
 	// Clear any previous grids
 	if(this.gridelement){
@@ -12,14 +14,17 @@ Racmacs.Viewer.prototype.setGrid = function(){
 		dimensions : this.mapdims.dimensions
 	});
 
+    // Set grid options
+    var grid_color = new THREE.Color(options["grid.col"]);
+
 	// Create the grid element
     var element = new R3JS.element.gllines_fat({
         coords : gridcoords,
         properties : {
             color : {
-                r : Array(gridcoords.length).fill(0.95),
-                g : Array(gridcoords.length).fill(0.95),
-                b : Array(gridcoords.length).fill(0.95)
+                r : Array(gridcoords.length).fill(grid_color.r),
+                g : Array(gridcoords.length).fill(grid_color.g),
+                b : Array(gridcoords.length).fill(grid_color.b)
             },
             mat : "line",
             lwd : 1,
@@ -53,12 +58,20 @@ Racmacs.Viewer.prototype.setGrid = function(){
     	var dist_diff = max_dist - min_dist;
 
     	var coord_colors = coord_dists.map( 
-    		x => 0.08 * Math.sqrt( ((x-min_dist)/dist_diff) )+0.9
+    		x => 0.5 * Math.sqrt( ((x-min_dist)/dist_diff) )+0.3
     	);
+
+        // Set colors
+        var background_color = new THREE.Color("#ffffff");
+
+        var coord_colors_r = coord_colors.map( x => x*background_color.r + (1 - x)*grid_color.r );
+        var coord_colors_g = coord_colors.map( x => x*background_color.g + (1 - x)*grid_color.g );
+        var coord_colors_b = coord_colors.map( x => x*background_color.b + (1 - x)*grid_color.b );
+
     	element.setColor({
-    		r : coord_colors,
-    		g : coord_colors,
-    		b : coord_colors
+    		r : coord_colors_r,
+    		g : coord_colors_g,
+    		b : coord_colors_b
     	});
 
     }

@@ -45,3 +45,30 @@ test_that("Setting a rotating grid", {
   )
 
 })
+
+test_that("Setting grid color", {
+
+  map <- read.acmap(test_path("../testdata/testmap_h3subset.ace"))
+  export.viewer.test(
+    view(
+      map,
+      options = list(
+        grid.col = "blue"
+      )
+    ),
+    "map_blue_grid.html"
+  )
+
+  map <- read.acmap(test_path("../testdata/testmap_h3subset3d.ace"))
+  export.viewer.test(
+    view(
+      map,
+      options = list(
+        grid.col = "blue"
+      )
+    ),
+    "map_blue_grid3d.html"
+  )
+
+})
+

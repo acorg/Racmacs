@@ -39,7 +39,7 @@ RacViewer <- function(
     map <- addMapGrid(map, options$grid.col)
   }
 
-  # forward options using x
+  # Forward data using x
   x <- list(
     mapData  = mapdata,
     plotdata = jsonlite::toJSON(map$plot),

@@ -33,7 +33,7 @@ When installing Racmacs on a mac os, compilation will most likely fail under the
 #### Building Racmacs to run code in parallel
 Racmacs uses [OpenMP](https://www.openmp.org) instructions to specify when code, for example map optimization runs, can be run in parallel to increase performance. The resulting speed-up can be significant, but you need to check whether the compiler you use supports OpenMP. The default compiler on mac systems for example is `clang` which does not support OpenMP and will compile Racmacs as a single-threaded program.
 
-Luckily in these cases it is relatively easy to install to install an alternative compiler like `gcc` which does support OpenMP and will compile Racmacs as a multi-threaded program. To do this you need to first install gcc and then tell R that you would like to use the gcc compiler instead.
+Luckily in these cases it is relatively easy to install an alternative compiler like `gcc` which does support OpenMP and will compile Racmacs as a multi-threaded program. To do this you need to first install gcc and then tell R that you would like to use the gcc compiler instead.
 
 __Installing gcc__  
 The easiest way to install gcc is through [homebrew](https://brew.sh). First download homebrew if you haven't already then simply run:

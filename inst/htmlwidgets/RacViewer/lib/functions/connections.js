@@ -121,6 +121,11 @@ Racmacs.Point.prototype.showConnections = function(){
 		// Get connection data
 		var connectiondata = this.getConnectionData();
 
+		// Render lines above points for 2d maps
+		if (this.viewer.getPlotDims() === 2) {
+			connectiondata.coords.map( x => x[2] = 0.01 );
+		}
+
 		// Make the line element
 		this.connectionlines = new R3JS.element.gllines_fat({
 			coords : connectiondata.coords,
@@ -254,6 +259,11 @@ Racmacs.Point.prototype.showErrors = function(){
 
 		// Get error data
 		var errordata = this.getErrorData();
+
+		// Render lines above points for 2d maps
+		if (this.viewer.getPlotDims() === 2) {
+			errordata.coords.map( x => x[2] = 0.01 );
+		}
 
 		// Make the line element
 		this.errorlines = new R3JS.element.gllines_fat({

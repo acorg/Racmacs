@@ -116,7 +116,7 @@ R3JS.Viewer = class R3JSviewer {
         this.scene.showhideDynamics(this.camera.camera);
     }
 
-    // Set plot lims
+    // Set plot dims
     setPlotDims(plotdims){
 
         // Set scene lims
@@ -140,6 +140,11 @@ R3JS.Viewer = class R3JSviewer {
             );
         }
 
+    }
+
+    // Get plot dims
+    getPlotDims() {
+        return(this.scene.plotdims.dimensions);
     }
 
     // Return aspect ratio

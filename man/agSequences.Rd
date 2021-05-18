@@ -18,3 +18,12 @@ antigens}
 \description{
 Getting and setting antigen sequence information
 }
+\seealso{
+Other {antigen and sera attribute functions}: 
+\code{\link{agAttributes}},
+\code{\link{agGroups}()},
+\code{\link{srAttributes}},
+\code{\link{srGroups}()},
+\code{\link{srSequences}()}
+}
+\concept{{antigen and sera attribute functions}}

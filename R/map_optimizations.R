@@ -14,6 +14,8 @@
 #' @param fixed_column_bases A vector of fixed column bases with NA for sera
 #'   where the minimum column basis should be applied
 #'
+#' @family {functions for working with map data}
+#'
 #' @return Returns the acmap data object with new optimization added (but not
 #'   selected).
 #'

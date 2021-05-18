@@ -1,5 +1,5 @@
 
-#' Calculate stress blobs data for an antigenic map
+#' Calculate triangulation blobs data for an antigenic map
 #'
 #' This function is to help give an idea of how well coordinated each point is
 #' in a map, and to give some idea of uncertainty in it's position. It works
@@ -10,14 +10,14 @@
 #' @param stress_lim The blob stress limit
 #' @param grid_spacing Grid spacing to use when searching map space and
 #'   inferring the blob
-#' @param antigens Should stress blobs be calculated for antigens
-#' @param sera Should stress blobs be calculated for sera
+#' @param antigens Should triangulation blobs be calculated for antigens
+#' @param sera Should triangulation blobs be calculated for sera
 #' @param .check_relaxation Should a check be performed that the map is fully
 #'   relaxed (all points in a local optima) before the search is performed
 #' @param .options List of named optimizer options to use when checking map
 #'   relaxation, see `RacOptimizer.options()`
 #'
-#' @return Returns the acmap data object with stress blob information added,
+#' @return Returns the acmap data object with triangulation blob information added,
 #'   which will be shown when the map is plotted
 #'
 #' @details The region or regions of the plot where total map stress is not
@@ -33,6 +33,7 @@
 #'   which is itself uncertain. For something more akin to confidence intervals
 #'   you can use other diagnostic functions like `bootstrapMap()`.
 #'
+#' @family {map diagnostic functions}
 #' @export
 #'
 triangulationBlobs <- function(
@@ -194,15 +195,16 @@ contour_blob <- function(
 }
 
 
-#' Fetch information on stress blob size
+#' Fetch information on triangulation blob size
 #'
-#' Returns a vector of stress blob sizes for each point, helpful for
+#' Returns a vector of triangulation blob sizes for each point, helpful for
 #' programatically finding the points with the most uncertainty.
 #'
-#' @param map acmap with stress blob information added
+#' @param map acmap with triangulation blob information added
 #' @param optimization_number optimization number for which to calculate blob size
 #'
 #' @name ptTriangulationBlobsize
+#' @family {map diagnostic functions}
 #'
 
 #' @rdname ptTriangulationBlobsize

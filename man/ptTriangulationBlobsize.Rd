@@ -4,18 +4,30 @@
 \alias{ptTriangulationBlobsize}
 \alias{agTriangulationBlobSize}
 \alias{srTriangulationBlobSize}
-\title{Fetch information on stress blob size}
+\title{Fetch information on triangulation blob size}
 \usage{
 agTriangulationBlobSize(map, optimization_number = 1)
 
 srTriangulationBlobSize(map, optimization_number = 1)
 }
 \arguments{
-\item{map}{acmap with stress blob information added}
+\item{map}{acmap with triangulation blob information added}
 
 \item{optimization_number}{optimization number for which to calculate blob size}
 }
 \description{
-Returns a vector of stress blob sizes for each point, helpful for
+Returns a vector of triangulation blob sizes for each point, helpful for
 programatically finding the points with the most uncertainty.
 }
+\seealso{
+Other {map diagnostic functions}: 
+\code{\link{bootstrapBlobs}()},
+\code{\link{bootstrapMap}()},
+\code{\link{checkHemisphering}()},
+\code{\link{dimensionTestMap}()},
+\code{\link{map-table-distances}},
+\code{\link{mapBootstrapCoords}},
+\code{\link{mapRelaxed}()},
+\code{\link{triangulationBlobs}()}
+}
+\concept{{map diagnostic functions}}

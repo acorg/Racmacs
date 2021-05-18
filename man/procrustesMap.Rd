@@ -40,6 +40,8 @@ Returns information from one map procrusted to another.
 }
 \seealso{
 Other {functions to compare maps}: 
+\code{\link{matchStrains}},
+\code{\link{procrustesData}()},
 \code{\link{realignMap}()},
 \code{\link{realignOptimizations}()}
 }

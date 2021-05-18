@@ -9,6 +9,8 @@
 #' @param grid.display For 3d maps, should the grid be fixed in the background
 #'   or enclose and rotate along with the map
 #'
+#' @family {functions to view maps}
+#'
 #' @return Returns a named list of viewer options
 #' @export
 #'
@@ -44,6 +46,8 @@ RacViewer.options <- function(
 #'   (with external resources base64 encoded) or a file with external resources
 #'   placed in an adjacent directory.
 #' @param ... Further parameters to `view()`
+#'
+#' @family {functions to view maps}
 #'
 #' @export
 #'

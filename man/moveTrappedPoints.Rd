@@ -43,6 +43,7 @@ more trapped points are found or \code{max_iterations} is reached.
 }
 \seealso{
 Other {map optimization functions}: 
+\code{\link{RacOptimizer.options}()},
 \code{\link{make.acmap}()},
 \code{\link{optimizeMap}()},
 \code{\link{randomizeCoords}()},

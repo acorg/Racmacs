@@ -19,7 +19,12 @@ the format of the file will be a json file of map data compressed using
 \seealso{
 Other {functions for working with map data}: 
 \code{\link{acmap}()},
+\code{\link{addOptimization}()},
 \code{\link{as.json}()},
+\code{\link{edit_agNames}()},
+\code{\link{edit_srNames}()},
+\code{\link{keepBestOptimization}()},
+\code{\link{keepSingleOptimization}()},
 \code{\link{orderPoints}},
 \code{\link{read.acmap}()},
 \code{\link{read.titerTable}()},

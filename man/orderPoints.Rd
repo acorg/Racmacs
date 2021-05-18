@@ -21,7 +21,12 @@ Functions to change the order of antigens and sera in a map
 \seealso{
 Other {functions for working with map data}: 
 \code{\link{acmap}()},
+\code{\link{addOptimization}()},
 \code{\link{as.json}()},
+\code{\link{edit_agNames}()},
+\code{\link{edit_srNames}()},
+\code{\link{keepBestOptimization}()},
+\code{\link{keepSingleOptimization}()},
 \code{\link{read.acmap}()},
 \code{\link{read.titerTable}()},
 \code{\link{removePoints}},

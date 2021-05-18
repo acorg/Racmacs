@@ -36,6 +36,10 @@ Other {map diagnostic functions}:
 \code{\link{bootstrapMap}()},
 \code{\link{checkHemisphering}()},
 \code{\link{dimensionTestMap}()},
-\code{\link{mapRelaxed}()}
+\code{\link{map-table-distances}},
+\code{\link{mapBootstrapCoords}},
+\code{\link{mapRelaxed}()},
+\code{\link{ptTriangulationBlobsize}},
+\code{\link{triangulationBlobs}()}
 }
 \concept{{map diagnostic functions}}

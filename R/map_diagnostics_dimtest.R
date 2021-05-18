@@ -67,7 +67,7 @@ dimensionTestMap <- function(
 }
 
 
-#' Run dimtest result
+# Run dimtest result
 runDimensionTestMap <- function(
   map,
   dimensions_to_test       = 1:5,
@@ -119,7 +119,7 @@ runDimensionTestMap <- function(
 }
 
 
-#' Summarize dimension test results
+# Summarize dimension test results
 dimtest_summary <- function(
   object,
   ...
@@ -185,7 +185,6 @@ dimtest_summary <- function(
     var_rmse_detectable[x]     <- stats::var(predictions_detectable_rmses, na.rm = T)
     mean_rmse_nondetectable[x] <- mean(predictions_nondetectable_rmses, na.rm = T)
     var_rmse_nondetectable[x]  <- stats::var(predictions_nondetectable_rmses, na.rm = T)
-
 
   }
 

@@ -28,6 +28,7 @@ Other {map diagnostic functions}
 \code{\link{mapResiduals}()},
 \code{\link{pointStress}},
 \code{\link{recalculateStress}()},
+\code{\link{tableColbases}()},
 \code{\link{tableDistances}()}
 }
 \concept{{map diagnostic functions}

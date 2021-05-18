@@ -15,6 +15,8 @@
 #' @param show_procrustes should procrustes lines be shown
 #' @param elementId DOM element ID
 #'
+#' @family {functions to view maps}
+#'
 #' @import htmlwidgets
 #' @export
 RacViewer <- function(

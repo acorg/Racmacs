@@ -52,6 +52,7 @@ followed by \code{optimizeMap()}.
 }
 \seealso{
 Other {map optimization functions}: 
+\code{\link{RacOptimizer.options}()},
 \code{\link{moveTrappedPoints}()},
 \code{\link{optimizeMap}()},
 \code{\link{randomizeCoords}()},

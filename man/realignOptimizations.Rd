@@ -20,6 +20,8 @@ in each optimization run much easier to do by eye.
 }
 \seealso{
 Other {functions to compare maps}: 
+\code{\link{matchStrains}},
+\code{\link{procrustesData}()},
 \code{\link{procrustesMap}()},
 \code{\link{realignMap}()}
 }

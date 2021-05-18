@@ -48,6 +48,7 @@ Other {map diagnostic functions}
 \code{\link{mapResiduals}()},
 \code{\link{recalculateStress}()},
 \code{\link{stressTable}()},
+\code{\link{tableColbases}()},
 \code{\link{tableDistances}()}
 }
 \concept{{map diagnostic functions}

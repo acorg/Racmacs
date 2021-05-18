@@ -29,7 +29,8 @@ Other {map diagnostic functions}
 \code{\link{mapResiduals}()},
 \code{\link{pointStress}},
 \code{\link{recalculateStress}()},
-\code{\link{stressTable}()}
+\code{\link{stressTable}()},
+\code{\link{tableColbases}()}
 }
 \concept{{map diagnostic functions}
 {functions relating to map stress calculation}}

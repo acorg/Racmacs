@@ -117,6 +117,7 @@ procrustesMap <- function(
 #'   matching the number of points in the main map, with NA in the position of
 #'   any points not found in the comparison map.
 #'
+#' @family {functions to compare maps}
 #' @export
 procrustesData <- function(
   map,

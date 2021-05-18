@@ -60,7 +60,14 @@ altered.
 }
 \seealso{
 Other {functions to view maps}: 
+\code{\link{RacViewer.options}()},
+\code{\link{RacViewer}()},
+\code{\link{export_viewer}()},
 \code{\link{plot.acmap}()},
-\code{\link{snapshotMap}()}
+\code{\link{setLegend}()},
+\code{\link{snapshotMap}()},
+\code{\link{view.acmap}()},
+\code{\link{view.default}()},
+\code{\link{view}()}
 }
 \concept{{functions to view maps}}

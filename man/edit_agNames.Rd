@@ -19,3 +19,21 @@ Returns the acmap object with antigen names updated.
 \description{
 Edit antigen names in an acmap
 }
+\seealso{
+Other {functions for working with map data}: 
+\code{\link{acmap}()},
+\code{\link{addOptimization}()},
+\code{\link{as.json}()},
+\code{\link{edit_srNames}()},
+\code{\link{keepBestOptimization}()},
+\code{\link{keepSingleOptimization}()},
+\code{\link{orderPoints}},
+\code{\link{read.acmap}()},
+\code{\link{read.titerTable}()},
+\code{\link{removePoints}},
+\code{\link{save.acmap}()},
+\code{\link{save.coords}()},
+\code{\link{save.titerTable}()},
+\code{\link{subsetMap}()}
+}
+\concept{{functions for working with map data}}

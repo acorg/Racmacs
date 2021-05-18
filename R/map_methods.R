@@ -29,6 +29,8 @@ print.acmap <- function(x, ...) {
 #' @param x The object to view
 #' @param ... Additional arguments, not used.
 #'
+#' @family {functions to view maps}
+#'
 #' @export
 view <- function(x, ...) {
   UseMethod("view", x)
@@ -39,6 +41,8 @@ view <- function(x, ...) {
 #'
 #' @param x The object to view
 #' @param ... Additional arguments, passed to print.
+#'
+#' @family {functions to view maps}
 #'
 #' @export
 view.default <- function(x, ...) {
@@ -67,6 +71,8 @@ view.default <- function(x, ...) {
 #' @param keep_all_optimization_runs Should information on all the optimization
 #'   runs be kept in the viewer, or just view the currently selected
 #'   optimisation run.
+#'
+#' @family {functions to view maps}
 #'
 #' @return Returns the htmlwidget object
 #'

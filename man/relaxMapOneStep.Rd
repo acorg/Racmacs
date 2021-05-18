@@ -31,6 +31,7 @@ Relax a map one step in the optimiser
 }
 \seealso{
 Other {map optimization functions}: 
+\code{\link{RacOptimizer.options}()},
 \code{\link{make.acmap}()},
 \code{\link{moveTrappedPoints}()},
 \code{\link{optimizeMap}()},

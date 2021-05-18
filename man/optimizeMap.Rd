@@ -65,6 +65,7 @@ See \code{relaxMap()} for optimizing a given optimization starting from
 its current coordinates.
 
 Other {map optimization functions}: 
+\code{\link{RacOptimizer.options}()},
 \code{\link{make.acmap}()},
 \code{\link{moveTrappedPoints}()},
 \code{\link{randomizeCoords}()},

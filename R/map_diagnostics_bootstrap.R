@@ -105,7 +105,7 @@ hasBootstrapData <- function(map, optimization_number) {
 #' @param map The map object
 #'
 #' @name mapBootstrapCoords
-#' @family bootstrapping maps
+#' @family {map diagnostic functions}
 #'
 
 #' @rdname mapBootstrapCoords

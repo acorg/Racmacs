@@ -197,6 +197,8 @@ make.acmap <- function(
 #'   settings like `maxit` see the underlying optimizer documentation at
 #'   [ensmallen.org](http://ensmallen.org).
 #'
+#' @family {map optimization functions}
+#'
 #' @return Returns a named list of optimizer options
 #' @export
 #'

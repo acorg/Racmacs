@@ -10,7 +10,7 @@
 #'
 #' @return Returns the ggplot2 object
 #' @name map-table-distances
-#' @family Map diagnostics
+#' @family {map diagnostic functions}
 
 #' @export
 #' @rdname map-table-distances

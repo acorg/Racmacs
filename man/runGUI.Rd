@@ -9,3 +9,4 @@ runGUI()
 \description{
 This function opens the Racmacs GUI in a new window
 }
+\concept{{shiny app functions}}

@@ -2,7 +2,7 @@
 % Please edit documentation in R/rac_blobs.R
 \name{triangulationBlobs}
 \alias{triangulationBlobs}
-\title{Calculate stress blobs data for an antigenic map}
+\title{Calculate triangulation blobs data for an antigenic map}
 \usage{
 triangulationBlobs(
   map,
@@ -23,9 +23,9 @@ triangulationBlobs(
 \item{grid_spacing}{Grid spacing to use when searching map space and
 inferring the blob}
 
-\item{antigens}{Should stress blobs be calculated for antigens}
+\item{antigens}{Should triangulation blobs be calculated for antigens}
 
-\item{sera}{Should stress blobs be calculated for sera}
+\item{sera}{Should triangulation blobs be calculated for sera}
 
 \item{.check_relaxation}{Should a check be performed that the map is fully
 relaxed (all points in a local optima) before the search is performed}
@@ -34,7 +34,7 @@ relaxed (all points in a local optima) before the search is performed}
 relaxation, see \code{RacOptimizer.options()}}
 }
 \value{
-Returns the acmap data object with stress blob information added,
+Returns the acmap data object with triangulation blob information added,
 which will be shown when the map is plotted
 }
 \description{
@@ -57,3 +57,15 @@ it's position may still be defined by perhaps only one particular titer
 which is itself uncertain. For something more akin to confidence intervals
 you can use other diagnostic functions like \code{bootstrapMap()}.
 }
+\seealso{
+Other {map diagnostic functions}: 
+\code{\link{bootstrapBlobs}()},
+\code{\link{bootstrapMap}()},
+\code{\link{checkHemisphering}()},
+\code{\link{dimensionTestMap}()},
+\code{\link{map-table-distances}},
+\code{\link{mapBootstrapCoords}},
+\code{\link{mapRelaxed}()},
+\code{\link{ptTriangulationBlobsize}}
+}
+\concept{{map diagnostic functions}}

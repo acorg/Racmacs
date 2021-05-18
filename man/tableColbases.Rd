@@ -25,3 +25,16 @@ table
 For more information on column bases, what they mean and how they are
 calculated see \code{vignette("intro-to-antigenic-cartography")}
 }
+\seealso{
+Other {map diagnostic functions}
+{functions relating to map stress calculation}: 
+\code{\link{logtiterTable}()},
+\code{\link{mapDistances}()},
+\code{\link{mapResiduals}()},
+\code{\link{pointStress}},
+\code{\link{recalculateStress}()},
+\code{\link{stressTable}()},
+\code{\link{tableDistances}()}
+}
+\concept{{map diagnostic functions}
+{functions relating to map stress calculation}}

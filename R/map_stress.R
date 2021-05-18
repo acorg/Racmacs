@@ -43,6 +43,9 @@ tableDistances <- function(
 #'
 #' @return Returns a numeric vector of the log-converted column bases for the
 #'   table
+#'
+#' @family {map diagnostic functions}
+#'   {functions relating to map stress calculation}
 #' @export
 #'
 tableColbases <- function(

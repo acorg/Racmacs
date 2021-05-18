@@ -21,7 +21,9 @@ These functions get and set the antigen groupings for a map.
 \seealso{
 Other {antigen and sera attribute functions}: 
 \code{\link{agAttributes}},
+\code{\link{agSequences}()},
 \code{\link{srAttributes}},
-\code{\link{srGroups}()}
+\code{\link{srGroups}()},
+\code{\link{srSequences}()}
 }
 \concept{{antigen and sera attribute functions}}

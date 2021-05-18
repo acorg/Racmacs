@@ -7,6 +7,7 @@
 #'
 #' @return Returns the acmap object with antigen names updated.
 #'
+#' @family {functions for working with map data}
 #' @export
 #'
 edit_agNames <- function(
@@ -40,6 +41,7 @@ edit_agNames <- function(
 #'
 #' @return Returns the acmap object with sera names updated.
 #'
+#' @family {functions for working with map data}
 #' @export
 #'
 edit_srNames <- function(

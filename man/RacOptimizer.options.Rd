@@ -39,3 +39,13 @@ For more details, for example on "dimensional annealing" see
 settings like \code{maxit} see the underlying optimizer documentation at
 \href{http://ensmallen.org}{ensmallen.org}.
 }
+\seealso{
+Other {map optimization functions}: 
+\code{\link{make.acmap}()},
+\code{\link{moveTrappedPoints}()},
+\code{\link{optimizeMap}()},
+\code{\link{randomizeCoords}()},
+\code{\link{relaxMapOneStep}()},
+\code{\link{relaxMap}()}
+}
+\concept{{map optimization functions}}

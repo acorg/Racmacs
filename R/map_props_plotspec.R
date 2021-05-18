@@ -175,6 +175,8 @@ validate_colors <- function(cols) {
 #'
 #' @return Returns the map object with point drawing order information updated
 #'
+#' @family {map point style functions}
+#'
 #' @name ptDrawingOrder
 #'
 

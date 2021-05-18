@@ -53,3 +53,16 @@ Returns the htmlwidget object
 \description{
 View a racmap object in the interactive viewer.
 }
+\seealso{
+Other {functions to view maps}: 
+\code{\link{RacViewer.options}()},
+\code{\link{RacViewer}()},
+\code{\link{export_viewer}()},
+\code{\link{grid.plot.acmap}()},
+\code{\link{plot.acmap}()},
+\code{\link{setLegend}()},
+\code{\link{snapshotMap}()},
+\code{\link{view.default}()},
+\code{\link{view}()}
+}
+\concept{{functions to view maps}}

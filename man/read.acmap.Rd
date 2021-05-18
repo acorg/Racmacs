@@ -32,7 +32,12 @@ Reads an antigenic map file and converts it into an acmap data object.
 \seealso{
 Other {functions for working with map data}: 
 \code{\link{acmap}()},
+\code{\link{addOptimization}()},
 \code{\link{as.json}()},
+\code{\link{edit_agNames}()},
+\code{\link{edit_srNames}()},
+\code{\link{keepBestOptimization}()},
+\code{\link{keepSingleOptimization}()},
 \code{\link{orderPoints}},
 \code{\link{read.titerTable}()},
 \code{\link{removePoints}},

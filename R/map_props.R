@@ -248,6 +248,8 @@ keepOptimizations <- function(map, optimization_numbers) {
 #' @param map The acmap object
 #' @param optimization_number The optimization run to keep
 #'
+#' @family {functions for working with map data}
+#'
 #' @export
 #'
 keepSingleOptimization <- function(map, optimization_number = 1) {
@@ -257,6 +259,8 @@ keepSingleOptimization <- function(map, optimization_number = 1) {
 #' Keep only the lowest stress map optimization
 #'
 #' @param map The acmap object
+#'
+#' @family {functions for working with map data}
 #'
 #' @export
 #'

@@ -11,8 +11,10 @@ double ac_relax_coords(
     arma::mat &ag_coords,
     arma::mat &sr_coords,
     const AcOptimizerOptions &options,
-    const arma::uvec &fixed_antigens,
-    const arma::uvec &fixed_sera
+    const arma::uvec &fixed_antigens = arma::uvec(),
+    const arma::uvec &fixed_sera = arma::uvec(),
+    const arma::vec &ag_weights = arma::vec(),
+    const arma::vec &sr_weights = arma::vec()
 );
 
 #endif

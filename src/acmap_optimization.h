@@ -424,7 +424,9 @@ class AcOptimization {
       const arma::umat &titertype_matrix,
       const AcOptimizerOptions options,
       const arma::uvec &fixed_antigens = arma::uvec(),
-      const arma::uvec &fixed_sera = arma::uvec()
+      const arma::uvec &fixed_sera = arma::uvec(),
+      const arma::vec &ag_weights = arma::vec(),
+      const arma::vec &sr_weights = arma::vec()
     ){
 
       stress = ac_relax_coords(
@@ -434,7 +436,9 @@ class AcOptimization {
         sr_base_coords,
         options,
         fixed_antigens,
-        fixed_sera
+        fixed_sera,
+        ag_weights,
+        sr_weights
       );
 
     }
@@ -443,7 +447,9 @@ class AcOptimization {
       AcTiterTable titers,
       const AcOptimizerOptions options,
       const arma::uvec &fixed_antigens = arma::uvec(),
-      const arma::uvec &fixed_sera = arma::uvec()
+      const arma::uvec &fixed_sera = arma::uvec(),
+      const arma::vec &ag_weights = arma::vec(),
+      const arma::vec &sr_weights = arma::vec()
     ){
 
       relax_from_raw_matrices(
@@ -453,7 +459,9 @@ class AcOptimization {
         titers.get_titer_types(),
         options,
         fixed_antigens,
-        fixed_sera
+        fixed_sera,
+        ag_weights,
+        sr_weights
       );
 
     }

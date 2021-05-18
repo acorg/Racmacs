@@ -36,6 +36,8 @@ class MapOptimizer {
     arma::uword num_sr;
     arma::uvec moveable_ags;
     arma::uvec moveable_sr;
+    arma::vec ag_weights;
+    arma::vec sr_weights;
     arma::mat ag_gradients;
     arma::mat sr_gradients;
     double gradient;
@@ -63,6 +65,10 @@ class MapOptimizer {
       moveable_ags = arma::regspace<arma::uvec>(0, num_ags - 1);
       moveable_sr = arma::regspace<arma::uvec>(0, num_sr - 1);
 
+      // Set default weights to 1
+      ag_weights.ones(num_ags);
+      sr_weights.ones(num_ags);
+
       // Setup map dist matrices
       mapdist_matrix = arma::mat(num_ags, num_sr, arma::fill::zeros);
 
@@ -83,7 +89,9 @@ class MapOptimizer {
       arma::umat titertype,
       arma::uword dims,
       arma::uvec moveable_ags,
-      arma::uvec moveable_sr
+      arma::uvec moveable_sr,
+      arma::vec ag_weights,
+      arma::vec sr_weights
     )
       :ag_coords(ag_start_coords),
        sr_coords(sr_start_coords),
@@ -93,8 +101,14 @@ class MapOptimizer {
        num_ags(tabledist.n_rows),
        num_sr(tabledist.n_cols),
        moveable_ags(moveable_ags),
-       moveable_sr(moveable_sr)
+       moveable_sr(moveable_sr),
+       ag_weights(ag_weights),
+       sr_weights(sr_weights)
       {
+
+      // Set default weights to 1 if missing
+      if (ag_weights.n_elem == 0) ag_weights.ones(num_ags);
+      if (sr_weights.n_elem == 0) sr_weights.ones(num_sr);
 
       // Setup map dist matrices
       mapdist_matrix = arma::mat(num_ags, num_sr, arma::fill::zeros);
@@ -290,7 +304,9 @@ double ac_relax_coords(
     arma::mat &sr_coords,
     const AcOptimizerOptions &options,
     const arma::uvec &fixed_antigens,
-    const arma::uvec &fixed_sera
+    const arma::uvec &fixed_sera,
+    const arma::vec &ag_weights,
+    const arma::vec &sr_weights
 ){
 
   // Set variables
@@ -308,7 +324,9 @@ double ac_relax_coords(
     titertype_matrix,
     num_dims,
     moveable_antigens,
-    moveable_sera
+    moveable_sera,
+    ag_weights,
+    sr_weights
   );
 
   // Create the vector of parameters
@@ -391,7 +409,9 @@ void ac_relaxOptimizations(
   const arma::vec &colbases,
   const arma::mat &tabledist_matrix,
   const arma::umat &titertype_matrix,
-  const AcOptimizerOptions &options
+  const AcOptimizerOptions &options,
+  const arma::vec &ag_weights,
+  const arma::vec &sr_weights
 ){
 
   // Set variables
@@ -412,7 +432,11 @@ void ac_relaxOptimizations(
       optimizations[i].relax_from_raw_matrices(
           tabledist_matrix,
           titertype_matrix,
-          options
+          options,
+          arma::uvec(), // Fixed ags
+          arma::uvec(), // Fixed sr
+          ag_weights,
+          sr_weights
       );
     }
 
@@ -434,7 +458,9 @@ std::vector<AcOptimization> ac_runOptimizations(
     const arma::vec &colbases,
     const arma::uword &num_dims,
     const arma::uword &num_optimizations,
-    const AcOptimizerOptions &options
+    const AcOptimizerOptions &options,
+    const arma::vec &ag_weights,
+    const arma::vec &sr_weights
 ){
 
   // Get table distance matrix and titer type matrix
@@ -469,7 +495,9 @@ std::vector<AcOptimization> ac_runOptimizations(
       colbases,
       tabledist_matrix,
       titertype_matrix,
-      options
+      options,
+      ag_weights,
+      sr_weights
     );
 
     // Reduce dimensions to next step if doing dimensional annealing

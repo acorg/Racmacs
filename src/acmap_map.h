@@ -231,7 +231,9 @@ class AcMap {
       int num_optimizations,
       std::string min_col_basis,
       arma::vec fixed_col_bases,
-      const AcOptimizerOptions &options
+      const AcOptimizerOptions &options,
+      arma::vec ag_weights = arma::vec(),
+      arma::vec sr_weights = arma::vec()
     ){
 
       // Calculate column bases
@@ -246,7 +248,9 @@ class AcMap {
         colbases,
         num_dims,
         num_optimizations,
-        options
+        options,
+        ag_weights,
+        sr_weights
       );
 
       // Add colbases information

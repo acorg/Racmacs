@@ -127,11 +127,11 @@ Racmacs.ControlPanel = class ControlPanel {
         });
 
         // Add Blobs
-        // var stressblobsPanel = new Racmacs.StressblobsPanel(this.viewer);
+        // var triangulationblobsPanel = new Racmacs.StressblobsPanel(this.viewer);
         // this.tabset.addTab({
-        //     id : "stressblobs",
-        //     name: "Stress blobs",
-        //     content: stressblobsPanel.div
+        //     id : "triangulationblobs",
+        //     name: "Triangulation blobs",
+        //     content: triangulationblobsPanel.div
         // });
 
         // Add procrustes
@@ -171,7 +171,7 @@ Racmacs.ControlPanel = class ControlPanel {
 
     // Function to toggle visibility
     toggleVisibility(){
-        
+
         if(this.visible){
             this.hide();
         } else {
@@ -202,7 +202,7 @@ Racmacs.ControlPanel = class ControlPanel {
         this.tabset.disableTab("colorpanel");
         this.tabset.disableTab("filter");
         this.tabset.disableTab("diagnostics");
-        this.tabset.disableTab("stressblobs");
+        this.tabset.disableTab("triangulationblobs");
         this.tabset.disableTab("procrustes");
         this.tabset.disableTab("pointstylepanel");
     }
@@ -212,7 +212,7 @@ Racmacs.ControlPanel = class ControlPanel {
         this.tabset.enableTab("colorpanel");
         this.tabset.enableTab("filter");
         this.tabset.enableTab("diagnostics");
-        this.tabset.enableTab("stressblobs");
+        this.tabset.enableTab("triangulationblobs");
         this.tabset.enableTab("procrustes");
         this.tabset.enableTab("pointstylepanel");
     }
@@ -244,7 +244,7 @@ Racmacs.ColorPanel = class ColorPanel {
         this.viewer = viewer;
         this.viewer.colorbtns = {};
         this.viewer.colorpanel = this;
-        
+
         // Create color by options
         this.div = document.createElement( 'div' );
         this.div.id = "color-by-div";
@@ -296,7 +296,7 @@ Racmacs.ColorPanel = class ColorPanel {
         var label = document.createElement("label");
         var input = document.createElement("input");
         var span  = document.createElement("span");
-        
+
         input.type = "radio";
         input.name = "colorBy";
         input.checked = checked;
@@ -394,12 +394,12 @@ Racmacs.TabSet = class TabSet {
         tab.content.classList.add("tabset-content-tab");
         tab.content.style.display = "none";
         this.contentdiv.appendChild(tab.content);
-        
+
         tab.tab = document.createElement("div");
         tab.tab.classList.add("tab");
         tab.tab.innerHTML = args.name;
         this.tabdiv.appendChild(tab.tab);
-        
+
         // Add event listener
         var tabpanel = this;
         tab.tab.addEventListener("mouseup", function(){
@@ -491,7 +491,7 @@ Racmacs.TableList = class TableList {
                 this.checkbox.div.style.marginRight = "-6px";
                 titlediv.appendChild(this.checkbox.div);
             }
-            
+
             // Add the title
             var title = document.createElement("span");
             title.innerHTML = args.title;
@@ -551,7 +551,7 @@ Racmacs.TableList = class TableList {
         row.classList.add("tableRow");
         this.table.appendChild(row);
         row.num = this.rows.length;
-        
+
         // Add cells
         for(var i=0; i<args.content.length; i++){
             var cell = document.createElement("td");

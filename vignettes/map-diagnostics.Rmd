@@ -21,7 +21,7 @@ There are several approached that can be taken to try and determine the utility 
 - Examining map stress, especially per point
 - Comparing table and map distances
 - Looking at plots of titer vs antigenic distance from serum point
-- Looking at coordination of antigens and serum positions using stress blobs
+- Looking at coordination of antigens and serum positions using triangulation blobs
 - Looking at confidence of antigen and serum positions using noisy bootstrapping
 - Testing for potential differences in antigen avidity
 
@@ -31,7 +31,7 @@ library(Racmacs)
 map_file <- system.file("extdata/h3map2004_subset.ace", package = "Racmacs")
 map      <- read.acmap(map_file)
 view(
-  stressBlobs(
+  triangulationBlobs(
     map        = map,
     stress_lim = 2
   )

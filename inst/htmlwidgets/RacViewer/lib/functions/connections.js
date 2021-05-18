@@ -76,7 +76,9 @@ Racmacs.App.prototype.showConnectionLines = function(){
 	this.hideErrorLines();
 	if(!this.connectionLinesShown){
 		this.connectionLinesShown = true;
-		if(this.btns.toggleConnectionLines){ this.btns.toggleConnectionLines.highlight() }
+		if(this.btns.toggleConnectionLines){ 
+			this.btns.toggleConnectionLines.highlight();
+		}
 
 		if(this.selected_pts.length == 0){
 			var points = this.antigens;
@@ -403,7 +405,7 @@ Racmacs.Point.prototype.getErrorData = function(pt = null){
 // Remove connection lines from a point object
 Racmacs.Point.prototype.updateErrorLines = function(){
 
-	if(this.errorLinesShown){
+	if (this.errorLinesShown) {
 
 		var data = this.getErrorData();
 		this.errorlines.setCoords(data.coords);
@@ -417,7 +419,7 @@ Racmacs.Point.prototype.updateErrorLines = function(){
 // TITER LABELS
 Racmacs.App.prototype.toggleTiters = function(){
 
-	if(!this.titersShown){
+	if (!this.titersShown) {
 		this.showTiters();
 	} else {
 		this.hideTiters();
@@ -427,9 +429,11 @@ Racmacs.App.prototype.toggleTiters = function(){
 
 Racmacs.App.prototype.showTiters = function(){
 	
-	this.showConnectionLines();
+	if (!this.connectionLinesShown && !this.errorLinesShown) {
+	    this.showConnectionLines();
+	}
 
-	if(!this.titersShown){
+	if (!this.titersShown) {
 		this.titersShown = true;
 		if(this.btns.toggleTiters){ this.btns.toggleTiters.highlight() }
 
@@ -544,10 +548,6 @@ Racmacs.Point.prototype.showTiters = function(){
 	        this.addLinkedTiterLabel(element);
 	        p.addLinkedTiterLabel(element);
 		});
-
-		// this.viewer.scene.add(
-		// 	this.connectionlines.object
-		// );
 
 	}
 

@@ -94,7 +94,7 @@ window.addEventListener("racViewerLoaded", function(e){
   });
 
   Shiny.addCustomMessageHandler("addBlobData", function(data){
-    viewer.addStressBlobs(data);
+    viewer.addTriangulationBlobs(data);
   });
 
   Shiny.addCustomMessageHandler("addHemispheringData", function(data){
@@ -162,9 +162,9 @@ window.addEventListener("racViewerLoaded", function(e){
   };
 
   // Add stress blobs
-  viewer.onAddStressBlobs = function(args){
+  viewer.onAddTriangulationBlobs = function(args){
     args.selected_points = viewer.getSelectedPointIndices();
-    Shiny.setInputValue("stressBlobs", args, { priority : "event" });
+    Shiny.setInputValue("triangulationBlobs", args, { priority : "event" });
   };
 
   // Change in optimization

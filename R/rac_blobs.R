@@ -35,7 +35,7 @@
 #'
 #' @export
 #'
-stressBlobs <- function(
+triangulationBlobs <- function(
   map,
   optimization_number = 1,
   stress_lim          = 1,
@@ -112,17 +112,17 @@ stressBlobs <- function(
 }
 
 # Functions for fetching blob information
-agStressBlobs <- function(map, optimization_number = 1) {
+agTriangulationBlobs <- function(map, optimization_number = 1) {
   lapply(agDiagnostics(map, optimization_number), function(ag) ag$stress_blob)
 }
-srStressBlobs <- function(map, optimization_number = 1) {
+srTriangulationBlobs <- function(map, optimization_number = 1) {
   lapply(srDiagnostics(map, optimization_number), function(sr) sr$stress_blob)
 }
-ptStressBlobs <- function(map, optimization_number = 1) {
-  c(agStressBlobs(map, optimization_number), srStressBlobs(map, optimization_number))
+ptTriangulationBlobs <- function(map, optimization_number = 1) {
+  c(agTriangulationBlobs(map, optimization_number), srTriangulationBlobs(map, optimization_number))
 }
-hasStressBlobs <- function(map, optimization_number = 1) {
-  sum(vapply(ptStressBlobs(map, optimization_number), function(x) length(x) > 0, logical(1))) > 0
+hasTriangulationBlobs <- function(map, optimization_number = 1) {
+  sum(vapply(ptTriangulationBlobs(map, optimization_number), function(x) length(x) > 0, logical(1))) > 0
 }
 
 #' Fit a contour blob
@@ -202,12 +202,12 @@ contour_blob <- function(
 #' @param map acmap with stress blob information added
 #' @param optimization_number optimization number for which to calculate blob size
 #'
-#' @name ptStressBlobSize
+#' @name ptTriangulationBlobsize
 #'
 
-#' @rdname ptStressBlobSize
+#' @rdname ptTriangulationBlobsize
 #' @export
-agStressBlobSize <- function(map, optimization_number = 1) {
+agTriangulationBlobSize <- function(map, optimization_number = 1) {
   check.acmap(map)
   check.optnum(map, optimization_number)
   vapply(agDiagnostics(map, optimization_number), function(ag) {
@@ -215,9 +215,9 @@ agStressBlobSize <- function(map, optimization_number = 1) {
   }, numeric(1))
 }
 
-#' @rdname ptStressBlobSize
+#' @rdname ptTriangulationBlobsize
 #' @export
-srStressBlobSize <- function(map, optimization_number = 1) {
+srTriangulationBlobSize <- function(map, optimization_number = 1) {
   check.acmap(map)
   check.optnum(map, optimization_number)
   vapply(srDiagnostics(map, optimization_number), function(sr) {
@@ -278,3 +278,20 @@ contourShape <- function(
   )
 
 }
+
+# Deprecated functions
+deprecated_fn <- function(fn) {
+  fn_name <- as.character(match.call())[2]
+  function(...) {
+    warning(sprintf("This function has been deprecated in favor of %s()", fn_name))
+    fn(...)
+  }
+}
+
+#' @export
+stressBlobs <- deprecated_fn(triangulationBlobs)
+#' @export
+agStressBlobSize <- deprecated_fn(agTriangulationBlobSize)
+#' @export
+srStressBlobSize <- deprecated_fn(srTriangulationBlobSize)
+

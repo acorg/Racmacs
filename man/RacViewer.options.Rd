@@ -8,7 +8,7 @@ RacViewer.options(
   point.opacity = NA,
   viewer.controls = "hidden",
   grid.display = "static",
-  grid.col = "#666666"
+  grid.col = "#e0e0e0"
 )
 }
 \arguments{

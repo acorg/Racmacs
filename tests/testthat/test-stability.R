@@ -16,7 +16,10 @@ fns <- gsub("[\"]*\\)$", "", fns)
 excluded_fns <- c(
   "runGUI",
   "RacViewerOutput",
-  "view"
+  "view",
+  "agStressBlobSize",
+  "srStressBlobSize",
+  "stressBlobs"
 )
 fns <- fns[!fns %in% excluded_fns]
 

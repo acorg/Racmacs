@@ -60,7 +60,9 @@ dimensionTestMap <- function(
   )
 
   # Summarise the results
-  dimtest_summary(result)
+  summary_result <- dimtest_summary(result)
+  summary_result$replicates <- replicates_per_dimension
+  summary_result
 
 }
 

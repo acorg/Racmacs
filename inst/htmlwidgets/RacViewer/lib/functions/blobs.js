@@ -33,24 +33,24 @@ R3JS.Viewer.prototype.eventListeners.push({
     }
 });
 
-Racmacs.StressblobsPanel = class StressblobsPanel {
+Racmacs.TriangulationblobsPanel = class StressblobsPanel {
 
     constructor(viewer){
 
         // Create holder div
         this.div = document.createElement("div");
-        this.div.classList.add("stressblobs-tab");
-        
-        var newStressBlobsWell = new Racmacs.utils.InputWell({
+        this.div.classList.add("triangulationblobs-tab");
+
+        var newTriangulationBlobsWell = new Racmacs.utils.InputWell({
             inputs: [
                 { id: "stresslim",   value: 1,      label : "Stress limit" },
                 { id: "gridspacing", value: 0.25,   label : "Grid spacing" }
             ],
             submit: "Calculate stress blobs",
-            fn : function(args){ viewer.onAddStressBlobs(args) }
+            fn : function(args){ viewer.onAddTriangulationBlobs(args) }
         });
-        this.div.appendChild(newStressBlobsWell.div);
-        newStressBlobsWell.div.classList.add("shiny-element");
+        this.div.appendChild(newTriangulationBlobsWell.div);
+        newTriangulationBlobsWell.div.classList.add("shiny-element");
 
     }
 
@@ -58,7 +58,7 @@ Racmacs.StressblobsPanel = class StressblobsPanel {
 }
 
 // Show blobs in the viewer
-Racmacs.Viewer.prototype.addStressBlobs = function(blobdata){
+Racmacs.Viewer.prototype.addTriangulationBlobs = function(blobdata){
 
     // Show the blobs
     for(var i=0; i<this.points.length; i++){
@@ -90,9 +90,9 @@ Racmacs.Point.prototype.addBlob = function(blob){
     // Get transformation and translation
     let transformation = this.viewer.data.transformation();
     let translation = this.viewer.data.translation();
-    
+
     if(this.viewer.data.dimensions() == 2){
-    
+
         // 2d blobs
         for(var i=0; i<blob.length; i++){
 
@@ -189,7 +189,7 @@ Racmacs.Point.prototype.addBlob = function(blob){
         });
 
     }
-    
+
     // Show the blob
     this.showBlob();
 
@@ -197,7 +197,7 @@ Racmacs.Point.prototype.addBlob = function(blob){
 
 // Remove blob and show point
 Racmacs.Point.prototype.removeBlob = function(){
-    
+
     // Hide the blob
     this.hideBlob();
 
@@ -209,7 +209,7 @@ Racmacs.Point.prototype.removeBlob = function(){
 
 // Remove blob and show point
 Racmacs.Point.prototype.showBlob = function(){
-    
+
     // Set blob
     if(this.blob){
 
@@ -232,10 +232,10 @@ Racmacs.Point.prototype.showBlob = function(){
 
 // Remove blob and show point
 Racmacs.Point.prototype.hideBlob = function(){
-    
+
     // Set blob
     if(this.blob){
-        
+
         // Remove the blob from selectable elements
         this.viewer.scene.removeSelectableElement(this.blob);
 

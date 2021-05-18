@@ -138,14 +138,14 @@ view.acmap <- function(
 
   # Show any blob data
   if (
-    hasStressBlobs(x, optimization_number)
+    hasTriangulationBlobs(x, optimization_number)
     && !isFALSE(show_diagnostics)
     ) {
 
     widget <- htmlwidgets::onRender(
       x      = widget,
       jsCode = "function(el, x, data) { el.viewer.addStressBlobs(data) }",
-      data   = I(ptStressBlobs(x, optimization_number))
+      data   = I(ptTriangulationBlobs(x, optimization_number))
     )
 
   }

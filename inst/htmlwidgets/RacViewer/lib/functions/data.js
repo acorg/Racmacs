@@ -20,7 +20,7 @@ Racmacs.Data = class Data {
     load(data){
         this.data = data;
     }
-    
+
     // Chart attributes
     tableName(){
         if(!this.data){ return("") }
@@ -81,7 +81,7 @@ Racmacs.Data = class Data {
                 }
             }
 
-        } 
+        }
         // If table data provided as a list of lists
         else {
 
@@ -89,7 +89,7 @@ Racmacs.Data = class Data {
             table = this.data.c.t.l;
 
         }
-        
+
         // Return the table data
         return(table);
 
@@ -183,7 +183,7 @@ Racmacs.Data = class Data {
 
     agBaseCoords(i){ return(this.ptBaseCoords(i)); }
     srBaseCoords(i){ return(this.ptBaseCoords(i + this.numAntigens())); }
-    
+
     agCoords(i){ return(this.ptCoords(i)); }
     srCoords(i){ return(this.ptCoords(i + this.numAntigens())); }
 
@@ -204,8 +204,8 @@ Racmacs.Data = class Data {
             return(null);
         }
     }
-    
-    colbases(i=null){ 
+
+    colbases(i=null){
         if(this.numProjections() == 0){
             return(
                 Racmacs.utils.calcColBases({
@@ -214,7 +214,7 @@ Racmacs.Data = class Data {
                 })
             );
         }
-        
+
         let pnum = this.projection();
         let colbases;
         let mincolbasis;
@@ -229,7 +229,7 @@ Racmacs.Data = class Data {
             titers: this.table(),
             mincolbasis: mincolbasis
         });
-        
+
         // Apply fixed column bases
         if(this.data.c.P[pnum].C){
             // Forced column bases
@@ -247,7 +247,7 @@ Racmacs.Data = class Data {
             return(colbases[i]);
         }
     }
-    
+
 
     // Plotspec
     agPlotspec(i, attribute, base){
@@ -262,53 +262,53 @@ Racmacs.Data = class Data {
         return(value);
     }
 
-    agNames(i){ 
+    agNames(i){
         if(!this.data){ return([]) }
         return(this.data.c.a[i].N);
     }
-    srNames(i){ 
+    srNames(i){
         return(this.data.c.s[i].N);
     }
 
-    agShown(i){ 
+    agShown(i){
         return(this.agPlotspec(i, "+", true));
     }
     srShown(i){
         return(this.srPlotspec(i, "+", true));
     }
 
-    agSize(i){ 
+    agSize(i){
         return(this.agPlotspec(i, "s", 5));
     }
-    srSize(i){ 
+    srSize(i){
         return(this.srPlotspec(i, "s", 5));
     }
 
-    agFill(i){ 
+    agFill(i){
         return(this.agPlotspec(i, "F", "green"));
     }
-    srFill(i){ 
+    srFill(i){
         return(this.srPlotspec(i, "F", "transparent"));
     }
 
-    agOutline(i){ 
+    agOutline(i){
         return(this.agPlotspec(i, "O", "black"));
     }
-    srOutline(i){ 
+    srOutline(i){
         return(this.srPlotspec(i, "O", "black"));
     }
 
     agOutlineWidth(i){
         return(this.agPlotspec(i, "o", 1)*1);
     }
-    srOutlineWidth(i){ 
+    srOutlineWidth(i){
         return(this.srPlotspec(i, "o", 1)*1);
     }
 
-    agAspect(i){ 
+    agAspect(i){
         return(this.agPlotspec(i, "a", 1));
     }
-    srAspect(i){ 
+    srAspect(i){
         return(this.srPlotspec(i, "a", 1));
     }
 
@@ -316,7 +316,7 @@ Racmacs.Data = class Data {
         let shape = this.agPlotspec(i, "S", "CIRCLE");
         return(shape);
     }
-    srShape(i){ 
+    srShape(i){
         return(this.srPlotspec(i, "S", "CIRCLE"));
     }
 
@@ -327,7 +327,7 @@ Racmacs.Data = class Data {
         // }
         // return(-pt_order);
     }
-    srDrawingOrder(i){ 
+    srDrawingOrder(i){
         // let pt_order = 0;
         // while(i+this.numAntigens() != this.data.c.p.d[pt_order]){
         //     pt_order++;
@@ -340,12 +340,12 @@ Racmacs.Data = class Data {
     }
 
     // Diagnostics
-    stressBlobs(num){
+    triangulationBlobs(num){
         let pnum = this.projection(num);
         if(!this.data.diagnostics
             || !this.data.diagnostics[pnum]
-            || !this.data.diagnostics[pnum].stress_blobs){ 
-            return(null) 
+            || !this.data.diagnostics[pnum].stress_blobs){
+            return(null)
         } else {
             return(this.data.diagnostics[pnum].stress_blobs)
         }

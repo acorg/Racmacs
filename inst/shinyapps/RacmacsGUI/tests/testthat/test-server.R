@@ -41,14 +41,14 @@ testServer(
   expect_true(mapRelaxed(storage$map, storage$opt_selected))
 
   # Adding blob data
-  expect_false(hasStressBlobs(storage$map, 2))
+  expect_false(hasTriangulationBlobs(storage$map, 2))
   session$setInputs(
-    stressBlobs = list(
+    triangulationBlobs = list(
       stresslim = 1,
       gridspacing = 0.25
     )
   )
-  expect_true(hasStressBlobs(storage$map, 2))
+  expect_true(hasTriangulationBlobs(storage$map, 2))
 
   # Adding hemisphering data
   expect_false(hasHemisphering(storage$map, 2))

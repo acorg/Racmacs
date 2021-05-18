@@ -1,0 +1,26 @@
+
+#drag-controls {
+	position: absolute;
+	font-size: 90%;
+	bottom: 6px;
+	right: 6px;
+	/*background-color: #000000;*/
+	padding: 8px;
+	/*border-radius: 4px;*/
+	color: #ffffff;
+	/*border: solid 6px #196666;*/
+	/*border: solid 2px #33cccc;*/
+	/*border: solid 2px #333333;*/
+}
+
+#drag-header {
+    margin-bottom: 6px;
+}
+
+#drag-controls .cancel-btn {
+	background-color: darkred;
+}
+
+#drag-controls .accept-btn {
+	background-color: green;
+}

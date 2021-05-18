@@ -8,3 +8,4 @@
 ^LICENSE\.md$
 ^index\.md$
 ^.*\.vscode$
+^\.github$

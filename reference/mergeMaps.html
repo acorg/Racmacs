@@ -130,14 +130,14 @@
     <p>Functions to merge together two tables or maps.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>mergeMaps</span><span class='op'>(</span>
-  <span class='va'>maps</span>,
-  method <span class='op'>=</span> <span class='st'>"table"</span>,
-  <span class='va'>number_of_dimensions</span>,
-  <span class='va'>number_of_optimizations</span>,
-  minimum_column_basis <span class='op'>=</span> <span class='st'>"none"</span>,
-  options <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='op'>)</span>
-<span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>mergeMaps</span>(
+  <span class='no'>maps</span>,
+  <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"table"</span>,
+  <span class='no'>number_of_dimensions</span>,
+  <span class='no'>number_of_optimizations</span>,
+  <span class='kw'>minimum_column_basis</span> <span class='kw'>=</span> <span class='st'>"none"</span>,
+  <span class='kw'>options</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>()
+)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -179,19 +179,19 @@ settings (see <code><a href='RacOptimizer.options.html'>RacOptimizer.options()</
 
     <p>Maps can be merged in a number of ways depending upon the desired
 result.</p>
-<h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method 'table'</h3>
+<h3>Method 'table'</h3>
 <p>As you would expect, this merges the tables of
 the two maps but does not attempt to create any new optimizations and any
 existing optimizations are lost.</p>
 
-<h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method 'reoptimized-merge'</h3>
+<h3>Method 'reoptimized-merge'</h3>
 <p>This merges the tables and then
 does a specified number of fresh optimizations from random starting
 coordinates, ignoring any pre-existing optimization runs. It's exactly the
 same as doing a 'table' merge and running <code><a href='optimizeMap.html'>optimizeMap()</a></code> on the merged
 table.</p>
 
-<h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method 'incremental-merge'</h3>
+<h3>Method 'incremental-merge'</h3>
 <p>This takes the currently selected
 optimization in the first map and then merges in the additional maps in
 turn. Each time any points not already found in the first map (or the last
@@ -199,17 +199,17 @@ map in the incremental merge chain) are randomised and everything is
 relaxed, this is repeated the specified number of times and the process is
 repeated.</p>
 
-<h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method 'frozen-overlay'</h3>
+<h3>Method 'frozen-overlay'</h3>
 <p>This fixes the positions of points in
 each map and tries to best match them simply through re-orientation. Once
 the best re-orientation is found, points that are in common between the
 maps are moved to the average position.</p>
 
-<h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method 'relaxed-overlay'</h3>
+<h3>Method 'relaxed-overlay'</h3>
 <p>This is the same as the
 frozen-overlay but points in the resulting map are then allowed to relax.</p>
 
-<h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method 'frozen-merge'</h3>
+<h3>Method 'frozen-merge'</h3>
 <p>In this version, positions of all
 points in the first map are fixed and remain fixed, so the original map
 does not change. The second map is then realigned to the first as closely
@@ -238,7 +238,7 @@ was first implemented in lisp).</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
 </div>
 
       </footer>

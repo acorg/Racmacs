@@ -132,14 +132,14 @@ returning a list of option settings." />
 returning a list of option settings.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>RacOptimizer.options</span><span class='op'>(</span>
-  dim_annealing <span class='op'>=</span> <span class='cn'>FALSE</span>,
-  method <span class='op'>=</span> <span class='st'>"L-BFGS"</span>,
-  maxit <span class='op'>=</span> <span class='fl'>1000</span>,
-  num_cores <span class='op'>=</span> <span class='fu'>parallel</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/r/parallel/detectCores.html'>detectCores</a></span><span class='op'>(</span><span class='op'>)</span>,
-  report_progress <span class='op'>=</span> <span class='cn'>NULL</span>,
-  progress_bar_length <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/options.html'>options</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>$</span><span class='va'>width</span>
-<span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>RacOptimizer.options</span>(
+  <span class='kw'>dim_annealing</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"L-BFGS"</span>,
+  <span class='kw'>maxit</span> <span class='kw'>=</span> <span class='fl'>1000</span>,
+  <span class='kw'>num_cores</span> <span class='kw'>=</span> <span class='kw pkg'>parallel</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/r/parallel/detectCores.html'>detectCores</a></span>(),
+  <span class='kw'>report_progress</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>progress_bar_length</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/options.html'>options</a></span>()$<span class='no'>width</span>
+)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -204,7 +204,7 @@ settings like <code>maxit</code> see the underlying optimizer documentation at
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
 </div>
 
       </footer>

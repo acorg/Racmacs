@@ -48,21 +48,21 @@ export.viewer.test <- function(widget, filename, widgetname = "RacViewer") {
   )
 
   unlink(
-    file.path(rootdir, paste0(".lib/", widgetname, "-1.0.0")),
+    file.path(rootdir, paste0(".lib/", widgetname, "-1.0.1")),
     recursive = T
   )
 
   plotdata <- readLines(testfile)
   if (widgetname == "RacViewer") {
     plotdata <- gsub(
-      pattern     = paste0(".lib/", widgetname, "-1.0.0/"),
+      pattern     = paste0(".lib/", widgetname, "-1.0.1/"),
       replacement = paste0("../../../inst/htmlwidgets/", widgetname, "/lib/"),
       x           = plotdata,
       fixed       = TRUE
     )
   } else {
     plotdata <- gsub(
-      pattern     = paste0(".lib/", widgetname, "-1.0.0/"),
+      pattern     = paste0(".lib/", widgetname, "-1.0.1/"),
       replacement = paste0("../../../inst/htmlwidgets/"),
       x           = plotdata,
       fixed       = TRUE

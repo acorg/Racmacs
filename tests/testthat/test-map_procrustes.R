@@ -351,7 +351,10 @@ test_that("Procrustes maps with na coords", {
 
   export.viewer.test(
     view(
-      pcmap
+      pcmap,
+      options = list(
+        point.opacity = 1
+      )
     ),
     "na_map_procrustes.html"
   )

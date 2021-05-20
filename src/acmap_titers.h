@@ -339,7 +339,8 @@ class AcTiterTable {
       if(arma::accu(titer_types) == 0) return fixed_colbases;
 
       // Calculate column bases
-      arma::mat log_titers = arma::log2(numeric_titers / 10.0);
+      arma::mat num_titers = numeric_titers;
+      arma::mat log_titers = arma::log2(num_titers / 10.0);
       log_titers.replace(arma::datum::nan, log_titers.min());
       arma::vec colbases = arma::max(log_titers.t(), 1);
 

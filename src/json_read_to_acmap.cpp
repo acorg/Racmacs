@@ -285,7 +285,7 @@ AcMap json_to_acmap(
       for(SizeType i=0; i<xp.Size(); i++){
         const Value& xpi = xp[i];
         if(xpi.HasMember("t")) map.optimizations[i].set_translation( parse<arma::mat>(xpi["t"]));
-        if(xpi.HasMember("b")) map.optimizations[i].bootstrap = parse<std::vector<NoisyBootstrapOutput>>(xpi["b"]);
+        if(xpi.HasMember("b")) map.optimizations[i].bootstrap = parse<std::vector<BootstrapOutput>>(xpi["b"]);
       }
     }
 

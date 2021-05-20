@@ -6,7 +6,7 @@
 #include "acmap_diagnostics.h"
 #include "procrustes.h"
 #include "ac_dimension_test.h"
-#include "ac_noisy_bootstrap.h"
+#include "ac_bootstrap.h"
 #include "ac_stress_blobs.h"
 #include "ac_optim_map_stress.h"
 #include "ac_hemi_test.h"
@@ -74,9 +74,9 @@ namespace Rcpp {
   template <>
   SEXP wrap(const DimTestOutput& dimtestout);
 
-  // Noisy bootstrap results
+  // Bootstrap results
   template <>
-  SEXP wrap(const NoisyBootstrapOutput& noisybootstrapout);
+  SEXP wrap(const BootstrapOutput& bootstrapout);
 
   // Stress blob results 2d
   template <>

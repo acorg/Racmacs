@@ -10,6 +10,7 @@ optimizeMap(
   number_of_optimizations,
   minimum_column_basis = "none",
   fixed_column_bases = NULL,
+  titer_weights = NULL,
   sort_optimizations = TRUE,
   verbose = TRUE,
   options = list()
@@ -26,6 +27,8 @@ optimizeMap(
 
 \item{fixed_column_bases}{A vector of fixed values to use as column bases
 directly, rather than calculating them from the titer table.}
+
+\item{titer_weights}{An optional matrix of weights to assign each titer when optimizing}
 
 \item{sort_optimizations}{Should optimizations be sorted by stress
 afterwards?}

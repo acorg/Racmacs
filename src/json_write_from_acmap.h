@@ -167,21 +167,21 @@ Value jsonifya(
 // From arma::mat
 template <>
 Value jsonifya(
-    const std::vector<NoisyBootstrapOutput>& bootstraps,
+    const std::vector<BootstrapOutput>& bootstraps,
     Document::AllocatorType& allocator
 ){
 
   Value bs(kObjectType);
-  Value ag_noise(kArrayType);
+  Value sampling(kArrayType);
   Value coords(kArrayType);
 
   for(auto &bootstrap : bootstraps){
-    ag_noise.PushBack(jsonifya(bootstrap.ag_noise, allocator), allocator);
+    sampling.PushBack(jsonifya(bootstrap.sampling, allocator), allocator);
     coords.PushBack(jsonifya(bootstrap.coords, allocator), allocator);
   }
 
   bs.AddMember("coords", coords, allocator);
-  bs.AddMember("ag_noise", ag_noise, allocator);
+  bs.AddMember("sampling", sampling, allocator);
   return bs;
 
 }

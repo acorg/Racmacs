@@ -357,6 +357,10 @@ ac_sr_set_group_levels <- function(map, values) {
     .Call('_Racmacs_ac_sr_set_group_levels', PACKAGE = 'Racmacs', map, values)
 }
 
+ac_bootstrap_map <- function(map, method, bootstrap_ags, bootstrap_sr, reoptimize, ag_noise_sd, titer_noise_sd, minimum_column_basis, fixed_column_bases, num_optimizations, num_dimensions, options) {
+    .Call('_Racmacs_ac_bootstrap_map', PACKAGE = 'Racmacs', map, method, bootstrap_ags, bootstrap_sr, reoptimize, ag_noise_sd, titer_noise_sd, minimum_column_basis, fixed_column_bases, num_optimizations, num_dimensions, options)
+}
+
 ac_dimension_test_map <- function(titer_table, dimensions_to_test, test_proportion, minimum_column_basis, fixed_column_bases, num_optimizations, options) {
     .Call('_Racmacs_ac_dimension_test_map', PACKAGE = 'Racmacs', titer_table, dimensions_to_test, test_proportion, minimum_column_basis, fixed_column_bases, num_optimizations, options)
 }
@@ -407,10 +411,6 @@ ac_merge_titers <- function(titers, sd_lim = 1.0) {
 
 ac_move_trapped_points <- function(optimization, tabledists, titertypes, grid_spacing, options, max_iterations = 10L) {
     .Call('_Racmacs_ac_move_trapped_points', PACKAGE = 'Racmacs', optimization, tabledists, titertypes, grid_spacing, options, max_iterations)
-}
-
-ac_noisy_bootstrap_map <- function(titer_table, ag_noise_sd, titer_noise_sd, minimum_column_basis, fixed_column_bases, num_optimizations, num_dimensions, options) {
-    .Call('_Racmacs_ac_noisy_bootstrap_map', PACKAGE = 'Racmacs', titer_table, ag_noise_sd, titer_noise_sd, minimum_column_basis, fixed_column_bases, num_optimizations, num_dimensions, options)
 }
 
 ac_coords_stress <- function(tabledist_matrix, titertype_matrix, ag_coords, sr_coords) {

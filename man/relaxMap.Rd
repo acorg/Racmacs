@@ -9,6 +9,7 @@ relaxMap(
   optimization_number = 1,
   fixed_antigens = FALSE,
   fixed_sera = FALSE,
+  titer_weights = NULL,
   options = list()
 )
 }
@@ -20,6 +21,8 @@ relaxMap(
 \item{fixed_antigens}{Antigens to set fixed positions for when relaxing}
 
 \item{fixed_sera}{Sera to set fixed positions for when relaxing}
+
+\item{titer_weights}{An optional matrix of weights to assign each titer when optimizing}
 
 \item{options}{List of named optimizer options, see \code{RacOptimizer.options()}}
 }

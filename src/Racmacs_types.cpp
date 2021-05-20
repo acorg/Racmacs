@@ -6,7 +6,7 @@
 #include "acmap_diagnostics.h"
 #include "procrustes.h"
 #include "ac_dimension_test.h"
-#include "ac_noisy_bootstrap.h"
+#include "ac_bootstrap.h"
 #include "ac_stress_blobs.h"
 #include "ac_optim_map_stress.h"
 #include "ac_hemi_test.h"
@@ -309,14 +309,14 @@ SEXP wrap(const DimTestOutput& dimtestout){
 
 }
 
-// Noisy bootstrap results
+// Bootstrap results
 template <>
-SEXP wrap(const NoisyBootstrapOutput& noisybootstrapout){
+SEXP wrap(const BootstrapOutput& bootstrapout){
 
   return wrap(
     List::create(
-      _["ag_noise"] = noisybootstrapout.ag_noise,
-      _["coords"] = noisybootstrapout.coords
+      _["sampling"] = bootstrapout.sampling,
+      _["coords"] = bootstrapout.coords
     )
   );
 
@@ -506,14 +506,14 @@ AcSerum as(SEXP sxp){
 
 }
 
-// TO: NOISYBOOTSTRAP
+// TO: BOOTSTRAP
 template <>
-NoisyBootstrapOutput as(SEXP sxp) {
+BootstrapOutput as(SEXP sxp) {
 
   List list = as<List>(sxp);
-  NoisyBootstrapOutput out;
+  BootstrapOutput out;
 
-  out.ag_noise = as<arma::vec>(list["ag_noise"]);
+  out.sampling = as<arma::vec>(list["sampling"]);
   out.coords = as<arma::mat>(list["coords"]);
 
   return out;
@@ -595,7 +595,7 @@ AcOptimization as(SEXP sxp){
     }
   }
   if(opt.containsElementNamed("bootstrap")) {
-    acopt.bootstrap = as<std::vector<NoisyBootstrapOutput>>(wrap(opt["bootstrap"]));
+    acopt.bootstrap = as<std::vector<BootstrapOutput>>(wrap(opt["bootstrap"]));
   }
   if(opt.containsElementNamed("stress")) {
     acopt.set_stress( as<double>(wrap(opt["stress"])) );

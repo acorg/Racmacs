@@ -975,6 +975,28 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// ac_bootstrap_map
+BootstrapOutput ac_bootstrap_map(AcMap map, std::string method, bool bootstrap_ags, bool bootstrap_sr, bool reoptimize, double ag_noise_sd, double titer_noise_sd, std::string minimum_column_basis, arma::vec fixed_column_bases, int num_optimizations, int num_dimensions, AcOptimizerOptions options);
+RcppExport SEXP _Racmacs_ac_bootstrap_map(SEXP mapSEXP, SEXP methodSEXP, SEXP bootstrap_agsSEXP, SEXP bootstrap_srSEXP, SEXP reoptimizeSEXP, SEXP ag_noise_sdSEXP, SEXP titer_noise_sdSEXP, SEXP minimum_column_basisSEXP, SEXP fixed_column_basesSEXP, SEXP num_optimizationsSEXP, SEXP num_dimensionsSEXP, SEXP optionsSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< AcMap >::type map(mapSEXP);
+    Rcpp::traits::input_parameter< std::string >::type method(methodSEXP);
+    Rcpp::traits::input_parameter< bool >::type bootstrap_ags(bootstrap_agsSEXP);
+    Rcpp::traits::input_parameter< bool >::type bootstrap_sr(bootstrap_srSEXP);
+    Rcpp::traits::input_parameter< bool >::type reoptimize(reoptimizeSEXP);
+    Rcpp::traits::input_parameter< double >::type ag_noise_sd(ag_noise_sdSEXP);
+    Rcpp::traits::input_parameter< double >::type titer_noise_sd(titer_noise_sdSEXP);
+    Rcpp::traits::input_parameter< std::string >::type minimum_column_basis(minimum_column_basisSEXP);
+    Rcpp::traits::input_parameter< arma::vec >::type fixed_column_bases(fixed_column_basesSEXP);
+    Rcpp::traits::input_parameter< int >::type num_optimizations(num_optimizationsSEXP);
+    Rcpp::traits::input_parameter< int >::type num_dimensions(num_dimensionsSEXP);
+    Rcpp::traits::input_parameter< AcOptimizerOptions >::type options(optionsSEXP);
+    rcpp_result_gen = Rcpp::wrap(ac_bootstrap_map(map, method, bootstrap_ags, bootstrap_sr, reoptimize, ag_noise_sd, titer_noise_sd, minimum_column_basis, fixed_column_bases, num_optimizations, num_dimensions, options));
+    return rcpp_result_gen;
+END_RCPP
+}
 // ac_dimension_test_map
 DimTestOutput ac_dimension_test_map(AcTiterTable titer_table, arma::uvec dimensions_to_test, double test_proportion, std::string minimum_column_basis, arma::vec fixed_column_bases, int num_optimizations, AcOptimizerOptions options);
 RcppExport SEXP _Racmacs_ac_dimension_test_map(SEXP titer_tableSEXP, SEXP dimensions_to_testSEXP, SEXP test_proportionSEXP, SEXP minimum_column_basisSEXP, SEXP fixed_column_basesSEXP, SEXP num_optimizationsSEXP, SEXP optionsSEXP) {
@@ -1143,24 +1165,6 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< AcOptimizerOptions >::type options(optionsSEXP);
     Rcpp::traits::input_parameter< int >::type max_iterations(max_iterationsSEXP);
     rcpp_result_gen = Rcpp::wrap(ac_move_trapped_points(optimization, tabledists, titertypes, grid_spacing, options, max_iterations));
-    return rcpp_result_gen;
-END_RCPP
-}
-// ac_noisy_bootstrap_map
-NoisyBootstrapOutput ac_noisy_bootstrap_map(AcTiterTable titer_table, double ag_noise_sd, double titer_noise_sd, std::string minimum_column_basis, arma::vec fixed_column_bases, int num_optimizations, int num_dimensions, AcOptimizerOptions options);
-RcppExport SEXP _Racmacs_ac_noisy_bootstrap_map(SEXP titer_tableSEXP, SEXP ag_noise_sdSEXP, SEXP titer_noise_sdSEXP, SEXP minimum_column_basisSEXP, SEXP fixed_column_basesSEXP, SEXP num_optimizationsSEXP, SEXP num_dimensionsSEXP, SEXP optionsSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< AcTiterTable >::type titer_table(titer_tableSEXP);
-    Rcpp::traits::input_parameter< double >::type ag_noise_sd(ag_noise_sdSEXP);
-    Rcpp::traits::input_parameter< double >::type titer_noise_sd(titer_noise_sdSEXP);
-    Rcpp::traits::input_parameter< std::string >::type minimum_column_basis(minimum_column_basisSEXP);
-    Rcpp::traits::input_parameter< arma::vec >::type fixed_column_bases(fixed_column_basesSEXP);
-    Rcpp::traits::input_parameter< int >::type num_optimizations(num_optimizationsSEXP);
-    Rcpp::traits::input_parameter< int >::type num_dimensions(num_dimensionsSEXP);
-    Rcpp::traits::input_parameter< AcOptimizerOptions >::type options(optionsSEXP);
-    rcpp_result_gen = Rcpp::wrap(ac_noisy_bootstrap_map(titer_table, ag_noise_sd, titer_noise_sd, minimum_column_basis, fixed_column_bases, num_optimizations, num_dimensions, options));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -1477,6 +1481,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_Racmacs_ac_sr_set_name_abbreviated", (DL_FUNC) &_Racmacs_ac_sr_set_name_abbreviated, 2},
     {"_Racmacs_ac_sr_set_group", (DL_FUNC) &_Racmacs_ac_sr_set_group, 2},
     {"_Racmacs_ac_sr_set_group_levels", (DL_FUNC) &_Racmacs_ac_sr_set_group_levels, 2},
+    {"_Racmacs_ac_bootstrap_map", (DL_FUNC) &_Racmacs_ac_bootstrap_map, 12},
     {"_Racmacs_ac_dimension_test_map", (DL_FUNC) &_Racmacs_ac_dimension_test_map, 7},
     {"_Racmacs_ac_hemi_test", (DL_FUNC) &_Racmacs_ac_hemi_test, 6},
     {"_Racmacs_ac_match_map_ags", (DL_FUNC) &_Racmacs_ac_match_map_ags, 2},
@@ -1490,7 +1495,6 @@ static const R_CallMethodDef CallEntries[] = {
     {"_Racmacs_ac_merge_incremental", (DL_FUNC) &_Racmacs_ac_merge_incremental, 5},
     {"_Racmacs_ac_merge_titers", (DL_FUNC) &_Racmacs_ac_merge_titers, 2},
     {"_Racmacs_ac_move_trapped_points", (DL_FUNC) &_Racmacs_ac_move_trapped_points, 6},
-    {"_Racmacs_ac_noisy_bootstrap_map", (DL_FUNC) &_Racmacs_ac_noisy_bootstrap_map, 8},
     {"_Racmacs_ac_coords_stress", (DL_FUNC) &_Racmacs_ac_coords_stress, 4},
     {"_Racmacs_ac_relax_coords", (DL_FUNC) &_Racmacs_ac_relax_coords, 8},
     {"_Racmacs_ac_runOptimizations", (DL_FUNC) &_Racmacs_ac_runOptimizations, 6},

@@ -10,6 +10,7 @@
 #include "ac_optimizer_options.h"
 #include "ac_relax_coords.h"
 #include "ac_coords_stress.h"
+#include "ac_bootstrap_output.h"
 
 #ifndef Racmacs__acmap_optimization__h
 #define Racmacs__acmap_optimization__h
@@ -31,7 +32,7 @@ class AcOptimization {
 
     std::vector<AcDiagnostics> ag_diagnostics;
     std::vector<AcDiagnostics> sr_diagnostics;
-    std::vector<NoisyBootstrapOutput> bootstrap;
+    std::vector<BootstrapOutput> bootstrap;
     double stress = arma::datum::nan;
 
     // Constructors

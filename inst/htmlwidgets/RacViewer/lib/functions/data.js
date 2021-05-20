@@ -344,10 +344,10 @@ Racmacs.Data = class Data {
         let pnum = this.projection(num);
         if(!this.data.diagnostics
             || !this.data.diagnostics[pnum]
-            || !this.data.diagnostics[pnum].stress_blobs){
+            || !this.data.diagnostics[pnum].triangulation_blobs){
             return(null)
         } else {
-            return(this.data.diagnostics[pnum].stress_blobs)
+            return(this.data.diagnostics[pnum].triangulation_blobs)
         }
     }
 

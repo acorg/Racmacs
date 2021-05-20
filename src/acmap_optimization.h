@@ -425,8 +425,7 @@ class AcOptimization {
       const AcOptimizerOptions options,
       const arma::uvec &fixed_antigens = arma::uvec(),
       const arma::uvec &fixed_sera = arma::uvec(),
-      const arma::vec &ag_weights = arma::vec(),
-      const arma::vec &sr_weights = arma::vec()
+      const arma::mat &titer_weights = arma::mat()
     ){
 
       stress = ac_relax_coords(
@@ -437,8 +436,7 @@ class AcOptimization {
         options,
         fixed_antigens,
         fixed_sera,
-        ag_weights,
-        sr_weights
+        titer_weights
       );
 
     }
@@ -448,8 +446,7 @@ class AcOptimization {
       const AcOptimizerOptions options,
       const arma::uvec &fixed_antigens = arma::uvec(),
       const arma::uvec &fixed_sera = arma::uvec(),
-      const arma::vec &ag_weights = arma::vec(),
-      const arma::vec &sr_weights = arma::vec()
+      const arma::mat &titer_weights = arma::mat()
     ){
 
       relax_from_raw_matrices(
@@ -460,8 +457,7 @@ class AcOptimization {
         options,
         fixed_antigens,
         fixed_sera,
-        ag_weights,
-        sr_weights
+        titer_weights
       );
 
     }

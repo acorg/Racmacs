@@ -160,8 +160,7 @@ AcOptimization ac_relaxOptimization(
     arma::uvec fixed_antigens,
     arma::uvec fixed_sera,
     AcOptimizerOptions options,
-    arma::vec ag_weights,
-    arma::vec sr_weights
+    arma::mat titer_weights
 ){
 
   opt.relax_from_titer_table(
@@ -169,8 +168,7 @@ AcOptimization ac_relaxOptimization(
     options,
     fixed_antigens,
     fixed_sera,
-    ag_weights,
-    sr_weights
+    titer_weights
   );
   return opt;
 
@@ -185,8 +183,7 @@ AcMap ac_optimize_map(
     int num_optimizations,
     std::string min_col_basis,
     arma::vec fixed_col_bases,
-    arma::vec ag_weights,
-    arma::vec sr_weights,
+    arma::mat titer_weights,
     AcOptimizerOptions options
 ){
 
@@ -196,8 +193,7 @@ AcMap ac_optimize_map(
     min_col_basis,
     fixed_col_bases,
     options,
-    ag_weights,
-    sr_weights
+    titer_weights
   );
 
   return map;

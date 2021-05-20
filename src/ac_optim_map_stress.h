@@ -24,8 +24,7 @@ void ac_relaxOptimizations(
     const arma::mat &tabledist_matrix,
     const arma::umat &titertype_matrix,
     const AcOptimizerOptions &options,
-    const arma::vec &ag_weights = arma::vec(),
-    const arma::vec &sr_weights = arma::vec()
+    const arma::mat &titer_weights = arma::mat()
 );
 
 // Running optimizations
@@ -35,8 +34,7 @@ std::vector<AcOptimization> ac_runOptimizations(
     const arma::uword &num_dims,
     const arma::uword &num_optimizations,
     const AcOptimizerOptions &options,
-    const arma::vec &ag_weights = arma::vec(),
-    const arma::vec &sr_weights = arma::vec()
+    const arma::mat &titer_weights = arma::mat()
 );
 
 // Sorting optimizations by stress

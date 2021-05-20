@@ -12,8 +12,7 @@
 #' @param minimum_column_basis The minimum column basis to use (see details)
 #' @param fixed_column_bases A vector of fixed values to use as column bases
 #'   directly, rather than calculating them from the titer table.
-#' @param ag_weights An optional vector of weights to assign each antigen when optimizing
-#' @param sr_weights An optional vector of weights to assign each serum when optimizing
+#' @param titer_weights An optional matrix of weights to assign each titer when optimizing
 #' @param sort_optimizations Should optimizations be sorted by stress
 #'   afterwards?
 #' @param verbose Should progress messages be reported, see also
@@ -48,8 +47,7 @@ optimizeMap <- function(
   number_of_optimizations,
   minimum_column_basis = "none",
   fixed_column_bases = NULL,
-  ag_weights = NULL,
-  sr_weights = NULL,
+  titer_weights = NULL,
   sort_optimizations = TRUE,
   verbose  = TRUE,
   options = list()
@@ -57,8 +55,7 @@ optimizeMap <- function(
 
   # Set default arguments
   if (is.null(fixed_column_bases)) fixed_column_bases <- rep(NA, numSera(map))
-  if (is.null(ag_weights)) ag_weights <- rep(1, numAntigens(map))
-  if (is.null(sr_weights)) sr_weights <- rep(1, numSera(map))
+  if (is.null(titer_weights)) titer_weights <- matrix(1, numAntigens(map), numSera(map))
 
   # Warn about overwriting previous optimizations
   if (numOptimizations(map) > 0) {
@@ -78,8 +75,7 @@ optimizeMap <- function(
     num_optimizations = number_of_optimizations,
     min_col_basis = minimum_column_basis,
     fixed_col_bases = fixed_column_bases,
-    ag_weights = ag_weights,
-    sr_weights = sr_weights,
+    titer_weights = titer_weights,
     options = options
   )
 
@@ -253,8 +249,7 @@ RacOptimizer.options <- function(
 #' @param optimization_number The optimization number to relax
 #' @param fixed_antigens Antigens to set fixed positions for when relaxing
 #' @param fixed_sera Sera to set fixed positions for when relaxing
-#' @param ag_weights An optional vector of weights to assign each antigen when optimizing
-#' @param sr_weights An optional vector of weights to assign each serum when optimizing
+#' @param titer_weights An optional matrix of weights to assign each titer when optimizing
 #' @param options List of named optimizer options, see `RacOptimizer.options()`
 #'
 #' @return Returns an acmap object with the optimization relaxed.
@@ -270,8 +265,7 @@ relaxMap <- function(
   optimization_number = 1,
   fixed_antigens = FALSE,
   fixed_sera = FALSE,
-  ag_weights = NULL,
-  sr_weights = NULL,
+  titer_weights = NULL,
   options = list()
   ) {
 
@@ -280,8 +274,7 @@ relaxMap <- function(
   options <- do.call(RacOptimizer.options, options)
 
   # Set default arguments
-  if (is.null(ag_weights)) ag_weights <- rep(1, numAntigens(map))
-  if (is.null(sr_weights)) sr_weights <- rep(1, numSera(map))
+  if (is.null(titer_weights)) titer_weights <- matrix(1, numAntigens(map), numSera(map))
 
   # Convert point references to indices
   fixed_antigens <- get_ag_indices(fixed_antigens, map)
@@ -294,8 +287,7 @@ relaxMap <- function(
     fixed_antigens = fixed_antigens - 1,
     fixed_sera = fixed_sera - 1,
     options = options,
-    ag_weights = ag_weights,
-    sr_weights = sr_weights
+    titer_weights = titer_weights
   )
 
   # Return the map
@@ -340,8 +332,7 @@ relaxMapOneStep <- function(
     fixed_antigens = fixed_antigens - 1,
     fixed_sera = fixed_sera - 1,
     options = options,
-    ag_weights = rep(1, numAntigens(map)),
-    sr_weights = rep(1, numSera(map))
+    titer_weights = matrix(1, numAntigens(map), numSera(map))
   )
   map
 

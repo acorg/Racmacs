@@ -15,7 +15,8 @@ set.seed(100)
 # end <- Sys.time()
 # print(end - start)
 # # map <- moveTrappedPoints(map)
-# grid.plot.acmap(checkHemisphering(map))
+# # grid.plot.acmap(checkHemisphering(map))
+# plot(map)
 # stop()
 
 # Generate some toy data
@@ -53,6 +54,56 @@ test_that("Optimizing a perfect map", {
 
   # Check stresses are calculated correctly
   expect_lt(optStress(perfect_map_opt, 1), 0.001)
+
+})
+
+# Setup a perfect optimization to test
+test_that("Optimizing with weights", {
+
+  # Optimize the map setting weights in different ways
+  set.seed(200)
+  map1 <- optimizeMap(
+    map = perfect_map,
+    number_of_dimensions = 2,
+    number_of_optimizations = 10
+  )
+
+  set.seed(200)
+  map2 <- optimizeMap(
+    map = perfect_map,
+    number_of_dimensions = 2,
+    number_of_optimizations = 10,
+    titer_weights = matrix(1, numAntigens(perfect_map), numSera(perfect_map))
+  )
+
+  set.seed(200)
+  map3 <- optimizeMap(
+    map = perfect_map,
+    number_of_dimensions = 2,
+    number_of_optimizations = 10,
+    titer_weights = matrix(6.3, numAntigens(perfect_map), numSera(perfect_map))
+  )
+  map3 <- realignMap(map3, map1)
+
+  titer_weights <- matrix(
+    runif(numAntigens(perfect_map)*numSera(perfect_map)),
+    numAntigens(perfect_map),
+    numSera(perfect_map)
+  )
+
+  set.seed(200)
+  map4 <- optimizeMap(
+    map = perfect_map,
+    number_of_dimensions = 2,
+    number_of_optimizations = 10,
+    titer_weights = titer_weights
+  )
+  map4 <- realignMap(map4, map1)
+
+  # Check output
+  expect_equal(ptCoords(map1), ptCoords(map2))
+  expect_equal(ptCoords(map1), ptCoords(map3), tolerance = 1e-5)
+  expect_false(isTRUE(all.equal(ptCoords(map1), ptCoords(map4))))
 
 })
 
@@ -259,8 +310,8 @@ test_that("Relax existing maps", {
   stress2        <- mapStress(map_relax)
   stress2_2      <- mapStress(map_relax, 2)
 
-  expect_equal(round(stress2, 4), 95.0448)
-  expect_equal(round(stress2_2, 4), 95.0448)
+  expect_equal(stress2, 95.0448, tolerance = 1e-4)
+  expect_equal(stress2_2, 95.0448, tolerance = 1e-4)
 
   expect_lt(stress2, stress1)
   expect_lt(stress2_2, stress1_2)

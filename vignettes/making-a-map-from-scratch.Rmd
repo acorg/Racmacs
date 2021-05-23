@@ -22,6 +22,7 @@ The steps will be:
 - Creating the acmap object
 - Running a set of optimizations to try and find the best map to represent the data
 - Viewing the map
+- Customising map
 - Saving the map
 
 ## Reading in the titer data
@@ -103,3 +104,95 @@ map3d <- make.acmap(
 view(map3d)
 ```
 
+## Customising the map
+
+### Adding antigen and sera names
+
+```{r adding_names}
+# Add sera and antigen names
+srNames(map) <- c(colnames(titer_table))
+agNames(map) <- c(rownames(titer_table))
+```
+When viewing the map using `view()`, the names will appear upon hovering over antigen or sera points, or when hitting `n` on the keyboard.
+
+You can add antigen names to a static plot like so:
+
+```{r add_names_to_static_plot, fig.width=10, fig.height=6, out.width="100%", fig.retina=TRUE}
+plot(
+  map,
+  # grid.col = "#666666" to change the colour of the grid
+)
+
+text(
+  agCoords(map),
+  labels = agNames(map)
+)
+```
+To add antigen names to an interactive plot use:
+
+```{r add_names_to_interactive_plot, out.width = '100%'}
+map <- r3js::text3js(
+  map,
+  x = agCoords(map)[,1],
+  y = agCoords(map)[,2],
+  z = rep(0, numAntigens(map)),
+  text = agNames(map),
+  type = "html",
+  # offset = c(10,0),    # You can play around with offset and alignment to get text to appear e.g. at the right hand side
+  alignment = "right"
+)
+
+view(
+  map
+  # options = list(
+  #   grid.col = "#666666"  to change the colour of the grid
+  # )
+)
+```
+
+### Changing look of antigen and sera
+
+You can customise the colour, outline width and colour, and size of antigens using `agFill()`, `agOutlineWidth()`, `agOutline()`, and `agSize()` functions. Sera can be changed analogously using `srFill()`, `srOutlineWidth()`, `srOutline()`, and `srSize()`.
+
+```{r setting_cols_etc, out.width = '100%'}
+# Change fill color or outline color of specific antigen by name or index
+agFill(map)[agNames(map) == "BI/2668/70"] <- "cyan"
+agOutline(map)[10] <- "orange"
+agOutlineWidth(map)[10] <- 3
+
+# Or change using logical vector to select
+blue_ags <- agNames(map) %in% c("HK/3/95", "HK/32/95")
+agFill(map)[blue_ags] <- "blue"
+
+# Plot or view interactively or export interactive viewer in webpage
+view(map)
+```
+
+You can also add the point styles from a previously made map to your current map:
+
+```{r add_plotspec}
+# Read previously made map:
+oldMap <- read.acmap("extdata/h3map2004_bootstrap.ace")
+
+map <- applyPlotspec(map, oldMap)
+
+view(map)
+```
+
+## Saving a map
+
+Once the map has been optimised and customised, you can either save the entire `acmap` data object, or just the antigen and sera coordinates:
+
+```{R eval = FALSE}
+# save the whole acmap data object:
+save.acmap(map, filename)
+
+# save the coordinates of antigens and sera:
+save.coords(
+  map,
+  filename,
+  optimization_number = 1,
+  antigens = TRUE,
+  sera = TRUE
+)
+```

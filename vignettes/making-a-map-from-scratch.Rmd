@@ -152,7 +152,7 @@ view(
 
 ### Changing look of antigen and sera
 
-You can customise the colour, outline width and colour, and size of antigens using `agFill()`, `agOutlineWidth()`, `agOutline()`, and `agSize()` functions. Sera can be changed analogously using `srFill()`, `srOutlineWidth()`, `srOutline()`, and `srSize()`.
+You can customise the colour, outline width and colour, and size of antigens using the `agFill()`, `agOutlineWidth()`, `agOutline()`, and `agSize()` functions. Sera can be changed analogously using `srFill()`, `srOutlineWidth()`, `srOutline()`, and `srSize()`.
 
 ```{r setting_cols_etc, out.width = '100%'}
 # Change fill color or outline color of specific antigen by name or index

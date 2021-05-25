@@ -9,3 +9,5 @@
 ^index\.md$
 ^.*\.vscode$
 ^\.github$
+^\.lintr$
+^tests/testoutput$

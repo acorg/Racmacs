@@ -134,6 +134,7 @@ optimizeMap <- function(
 #' @param verbose Should progress messages be reported, see also
 #'   `RacOptimizer.options()`
 #' @param options List of named optimizer options, see `RacOptimizer.options()`
+#' @param ... Further arguments to pass to `acmap()`
 #'
 #' @return Returns an acmap object that has optimization run results.
 #'
@@ -421,8 +422,11 @@ mapRelaxed <- function(
 #'
 #' @param map The acmap data object
 #' @param optimization_number The map optimization number
-#' @param stepsize Grid spacing in antigenic units of the search grid to use
-#'   when searching for hemisphering positions
+#' @param grid_spacing When doing a grid search of more optimal point positions
+#'   the grid spacing to use
+#' @param stress_lim The stess difference to use when classifying a point as
+#'   "hemisphering" or not
+#' @param options A named list of options to pass to `RacOptimizer.options()`
 #'
 #' @return Returns a data frame with information on any points that were found
 #'   to be hemisphering or trapped.

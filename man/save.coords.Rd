@@ -17,6 +17,8 @@ save.coords(
 
 \item{filename}{Path to the file.}
 
+\item{optimization_number}{Optimization number from which to take coordinates}
+
 \item{antigens}{Antigens to include, either as a numeric vector of indices or
 character vector of names.}
 

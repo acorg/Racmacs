@@ -17,8 +17,13 @@ checkHemisphering(
 
 \item{optimization_number}{The map optimization number}
 
-\item{stepsize}{Grid spacing in antigenic units of the search grid to use
-when searching for hemisphering positions}
+\item{grid_spacing}{When doing a grid search of more optimal point positions
+the grid spacing to use}
+
+\item{stress_lim}{The stess difference to use when classifying a point as
+"hemisphering" or not}
+
+\item{options}{A named list of options to pass to \code{RacOptimizer.options()}}
 }
 \value{
 Returns a data frame with information on any points that were found

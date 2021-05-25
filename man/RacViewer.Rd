@@ -29,12 +29,6 @@ RacViewer(
 \item{height}{Height of the widget}
 
 \item{elementId}{DOM element ID}
-
-\item{rotation}{Viewer rotation}
-
-\item{translation}{Viewer translation}
-
-\item{zoom}{Viewer zoom}
 }
 \description{
 This creates an html widget for viewing antigenic maps.

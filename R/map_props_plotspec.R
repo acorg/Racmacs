@@ -14,7 +14,7 @@ plotspec_getter <- function(pttype, fn) {
           })
         }
       } else {
-        function(map, value) {
+        function(map) {
           check.acmap(map)
           sapply(map$sera, function(sr) {
             fn(sr$plotspec)

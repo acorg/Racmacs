@@ -18,6 +18,8 @@ RacViewer.options(
 
 \item{grid.display}{For 3d maps, should the grid be fixed in the background
 or enclose and rotate along with the map}
+
+\item{grid.col}{Color to use for the grid shown behind the map}
 }
 \value{
 Returns a named list of viewer options

@@ -8,6 +8,7 @@
 #' @param viewer.controls Should viewer controls be shown or hidden by default?
 #' @param grid.display For 3d maps, should the grid be fixed in the background
 #'   or enclose and rotate along with the map
+#' @param grid.col Color to use for the grid shown behind the map
 #'
 #' @family {functions to view maps}
 #'

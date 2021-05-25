@@ -7,6 +7,7 @@
 #' changes, see details.
 #'
 #' @param map The acmap data object
+#' @param optimization_number The optimization number to check
 #' @param stress_lim The blob stress limit
 #' @param grid_spacing Grid spacing to use when searching map space and
 #'   inferring the blob
@@ -290,10 +291,16 @@ deprecated_fn <- function(fn) {
   }
 }
 
+
+#' @rdname triangulationBlobs
 #' @export
 stressBlobs <- deprecated_fn(triangulationBlobs)
+
+#' @rdname ptTriangulationBlobsize
 #' @export
 agStressBlobSize <- deprecated_fn(agTriangulationBlobSize)
+
+#' @rdname ptTriangulationBlobsize
 #' @export
 srStressBlobSize <- deprecated_fn(srTriangulationBlobSize)
 

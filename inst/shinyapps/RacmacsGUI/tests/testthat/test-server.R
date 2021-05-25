@@ -17,7 +17,7 @@ testServer(
     )
   )
   expect_equal(numAntigens(storage$map), 10)
-  expect_false(is.nan(optStress(storage$map, 1)))
+  expect_false(is.nan(storage$map$optimizations[[1]]$stress))
 
   # Switching optimizations
   session$setInputs(optimizationChanged = 1)

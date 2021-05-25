@@ -13,8 +13,8 @@ jobs:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
     steps:
       - uses: maxim-lobanov/setup-xcode@v1
-         with:
-           xcode-version: '12.2'
+          with:
+            xcode-version: '12.2'
 
       - uses: actions/checkout@v2
 

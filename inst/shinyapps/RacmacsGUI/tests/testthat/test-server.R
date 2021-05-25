@@ -17,7 +17,7 @@ testServer(
     )
   )
   expect_equal(numAntigens(storage$map), 10)
-  expect_false(is.nan(storage$map$optimizations[[1]]$stress))
+  expect_false(is.nan(Racmacs:::optStress(storage$map, 1)))
 
   # Switching optimizations
   session$setInputs(optimizationChanged = 1)
@@ -41,19 +41,19 @@ testServer(
   expect_true(mapRelaxed(storage$map, storage$opt_selected))
 
   # Adding blob data
-  expect_false(hasTriangulationBlobs(storage$map, 2))
+  expect_false(Racmacs:::hasTriangulationBlobs(storage$map, 2))
   session$setInputs(
     triangulationBlobs = list(
       stresslim = 1,
       gridspacing = 0.25
     )
   )
-  expect_true(hasTriangulationBlobs(storage$map, 2))
+  expect_true(Racmacs:::hasTriangulationBlobs(storage$map, 2))
 
   # Adding hemisphering data
-  expect_false(hasHemisphering(storage$map, 2))
+  expect_false(Racmacs:::hasHemisphering(storage$map, 2))
   session$setInputs(checkHemisphering = TRUE)
-  expect_false(hasHemisphering(storage$map, 2))
+  expect_false(Racmacs:::hasHemisphering(storage$map, 2))
 
   # Optimizing a map
   nopts1 <- numOptimizations(storage$map)
@@ -114,11 +114,11 @@ testServer(
     )
   )
   expect_equal(
-    dim(ptProcrustes(storage$map, storage$opt_selected)$ag_coords),
+    dim(Racmacs:::ptProcrustes(storage$map, storage$opt_selected)$ag_coords),
     c(numAntigens(storage$map), mapDimensions(storage$map, storage$opt_selected))
   )
   expect_equal(
-    dim(ptProcrustes(storage$map, storage$opt_selected)$sr_coords),
+    dim(Racmacs:::ptProcrustes(storage$map, storage$opt_selected)$sr_coords),
     c(numSera(storage$map), mapDimensions(storage$map, storage$opt_selected))
   )
 

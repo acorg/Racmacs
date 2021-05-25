@@ -37,7 +37,9 @@ grid.plot.acmap(
 
 \item{plot_labels}{logical, should point labels be plotted}
 
-\item{plot_blobs}{logical, should arrows be plotted to indicate hemisphering
+\item{plot_blobs}{logical, should stress blobs be plotted if present}
+
+\item{plot_hemisphering}{logical, should arrows be plotted to indicate hemisphering
 or trapped points (only for maps where \code{checkHemisphering()} has already
 been run)}
 

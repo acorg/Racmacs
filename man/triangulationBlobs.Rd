@@ -2,7 +2,6 @@
 % Please edit documentation in R/rac_blobs.R
 \name{triangulationBlobs}
 \alias{triangulationBlobs}
-\alias{stressBlobs}
 \title{Calculate triangulation blobs data for an antigenic map}
 \usage{
 triangulationBlobs(
@@ -15,8 +14,6 @@ triangulationBlobs(
   .check_relaxation = TRUE,
   .options = list()
 )
-
-stressBlobs(...)
 }
 \arguments{
 \item{map}{The acmap data object}

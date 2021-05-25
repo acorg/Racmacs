@@ -22,7 +22,7 @@
 #' @param plot_sr logical, should antigens be plotted
 #' @param plot_labels logical, should point labels be plotted
 #' @param plot_blobs logical, should stress blobs be plotted if present
-#' @param plot_blobs logical, should arrows be plotted to indicate hemisphering
+#' @param plot_hemisphering logical, should arrows be plotted to indicate hemisphering
 #'   or trapped points (only for maps where `checkHemisphering()` has already
 #'   been run)
 #' @param grid.col grid line color

@@ -292,15 +292,24 @@ deprecated_fn <- function(fn) {
 }
 
 
-#' @rdname triangulationBlobs
+#' Deprecated functions
+#'
+#' These functions still work but have been deprecated in favour of another function. Arguments will be passed onto the new function with a warning.
+#'
+#' @param ... Arguments to pass to the new function
+#'
+#' @name deprecated_fn
+#'
+
+#' @rdname deprecated_functions
 #' @export
 stressBlobs <- deprecated_fn(triangulationBlobs)
 
-#' @rdname ptTriangulationBlobsize
+#' @rdname deprecated_functions
 #' @export
 agStressBlobSize <- deprecated_fn(agTriangulationBlobSize)
 
-#' @rdname ptTriangulationBlobsize
+#' @rdname deprecated_functions
 #' @export
 srStressBlobSize <- deprecated_fn(srTriangulationBlobSize)
 

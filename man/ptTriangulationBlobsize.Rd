@@ -4,17 +4,11 @@
 \alias{ptTriangulationBlobsize}
 \alias{agTriangulationBlobSize}
 \alias{srTriangulationBlobSize}
-\alias{agStressBlobSize}
-\alias{srStressBlobSize}
 \title{Fetch information on triangulation blob size}
 \usage{
 agTriangulationBlobSize(map, optimization_number = 1)
 
 srTriangulationBlobSize(map, optimization_number = 1)
-
-agStressBlobSize(...)
-
-srStressBlobSize(...)
 }
 \arguments{
 \item{map}{acmap with triangulation blob information added}

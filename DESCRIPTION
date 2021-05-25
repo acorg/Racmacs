@@ -29,7 +29,8 @@ Imports:
     methods,
     rstudioapi,
     rmarchingcubes,
-    shape
+    shape,
+    ellipsis
 LazyData: TRUE
 Suggests: 
     testthat,

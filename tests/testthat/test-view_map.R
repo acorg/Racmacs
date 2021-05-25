@@ -227,17 +227,17 @@ test_that("Viewing map rotation", {
 })
 
 
-# Snapshot map
-test_that("Map snapshot", {
-
-  snapshotfile <- "~/Dropbox/LabBook/packages/Racmacs/tests/testoutput/viewer/mapsnapshot.png"
-  unlink(snapshotfile)
-
-  snapshotMap(
-    map,
-    filename = snapshotfile
-  )
-
-  expect_true(file.exists(snapshotfile))
-
-})
+# # Snapshot map
+# test_that("Map snapshot", {
+#
+#   snapshotfile <- "~/Dropbox/LabBook/packages/Racmacs/tests/testoutput/viewer/mapsnapshot.png"
+#   unlink(snapshotfile)
+#
+#   snapshotMap(
+#     map,
+#     filename = snapshotfile
+#   )
+#
+#   expect_true(file.exists(snapshotfile))
+#
+# })

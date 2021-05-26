@@ -72,3 +72,19 @@ test_that("Setting grid color", {
 
 })
 
+
+test_that("Toggle names", {
+
+  map <- read.acmap(test_path("../testdata/testmap_h3subset.ace"))
+  export.viewer.test(
+    view(
+      map,
+      options = list(
+        show.names = TRUE
+      )
+    ),
+    "map_names_on.html"
+  )
+
+})
+

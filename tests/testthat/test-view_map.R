@@ -64,6 +64,7 @@ test_that("Viewing aligned optimizations", {
 test_that("Viewing a map", {
 
   agCoords(map)[1, ] <- c(5.1, 5.4)
+  agFill(map) <- "green"
   x <- view(map)
   expect_equal(class(x), c("RacViewer", "htmlwidget"))
   export.viewer.test(

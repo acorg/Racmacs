@@ -397,6 +397,8 @@ Racmacs.Point = class Point {
     getFillColorRGBA(){
         if(this.fillColor == "transparent"){
             var col = "#ffffff";
+        } else if(this.fillColor == "green"){
+            var col = "#00ff00";
         } else {
             var col = this.fillColor;
         }

@@ -160,6 +160,9 @@ class AcMap {
         Rcpp::stop("Sera index out of range");
       }
 
+      // Define point indices of the subset
+      arma::uvec pts = arma::join_cols(ags, sr + antigens.size());
+
       // Subset antigens
       std::vector<AcAntigen> new_antigens;
       for(arma::uword i=0; i<ags.size(); i++){
@@ -186,6 +189,11 @@ class AcMap {
       for(auto &optimization : optimizations){
         optimization.subset(ags, sr);
       }
+
+      // Subset drawing order
+      pt_drawing_order = pt_drawing_order.elem(pts); // Subset
+      pt_drawing_order = arma::sort_index(pt_drawing_order); // Ordering twice means you retrieve
+      pt_drawing_order = arma::sort_index(pt_drawing_order); // 1:nPoints numeric sequence
 
       // Invalidate stresses
       invalidate_stresses();

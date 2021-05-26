@@ -36,6 +36,15 @@ test_map_subset <- function(map, ag_subset, sr_subset) {
     expect_equal(srCoords(map_subset, x), srCoords(map, x)[sr_subset, , drop = F])
   }
 
+  # Plotspec
+  expect_equal(agFill(map_subset), agFill(map)[ag_subset])
+  expect_equal(srFill(map_subset), srFill(map)[sr_subset])
+
+  expect_equal(
+    ptDrawingOrder(map_subset),
+    rank(ptDrawingOrder(map)[c(ag_subset, sr_subset + numAntigens(map))], ties.method = "first")
+  )
+
 }
 
 test_that("Error on incorrect subsetting", {

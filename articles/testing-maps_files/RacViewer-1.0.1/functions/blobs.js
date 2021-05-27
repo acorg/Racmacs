@@ -33,7 +33,7 @@ R3JS.Viewer.prototype.eventListeners.push({
     }
 });
 
-Racmacs.TriangulationblobsPanel = class StressblobsPanel {
+Racmacs.TriangulationblobsPanel = class TriangulationblobsPanel {
 
     constructor(viewer){
 

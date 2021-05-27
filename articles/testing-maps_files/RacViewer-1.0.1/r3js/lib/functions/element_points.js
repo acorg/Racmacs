@@ -50,7 +50,7 @@ R3JS.element.constructors.point = function(
 }
 
 
-// Make a point
+// Make a thin line object
 R3JS.element.Point = class Point extends R3JS.element.base {
 
     constructor(args){

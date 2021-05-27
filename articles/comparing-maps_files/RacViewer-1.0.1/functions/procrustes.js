@@ -124,7 +124,7 @@ Racmacs.Viewer.prototype.addProcrustesToBaseCoords = function(data){
                 pt_coords = pt_coords.map( p => Math.round(p*100000000)/100000000 );
 
                 // Set to 3D
-                while(pc_coords.length < 3) pc_coords.push(0);
+                while(pc_coords.length < 3) pc_coords.push(0.01);
 
                 // Get distances
                 pc_vector = new THREE.Vector3().fromArray(pc_coords);

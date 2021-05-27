@@ -127,7 +127,7 @@ Racmacs.ControlPanel = class ControlPanel {
         });
 
         // Add Blobs
-        // var triangulationblobsPanel = new Racmacs.StressblobsPanel(this.viewer);
+        // var triangulationblobsPanel = new Racmacs.TriangulationblobsPanel(this.viewer);
         // this.tabset.addTab({
         //     id : "triangulationblobs",
         //     name: "Triangulation blobs",

@@ -175,6 +175,12 @@ Racmacs.Viewer.prototype.load = function(
         // Run the function to toggle plot content that is shown dynamically based on scene rotation
         if(this.scene.dynamic) this.scene.showhideDynamics(this.camera.camera);
 
+        // Set viewer toggles
+        if(options["show.names"])            this.showLabels();
+        if(options["show.connectionlines"])  this.showConnectionLines();
+        if(options["show.errorlines"])       this.showErrorLines();
+        if(options["show.titers"])           this.showTiters();
+
         // Note that content is now loaded
         this.contentLoaded = true;
 

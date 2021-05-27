@@ -230,6 +230,16 @@ Racmacs.Point = class Point {
 
     }
 
+    getPrimaryColorHex(){
+
+        var col = this.getPrimaryColor();
+        if(col == "green"){
+            col = "#00ff00";
+        }
+        return new THREE.Color(col).getHexString();
+
+    }
+
     getSecondaryColor(){
 
         if(this.outlineColor == "transparent" || this.fillColor == "transparent"){
@@ -397,6 +407,8 @@ Racmacs.Point = class Point {
     getFillColorRGBA(){
         if(this.fillColor == "transparent"){
             var col = "#ffffff";
+        } else if(this.fillColor == "green"){
+            var col = "#00ff00";
         } else {
             var col = this.fillColor;
         }

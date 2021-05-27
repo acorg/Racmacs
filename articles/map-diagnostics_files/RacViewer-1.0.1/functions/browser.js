@@ -318,7 +318,7 @@ Racmacs.BrowserRecord = class BrowserRecord {
     }
 
     updateColor(){
-        var col = this.point.getPrimaryColor();
+        var col = "#" + this.point.getPrimaryColorHex();
         this.col_box.style.backgroundColor = col;
         if(col == "#000000" || col == "black"){
             this.col_box.style.borderStyle = "solid";

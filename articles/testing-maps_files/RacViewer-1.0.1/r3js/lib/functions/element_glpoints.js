@@ -29,22 +29,14 @@ R3JS.element.glpoints = class GLPoints {
         var viewport = args.viewer.viewport;
         var renderer = args.viewer.renderer;
 
-        // Set default properties
-        if(args.shape === undefined)              args.shape = Array(coords.length).fill("circle");
-        if(args.properties === undefined)         args.properties = {};
-        if(args.properties.color === undefined)   args.properties.color = {r:[0],g:[0],b:[0],a:[1]};
-        if(args.properties.visible === undefined) args.properties.visible = Array(coords.length).fill(1);
-        if(args.properties.aspect === undefined)  args.properties.aspect = Array(coords.length).fill(1);
-
-        if(args.properties.color.a === undefined) args.properties.color.a = [1];
-
-        while(args.properties.color.r.length < coords.length) args.properties.color.r.push(args.properties.color.r[0]);
-        while(args.properties.color.g.length < coords.length) args.properties.color.g.push(args.properties.color.g[0]);
-        while(args.properties.color.b.length < coords.length) args.properties.color.b.push(args.properties.color.b[0]);
-        while(args.properties.color.a.length < coords.length) args.properties.color.a.push(args.properties.color.a[0]);
-
-        // Set default order
+        // Set default args
+        args.shape = R3JS.DefaultArray(args.shape, "circle", coords.length);
         if(!args.order){ args.order = new Array(coords.length).fill(0).map((x,i) => i) }
+
+        // Set default properties
+        args.properties         = R3JS.DefaultProperties(args.properties, coords.length);
+        args.properties.visible = R3JS.DefaultArray(args.properties.visible, 1, coords.length);
+        args.properties.aspect  = R3JS.DefaultArray(args.properties.aspect, 1, coords.length);
 
         // Set variables
         var positions    = new Float32Array( coords.length * 3 );

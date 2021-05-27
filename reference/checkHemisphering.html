@@ -82,7 +82,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">Racmacs</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.6</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.9</span>
       </span>
     </div>
 
@@ -130,13 +130,13 @@
     <p>Check for hemisphering or trapped points</p>
     </div>
 
-    <pre class="usage"><span class='fu'>checkHemisphering</span>(
-  <span class='no'>map</span>,
-  <span class='kw'>optimization_number</span> <span class='kw'>=</span> <span class='fl'>1</span>,
-  <span class='kw'>grid_spacing</span> <span class='kw'>=</span> <span class='fl'>0.25</span>,
-  <span class='kw'>stress_lim</span> <span class='kw'>=</span> <span class='fl'>0.1</span>,
-  <span class='kw'>options</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>()
-)</pre>
+    <pre class="usage"><span class='fu'>checkHemisphering</span><span class='op'>(</span>
+  <span class='va'>map</span>,
+  optimization_number <span class='op'>=</span> <span class='fl'>1</span>,
+  grid_spacing <span class='op'>=</span> <span class='fl'>0.25</span>,
+  stress_lim <span class='op'>=</span> <span class='fl'>0.1</span>,
+  options <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='op'>)</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -150,9 +150,18 @@
       <td><p>The map optimization number</p></td>
     </tr>
     <tr>
-      <th>stepsize</th>
-      <td><p>Grid spacing in antigenic units of the search grid to use
-when searching for hemisphering positions</p></td>
+      <th>grid_spacing</th>
+      <td><p>When doing a grid search of more optimal point positions
+the grid spacing to use</p></td>
+    </tr>
+    <tr>
+      <th>stress_lim</th>
+      <td><p>The stess difference to use when classifying a point as
+"hemisphering" or not</p></td>
+    </tr>
+    <tr>
+      <th>options</th>
+      <td><p>A named list of options to pass to <code><a href='RacOptimizer.options.html'>RacOptimizer.options()</a></code></p></td>
     </tr>
     </table>
 
@@ -187,7 +196,7 @@ to be hemisphering or trapped.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

@@ -1,11 +1,50 @@
 
+// Function for generating default properties
+R3JS.DefaultProperties = function(properties, n) {
+
+    if (properties === undefined) properties = {};
+    properties.color = R3JS.DefaultColor(properties.color, n);
+    return properties;
+
+}
+
+// Function for generating a default array
+R3JS.DefaultArray = function(array, defaultvalue, n) {
+
+    if (array === undefined) array = [defaultvalue];
+    if (array.length != n) array = Array(n).fill(array[0]);
+    return array;
+
+}
+
+// Function for generating a color vector of the right length
+R3JS.DefaultColor = function(color, n) {
+
+    if (color === undefined) color = {r:[0],g:[0],b:[0],a:[1]};
+
+    if (color.r === undefined) color.r = [0];
+    if (color.g === undefined) color.g = [0];
+    if (color.b === undefined) color.b = [0];
+    if (color.a === undefined) color.a = [1];
+
+    if (color.r.length != n) color.r = Array(n).fill(color.r[0]);
+    if (color.g.length != n) color.g = Array(n).fill(color.g[0]);
+    if (color.b.length != n) color.b = Array(n).fill(color.b[0]);
+    if (color.a.length != n) color.a = Array(n).fill(color.a[0]);
+
+    return color;
+
+}
+
 // Function for generating a material from properties
 R3JS.Material = function(properties){
 
     // Convert colors
-    properties.color = new THREE.Color(properties.color.r,
-                                       properties.color.g,
-                                       properties.color.b);
+    properties.color = new THREE.Color(
+        properties.color.r,
+        properties.color.g,
+        properties.color.b
+    );
 
     // Set object material
     if(properties.mat == "basic")    { var mat = new THREE.MeshBasicMaterial();   }
@@ -23,8 +62,12 @@ R3JS.Material = function(properties){
 
     // Set object material properties
     Object.assign(mat, properties);
-    if(properties.doubleSide){
+    if (properties.frontSide && properties.backSide) {
         mat.side = THREE.DoubleSide;
+    } else if (properties.backSide) {
+        mat.side = THREE.BackSide;
+    } else {
+        mat.side = THREE.FrontSide;
     }
 
     // Set clipping

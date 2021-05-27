@@ -145,105 +145,102 @@ R3JS.element.Polygon3d = class Polygon3d extends R3JS.element.base {
     // Object constructor
     constructor(args){
 
-        // Set defaults
-        if(args.properties === undefined)           args.properties           = {};
-        if(args.properties.color === undefined)     args.properties.color     = {r:0,g:0,b:0,a:1};
-        if(args.properties.opacity !== undefined)   args.properties.color.a   = args.properties.opacity;
-        if(args.properties.fillcolor === undefined) args.properties.fillcolor = args.properties.color;
-
         super();
 
-        // Make geometry
-        var geometry = new THREE.Geometry();
+        // Set defaults
+        args.properties = R3JS.DefaultProperties(args.properties, args.vertices.length);
 
-        // Add vertices
-        for(var i=0; i<args.vertices.length; i++){
-            geometry.vertices.push(
-                new THREE.Vector3(
-                    args.vertices[i][0],// - object.position.x,
-                    args.vertices[i][1],// - object.position.y,
-                    args.vertices[i][2],// - object.position.z
-                )
-            );
-        }
+        // Set variables
+        var color    = new Float32Array( args.faces.length * 9 );
+        var normal   = new Float32Array( args.faces.length * 9 );
+        var position = new Float32Array( args.faces.length * 9 );
 
-        // Add faces
+        // Set vertices
         for(var i=0; i<args.faces.length; i++){
-            geometry.faces.push(
-                new THREE.Face3( 
-                    args.faces[i][0], 
-                    args.faces[i][1], 
-                    args.faces[i][2]
-                )
-            );
+
+            position[i*9]   = args.vertices[args.faces[i][0]][0];
+            position[i*9+1] = args.vertices[args.faces[i][0]][1];
+            position[i*9+2] = args.vertices[args.faces[i][0]][2];
+
+            position[i*9+3] = args.vertices[args.faces[i][1]][0];
+            position[i*9+4] = args.vertices[args.faces[i][1]][1];
+            position[i*9+5] = args.vertices[args.faces[i][1]][2];
+
+            position[i*9+6] = args.vertices[args.faces[i][2]][0];
+            position[i*9+7] = args.vertices[args.faces[i][2]][1];
+            position[i*9+8] = args.vertices[args.faces[i][2]][2];
+
         }
 
-        // Add vertex colors
-        for(var i=0; i<geometry.faces.length; i++){
-            geometry.faces[i].vertexColors[0] = new THREE.Color(
-                args.properties.color.r[i*3],
-                args.properties.color.g[i*3],
-                args.properties.color.b[i*3]
-            );
-            geometry.faces[i].vertexColors[1] = new THREE.Color(
-                args.properties.color.r[i*3+1],
-                args.properties.color.g[i*3+1],
-                args.properties.color.b[i*3+1]
-            );
-            geometry.faces[i].vertexColors[2] = new THREE.Color(
-                args.properties.color.r[i*3+2],
-                args.properties.color.g[i*3+2],
-                args.properties.color.b[i*3+2]
-            );
-        }
-
-        // Add normals
+        // Set normals
         if(args.normals !== undefined){
-            var normals = args.normals;
-            for(var i=0; i<geometry.faces.length; i++){
-                geometry.faces[i].vertexNormals = [
-                    new THREE.Vector3().fromArray( normals[geometry.faces[i].a] ),
-                    new THREE.Vector3().fromArray( normals[geometry.faces[i].b] ),
-                    new THREE.Vector3().fromArray( normals[geometry.faces[i].c] ),
-                ];
+            for(var i=0; i<args.faces.length; i++){
+
+                normal[i*9]   = args.normals[args.faces[i][0]][0];
+                normal[i*9+1] = args.normals[args.faces[i][0]][1];
+                normal[i*9+2] = args.normals[args.faces[i][0]][2];
+
+                normal[i*9+3] = args.normals[args.faces[i][1]][0];
+                normal[i*9+4] = args.normals[args.faces[i][1]][1];
+                normal[i*9+5] = args.normals[args.faces[i][1]][2];
+
+                normal[i*9+6] = args.normals[args.faces[i][2]][0];
+                normal[i*9+7] = args.normals[args.faces[i][2]][1];
+                normal[i*9+8] = args.normals[args.faces[i][2]][2];
+
             }
-        } else {
-            // geometry.mergeVertices();
-            // geometry.computeVertexNormals();
-            // geometry.computeFaceNormals();
         }
 
-        // Convert to buffer geometry
-        var fillgeometry = new THREE.BufferGeometry().fromGeometry( geometry );
+        // Set vertex colors
+        for(var i=0; i<args.faces.length; i++){
+
+            color[i*9]   = args.properties.color.r[args.faces[i][0]];
+            color[i*9+1] = args.properties.color.g[args.faces[i][0]];
+            color[i*9+2] = args.properties.color.b[args.faces[i][0]];
+
+            color[i*9+3] = args.properties.color.r[args.faces[i][1]];
+            color[i*9+4] = args.properties.color.g[args.faces[i][1]];
+            color[i*9+5] = args.properties.color.b[args.faces[i][1]];
+
+            color[i*9+6] = args.properties.color.r[args.faces[i][2]];
+            color[i*9+7] = args.properties.color.g[args.faces[i][2]];
+            color[i*9+8] = args.properties.color.b[args.faces[i][2]];
+
+        }
+
+        // Set fill geometry
+        var fillgeometry = new THREE.BufferGeometry();
+        fillgeometry.setAttribute( 'position', new THREE.BufferAttribute( position, 3 ) );
+        fillgeometry.setAttribute( 'normal',   new THREE.BufferAttribute( normal,   3 ) );
+        fillgeometry.setAttribute( 'color',    new THREE.BufferAttribute( color,    3 ) );
 
         // Set fill material
-        args.properties.color   = args.properties.fillcolor;
-        args.properties.opacity = args.properties.fillcolor.a;
         var fillmaterial = R3JS.Material(args.properties);
         fillmaterial.vertexColors = THREE.VertexColors;
         fillmaterial.color = new THREE.Color();
 
         // Make fill object
         this.fill = new THREE.Mesh(fillgeometry, fillmaterial);
-        // this.fill = R3JS.utils.removeSelfTransparency(this.fill);
-        // this.fill = R3JS.utils.separateSides(this.fill);
-        // if(args.properties.breakupMesh){
-        //     this.fill = R3JS.utils.breakupMesh(this.fill);
-        // }
 
         // Make outline object
         if(args.outline){
+
             var outlinegeometry = new THREE.EdgesGeometry( fillgeometry );  
+            
             // Set outline material
             args.properties.color    = args.properties.outlinecolor;
             args.properties.mat      = "line";
             args.properties.lwd      = 1;
             // args.properties.segments = true;
+
             var outlinematerial = R3JS.Material(args.properties);
             this.outline = new THREE.LineSegments(outlinegeometry, outlinematerial);
+
         } else {
+
             var outlinegeometry = new THREE.BufferGeometry();
             this.outline = new THREE.Mesh(outlinegeometry);
+
         }
 
         // Assign object

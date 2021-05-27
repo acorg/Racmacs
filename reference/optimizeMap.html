@@ -85,7 +85,7 @@ random starting conditions will be added to the acmap object." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">Racmacs</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.6</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.9</span>
       </span>
     </div>
 
@@ -136,16 +136,16 @@ antigenic similarity. Optimizations generated from each run with different
 random starting conditions will be added to the acmap object.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>optimizeMap</span>(
-  <span class='no'>map</span>,
-  <span class='no'>number_of_dimensions</span>,
-  <span class='no'>number_of_optimizations</span>,
-  <span class='kw'>minimum_column_basis</span> <span class='kw'>=</span> <span class='st'>"none"</span>,
-  <span class='kw'>fixed_column_bases</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>sort_optimizations</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>options</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>()
-)</pre>
+    <pre class="usage"><span class='fu'>optimizeMap</span><span class='op'>(</span>
+  <span class='va'>map</span>,
+  <span class='va'>number_of_dimensions</span>,
+  <span class='va'>number_of_optimizations</span>,
+  minimum_column_basis <span class='op'>=</span> <span class='st'>"none"</span>,
+  fixed_column_bases <span class='op'>=</span> <span class='cn'>NULL</span>,
+  sort_optimizations <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  verbose <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  options <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='op'>)</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -198,7 +198,7 @@ space, the L-BFGS gradient-based optimization algorithm is applied to move
 points into an optimal position. Depending on the map, this may not be a
 trivial optimization process and results will depend upon the starting
 conditions so multiple optimization runs may be required. For a full
-explanation see <code><a href='../articles/intro-to-antigenic-cartography.html'>vignette("intro-to-antigenic-cartography")</a></code>.</p><h3>Minimum column basis and fixed column bases Fixed column bases is a</h3>
+explanation see <code><a href='../articles/intro-to-antigenic-cartography.html'>vignette("intro-to-antigenic-cartography")</a></code>.</p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Minimum column basis and fixed column bases Fixed column bases is a</h3>
 
 
 <p>vector of fixed column bases for each sera, where NA is specified (the
@@ -233,7 +233,7 @@ its current coordinates.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

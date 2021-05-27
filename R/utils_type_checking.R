@@ -57,6 +57,32 @@ check.charactermatrix <- function(x) {
   }
 }
 
+check.validtiters <- function(titers) {
+
+  x <- titers
+  unmeasured <- x == "*"
+  lessthans  <- substr(x, 1, 1) == "<"
+  morethans  <- substr(x, 1, 1) == ">"
+  x[unmeasured] <- "10"
+  x[lessthans | morethans] <- substr(
+    x[lessthans | morethans],
+    2, nchar(x[lessthans | morethans])
+  )
+  x <- suppressWarnings(as.numeric(x))
+  invalid_titers <- is.na(x)
+
+  if (sum(invalid_titers) > 0) {
+    stop(
+      sprintf(
+        "Invalid titers: '%s'",
+        paste(unique(titers[invalid_titers]), collapse = "', '")
+      ),
+      call. = FALSE
+    )
+  }
+
+}
+
 # Check the optimization number is valid
 check.optnum <- function(map, optimization_number) {
   if (numOptimizations(map) == 0) {

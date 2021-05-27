@@ -11,6 +11,6 @@ test_that("Plotting a bare bones", {
   )
 
   x <- plot(map)
-  expect_null(x)
+  expect_true(inherits(x, "acmap"))
 
 })

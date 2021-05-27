@@ -43,7 +43,9 @@ These functions get and set the antigen attributes for a map.
 
 Other {antigen and sera attribute functions}: 
 \code{\link{agGroups}()},
+\code{\link{agSequences}()},
 \code{\link{srAttributes}},
-\code{\link{srGroups}()}
+\code{\link{srGroups}()},
+\code{\link{srSequences}()}
 }
 \concept{{antigen and sera attribute functions}}

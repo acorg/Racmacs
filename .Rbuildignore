@@ -8,3 +8,6 @@
 ^LICENSE\.md$
 ^index\.md$
 ^.*\.vscode$
+^\.github$
+^\.lintr$
+^tests/testoutput$

@@ -35,6 +35,7 @@ See \code{optimizeMap()} for performing new optimization runs from random
 starting coordinates.
 
 Other {map optimization functions}: 
+\code{\link{RacOptimizer.options}()},
 \code{\link{make.acmap}()},
 \code{\link{moveTrappedPoints}()},
 \code{\link{optimizeMap}()},

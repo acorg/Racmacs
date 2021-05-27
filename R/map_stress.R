@@ -24,7 +24,27 @@ tableDistances <- function(
   if (numOptimizations(map) == 0) {
     stop("This map has no optimizations for which to calculate table distances")
   }
-  ac_table_distances(
+  numeric_dists <- ac_numeric_table_distances(
+    titer_table = titerTable(map),
+    colbases = colBases(map, optimization_number)
+  )
+  numeric_dists[titertypesTable(map) == 0] <- "*"
+  numeric_dists[titertypesTable(map) == 2] <- paste0(">", numeric_dists[titertypesTable(map) == 2])
+  numeric_dists[titertypesTable(map) == 3] <- "NA"
+  numeric_dists
+
+}
+
+# Backend function to get numeric form of table distances
+numerictableDistances <- function(
+  map,
+  optimization_number = 1
+  ) {
+
+  if (numOptimizations(map) == 0) {
+    stop("This map has no optimizations for which to calculate table distances")
+  }
+  ac_numeric_table_distances(
     titer_table = titerTable(map),
     colbases = colBases(map, optimization_number)
   )
@@ -43,6 +63,9 @@ tableDistances <- function(
 #'
 #' @return Returns a numeric vector of the log-converted column bases for the
 #'   table
+#'
+#' @family {map diagnostic functions}
+#'   {functions relating to map stress calculation}
 #' @export
 #'
 tableColbases <- function(
@@ -143,7 +166,7 @@ stressTable <- function(
     stop("This map has no optimizations for which to calculate a stress table")
   }
 
-  table_dist  <- tableDistances(map, optimization_number)
+  table_dist  <- numerictableDistances(map, optimization_number)
   titer_types <- titertypesTable(map)
   ag_coords   <- agBaseCoords(map, optimization_number)
   sr_coords   <- srBaseCoords(map, optimization_number)
@@ -194,7 +217,7 @@ mapResiduals <- function(
   }
 
   map_dist    <- mapDistances(map, optimization_number)
-  table_dist  <- tableDistances(map, optimization_number)
+  table_dist  <- numerictableDistances(map, optimization_number)
   titer_types <- titertypesTable(map)
 
   residuals <- table_dist - map_dist
@@ -235,7 +258,7 @@ recalculateStress <- function(
   check.optnum(map, optimization_number)
 
   ac_coords_stress(
-    tabledist_matrix = tableDistances(map, optimization_number),
+    tabledist_matrix = numerictableDistances(map, optimization_number),
     titertype_matrix = titertypesTable(map),
     ag_coords = agBaseCoords(map, optimization_number),
     sr_coords = srBaseCoords(map, optimization_number)

@@ -138,7 +138,7 @@ plot.acmap <- function(
   if (!plot_sr  || missing(sr_coords)) pts$shown[pts$pt_type == "sr"] <- FALSE
 
   ## Get point blobs
-  pt_blobs <- ptStressBlobs(x)
+  pt_blobs <- ptTriangulationBlobs(x)
   pts$blob <- !sapply(pt_blobs, is.null)
 
   ## Adjust alpha
@@ -224,6 +224,9 @@ plot.acmap <- function(
     })
 
   }
+
+  ## Return the map invisibly
+  invisible(x)
 
 }
 

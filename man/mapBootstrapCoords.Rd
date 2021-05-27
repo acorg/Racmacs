@@ -17,4 +17,15 @@ mapBootstrap_srCoords(map)
 This can be used to get information about the bootstrap run results
 after \code{boostrapMap()} has been run.
 }
-\concept{bootstrapping maps}
+\seealso{
+Other {map diagnostic functions}: 
+\code{\link{bootstrapBlobs}()},
+\code{\link{bootstrapMap}()},
+\code{\link{checkHemisphering}()},
+\code{\link{dimensionTestMap}()},
+\code{\link{map-table-distances}},
+\code{\link{mapRelaxed}()},
+\code{\link{ptTriangulationBlobsize}},
+\code{\link{triangulationBlobs}()}
+}
+\concept{{map diagnostic functions}}

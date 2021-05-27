@@ -162,6 +162,9 @@ Racmacs.Viewer = class RacViewer extends Racmacs.App {
                 case "t":
                     this.toggleTiters();
                     break;
+                case "n":
+                    this.toggleLabels();
+                    break;
                 case "Escape":
                     this.deselectAll();
                     break;

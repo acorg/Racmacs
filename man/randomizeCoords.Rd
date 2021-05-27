@@ -25,6 +25,7 @@ table distance multiplied by \code{table_dist_factor}
 }
 \seealso{
 Other {map optimization functions}: 
+\code{\link{RacOptimizer.options}()},
 \code{\link{make.acmap}()},
 \code{\link{moveTrappedPoints}()},
 \code{\link{optimizeMap}()},

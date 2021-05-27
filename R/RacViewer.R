@@ -4,16 +4,15 @@
 #' This creates an html widget for viewing antigenic maps.
 #'
 #' @param map The map data object
-#' @param rotation Viewer rotation
-#' @param translation Viewer translation
-#' @param zoom Viewer zoom
+#' @param plotdata r3js plot data
+#' @param show_procrustes should procrustes lines be shown
 #' @param options A named list of viewer options supplied to
 #'   `racviewer.options()`
 #' @param width Width of the widget
 #' @param height Height of the widget
-#' @param plotdata r3js plot data
-#' @param show_procrustes should procrustes lines be shown
 #' @param elementId DOM element ID
+#'
+#' @family {functions to view maps}
 #'
 #' @import htmlwidgets
 #' @export
@@ -39,7 +38,7 @@ RacViewer <- function(
     map <- addMapGrid(map, options$grid.col)
   }
 
-  # forward options using x
+  # Forward data using x
   x <- list(
     mapData  = mapdata,
     plotdata = jsonlite::toJSON(map$plot),

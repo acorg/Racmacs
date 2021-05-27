@@ -23,3 +23,9 @@ which points should be draw when plotting or viewing a map. Points
 are indexed in the same order as antigens then followed by
 sera.
 }
+\seealso{
+Other {map point style functions}: 
+\code{\link{applyPlotspec}()},
+\code{\link{ptStyles}}
+}
+\concept{{map point style functions}}

@@ -48,6 +48,10 @@ realignMap <- function(
 #'   calculation (other optimization runs are discarded)
 #' @param comparison_optimization_number The optimization run int the comparison
 #'   map to compare against
+#' @param antigens Antigens to include (specified by name or index or TRUE/FALSE
+#'   for all/none)
+#' @param sera Sera to include (specified by name or index or TRUE/FALSE for
+#'   all/none)
 #' @param translation Should translation be allowed
 #' @param scaling Should scaling be allowed (generally not recommended unless
 #'   comparing maps made with different assays)
@@ -64,6 +68,8 @@ procrustesMap <- function(
   comparison_map,
   optimization_number = 1,
   comparison_optimization_number = 1,
+  antigens    = TRUE,
+  sera        = TRUE,
   translation = TRUE,
   scaling     = FALSE
   ) {
@@ -76,11 +82,22 @@ procrustesMap <- function(
   check.optnum(map, optimization_number)
   check.optnum(comparison_map, comparison_optimization_number)
 
+  # Get selected antigen and sera indices
+  antigens_included <- rep(FALSE, numAntigens(map))
+  sera_included <- rep(FALSE, numSera(map))
+  antigens_included[get_ag_indices(antigens, map)] <- TRUE
+  sera_included[get_sr_indices(sera, map)] <- TRUE
+
+  # Set unselected point coords to NaN
+  pc_map <- keepSingleOptimization(map, optimization_number)
+  agBaseCoords(pc_map)[!antigens_included, ] <- NaN
+  srBaseCoords(pc_map)[!sera_included, ] <- NaN
+
   # Get the procrustes coords
   pc_coords <- ac_procrustes_map_coords(
-    base_map = map,
+    base_map = pc_map,
     procrustes_map = comparison_map,
-    base_map_optimization_number = optimization_number - 1,
+    base_map_optimization_number = 0,
     procrustes_map_optimization_number = comparison_optimization_number - 1,
     translation = translation,
     scaling = scaling
@@ -88,6 +105,8 @@ procrustesMap <- function(
 
   # Add the data to the map
   map$optimizations[[optimization_number]]$procrustes <- pc_coords
+  map$optimizations[[optimization_number]]$procrustes$ag_coords[!antigens_included, ] <- NaN
+  map$optimizations[[optimization_number]]$procrustes$sr_coords[!sera_included, ] <- NaN
 
   # Return the map
   map
@@ -117,6 +136,7 @@ procrustesMap <- function(
 #'   matching the number of points in the main map, with NA in the position of
 #'   any points not found in the comparison map.
 #'
+#' @family {functions to compare maps}
 #' @export
 procrustesData <- function(
   map,

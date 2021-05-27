@@ -1,9 +1,9 @@
 
 # Adding stress blob information
-server_stressBlobs <- function(env) {
+server_triangulationBlobs <- function(env) {
 
   shiny::showNotification(
-    ui = "Calculating stress blobs...",
+    ui = "Calculating triangulation blobs...",
     duration = NULL,
     closeButton = FALSE,
     id = "blobs",
@@ -13,7 +13,7 @@ server_stressBlobs <- function(env) {
 
   # # Convert point selections
   # point_selections <- convertSelectedPoints(
-  #   env$input$stressBlobs$selected_points,
+  #   env$input$triangulationBlobs$selected_points,
   #   env$storage$map
   # )
 
@@ -23,8 +23,8 @@ server_stressBlobs <- function(env) {
   #   value = 0, {
   #     blob_data <- calculate_stressBlob(
   #       map          = env$storage$map,
-  #       stress_lim   = as.numeric(env$input$stressBlobs$stresslim),
-  #       grid_spacing = as.numeric(env$input$stressBlobs$gridspacing),
+  #       stress_lim   = as.numeric(env$input$triangulationBlobs$stresslim),
+  #       grid_spacing = as.numeric(env$input$triangulationBlobs$gridspacing),
   #       antigens     = point_selections$antigens,
   #       sera         = point_selections$sera,
   #       progress_fn  = setProgress
@@ -33,11 +33,11 @@ server_stressBlobs <- function(env) {
   # )
 
   # Add to the map
-  env$storage$map <- stressBlobs(
+  env$storage$map <- triangulationBlobs(
     map = env$storage$map,
     optimization_number = env$storage$opt_selected,
-    stress_lim = as.numeric(env$input$stressBlobs$stresslim),
-    grid_spacing = as.numeric(env$input$stressBlobs$gridspacing)
+    stress_lim = as.numeric(env$input$triangulationBlobs$stresslim),
+    grid_spacing = as.numeric(env$input$triangulationBlobs$gridspacing)
   )
 
   shiny::showNotification(
@@ -52,7 +52,7 @@ server_stressBlobs <- function(env) {
   # Load the stress blob data
   env$session$sendCustomMessage(
     "addBlobData",
-    I(ptStressBlobs(
+    I(ptTriangulationBlobs(
       map = env$storage$map,
       optimization_number = env$storage$opt_selected
     ))

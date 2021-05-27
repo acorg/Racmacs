@@ -121,6 +121,7 @@ srGroups <- function(map) {
 #'   sera
 #'
 #' @name srSequences
+#' @family {antigen and sera attribute functions}
 #'
 
 #' @rdname srSequences

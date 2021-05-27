@@ -61,8 +61,8 @@ Racmacs.Viewer.prototype.addAgSrPoints = function(){
             points.map( p => p.scaling = 0.2 );
 
             // Extract values
-            var coords  = points.map( p => p.coordsNoNA() );
-            var size    = points.map( p => p.size*p.scaling );
+            var coords = points.map( p => p.coordsNoNA() );
+            var size   = points.map( p => p.size*p.scaling );
             var shape  = points.map( function(p){
                 var shape = p.shape.toLowerCase();
                 if(shape == "circle")   return("bcircle")

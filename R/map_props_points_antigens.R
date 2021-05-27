@@ -124,6 +124,7 @@ agGroups <- function(map) {
 #'   antigens
 #'
 #' @name agSequences
+#' @family {antigen and sera attribute functions}
 #'
 
 #' @rdname agSequences

@@ -8,7 +8,11 @@ RacViewer.options(
   point.opacity = NA,
   viewer.controls = "hidden",
   grid.display = "static",
-  grid.col = "#666666"
+  grid.col = "#e0e0e0",
+  show.names = FALSE,
+  show.errorlines = FALSE,
+  show.connectionlines = FALSE,
+  show.titers = FALSE
 )
 }
 \arguments{
@@ -18,6 +22,16 @@ RacViewer.options(
 
 \item{grid.display}{For 3d maps, should the grid be fixed in the background
 or enclose and rotate along with the map}
+
+\item{grid.col}{Color to use for the grid shown behind the map}
+
+\item{show.names}{Toggle name labels on}
+
+\item{show.errorlines}{Toggle error lines on}
+
+\item{show.connectionlines}{Toggle connection lines on}
+
+\item{show.titers}{Toggle titer labels on}
 }
 \value{
 Returns a named list of viewer options
@@ -26,3 +40,16 @@ Returns a named list of viewer options
 This function facilitates setting racviewer options by returning a list of
 option settings.
 }
+\seealso{
+Other {functions to view maps}: 
+\code{\link{RacViewer}()},
+\code{\link{export_viewer}()},
+\code{\link{grid.plot.acmap}()},
+\code{\link{plot.acmap}()},
+\code{\link{setLegend}()},
+\code{\link{snapshotMap}()},
+\code{\link{view.acmap}()},
+\code{\link{view.default}()},
+\code{\link{view}()}
+}
+\concept{{functions to view maps}}

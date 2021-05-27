@@ -1,7 +1,7 @@
 Package: Racmacs
 Type: Package
 Title: R Antigenic Cartography Macros
-Version: 1.1.4
+Version: 1.1.9
 Date: 2021-01-22
 Author: Sam Wilks
 Maintainer: Sam Wilks <sw463@cam.ac.uk>
@@ -29,7 +29,8 @@ Imports:
     methods,
     rstudioapi,
     rmarchingcubes,
-    shape
+    shape,
+    ellipsis
 LazyData: TRUE
 Suggests: 
     testthat,

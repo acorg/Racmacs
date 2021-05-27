@@ -46,7 +46,12 @@ See \code{optimizeMap()} for generating new optimizations estimating
 antigen similarity from the acmap titer data.
 
 Other {functions for working with map data}: 
+\code{\link{addOptimization}()},
 \code{\link{as.json}()},
+\code{\link{edit_agNames}()},
+\code{\link{edit_srNames}()},
+\code{\link{keepBestOptimization}()},
+\code{\link{keepSingleOptimization}()},
 \code{\link{orderPoints}},
 \code{\link{read.acmap}()},
 \code{\link{read.titerTable}()},

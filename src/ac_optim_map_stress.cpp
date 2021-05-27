@@ -438,7 +438,7 @@ std::vector<AcOptimization> ac_runOptimizations(
 ){
 
   // Get table distance matrix and titer type matrix
-  arma::mat tabledist_matrix = titertable.table_distances(colbases);
+  arma::mat tabledist_matrix = titertable.numeric_table_distances(colbases);
   arma::umat titertype_matrix = titertable.get_titer_types();
 
   // Set dimensions to cycle through, for e.g. dimensional annealing

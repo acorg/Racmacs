@@ -8,6 +8,13 @@
 #' @param viewer.controls Should viewer controls be shown or hidden by default?
 #' @param grid.display For 3d maps, should the grid be fixed in the background
 #'   or enclose and rotate along with the map
+#' @param grid.col Color to use for the grid shown behind the map
+#' @param show.names Toggle name labels on
+#' @param show.errorlines Toggle error lines on
+#' @param show.connectionlines Toggle connection lines on
+#' @param show.titers Toggle titer labels on
+#'
+#' @family {functions to view maps}
 #'
 #' @return Returns a named list of viewer options
 #' @export
@@ -16,7 +23,11 @@ RacViewer.options <- function(
   point.opacity = NA,
   viewer.controls = "hidden",
   grid.display = "static",
-  grid.col = "#666666"
+  grid.col = "#e0e0e0",
+  show.names = FALSE,
+  show.errorlines = FALSE,
+  show.connectionlines = FALSE,
+  show.titers = FALSE
 ) {
 
   # Check input
@@ -28,7 +39,11 @@ RacViewer.options <- function(
     viewer.controls = viewer.controls,
     point.opacity = point.opacity,
     grid.display = grid.display,
-    grid.col = grid.col
+    grid.col = grid.col,
+    show.names = show.names,
+    show.errorlines = show.errorlines,
+    show.connectionlines = show.connectionlines,
+    show.titers = show.titers
   )
 
 }
@@ -44,6 +59,8 @@ RacViewer.options <- function(
 #'   (with external resources base64 encoded) or a file with external resources
 #'   placed in an adjacent directory.
 #' @param ... Further parameters to `view()`
+#'
+#' @family {functions to view maps}
 #'
 #' @export
 #'

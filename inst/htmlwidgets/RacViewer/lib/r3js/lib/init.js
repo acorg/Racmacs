@@ -147,6 +147,11 @@ R3JS.Viewer = class R3JSviewer {
         return(this.viewport.getAspect());
     }
 
+    // Get plot dims
+    getPlotDims() {
+        return(this.scene.plotdims.dimensions);
+    }
+
     // Check if this is part of a page or the whole page
     fullpage(){
         return(

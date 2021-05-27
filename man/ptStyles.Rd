@@ -84,6 +84,7 @@ These functions get and set the styles to use for each point when plotting.
 }
 \seealso{
 Other {map point style functions}: 
-\code{\link{applyPlotspec}()}
+\code{\link{applyPlotspec}()},
+\code{\link{ptDrawingOrder}()}
 }
 \concept{{map point style functions}}

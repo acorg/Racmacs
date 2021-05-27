@@ -1,5 +1,5 @@
 
-.stressblobs-tab {
+.triangulationblobs-tab {
 
 	display : flex;
 	flex-direction: column;
@@ -7,7 +7,7 @@
 
 }
 
-.stressblobs-tab .control-input-holder {
+.triangulationblobs-tab .control-input-holder {
 
 	margin-top: 8px;
 

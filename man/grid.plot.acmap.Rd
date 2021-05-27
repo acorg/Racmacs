@@ -39,6 +39,10 @@ grid.plot.acmap(
 
 \item{plot_blobs}{logical, should stress blobs be plotted if present}
 
+\item{plot_hemisphering}{logical, should arrows be plotted to indicate hemisphering
+or trapped points (only for maps where \code{checkHemisphering()} has already
+been run)}
+
 \item{grid.col}{grid line color}
 
 \item{grid.margin.col}{grid margin color}
@@ -60,7 +64,14 @@ altered.
 }
 \seealso{
 Other {functions to view maps}: 
+\code{\link{RacViewer.options}()},
+\code{\link{RacViewer}()},
+\code{\link{export_viewer}()},
 \code{\link{plot.acmap}()},
-\code{\link{snapshotMap}()}
+\code{\link{setLegend}()},
+\code{\link{snapshotMap}()},
+\code{\link{view.acmap}()},
+\code{\link{view.default}()},
+\code{\link{view}()}
 }
 \concept{{functions to view maps}}

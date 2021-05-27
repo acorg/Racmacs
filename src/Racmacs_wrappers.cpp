@@ -125,12 +125,12 @@ arma::vec ac_table_colbases(
 
 // Get table distances
 // [[Rcpp::export]]
-arma::mat ac_table_distances(
+arma::mat ac_numeric_table_distances(
     const AcTiterTable titer_table,
     const arma::vec colbases
 ){
 
-  return titer_table.table_distances(colbases);
+  return titer_table.numeric_table_distances(colbases);
 
 }
 

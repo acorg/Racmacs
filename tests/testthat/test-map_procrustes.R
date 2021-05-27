@@ -351,9 +351,58 @@ test_that("Procrustes maps with na coords", {
 
   export.viewer.test(
     view(
-      pcmap
+      pcmap,
+      options = list(
+        point.opacity = 1
+      )
     ),
     "na_map_procrustes.html"
+  )
+
+})
+
+test_that("Procrustes against only antigens or sera", {
+
+  ag_coords <- matrix(11:30, 10, 2)
+  sr_coords <- matrix(1:10, 5, 2)
+
+  ag_coords2 <- rotate_coords_by_degrees(ag_coords, 34)
+  sr_coords2 <- rotate_coords_by_degrees(sr_coords, -12)
+
+  map1 <- acmap(ag_coords = ag_coords, sr_coords = sr_coords)
+  map2 <- acmap(ag_coords = ag_coords2, sr_coords = sr_coords2)
+
+  map2o <- procrustesMap(map2, map1)
+  expect_failure(
+    expect_equal(
+      map2o$optimizations[[1]]$procrustes$ag_coords,
+      agBaseCoords(map2o)
+    )
+  )
+
+  map2a <- procrustesMap(map2, map1, sera = FALSE)
+  expect_equal(
+    map2a$optimizations[[1]]$procrustes$ag_coords,
+    agBaseCoords(map2a)
+  )
+
+  expect_equal(0, sum(!is.nan(map2a$optimizations[[1]]$procrustes$sr_coords)))
+  expect_equal(0, sum(is.nan(map2a$optimizations[[1]]$procrustes$ag_coords)))
+
+  map2s <- procrustesMap(map2, map1, antigens = FALSE)
+  expect_equal(
+    map2s$optimizations[[1]]$procrustes$sr_coords,
+    srBaseCoords(map2s)
+  )
+
+  expect_equal(0, sum(!is.nan(map2s$optimizations[[1]]$procrustes$ag_coords)))
+  expect_equal(0, sum(is.nan(map2s$optimizations[[1]]$procrustes$sr_coords)))
+
+  expect_failure(
+    expect_equal(
+      map2s$optimizations[[1]]$procrustes$ag_coords,
+      agBaseCoords(map2s)
+    )
   )
 
 })

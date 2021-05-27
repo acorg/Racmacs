@@ -492,7 +492,7 @@ AcMap ac_merge_incremental_single(
   arma::vec colbases = merged_map.titer_table_flat.colbases( min_colbasis, fixed_colbases );
 
   // Get table distance matrix and titer type matrix
-  arma::mat tabledist_matrix = merged_map.titer_table_flat.table_distances(colbases);
+  arma::mat tabledist_matrix = merged_map.titer_table_flat.numeric_table_distances(colbases);
   arma::umat titertype_matrix = merged_map.titer_table_flat.get_titer_types();
 
   // Generate optimizations with random starting coords

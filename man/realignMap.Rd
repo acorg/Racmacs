@@ -28,6 +28,8 @@ closely as possible the first optimization run of the target map.
 }
 \seealso{
 Other {functions to compare maps}: 
+\code{\link{matchStrains}},
+\code{\link{procrustesData}()},
 \code{\link{procrustesMap}()},
 \code{\link{realignOptimizations}()}
 }

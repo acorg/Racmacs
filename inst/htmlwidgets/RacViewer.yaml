@@ -1,7 +1,7 @@
 
 dependencies:
   - name: RacViewer
-    version: 1.0.0
+    version: 1.0.1
     src: htmlwidgets/RacViewer/lib
     stylesheet:
       - r3js/lib/styles/r3js.css
@@ -24,7 +24,6 @@ dependencies:
       - r3js/lib/threejs/renderers/SVGRenderer.js
       - r3js/lib/threejs/renderers/Projector.js
       - r3js/lib/threejs/renderers/CSS2DRenderer_r3js.js
-      - r3js/lib/threejs/fonts/helvetiker_regular.typeface.js
       - r3js/lib/threejs/utils/SceneUtils.js
       - r3js/lib/threejs/utils/BufferGeometryUtils.js
       - r3js/lib/threejs/lines/LineSegmentsGeometry.js
@@ -35,6 +34,7 @@ dependencies:
       - r3js/lib/threejs/lines/Line2.js
       - r3js/lib/threejs/lines/Wireframe.js
       - r3js/lib/init.js
+      - r3js/lib/threejs/fonts/helvetiker_regular.typeface.js
       - r3js/lib/functions/utils.js
       - r3js/lib/functions/element.js
       - r3js/lib/functions/element_points.js

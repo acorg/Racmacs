@@ -123,8 +123,8 @@ server <- function(input, output, session) {
 
   ## Add stress blobs
   observeEvent(
-    input$stressBlobs,
-    server_stressBlobs(env)
+    input$triangulationBlobs,
+    server_triangulationBlobs(env)
   )
 
   ## Add hemisphering data

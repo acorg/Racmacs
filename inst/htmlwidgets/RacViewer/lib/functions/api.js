@@ -1,24 +1,24 @@
 
 // Defaults for functions that will send data to the shiny session when initialised
-Racmacs.App.prototype.onLoadMap             = function(){ console.log("Map loading") }
-Racmacs.App.prototype.onLoadTable           = function(){ console.log("Table loading") }
-Racmacs.App.prototype.onSaveMap             = function(){ console.log("Save map") }
-Racmacs.App.prototype.onSaveTable           = function(){ console.log("Save table") }
-Racmacs.App.prototype.onSaveCoords          = function(){ console.log("Save coords") }
-Racmacs.App.prototype.onLoadPointStyles     = function(){ console.log("Loading point styles") }
-Racmacs.App.prototype.onRelaxMap            = function(){ console.log("Relax map") }
-Racmacs.App.prototype.onRelaxMapOneStep     = function(){ console.log("Relax map one step") }
-Racmacs.App.prototype.onRandomizeMap        = function(){ console.log("Randomize map") }
-Racmacs.App.prototype.onProjectionChange    = function(projection){}
-Racmacs.App.prototype.onCoordsChange        = function(){}
-Racmacs.App.prototype.onOrientProjections   = function(){ console.log("Orient projections") }
-Racmacs.App.prototype.onRemoveOptimizations = function(){ console.log("Remove optimizations") }
-Racmacs.App.prototype.onRunOptimizations    = function(args){ console.log(args) }
-Racmacs.App.prototype.onMoveTrappedPoints   = function(){ console.log("Find trapped points") }
-Racmacs.App.prototype.onCheckHemisphering   = function(){ console.log("Check hemisphering") }
-Racmacs.App.prototype.onAddStressBlobs      = function(args){ console.log(args) }
-Racmacs.App.prototype.onProcrustes          = function(args){ console.log(args) }
-Racmacs.App.prototype.onReflectMap          = function(axis){ console.log(axis) }
+Racmacs.App.prototype.onLoadMap               = function(){ console.log("Map loading") }
+Racmacs.App.prototype.onLoadTable             = function(){ console.log("Table loading") }
+Racmacs.App.prototype.onSaveMap               = function(){ console.log("Save map") }
+Racmacs.App.prototype.onSaveTable             = function(){ console.log("Save table") }
+Racmacs.App.prototype.onSaveCoords            = function(){ console.log("Save coords") }
+Racmacs.App.prototype.onLoadPointStyles       = function(){ console.log("Loading point styles") }
+Racmacs.App.prototype.onRelaxMap              = function(){ console.log("Relax map") }
+Racmacs.App.prototype.onRelaxMapOneStep       = function(){ console.log("Relax map one step") }
+Racmacs.App.prototype.onRandomizeMap          = function(){ console.log("Randomize map") }
+Racmacs.App.prototype.onProjectionChange      = function(projection){}
+Racmacs.App.prototype.onCoordsChange          = function(){}
+Racmacs.App.prototype.onOrientProjections     = function(){ console.log("Orient projections") }
+Racmacs.App.prototype.onRemoveOptimizations   = function(){ console.log("Remove optimizations") }
+Racmacs.App.prototype.onRunOptimizations      = function(args){ console.log(args) }
+Racmacs.App.prototype.onMoveTrappedPoints     = function(){ console.log("Find trapped points") }
+Racmacs.App.prototype.onCheckHemisphering     = function(){ console.log("Check hemisphering") }
+Racmacs.App.prototype.onAddTriangulationBlobs = function(args){ console.log(args) }
+Racmacs.App.prototype.onProcrustes            = function(args){ console.log(args) }
+Racmacs.App.prototype.onReflectMap            = function(axis){ console.log(axis) }
 
 // Manipulating the control panel
 Racmacs.App.prototype.showControlPanel = function(){
@@ -91,7 +91,7 @@ Racmacs.App.prototype.getSelectedPointIndices = function(){
         }
 
     }
-    
+
     return({
         antigens : antigens,
         sera     : sera
@@ -107,32 +107,32 @@ Racmacs.App.prototype.selectByPointIndices = function(indices){
         this.antigens[index].select();
 
     }
-    
+
     for(var i=0; i<indices.sera.length; i++){
 
         var index = indices.sera[i];
         this.sera[index].select();
 
     }
-    
+
 }
 
 Racmacs.App.prototype.selectPointsByIndices = function(indices){
 
     indices.map( i => this.points[i].select() );
-    
+
 }
 
 Racmacs.App.prototype.selectAntigensByIndices = function(indices){
 
     indices.map( i => this.antigens[i].select() );
-    
+
 }
 
 Racmacs.App.prototype.selectSeraByIndices = function(indices){
 
     indices.map( i => this.sera[i].select() );
-    
+
 }
 
 Racmacs.App.prototype.reflect = function(axis){
@@ -155,13 +155,13 @@ Racmacs.App.prototype.reflect = function(axis){
 }
 
 Racmacs.App.prototype.enterGUImode = function(){
-    
+
     this.controlpanel.showShinyElements();
 
 }
 
 Racmacs.App.prototype.exitGUImode = function(){
-    
+
     this.controlpanel.hideShinyElements();
 
 }

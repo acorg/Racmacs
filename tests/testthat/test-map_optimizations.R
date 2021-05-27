@@ -5,11 +5,11 @@ context("Test optimization methods")
 
 # Create a toy HI table
 titer_table <- rbind(
-  c("<10", "40",  "*",  "1280"),
-  c("<10", "<10", "80", "640"),
-  c("<10", "<10", "<10", "<10"),
-  c("<10", "<10", "<10", "<10"),
-  c("<10", "<10", "<10", "<10")
+  c("<10", "40",  "*",  "1280", "10"),
+  c("<10", "10", "80", "640", "10"),
+  c("10", "10", "10", "10", "10"),
+  c("10", "10", "10", "10", "10"),
+  c("10", "10", "10", "10", "10")
 )
 
 num_antigens <- nrow(titer_table)
@@ -87,7 +87,7 @@ test_that("Error when column bases the wrong length", {
       ag_coords = ag_coords,
       sr_coords = sr_coords,
       minimum_column_basis = "fixed",
-      fixed_column_bases = c(4, 3, 4, 5, 9)
+      fixed_column_bases = c(4, 3, 4, 5, 9, 8)
     ),
     regexp = "Fixed column base length does not match the number of sera"
   )
@@ -98,7 +98,7 @@ testmap <- addOptimization(
   map       = map,
   ag_coords = ag_coords,
   sr_coords = sr_coords,
-  fixed_column_bases = c(4, 3, 4, 5)
+  fixed_column_bases = c(4, 3, 4, 5, 5)
 )
 
 optimization_num <- numOptimizations(testmap)
@@ -107,6 +107,6 @@ optimization_num <- numOptimizations(testmap)
 test_that("Fixed column bases specified correctly upon adding optimization", {
   expect_equal(
     unname(colBases(testmap, optimization_num)),
-    c(4, 3, 4, 5)
+    c(4, 3, 4, 5, 5)
   )
 })

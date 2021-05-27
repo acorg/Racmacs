@@ -7,6 +7,7 @@ R3JS.Viewer.prototype.eventListeners.push({
 		point.updateConnectionLines();
 		point.updateErrorLines();
 		point.updateTiterLabels();
+		point.updatePointLabel();
 	}
 });
 
@@ -26,6 +27,10 @@ R3JS.Viewer.prototype.eventListeners.push({
         if(viewer.titersShown){
             viewer.hideTiters();
             viewer.showTiters();
+        }
+        if(viewer.labelsShown){
+            viewer.hideLabels();
+            viewer.showLabels();
         }
 	}
 });
@@ -47,22 +52,13 @@ R3JS.Viewer.prototype.eventListeners.push({
             viewer.hideTiters();
             viewer.showTiters();
         }
+        if(viewer.labelsShown){
+            viewer.hideLabels();
+            viewer.showLabels();
+        }
 	}
 });
 
-// Racmacs.Point.prototype.onselect.push(
-// 	function(point){
-// 		if(point.viewer.errorLinesShown)      { point.showErrors()      }
-// 		if(point.viewer.connectionLinesShown) { point.showConnections() }
-// 	}
-// );
-
-// Racmacs.Point.prototype.ondeselect.push(
-// 	function(point){
-// 		if(point.viewer.errorLinesShown)      { point.hideErrors()      }
-// 	    if(point.viewer.connectionLinesShown) { point.hideConnections() }
-// 	}
-// );
 
 // CONNECTION LINES
 Racmacs.App.prototype.toggleConnectionLines = function(){
@@ -80,7 +76,9 @@ Racmacs.App.prototype.showConnectionLines = function(){
 	this.hideErrorLines();
 	if(!this.connectionLinesShown){
 		this.connectionLinesShown = true;
-		if(this.btns.toggleConnectionLines){ this.btns.toggleConnectionLines.highlight() }
+		if(this.btns.toggleConnectionLines){ 
+			this.btns.toggleConnectionLines.highlight();
+		}
 
 		if(this.selected_pts.length == 0){
 			var points = this.antigens;
@@ -120,6 +118,11 @@ Racmacs.Point.prototype.showConnections = function(){
 
 		// Get connection data
 		var connectiondata = this.getConnectionData();
+
+		// Render lines above points for 2d maps
+		if (this.viewer.getPlotDims() === 2) {
+			connectiondata.coords.map( x => x[2] = 0.01 );
+		}
 
 		// Make the line element
 		this.connectionlines = new R3JS.element.gllines_fat({
@@ -254,6 +257,11 @@ Racmacs.Point.prototype.showErrors = function(){
 
 		// Get error data
 		var errordata = this.getErrorData();
+
+		// Render lines above points for 2d maps
+		if (this.viewer.getPlotDims() === 2) {
+			errordata.coords.map( x => x[2] = 0.01 );
+		}
 
 		// Make the line element
 		this.errorlines = new R3JS.element.gllines_fat({
@@ -397,7 +405,7 @@ Racmacs.Point.prototype.getErrorData = function(pt = null){
 // Remove connection lines from a point object
 Racmacs.Point.prototype.updateErrorLines = function(){
 
-	if(this.errorLinesShown){
+	if (this.errorLinesShown) {
 
 		var data = this.getErrorData();
 		this.errorlines.setCoords(data.coords);
@@ -411,7 +419,7 @@ Racmacs.Point.prototype.updateErrorLines = function(){
 // TITER LABELS
 Racmacs.App.prototype.toggleTiters = function(){
 
-	if(!this.titersShown){
+	if (!this.titersShown) {
 		this.showTiters();
 	} else {
 		this.hideTiters();
@@ -421,9 +429,11 @@ Racmacs.App.prototype.toggleTiters = function(){
 
 Racmacs.App.prototype.showTiters = function(){
 	
-	this.showConnectionLines();
+	if (!this.connectionLinesShown && !this.errorLinesShown) {
+	    this.showConnectionLines();
+	}
 
-	if(!this.titersShown){
+	if (!this.titersShown) {
 		this.titersShown = true;
 		if(this.btns.toggleTiters){ this.btns.toggleTiters.highlight() }
 
@@ -539,10 +549,6 @@ Racmacs.Point.prototype.showTiters = function(){
 	        p.addLinkedTiterLabel(element);
 		});
 
-		// this.viewer.scene.add(
-		// 	this.connectionlines.object
-		// );
-
 	}
 
 }
@@ -579,6 +585,104 @@ Racmacs.Point.prototype.updateTiterLabels = function(){
             	(label.from.coords3[2] + label.to.coords3[2])/2,
 			]);
 		});
+
+	}
+
+}
+
+
+// POINT LABELS
+Racmacs.App.prototype.toggleLabels = function(){
+
+	if(!this.labelsShown){
+		this.showLabels();
+	} else {
+		this.hideLabels();
+	}
+
+}
+
+Racmacs.App.prototype.showLabels = function(){
+	
+	if(!this.labelsShown){
+
+		this.labelsShown = true;
+		if(this.btns.toggleLabels){ this.btns.toggleLabels.highlight() }
+
+		if(this.selected_pts.length == 0){
+			var points = this.points;
+		} else {
+			var points = this.selected_pts;
+		}
+
+		for(var i=0; i<points.length; i++){
+			points[i].showLabel();
+		}
+
+	}
+
+}
+
+Racmacs.App.prototype.hideLabels = function(){
+
+	if(this.labelsShown){
+
+		this.labelsShown = false;
+		if(this.btns.toggleLabels){ this.btns.toggleLabels.dehighlight() }
+
+		for(var i=0; i<this.points.length; i++){
+			this.points[i].hideLabel();
+		}
+
+	}
+
+}
+
+// Add name label to a point object
+Racmacs.Point.prototype.showLabel = function(){
+
+	if(!this.labelShown){
+
+		this.labelShown = true;
+		this.namelabel = null;
+
+		// Show label
+		var element = new R3JS.element.htmltext({
+            text   : this.name,
+            coords : this.coords3,
+            // alignment : plotobj.alignment,
+            // offset     : plotobj.offset,
+            // properties : R3JS.Material(plotobj.properties)
+        });
+        element.setStyle("font-size", "12px");
+		this.namelabel = element;
+
+		// Add to scene
+		this.viewer.scene.add(element.object);
+
+	}
+
+}
+
+// Remove label from a point object
+Racmacs.Point.prototype.hideLabel = function(){
+
+	if(this.labelShown){
+
+		this.labelShown = false;
+		this.viewer.scene.remove(this.namelabel.object);
+		this.namelabel = null;
+
+	}
+
+}
+
+// Update label from an object
+Racmacs.Point.prototype.updatePointLabel = function(){
+
+	if(this.labelShown){
+
+		this.namelabel.setCoords(this.coords3);
 
 	}
 

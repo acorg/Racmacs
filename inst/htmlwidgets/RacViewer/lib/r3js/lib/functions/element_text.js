@@ -17,10 +17,11 @@ R3JS.element.constructors.text = function(
 
     // Create the object
     if(plotobj.rendering == "geometry"){
-        
+
         var element = new R3JS.element.text({
             text   : plotobj.text[0],
             coords : plotobj.position,
+            size   : plotobj.size[0],
             alignment : plotobj.alignment,
             offset     : plotobj.offset,
             properties : R3JS.Material(plotobj.properties)
@@ -132,8 +133,6 @@ R3JS.element.text = class htmltext extends R3JS.element.base {
         args.alignment[0] = -args.alignment[0]/2 + 0.5;
         args.alignment[1] = -args.alignment[1]/2 + 0.5;
 
-        // function make_text(string, pos, size, alignment, offset, color){
-
         var shapes    = R3JS.fonts.helvetiker.generateShapes( args.text, 1, 4 );
         var geometry  = new THREE.ShapeGeometry( shapes );
         var textShape = new THREE.BufferGeometry();
@@ -164,6 +163,9 @@ R3JS.element.text = class htmltext extends R3JS.element.base {
 
         var text = new THREE.Mesh( textShape, matLite );
         text.position.set(args.coords[0], args.coords[1], args.coords[2]);
+
+        // Size text
+        text.scale.set(args.size, args.size, args.size);
 
         this.object = text;
         text.element = this;

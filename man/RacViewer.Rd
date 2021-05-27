@@ -29,13 +29,20 @@ RacViewer(
 \item{height}{Height of the widget}
 
 \item{elementId}{DOM element ID}
-
-\item{rotation}{Viewer rotation}
-
-\item{translation}{Viewer translation}
-
-\item{zoom}{Viewer zoom}
 }
 \description{
 This creates an html widget for viewing antigenic maps.
 }
+\seealso{
+Other {functions to view maps}: 
+\code{\link{RacViewer.options}()},
+\code{\link{export_viewer}()},
+\code{\link{grid.plot.acmap}()},
+\code{\link{plot.acmap}()},
+\code{\link{setLegend}()},
+\code{\link{snapshotMap}()},
+\code{\link{view.acmap}()},
+\code{\link{view.default}()},
+\code{\link{view}()}
+}
+\concept{{functions to view maps}}

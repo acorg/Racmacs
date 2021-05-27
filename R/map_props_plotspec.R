@@ -14,7 +14,7 @@ plotspec_getter <- function(pttype, fn) {
           })
         }
       } else {
-        function(map, value) {
+        function(map) {
           check.acmap(map)
           sapply(map$sera, function(sr) {
             fn(sr$plotspec)
@@ -175,6 +175,8 @@ validate_colors <- function(cols) {
 #'
 #' @return Returns the map object with point drawing order information updated
 #'
+#' @family {map point style functions}
+#'
 #' @name ptDrawingOrder
 #'
 
@@ -183,7 +185,7 @@ validate_colors <- function(cols) {
 ptDrawingOrder <- function(map) {
   drawing_order <- map$pt_drawing_order
   if (is.null(drawing_order)) drawing_order <- seq_len(numPoints(map))
-  drawing_order
+  as.vector(drawing_order)
 }
 
 #' @rdname ptDrawingOrder

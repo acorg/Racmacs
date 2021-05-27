@@ -21,9 +21,9 @@ jobs:
       - name: Install XQuartz on macOS
         if: runner.os == 'macOS'
         env:
-          XQUARTZ_VERSION: 2.7.11
+          XQUARTZ_VERSION: 2.8.1
         run: |
-           curl -fLo /tmp/XQuartz.dmg "https://dl.bintray.com/xquartz/downloads/XQuartz-${XQUARTZ_VERSION}.dmg"
+           curl -fLo /tmp/XQuartz.dmg "https://github.com/XQuartz/XQuartz/releases/download/XQuartz-${XQUARTZ_VERSION}/XQuartz-${XQUARTZ_VERSION}.dmg"
            sudo hdiutil attach -noverify /tmp/XQuartz.dmg
            sudo installer -pkg "/Volumes/XQuartz-${XQUARTZ_VERSION}/XQuartz.pkg" -target /
            sudo hdiutil detach /Volumes/XQuartz-${XQUARTZ_VERSION}

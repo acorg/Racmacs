@@ -65,7 +65,7 @@ triangulationBlobs <- function(
       blobgrid <- ac_stress_blob_grid(
         testcoords = agBaseCoords(map, optimization_number)[agnum, ],
         coords     = srBaseCoords(map, optimization_number),
-        tabledists = tableDistances(map, optimization_number)[agnum, ],
+        tabledists = numerictableDistances(map, optimization_number)[agnum, ],
         titertypes = titertypesTable(map)[agnum, ],
         stress_lim = stress_lim,
         grid_spacing = grid_spacing
@@ -90,7 +90,7 @@ triangulationBlobs <- function(
       blobgrid <- ac_stress_blob_grid(
         testcoords = srBaseCoords(map, optimization_number)[srnum, ],
         coords     = agBaseCoords(map, optimization_number),
-        tabledists = tableDistances(map, optimization_number)[, srnum],
+        tabledists = numerictableDistances(map, optimization_number)[, srnum],
         titertypes = titertypesTable(map)[, srnum],
         stress_lim = stress_lim,
         grid_spacing = grid_spacing

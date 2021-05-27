@@ -128,15 +128,15 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// ac_table_distances
-arma::mat ac_table_distances(const AcTiterTable titer_table, const arma::vec colbases);
-RcppExport SEXP _Racmacs_ac_table_distances(SEXP titer_tableSEXP, SEXP colbasesSEXP) {
+// ac_numeric_table_distances
+arma::mat ac_numeric_table_distances(const AcTiterTable titer_table, const arma::vec colbases);
+RcppExport SEXP _Racmacs_ac_numeric_table_distances(SEXP titer_tableSEXP, SEXP colbasesSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< const AcTiterTable >::type titer_table(titer_tableSEXP);
     Rcpp::traits::input_parameter< const arma::vec >::type colbases(colbasesSEXP);
-    rcpp_result_gen = Rcpp::wrap(ac_table_distances(titer_table, colbases));
+    rcpp_result_gen = Rcpp::wrap(ac_numeric_table_distances(titer_table, colbases));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -1394,7 +1394,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_Racmacs_ac_align_optimizations", (DL_FUNC) &_Racmacs_ac_align_optimizations, 1},
     {"_Racmacs_ac_subset_map", (DL_FUNC) &_Racmacs_ac_subset_map, 3},
     {"_Racmacs_ac_table_colbases", (DL_FUNC) &_Racmacs_ac_table_colbases, 3},
-    {"_Racmacs_ac_table_distances", (DL_FUNC) &_Racmacs_ac_table_distances, 2},
+    {"_Racmacs_ac_numeric_table_distances", (DL_FUNC) &_Racmacs_ac_numeric_table_distances, 2},
     {"_Racmacs_ac_newOptimization", (DL_FUNC) &_Racmacs_ac_newOptimization, 3},
     {"_Racmacs_ac_relaxOptimization", (DL_FUNC) &_Racmacs_ac_relaxOptimization, 5},
     {"_Racmacs_ac_optimize_map", (DL_FUNC) &_Racmacs_ac_optimize_map, 6},

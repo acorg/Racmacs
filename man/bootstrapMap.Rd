@@ -6,6 +6,7 @@
 \usage{
 bootstrapMap(
   map,
+  method,
   bootstrap_repeats = 1000,
   bootstrap_ags = TRUE,
   bootstrap_sr = TRUE,
@@ -18,6 +19,8 @@ bootstrapMap(
 }
 \arguments{
 \item{map}{The map object}
+
+\item{method}{One of "resample", "bayesian" or "noisy" (see details)}
 
 \item{bootstrap_repeats}{The number of bootstrap repeats to perform}
 
@@ -38,8 +41,6 @@ applied per antigen when using the "noisy" method}
 applied per titer when using the "noisy" method}
 
 \item{options}{Map optimizer options, see \code{RacOptimizer.options()}}
-
-\item{method}{One of "resample", "bayesian" or "noisy" (see details)}
 }
 \value{
 Returns the map object updated with bootstrap information

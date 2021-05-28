@@ -68,6 +68,30 @@ test_that("Bare bones creation", {
 
 })
 
+# Incorrect titers
+test_that("Invalid titers", {
+
+  expect_equal(
+    numAntigens(acmap(
+      titer_table = matrix(c("*", "<20", "10", ">80"), 2, 2)
+    )),
+    2
+  )
+
+  check_titer_error <- function(titers) {
+    expect_error(
+      acmap(titer_table = matrix(titers, 2, 2))
+    )
+  }
+
+  check_titer_error(c("na", "<20", "10", ">80"))
+  check_titer_error(c("1'230", "<20", "10", ">80"))
+  check_titer_error(c("<>23", "<20", "10", ">80"))
+  check_titer_error(c("<=10", "<20", "10", ">80"))
+  check_titer_error(c("<10", "<20", "10", ">=80"))
+
+})
+
 # Incorrect arguments
 test_that("Disallowed arguments", {
 

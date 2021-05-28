@@ -39,6 +39,10 @@ grid.plot.acmap(
 
 \item{plot_blobs}{logical, should stress blobs be plotted if present}
 
+\item{plot_hemisphering}{logical, should arrows be plotted to indicate hemisphering
+or trapped points (only for maps where \code{checkHemisphering()} has already
+been run)}
+
 \item{grid.col}{grid line color}
 
 \item{grid.margin.col}{grid margin color}

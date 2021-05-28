@@ -41,6 +41,8 @@ afterwards?}
 \code{RacOptimizer.options()}}
 
 \item{options}{List of named optimizer options, see \code{RacOptimizer.options()}}
+
+\item{...}{Further arguments to pass to \code{acmap()}}
 }
 \value{
 Returns an acmap object that has optimization run results.

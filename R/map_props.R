@@ -90,7 +90,8 @@ titerTableFlat <- function(map) {
 `titerTableFlat<-` <- function(map, value) {
   check.acmap(map)
   if (is.data.frame(value)) value <- as.matrix(value)
-  mode(value)        <- "character"
+  check.validtiters(value)
+  mode(value)          <- "character"
   map$titer_table_flat <- value
   map
 }
@@ -134,6 +135,7 @@ titerTableLayers <- function(map) {
   value <- lapply(value, function(titers) {
     if (is.data.frame(titers)) titers <- as.matrix(titers)
     mode(titers) <- "character"
+    check.validtiters(titers)
     titers
   })
   map$titer_table_layers <- value

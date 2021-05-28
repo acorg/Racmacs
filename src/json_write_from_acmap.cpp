@@ -19,9 +19,9 @@ std::string acmap_to_json(
   Document::AllocatorType& allocator = doc.GetAllocator();
 
   // Add basic info
-  doc.AddMember("_", "-*- js-indent-level: 2 -*-", allocator);       // json info..?
-  doc.AddMember("  version", jsonifya(version, allocator), allocator); // Version info
-  doc.AddMember("?created", "", allocator);                          // Comment field
+  doc.AddMember("_", "-*- js-indent-level: 2 -*-", allocator);  // json info..?
+  doc.AddMember("  version", "acmacs-ace-v1", allocator);       // Version info
+  doc.AddMember("?created", "", allocator);                     // Comment field
 
   // Map information
   Value c(kObjectType);
@@ -193,6 +193,7 @@ std::string acmap_to_json(
 
   // == EXTRAS ==================================
   Value x(kObjectType);
+  x.AddMember("racmacs-v", jsonifya(version, allocator), allocator); // Version info
 
   // = AGs =
   Value xa(kArrayType);

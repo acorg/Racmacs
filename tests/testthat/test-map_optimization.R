@@ -221,7 +221,7 @@ test_that("Calculating table distances", {
   )
   expect_equal(colbases, c(8, 9, 9, 9, 8))
 
-  table_dists <- ac_table_distances(
+  table_dists <- ac_numeric_table_distances(
     titer_table = titerTable(map),
     colbases = colbases
   )

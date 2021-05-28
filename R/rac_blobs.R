@@ -7,6 +7,7 @@
 #' changes, see details.
 #'
 #' @param map The acmap data object
+#' @param optimization_number The optimization number to check
 #' @param stress_lim The blob stress limit
 #' @param grid_spacing Grid spacing to use when searching map space and
 #'   inferring the blob
@@ -64,7 +65,7 @@ triangulationBlobs <- function(
       blobgrid <- ac_stress_blob_grid(
         testcoords = agBaseCoords(map, optimization_number)[agnum, ],
         coords     = srBaseCoords(map, optimization_number),
-        tabledists = tableDistances(map, optimization_number)[agnum, ],
+        tabledists = numerictableDistances(map, optimization_number)[agnum, ],
         titertypes = titertypesTable(map)[agnum, ],
         stress_lim = stress_lim,
         grid_spacing = grid_spacing
@@ -89,7 +90,7 @@ triangulationBlobs <- function(
       blobgrid <- ac_stress_blob_grid(
         testcoords = srBaseCoords(map, optimization_number)[srnum, ],
         coords     = agBaseCoords(map, optimization_number),
-        tabledists = tableDistances(map, optimization_number)[, srnum],
+        tabledists = numerictableDistances(map, optimization_number)[, srnum],
         titertypes = titertypesTable(map)[, srnum],
         stress_lim = stress_lim,
         grid_spacing = grid_spacing
@@ -290,10 +291,25 @@ deprecated_fn <- function(fn) {
   }
 }
 
+
+#' Deprecated functions
+#'
+#' These functions still work but have been deprecated in favour of another function. Arguments will be passed onto the new function with a warning.
+#'
+#' @param ... Arguments to pass to the new function
+#'
+#' @name deprecated_fn
+#'
+
+#' @rdname deprecated_functions
 #' @export
 stressBlobs <- deprecated_fn(triangulationBlobs)
+
+#' @rdname deprecated_functions
 #' @export
 agStressBlobSize <- deprecated_fn(agTriangulationBlobSize)
+
+#' @rdname deprecated_functions
 #' @export
 srStressBlobSize <- deprecated_fn(srTriangulationBlobSize)
 

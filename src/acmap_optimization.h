@@ -411,7 +411,7 @@ class AcOptimization {
 
       arma::vec colbases = calc_colbases( titertable );
       stress = ac_coords_stress(
-        titertable.table_distances( colbases ),
+        titertable.numeric_table_distances( colbases ),
         titertable.get_titer_types(),
         ag_base_coords,
         sr_base_coords
@@ -451,7 +451,7 @@ class AcOptimization {
     ){
 
       relax_from_raw_matrices(
-        titers.table_distances(
+        titers.numeric_table_distances(
           calc_colbases(titers)
         ),
         titers.get_titer_types(),

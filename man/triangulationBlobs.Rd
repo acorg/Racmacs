@@ -18,6 +18,8 @@ triangulationBlobs(
 \arguments{
 \item{map}{The acmap data object}
 
+\item{optimization_number}{The optimization number to check}
+
 \item{stress_lim}{The blob stress limit}
 
 \item{grid_spacing}{Grid spacing to use when searching map space and

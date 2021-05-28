@@ -41,8 +41,8 @@ ac_table_colbases <- function(titer_table, min_col_basis, fixed_col_bases) {
     .Call('_Racmacs_ac_table_colbases', PACKAGE = 'Racmacs', titer_table, min_col_basis, fixed_col_bases)
 }
 
-ac_table_distances <- function(titer_table, colbases) {
-    .Call('_Racmacs_ac_table_distances', PACKAGE = 'Racmacs', titer_table, colbases)
+ac_numeric_table_distances <- function(titer_table, colbases) {
+    .Call('_Racmacs_ac_numeric_table_distances', PACKAGE = 'Racmacs', titer_table, colbases)
 }
 
 ac_newOptimization <- function(dimensions, num_antigens, num_sera) {

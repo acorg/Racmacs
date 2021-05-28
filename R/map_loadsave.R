@@ -106,6 +106,7 @@ as.json <- function(map) {
 #'
 #' @param map The acmap data object.
 #' @param filename Path to the file.
+#' @param optimization_number Optimization number from which to take coordinates
 #' @param antigens Antigens to include, either as a numeric vector of indices or
 #'   character vector of names.
 #' @param sera Sera to include, either as a numeric vector of indices or

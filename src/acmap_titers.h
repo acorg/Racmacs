@@ -368,7 +368,7 @@ class AcTiterTable {
     }
 
     // Calculate table distances
-    arma::mat table_distances(
+    arma::mat numeric_table_distances(
       arma::vec colbases
     ) const {
 

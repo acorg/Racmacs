@@ -136,6 +136,7 @@ optimizeMap <- function(
 #' @param verbose Should progress messages be reported, see also
 #'   `RacOptimizer.options()`
 #' @param options List of named optimizer options, see `RacOptimizer.options()`
+#' @param ... Further arguments to pass to `acmap()`
 #'
 #' @return Returns an acmap object that has optimization run results.
 #'
@@ -361,7 +362,7 @@ randomizeCoords <- function(
   table_dist_factor = 2
   ) {
 
-  table_dists <- tableDistances(map, optimization_number = optimization_number)
+  table_dists <- numerictableDistances(map, optimization_number = optimization_number)
   max_table_dist <- max(table_dists, na.rm = TRUE)
 
   random_coords <- function(nrow, ndim, min, max) {
@@ -430,8 +431,11 @@ mapRelaxed <- function(
 #'
 #' @param map The acmap data object
 #' @param optimization_number The map optimization number
-#' @param stepsize Grid spacing in antigenic units of the search grid to use
-#'   when searching for hemisphering positions
+#' @param grid_spacing When doing a grid search of more optimal point positions
+#'   the grid spacing to use
+#' @param stress_lim The stess difference to use when classifying a point as
+#'   "hemisphering" or not
+#' @param options A named list of options to pass to `RacOptimizer.options()`
 #'
 #' @return Returns a data frame with information on any points that were found
 #'   to be hemisphering or trapped.
@@ -454,7 +458,7 @@ checkHemisphering <- function(
   # Perform the hemi test
   map$optimizations[[optimization_number]] <- ac_hemi_test(
     optimization = map$optimizations[[optimization_number]],
-    tabledists = tableDistances(map, optimization_number),
+    tabledists = numerictableDistances(map, optimization_number),
     titertypes = titertypesTable(map),
     grid_spacing = grid_spacing,
     stress_lim = stress_lim,
@@ -503,7 +507,7 @@ moveTrappedPoints <- function(
   # Move trapped points in the optimization
   map$optimizations[[optimization_number]] <- ac_move_trapped_points(
     optimization = map$optimizations[[optimization_number]],
-    tabledists = tableDistances(map, optimization_number),
+    tabledists = numerictableDistances(map, optimization_number),
     titertypes = titertypesTable(map),
     grid_spacing = grid_spacing,
     options = do.call(RacOptimizer.options, options),

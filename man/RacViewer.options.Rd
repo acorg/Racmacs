@@ -8,7 +8,11 @@ RacViewer.options(
   point.opacity = NA,
   viewer.controls = "hidden",
   grid.display = "static",
-  grid.col = "#e0e0e0"
+  grid.col = "#e0e0e0",
+  show.names = FALSE,
+  show.errorlines = FALSE,
+  show.connectionlines = FALSE,
+  show.titers = FALSE
 )
 }
 \arguments{
@@ -18,6 +22,16 @@ RacViewer.options(
 
 \item{grid.display}{For 3d maps, should the grid be fixed in the background
 or enclose and rotate along with the map}
+
+\item{grid.col}{Color to use for the grid shown behind the map}
+
+\item{show.names}{Toggle name labels on}
+
+\item{show.errorlines}{Toggle error lines on}
+
+\item{show.connectionlines}{Toggle connection lines on}
+
+\item{show.titers}{Toggle titer labels on}
 }
 \value{
 Returns a named list of viewer options

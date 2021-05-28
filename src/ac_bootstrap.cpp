@@ -129,7 +129,7 @@ BootstrapOutput ac_bootstrap_map(
   } else { // If simply relaxing the map
 
     ac_relax_coords(
-      titer_table.table_distances(colbases),
+      titer_table.numeric_table_distances(colbases),
       titer_table.get_titer_types(),
       ag_coords,
       sr_coords,

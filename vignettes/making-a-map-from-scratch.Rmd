@@ -110,8 +110,8 @@ view(map3d)
 
 ```{r adding_names}
 # Add sera and antigen names
-srNames(map) <- c(colnames(titer_table))
-agNames(map) <- c(rownames(titer_table))
+srNames(map) <- colnames(titer_table)
+agNames(map) <- rownames(titer_table)
 ```
 When viewing the map using `view()`, the names will appear upon hovering over antigen or sera points, or when hitting `n` on the keyboard.
 
@@ -173,7 +173,6 @@ You can also add the point styles from a previously made map to your current map
 ```{r add_plotspec}
 # Read previously made map:
 oldMap <- read.acmap("extdata/h3map2004_bootstrap.ace")
-
 map <- applyPlotspec(map, oldMap)
 
 view(map)

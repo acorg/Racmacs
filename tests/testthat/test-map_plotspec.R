@@ -6,6 +6,15 @@ context("Test reading and editing of plotspec data")
 # Load the map and the chart
 map <- read.acmap(filename = test_path("../testdata/testmap.ace"))
 
+## Test changing plotting order
+test_that("Test point drawing order", {
+  ptDrawingOrder(map) <- rev(ptDrawingOrder(map))
+  expect_equal(
+    rev(seq_len(numPoints(map))),
+    ptDrawingOrder(map)
+  )
+})
+
 ## Test defaults
 test_that("Test acmap defaults", {
 

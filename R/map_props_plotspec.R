@@ -191,8 +191,10 @@ ptDrawingOrder <- function(map) {
 #' @rdname ptDrawingOrder
 #' @export
 `ptDrawingOrder<-` <- function(map, value) {
-  if (!is.numeric(value)) stop("drawing order must be numeric", call. = FALSE)
-  if (sort(value) != seq_along(value)) stop("drawing incorrectly specified", call. = FALSE)
+  check.numericvector(value)
+  if (!isTRUE(all.equal(sort(value), seq_len(numPoints(map))))) {
+    stop("drawing incorrectly specified", call. = FALSE)
+  }
   map$pt_drawing_order <- value
   map
 }

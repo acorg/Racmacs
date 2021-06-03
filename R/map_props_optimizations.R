@@ -161,8 +161,8 @@ mapStress <- function(
   ) {
 
   ac_coords_stress(
-    tabledist_matrix = numerictableDistances(map, optimization_number),
-    titertype_matrix = titertypesTable(map),
+    titers = titerTable(map),
+    colbases = colBases(map, optimization_number),
     ag_coords = agBaseCoords(map, optimization_number),
     sr_coords = srBaseCoords(map, optimization_number)
   )

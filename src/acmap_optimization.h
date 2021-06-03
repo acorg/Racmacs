@@ -409,10 +409,9 @@ class AcOptimization {
       AcTiterTable titertable
     ){
 
-      arma::vec colbases = calc_colbases( titertable );
       stress = ac_coords_stress(
-        titertable.numeric_table_distances( colbases ),
-        titertable.get_titer_types(),
+        titertable,
+        calc_colbases( titertable ),
         ag_base_coords,
         sr_base_coords
       );

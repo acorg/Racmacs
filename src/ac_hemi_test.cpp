@@ -155,12 +155,15 @@ std::vector<HemiData> ac_hemi_test_points(
 // [[Rcpp::export]]
 AcOptimization ac_hemi_test(
     AcOptimization optimization,
-    arma::mat tabledists,
-    arma::umat titertypes,
+    AcTiterTable titertable,
+    arma::vec colbases,
     double grid_spacing,
     double stress_lim,
     AcOptimizerOptions options
 ){
+
+  arma::mat tabledists = titertable.numeric_table_distances(colbases);
+  arma::umat titertypes =titertable.get_titer_types();
 
   // Setup output
   arma::uword num_antigens = optimization.num_ags();

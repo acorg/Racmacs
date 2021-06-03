@@ -362,7 +362,7 @@ randomizeCoords <- function(
   table_dist_factor = 2
   ) {
 
-  table_dists <- numerictableDistances(map, optimization_number = optimization_number)
+  table_dists <- numeric_min_tabledists(tableDistances(map, optimization_number = optimization_number))
   max_table_dist <- max(table_dists, na.rm = TRUE)
 
   random_coords <- function(nrow, ndim, min, max) {
@@ -458,8 +458,8 @@ checkHemisphering <- function(
   # Perform the hemi test
   map$optimizations[[optimization_number]] <- ac_hemi_test(
     optimization = map$optimizations[[optimization_number]],
-    tabledists = numerictableDistances(map, optimization_number),
-    titertypes = titertypesTable(map),
+    titertable = titerTable(map),
+    colbases = colBases(map, optimization_number),
     grid_spacing = grid_spacing,
     stress_lim = stress_lim,
     options = do.call(RacOptimizer.options, options)
@@ -507,8 +507,8 @@ moveTrappedPoints <- function(
   # Move trapped points in the optimization
   map$optimizations[[optimization_number]] <- ac_move_trapped_points(
     optimization = map$optimizations[[optimization_number]],
-    tabledists = numerictableDistances(map, optimization_number),
-    titertypes = titertypesTable(map),
+    titertable = titerTable(map),
+    colbases = colBases(map, optimization_number),
     grid_spacing = grid_spacing,
     options = do.call(RacOptimizer.options, options),
     max_iterations = max_iterations

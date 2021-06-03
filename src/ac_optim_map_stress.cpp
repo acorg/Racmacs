@@ -267,8 +267,8 @@ class MapOptimizer {
 
 // [[Rcpp::export]]
 double ac_coords_stress(
-    const arma::mat &tabledist_matrix,
-    const arma::umat &titertype_matrix,
+    const AcTiterTable &titers,
+    const arma::vec &colbases,
     arma::mat &ag_coords,
     arma::mat &sr_coords
 ){
@@ -280,8 +280,8 @@ double ac_coords_stress(
   MapOptimizer map(
       ag_coords,
       sr_coords,
-      tabledist_matrix,
-      titertype_matrix,
+      titers.numeric_table_distances(colbases),
+      titers.get_titer_types(),
       num_dims
   );
 

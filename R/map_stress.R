@@ -36,18 +36,14 @@ tableDistances <- function(
 }
 
 # Backend function to get numeric form of table distances
-numerictableDistances <- function(
-  map,
-  optimization_number = 1
-  ) {
+numeric_min_tabledists <- function(tabledists) {
 
-  if (numOptimizations(map) == 0) {
-    stop("This map has no optimizations for which to calculate table distances")
-  }
-  ac_numeric_table_distances(
-    titer_table = titerTable(map),
-    colbases = colBases(map, optimization_number)
-  )
+  thresholded <- substr(tabledists, 1, 1) == ">"
+  tabledists[thresholded] <- substr(tabledists[thresholded], 2, nchar(tabledists[thresholded]))
+  tabledists[tabledists == "*"] <- NA
+  mode(tabledists) <- "numeric"
+  tabledists[thresholded] <- tabledists[thresholded] + 1
+  tabledists
 
 }
 
@@ -166,17 +162,17 @@ stressTable <- function(
     stop("This map has no optimizations for which to calculate a stress table")
   }
 
-  table_dist  <- numerictableDistances(map, optimization_number)
-  titer_types <- titertypesTable(map)
-  ag_coords   <- agBaseCoords(map, optimization_number)
-  sr_coords   <- srBaseCoords(map, optimization_number)
+  titer_table    <- titerTable(map)
+  colbase_matrix <- matrix(colBases(map, optimization_number), numAntigens(map), numSera(map), byrow = T)
+  ag_coords      <- agBaseCoords(map, optimization_number)
+  sr_coords      <- srBaseCoords(map, optimization_number)
 
   stress_table <- matrix(NaN, numAntigens(map), numSera(map))
   for (ag in seq_len(numAntigens(map))) {
     for (sr in seq_len(numSera(map))) {
       stress_table[ag, sr] <- ac_coords_stress(
-        tabledist_matrix = table_dist[ag, sr, drop = F],
-        titertype_matrix = titer_types[ag, sr, drop = F],
+        titers = titer_table[ag, sr, drop = F],
+        colbases = colbase_matrix[ag, sr, drop = F],
         ag_coords = ag_coords[ag, , drop = F],
         sr_coords = sr_coords[sr, , drop = F]
       )
@@ -217,7 +213,7 @@ mapResiduals <- function(
   }
 
   map_dist    <- mapDistances(map, optimization_number)
-  table_dist  <- numerictableDistances(map, optimization_number)
+  table_dist  <- numeric_min_tabledists(tableDistances(map, optimization_number))
   titer_types <- titertypesTable(map)
 
   residuals <- table_dist - map_dist
@@ -258,8 +254,8 @@ recalculateStress <- function(
   check.optnum(map, optimization_number)
 
   ac_coords_stress(
-    tabledist_matrix = numerictableDistances(map, optimization_number),
-    titertype_matrix = titertypesTable(map),
+    titers = titerTable(map),
+    colbases = colBases(map, optimization_number),
     ag_coords = agBaseCoords(map, optimization_number),
     sr_coords = srBaseCoords(map, optimization_number)
   )

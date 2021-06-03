@@ -1015,18 +1015,18 @@ BEGIN_RCPP
 END_RCPP
 }
 // ac_hemi_test
-AcOptimization ac_hemi_test(AcOptimization optimization, arma::mat tabledists, arma::umat titertypes, double grid_spacing, double stress_lim, AcOptimizerOptions options);
-RcppExport SEXP _Racmacs_ac_hemi_test(SEXP optimizationSEXP, SEXP tabledistsSEXP, SEXP titertypesSEXP, SEXP grid_spacingSEXP, SEXP stress_limSEXP, SEXP optionsSEXP) {
+AcOptimization ac_hemi_test(AcOptimization optimization, AcTiterTable titertable, arma::vec colbases, double grid_spacing, double stress_lim, AcOptimizerOptions options);
+RcppExport SEXP _Racmacs_ac_hemi_test(SEXP optimizationSEXP, SEXP titertableSEXP, SEXP colbasesSEXP, SEXP grid_spacingSEXP, SEXP stress_limSEXP, SEXP optionsSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< AcOptimization >::type optimization(optimizationSEXP);
-    Rcpp::traits::input_parameter< arma::mat >::type tabledists(tabledistsSEXP);
-    Rcpp::traits::input_parameter< arma::umat >::type titertypes(titertypesSEXP);
+    Rcpp::traits::input_parameter< AcTiterTable >::type titertable(titertableSEXP);
+    Rcpp::traits::input_parameter< arma::vec >::type colbases(colbasesSEXP);
     Rcpp::traits::input_parameter< double >::type grid_spacing(grid_spacingSEXP);
     Rcpp::traits::input_parameter< double >::type stress_lim(stress_limSEXP);
     Rcpp::traits::input_parameter< AcOptimizerOptions >::type options(optionsSEXP);
-    rcpp_result_gen = Rcpp::wrap(ac_hemi_test(optimization, tabledists, titertypes, grid_spacing, stress_lim, options));
+    rcpp_result_gen = Rcpp::wrap(ac_hemi_test(optimization, titertable, colbases, grid_spacing, stress_lim, options));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -1153,32 +1153,32 @@ BEGIN_RCPP
 END_RCPP
 }
 // ac_move_trapped_points
-AcOptimization ac_move_trapped_points(AcOptimization optimization, arma::mat tabledists, arma::umat titertypes, double grid_spacing, AcOptimizerOptions options, int max_iterations);
-RcppExport SEXP _Racmacs_ac_move_trapped_points(SEXP optimizationSEXP, SEXP tabledistsSEXP, SEXP titertypesSEXP, SEXP grid_spacingSEXP, SEXP optionsSEXP, SEXP max_iterationsSEXP) {
+AcOptimization ac_move_trapped_points(AcOptimization optimization, AcTiterTable titertable, arma::vec colbases, double grid_spacing, AcOptimizerOptions options, int max_iterations);
+RcppExport SEXP _Racmacs_ac_move_trapped_points(SEXP optimizationSEXP, SEXP titertableSEXP, SEXP colbasesSEXP, SEXP grid_spacingSEXP, SEXP optionsSEXP, SEXP max_iterationsSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< AcOptimization >::type optimization(optimizationSEXP);
-    Rcpp::traits::input_parameter< arma::mat >::type tabledists(tabledistsSEXP);
-    Rcpp::traits::input_parameter< arma::umat >::type titertypes(titertypesSEXP);
+    Rcpp::traits::input_parameter< AcTiterTable >::type titertable(titertableSEXP);
+    Rcpp::traits::input_parameter< arma::vec >::type colbases(colbasesSEXP);
     Rcpp::traits::input_parameter< double >::type grid_spacing(grid_spacingSEXP);
     Rcpp::traits::input_parameter< AcOptimizerOptions >::type options(optionsSEXP);
     Rcpp::traits::input_parameter< int >::type max_iterations(max_iterationsSEXP);
-    rcpp_result_gen = Rcpp::wrap(ac_move_trapped_points(optimization, tabledists, titertypes, grid_spacing, options, max_iterations));
+    rcpp_result_gen = Rcpp::wrap(ac_move_trapped_points(optimization, titertable, colbases, grid_spacing, options, max_iterations));
     return rcpp_result_gen;
 END_RCPP
 }
 // ac_coords_stress
-double ac_coords_stress(const arma::mat& tabledist_matrix, const arma::umat& titertype_matrix, arma::mat& ag_coords, arma::mat& sr_coords);
-RcppExport SEXP _Racmacs_ac_coords_stress(SEXP tabledist_matrixSEXP, SEXP titertype_matrixSEXP, SEXP ag_coordsSEXP, SEXP sr_coordsSEXP) {
+double ac_coords_stress(const AcTiterTable& titers, const arma::vec& colbases, arma::mat& ag_coords, arma::mat& sr_coords);
+RcppExport SEXP _Racmacs_ac_coords_stress(SEXP titersSEXP, SEXP colbasesSEXP, SEXP ag_coordsSEXP, SEXP sr_coordsSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< const arma::mat& >::type tabledist_matrix(tabledist_matrixSEXP);
-    Rcpp::traits::input_parameter< const arma::umat& >::type titertype_matrix(titertype_matrixSEXP);
+    Rcpp::traits::input_parameter< const AcTiterTable& >::type titers(titersSEXP);
+    Rcpp::traits::input_parameter< const arma::vec& >::type colbases(colbasesSEXP);
     Rcpp::traits::input_parameter< arma::mat& >::type ag_coords(ag_coordsSEXP);
     Rcpp::traits::input_parameter< arma::mat& >::type sr_coords(sr_coordsSEXP);
-    rcpp_result_gen = Rcpp::wrap(ac_coords_stress(tabledist_matrix, titertype_matrix, ag_coords, sr_coords));
+    rcpp_result_gen = Rcpp::wrap(ac_coords_stress(titers, colbases, ag_coords, sr_coords));
     return rcpp_result_gen;
 END_RCPP
 }

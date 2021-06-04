@@ -123,7 +123,7 @@ bootstrapMap <- function(
     # Align to the main map coordinates
     bs_result$coords <- ac_align_coords(
       bs_result$coords,
-      ptCoords(map)
+      ptBaseCoords(map)
     )
 
     # Update progress

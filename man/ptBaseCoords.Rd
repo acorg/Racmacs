@@ -8,6 +8,7 @@
 \alias{srBaseCoords<-}
 \title{Getting and setting base coordinates}
 \usage{
+ptBaseCoords(map, optimization_number = 1)
 agBaseCoords(map, optimization_number = 1)
 agBaseCoords(map, optimization_number = 1) <- value
 srBaseCoords(map, optimization_number = 1)

@@ -45,6 +45,7 @@ optimization_setter <- function(fn, checker_fn = NULL) {
 #' @family {map optimization attribute functions}
 #' @eval roxygen_tags(
 #'   methods = c(
+#'   "ptBaseCoords",
 #'   "agBaseCoords", "agBaseCoords<-",
 #'   "srBaseCoords", "srBaseCoords<-"
 #'   ),
@@ -61,6 +62,13 @@ srBaseCoords <- optimization_getter(ac_opt_get_sr_base_coords)
   ac_opt_set_sr_base_coords,
   check.numericmatrix
 )
+
+ptBaseCoords <- function(map, optimization_number = 1) {
+  rbind(
+    agBaseCoords(map, optimization_number),
+    srBaseCoords(map, optimization_number)
+  )
+}
 
 
 #' Reading map transformation data

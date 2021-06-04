@@ -22,6 +22,7 @@ class AcPoint {
     int group = 0;
     std::string sequence;
     std::string passage;
+    std::vector<std::string> clade;
 
   public:
 
@@ -39,6 +40,7 @@ class AcPoint {
     std::string get_id() const { return id; }
     int get_group() const { return group; }
     std::string get_sequence() const { return sequence; }
+    std::vector<std::string> get_clade() const { return clade; }
 
     void set_type( std::string value ){ type = value; }
     void set_name( std::string value ){ name = value; }
@@ -50,6 +52,7 @@ class AcPoint {
     void set_id( std::string value ){ id = value; }
     void set_group( int value ){ group = value; }
     void set_sequence( std::string value ){ sequence = value; }
+    void set_clade( std::vector<std::string> value ){ clade = value; }
 
     // Get IDs for matching
     std::string get_match_id() const {

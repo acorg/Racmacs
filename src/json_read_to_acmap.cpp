@@ -88,6 +88,7 @@ AcMap json_to_acmap(
     const Value& ag = a[i];
     if(ag.HasMember("N")) map.antigens[i].set_name( ag["N"].GetString() );
     if(ag.HasMember("P")) map.antigens[i].set_passage( ag["P"].GetString() );
+    if(ag.HasMember("c")) map.antigens[i].set_clade( parse<std::vector<std::string>>(ag["c"]) );
     // set_group_values
     // set_date
     // set_reference
@@ -107,6 +108,7 @@ AcMap json_to_acmap(
     const Value& sr = s[i];
     if(sr.HasMember("N")) map.sera[i].set_name( sr["N"].GetString() );
     if(sr.HasMember("P")) map.sera[i].set_passage( sr["P"].GetString() );
+    if(sr.HasMember("c")) map.sera[i].set_clade( parse<std::vector<std::string>>(sr["c"]) );
     // set_group_values
     // set_date
     // set_reference

@@ -22,6 +22,7 @@ Other {antigen and sera attribute functions}:
 \code{\link{agAttributes}},
 \code{\link{agGroups}()},
 \code{\link{agSequences}()},
+\code{\link{ptClades}},
 \code{\link{srAttributes}},
 \code{\link{srSequences}()}
 }

@@ -44,6 +44,7 @@ std::string acmap_to_json(
 
     agval.AddMember("N", jsonifya(ag.get_name(), allocator), allocator);
     agval.AddMember("P", jsonifya(ag.get_passage(), allocator), allocator);
+    agval.AddMember("c", jsonifya(ag.get_clade(), allocator), allocator);
     // set_group_values
     // set_date
     // set_reference
@@ -66,6 +67,7 @@ std::string acmap_to_json(
 
     srval.AddMember("N", jsonifya(sr.get_name(), allocator), allocator);
     srval.AddMember("P", jsonifya(sr.get_passage(), allocator), allocator);
+    srval.AddMember("c", jsonifya(sr.get_clade(), allocator), allocator);
     // set_group_values
     // set_date
     // set_reference

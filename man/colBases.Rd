@@ -54,7 +54,7 @@ Other {map optimization attribute functions}:
 \code{\link{mapDimensions}()},
 \code{\link{mapStress}()},
 \code{\link{mapTransformation}()},
-\code{\link{ptBaseCoords}},
+\code{\link{ptBaseCoords}()},
 \code{\link{ptCoords}()}
 }
 \concept{{map optimization attribute functions}}

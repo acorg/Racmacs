@@ -6,6 +6,9 @@ Racmacs.Viewer.prototype.load = function(
     plotdata
     ){
 
+    // Set default options    
+    if (options["grid.col"] === undefined) options["grid.col"] = "#cfcfcf";
+
     if(options.maintain_viewpoint){ 
         var selected_points = this.getSelectedPointIndices(); 
         var selected_projection = this.data.projection();

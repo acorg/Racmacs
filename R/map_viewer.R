@@ -23,7 +23,7 @@ RacViewer.options <- function(
   point.opacity = NA,
   viewer.controls = "hidden",
   grid.display = "static",
-  grid.col = "#e0e0e0",
+  grid.col = "#cfcfcf",
   show.names = FALSE,
   show.errorlines = FALSE,
   show.connectionlines = FALSE,

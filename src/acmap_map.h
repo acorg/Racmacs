@@ -267,17 +267,6 @@ class AcMap {
 
     }
 
-    // Get optimization
-    AcOptimization * get_optimization_pointer(
-      const arma::uword &optimization_number
-    ){
-      if(optimization_number >= optimizations.size()){
-        std::string msg = "Requested optimization "+std::to_string(optimization_number + 1)+" but map only has "+std::to_string(optimizations.size())+" optimization(s)";
-        Rf_error(msg.c_str());
-      }
-      return &optimizations[optimization_number];
-    }
-
     // Shuffling optimizations
     void keepSingleOptimization(
       int i
@@ -303,14 +292,14 @@ class AcMap {
       // Get the target map coords
       arma::mat target_ag_coords;
       arma::mat target_sr_coords;
-      AcOptimization *targetopt = targetmap.get_optimization_pointer(targetmap_optnum);
+      AcOptimization targetopt = targetmap.optimizations[targetmap_optnum];
 
       if(align_to_base_coords){
-        target_ag_coords = subset_rows(targetopt->get_ag_base_coords(), matched_ags);
-        target_sr_coords = subset_rows(targetopt->get_sr_base_coords(), matched_sr);
+        target_ag_coords = subset_rows(targetopt.get_ag_base_coords(), matched_ags);
+        target_sr_coords = subset_rows(targetopt.get_sr_base_coords(), matched_sr);
       } else {
-        target_ag_coords = subset_rows(targetopt->agCoords(), matched_ags);
-        target_sr_coords = subset_rows(targetopt->srCoords(), matched_sr);
+        target_ag_coords = subset_rows(targetopt.agCoords(), matched_ags);
+        target_sr_coords = subset_rows(targetopt.srCoords(), matched_sr);
       }
       arma::mat target_coords = arma::join_cols(target_ag_coords, target_sr_coords);
 

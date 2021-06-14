@@ -420,3 +420,28 @@ test_that("Randomize map coordinates", {
   expect_true(is.na(optStress(rmap)))
 
 })
+
+
+# Making a 1D map
+test_that("Make a 1D map", {
+
+  # generate random test data
+  coord <- matrix(rep(runif(10, 0, 10), times = 2), ncol = 2, byrow = T)
+  dist <- as.matrix(dist(coord)) + rnorm(100)
+  max_mat <- matrix(apply(round(dist),2,max), ncol = 10, nrow = 10, byrow = T)
+  tab1 <- 10 * 2^round(max_mat - dist)
+
+  # make map
+  map1 <- make.acmap(
+    titer_table = tab1,
+    number_of_dimensions = 1,
+    number_of_optimizations = 10,
+    minimum_column_basis = "2560"
+  )
+
+  expect_equal(
+    ncol(agCoords(map1)),
+    1
+  )
+
+})

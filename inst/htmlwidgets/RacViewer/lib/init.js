@@ -207,6 +207,11 @@ Racmacs.Viewer = class RacViewer extends Racmacs.App {
 
     }
 
-}
+};
+
+// Reset the scroll focus function
+Racmacs.Viewer.prototype.scrollFocus = function() {  
+    return this.viewport.holder.matches(':focus');
+};
 
 

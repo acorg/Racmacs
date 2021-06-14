@@ -1,4 +1,9 @@
 
+R3JS.Viewer.prototype.scrollFocus = function(){
+    // return this.viewport.holder.matches(':focus');
+    return true;
+}
+
 R3JS.Viewer.prototype.bindNavigation = function(){
 
     // Add viewport variables
@@ -18,7 +23,7 @@ R3JS.Viewer.prototype.bindNavigation = function(){
         var viewport = this.viewport;
 
         if(viewer.navigable){
-            if(viewport.mouse.down && !viewport.dragObject){
+            if(viewport.mouse.down && !viewport.dragObject && viewer.scrollFocus()){
                 if(!viewport.mouse.event.metaKey && !viewport.mouse.event.shiftKey && viewport.touch.num <= 1){
                     viewer.mouseMove();
                 } else if(viewport.mouse.event.metaKey){
@@ -37,7 +42,7 @@ R3JS.Viewer.prototype.bindNavigation = function(){
         var viewer   = this.viewport.viewer;
         var viewport = this.viewport;
 
-        if(viewer.navigable){
+        if(viewer.navigable && viewer.scrollFocus()){
             if(viewport.mouse.scrollShift){
                 viewer.mouseScrollShift();
             } else {

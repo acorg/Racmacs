@@ -182,10 +182,12 @@ R3JS.Viewport.prototype.onmouseout = function(event) {
 
 // Mouse scroll
 R3JS.Viewport.prototype.onmousescroll = function(event) {
-    event.preventDefault();
-    this.mouse.scrollX     = event.deltaX;
-    this.mouse.scrollY     = event.deltaY;
-    this.mouse.scrollShift = event.shiftKey;
+    if (this.viewer.scrollFocus()) {
+        event.preventDefault();
+        this.mouse.scrollX     = event.deltaX;
+        this.mouse.scrollY     = event.deltaY;
+        this.mouse.scrollShift = event.shiftKey;
+    }
 }
 
 

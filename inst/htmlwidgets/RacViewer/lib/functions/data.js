@@ -59,6 +59,10 @@ Racmacs.Data = class Data {
         return(this.data.c.s.length);
     }
 
+    numPoints(){
+        return(this.numAntigens() + this.numSera());
+    }
+
     table(){
 
         let table;
@@ -167,6 +171,7 @@ Racmacs.Data = class Data {
     ptBaseCoords(i){
         if(this.data.c.P.length == 0) return(null);
         let pnum = this.projection();
+        if(i === undefined) return(this.data.c.P[pnum].l.slice());
         return(this.data.c.P[pnum].l[i].slice());
     }
 
@@ -181,8 +186,14 @@ Racmacs.Data = class Data {
         )
     }
 
-    agBaseCoords(i){ return(this.ptBaseCoords(i)); }
-    srBaseCoords(i){ return(this.ptBaseCoords(i + this.numAntigens())); }
+    agBaseCoords(i){ 
+        if (i === undefined) return(this.ptBaseCoords().slice(0, this.numAntigens()));
+        else                 return(this.ptBaseCoords(i)); 
+    }
+    srBaseCoords(i){ 
+        if (i === undefined) return(this.ptBaseCoords().slice(this.numAntigens(), this.numPoints()));
+        else                 return(this.ptBaseCoords(i + this.numAntigens())); 
+    }
 
     agCoords(i){ return(this.ptCoords(i)); }
     srCoords(i){ return(this.ptCoords(i + this.numAntigens())); }

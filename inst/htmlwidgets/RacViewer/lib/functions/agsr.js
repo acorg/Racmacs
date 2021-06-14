@@ -540,7 +540,7 @@ Racmacs.Point = class Point {
     
     // Get the map distance to another point
     mapDistTo(to){
-        
+
         return(
             Math.sqrt(
                 (this.coords3[0] - to.coords3[0])*(this.coords3[0] - to.coords3[0]) +
@@ -587,12 +587,19 @@ Racmacs.Point = class Point {
     // Calculate the mean stress for this point
     calcMeanStress(){
 
-        // var connections = this.getConnections();
+        if(this.type == "ag"){
+            var partners = this.viewer.sera;
+        } else {
+            var partners = this.viewer.antigens;
+        }
+
         var num_detectable = 0;
+        var stress = 0;
         for(var i=0; i<this.titers.length; i++){
             if(this.titers[i].charAt(0) != "<"
                && this.titers[i].charAt(0) != "*"){
                 num_detectable++;
+                stress += this.calcStressTo(partners[i]);
             }
         }
         return(this.stress / num_detectable);

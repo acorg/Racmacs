@@ -26,6 +26,7 @@ Racmacs.Viewer.prototype.load = function(
     // Set viewer controls
     if(options["viewer.controls"] !== "hidden") this.controlpanel.show();
     if(options["viewer.controls"] === "optimizations") this.controlpanel.tabset.showTab("projections");
+    if(options["viewer.controls"] === "diagnostics") this.controlpanel.tabset.showTab("diagnostics");
 
     // Plot new map data
     if(mapData === null) {

@@ -63,10 +63,10 @@ Racmacs.Viewer.prototype.colorPointsByStress = function(){
 
         for(var i=0; i<points.length; i++){
             var stress = points[i].calcMeanStress();
-            var rel_stress = (stress - min_stress)/(max_stress - min_stress);
+            var rel_stress = (stress - min_stress) / (max_stress - min_stress);
             points[i].setOutlineColor("black");
-            var color = new THREE.Color(rel_stress, 0, 1-rel_stress);
-            points[i].setFillColor("#"+color.getHexString());
+            var color = new THREE.Color(rel_stress, 0, 1 - rel_stress);
+            points[i].setFillColor("#" + color.getHexString());
         }
 
 

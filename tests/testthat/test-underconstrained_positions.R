@@ -15,7 +15,7 @@ test_that("Warn of undercontrained positions", {
     optimizeMap(
       map = map,
       number_of_dimensions = 2,
-      number_of_optimizations = 1,
+      number_of_optimizations = 3,
       minimum_column_basis = "none",
     ),
     paste(
@@ -25,7 +25,9 @@ test_that("Warn of undercontrained positions", {
   )
 
   # Check points were still positioned
-  expect_false(anyNA(agBaseCoords(map, 1)))
+  expect_false(anyNA(agBaseCoords(map)))
+  expect_false(anyNA(agBaseCoords(map, 2)))
+  expect_false(anyNA(agBaseCoords(map, 3)))
 
 })
 
@@ -37,7 +39,7 @@ test_that("Error for underconstrained points with infinite positions", {
     optimizeMap(
       map = map,
       number_of_dimensions = 2,
-      number_of_optimizations = 1,
+      number_of_optimizations = 3,
       minimum_column_basis = "none",
     ),
     paste(
@@ -47,5 +49,7 @@ test_that("Error for underconstrained points with infinite positions", {
   )
 
   expect_equal(agCoords(map)[4,], c(NaN, NaN))
+  expect_equal(agCoords(map, 2)[4,], c(NaN, NaN))
+  expect_equal(agCoords(map, 3)[4,], c(NaN, NaN))
 
 })

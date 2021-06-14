@@ -89,15 +89,17 @@ optimizeMap <- function(
   ag_underconstrained <- ag_num_measured < number_of_dimensions + 1
   sr_underconstrained <- sr_num_measured < number_of_dimensions + 1
 
-  if (sum(ag_disconnected) > 0) warn_disconnected("antigens", agNames(map)[ag_disconnected], number_of_dimensions)
-  if (sum(sr_disconnected) > 0) warn_disconnected("sera", srNames(map)[sr_disconnected], number_of_dimensions)
+  if (sum(ag_disconnected) > 0) warn_disconnected("ANTIGENS", agNames(map)[ag_disconnected], number_of_dimensions)
+  if (sum(sr_disconnected) > 0) warn_disconnected("SERA", srNames(map)[sr_disconnected], number_of_dimensions)
 
-  if (sum(ag_underconstrained) > 0) warn_underconstrained("antigens", agNames(map)[ag_underconstrained], number_of_dimensions)
-  if (sum(sr_underconstrained) > 0) warn_underconstrained("sera", srNames(map)[sr_underconstrained], number_of_dimensions)
+  if (sum(ag_underconstrained) > 0) warn_underconstrained("ANTIGENS", agNames(map)[ag_underconstrained], number_of_dimensions)
+  if (sum(sr_underconstrained) > 0) warn_underconstrained("SERA", srNames(map)[sr_underconstrained], number_of_dimensions)
 
   # Set disconnected point coordinates to NaN
-  agCoords(map)[ag_disconnected,] <- NaN
-  srCoords(map)[sr_disconnected,] <- NaN
+  for (n in seq_len(numOptimizations(map))) {
+    agBaseCoords(map, n)[ag_disconnected,] <- NaN
+    srBaseCoords(map, n)[sr_disconnected,] <- NaN
+  }
 
   # Output finishing messages
   tend <- Sys.time()

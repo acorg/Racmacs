@@ -106,6 +106,10 @@ R3JS.Viewer.prototype.popOutViewer = function(){
 	    	popoutstylesheet.insertRule(document.styleSheets[i].cssRules[j].cssText);
 	    }
     }
+    
+    // Set 0 padding and margin
+    popoutwindow.document.body.style.padding = 0;
+    popoutwindow.document.body.style.margin = 0;
 
     // Pop out into the new viewer
     popoutwindow.document.body.appendChild(this.wrapper);

@@ -235,6 +235,16 @@ std::string acmap_to_json(
       allocator
     );
 
+    // Ag reactivity adjustments
+    optx.AddMember(
+      "r",
+      jsonifya(
+        map.optimizations[i].get_ag_reactivity_adjustments(),
+        allocator
+      ),
+      allocator
+    );
+
     // Bootstrapping
     if (map.optimizations[i].bootstrap.size() > 0) {
       optx.AddMember(

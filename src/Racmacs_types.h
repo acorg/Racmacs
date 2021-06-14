@@ -221,6 +221,7 @@ SEXP wrap(const AcOptimization& acopt){
     _["sr_base_coords"] = acopt.get_sr_base_coords(),
     _["min_column_basis"] = acopt.get_min_column_basis(),
     _["fixed_column_bases"] = acopt.get_fixed_column_bases(),
+    _["ag_reactivity_adjustments"] = acopt.get_ag_reactivity_adjustments(),
     _["transformation"] = acopt.get_transformation(),
     _["translation"] = acopt.get_translation(),
     _["stress"] = acopt.get_stress(),
@@ -575,6 +576,9 @@ AcOptimization as(SEXP sxp){
   }
   if(opt.containsElementNamed("min_column_basis")) {
     acopt.set_min_column_basis( as<std::string>(wrap(opt["min_column_basis"])) );
+  }
+  if(opt.containsElementNamed("ag_reactivity_adjustments")) {
+    acopt.set_ag_reactivity_adjustments( as<arma::vec>(wrap(opt["ag_reactivity_adjustments"])) );
   }
   if(opt.containsElementNamed("ag_diagnostics")) {
     List ag_diagnostics = opt["ag_diagnostics"];

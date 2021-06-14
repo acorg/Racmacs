@@ -47,6 +47,7 @@ optimizeMap <- function(
   number_of_optimizations,
   minimum_column_basis = "none",
   fixed_column_bases = NULL,
+  ag_reactivity_adjustments = NULL,
   titer_weights = NULL,
   sort_optimizations = TRUE,
   verbose  = TRUE,
@@ -56,6 +57,7 @@ optimizeMap <- function(
   # Set default arguments
   if (is.null(fixed_column_bases)) fixed_column_bases <- rep(NA, numSera(map))
   if (is.null(titer_weights)) titer_weights <- matrix(1, numAntigens(map), numSera(map))
+  if (is.null(ag_reactivity_adjustments)) ag_reactivity_adjustments <- rep(0, numAntigens(map))
 
   # Warn about overwriting previous optimizations
   if (numOptimizations(map) > 0) {
@@ -75,6 +77,7 @@ optimizeMap <- function(
     num_optimizations = number_of_optimizations,
     min_col_basis = minimum_column_basis,
     fixed_col_bases = fixed_column_bases,
+    ag_reactivity_adjustments = ag_reactivity_adjustments,
     titer_weights = titer_weights,
     options = options
   )
@@ -97,8 +100,10 @@ optimizeMap <- function(
 
   # Set disconnected point coordinates to NaN
   for (n in seq_len(numOptimizations(map))) {
+    opt_stress <- optStress(map, n)
     agBaseCoords(map, n)[ag_disconnected,] <- NaN
     srBaseCoords(map, n)[sr_disconnected,] <- NaN
+    optStress(map, n) <- opt_stress
   }
 
   # Output finishing messages
@@ -461,7 +466,6 @@ checkHemisphering <- function(
   map$optimizations[[optimization_number]] <- ac_hemi_test(
     optimization = map$optimizations[[optimization_number]],
     titertable = titerTable(map),
-    colbases = colBases(map, optimization_number),
     grid_spacing = grid_spacing,
     stress_lim = stress_lim,
     options = do.call(RacOptimizer.options, options)
@@ -510,7 +514,6 @@ moveTrappedPoints <- function(
   map$optimizations[[optimization_number]] <- ac_move_trapped_points(
     optimization = map$optimizations[[optimization_number]],
     titertable = titerTable(map),
-    colbases = colBases(map, optimization_number),
     grid_spacing = grid_spacing,
     options = do.call(RacOptimizer.options, options),
     max_iterations = max_iterations

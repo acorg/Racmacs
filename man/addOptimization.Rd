@@ -10,7 +10,8 @@ addOptimization(
   sr_coords = NULL,
   number_of_dimensions = NULL,
   minimum_column_basis = "none",
-  fixed_column_bases = NULL
+  fixed_column_bases = NULL,
+  ag_reactivity_adjustments = NULL
 )
 }
 \arguments{

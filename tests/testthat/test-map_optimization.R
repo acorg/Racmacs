@@ -144,6 +144,7 @@ test_that("Finding hemisphering points", {
     number_of_optimizations = 1,
     fixed_column_bases = colbases
   ))
+
   hemi_map_ag <- checkHemisphering(hemi_map_ag, stress_lim = 0.1)
   mapDimensions(hemi_map_ag, 1)
 
@@ -217,13 +218,16 @@ test_that("Calculating table distances", {
   colbases <- ac_table_colbases(
     titer_table = titerTable(map),
     fixed_col_bases = rep(NA, numSera(map)),
-    min_col_basis = "none"
+    min_col_basis = "none",
+    ag_reactivity_adjustments = rep(0, numAntigens(map))
   )
   expect_equal(colbases, c(8, 9, 9, 9, 8))
 
   table_dists <- ac_numeric_table_distances(
     titer_table = titerTable(map),
-    colbases = colbases
+    min_col_basis = minColBasis(map),
+    fixed_col_bases = fixedColBases(map),
+    ag_reactivity_adjustments = agReactivityAdjustments(map)
   )
 
   numeric_titers <- numerictiterTable(map)
@@ -445,3 +449,4 @@ test_that("Make a 1D map", {
   )
 
 })
+

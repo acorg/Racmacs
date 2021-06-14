@@ -112,12 +112,14 @@ AcMap ac_subset_map(
 arma::vec ac_table_colbases(
     const AcTiterTable titer_table,
     const std::string min_col_basis,
-    const arma::vec fixed_col_bases
+    const arma::vec fixed_col_bases,
+    const arma::vec ag_reactivity_adjustments
 ){
 
-  return titer_table.colbases(
+  return titer_table.calc_colbases(
     min_col_basis,
-    fixed_col_bases
+    fixed_col_bases,
+    ag_reactivity_adjustments
   );
 
 }
@@ -127,10 +129,16 @@ arma::vec ac_table_colbases(
 // [[Rcpp::export]]
 arma::mat ac_numeric_table_distances(
     const AcTiterTable titer_table,
-    const arma::vec colbases
+    const std::string min_col_basis,
+    const arma::vec fixed_col_bases,
+    const arma::vec ag_reactivity_adjustments
 ){
 
-  return titer_table.numeric_table_distances(colbases);
+  return titer_table.numeric_table_distances(
+    min_col_basis,
+    fixed_col_bases,
+    ag_reactivity_adjustments
+  );
 
 }
 
@@ -183,6 +191,7 @@ AcMap ac_optimize_map(
     int num_optimizations,
     std::string min_col_basis,
     arma::vec fixed_col_bases,
+    arma::vec ag_reactivity_adjustments,
     arma::mat titer_weights,
     AcOptimizerOptions options
 ){
@@ -192,6 +201,7 @@ AcMap ac_optimize_map(
     num_optimizations,
     min_col_basis,
     fixed_col_bases,
+    ag_reactivity_adjustments,
     options,
     titer_weights
   );

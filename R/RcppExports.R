@@ -37,12 +37,12 @@ ac_subset_map <- function(map, ags, sr) {
     .Call('_Racmacs_ac_subset_map', PACKAGE = 'Racmacs', map, ags, sr)
 }
 
-ac_table_colbases <- function(titer_table, min_col_basis, fixed_col_bases) {
-    .Call('_Racmacs_ac_table_colbases', PACKAGE = 'Racmacs', titer_table, min_col_basis, fixed_col_bases)
+ac_table_colbases <- function(titer_table, min_col_basis, fixed_col_bases, ag_reactivity_adjustments) {
+    .Call('_Racmacs_ac_table_colbases', PACKAGE = 'Racmacs', titer_table, min_col_basis, fixed_col_bases, ag_reactivity_adjustments)
 }
 
-ac_numeric_table_distances <- function(titer_table, colbases) {
-    .Call('_Racmacs_ac_numeric_table_distances', PACKAGE = 'Racmacs', titer_table, colbases)
+ac_numeric_table_distances <- function(titer_table, min_col_basis, fixed_col_bases, ag_reactivity_adjustments) {
+    .Call('_Racmacs_ac_numeric_table_distances', PACKAGE = 'Racmacs', titer_table, min_col_basis, fixed_col_bases, ag_reactivity_adjustments)
 }
 
 ac_newOptimization <- function(dimensions, num_antigens, num_sera) {
@@ -53,8 +53,8 @@ ac_relaxOptimization <- function(opt, titers, fixed_antigens, fixed_sera, option
     .Call('_Racmacs_ac_relaxOptimization', PACKAGE = 'Racmacs', opt, titers, fixed_antigens, fixed_sera, options, titer_weights)
 }
 
-ac_optimize_map <- function(map, num_dims, num_optimizations, min_col_basis, fixed_col_bases, titer_weights, options) {
-    .Call('_Racmacs_ac_optimize_map', PACKAGE = 'Racmacs', map, num_dims, num_optimizations, min_col_basis, fixed_col_bases, titer_weights, options)
+ac_optimize_map <- function(map, num_dims, num_optimizations, min_col_basis, fixed_col_bases, ag_reactivity_adjustments, titer_weights, options) {
+    .Call('_Racmacs_ac_optimize_map', PACKAGE = 'Racmacs', map, num_dims, num_optimizations, min_col_basis, fixed_col_bases, ag_reactivity_adjustments, titer_weights, options)
 }
 
 ac_new_antigen <- function(name) {
@@ -165,6 +165,10 @@ ac_opt_get_fixedcolbases <- function(opt) {
     .Call('_Racmacs_ac_opt_get_fixedcolbases', PACKAGE = 'Racmacs', opt)
 }
 
+ac_opt_get_agreactivityadjustments <- function(opt) {
+    .Call('_Racmacs_ac_opt_get_agreactivityadjustments', PACKAGE = 'Racmacs', opt)
+}
+
 ac_opt_get_stress <- function(opt) {
     .Call('_Racmacs_ac_opt_get_stress', PACKAGE = 'Racmacs', opt)
 }
@@ -199,6 +203,10 @@ ac_opt_set_mincolbasis <- function(opt, value) {
 
 ac_opt_set_fixedcolbases <- function(opt, value) {
     .Call('_Racmacs_ac_opt_set_fixedcolbases', PACKAGE = 'Racmacs', opt, value)
+}
+
+ac_opt_set_agreactivityadjustments <- function(opt, value) {
+    .Call('_Racmacs_ac_opt_set_agreactivityadjustments', PACKAGE = 'Racmacs', opt, value)
 }
 
 ac_opt_set_stress <- function(opt, value) {
@@ -373,16 +381,16 @@ ac_sr_set_group_levels <- function(map, values) {
     .Call('_Racmacs_ac_sr_set_group_levels', PACKAGE = 'Racmacs', map, values)
 }
 
-ac_bootstrap_map <- function(map, method, bootstrap_ags, bootstrap_sr, reoptimize, ag_noise_sd, titer_noise_sd, minimum_column_basis, fixed_column_bases, num_optimizations, num_dimensions, options) {
-    .Call('_Racmacs_ac_bootstrap_map', PACKAGE = 'Racmacs', map, method, bootstrap_ags, bootstrap_sr, reoptimize, ag_noise_sd, titer_noise_sd, minimum_column_basis, fixed_column_bases, num_optimizations, num_dimensions, options)
+ac_bootstrap_map <- function(map, method, bootstrap_ags, bootstrap_sr, reoptimize, ag_noise_sd, titer_noise_sd, minimum_column_basis, fixed_column_bases, ag_reactivity_adjustments, num_optimizations, num_dimensions, options) {
+    .Call('_Racmacs_ac_bootstrap_map', PACKAGE = 'Racmacs', map, method, bootstrap_ags, bootstrap_sr, reoptimize, ag_noise_sd, titer_noise_sd, minimum_column_basis, fixed_column_bases, ag_reactivity_adjustments, num_optimizations, num_dimensions, options)
 }
 
-ac_dimension_test_map <- function(titer_table, dimensions_to_test, test_proportion, minimum_column_basis, fixed_column_bases, num_optimizations, options) {
-    .Call('_Racmacs_ac_dimension_test_map', PACKAGE = 'Racmacs', titer_table, dimensions_to_test, test_proportion, minimum_column_basis, fixed_column_bases, num_optimizations, options)
+ac_dimension_test_map <- function(titer_table, dimensions_to_test, test_proportion, minimum_column_basis, fixed_column_bases, ag_reactivity_adjustments, num_optimizations, options) {
+    .Call('_Racmacs_ac_dimension_test_map', PACKAGE = 'Racmacs', titer_table, dimensions_to_test, test_proportion, minimum_column_basis, fixed_column_bases, ag_reactivity_adjustments, num_optimizations, options)
 }
 
-ac_hemi_test <- function(optimization, titertable, colbases, grid_spacing, stress_lim, options) {
-    .Call('_Racmacs_ac_hemi_test', PACKAGE = 'Racmacs', optimization, titertable, colbases, grid_spacing, stress_lim, options)
+ac_hemi_test <- function(optimization, titertable, grid_spacing, stress_lim, options) {
+    .Call('_Racmacs_ac_hemi_test', PACKAGE = 'Racmacs', optimization, titertable, grid_spacing, stress_lim, options)
 }
 
 ac_match_map_ags <- function(map1, map2) {
@@ -425,20 +433,20 @@ ac_merge_titers <- function(titers, sd_lim = 1.0) {
     .Call('_Racmacs_ac_merge_titers', PACKAGE = 'Racmacs', titers, sd_lim)
 }
 
-ac_move_trapped_points <- function(optimization, titertable, colbases, grid_spacing, options, max_iterations = 10L) {
-    .Call('_Racmacs_ac_move_trapped_points', PACKAGE = 'Racmacs', optimization, titertable, colbases, grid_spacing, options, max_iterations)
+ac_move_trapped_points <- function(optimization, titertable, grid_spacing, options, max_iterations = 10L) {
+    .Call('_Racmacs_ac_move_trapped_points', PACKAGE = 'Racmacs', optimization, titertable, grid_spacing, options, max_iterations)
 }
 
-ac_coords_stress <- function(titers, colbases, ag_coords, sr_coords) {
-    .Call('_Racmacs_ac_coords_stress', PACKAGE = 'Racmacs', titers, colbases, ag_coords, sr_coords)
+ac_coords_stress <- function(titers, min_colbasis, fixed_colbases, ag_reactivity_adjustments, ag_coords, sr_coords) {
+    .Call('_Racmacs_ac_coords_stress', PACKAGE = 'Racmacs', titers, min_colbasis, fixed_colbases, ag_reactivity_adjustments, ag_coords, sr_coords)
 }
 
 ac_relax_coords <- function(tabledist_matrix, titertype_matrix, ag_coords, sr_coords, options, fixed_antigens, fixed_sera, titer_weights) {
     .Call('_Racmacs_ac_relax_coords', PACKAGE = 'Racmacs', tabledist_matrix, titertype_matrix, ag_coords, sr_coords, options, fixed_antigens, fixed_sera, titer_weights)
 }
 
-ac_runOptimizations <- function(titertable, colbases, num_dims, num_optimizations, options, titer_weights) {
-    .Call('_Racmacs_ac_runOptimizations', PACKAGE = 'Racmacs', titertable, colbases, num_dims, num_optimizations, options, titer_weights)
+ac_runOptimizations <- function(titertable, minimum_col_basis, fixed_colbases, ag_reactivity_adjustments, num_dims, num_optimizations, options, titer_weights) {
+    .Call('_Racmacs_ac_runOptimizations', PACKAGE = 'Racmacs', titertable, minimum_col_basis, fixed_colbases, ag_reactivity_adjustments, num_dims, num_optimizations, options, titer_weights)
 }
 
 ac_stress_blob_grid <- function(testcoords, coords, tabledists, titertypes, stress_lim, grid_spacing) {

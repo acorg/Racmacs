@@ -10,6 +10,7 @@ optimizeMap(
   number_of_optimizations,
   minimum_column_basis = "none",
   fixed_column_bases = NULL,
+  ag_reactivity_adjustments = NULL,
   titer_weights = NULL,
   sort_optimizations = TRUE,
   verbose = TRUE,

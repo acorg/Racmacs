@@ -115,6 +115,7 @@ bootstrapMap <- function(
       titer_noise_sd = titer_noise_sd,
       minimum_column_basis = minColBasis(map),
       fixed_column_bases = fixedColBases(map),
+      ag_reactivity_adjustments = agReactivityAdjustments(map),
       num_optimizations = optimizations_per_repeat,
       num_dimensions = mapDimensions(map),
       options = options

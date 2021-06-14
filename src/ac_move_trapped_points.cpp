@@ -109,7 +109,6 @@ arma::mat check_sr_trapped_points(
 AcOptimization ac_move_trapped_points(
   AcOptimization optimization,
   AcTiterTable titertable,
-  arma::vec colbases,
   double grid_spacing,
   AcOptimizerOptions options,
   int max_iterations = 10
@@ -120,7 +119,11 @@ AcOptimization ac_move_trapped_points(
   if(options.report_progress) REprintf("Checking for trapped points recursively:");
 
   arma::umat titertypes = titertable.get_titer_types();
-  arma::mat tabledists = titertable.numeric_table_distances(colbases);
+  arma::mat tabledists = titertable.numeric_table_distances(
+    optimization.get_min_column_basis(),
+    optimization.get_fixed_column_bases(),
+    optimization.get_ag_reactivity_adjustments()
+  );
 
   int num_iterations = 0;
   while(num_iterations < max_iterations){

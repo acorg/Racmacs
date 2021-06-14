@@ -92,7 +92,6 @@ test_that("Error when column bases the wrong length", {
     regexp = "Fixed column base length does not match the number of sera"
   )
 })
-
 # Add an optimization correctly
 testmap <- addOptimization(
   map       = map,

@@ -27,10 +27,12 @@ addOptimization <- function(
   sr_coords = NULL,
   number_of_dimensions = NULL,
   minimum_column_basis = "none",
-  fixed_column_bases = NULL
+  fixed_column_bases = NULL,
+  ag_reactivity_adjustments = NULL
 ) {
 
   # Check input
+  check.string(minimum_column_basis)
   if (is.null(number_of_dimensions)
       && (is.null(ag_coords) || is.null(sr_coords))) {
     stop(strwrap(
@@ -60,6 +62,11 @@ addOptimization <- function(
     opt <- ac_opt_set_fixedcolbases(opt, fixed_column_bases)
   }
   opt <- ac_opt_set_mincolbasis(opt, minimum_column_basis)
+
+  # Set antigen reactivity adjustments
+  if (!is.null(ag_reactivity_adjustments)) {
+    opt <- ac_opt_set_agreactivityadjustments(opt, ag_reactivity_adjustments)
+  }
 
   # Append the optimization
   map$optimizations <- c(

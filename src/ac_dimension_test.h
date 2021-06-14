@@ -14,15 +14,4 @@ struct DimTestOutput
   std::vector<arma::vec> predictions;
 };
 
-DimTestOutput ac_dimension_test_map(
-    AcTiterTable titer_table,
-    arma::uvec dimensions_to_test,
-    double test_proportion,
-    std::string minimum_column_basis,
-    bool column_bases_from_master,
-    int number_of_optimizations,
-    int replicates_per_proportion,
-    AcOptimizerOptions options
-);
-
 #endif

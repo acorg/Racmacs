@@ -26,6 +26,7 @@ BootstrapOutput ac_bootstrap_map(
     double titer_noise_sd,
     std::string minimum_column_basis,
     arma::vec fixed_column_bases,
+    arma::vec ag_reactivity_adjustments,
     int num_optimizations,
     int num_dimensions,
     AcOptimizerOptions options
@@ -60,9 +61,10 @@ BootstrapOutput ac_bootstrap_map(
   }
 
   // Get column bases (after setting any noise)
-  colbases = titer_table.colbases(
+  colbases = titer_table.calc_colbases(
     minimum_column_basis,
-    fixed_column_bases
+    fixed_column_bases,
+    ag_reactivity_adjustments
   );
 
   // Set antigen and sera weights
@@ -114,7 +116,9 @@ BootstrapOutput ac_bootstrap_map(
     std::vector<AcOptimization> optimizations;
     optimizations = ac_runOptimizations(
       titer_table,
-      colbases,
+      minimum_column_basis,
+      fixed_column_bases,
+      ag_reactivity_adjustments,
       num_dimensions,
       num_optimizations,
       options,
@@ -129,7 +133,11 @@ BootstrapOutput ac_bootstrap_map(
   } else { // If simply relaxing the map
 
     ac_relax_coords(
-      titer_table.numeric_table_distances(colbases),
+      titer_table.numeric_table_distances(
+        minimum_column_basis,
+        fixed_column_bases,
+        ag_reactivity_adjustments
+      ),
       titer_table.get_titer_types(),
       ag_coords,
       sr_coords,

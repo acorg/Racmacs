@@ -268,7 +268,9 @@ class MapOptimizer {
 // [[Rcpp::export]]
 double ac_coords_stress(
     const AcTiterTable &titers,
-    const arma::vec &colbases,
+    const std::string &min_colbasis,
+    const arma::vec &fixed_colbases,
+    const arma::vec &ag_reactivity_adjustments,
     arma::mat &ag_coords,
     arma::mat &sr_coords
 ){
@@ -280,7 +282,11 @@ double ac_coords_stress(
   MapOptimizer map(
       ag_coords,
       sr_coords,
-      titers.numeric_table_distances(colbases),
+      titers.numeric_table_distances(
+        min_colbasis,
+        fixed_colbases,
+        ag_reactivity_adjustments
+      ),
       titers.get_titer_types(),
       num_dims
   );
@@ -344,9 +350,11 @@ double ac_relax_coords(
 // Generate a bunch of optimizations with randomized coordinates
 // this is a starting point for later relaxation
 std::vector<AcOptimization> ac_generateOptimizations(
-    const arma::vec &colbases,
     const arma::mat &tabledist_matrix,
     const arma::umat &titertype_matrix,
+    const std::string &min_colbasis,
+    const arma::vec &fixed_colbases,
+    const arma::vec &ag_reactivity_adjustments,
     const int &num_dims,
     const int &num_optimizations,
     const AcOptimizerOptions &options
@@ -360,7 +368,10 @@ std::vector<AcOptimization> ac_generateOptimizations(
   AcOptimization initial_optim = AcOptimization(
     num_dims,
     num_ags,
-    num_sr
+    num_sr,
+    min_colbasis,
+    fixed_colbases,
+    ag_reactivity_adjustments
   );
 
   initial_optim.randomizeCoords( tabledist_matrix.max() );
@@ -382,7 +393,10 @@ std::vector<AcOptimization> ac_generateOptimizations(
     AcOptimization optimization(
         num_dims,
         num_ags,
-        num_sr
+        num_sr,
+        min_colbasis,
+        fixed_colbases,
+        ag_reactivity_adjustments
     );
 
     optimization.randomizeCoords(coord_boxsize);
@@ -399,7 +413,6 @@ std::vector<AcOptimization> ac_generateOptimizations(
 // Relax the optimizations generated randomly
 void ac_relaxOptimizations(
   std::vector<AcOptimization>& optimizations,
-  const arma::vec &colbases,
   const arma::mat &tabledist_matrix,
   const arma::umat &titertype_matrix,
   const AcOptimizerOptions &options,
@@ -446,7 +459,9 @@ void ac_relaxOptimizations(
 // [[Rcpp::export]]
 std::vector<AcOptimization> ac_runOptimizations(
     const AcTiterTable &titertable,
-    const arma::vec &colbases,
+    const std::string &minimum_col_basis,
+    const arma::vec &fixed_colbases,
+    const arma::vec &ag_reactivity_adjustments,
     const arma::uword &num_dims,
     const arma::uword &num_optimizations,
     const AcOptimizerOptions &options,
@@ -454,7 +469,11 @@ std::vector<AcOptimization> ac_runOptimizations(
 ){
 
   // Get table distance matrix and titer type matrix
-  arma::mat tabledist_matrix = titertable.numeric_table_distances(colbases);
+  arma::mat tabledist_matrix = titertable.numeric_table_distances(
+    minimum_col_basis,
+    fixed_colbases,
+    ag_reactivity_adjustments
+  );
   arma::umat titertype_matrix = titertable.get_titer_types();
 
   // Set dimensions to cycle through, for e.g. dimensional annealing
@@ -468,9 +487,11 @@ std::vector<AcOptimization> ac_runOptimizations(
 
   // Generate optimizations with random starting coords
   std::vector<AcOptimization> optimizations = ac_generateOptimizations(
-    colbases,
     tabledist_matrix,
     titertype_matrix,
+    minimum_col_basis,
+    fixed_colbases,
+    ag_reactivity_adjustments,
     dim_set(0),
     num_optimizations,
     options
@@ -482,7 +503,6 @@ std::vector<AcOptimization> ac_runOptimizations(
     // Relax the optimizations
     ac_relaxOptimizations(
       optimizations,
-      colbases,
       tabledist_matrix,
       titertype_matrix,
       options,

@@ -8,7 +8,9 @@
 // Calculating stress
 double ac_coords_stress(
     const AcTiterTable &titers,
-    const arma::vec &colbases,
+    const std::string &min_colbasis,
+    const arma::vec &fixed_colbases,
+    const arma::vec &ag_reactivity_adjustments,
     arma::mat &ag_coords,
     arma::mat &sr_coords
 );

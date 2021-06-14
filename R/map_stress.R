@@ -26,7 +26,9 @@ tableDistances <- function(
   }
   numeric_dists <- ac_numeric_table_distances(
     titer_table = titerTable(map),
-    colbases = colBases(map, optimization_number)
+    min_col_basis = minColBasis(map, optimization_number),
+    fixed_col_bases = fixedColBases(map, optimization_number),
+    ag_reactivity_adjustments = agReactivityAdjustments(map, optimization_number)
   )
   numeric_dists[titertypesTable(map) == 0] <- "*"
   numeric_dists[titertypesTable(map) == 2] <- paste0(">", numeric_dists[titertypesTable(map) == 2])
@@ -56,6 +58,7 @@ numeric_min_tabledists <- function(tabledists) {
 #' @param titer_table The titer table
 #' @param minimum_column_basis The minimum column basis to assume
 #' @param fixed_column_bases Fixed column bases to apply
+#' @param ag_reactivity_adjustments Reactivity adjustments to apply on a per-antigen basis
 #'
 #' @return Returns a numeric vector of the log-converted column bases for the
 #'   table
@@ -67,16 +70,20 @@ numeric_min_tabledists <- function(tabledists) {
 tableColbases <- function(
   titer_table,
   minimum_column_basis = "none",
-  fixed_column_bases = rep(NA, ncol(titer_table))
+  fixed_column_bases = rep(NA, ncol(titer_table)),
+  ag_reactivity_adjustments = rep(0, nrow(titer_table))
   ) {
 
   check.charactermatrix(titer_table)
   check.string(minimum_column_basis)
+  fixed_column_bases <- check.numericvector(fixed_column_bases)
+  ag_reactivity_adjustments <- check.numericvector(ag_reactivity_adjustments)
 
   ac_table_colbases(
     titer_table = format_titers(titer_table),
     min_col_basis = minimum_column_basis,
-    fixed_col_bases = fixed_column_bases
+    fixed_col_bases = fixed_column_bases,
+    ag_reactivity_adjustments = ag_reactivity_adjustments
   )
 
 }
@@ -162,17 +169,20 @@ stressTable <- function(
     stop("This map has no optimizations for which to calculate a stress table")
   }
 
-  titer_table    <- titerTable(map)
-  colbase_matrix <- matrix(colBases(map, optimization_number), numAntigens(map), numSera(map), byrow = T)
-  ag_coords      <- agBaseCoords(map, optimization_number)
-  sr_coords      <- srBaseCoords(map, optimization_number)
+  titer_table <- titerTable(map)
+  ag_coords   <- agBaseCoords(map, optimization_number)
+  sr_coords   <- srBaseCoords(map, optimization_number)
+  colbases    <- colBases(map, optimization_number)
+  ag_reactivity_adjustments <- agReactivityAdjustments(map, optimization_number)
 
   stress_table <- matrix(NaN, numAntigens(map), numSera(map))
   for (ag in seq_len(numAntigens(map))) {
     for (sr in seq_len(numSera(map))) {
       stress_table[ag, sr] <- ac_coords_stress(
         titers = titer_table[ag, sr, drop = F],
-        colbases = colbase_matrix[ag, sr, drop = F],
+        min_colbasis = "none",
+        fixed_colbases = colbases[sr],
+        ag_reactivity_adjustments = ag_reactivity_adjustments[ag],
         ag_coords = ag_coords[ag, , drop = F],
         sr_coords = sr_coords[sr, , drop = F]
       )
@@ -255,7 +265,9 @@ recalculateStress <- function(
 
   ac_coords_stress(
     titers = titerTable(map),
-    colbases = colBases(map, optimization_number),
+    min_colbasis = minColBasis(map, optimization_number),
+    fixed_colbases = fixedColBases(map, optimization_number),
+    ag_reactivity_adjustments = agReactivityAdjustments(map, optimization_number),
     ag_coords = agBaseCoords(map, optimization_number),
     sr_coords = srBaseCoords(map, optimization_number)
   )

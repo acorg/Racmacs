@@ -18,6 +18,7 @@ BootstrapOutput ac_bootstrap_map(
     double titer_noise_sd,
     std::string minimum_column_basis,
     arma::vec fixed_column_bases,
+    arma::vec ag_reactivity_adjustments,
     int num_optimizations,
     int num_dimensions,
     AcOptimizerOptions options

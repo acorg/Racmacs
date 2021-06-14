@@ -239,31 +239,22 @@ class AcMap {
       int num_optimizations,
       std::string min_col_basis,
       arma::vec fixed_col_bases,
+      arma::vec ag_reactivity_adjustments,
       const AcOptimizerOptions &options,
       const arma::mat &titer_weights = arma::mat()
     ){
 
-      // Calculate column bases
-      arma::vec colbases = titer_table_flat.colbases(
-        min_col_basis,
-        fixed_col_bases
-      );
-
       // Run optimizations
       optimizations = ac_runOptimizations(
         titer_table_flat,
-        colbases,
+        min_col_basis,
+        fixed_col_bases,
+        ag_reactivity_adjustments,
         num_dims,
         num_optimizations,
         options,
         titer_weights
       );
-
-      // Add colbases information
-      for(auto &optimization : optimizations){
-        optimization.set_min_column_basis(min_col_basis, false); // Do not invalidate stress
-        optimization.set_fixed_column_bases(fixed_col_bases, false); // Do not invalidate stress
-      }
 
     }
 

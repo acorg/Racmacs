@@ -329,18 +329,25 @@ class AcTiterTable {
     }
 
     // Calculate column bases
-    arma::vec colbases(
-        std::string min_colbasis,
-        arma::vec fixed_colbases
+    arma::vec calc_colbases(
+        const std::string &min_colbasis,
+        const arma::vec &fixed_colbases,
+        const arma::vec &ag_reactivity_adjustments
     ) const {
 
       // Check input
       if(fixed_colbases.n_elem != nsr()) Rf_error("fixed_colbases does not match number of sera");
+      if(ag_reactivity_adjustments.n_elem != nags()) Rf_error("ag_reactivity_adjustments does not match number of antigens");
       if(arma::accu(titer_types) == 0) return fixed_colbases;
 
-      // Calculate column bases
+      // Get log titers
       arma::mat num_titers = numeric_titers;
       arma::mat log_titers = arma::log2(num_titers / 10.0);
+
+      // Apply antigen reactivity adjustments
+      log_titers.each_col() += ag_reactivity_adjustments;
+
+      // Calculate column bases
       log_titers.replace(arma::datum::nan, log_titers.min());
       arma::vec colbases = arma::max(log_titers.t(), 1);
 
@@ -369,11 +376,23 @@ class AcTiterTable {
 
     // Calculate table distances
     arma::mat numeric_table_distances(
-      arma::vec colbases
+      const std::string &minimum_col_basis,
+      const arma::vec &fixed_colbases,
+      const arma::vec &ag_reactivity_adjustments
     ) const {
+
+      // Calculate column bases
+      arma::vec colbases = calc_colbases(
+        minimum_col_basis,
+        fixed_colbases,
+        ag_reactivity_adjustments
+      );
 
       // Set distances as log titers
       arma::mat dists = arma::log2(numeric_titers / 10.0);
+
+      // Apply antigen reactivity adjustments
+      dists.each_col() += ag_reactivity_adjustments;
 
       // Subtract colbases from each log titer row to arrive at distance
       for(arma::uword i=0; i<dists.n_rows; i++){

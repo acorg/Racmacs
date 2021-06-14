@@ -46,6 +46,7 @@ Racmacs.Viewer.prototype.updateStress = function(stress){
 
 }
 
+
 Racmacs.utils.logTiters = function(titerset){
 
   var logtiters = titerset.map(function(titers){
@@ -56,6 +57,7 @@ Racmacs.utils.logTiters = function(titerset){
   return(logtiters);
 
 }
+
 
 Racmacs.utils.calcColBases = function(args){
 
@@ -118,6 +120,7 @@ Racmacs.utils.logTiter = function(titer){
 Racmacs.utils.calc_table_dist = function(logTiter, colbase){
   return(colbase - logTiter);
 }
+
 
 Racmacs.utils.calc_stress = function(
   tableDist,

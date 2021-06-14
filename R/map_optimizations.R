@@ -13,6 +13,9 @@
 #'   optimization
 #' @param fixed_column_bases A vector of fixed column bases with NA for sera
 #'   where the minimum column basis should be applied
+#' @param ag_reactivity_adjustments A vector of antigen reactivity adjustments to
+#'   apply to each antigen. Corresponding antigen titers will be adjusted by these
+#'   amounts when calculating column bases and table distances.
 #'
 #' @family {functions for working with map data}
 #'

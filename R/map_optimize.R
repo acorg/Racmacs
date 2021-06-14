@@ -12,6 +12,9 @@
 #' @param minimum_column_basis The minimum column basis to use (see details)
 #' @param fixed_column_bases A vector of fixed values to use as column bases
 #'   directly, rather than calculating them from the titer table.
+#' @param ag_reactivity_adjustments A vector of antigen reactivity adjustments to
+#'   apply to each antigen. Corresponding antigen titers will be adjusted by these
+#'   amounts when calculating column bases and table distances.
 #' @param titer_weights An optional matrix of weights to assign each titer when optimizing
 #' @param sort_optimizations Should optimizations be sorted by stress
 #'   afterwards?

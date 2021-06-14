@@ -8,7 +8,7 @@
 *.sublime-workspace
 *.o
 *.o.tmp
-*.vscode/*
+src/.vscode/*
 doc
 inst/doc
 Meta

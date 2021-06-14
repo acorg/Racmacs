@@ -318,6 +318,9 @@ Racmacs.SequenceTable = class SequenceTable {
 
 		});
 
+		// Update the view
+		this.updateSequenceTableView();
+
 		// Hide loading
 		this.hideLoading();
 
@@ -333,8 +336,8 @@ Racmacs.SequenceTable = class SequenceTable {
 		// Show and hide rows based on selected points
 		const num_selected = this.viewer.selected_pts.length;
 		this.points.map((p,i) => {
-			if(p.selected || num_selected === 0) this.showRow(i)
-			else                                 this.hideRow(i)
+			if(p.selected && num_selected > 0) this.showRow(i)
+			else                               this.hideRow(i)
 		});
 
 		if(searchval == ""){ 
@@ -342,23 +345,25 @@ Racmacs.SequenceTable = class SequenceTable {
 			// Get sequences from relevant points
 			sequences = [];
 			this.points.map((p,i) => {
-			    if(p.selected || num_selected === 0) sequences.push(this.sequences[i])
+			    if(p.selected && num_selected > 0) sequences.push(this.sequences[i])
 		    });
 
 			// Only show positions where aas of selected strains differ
 			var positions_shown = [];
-			for(var i=0; i<sequences[0].length; i++){
-				if(num_selected == 1){
-					positions_shown.push(i+1)
-				} else {
-				    var unique_seq = [];
-					sequences.map( s => { 
-						if(unique_seq.indexOf(s[i]) === -1){
-							unique_seq.push(s[i]);
+			if (sequences.length > 0) {
+				for(var i=0; i<sequences[0].length; i++){
+					if(num_selected == 1){
+						positions_shown.push(i+1)
+					} else {
+					    var unique_seq = [];
+						sequences.map( s => { 
+							if(unique_seq.indexOf(s[i]) === -1){
+								unique_seq.push(s[i]);
+							}
+						});
+						if(unique_seq.length > 1){
+							positions_shown.push(i+1);
 						}
-					});
-					if(unique_seq.length > 1){
-						positions_shown.push(i+1);
 					}
 				}
 			}

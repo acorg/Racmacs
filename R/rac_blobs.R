@@ -155,20 +155,6 @@ contour_blob <- function(
 
     ## 3D
     ndims <- 3
-    # contour_fit <- contourShape(
-    #   vol    = grid_values,
-    #   maxvol = max(grid_values[!is.nan(grid_values) & grid_values != Inf]),
-    #   x      = grid_points[[1]],
-    #   y      = grid_points[[2]],
-    #   z      = grid_points[[3]],
-    #   level  = value_lim
-    # )
-    #
-    # blob <- list(
-    #   vertices = contour_fit,
-    #   faces    = matrix(seq_len(nrow(contour_fit)), ncol = 3, byrow = TRUE)
-    # )
-
     contour_fit <- rmarchingcubes::contour3d(
       griddata = grid_values,
       level  = value_lim,
@@ -261,26 +247,6 @@ calcBlobVolume <- function(blob) {
 
 }
 
-
-contourShape <- function(
-  vol,
-  maxvol,
-  x,
-  y,
-  z,
-  level
-) {
-
-  misc3d::computeContour3d(
-    vol    = vol,
-    maxvol = maxvol,
-    x      = x,
-    y      = y,
-    z      = z,
-    level  = level
-  )
-
-}
 
 # Deprecated functions
 deprecated_fn <- function(fn) {

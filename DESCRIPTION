@@ -37,7 +37,6 @@ Suggests:
     plotly,
     knitr,
     rmarkdown,
-    misc3d,
     r3js,
     base64enc
 RoxygenNote: 7.1.1

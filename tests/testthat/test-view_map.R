@@ -65,7 +65,20 @@ test_that("Viewing a map", {
 
   agCoords(map)[1, ] <- c(5.1, 5.4)
   agFill(map) <- "green"
-  x <- view(map)
+  x <- view(
+    map,
+    options = list(
+      viewer.controls = "diagnostics"
+    )
+  )
+
+  # map_no_opts <- removeOptimizations(map)
+  # widget <- htmlwidgets::onRender(
+  #   x      = widget,
+  #   jsCode = "function(el, x, data) { el.viewer.load(JSON.parse(data), { maintain_viewpoint:true }); }",
+  #   data   = as.json(map_no_opts)
+  # )
+
   expect_equal(class(x), c("RacViewer", "htmlwidget"))
   export.viewer.test(
     x,
@@ -119,7 +132,6 @@ test_that("Exporting a map viewer", {
   tmp <- tempfile(fileext = ".html")
   export_viewer(map, tmp)
   expect_true(file.exists(tmp))
-  # system2("open", tmp)
   unlink(tmp)
 
 })

@@ -47,7 +47,7 @@ R3JS.Viewer.prototype.addMapButtons = function(
 	if(buttons.indexOf("scalePointsUp") > -1){
 		this.addButton({
 			name  : "scalePointsUp",
-			title : "Increase point size",
+			title : "Increase point size\n\u21e7 Increase grid line width",
 			icon  : Racmacs.icons.scaleup(),
 			fn    : function(e){
 				if(e.shiftKey){
@@ -65,7 +65,7 @@ R3JS.Viewer.prototype.addMapButtons = function(
 	if(buttons.indexOf("scalePointsDown") > -1){
 		this.addButton({
 			name  : "scalePointsDown",
-			title : "Decrease point size",
+			title : "Decrease point size\n\u21e7 Decrease grid line width",
 			icon  : Racmacs.icons.scaledown(),
 			fn    : function(e){
 				if(e.shiftKey){
@@ -96,7 +96,7 @@ R3JS.Viewer.prototype.addMapButtons = function(
 	if(buttons.indexOf("viewLabels") > -1){
 		this.addButton({
 			name  : "viewLabels",
-			title : "Toggle point labels\nShift: Toggle antigen labels\nMeta: Toggle sera labels",
+			title : "Toggle point labels\n\u21e7 Toggle antigen labels\n\u2318 Toggle sera labels",
 			icon  : Racmacs.icons.labels(),
 			fn    : function(e){
 				if (e.shiftKey) {

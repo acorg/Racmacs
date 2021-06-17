@@ -141,7 +141,7 @@ Racmacs.Viewer.prototype.enterDragMode = function(){
 		new_position.y = mouse.y;
 		
 		var inverse_mat = new THREE.Matrix4();
-		inverse_mat.getInverse(scene.plotPoints.matrixWorld);
+		inverse_mat.copy(scene.plotPoints.matrixWorld).invert();
 		new_position.unproject(camera).applyMatrix4(inverse_mat);
 
 		// Work out how far the point has moved

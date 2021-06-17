@@ -28,7 +28,7 @@ THREE.SceneUtils = {
 
 	attach: function ( child, scene, parent ) {
 
-		child.applyMatrix4( new THREE.Matrix4().getInverse( parent.matrixWorld ) );
+		child.applyMatrix4( new THREE.Matrix4().copy( parent.matrixWorld ).invert() );
 
 		scene.remove( child );
 		parent.add( child );

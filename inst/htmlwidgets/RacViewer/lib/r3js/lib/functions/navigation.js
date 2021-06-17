@@ -124,7 +124,7 @@ R3JS.Viewer.prototype.panScene = function(){
     position.x += panX;
     position.y += panY;
     var inverse_mat = new THREE.Matrix4();
-    inverse_mat.getInverse(plotHolder.matrixWorld);
+    inverse_mat.copy(plotHolder.matrixWorld).invert();
     position.unproject(this.camera.camera).applyMatrix4(inverse_mat);
 
     this.scene.panScene(position.toArray());

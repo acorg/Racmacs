@@ -44,7 +44,7 @@ optimizeAgReactivity <- function(
   }
 
   # Perform the optimization
-  result <- optim(
+  result <- stats::optim(
     par = start_pars[is.na(fixed_ag_reactivities)],
     fn = ac_reactivity_adjustment_stress,
     method = "L-BFGS-B",

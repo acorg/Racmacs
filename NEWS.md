@@ -11,3 +11,5 @@
 * Fixed bug where points were displayed in incorrect positions in the viewer when the webgl maximum point size had been reached
 * Added button to toggle point labels on and off
 * Fixed error where ace files with no plotspec field would not read in
+* Allow logical specification of antigens and sera for functions like `removeAntigens()`
+* Check you do not try and remove all antigens or sera

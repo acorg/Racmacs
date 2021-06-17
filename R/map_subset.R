@@ -23,6 +23,14 @@ get_ag_indices <- function(
       || isFALSE(antigens)
       || length(antigens) == 0) return(c())
 
+  # Deal with logical specification
+  if (is.logical(antigens)) {
+    if (length(antigens) != numAntigens(map)) {
+      stop("Antigen indices do not match the number of antigens", call. = FALSE)
+    }
+    return(which(antigens))
+  }
+
   # Deal with selection by indices
   if (is.numeric(antigens)) {
     if ((min(antigens) < 1 || max(antigens) > numAntigens(map))) {
@@ -81,6 +89,14 @@ get_sr_indices <- function(
   # Default to no points if null passed
   if (is.null(sera) || isFALSE(sera) || length(sera) == 0) return(c())
 
+  # Deal with logical specification
+  if (is.logical(sera)) {
+    if (length(sera) != numSera(map)) {
+      stop("Sera indices do not match the number of sera", call. = FALSE)
+    }
+    return(which(sera))
+  }
+
   # Deal with selection by indices
   if (is.numeric(sera)) {
     if ((min(sera) < 1 || max(sera) > numSera(map))) {
@@ -138,6 +154,10 @@ subsetMap <- function(
   # Match by antigen and sera name if character vectors are specified
   antigens <- stats::na.omit(get_ag_indices(antigens, map))
   sera     <- stats::na.omit(get_sr_indices(sera, map))
+
+  # Check you are still left with some antigens or sera
+  if (length(antigens) == 0) stop("You cannot remove all antigens from a map", call. = FALSE)
+  if (length(sera) == 0)     stop("You cannot remove all sera from a map", call. = FALSE)
 
   # Subset the map
   map <- ac_subset_map(

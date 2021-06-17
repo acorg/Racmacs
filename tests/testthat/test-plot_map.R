@@ -13,4 +13,10 @@ test_that("Plotting a bare bones", {
   x <- plot(map)
   expect_true(inherits(x, "acmap"))
 
+  export.plot.test(
+    plot(map),
+    "simplemap.pdf",
+    8, 8
+  )
+
 })

@@ -9,13 +9,16 @@
 #' @param ylim optional y axis limits
 #' @param plot_ags logical, should antigens be plotted
 #' @param plot_sr logical, should antigens be plotted
-#' @param plot_labels logical, should point labels be plotted
+#' @param plot_labels should point labels be plotted, can be true, false or
+#'   "antigens" or "sera"
 #' @param plot_blobs logical, should stress blobs be plotted if present
 #' @param show_procrustes logical, should procrustes lines be shown, if present
 #' @param grid.col grid line color
 #' @param grid.margin.col grid margin color
 #' @param fill.alpha alpha for point fill
 #' @param outline.alpha alpha for point outline
+#' @param label.offset amount by which any point labels should be offset from
+#'   point coordinates in fractions of a character width
 #' @param padding padding at limits of the antigenic map, ignored if xlim or
 #'   ylim set explicitly
 #' @param cex point size expansion factor
@@ -38,6 +41,7 @@ plot.acmap <- function(
   grid.margin.col = grid.col,
   fill.alpha    = 0.8,
   outline.alpha = 0.8,
+  label.offset = 0.5,
   padding = 1,
   cex = 1,
   ...
@@ -195,22 +199,24 @@ plot.acmap <- function(
   }
 
   ## Add labels if requested
-  if (plot_labels) {
-    graphics::text(
-      x = ag_coords[, 1],
-      y = ag_coords[, 2],
-      labels = agNames(x),
-      pos = 3,
-      offset = 1
-    )
+  if (!isFALSE(plot_labels)) {
+
+    if (plot_labels == "antigens") {
+      label_pts <- seq_len(numAntigens(x))
+    } else if (plot_labels == "sera") {
+      label_pts <- seq_len(numSera(x)) + numAntigens(x)
+    } else {
+      label_pts <- seq_len(numPoints(x))
+    }
 
     graphics::text(
-      x = sr_coords[, 1],
-      y = sr_coords[, 2],
-      labels = srNames(x),
+      x = pts$coords[label_pts, 1],
+      y = pts$coords[label_pts, 2],
+      labels = c(agNames(x), srNames(x))[label_pts],
       pos = 3,
-      offset = 1
+      offset = label.offset
     )
+
   }
 
   ## Add procrustes

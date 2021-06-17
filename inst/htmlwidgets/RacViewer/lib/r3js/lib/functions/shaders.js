@@ -22,6 +22,7 @@ R3JS.Shaders.VertexShader2D = `
 	varying float pShape;
 	varying float pVisible;
 	varying float pPixelRatio;
+	varying float exceeds_maxpointsize;
 	varying vec2 screenpos;
 	
 	uniform float scale;
@@ -47,19 +48,29 @@ R3JS.Shaders.VertexShader2D = `
 		screenpos     = vec2(gl_Position[0], gl_Position[1]);
 
 		pScale       = pSize*scale*(viewportHeight/20.0)*pPixelRatio;
-		if (pScale > maxpointsize) { pScale = maxpointsize; }
-		gl_PointSize = pScale;
-        
-        if(gl_Position[0] < 0.0){
-		    gl_Position[0] = gl_Position[0] + gl_PointSize*0.5/(viewportWidth*viewportPixelRatio)*gl_Position[3];
-	    } else {
-	    	gl_Position[0] = gl_Position[0] - gl_PointSize*0.5/(viewportWidth*viewportPixelRatio)*gl_Position[3];
-	    }
+		if (pScale > maxpointsize) { 
 
-	    if(gl_Position[1] < 0.0){
-		    gl_Position[1] = gl_Position[1] + gl_PointSize*0.5/(viewportHeight*viewportPixelRatio)*gl_Position[3];
+			exceeds_maxpointsize = 1.0;
+			pScale = pScale*0.5;
+			gl_PointSize = pScale;
+			
 		} else {
-			gl_Position[1] = gl_Position[1] - gl_PointSize*0.5/(viewportHeight*viewportPixelRatio)*gl_Position[3];
+
+			gl_PointSize = pScale;
+			exceeds_maxpointsize = 0.0;
+	        
+	        if(gl_Position[0] < 0.0){
+			    gl_Position[0] = gl_Position[0] + gl_PointSize*0.5/(viewportWidth*viewportPixelRatio)*gl_Position[3];
+		    } else {
+		    	gl_Position[0] = gl_Position[0] - gl_PointSize*0.5/(viewportWidth*viewportPixelRatio)*gl_Position[3];
+		    }
+
+		    if(gl_Position[1] < 0.0){
+			    gl_Position[1] = gl_Position[1] + gl_PointSize*0.5/(viewportHeight*viewportPixelRatio)*gl_Position[3];
+			} else {
+				gl_Position[1] = gl_Position[1] - gl_PointSize*0.5/(viewportHeight*viewportPixelRatio)*gl_Position[3];
+			}
+
 		}
 
 
@@ -96,6 +107,7 @@ R3JS.Shaders.VertexShader3D = `
 	uniform float viewportWidth;
 	uniform float viewportPixelRatio;
 	uniform float maxpointsize;
+	varying float exceeds_maxpointsize;
 
 	void main() {
 		
@@ -115,19 +127,30 @@ R3JS.Shaders.VertexShader3D = `
 
 		pScale       = pSize*scale*(viewportHeight/1000.0)*pPixelRatio;
 		pScale       = pScale*2.0 * ( 45.0 / -mvPosition.z );
-		if (pScale > maxpointsize) { pScale = maxpointsize; }
-		gl_PointSize = pScale;
-        
-        if(gl_Position[0] < 0.0){
-		    gl_Position[0] = gl_Position[0] + gl_PointSize*0.5/(viewportWidth*viewportPixelRatio)*gl_Position[3];
-	    } else {
-	    	gl_Position[0] = gl_Position[0] - gl_PointSize*0.5/(viewportWidth*viewportPixelRatio)*gl_Position[3];
-	    }
+		
+		if (pScale > maxpointsize) { 
 
-	    if(gl_Position[1] < 0.0){
-		    gl_Position[1] = gl_Position[1] + gl_PointSize*0.5/(viewportHeight*viewportPixelRatio)*gl_Position[3];
+			exceeds_maxpointsize = 1.0;
+			pScale = pScale*0.5;
+			gl_PointSize = pScale;
+			
 		} else {
-			gl_Position[1] = gl_Position[1] - gl_PointSize*0.5/(viewportHeight*viewportPixelRatio)*gl_Position[3];
+
+			gl_PointSize = pScale;
+			exceeds_maxpointsize = 0.0;
+
+	        if(gl_Position[0] < 0.0){
+			    gl_Position[0] = gl_Position[0] + gl_PointSize*0.5/(viewportWidth*viewportPixelRatio)*gl_Position[3];
+		    } else {
+		    	gl_Position[0] = gl_Position[0] - gl_PointSize*0.5/(viewportWidth*viewportPixelRatio)*gl_Position[3];
+		    }
+
+		    if(gl_Position[1] < 0.0){
+			    gl_Position[1] = gl_Position[1] + gl_PointSize*0.5/(viewportHeight*viewportPixelRatio)*gl_Position[3];
+			} else {
+				gl_Position[1] = gl_Position[1] - gl_PointSize*0.5/(viewportHeight*viewportPixelRatio)*gl_Position[3];
+			}
+
 		}
 
 
@@ -154,6 +177,7 @@ R3JS.Shaders.FragmentShader2D = `
 	varying float pAspect;
 	varying float pVisible;
 	varying float pPixelRatio;
+	varying float exceeds_maxpointsize;
 	varying vec2 screenpos;
 
 
@@ -163,25 +187,30 @@ R3JS.Shaders.FragmentShader2D = `
 
 		// Discard if not visible
 		if(pVisible == 0.0) discard;
+        
+        // Tranform point coordinate
+		vec2 p = gl_PointCoord;
+		if (exceeds_maxpointsize == 0.0) {
+	        if(screenpos[0] < 0.0){
+	        	p[0] = (gl_PointCoord[0] - 0.25)*2.0;
+	        } else {
+	            p[0] = (gl_PointCoord[0] - 0.75)*2.0;
+	        }
+
+	        if(screenpos[1] < 0.0){
+	        	p[1] = (gl_PointCoord[1] - 0.75)*2.0;
+	        } else {
+	        	p[1] = (gl_PointCoord[1] - 0.25)*2.0;
+	        }
+        } else {
+        	p[0] = p[0] - 0.5;
+        	p[1] = p[1] - 0.5;
+        }
 
 		// Set variables to style and anti-alias points
 	    float outline_width = (0.06/pSize)*pOutlineWidth;
 	    float blend_range = 4.0/(pScale*pPixelRatio);
 	    float fade_range  = 2.0/(pScale*pPixelRatio);
-        
-        // Tranform point coordinate
-		vec2 p = gl_PointCoord;
-        if(screenpos[0] < 0.0){
-        	p[0] = (gl_PointCoord[0] - 0.25)*2.0;
-        } else {
-            p[0] = (gl_PointCoord[0] - 0.75)*2.0;
-        }
-
-        if(screenpos[1] < 0.0){
-        	p[1] = (gl_PointCoord[1] - 0.75)*2.0;
-        } else {
-        	p[1] = (gl_PointCoord[1] - 0.25)*2.0;
-        }
 
         if(p.x < -0.5 || p.x > 0.5 || p.y < -0.5 || p.y > 0.5){
         	discard;
@@ -407,6 +436,7 @@ R3JS.Shaders.FragmentShader3D = `
 	varying float pScale;
 	varying float pAspect;
 	varying vec2 screenpos;
+	varying float exceeds_maxpointsize;
 
 	uniform float opacity;
 	uniform sampler2D circleTexture;
@@ -421,10 +451,21 @@ R3JS.Shaders.FragmentShader3D = `
         
         // Tranform point coordinate
 		vec2 p = gl_PointCoord;
-        if(screenpos[0] < 0.0){
-        	p[0] = (gl_PointCoord[0] - 0.25)*2.0;
+        if (exceeds_maxpointsize == 0.0) {
+	        if(screenpos[0] < 0.0){
+	        	p[0] = (gl_PointCoord[0] - 0.25)*2.0;
+	        } else {
+	            p[0] = (gl_PointCoord[0] - 0.75)*2.0;
+	        }
+
+	        if(screenpos[1] < 0.0){
+	        	p[1] = (gl_PointCoord[1] - 0.75)*2.0;
+	        } else {
+	        	p[1] = (gl_PointCoord[1] - 0.25)*2.0;
+	        }
         } else {
-            p[0] = (gl_PointCoord[0] - 0.75)*2.0;
+        	p[0] = p[0] - 0.5;
+        	p[1] = p[1] - 0.5;
         }
 
         if(screenpos[1] < 0.0){
@@ -474,6 +515,7 @@ R3JS.Shaders.VertexShaderArrowHead = `
 	varying float pPixelRatio;
 	varying float pSceneRotation;
 	varying float pRotation;
+	varying float exceeds_maxpointsize;
 	varying vec2 screenpos;
 	
 	uniform float scale;
@@ -501,19 +543,29 @@ R3JS.Shaders.VertexShaderArrowHead = `
 		screenpos     = vec2(gl_Position[0], gl_Position[1]);
 
 		pScale       = pSize*scale*(viewportHeight/20.0)*pPixelRatio;
-		if (pScale > maxpointsize) { pScale = maxpointsize; }
-		gl_PointSize = pScale;
-        
-        if(gl_Position[0] < 0.0){
-		    gl_Position[0] = gl_Position[0] + gl_PointSize*0.5/(viewportWidth*viewportPixelRatio)*gl_Position[3];
-	    } else {
-	    	gl_Position[0] = gl_Position[0] - gl_PointSize*0.5/(viewportWidth*viewportPixelRatio)*gl_Position[3];
-	    }
+		if (pScale > maxpointsize) { 
 
-	    if(gl_Position[1] < 0.0){
-		    gl_Position[1] = gl_Position[1] + gl_PointSize*0.5/(viewportHeight*viewportPixelRatio)*gl_Position[3];
+			exceeds_maxpointsize = 1.0;
+			pScale = pScale*0.5;
+			gl_PointSize = pScale;
+			
 		} else {
-			gl_Position[1] = gl_Position[1] - gl_PointSize*0.5/(viewportHeight*viewportPixelRatio)*gl_Position[3];
+
+			gl_PointSize = pScale;
+			exceeds_maxpointsize = 0.0;
+			
+	        if(gl_Position[0] < 0.0){
+			    gl_Position[0] = gl_Position[0] + gl_PointSize*0.5/(viewportWidth*viewportPixelRatio)*gl_Position[3];
+		    } else {
+		    	gl_Position[0] = gl_Position[0] - gl_PointSize*0.5/(viewportWidth*viewportPixelRatio)*gl_Position[3];
+		    }
+
+		    if(gl_Position[1] < 0.0){
+			    gl_Position[1] = gl_Position[1] + gl_PointSize*0.5/(viewportHeight*viewportPixelRatio)*gl_Position[3];
+			} else {
+				gl_Position[1] = gl_Position[1] - gl_PointSize*0.5/(viewportHeight*viewportPixelRatio)*gl_Position[3];
+			}
+
 		}
 
 
@@ -800,6 +852,7 @@ R3JS.Shaders.VertexShaderArrowHead = `
 	varying float pPixelRatio;
 	varying float pSceneRotation;
 	varying float pRotation;
+	varying float exceeds_maxpointsize;
 	varying vec2 screenpos;
 	
 	uniform float scale;
@@ -827,19 +880,29 @@ R3JS.Shaders.VertexShaderArrowHead = `
 		screenpos     = vec2(gl_Position[0], gl_Position[1]);
 
 		pScale       = pSize*scale*(viewportHeight/20.0)*pPixelRatio;
-		if (pScale > maxpointsize) { pScale = maxpointsize; }
-		gl_PointSize = pScale;
-        
-        if(gl_Position[0] < 0.0){
-		    gl_Position[0] = gl_Position[0] + gl_PointSize*0.5/(viewportWidth*viewportPixelRatio)*gl_Position[3];
-	    } else {
-	    	gl_Position[0] = gl_Position[0] - gl_PointSize*0.5/(viewportWidth*viewportPixelRatio)*gl_Position[3];
-	    }
+		if (pScale > maxpointsize) { 
 
-	    if(gl_Position[1] < 0.0){
-		    gl_Position[1] = gl_Position[1] + gl_PointSize*0.5/(viewportHeight*viewportPixelRatio)*gl_Position[3];
+			exceeds_maxpointsize = 1.0;
+			pScale = pScale*0.5;
+			gl_PointSize = pScale;
+			
 		} else {
-			gl_Position[1] = gl_Position[1] - gl_PointSize*0.5/(viewportHeight*viewportPixelRatio)*gl_Position[3];
+
+			gl_PointSize = pScale;
+			exceeds_maxpointsize = 0.0;
+        
+	        if(gl_Position[0] < 0.0){
+			    gl_Position[0] = gl_Position[0] + gl_PointSize*0.5/(viewportWidth*viewportPixelRatio)*gl_Position[3];
+		    } else {
+		    	gl_Position[0] = gl_Position[0] - gl_PointSize*0.5/(viewportWidth*viewportPixelRatio)*gl_Position[3];
+		    }
+
+		    if(gl_Position[1] < 0.0){
+			    gl_Position[1] = gl_Position[1] + gl_PointSize*0.5/(viewportHeight*viewportPixelRatio)*gl_Position[3];
+			} else {
+				gl_Position[1] = gl_Position[1] - gl_PointSize*0.5/(viewportHeight*viewportPixelRatio)*gl_Position[3];
+			}
+
 		}
 
 
@@ -861,6 +924,7 @@ R3JS.Shaders.FragmentShaderArrowHead = `
 	varying float pPixelRatio;
 	varying float pSceneRotation;
 	varying float pRotation;
+	varying float exceeds_maxpointsize;
 	varying vec2 screenpos;
 
 	uniform float opacity;
@@ -877,16 +941,21 @@ R3JS.Shaders.FragmentShaderArrowHead = `
         
         // Tranform point coordinate
 		vec2 p = gl_PointCoord;
-        if(screenpos[0] < 0.0){
-        	p[0] = (gl_PointCoord[0] - 0.25)*2.0;
-        } else {
-            p[0] = (gl_PointCoord[0] - 0.75)*2.0;
-        }
+        if (exceeds_maxpointsize == 0.0) {
+	        if(screenpos[0] < 0.0){
+	        	p[0] = (gl_PointCoord[0] - 0.25)*2.0;
+	        } else {
+	            p[0] = (gl_PointCoord[0] - 0.75)*2.0;
+	        }
 
-        if(screenpos[1] < 0.0){
-        	p[1] = (gl_PointCoord[1] - 0.75)*2.0;
+	        if(screenpos[1] < 0.0){
+	        	p[1] = (gl_PointCoord[1] - 0.75)*2.0;
+	        } else {
+	        	p[1] = (gl_PointCoord[1] - 0.25)*2.0;
+	        }
         } else {
-        	p[1] = (gl_PointCoord[1] - 0.25)*2.0;
+        	p[0] = p[0] - 0.5;
+        	p[1] = p[1] - 0.5;
         }
 
 

@@ -209,9 +209,17 @@ Racmacs.Viewer = class RacViewer extends Racmacs.App {
 
 };
 
+// Check if viewer is full screen or not
+Racmacs.Viewer.prototype.isFullScreen = function() {
+    return(
+        this.container.offsetHeight == window.innerHeight &&
+        this.container.offsetWidth == window.innerWidth
+    );
+}
+
 // Reset the scroll focus function
 Racmacs.Viewer.prototype.scrollFocus = function() {  
-    return this.viewport.holder.matches(':focus');
+    return this.isFullScreen() || this.viewport.holder.matches(':focus');
 };
 
 

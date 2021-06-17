@@ -68,7 +68,8 @@ test_that("Viewing a map", {
   x <- view(
     map,
     options = list(
-      viewer.controls = "diagnostics"
+      viewer.controls = "diagnostics",
+      show.names = "antigens"
     )
   )
 

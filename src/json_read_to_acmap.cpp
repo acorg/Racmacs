@@ -175,23 +175,27 @@ AcMap json_to_acmap(
 
   // == PLOTSPEC =====================
   // Rcpp::Rcout << "\n" << "PLOTSPEC";
-  const Value& p = c["p"]; // plotspec
-  const Value& pindices = p["p"];
-  const Value& pstyles = p["P"];
+  if(c.HasMember("p")){
 
-  // Set drawing order
-  if(p.HasMember("d")){
-    map.set_pt_drawing_order( parse<arma::uvec>(p["d"]) );
-  }
+    const Value& p = c["p"]; // plotspec
+    const Value& pindices = p["p"];
+    const Value& pstyles = p["P"];
 
-  // Style antigens
-  for(int i=0; i<num_antigens; i++){
-    set_style_from_json( map.antigens[i], pstyles[pindices[i].GetInt()]);
-  }
+    // Set drawing order
+    if(p.HasMember("d")){
+      map.set_pt_drawing_order( parse<arma::uvec>(p["d"]) );
+    }
 
-  // Style sera
-  for(int i=0; i<num_sera; i++){
-    set_style_from_json( map.sera[i], pstyles[pindices[i + num_antigens].GetInt()]);
+    // Style antigens
+    for(int i=0; i<num_antigens; i++){
+      set_style_from_json( map.antigens[i], pstyles[pindices[i].GetInt()]);
+    }
+
+    // Style sera
+    for(int i=0; i<num_sera; i++){
+      set_style_from_json( map.sera[i], pstyles[pindices[i + num_antigens].GetInt()]);
+    }
+
   }
 
   // == OPTIMIZATION RUNS ======================

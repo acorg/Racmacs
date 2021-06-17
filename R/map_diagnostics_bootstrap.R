@@ -166,6 +166,58 @@ hasBootstrapData <- function(map, optimization_number) {
 #' @family {map diagnostic functions}
 #'
 
+# Underlying function to get base bootstrap coordinates
+mapBootstrap_ptBaseCoords <- function(map) {
+
+  # Get bootstrap data
+  bootstrap <- map$optimizations[[1]]$bootstrap
+  if (is.null(bootstrap)) stop(strwrap(
+    "There are no bootstrap repeats associated with this map,
+    create some first using 'bootstrapMap()'"
+  ))
+  lapply(bootstrap, function(x) x$coords)
+
+}
+
+# Underlying function to get ag bootstrap coordinates
+mapBootstrap_agBaseCoords <- function(map) {
+
+  num_antigens <- numAntigens(map)
+  lapply(mapBootstrap_ptBaseCoords(map), function(x) {
+    x[seq_len(num_antigens), , drop = F]
+  })
+
+}
+
+# Underlying function to get sr bootstrap coordinates
+mapBootstrap_srBaseCoords <- function(map) {
+
+  # Return the data
+  num_antigens <- numAntigens(map)
+  lapply(mapBootstrap_ptBaseCoords(map), function(x) {
+    x[-seq_len(num_antigens), , drop = F]
+  })
+
+}
+
+
+# Underlying function to get bootstrap coordinates
+mapBootstrap_ptCoords <- function(map) {
+
+  # Get coordinates
+  bootstrap <- mapBootstrap_ptBaseCoords(map)
+
+  # Apply the map transformation to the bootstrap coordinates
+  lapply(bootstrap, function(result) {
+    applyMapTransform(
+      coords = result,
+      map = map
+    )
+  })
+
+}
+
+
 #' @rdname mapBootstrapCoords
 #' @export
 mapBootstrap_agCoords <- function(map) {
@@ -178,6 +230,7 @@ mapBootstrap_agCoords <- function(map) {
 
 }
 
+
 #' @rdname mapBootstrapCoords
 #' @export
 mapBootstrap_srCoords <- function(map) {
@@ -186,26 +239,6 @@ mapBootstrap_srCoords <- function(map) {
   num_antigens <- numAntigens(map)
   lapply(mapBootstrap_ptCoords(map), function(x) {
     x[-seq_len(num_antigens), , drop = F]
-  })
-
-}
-
-# Underlying function to get bootstrap coordinates
-mapBootstrap_ptCoords <- function(map) {
-
-  # Get bootstrap data
-  bootstrap <- map$optimizations[[1]]$bootstrap
-  if (is.null(bootstrap)) stop(strwrap(
-    "There are no bootstrap repeats associated with this map,
-    create some first using 'bootstrapMap()'"
-  ))
-
-  # Apply the map transformation to the bootstrap coordinates
-  lapply(bootstrap, function(result) {
-    applyMapTransform(
-      coords = result$coords,
-      map = map
-    )
   })
 
 }
@@ -229,6 +262,9 @@ mapBootstrap_ptCoords <- function(map) {
 #' @param conf.level The proportion of positional variation captured by each blob
 #' @param smoothing The amount of smoothing to perform when performing the
 #'   kernel density estimate, larger equates to more smoothing
+#' @param gridspacing grid spacing to use when calculating blobs, smaller values
+#'   will produce more accurate blobs with smoother edges but will take longer
+#'   to calculate.
 #'
 #' @return Returns an acmap object that will then show the corresponding bootstrap
 #'   blobs when viewed or plotted.
@@ -239,12 +275,13 @@ mapBootstrap_ptCoords <- function(map) {
 bootstrapBlobs <- function(
   map,
   conf.level = 0.68,
-  smoothing = 6
+  smoothing = 6,
+  gridspacing = 0.25
   ) {
 
   # Get coordinates
-  bootstrap_ag_coords <- mapBootstrap_agCoords(map)
-  bootstrap_sr_coords <- mapBootstrap_srCoords(map)
+  bootstrap_ag_coords <- mapBootstrap_agBaseCoords(map)
+  bootstrap_sr_coords <- mapBootstrap_srBaseCoords(map)
 
   # Set progress bar
   message("Calculating bootstrap blobs")
@@ -256,7 +293,8 @@ bootstrapBlobs <- function(
     agDiagnostics(map, 1)[[agnum]]$bootstrap_blob <- coordDensityBlob(
       coords = t(sapply(bootstrap_ag_coords, function(x) x[agnum, ])),
       conf.level = conf.level,
-      smoothing = smoothing
+      smoothing = smoothing,
+      gridspacing = gridspacing
     )
     ac_update_progress(pb, agnum)
 
@@ -268,7 +306,8 @@ bootstrapBlobs <- function(
     srDiagnostics(map, 1)[[srnum]]$bootstrap_blob <- coordDensityBlob(
       coords = t(sapply(bootstrap_sr_coords, function(x) x[srnum, ])),
       conf.level = conf.level,
-      smoothing = smoothing
+      smoothing = smoothing,
+      gridspacing = gridspacing
     )
     ac_update_progress(pb, srnum + numAntigens(map))
 
@@ -307,13 +346,17 @@ hasBootstrapBlobs <- function(map, optimization_number = 1) {
 #'   the blob should capture
 #' @param smoothing the amount of smoothing to perform when performing the
 #'   kernel density estimate
+#' @param gridspacing grid spacing to use when calculating blobs, smaller values
+#'   will produce more accurate blobs with smoother edges but will take longer
+#'   to calculate.
 #'
 #' @noRd
 #'
 coordDensityBlob <- function(
   coords,
   conf.level = 0.68,
-  smoothing = 1
+  smoothing = 1,
+  gridspacing = 0.25
   ) {
 
   # Check dimensions
@@ -330,7 +373,7 @@ coordDensityBlob <- function(
   # Perform a kernal density fit
   kd_fit <- ks::kde(
     coords,
-    gridsize = apply(coords, 2, function(x) ceiling(diff(range(x)) / 0.25)),
+    gridsize = apply(coords, 2, function(x) ceiling(diff(range(x)) / gridspacing)),
     H = ks::Hpi(x = coords, nstage = 2, deriv.order = 0) * smoothing
   )
 

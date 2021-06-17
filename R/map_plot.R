@@ -139,7 +139,22 @@ plot.acmap <- function(
 
   ## Get point blobs
   pt_blobs <- ptTriangulationBlobs(x)
+  if (hasBootstrapBlobs(x)) pt_blobs <- ptBootstrapBlobs(x, optimization_number)
   pts$blob <- !sapply(pt_blobs, is.null)
+
+  ## Transform blobs to match map transform
+  pt_blobs <- lapply(pt_blobs, function(blobs) {
+    lapply(blobs, function(blob) {
+      coords <- applyMapTransform(
+        coords = cbind(blob$x, blob$y),
+        map = x,
+        optimization_number = optimization_number
+      )
+      blob$x <- coords[,1]
+      blob$y <- coords[,2]
+      blob
+    })
+  })
 
   ## Adjust alpha
   if (!is.null(fill.alpha)) {

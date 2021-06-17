@@ -97,7 +97,7 @@ Racmacs.Point.prototype.addBlob = function(blob){
         for(var i=0; i<blob.length; i++){
 
             var coords = blob[i].x.map(
-                (x,j) => [blob[i].x[j], blob[i].y[j], 0]
+                (x,j) => [blob[i].x[j], blob[i].y[j]]
             );
 
             // Apply map transformation to coordinates
@@ -108,6 +108,13 @@ Racmacs.Point.prototype.addBlob = function(blob){
                     translation
                 )
             );
+
+            // Make 3d
+            for(var i=0; i<coords.length; i++){
+                while(coords[i].length < 3){
+                    coords[i].push(0);
+                }
+            }
 
 
             var fillcolor    = this.getFillColorRGBA();
@@ -125,10 +132,10 @@ Racmacs.Point.prototype.addBlob = function(blob){
                         a:fillcolor[3]
                     },
                     outlinecolor : {
-                        r:Array(coords.length).fill(outlinecolor[0]),
-                        g:Array(coords.length).fill(outlinecolor[1]),
-                        b:Array(coords.length).fill(outlinecolor[2]),
-                        a:Array(coords.length).fill(outlinecolor[3])
+                        r:Array(coords.length*2).fill(outlinecolor[0]),
+                        g:Array(coords.length*2).fill(outlinecolor[1]),
+                        b:Array(coords.length*2).fill(outlinecolor[2]),
+                        a:Array(coords.length*2).fill(outlinecolor[3])
                     }
                 },
                 viewport : this.viewer.viewport

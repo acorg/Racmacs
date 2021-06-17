@@ -7,3 +7,5 @@
 * Bootstrap blobs will now show when doing a standard map plot
 * Added ability to control grid size when calculating bootstrap blobs, controlling how finely they are calculated
 * Added function `optimizeAgReactivityAdjustments()`
+* Updated threejs library
+* Fixed bug where points were displayed in incorrect positions in the viewer when the webgl maximum point size had been reached

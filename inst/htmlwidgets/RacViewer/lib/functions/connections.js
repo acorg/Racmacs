@@ -592,10 +592,10 @@ Racmacs.Point.prototype.updateTiterLabels = function(){
 
 
 // POINT LABELS
-Racmacs.App.prototype.toggleLabels = function(){
+Racmacs.App.prototype.toggleLabels = function(category){
 
 	if(!this.labelsShown){
-		this.showLabels();
+		this.showLabels(category);
 	} else {
 		this.hideLabels();
 	}

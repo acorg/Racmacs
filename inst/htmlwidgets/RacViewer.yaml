@@ -1,7 +1,7 @@
 
 dependencies:
   - name: RacViewer
-    version: 1.0.1
+    version: 1.0.2
     src: htmlwidgets/RacViewer/lib
     stylesheet:
       - r3js/lib/styles/r3js.css

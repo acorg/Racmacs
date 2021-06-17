@@ -7,6 +7,7 @@ R3JS.Viewer.prototype.addMapButtons = function(
 		"scalePointsUp",
 		"scalePointsDown",
 		"downloadMap",
+		"viewLabels",
 		"viewTable",
 		"sequences"
 	]
@@ -89,6 +90,24 @@ R3JS.Viewer.prototype.addMapButtons = function(
 			}
 		});
 		this.btns["viewSequences"].style.display = "none";
+	}
+
+	// Create button to view the table
+	if(buttons.indexOf("viewLabels") > -1){
+		this.addButton({
+			name  : "viewLabels",
+			title : "Toggle point labels\nShift: Toggle antigen labels\nMeta: Toggle sera labels",
+			icon  : Racmacs.icons.labels(),
+			fn    : function(e){
+				if (e.shiftKey) {
+					viewer.toggleLabels("antigens");
+				} else if (e.metaKey) {
+					viewer.toggleLabels("sera");
+				} else {
+					viewer.toggleLabels("all");
+				}
+			}
+		});
 	}
 
 	// Create button to view the table

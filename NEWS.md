@@ -9,3 +9,4 @@
 * Added function `optimizeAgReactivityAdjustments()`
 * Updated threejs library
 * Fixed bug where points were displayed in incorrect positions in the viewer when the webgl maximum point size had been reached
+* Added button to toggle point labels on and off

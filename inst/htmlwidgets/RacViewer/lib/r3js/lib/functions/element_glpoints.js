@@ -137,6 +137,7 @@ R3JS.element.glpoints = class GLPoints {
         var vwidth  = viewport.getWidth();
         var vheight = viewport.getWidth();
         var pixelratio = renderer.getPixelRatio();
+        var maxpointsize = renderer.maxPointSize;
 
         // if(args.properties.dimensions == 3){
         //     var material = new THREE.ShaderMaterial( { 
@@ -161,7 +162,8 @@ R3JS.element.glpoints = class GLPoints {
                     opacity: { value: 1.0 }, 
                     viewportWidth: { value: vwidth }, 
                     viewportHeight: { value: vheight },
-                    viewportPixelRatio: { value: pixelratio }
+                    viewportPixelRatio: { value: pixelratio },
+                    maxpointsize: { value: maxpointsize }
                 }, 
                 vertexShader:   renderer.shaders.vertexShader,
                 fragmentShader: renderer.shaders.fragmentShader,

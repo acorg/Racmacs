@@ -28,6 +28,7 @@ R3JS.Shaders.VertexShader2D = `
 	uniform float viewportHeight;
 	uniform float viewportWidth;
 	uniform float viewportPixelRatio;
+	uniform float maxpointsize;
 
 	void main() {
 		
@@ -46,6 +47,7 @@ R3JS.Shaders.VertexShader2D = `
 		screenpos     = vec2(gl_Position[0], gl_Position[1]);
 
 		pScale       = pSize*scale*(viewportHeight/20.0)*pPixelRatio;
+		if (pScale > maxpointsize) { pScale = maxpointsize; }
 		gl_PointSize = pScale;
         
         if(gl_Position[0] < 0.0){
@@ -93,6 +95,7 @@ R3JS.Shaders.VertexShader3D = `
 	uniform float viewportHeight;
 	uniform float viewportWidth;
 	uniform float viewportPixelRatio;
+	uniform float maxpointsize;
 
 	void main() {
 		
@@ -112,6 +115,7 @@ R3JS.Shaders.VertexShader3D = `
 
 		pScale       = pSize*scale*(viewportHeight/1000.0)*pPixelRatio;
 		pScale       = pScale*2.0 * ( 45.0 / -mvPosition.z );
+		if (pScale > maxpointsize) { pScale = maxpointsize; }
 		gl_PointSize = pScale;
         
         if(gl_Position[0] < 0.0){
@@ -477,6 +481,7 @@ R3JS.Shaders.VertexShaderArrowHead = `
 	uniform float viewportWidth;
 	uniform float viewportPixelRatio;
 	uniform float sceneRotation;
+	uniform float maxpointsize;
 
 	void main() {
 		
@@ -496,6 +501,7 @@ R3JS.Shaders.VertexShaderArrowHead = `
 		screenpos     = vec2(gl_Position[0], gl_Position[1]);
 
 		pScale       = pSize*scale*(viewportHeight/20.0)*pPixelRatio;
+		if (pScale > maxpointsize) { pScale = maxpointsize; }
 		gl_PointSize = pScale;
         
         if(gl_Position[0] < 0.0){
@@ -801,6 +807,7 @@ R3JS.Shaders.VertexShaderArrowHead = `
 	uniform float viewportWidth;
 	uniform float viewportPixelRatio;
 	uniform float sceneRotation;
+	uniform float maxpointsize;
 
 	void main() {
 		
@@ -820,6 +827,7 @@ R3JS.Shaders.VertexShaderArrowHead = `
 		screenpos     = vec2(gl_Position[0], gl_Position[1]);
 
 		pScale       = pSize*scale*(viewportHeight/20.0)*pPixelRatio;
+		if (pScale > maxpointsize) { pScale = maxpointsize; }
 		gl_PointSize = pScale;
         
         if(gl_Position[0] < 0.0){

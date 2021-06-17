@@ -8,6 +8,8 @@ R3JS.Renderer = class Renderer {
             antialias: true,
             alpha: true
         });
+        var gl = this.webglrenderer.getContext();
+        this.maxPointSize = gl.getParameter(gl.ALIASED_POINT_SIZE_RANGE)[1];
         this.webglrenderer.localClippingEnabled = true;
         this.webglrenderer.setPixelRatio( window.devicePixelRatio );
 

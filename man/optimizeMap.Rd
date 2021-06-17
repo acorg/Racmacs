@@ -29,6 +29,10 @@ optimizeMap(
 \item{fixed_column_bases}{A vector of fixed values to use as column bases
 directly, rather than calculating them from the titer table.}
 
+\item{ag_reactivity_adjustments}{A vector of antigen reactivity adjustments to
+apply to each antigen. Corresponding antigen titers will be adjusted by these
+amounts when calculating column bases and table distances.}
+
 \item{titer_weights}{An optional matrix of weights to assign each titer when optimizing}
 
 \item{sort_optimizations}{Should optimizations be sorted by stress

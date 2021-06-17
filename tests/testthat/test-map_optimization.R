@@ -450,3 +450,41 @@ test_that("Make a 1D map", {
 
 })
 
+
+# Adjusting antigen reactivity
+test_that("Adjust antigen reactivity", {
+
+  map <- read.acmap(test_path("../testdata/testmap.ace"))
+  expect_equal(
+    agReactivityAdjustments(map),
+    rep(0, numAntigens(map))
+  )
+
+  original_stress <- mapStress(map)
+  original_coords <- ptCoords(map)
+
+  # Normal optimization
+  map1 <- optimizeAgReactivity(map)
+  expect_equal(sum(agReactivityAdjustments(map1) == 0), 0)
+
+  new_stress <- mapStress(map1)
+  new_coords <- ptCoords(map1)
+
+  expect_lt(new_stress, original_stress)
+  expect_false(isTRUE(all.equal(original_coords, new_coords)))
+
+  # Optimization with fixed reactivities
+  ag_reactivities <- rep(NA, numAntigens(map))
+  ag_reactivities[2] <- 1.12
+
+  map2 <- optimizeAgReactivity(map, fixed_ag_reactivities = ag_reactivities)
+  expect_equal(sum(agReactivityAdjustments(map2) == 0), 0)
+
+  new_stress <- mapStress(map2)
+  new_coords <- ptCoords(map2)
+
+  expect_lt(new_stress, original_stress)
+  expect_false(isTRUE(all.equal(original_coords, new_coords)))
+  expect_equal(agReactivityAdjustments(map2)[2], 1.12)
+
+})

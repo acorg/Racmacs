@@ -6,3 +6,4 @@
 * Fixed error displaying bootstrap and triangulation blobs for maps that had been rotated
 * Bootstrap blobs will now show when doing a standard map plot
 * Added ability to control grid size when calculating bootstrap blobs, controlling how finely they are calculated
+* Added function `optimizeAgReactivityAdjustments()`

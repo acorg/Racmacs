@@ -449,6 +449,10 @@ ac_runOptimizations <- function(titertable, minimum_col_basis, fixed_colbases, a
     .Call('_Racmacs_ac_runOptimizations', PACKAGE = 'Racmacs', titertable, minimum_col_basis, fixed_colbases, ag_reactivity_adjustments, num_dims, num_optimizations, options, titer_weights)
 }
 
+ac_reactivity_adjustment_stress <- function(par, fixed_ag_reactivities, minimum_column_basis, fixed_column_bases, titertable, ag_coords, sr_coords, options, fixed_antigens, fixed_sera, titer_weights, reactivity_stress_weighting) {
+    .Call('_Racmacs_ac_reactivity_adjustment_stress', PACKAGE = 'Racmacs', par, fixed_ag_reactivities, minimum_column_basis, fixed_column_bases, titertable, ag_coords, sr_coords, options, fixed_antigens, fixed_sera, titer_weights, reactivity_stress_weighting)
+}
+
 ac_stress_blob_grid <- function(testcoords, coords, tabledists, titertypes, stress_lim, grid_spacing) {
     .Call('_Racmacs_ac_stress_blob_grid', PACKAGE = 'Racmacs', testcoords, coords, tabledists, titertypes, stress_lim, grid_spacing)
 }

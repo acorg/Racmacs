@@ -394,15 +394,15 @@ class AcTiterTable {
       // Apply antigen reactivity adjustments
       dists.each_col() += ag_reactivity_adjustments;
 
-      // Subtract colbases from each log titer row to arrive at distance
+      // Subtract each log titer row from colbases to arrive at distance
       for(arma::uword i=0; i<dists.n_rows; i++){
         dists.row(i) = colbases.as_row() - dists.row(i);
       }
 
       // Do not allow distances < 0
-      if (std::isfinite(dists.max())) {
-        dists = arma::clamp(dists, 0, dists.max());
-      }
+      // if (std::isfinite(dists.max())) {
+      //   dists = arma::clamp(dists, 0, dists.max());
+      // }
 
       // Replace na titers with na dists
       dists.elem( arma::find(titer_types == 0) ).fill( arma::datum::nan );

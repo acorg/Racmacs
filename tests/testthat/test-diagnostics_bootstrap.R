@@ -19,6 +19,10 @@ test_that("Test map noisy bootstrapping", {
     titer_noise_sd           = 0.7
   )
 
+  bsmap <- rotateMap(bsmap, 30)
+  bsmap <- translateMap(bsmap, c(10, 10))
+  srOutline(bsmap) <- "red"
+
   # Save and load bootstrap data
   tmp <- tempfile(fileext = ".ace")
   save.acmap(bsmap, tmp)

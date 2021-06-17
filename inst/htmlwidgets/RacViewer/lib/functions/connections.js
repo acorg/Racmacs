@@ -602,22 +602,31 @@ Racmacs.App.prototype.toggleLabels = function(){
 
 }
 
-Racmacs.App.prototype.showLabels = function(){
+Racmacs.App.prototype.showLabels = function(category){
 	
 	if(!this.labelsShown){
 
+		// Highlight button
 		this.labelsShown = true;
 		if(this.btns.toggleLabels){ this.btns.toggleLabels.highlight() }
 
-		if(this.selected_pts.length == 0){
-			var points = this.points;
-		} else {
-			var points = this.selected_pts;
-		}
+		// Work out which points to label
+	    if (category === undefined) { 
+	    	if (this.labelcategory === undefined) {
+	    		category = "all";
+	    	} else {
+	    		category = this.labelcategory;
+	    	}
+	    } else {
+	    	this.labelcategory = category;
+	    }
 
-		for(var i=0; i<points.length; i++){
-			points[i].showLabel();
-		}
+		// Set default points
+		var points;
+		if(category === "all")      points = this.points;
+		if(category === "antigens") points = this.antigens;
+		if(category === "sera")     points = this.sera;
+		points.map(p => p.showLabel());
 
 	}
 
@@ -641,7 +650,8 @@ Racmacs.App.prototype.hideLabels = function(){
 // Add name label to a point object
 Racmacs.Point.prototype.showLabel = function(){
 
-	if(!this.labelShown){
+	if(!this.labelShown && 
+		(this.selected || this.viewer.selected_pts.length == 0)){
 
 		this.labelShown = true;
 		this.namelabel = null;

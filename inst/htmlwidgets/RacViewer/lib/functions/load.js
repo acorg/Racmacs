@@ -180,7 +180,18 @@ Racmacs.Viewer.prototype.load = function(
         if(this.scene.dynamic) this.scene.showhideDynamics(this.camera.camera);
 
         // Set viewer toggles
-        if(options["show.names"])            this.showLabels();
+        switch(options["show.names"]) {
+          case true:
+            this.showLabels("all");
+            break;
+          case "antigens":
+            this.showLabels("antigens");
+            break;
+          case "sera":
+            this.showLabels("sera");
+            break;
+        }
+        if(options["show.names"])
         if(options["show.connectionlines"])  this.showConnectionLines();
         if(options["show.errorlines"])       this.showErrorLines();
         if(options["show.titers"])           this.showTiters();

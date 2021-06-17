@@ -18,6 +18,7 @@
   grid.margin.col = grid.col,
   fill.alpha = 0.8,
   outline.alpha = 0.8,
+  label.offset = 0.5,
   padding = 1,
   cex = 1,
   ...
@@ -36,7 +37,8 @@
 
 \item{plot_sr}{logical, should antigens be plotted}
 
-\item{plot_labels}{logical, should point labels be plotted}
+\item{plot_labels}{should point labels be plotted, can be true, false or
+"antigens" or "sera"}
 
 \item{plot_blobs}{logical, should stress blobs be plotted if present}
 
@@ -49,6 +51,9 @@
 \item{fill.alpha}{alpha for point fill}
 
 \item{outline.alpha}{alpha for point outline}
+
+\item{label.offset}{amount by which any point labels should be offset from
+point coordinates in fractions of a character width}
 
 \item{padding}{padding at limits of the antigenic map, ignored if xlim or
 ylim set explicitly}

@@ -25,7 +25,8 @@ or enclose and rotate along with the map}
 
 \item{grid.col}{Color to use for the grid shown behind the map}
 
-\item{show.names}{Toggle name labels on}
+\item{show.names}{Toggle name labels on, can be true or false or "antigens"
+or "sera"}
 
 \item{show.errorlines}{Toggle error lines on}
 

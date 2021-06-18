@@ -13,6 +13,7 @@
 #'   "antigens" or "sera"
 #' @param plot_blobs logical, should stress blobs be plotted if present
 #' @param show_procrustes logical, should procrustes lines be shown, if present
+#' @param plot_stress logical, should map stress be plotted in lower left corner
 #' @param grid.col grid line color
 #' @param grid.margin.col grid margin color
 #' @param fill.alpha alpha for point fill
@@ -37,11 +38,12 @@ plot.acmap <- function(
   plot_labels = FALSE,
   plot_blobs = TRUE,
   show_procrustes = TRUE,
+  plot_stress = FALSE,
   grid.col = "grey90",
   grid.margin.col = grid.col,
   fill.alpha    = 0.8,
   outline.alpha = 0.8,
-  label.offset = 0.5,
+  label.offset = 0,
   padding = 1,
   cex = 1,
   ...
@@ -244,6 +246,19 @@ plot.acmap <- function(
       )
     })
 
+  }
+
+  ## Add the map stress
+  if (plot_stress) {
+    text(
+      x = xlim[1],
+      y = ylim[1],
+      labels = round(mapStress(x, optimization_number), 2),
+      family = "mono",
+      adj = c(0, -0.5),
+      cex = 0.75,
+      col = "grey40"
+    )
   }
 
   ## Return the map invisibly

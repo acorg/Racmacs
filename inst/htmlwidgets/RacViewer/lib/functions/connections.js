@@ -108,7 +108,7 @@ Racmacs.App.prototype.hideConnectionLines = function(){
 // Add connection lines to a point object
 Racmacs.Point.prototype.showConnections = function(){
 
-	if(!this.connectionLinesShown){
+	if(!this.connectionLinesShown && this.shown){
 
 		this.connectionLinesShown = true;
 
@@ -247,7 +247,7 @@ Racmacs.App.prototype.hideErrorLines = function(){
 // Add connection lines to a point object
 Racmacs.Point.prototype.showErrors = function(){
 
-	if(!this.errorLinesShown){
+	if(!this.errorLinesShown && this.shown){
 
 		this.errorLinesShown = true;
 
@@ -329,20 +329,7 @@ Racmacs.Point.prototype.getErrorData = function(pt = null){
 		var to = connectedPoints[i];
 
 		// Work out whether point is too close or far away
-		var table_dist = from.tableDistTo(to);
-		var titer      = from.titerTo(to);
-		var map_dist   = from.mapDistTo(to);
-		
-		// Get the error
-		var residual = (map_dist - table_dist);
-		if(map_dist > table_dist && titer.charAt(0) == "<"){
-		    residual = 0;
-		}
-
-		// Deal with greater thans
-		if(titer.charAt(0) == ">"){
-			residual = map_dist;
-		}
+		var residual = this.residualErrorTo(to);
 
 		// Calculate the error vector
 		var error_vector = [
@@ -501,7 +488,7 @@ Racmacs.Point.prototype.removeLinkedTiterLabel = function(element){
 // Add titers to a point object
 Racmacs.Point.prototype.showTiters = function(){
 
-	if(!this.titersShown){
+	if(!this.titersShown && this.shown){
 
 		this.titersShown = true;
 		this.titerlabels = [];
@@ -650,7 +637,7 @@ Racmacs.App.prototype.hideLabels = function(){
 // Add name label to a point object
 Racmacs.Point.prototype.showLabel = function(){
 
-	if(!this.labelShown && 
+	if(!this.labelShown && this.shown &&
 		(this.selected || this.viewer.selected_pts.length == 0)){
 
 		this.labelShown = true;
@@ -659,10 +646,7 @@ Racmacs.Point.prototype.showLabel = function(){
 		// Show label
 		var element = new R3JS.element.htmltext({
             text   : this.name,
-            coords : this.coords3,
-            // alignment : plotobj.alignment,
-            // offset     : plotobj.offset,
-            // properties : R3JS.Material(plotobj.properties)
+            coords : this.coords3
         });
         element.setStyle("font-size", "12px");
 		this.namelabel = element;

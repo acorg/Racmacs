@@ -26,15 +26,17 @@ Racmacs.StressElement = class StressElement {
 
 Racmacs.Viewer.prototype.updateStress = function(stress){
 
-  // Create function to update the map stress
+  // Recalculate stress if not supplied in the function
   if(stress === undefined) {
     var stress = 0;
     for(var i=0; i<this.sera.length; i++){
-      stress += this.sera[i].stress;
+      stress += this.sera[i].stress();
     }
-    this.stress.value = stress;
-    this.stress.update(stress);
   }
+
+  // Update the stress
+  this.stress.value = stress;
+  this.stress.update(stress);
 
   // Update any batch run viewers bound
   if(this.projectionList){
@@ -44,17 +46,8 @@ Racmacs.Viewer.prototype.updateStress = function(stress){
       );
   }
 
-}
-
-
-Racmacs.utils.logTiters = function(titerset){
-
-  var logtiters = titerset.map(function(titers){
-    return(titers.map(function(titer){
-      return(Racmacs.utils.logTiter(titer));
-    }));
-  });
-  return(logtiters);
+  // Update data stress
+  this.data.updateStress(stress);
 
 }
 
@@ -92,17 +85,6 @@ Racmacs.utils.calcColBases = function(args){
 }
 
 
-Racmacs.utils.getLogTiters = function(titers){
-
-  var log_titers = new Array(titers.length);
-  for(var i=0; i<titers.length; i++){
-    log_titers[i] = Racmacs.utils.logTiter(titers[i]);
-  }
-  return(log_titers);
-  
-}
-
-
 // Key functions for calculating stress
 Racmacs.utils.logTiter = function(titer){
   
@@ -117,38 +99,15 @@ Racmacs.utils.logTiter = function(titer){
 }
 
 
-Racmacs.utils.calc_table_dist = function(logTiter, colbase){
-  return(colbase - logTiter);
-}
 
+Racmacs.utils.logTiters = function(titerset){
 
-Racmacs.utils.calc_stress = function(
-  tableDist,
-  mapDist,
-  titer
-  ){
-  
-  var con_stress;
-  if(titer == "*"){
-    return(0);
-  } else if(titer.charAt(0) == ">"){
-    return(0);
-  } else {
-    if(titer.charAt(0) == "<"){
-      var x = tableDist+1-mapDist;
-      return(
-        Math.pow(x,2)*(1/(1+Math.exp(-10*x)))
-      );
-    } else {
-      return(
-        Math.pow(tableDist-mapDist,2)
-      );
-    }
-  }
+  var logtiters = titerset.map(function(titers){
+    return(titers.map(function(titer){
+      return(Racmacs.utils.logTiter(titer));
+    }));
+  });
+  return(logtiters);
 
 }
-
-
-
-
 

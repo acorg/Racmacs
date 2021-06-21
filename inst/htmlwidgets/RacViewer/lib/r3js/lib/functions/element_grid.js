@@ -43,7 +43,7 @@ R3JS.element.grid = class Grid extends R3JS.element.base {
 	        material.vertexColors = THREE.VertexColors;
 	    }
 
-	    var geo = new THREE.Geometry();
+	    var geo = new THREE.BufferGeometry();
 	    for(var i=0; i<args.x.length; i++){
 	        for(var j=0; j<args.x[0].length-1; j++){
 	            if(!isNaN(args.z[i][j]) && 

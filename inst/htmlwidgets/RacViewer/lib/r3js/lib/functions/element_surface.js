@@ -106,7 +106,6 @@ R3JS.element.surface = class Surface extends R3JS.element.base {
 
         // Calculate normals
         geo.computeVertexNormals();
-        geo = new THREE.BufferGeometry().fromGeometry( geo );
 
         // Make object
         var object = new THREE.Mesh(geo, material);

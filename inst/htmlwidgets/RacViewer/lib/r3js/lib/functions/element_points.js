@@ -160,8 +160,8 @@ R3JS.Geometries.square3d = {
   outline : function(lwd){
     var size = 0.12;
     lwd  = lwd/60;
-    var geo = new THREE.Geometry();
     var lims = [-size/2-lwd/4, size/2+lwd/4];
+    var components = [];
 
     // Draw lines
     for(var i=0; i<2; i++){
@@ -175,7 +175,7 @@ R3JS.Geometries.square3d = {
           offset    : 0, 
           box       : true
         });
-        geo.merge(line);
+        components.push(line);
       }
     }
     for(var i=0; i<2; i++){
@@ -189,7 +189,7 @@ R3JS.Geometries.square3d = {
           offset    : 0, 
           box       : true
         });
-        geo.merge(line);
+        components.push(line);
       }
     }
     for(var i=0; i<2; i++){
@@ -203,7 +203,7 @@ R3JS.Geometries.square3d = {
           offset    : 0, 
           box       : true
         });
-        geo.merge(line);
+        components.push(line);
       }
     }
 
@@ -213,14 +213,14 @@ R3JS.Geometries.square3d = {
         for(var k=0; k<2; k++){
           var corner = new THREE.BoxGeometry( lwd/2, lwd/2, lwd/2 );
           corner.translate(lims[i], lims[j], lims[k]);
-          geo.merge(corner);
+          components.push(corner);
         }
       }
     }
-    
-    geo.mergeVertices();
-    geo = new THREE.BufferGeometry().fromGeometry(geo);
+
+    var geo = THREE.BufferGeometryUtils.mergeBufferGeometries(components);
     return(geo);
+
   }
 }
 

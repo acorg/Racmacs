@@ -105,7 +105,7 @@ R3JS.Geometries.line2d = function(args){
     }
     if(arrow){
         geo.translate( 0, -arrow.headlength, 0 );
-        var arrowhead = new THREE.Geometry();
+        var arrowhead = new THREE.BufferGeometry();
         arrowhead.vertices.push( new THREE.Vector3(arrow.headwidth/2, -arrow.headlength, 0) );
         arrowhead.vertices.push( new THREE.Vector3(-arrow.headwidth/2, -arrow.headlength, 0) );
         arrowhead.vertices.push( new THREE.Vector3(0, 0, 0) );

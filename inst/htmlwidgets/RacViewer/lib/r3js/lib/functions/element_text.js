@@ -134,9 +134,7 @@ R3JS.element.text = class htmltext extends R3JS.element.base {
         args.alignment[1] = -args.alignment[1]/2 + 0.5;
 
         var shapes    = R3JS.fonts.helvetiker.generateShapes( args.text, 1, 4 );
-        var geometry  = new THREE.ShapeGeometry( shapes );
-        var textShape = new THREE.BufferGeometry();
-        textShape.fromGeometry( geometry );
+        var textShape  = new THREE.ShapeGeometry( shapes );
 
         var color = new THREE.Color(
                 args.properties.color.r, 

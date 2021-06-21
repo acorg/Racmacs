@@ -20,17 +20,21 @@ R3JS.DefaultArray = function(array, defaultvalue, n) {
 // Function for generating a color vector of the right length
 R3JS.DefaultColor = function(color, n) {
 
-    if (color === undefined) color = {r:[0],g:[0],b:[0],a:[1]};
-
+    if (color === undefined) color = {};
     if (color.r === undefined) color.r = [0];
     if (color.g === undefined) color.g = [0];
     if (color.b === undefined) color.b = [0];
     if (color.a === undefined) color.a = [1];
 
-    if (color.r.length != n) color.r = Array(n).fill(color.r[0]);
-    if (color.g.length != n) color.g = Array(n).fill(color.g[0]);
-    if (color.b.length != n) color.b = Array(n).fill(color.b[0]);
-    if (color.a.length != n) color.a = Array(n).fill(color.a[0]);
+    if (!Array.isArray(color.r)) color.r = [color.r];
+    if (!Array.isArray(color.g)) color.g = [color.g];
+    if (!Array.isArray(color.b)) color.b = [color.b];
+    if (!Array.isArray(color.a)) color.a = [color.a];
+
+    if (color.r.length != n) color.r = Array(n).fill(color.r);
+    if (color.g.length != n) color.g = Array(n).fill(color.g);
+    if (color.b.length != n) color.b = Array(n).fill(color.b);
+    if (color.a.length != n) color.a = Array(n).fill(color.a);
 
     return color;
 

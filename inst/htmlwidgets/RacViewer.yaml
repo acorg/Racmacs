@@ -17,6 +17,7 @@ dependencies:
       - styles/drag.css
       - styles/hitable.css
     script:
+      - optimization/optimization.js
       - r3js/lib/threejs/three.min.js
       - r3js/lib/threejs/plugins/Detector.js
       - r3js/lib/threejs/plugins/PLYExporter.js
@@ -77,6 +78,7 @@ dependencies:
       - functions/utils.js
       - functions/data.js
       - functions/controls.js
+      - functions/elements.js
       - functions/diagnostics.js
       - functions/animation.js
       - functions/dimensions.js
@@ -100,4 +102,5 @@ dependencies:
       - functions/icons.js
       - functions/bootstrap.js
       - functions/sequences.js
+      - functions/optimization.js
 

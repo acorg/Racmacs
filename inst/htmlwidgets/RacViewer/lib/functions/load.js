@@ -82,7 +82,7 @@ Racmacs.Viewer.prototype.load = function(
         }
 
         // Update the stress
-        this.updateStress();
+        this.updateStress(this.data.stress());
 
         // Update antigen and sera browsers
         this.browsers.antigens.populate();
@@ -191,7 +191,6 @@ Racmacs.Viewer.prototype.load = function(
             this.showLabels("sera");
             break;
         }
-        if(options["show.names"])
         if(options["show.connectionlines"])  this.showConnectionLines();
         if(options["show.errorlines"])       this.showErrorLines();
         if(options["show.titers"])           this.showTiters();

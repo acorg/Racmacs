@@ -82,6 +82,7 @@ Racmacs.Viewer.prototype.enterDragMode = function(){
 	this.dragMode = true;
     if(this.onDragOn){ this.onDragOn() }
     if(this.btns.toggleDragMode){ this.btns.toggleDragMode.highlight() }
+    if(this.btns.relaxMap){ this.btns.relaxMap.disable() }
 
     // Show the drag mode div
     if(!this.dragpanel){
@@ -94,6 +95,9 @@ Racmacs.Viewer.prototype.enterDragMode = function(){
     for(var i=0; i<this.selected_pts.length; i++){
     	this.selected_pts[i].dragStartPosition = this.selected_pts[i].getPosition();
     }
+
+    // Keep a record of the starting stress
+    this.dragStartStress = this.stress.value;
 
     // Function for starting a drag
 	var viewer = this;
@@ -124,7 +128,7 @@ Racmacs.Viewer.prototype.enterDragMode = function(){
 	// Function to drag a point
 	this.dragPoints = function(){
 
-		// Set variables    	
+		// Set variables
 		var camera           = viewer.camera.camera;
 		var mouse            = viewer.viewport.mouse;
 		var points           = viewer.points;
@@ -170,13 +174,14 @@ Racmacs.Viewer.prototype.enterDragMode = function(){
 	
 }
 
-Racmacs.Viewer.prototype.exitDragMode = function(accept = true){
+Racmacs.Viewer.prototype.exitDragMode = function(accept = false){
 
     this.dragMode = false;
 
     // Trigger drag end event and dehighlight any buttons
 	if(this.onDragOff){ this.onDragOff() }
 	if(this.btns.toggleDragMode){ this.btns.toggleDragMode.dehighlight() }
+	if(this.btns.relaxMap){ this.btns.relaxMap.enable() }
 
 	// Remove event listeners
 	this.viewport.div.removeEventListener("mousedown", this.startDrag);
@@ -191,6 +196,7 @@ Racmacs.Viewer.prototype.exitDragMode = function(accept = true){
 
         // Trigger events
 	    this.onCoordsChange();
+	    this.data.updateCoords();
 
 	} else {
 		
@@ -206,14 +212,12 @@ Racmacs.Viewer.prototype.exitDragMode = function(accept = true){
 			);
 		}
 
+		// Restore original stress
+	    this.updateStress(this.dragStartStress);
+
 	};
 
 	// Update the stress
-	this.updateStress();
 	this.render();
 
 }
-
-
-
-

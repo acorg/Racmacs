@@ -123,8 +123,12 @@ window.addEventListener("racViewerLoaded", function(e){
 
   // Relaxing the map
   viewer.onRelaxMap = function(){
+    Shiny.setInputValue("selectedPoints", viewer.getSelectedPointIndices(), { priority : "event" });
     Shiny.setInputValue("relaxMap", true, { priority : "event" });
   };
+
+  // Overwrite javascript relax map method
+  viewer.relaxMap = function(){};
 
   // Relaxing the map one step
   viewer.onRelaxMapOneStep = function(){

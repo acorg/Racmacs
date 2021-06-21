@@ -19,6 +19,67 @@ Racmacs.Data = class Data {
     // Load new data
     load(data){
         this.data = data;
+        this.titertable = this.getTable();
+        this.logtitertable = Racmacs.utils.logTiters(this.titertable);
+        this.pnum = 0;
+    }
+
+    // Set the projection
+    setProjection(num){
+        this.pnum = num;
+        this.update_colbases();
+    }
+
+    // For updating stress
+    updateStress(stress) {
+        this.data.c.P[this.pnum].s = stress;
+    }
+
+    // For resetting tranformation and translation information
+    resetTransformation() {
+        delete this.data.c.P[this.pnum].t;
+    }
+    resetTranslation() {
+        if(this.data.c.x && this.data.c.x.p && this.data.c.x.p[this.pnum].t) {
+            delete this.data.c.x.p[this.pnum].t;
+        }
+    }
+
+    // For updating base coordinates
+    updateBaseCoords(coords) {
+        this.data.c.P[this.pnum].l = coords;
+    }
+
+    // For updating coordinates after points have been moved 
+    // in the viewer
+    updateCoords() {
+        
+        // Get variables
+        let ndims = this.dimensions();
+        let coords = this.viewer.points.map( p => {
+            if (p.coords_na) {
+                return([]);
+            } else {
+                return(p.getPosition().slice(0, ndims));
+            }
+        });
+
+        // Reset any transformations
+        this.resetTransformation();
+        this.resetTranslation();
+
+        // Apply the coordinate change
+        this.updateBaseCoords(coords);
+
+        // Log the change in the console
+        console.log("Coords data updated");
+        
+
+    }
+
+    // Return selected projection
+    projection() {
+        return(this.pnum);
     }
 
     // Chart attributes
@@ -30,23 +91,6 @@ Racmacs.Data = class Data {
     numProjections(){
         if(!this.data){ return(0) }
         return(this.data.c.P.length);
-    }
-
-    setProjection(num){
-        this.data.selected_optimization = num;
-    }
-
-    // Selected projection
-    projection(num){
-        if(!this.data){ return(0) }
-        if(typeof(num) === "undefined"){
-            if(this.data.selected_optimization == null){
-                return(0);
-            }
-            return(this.data.selected_optimization);
-        } else {
-            return(num);
-        }
     }
 
     numAntigens(){
@@ -63,7 +107,7 @@ Racmacs.Data = class Data {
         return(this.numAntigens() + this.numSera());
     }
 
-    table(){
+    getTable(){
 
         let table;
         let tabledata;
@@ -100,52 +144,61 @@ Racmacs.Data = class Data {
     }
 
     logtable(){
-        return(Racmacs.utils.logTiters(this.table()));
+        return(this.logtitertable);
+    }
+
+    logtiter(ag, sr){
+        return(this.logtitertable[ag][sr]);
+    }
+
+    adjustedlogtiter(ag, sr) {
+        return(this.logtiter(ag, sr) + this.agReactivityAdjustment(ag));
+    }
+
+    tableDist(ag, sr) {
+        return(this.colbases(sr) - this.adjustedlogtiter(ag, sr));
+    }
+
+    titerType(ag, sr) {
+        return(
+            Racmacs.utils.titerType(
+                this.titertable[ag][sr]
+            )
+        );
     }
 
     // Projection attributes
-    stress(num){
-        let pnum = this.projection(num);
-        if(this.data.c.P[pnum].s){
-          return(this.data.c.P[pnum].s);
+    stress(){
+        if(this.data.c.P[this.pnum] && this.data.c.P[this.pnum].s){
+          return(this.data.c.P[this.pnum].s);
         } else {
           return(0);
         }
     }
 
-    transformation(num){
+    transformation(){
         if(this.data.c.P.length == 0) return(null)
-        let pnum = this.projection(num);
-
-        if(this.data.c.P[pnum].t !== undefined){
-            return(this.data.c.P[pnum].t);
+        if(this.data.c.P[this.pnum].t !== undefined){
+            return(this.data.c.P[this.pnum].t);
         } else {
             return(null);
         }
 
     }
 
-    translation(num){
-        let pnum = this.projection(num);
-        if(this.data.c.x.p && this.data.c.x.p[pnum].t){
-            return(this.data.c.x.p[pnum].t);
+    translation(){
+        if(this.data.c.x.p && this.data.c.x.p[this.pnum].t){
+            return(this.data.c.x.p[this.pnum].t);
         } else {
             return(null);
         }
     }
 
-    dimensions(num){
+    dimensions(){
         if(this.data.c.P.length == 0) return(null)
-        let pnum = this.projection(num);
         return(
-            Math.max(...this.data.c.P[pnum].l.map( p => p.length ))
+            Math.max(...this.data.c.P[this.pnum].l.map( p => p.length ))
         );
-    }
-
-    minColBasis(num){
-        // let pnum = this.projection(num);
-        // return(this.data.optimizations[pnum].minimum_column_basis);
-        return("none");
     }
 
     transformedCoords(num){
@@ -168,11 +221,19 @@ Racmacs.Data = class Data {
         )
     }
 
+    agReactivityAdjustment(i){
+        let pnum = this.projection();
+        if (this.data.c.x && this.data.c.x.p && this.data.c.x.p[pnum].r) {
+            return(this.data.c.x.p[pnum].r[i]);
+        } else {
+            return(0);
+        }
+    }
+
     ptBaseCoords(i){
         if(this.data.c.P.length == 0) return(null);
-        let pnum = this.projection();
-        if(i === undefined) return(this.data.c.P[pnum].l.slice());
-        return(this.data.c.P[pnum].l[i].slice());
+        if(i === undefined) return(this.data.c.P[this.pnum].l.slice());
+        return(this.data.c.P[this.pnum].l[i].slice());
     }
 
     ptCoords(i){
@@ -217,34 +278,36 @@ Racmacs.Data = class Data {
     }
 
     colbases(i=null){
-        if(this.numProjections() == 0){
-            return(
-                Racmacs.utils.calcColBases({
-                    titers: this.table(),
-                    mincolbasis: "none"
-                })
-            );
+        if(i === null){
+            return(this.colbase_cache);
+        } else {
+            return(this.colbase_cache[i]);
         }
+    }
 
-        let pnum = this.projection();
+    minColBasis(){
+        if(this.data.c.P[this.pnum] && this.data.c.P[this.pnum].m){
+            return(this.data.c.P[this.pnum].m);
+        } else {
+            return("none");
+        }
+    }
+
+    update_colbases(){
+
         let colbases;
-        let mincolbasis;
 
         // Apply minimum column basis
-        if(this.data.c.P[pnum].m){
-            mincolbasis = this.data.c.P[pnum].m;
-        } else {
-            mincolbasis = "none";
-        }
+        var mincolbasis = this.minColBasis();
         colbases = Racmacs.utils.calcColBases({
-            titers: this.table(),
+            titers: this.titertable,
             mincolbasis: mincolbasis
         });
 
         // Apply fixed column bases
-        if(this.data.c.P[pnum].C){
+        if(this.data.c.P[this.pnum] && this.data.c.P[this.pnum].C){
             // Forced column bases
-            var fixed_colbases = this.data.c.P[pnum].C;
+            var fixed_colbases = this.data.c.P[this.pnum].C;
             for(var j=0; j<fixed_colbases.length; j++){
                 if (fixed_colbases[j] !== null) {
                     colbases[j] = fixed_colbases[j];
@@ -252,11 +315,9 @@ Racmacs.Data = class Data {
             }
         }
 
-        if(i === null){
-            return(colbases);
-        } else {
-            return(colbases[i]);
-        }
+        // Update the cache
+        this.colbase_cache = colbases;
+
     }
 
 
@@ -351,25 +412,19 @@ Racmacs.Data = class Data {
     }
 
     // Diagnostics
-    triangulationBlobs(num){
-        let pnum = this.projection(num);
+    triangulationBlobs(){
         if(!this.data.diagnostics
-            || !this.data.diagnostics[pnum]
-            || !this.data.diagnostics[pnum].triangulation_blobs){
+            || !this.data.diagnostics[this.pnum]
+            || !this.data.diagnostics[this.pnum].triangulation_blobs){
             return(null)
         } else {
-            return(this.data.diagnostics[pnum].triangulation_blobs)
+            return(this.data.diagnostics[this.pnum].triangulation_blobs)
         }
     }
 
     // Bootstrap data
     bootstrap(){
         return(this.data.c.x.bootstrap);
-    }
-
-    // Procrustes data
-    procrustes(){
-        return(this.data.procrustes);
     }
 
     // Output the ace format

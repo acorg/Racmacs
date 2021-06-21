@@ -124,6 +124,7 @@ Racmacs.Viewer.prototype.switchToProjection = function(num){
 
     // Fire the onprojectionswitch event
     this.onProjectionChange(num);
+    if(this.data.numProjections() == 0) return(null);
 
     // Check num
     if(num > this.data.numProjections()){
@@ -197,7 +198,7 @@ Racmacs.Viewer.prototype.switchToProjection = function(num){
     this.render();
 
     // Update stress
-    this.updateStress();
+    this.updateStress(this.data.stress());
 
 }
 

@@ -58,11 +58,12 @@ Racmacs.ButtonPanel = class ButtonPanel {
                     viewer.onRelaxMapOneStep();
                 } else {
                     viewer.onRelaxMap();
+                    viewer.relaxMap();
                 }
             },
             disabled : false
         });
-        relax_btn.classList.add("shiny-element");
+        // relax_btn.classList.add("shiny-element");
 
         // Add randomise button
         var relax_btn = this.addButton({

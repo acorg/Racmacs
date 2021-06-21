@@ -166,6 +166,10 @@ Racmacs.Viewer = class RacViewer extends Racmacs.App {
                     this.toggleLabels();
                     break;
                 case "Escape":
+                    this.exitDragMode();
+                    this.hideErrorLines();
+                    this.hideConnectionLines();
+                    this.hideTiters();
                     this.deselectAll();
                     break;
             }
@@ -187,7 +191,6 @@ Racmacs.Viewer = class RacViewer extends Racmacs.App {
             if(viewer.animated){
                 if(viewer.animated_points.length > 0){
                     viewer.animated_points.map( x => x.stepToCoords() );
-                    viewer.updateStress();
                     viewer.sceneChange = true;
                 }
                 if(viewer.raytraceNeeded || viewer.sceneChange || viewer.scene.sceneChange){

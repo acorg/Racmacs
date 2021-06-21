@@ -105,6 +105,3 @@ R3JS.Viewer.prototype.eventListeners.push({
     }
 });
 
-
-
-

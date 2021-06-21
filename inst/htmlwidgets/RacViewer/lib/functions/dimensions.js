@@ -65,7 +65,7 @@ Racmacs.Viewer.prototype.setDims = function(
     var coords   = [];
     for(var i=0; i<this.points.length; i++){
         if(!this.points[i].coords_na){
-        	coords.push(this.points[i].coords);
+        	coords.push(this.points[i].coords3);
         }
     }
     var x_coords = coords.map( p => p[0] );

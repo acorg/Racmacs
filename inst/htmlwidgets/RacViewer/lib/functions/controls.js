@@ -126,30 +126,6 @@ Racmacs.ControlPanel = class ControlPanel {
             content: diagnosticsPanel.div
         });
 
-        // Add Blobs
-        // var triangulationblobsPanel = new Racmacs.TriangulationblobsPanel(this.viewer);
-        // this.tabset.addTab({
-        //     id : "triangulationblobs",
-        //     name: "Triangulation blobs",
-        //     content: triangulationblobsPanel.div
-        // });
-
-        // Add procrustes
-        // var procrustesPanel = new Racmacs.ProcrustesPanel(this.viewer);
-        // this.tabset.addTab({
-        //     id : "procrustes",
-        //     name: "Procrustes",
-        //     content: procrustesPanel.div
-        // });
-
-        // // Add bootstrap
-        // var bootstrapPanel = new Racmacs.BootstrapPanel(this.viewer);
-        // this.tabset.addTab({
-        //     id : "bootstrap",
-        //     name: "Bootstrap",
-        //     content: bootstrapPanel.div
-        // });
-
         // By default hide the shiny elements
         this.hideShinyElements();
 

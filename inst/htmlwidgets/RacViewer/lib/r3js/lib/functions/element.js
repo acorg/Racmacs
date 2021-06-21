@@ -152,6 +152,10 @@ R3JS.element.base = class Element {
         this.object = R3JS.utils.breakupMesh(this.object);
     }
 
+    // Modifying properties
+    setColor(color){}
+    setOpacity(opacity){}
+
 }
 
 

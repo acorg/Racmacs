@@ -14,11 +14,12 @@
   plot_labels = FALSE,
   plot_blobs = TRUE,
   show_procrustes = TRUE,
+  plot_stress = FALSE,
   grid.col = "grey90",
   grid.margin.col = grid.col,
   fill.alpha = 0.8,
   outline.alpha = 0.8,
-  label.offset = 0.5,
+  label.offset = 0,
   padding = 1,
   cex = 1,
   ...
@@ -43,6 +44,8 @@
 \item{plot_blobs}{logical, should stress blobs be plotted if present}
 
 \item{show_procrustes}{logical, should procrustes lines be shown, if present}
+
+\item{plot_stress}{logical, should map stress be plotted in lower left corner}
 
 \item{grid.col}{grid line color}
 

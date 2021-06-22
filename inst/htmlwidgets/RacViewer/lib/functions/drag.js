@@ -176,48 +176,50 @@ Racmacs.Viewer.prototype.enterDragMode = function(){
 
 Racmacs.Viewer.prototype.exitDragMode = function(accept = false){
 
-    this.dragMode = false;
+	if (this.dragMode) {
+	    this.dragMode = false;
 
-    // Trigger drag end event and dehighlight any buttons
-	if(this.onDragOff){ this.onDragOff() }
-	if(this.btns.toggleDragMode){ this.btns.toggleDragMode.dehighlight() }
-	if(this.btns.relaxMap){ this.btns.relaxMap.enable() }
+	    // Trigger drag end event and dehighlight any buttons
+		if(this.onDragOff){ this.onDragOff() }
+		if(this.btns.toggleDragMode){ this.btns.toggleDragMode.dehighlight() }
+		if(this.btns.relaxMap){ this.btns.relaxMap.enable() }
 
-	// Remove event listeners
-	this.viewport.div.removeEventListener("mousedown", this.startDrag);
-	this.viewport.div.removeEventListener("mouseup",   this.endDrag);
+		// Remove event listeners
+		this.viewport.div.removeEventListener("mousedown", this.startDrag);
+		this.viewport.div.removeEventListener("mouseup",   this.endDrag);
 
-	// Hide the drag panel
-	this.dragpanel.hide();
+		// Hide the drag panel
+		this.dragpanel.hide();
 
-	if(accept){
-        
-		// Accepted ----
+		if(accept){
+	        
+			// Accepted ----
 
-        // Trigger events
-	    this.onCoordsChange();
-	    this.data.updateCoords();
+	        // Trigger events
+		    this.onCoordsChange();
+		    this.data.updateCoords();
 
-	} else {
-		
-		// Cancelled ----
+		} else {
+			
+			// Cancelled ----
 
-		// Restore points to their original positions
-		for(var i=0; i<this.selected_pts.length; i++){
-			var orig_position = this.selected_pts[i].dragStartPosition;
-			this.selected_pts[i].setPosition(
-				orig_position[0],
-				orig_position[1],
-				orig_position[2]
-			);
-		}
+			// Restore points to their original positions
+			for(var i=0; i<this.selected_pts.length; i++){
+				var orig_position = this.selected_pts[i].dragStartPosition;
+				this.selected_pts[i].setPosition(
+					orig_position[0],
+					orig_position[1],
+					orig_position[2]
+				);
+			}
 
-		// Restore original stress
-	    this.updateStress(this.dragStartStress);
+			// Restore original stress
+		    this.updateStress(this.dragStartStress);
 
-	};
+		};
 
-	// Update the stress
-	this.render();
+		// Update the stress
+		this.render();
+	}
 
 }

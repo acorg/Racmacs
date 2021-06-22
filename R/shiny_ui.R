@@ -5,7 +5,7 @@ mapGUI_ui <- function() {
     bootstrap = TRUE,
     shiny::includeScript(system.file("shinyapps/RacmacsGUI/www/racmacs.js", package = "Racmacs")),
     RacViewerOutput("racViewer"),
-    div(
+    shiny::div(
       shiny::fileInput(inputId = "mapDataLoaded", label = "mapDataLoaded", accept = ".ace"),
       shiny::fileInput(inputId = "tableDataLoaded", label = "tableDataLoaded", accept = ".csv,.txt"),
       shiny::fileInput(inputId = "procrustesDataLoaded", label = "procrustesDataLoaded", accept = ".ace"),

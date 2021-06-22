@@ -1,2 +1,0 @@
-
-ui <- mapGUI_ui()

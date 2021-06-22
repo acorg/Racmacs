@@ -160,7 +160,7 @@ class MapOptimizer {
     }
 
     // CALCULATING STRESS GRADIENTS
-    void update_gradients(){
+    void update_gradients() {
 
       // Setup to update gradients
       ag_gradients.zeros();
@@ -171,22 +171,22 @@ class MapOptimizer {
         for(arma::uword ag = 0; ag < num_ags; ++ag) {
 
           // Skip unmeasured titers
-          if(titertype_matrix.at(ag,sr) == 0){
+          if(titertype_matrix.at(ag, sr) == 0){
             continue;
           }
 
           // Calculate inc_base
           double ibase = titer_weights.at(ag,sr) * inc_base(
-            mapdist_matrix.at(ag,sr),
-            tabledist_matrix.at(ag,sr),
-            titertype_matrix.at(ag,sr)
+            mapdist_matrix.at(ag, sr),
+            tabledist_matrix.at(ag, sr),
+            titertype_matrix.at(ag, sr)
           );
 
           // Now calculate the gradient for each coordinate
           for(arma::uword i = 0; i < num_dims; ++i) {
-            gradient = ibase*(ag_coords.at(ag,i) - sr_coords.at(sr,i));
-            ag_gradients.at(ag,i) -= gradient;
-            sr_gradients.at(sr,i) += gradient;
+            gradient = ibase*(ag_coords.at(ag, i) - sr_coords.at(sr, i));
+            ag_gradients.at(ag, i) -= gradient;
+            sr_gradients.at(sr, i) += gradient;
           }
 
         }

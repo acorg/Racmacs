@@ -580,8 +580,8 @@ Racmacs.Point = class Point {
     residualErrorTo(to){
         return(
             Racmacs.utils.ptResidual(
-                this.tableDistTo(to),
                 this.mapDistTo(to),
+                this.tableDistTo(to),
                 this.titerTypeTo(to)
             )
         );
@@ -591,8 +591,8 @@ Racmacs.Point = class Point {
     stressTo(to){
         return(
             Racmacs.utils.ptStress(
-                this.tableDistTo(to),
                 this.mapDistTo(to),
+                this.tableDistTo(to),
                 this.titerTypeTo(to)
             )
         );

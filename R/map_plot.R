@@ -250,7 +250,7 @@ plot.acmap <- function(
 
   ## Add the map stress
   if (plot_stress) {
-    text(
+    graphics::text(
       x = xlim[1],
       y = ylim[1],
       labels = round(mapStress(x, optimization_number), 2),

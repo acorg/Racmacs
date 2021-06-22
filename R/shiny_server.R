@@ -8,7 +8,7 @@ mapGUI_server <- function(map = NULL){
     # General setup
     ## Create a reactive values object for storing data that will change
     ## during the user session
-    storage <- reactiveValues(
+    storage <- shiny::reactiveValues(
       map = map,       # The map object of a loaded map
       opt_selected = 1 # The optimization number currently selected
     )
@@ -48,115 +48,115 @@ mapGUI_server <- function(map = NULL){
 
     # Event listeners
     ## Loading a map file
-    observeEvent(
+    shiny::observeEvent(
       input$mapDataLoaded,
       server_loadMapData(env)
     )
 
     ## Loading a table file
-    observeEvent(
+    shiny::observeEvent(
       input$tableDataLoaded,
       server_loadTableData(env)
     )
 
     ## Save a map file
-    observeEvent(
+    shiny::observeEvent(
       input$mapDataSaved,
       server_saveMapData(env)
     )
 
     ## Save a table file
-    observeEvent(
+    shiny::observeEvent(
       input$tableDataSaved,
       server_saveTableData(env)
     )
 
     ## Save a coords file
-    observeEvent(
+    shiny::observeEvent(
       input$coordsDataSaved,
       server_saveCoordsData(env)
     )
 
     ## Switching to a new optimization
-    observeEvent(
+    shiny::observeEvent(
       input$optimizationChanged,
       server_optimizationChanged(env)
     )
 
     ## Reflecting the map
-    observeEvent(
+    shiny::observeEvent(
       input$reflectMap,
       server_reflectMap(env)
     )
 
     ## Running new optimisations
-    observeEvent(
+    shiny::observeEvent(
       input$runOptimizations,
       server_runOptimizations(env)
     )
 
     ## Updating coordinates
-    observeEvent(
+    shiny::observeEvent(
       input$coordsChanged,
       server_coordsChanged(env)
     )
 
     ## Map relaxed
-    observeEvent(
+    shiny::observeEvent(
       input$relaxMap,
       server_relaxMap(env)
     )
 
     ## Relax map one step
-    observeEvent(
+    shiny::observeEvent(
       input$relaxMapOneStep,
       server_relaxMapOneStep(env)
     )
 
     ## Randomize map coordinates
-    observeEvent(
+    shiny::observeEvent(
       input$randomizeMap,
       server_randomizeMap(env)
     )
 
     ## Add stress blobs
-    observeEvent(
+    shiny::observeEvent(
       input$triangulationBlobs,
       server_triangulationBlobs(env)
     )
 
     ## Add hemisphering data
-    observeEvent(
+    shiny::observeEvent(
       input$checkHemisphering,
       server_checkHemisphering(env)
     )
 
     ## Move trapped points
-    observeEvent(
+    shiny::observeEvent(
       input$moveTrappedPoints,
       server_moveTrappedPoints(env)
     )
 
     ## Procrustes
-    observeEvent(
+    shiny::observeEvent(
       input$procrustesDataLoaded,
       server_procrustesMap(env)
     )
 
     ## Orient optimizations
-    observeEvent(
+    shiny::observeEvent(
       input$alignOptimizations,
       server_alignOptimizations(env)
     )
 
     ## Remove optimizations
-    observeEvent(
+    shiny::observeEvent(
       input$removeOptimizations,
       server_removeOptimizations(env)
     )
 
     ## Load point styles
-    observeEvent(
+    shiny::observeEvent(
       input$pointStyleDataLoaded,
       server_loadPointStyleData(env)
     )

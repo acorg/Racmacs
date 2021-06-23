@@ -204,12 +204,12 @@ Racmacs.Data = class Data {
     transformedCoords(num){
         let pnum           = this.projection(num);
         let coords         = this.data.c.P[pnum].l.slice();
-        return(this.transformCoords(coords, pnum));
+        return(this.transformCoords(coords));
     }
 
-    transformCoords(coords, num){
-        let transformation = this.transformation(num);
-        let translation    = this.translation(num)
+    transformCoords(coords){
+        let transformation = this.transformation();
+        let translation    = this.translation()
         return(
             coords.map(
                 coord => Racmacs.utils.transformTranslateCoords(

@@ -206,11 +206,11 @@ Racmacs.Viewer.prototype.exitDragMode = function(accept = false){
 			// Restore points to their original positions
 			for(var i=0; i<this.selected_pts.length; i++){
 				var orig_position = this.selected_pts[i].dragStartPosition;
-				this.selected_pts[i].setPosition(
+				this.selected_pts[i].setPosition([
 					orig_position[0],
 					orig_position[1],
 					orig_position[2]
-				);
+				]);
 			}
 
 			// Restore original stress

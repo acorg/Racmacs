@@ -266,7 +266,9 @@ Racmacs.Point = class Point {
     }
 
     // Set the point position
-    setPosition(x, y, z){
+    setPosition(to){
+
+        while (to.length < 3) to.push(0);
 
         // Set from and to
         var from = [
@@ -275,14 +277,12 @@ Racmacs.Point = class Point {
             this.coordsVector.z,
         ];
 
-        var to = [x, y, z];
-
         // Remove blobs if shown
         if(this.blob){
             this.removeBlob();
         }
         
-        if(isNaN(x) || isNaN(y) || isNaN(z)){
+        if(isNaN(to[0]) || isNaN(to[1]) || isNaN(to[2])){
             this.coords_na = true;
             x = 0;
             y = 0;
@@ -290,16 +290,16 @@ Racmacs.Point = class Point {
         }
 
         // Update the coordinate vector
-        this.coordsVector.x = x;
-        this.coordsVector.y = y;
-        this.coordsVector.z = z;
+        this.coordsVector.x = to[0];
+        this.coordsVector.y = to[1];
+        this.coordsVector.z = to[2];
 
         // Update the coordinates array
         this.coords3 = this.coordsVector.toArray();
         
         // Move the point geometry
         if(this.element){
-            this.element.setCoords(x, y, z);
+            this.element.setCoords(to[0], to[1], to[2]);
         }
 
         // Update any connections or error lines
@@ -524,11 +524,11 @@ Racmacs.Point = class Point {
     translate(x, y, z){
 
         // Update the position of the point in the viewer
-        this.setPosition(
+        this.setPosition([
             this.coordsVector.x + x,
             this.coordsVector.y + y,
             this.coordsVector.z + z
-        );
+        ]);
 
     }
 

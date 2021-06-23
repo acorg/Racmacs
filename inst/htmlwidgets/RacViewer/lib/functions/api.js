@@ -60,12 +60,20 @@ Racmacs.App.prototype.setCoords = function(data){
 
     for(var i=0; i<data.antigens.length; i++){
         if(data.antigens[i].length == 2){ data.antigens[i].push(0) }
-        this.antigens[i].setPosition(data.antigens[i][0], data.antigens[i][1], data.antigens[i][2]);
+        this.antigens[i].setPosition([
+            data.antigens[i][0], 
+            data.antigens[i][1], 
+            data.antigens[i][2]
+        ]);
     }
 
     for(var i=0; i<data.sera.length; i++){
         if(data.sera[i].length == 2){ data.sera[i].push(0) }
-        this.sera[i].setPosition(data.sera[i][0], data.sera[i][1], data.sera[i][2]);
+        this.sera[i].setPosition([
+            data.sera[i][0], 
+            data.sera[i][1], 
+            data.sera[i][2]
+        ]);
     }
 
     if (data.stress !== undefined) {

@@ -129,7 +129,7 @@ Racmacs.utils.ptResidual = function(
     }
   
     // Return the residual result
-    return(residual);
+    return(-residual);
 
 }
 
@@ -279,7 +279,18 @@ Racmacs.Optimizer = class RacOptimizer {
 
 }
 
-Racmacs.Viewer.prototype.relaxMap = function() {
+Racmacs.Viewer.prototype.toggleRelaxMap = function(maxsteps) {
+
+    if (this.optimizing) this.endOptimizer();
+    else                 this.relaxMap(maxsteps);
+
+}
+
+Racmacs.Viewer.prototype.relaxMap = function(maxsteps) {
+
+    // Record whether this is only a onestep optimization
+    this.optimizer_maxsteps = maxsteps;
+    this.optimizer_stepnum = 0;
 
     // Calculate table distances
     var tabledists = this.antigens.map((ag, i) => 
@@ -300,7 +311,7 @@ Racmacs.Viewer.prototype.relaxMap = function() {
     }
 
     // Setup optimizer object
-    var map_optimizer = new Racmacs.Optimizer({
+    this.optimizer = new Racmacs.Optimizer({
         ag_coords : this.data.agBaseCoords(),
         sr_coords : this.data.srBaseCoords(),
         tabledists : tabledists,
@@ -309,35 +320,41 @@ Racmacs.Viewer.prototype.relaxMap = function() {
         fixed_sr : fixed_sr
     });
 
-    map_optimizer.update_map_dist_matrix();
-    map_optimizer.update_gradients();
+    this.optimizer.update_map_dist_matrix();
+    this.optimizer.update_gradients();
+    this.optimizer_solution = this.optimizer.calculate_stress();
 
     // Setup parameters
     var base_coords = this.data.ptBaseCoords();
-    var init_pars = base_coords.reduce(function(a, b) {
+    this.optimizer_pars = base_coords.reduce(function(a, b) {
         return a.concat(b);
     });
 
+    // Start the optimization loop
+    this.btns["relaxMap"].highlight();
+    this.optimizing = true;
+
     // Setup objective function
-    var objective = function (x) {
+    var viewer = this;
+    this.optimizer_objective = function (x) {
         
-        map_optimizer.update_map_coords(x);
-        map_optimizer.update_map_dist_matrix();
-        var stress = map_optimizer.calculate_stress();
+        viewer.optimizer.update_map_coords(x);
+        viewer.optimizer.update_map_dist_matrix();
+        var stress = viewer.optimizer.calculate_stress();
         return (stress);
 
     }
 
     // Setup gradient function
-    var gradient = function (x) {
+    this.optimizer_gradient = function (x) {
         
-        map_optimizer.update_map_coords(x);
-        map_optimizer.update_map_dist_matrix();
-        map_optimizer.update_gradients();
+        viewer.optimizer.update_map_coords(x);
+        viewer.optimizer.update_map_dist_matrix();
+        viewer.optimizer.update_gradients();
         
         var gradients = [];
-        gradients = gradients.concat(map_optimizer.ag_gradients);
-        gradients = gradients.concat(map_optimizer.sr_gradients);
+        gradients = gradients.concat(viewer.optimizer.ag_gradients);
+        gradients = gradients.concat(viewer.optimizer.sr_gradients);
         gradients = gradients.reduce(function(a, b) {
             return a.concat(b);
         });
@@ -345,36 +362,86 @@ Racmacs.Viewer.prototype.relaxMap = function() {
 
     }
 
+    // Set transformation and translation
+    this.optimizer_transformation = this.data.transformation();
+    this.optimizer_translation = this.data.translation();
+
+};
+
+
+Racmacs.Viewer.prototype.stepOptimizer = function() {
+
+    // Record stepnum
+    this.optimizer_stepnum++;
+
     // Apply the mimimization
-    var solution = optimjs.minimize_L_BFGS(
-        objective, 
-        gradient, 
-        init_pars
+    var solution = optimjs.minimize_GradientDescent(
+        this.optimizer_objective, 
+        this.optimizer_gradient, 
+        this.optimizer_pars,
+        1
     );
-    map_optimizer.update_map_coords(solution.argument);
-    map_optimizer.update_map_dist_matrix();
+
+    // Update optimizer based on values
+    this.optimizer_pars = solution.argument;
+    this.optimizer.update_map_coords(solution.argument);
+    this.optimizer.update_map_dist_matrix();
     
-    // Apply the solution
-    var new_coords = [];
-    new_coords = new_coords.concat(map_optimizer.ag_coords);
-    new_coords = new_coords.concat(map_optimizer.sr_coords);
-
-    // Update the stress and coordinate data
-    this.data.updateBaseCoords(new_coords);
-    this.onCoordsChange();
-
-    this.antigens.map((ag, i) => ag.animateToCoords(
-        this.data.agCoords(i)
+    // Step the coordinates forward to the new positions
+    this.antigens.map((ag, i) => ag.setPosition(
+        Racmacs.utils.transformTranslateCoords(
+            this.optimizer.ag_coords[i],
+            this.optimizer_transformation,
+            this.optimizer_translation
+        )
     ));
 
-    this.sera.map((sr, i) => sr.animateToCoords(
-        this.data.srCoords(i)
+    this.sera.map((sr, i) => sr.setPosition(
+        Racmacs.utils.transformTranslateCoords(
+            this.optimizer.sr_coords[i],
+            this.optimizer_transformation,
+            this.optimizer_translation
+        )
     ));
 
     // Update the stress
+    var new_stress = this.optimizer.calculate_stress();
+    this.updateStress(new_stress);
+
+    // Check if optimization should be ended
+    if ((this.optimizer_maxsteps !== undefined && this.optimizer_stepnum == this.optimizer_maxsteps) || 
+        this.optimizer_solution - new_stress < 1e-8) {
+        this.endOptimizer();
+    } else {
+        this.optimizer_solution = new_stress;
+    }
+    
+
+}
+
+
+Racmacs.Viewer.prototype.endOptimizer = function() {
+
+
+    // Quit the optimization loop
+    this.btns["relaxMap"].dehighlight();
+    this.optimizing = false;
+
+    // Update the stress and coordinate data
+    var new_coords = [];
+    new_coords = new_coords.concat(this.optimizer.ag_coords);
+    new_coords = new_coords.concat(this.optimizer.sr_coords);
+
+    // Update the stress
+    this.data.updateBaseCoords(new_coords);
     this.updateStress(
-        map_optimizer.calculate_stress()
+        this.optimizer.calculate_stress()
     );
 
-};
+    // Trigger any on coordinates change events
+    this.onCoordsChange();
+
+}
+
+
 

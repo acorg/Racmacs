@@ -193,6 +193,10 @@ Racmacs.Viewer = class RacViewer extends Racmacs.App {
                     viewer.animated_points.map( x => x.stepToCoords() );
                     viewer.sceneChange = true;
                 }
+                if(viewer.optimizing) {
+                    viewer.stepOptimizer();
+                    viewer.sceneChange = true;
+                }
                 if(viewer.raytraceNeeded || viewer.sceneChange || viewer.scene.sceneChange){
                     viewer.raytraceNeeded = false;
                     viewer.raytrace();

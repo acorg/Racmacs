@@ -503,7 +503,7 @@ module.exports.minimize_Powell = function (fnc, x0) {
  * denotes the best argument found thus far, and fncvalue, which is a
  * value of the function at the best found argument.
 */
-module.exports.minimize_GradientDescent = function (fnc, grd, x0) {
+module.exports.minimize_GradientDescent = function (fnc, grd, x0, maxiterations) {
     // fnc: function which takes array of size N as an input
     // grd: gradient (array of size N) of function for some input
     // x0: array or real numbers of size N; 
@@ -520,11 +520,15 @@ module.exports.minimize_GradientDescent = function (fnc, grd, x0) {
 
     var pfx = fnc(x);
 
+    var iternum = 0;
     while (!convergence) {
+
+        iternum++;
         var g = grd(x);
+
         convergence = vect_max_abs_x_less_eps(g, eps);
 
-        if (convergence) {
+        if (convergence || iternum > maxiterations) {
             break;
         }
 
@@ -592,6 +596,7 @@ module.exports.minimize_L_BFGS = function (fnc, grd, x0) {
     var g = grd(x);
     var direction = g.slice();
     var convergence = false;
+
     while (!convergence) {
 
         var xn = x.slice();

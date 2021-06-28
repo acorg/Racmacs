@@ -296,6 +296,83 @@ double ac_coords_stress(
 
 }
 
+// [[Rcpp::export]]
+arma::mat ac_point_stresses(
+    AcTiterTable titer_table,
+    std::string min_colbasis,
+    arma::vec fixed_colbases,
+    arma::vec ag_reactivity_adjustments,
+    arma::mat map_dists
+){
+
+  // Fetch variables
+  arma::uword num_ags = map_dists.n_rows;
+  arma::uword num_sr  = map_dists.n_cols;
+  arma::mat numeric_table_dists = titer_table.numeric_table_distances(
+    min_colbasis,
+    fixed_colbases,
+    ag_reactivity_adjustments
+  );
+  arma::umat titer_types = titer_table.get_titer_types();
+
+  // Setup residual table
+  arma::mat stress_table(num_ags, num_sr);
+
+  // Populate residual table
+  for (arma::uword ag = 0; ag < num_ags; ag++) {
+    for (arma::uword sr = 0; sr < num_sr; sr++) {
+      stress_table(ag, sr) = ac_ptStress(
+        map_dists(ag, sr),
+        numeric_table_dists(ag, sr),
+        titer_types(ag, sr)
+      );
+    }
+  }
+
+  // Return the table
+  return(stress_table);
+
+}
+
+
+// [[Rcpp::export]]
+arma::mat ac_point_residuals(
+    AcTiterTable titer_table,
+    std::string min_colbasis,
+    arma::vec fixed_colbases,
+    arma::vec ag_reactivity_adjustments,
+    arma::mat map_dists
+  ){
+
+  // Fetch variables
+  arma::uword num_ags = map_dists.n_rows;
+  arma::uword num_sr  = map_dists.n_cols;
+  arma::mat numeric_table_dists = titer_table.numeric_table_distances(
+    min_colbasis,
+    fixed_colbases,
+    ag_reactivity_adjustments
+  );
+  arma::umat titer_types = titer_table.get_titer_types();
+
+  // Setup residual table
+  arma::mat residual_table(num_ags, num_sr);
+
+  // Populate residual table
+  for (arma::uword ag = 0; ag < num_ags; ag++) {
+    for (arma::uword sr = 0; sr < num_sr; sr++) {
+      residual_table(ag, sr) = ac_ptResidual(
+        map_dists(ag, sr),
+        numeric_table_dists(ag, sr),
+        titer_types(ag, sr)
+      );
+    }
+  }
+
+  // Return the table
+  return(residual_table);
+
+}
+
 
 // [[Rcpp::export]]
 double ac_relax_coords(

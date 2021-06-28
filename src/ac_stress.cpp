@@ -49,8 +49,42 @@ double ac_ptStress(
 
 }
 
+// This is the point residual function
+double ac_ptResidual(
+    double &map_dist,
+    double &table_dist,
+    unsigned int &titer_type
+){
 
-// This is the point stress function
+  double x;
+  double residual;
+
+  switch(titer_type) {
+  case 1:
+    // Measurable titer
+    residual = table_dist - map_dist;
+    break;
+  case 2:
+    // Less than titer
+    x = table_dist - map_dist + 1;
+    residual = x*sigmoid(x);
+    break;
+  case 3:
+    // More than titer
+    residual = 0;
+    break;
+  default:
+    // Missing titer
+    residual = 0;
+  }
+
+  // Return the residual result
+  return -residual;
+
+}
+
+
+// This is for calculating the inc_base part of the stress gradient function
 double inc_base(
     double &map_dist,
     double &table_dist,

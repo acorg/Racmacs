@@ -17,7 +17,14 @@ double ac_ptStress(
   unsigned int &titer_type
 );
 
-// This is the point stress function
+// This is the point residual function
+double ac_ptResidual(
+    double &map_dist,
+    double &table_dist,
+    unsigned int &titer_type
+);
+
+// This is the inc_base function used in the stress gradient function
 double inc_base(
   double &map_dist,
   double &table_dist,

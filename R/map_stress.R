@@ -166,29 +166,19 @@ stressTable <- function(
   ) {
 
   if (numOptimizations(map) == 0) {
-    stop("This map has no optimizations for which to calculate a stress table")
+    stop(strwrap(
+      "This map has no optimizations for which
+      to calculate a stress table"
+    ))
   }
 
-  titer_table <- titerTable(map)
-  ag_coords   <- agBaseCoords(map, optimization_number)
-  sr_coords   <- srBaseCoords(map, optimization_number)
-  colbases    <- colBases(map, optimization_number)
-  ag_reactivity_adjustments <- agReactivityAdjustments(map, optimization_number)
-
-  stress_table <- matrix(NaN, numAntigens(map), numSera(map))
-  for (ag in seq_len(numAntigens(map))) {
-    for (sr in seq_len(numSera(map))) {
-      stress_table[ag, sr] <- ac_coords_stress(
-        titers = titer_table[ag, sr, drop = F],
-        min_colbasis = "none",
-        fixed_colbases = colbases[sr],
-        ag_reactivity_adjustments = ag_reactivity_adjustments[ag],
-        ag_coords = ag_coords[ag, , drop = F],
-        sr_coords = sr_coords[sr, , drop = F]
-      )
-    }
-  }
-  stress_table
+  ac_point_stresses(
+    titerTable(map),
+    minColBasis(map, optimization_number),
+    fixedColBases(map, optimization_number),
+    agReactivityAdjustments(map, optimization_number),
+    mapDistances(map, optimization_number)
+  )
 
 }
 
@@ -222,21 +212,13 @@ mapResiduals <- function(
     ))
   }
 
-  map_dist    <- mapDistances(map, optimization_number)
-  table_dist  <- numeric_min_tabledists(tableDistances(map, optimization_number))
-  titer_types <- titertypesTable(map)
-
-  residuals <- table_dist - map_dist
-
-  if (exclude_nd) {
-    residuals[map_dist > table_dist & titer_types == 2] <- NA
-    residuals[map_dist < table_dist & titer_types == 3] <- NA
-  } else {
-    residuals[map_dist > table_dist & titer_types == 2] <- 0
-    residuals[map_dist < table_dist & titer_types == 3] <- 0
-  }
-
-  residuals
+  ac_point_residuals(
+    titerTable(map),
+    minColBasis(map, optimization_number),
+    fixedColBases(map, optimization_number),
+    agReactivityAdjustments(map, optimization_number),
+    mapDistances(map, optimization_number)
+  )
 
 }
 

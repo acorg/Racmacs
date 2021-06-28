@@ -441,6 +441,14 @@ ac_coords_stress <- function(titers, min_colbasis, fixed_colbases, ag_reactivity
     .Call('_Racmacs_ac_coords_stress', PACKAGE = 'Racmacs', titers, min_colbasis, fixed_colbases, ag_reactivity_adjustments, ag_coords, sr_coords)
 }
 
+ac_point_stresses <- function(titer_table, min_colbasis, fixed_colbases, ag_reactivity_adjustments, map_dists) {
+    .Call('_Racmacs_ac_point_stresses', PACKAGE = 'Racmacs', titer_table, min_colbasis, fixed_colbases, ag_reactivity_adjustments, map_dists)
+}
+
+ac_point_residuals <- function(titer_table, min_colbasis, fixed_colbases, ag_reactivity_adjustments, map_dists) {
+    .Call('_Racmacs_ac_point_residuals', PACKAGE = 'Racmacs', titer_table, min_colbasis, fixed_colbases, ag_reactivity_adjustments, map_dists)
+}
+
 ac_relax_coords <- function(tabledist_matrix, titertype_matrix, ag_coords, sr_coords, options, fixed_antigens, fixed_sera, titer_weights) {
     .Call('_Racmacs_ac_relax_coords', PACKAGE = 'Racmacs', tabledist_matrix, titertype_matrix, ag_coords, sr_coords, options, fixed_antigens, fixed_sera, titer_weights)
 }

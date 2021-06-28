@@ -284,9 +284,9 @@ Racmacs.Point = class Point {
         
         if(isNaN(to[0]) || isNaN(to[1]) || isNaN(to[2])){
             this.coords_na = true;
-            x = 0;
-            y = 0;
-            z = 0;
+            to[0] = 0;
+            to[1] = 0;
+            to[2] = 0;
         }
 
         // Update the coordinate vector

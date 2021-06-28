@@ -129,6 +129,7 @@ window.addEventListener("racViewerLoaded", function(e){
 
   // Overwrite javascript relax map method
   viewer.relaxMap = function(){};
+  viewer.toggleRelaxMap = function(){};
 
   // Relaxing the map one step
   viewer.onRelaxMapOneStep = function(){

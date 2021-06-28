@@ -126,3 +126,12 @@ test_that("Procrustes a map to another map", {
   export.viewer.test(view(pc12), "map_procrustes_with_mismatches.html")
 
 })
+
+test_that("Procrustes maps in 3d", {
+
+  map1 <- read.acmap(test_path("../testdata/testmap_h3subset3d.ace"))
+  map2 <- randomizeCoords(map1)
+  pc12 <- procrustesMap(map1, map2, sera = FALSE)
+  export.viewer.test(view(pc12), "map_procrustes_3d.html")
+
+})

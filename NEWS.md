@@ -17,3 +17,4 @@
 * Added option to show map stress in plot
 * Added ability to relax map points directly from the javascript viewer
 * Added the function `mapGadget()` for opening up a map object in the GUI
+* Fix error causing 3d arrows to not display

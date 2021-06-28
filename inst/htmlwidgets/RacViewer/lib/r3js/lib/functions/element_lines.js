@@ -151,6 +151,7 @@ R3JS.Geometries.line3d = function(args){
   var arrow     = args.arrow;
   var box       = args.box;
   var arrowend  = args.arrowend;
+  var geos      = [];
 
   // Get direction and length
   var direction = new THREE.Vector3(to[0]-from[0],
@@ -177,6 +178,8 @@ R3JS.Geometries.line3d = function(args){
   if(offset){
       geo.translate( offset[0], offset[1], offset[2] );
   }
+  geos.push(geo);
+
   if(arrow){
       geo.translate( 0, -arrow.headlength, 0 );
       if(arrow.end == "circle"){
@@ -185,16 +188,16 @@ R3JS.Geometries.line3d = function(args){
           var arrowhead = new THREE.ConeGeometry( arrow.headwidth/2, arrow.headlength, 32 );
           arrowhead.translate(0,-arrow.headlength/2,0);
       }
-      geo.merge(arrowhead);
+      geos.push(arrowhead);
   }
   
   // Add cap if requested
   if(cap){
       var cap = new THREE.SphereGeometry( lwd/2, 16, 16, 0, Math.PI );
-      geo.merge(cap);
+      geos.push(cap);
       var cap = new THREE.SphereGeometry( lwd/2, 16, 16, 0, Math.PI*2, Math.PI, Math.PI );
       cap.translate(0,-length,0);
-      geo.merge(cap);
+      geos.push(cap);
   }
 
   // Make translation matrix
@@ -206,11 +209,14 @@ R3JS.Geometries.line3d = function(args){
   var quat = new THREE.Quaternion().setFromUnitVectors(axis, direction.clone().normalize());
   var rotmat = new THREE.Matrix4().makeRotationFromQuaternion(quat);
 
-  // Rotate to match direction and position
-  geo.applyMatrix4(rotmat);
-  geo.applyMatrix4(transmat);
+  // Merge the geometries
+  geometry = THREE.BufferGeometryUtils.mergeBufferGeometries(geos);
 
-  return(geo);
+  // Rotate to match direction and position
+  geometry.applyMatrix4(rotmat);
+  geometry.applyMatrix4(transmat);
+
+  return(geometry);
 
 }
 

@@ -55,6 +55,7 @@ jobs:
 
       - name: Install dependencies
         run: |
+          remotes::install_deps(dependencies = TRUE)
           remotes::install_cran("rcmdcheck")
           install.packages("pkgdown", type = "binary")
         shell: Rscript {0}
@@ -182,7 +183,7 @@ jobs:
           built_pkg_path <- list.files(options$out_dir, full.names = T)[1]
           built_pkg_file <- list.files(options$out_dir)[1]
           built_pkg_name <- gsub(".*\\.", paste0(package_filename, "."), built_pkg_file)
-          built_pkg_name_latest <- gsub(version, "latest", built_pkg_name)
+          built_pkg_name_latest <- gsub(version, "latest", built_pkg_name, fixed = TRUE)
 
           file.copy(
             built_pkg_path,

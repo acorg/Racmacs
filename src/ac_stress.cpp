@@ -95,7 +95,7 @@ double inc_base(
   double x;
 
   // Deal with 0 map distance
-  if(map_dist == 0){
+  if (map_dist == 0) {
     map_dist = 1e-5;
   }
 

@@ -125,6 +125,8 @@ test_that("Optimizing a perfect map with dimensional annealing", {
   pcdata <- procrustesData(perfect_map_opt, perfect_map)
   expect_equal(numOptimizations(perfect_map_opt), 1000)
   expect_lt(pcdata$total_rmsd, 0.01)
+  expect_equal(ncol(agCoords(perfect_map_opt)), 2)
+  expect_equal(ncol(srCoords(perfect_map_opt)), 2)
 
   # Check stresses are calculated correctly
   expect_lt(optStress(perfect_map_opt, 1), 0.001)

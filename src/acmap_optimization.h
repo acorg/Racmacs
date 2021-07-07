@@ -415,8 +415,12 @@ class AcOptimization {
         sr_base_coords
       );
       arma::mat coeff = arma::princomp(coords);
-      ag_base_coords = ag_base_coords*coeff.cols(0, dims);
-      sr_base_coords = sr_base_coords*coeff.cols(0, dims);
+      ag_base_coords = ag_base_coords * coeff.cols(0, dims - 1);
+      sr_base_coords = sr_base_coords * coeff.cols(0, dims - 1);
+
+      transformation.resize(dims, dims);
+      translation.resize(dims, 1);
+
       invalidate_stress();
 
     }

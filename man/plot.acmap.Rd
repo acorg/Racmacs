@@ -15,8 +15,10 @@
   plot_blobs = TRUE,
   show_procrustes = TRUE,
   plot_stress = FALSE,
+  indicate_outliers = TRUE,
   grid.col = "grey90",
   grid.margin.col = grid.col,
+  outlier.arrow.col = grid.col,
   fill.alpha = 0.8,
   outline.alpha = 0.8,
   label.offset = 0,
@@ -47,9 +49,14 @@
 
 \item{plot_stress}{logical, should map stress be plotted in lower left corner}
 
+\item{indicate_outliers}{logical, should points outside of plot limits be
+indicated with an arrow}
+
 \item{grid.col}{grid line color}
 
 \item{grid.margin.col}{grid margin color}
+
+\item{outlier.arrow.col}{outlier arrow color}
 
 \item{fill.alpha}{alpha for point fill}
 

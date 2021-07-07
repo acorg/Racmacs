@@ -19,3 +19,4 @@
 * Added the function `mapGadget()` for opening up a map object in the GUI
 * Fix error causing 3d arrows to not display
 * Update the way point stress and residual is calculated for the stress and residual error table
+* Added option to plot.acmap to indicate points outside of plot limits with an arrow

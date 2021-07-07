@@ -14,8 +14,11 @@
 #' @param plot_blobs logical, should stress blobs be plotted if present
 #' @param show_procrustes logical, should procrustes lines be shown, if present
 #' @param plot_stress logical, should map stress be plotted in lower left corner
+#' @param indicate_outliers logical, should points outside of plot limits be
+#'   indicated with an arrow
 #' @param grid.col grid line color
 #' @param grid.margin.col grid margin color
+#' @param outlier.arrow.col outlier arrow color
 #' @param fill.alpha alpha for point fill
 #' @param outline.alpha alpha for point outline
 #' @param label.offset amount by which any point labels should be offset from
@@ -39,8 +42,10 @@ plot.acmap <- function(
   plot_blobs = TRUE,
   show_procrustes = TRUE,
   plot_stress = FALSE,
+  indicate_outliers = TRUE,
   grid.col = "grey90",
   grid.margin.col = grid.col,
+  outlier.arrow.col = grid.col,
   fill.alpha    = 0.8,
   outline.alpha = 0.8,
   label.offset = 0,
@@ -127,6 +132,16 @@ plot.acmap <- function(
     optimization_number = optimization_number
   )
 
+  # Deal with cases outside plot limits
+  if (indicate_outliers) {
+    pts_orig_coords <- pts$coords
+    pts_left   <- pts$coords[,1] < xlim[1]; pts$coords[pts_left,   1] <- xlim[1]
+    pts_right  <- pts$coords[,1] > xlim[2]; pts$coords[pts_right,  1] <- xlim[2]
+    pts_bottom <- pts$coords[,2] < ylim[1]; pts$coords[pts_bottom, 2] <- ylim[1]
+    pts_top    <- pts$coords[,2] > ylim[2]; pts$coords[pts_top,    2] <- ylim[2]
+    pts_outside_bounds <- pts_left | pts_right | pts_top | pts_bottom
+  }
+
   ## Check for special points that won't be plotted properly
   if (
     sum(pts$aspect != 1) > 0 ||
@@ -183,7 +198,8 @@ plot.acmap <- function(
     bg  = pts$fill[plotted_pt_order],
     col = pts$outline[plotted_pt_order],
     cex = pts$size[plotted_pt_order] * cex * 0.3,
-    lwd = pts$outline_width[plotted_pt_order]
+    lwd = pts$outline_width[plotted_pt_order],
+    xpd = TRUE
   )
 
   ## Plot blobs
@@ -246,6 +262,30 @@ plot.acmap <- function(
       )
     })
 
+  }
+
+  ## Plot arrows for points outside bounds
+  if (indicate_outliers) {
+    for (n in which(pts_outside_bounds)) {
+
+      from <- pts$coords[n,]
+      oto  <- pts_orig_coords[n,]
+      tovec <- oto - from
+      tovec <- tovec / sqrt(sum(tovec^2))
+      to <- from + tovec*diff(range(ylim))*0.05
+
+      shape::Arrows(
+        x0 = from[1],
+        y0 = from[2],
+        x1 = to[1],
+        y1 = to[2],
+        arr.type = "triangle",
+        arr.width = 0.15,
+        arr.length = 0.2,
+        col = outlier.arrow.col,
+        xpd = TRUE
+      )
+    }
   }
 
   ## Add the map stress

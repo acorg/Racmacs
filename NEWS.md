@@ -24,3 +24,4 @@
 
 # Racmacs 1.1.12
 * Fix error in Racmacs when calculating antigen and sera mean stress per titer
+* Fix error in viewer code when accounting for antigen reactivity adjustments in stress calculations

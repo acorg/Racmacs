@@ -224,9 +224,17 @@ Racmacs.Data = class Data {
     agReactivityAdjustment(i){
         let pnum = this.projection();
         if (this.data.c.x && this.data.c.x.p && this.data.c.x.p[pnum].r) {
-            return(this.data.c.x.p[pnum].r[i]);
+            if (i === undefined) {
+                return(this.data.c.x.p[pnum].r)
+            } else {
+                return(this.data.c.x.p[pnum].r[i]);
+            }
         } else {
-            return(0);
+            if (i === undefined) {
+                return(Array(this.numAntigens()).fill(0));
+            } else {
+                return(0);
+            }
         }
     }
 
@@ -301,7 +309,8 @@ Racmacs.Data = class Data {
         var mincolbasis = this.minColBasis();
         colbases = Racmacs.utils.calcColBases({
             titers: this.titertable,
-            mincolbasis: mincolbasis
+            mincolbasis: mincolbasis,
+            ag_reactivity_adjustment: this.agReactivityAdjustment()
         });
 
         // Apply fixed column bases

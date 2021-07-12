@@ -55,6 +55,14 @@ Racmacs.Viewer.prototype.updateStress = function(stress){
 Racmacs.utils.calcColBases = function(args){
 
   var logtiters   = Racmacs.utils.logTiters(args.titers);
+
+  // Apply antigen reactivity adjustments
+  for (var ag = 0; ag < logtiters.length; ag++) {
+    for (var sr = 0; sr < logtiters[0].length; sr++) {
+      logtiters[ag][sr] += args.ag_reactivity_adjustment[ag];
+    }
+  }
+
   var colbases = Array(logtiters[0].length);
   for(var i=0; i<colbases.length; i++){
     

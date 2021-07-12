@@ -21,3 +21,6 @@
 * Update the way point stress and residual is calculated for the stress and residual error table
 * Added option to plot.acmap to indicate points outside of plot limits with an arrow
 * Fixed error when performing dimensional annealing
+
+# Racmacs 1.1.12
+* Fix error in Racmacs when calculating antigen and sera mean stress per titer

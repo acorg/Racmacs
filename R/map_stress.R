@@ -212,13 +212,20 @@ mapResiduals <- function(
     ))
   }
 
-  ac_point_residuals(
+  residual_matrix <- ac_point_residuals(
     titerTable(map),
     minColBasis(map, optimization_number),
     fixedColBases(map, optimization_number),
     agReactivityAdjustments(map, optimization_number),
     mapDistances(map, optimization_number)
   )
+
+  if (exclude_nd) {
+    titertypes <- titertypesTable(map)
+    residual_matrix[titertypes != 1] <- NA
+  }
+
+  residual_matrix
 
 }
 
@@ -329,12 +336,12 @@ srStressPerTiter <- function(
     exclude_nd          = exclude_nd
   )
 
-  # Calculate the serum likelihood
+  # Calculate the serum stress per titer
   vapply(sera, function(serum) {
 
     sr_residuals <- map_residuals[, serum]
     sr_residuals <- sr_residuals[!is.na(sr_residuals)]
-    sqrt((sum(sr_residuals^2) / length(sr_residuals)))
+    sum(sr_residuals^2) / length(sr_residuals)
 
   }, numeric(1))
 
@@ -360,12 +367,12 @@ agStressPerTiter <- function(
     exclude_nd          = exclude_nd
   )
 
-  # Calculate the serum likelihood
+  # Calculate the antigen stress per titer
   vapply(antigens, function(antigen) {
 
     ag_residuals <- map_residuals[antigen, ]
     ag_residuals <- ag_residuals[!is.na(ag_residuals)]
-    sqrt((sum(ag_residuals^2) / length(ag_residuals)))
+    sum(ag_residuals^2) / length(ag_residuals)
 
   }, numeric(1))
 

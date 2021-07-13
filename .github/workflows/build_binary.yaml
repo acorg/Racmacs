@@ -13,13 +13,14 @@ on:
 name: Build-binary-packages
 
 jobs:
-  R-CMD-check:
+  build:
     runs-on: ${{ matrix.config.os }}
 
     name: ${{ matrix.config.os }} (${{ matrix.config.r }})
 
     strategy:
       fail-fast: false
+      max-parallel: 1
       matrix:
         config:
           - {os: windows-latest, r: 'release'}

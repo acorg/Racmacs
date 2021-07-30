@@ -47,6 +47,7 @@ R3JS.element.glpoints = class GLPoints {
         var aspect       = new Float32Array( coords.length );
         var shape        = new Float32Array( coords.length );
         var visible      = new Float32Array( coords.length );
+        var rotation     = new Float32Array( coords.length );
 
         // Fill in info
         var n;
@@ -115,9 +116,10 @@ R3JS.element.glpoints = class GLPoints {
             if(args.shape[n] == "ouglyegg")  { shape[i] = 4 }
             if(args.shape[n] == "buglyegg")  { shape[i] = 4 }
 
-            sizes[i]   = args.size[n];
-            visible[i] = args.properties.visible[n];
-            aspect[i]  = args.properties.aspect[n];
+            sizes[i]    = args.size[n];
+            visible[i]  = args.properties.visible[n];
+            aspect[i]   = args.properties.aspect[n];
+            rotation[i] = 0;
 
         }
 
@@ -129,6 +131,7 @@ R3JS.element.glpoints = class GLPoints {
         geometry.setAttribute( 'outlineWidth', new THREE.BufferAttribute( outlineWidth, 1 ) );
         geometry.setAttribute( 'size',         new THREE.BufferAttribute( sizes,        1 ) );
         geometry.setAttribute( 'aspect',       new THREE.BufferAttribute( aspect,       1 ) );
+        geometry.setAttribute( 'rotation',     new THREE.BufferAttribute( rotation,     1 ) );
         geometry.setAttribute( 'shape',        new THREE.BufferAttribute( shape,        1 ) );
         geometry.setAttribute( 'visible',      new THREE.BufferAttribute( visible,      1 ) );
 
@@ -294,6 +297,20 @@ R3JS.element.glpoint = class GLPoint extends R3JS.element.base {
 
     }
 
+    // Method to set shape
+    setShape(shape){
+        var shapes = this.object.geometry.attributes.shape.array;
+        this.object.geometry.attributes.shape.needsUpdate = true;
+        shapes[this.index] = shape;
+    }
+
+    // Method to set rotation
+    setRotation(rotation){
+        var rotations = this.object.geometry.attributes.rotation.array;
+        this.object.geometry.attributes.rotation.needsUpdate = true;
+        rotations[this.index] = rotation;
+    }
+
     // Method to set fill color
     setFillColor(color){
 
@@ -394,6 +411,14 @@ R3JS.element.glpoint = class GLPoint extends R3JS.element.base {
         // Reset the index
         this.index = index;
 
+    }
+
+
+    // Get visible point radius
+    radius() {
+        var size       = this.size;
+        var uniscale   = this.object.material.uniforms.scale.value;
+        return(0.025*size*uniscale);
     }
 
 

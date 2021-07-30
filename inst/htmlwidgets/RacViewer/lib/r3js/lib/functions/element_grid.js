@@ -19,7 +19,7 @@ R3JS.element.constructors.grid = function(
 }
 
 
-// Sphere object
+// Grid object
 R3JS.element.grid = class Grid extends R3JS.element.base {
 
     // Object constructor
@@ -27,92 +27,68 @@ R3JS.element.grid = class Grid extends R3JS.element.base {
 
     	super();
 
-        // Set default properties
-        if(!args.properties){
-            args.properties = {
-                lwd : 1
-            };
+        // Calculate number of vertices
+        var nx = args.x.length;
+        var ny = args.x[0].length;
+        var nverts = nx*ny;
+        var positions = new Float32Array( nverts * 3 );
+        var colors    = new Float32Array( nverts * 3 );
+
+        // Set defaults
+        // args.properties = R3JS.DefaultProperties(args.properties, nx*ny);
+
+        // Set object geometry
+        var material = R3JS.Material(args.properties);
+
+        var rcol = args.properties.color.r;
+        var gcol = args.properties.color.g;
+        var bcol = args.properties.color.b;
+
+        // Cycle through and set positions and colors
+        var i=0;
+        for (var x=0; x<nx; x++) {
+            for (var y=0; y<ny; y++) {
+                positions[i*3 + 0] = args.x[x][y];
+                positions[i*3 + 1] = args.y[x][y];
+                positions[i*3 + 2] = args.z[x][y];
+                colors[i*3 + 0] = rcol[x][y];
+                colors[i*3 + 1] = gcol[x][y];
+                colors[i*3 + 2] = bcol[x][y];
+                args.x[x][y] = i;
+                i++;
+            }
         }
 
-	    var colors   = args.properties.color;
-	    var material = R3JS.Material(args.properties);
-	    
-	    var vertex_cols = colors.r.length > 1;
-	    if(vertex_cols){
-	        material.color = new THREE.Color();
-	        material.vertexColors = THREE.VertexColors;
-	    }
+        var indices = [];
+        for (var x=0; x<(nx - 1); x++) {
+            for (var y=0; y<(ny - 1); y++) {
 
-	    var geo = new THREE.BufferGeometry();
-	    for(var i=0; i<args.x.length; i++){
-	        for(var j=0; j<args.x[0].length-1; j++){
-	            if(!isNaN(args.z[i][j]) && 
-	               !isNaN(args.z[i][j+1])){
+                indices.push(
+                    args.x[x][y],
+                    args.x[x+1][y],
+                    args.x[x][y+1]
+                );
 
-	                var coords1 = [args.x[i][j], args.y[i][j], args.z[i][j]];
-	                var coords2 = [args.x[i][j+1], args.y[i][j+1], args.z[i][j+1]];
+                indices.push(
+                    args.x[x][y+1],
+                    args.x[x+1][y],
+                    args.x[x+1][y+1]
+                );
 
-	                geo.vertices.push(
-	                    new THREE.Vector3(
-	                        coords1[0],
-	                        coords1[1],
-	                        coords1[2]
-	                    ),
-	                    new THREE.Vector3(
-	                        coords2[0],
-	                        coords2[1],
-	                        coords2[2]
-	                    )
-	                );
+            }
+        }
 
-	                if(vertex_cols){
-	                    var n1 = i*(args.x[0].length)+j;
-	                    var n2 = i*(args.x[0].length)+(j+1);
-	                    geo.colors.push(new THREE.Color(colors.r[n1],
-	                                                    colors.g[n1],
-	                                                    colors.b[n1]));
-	                    geo.colors.push(new THREE.Color(colors.r[n2],
-	                                                    colors.g[n2],
-	                                                    colors.b[n2]));
-	                }
-	            }
-	        }
-	    }
+        // Create buffer geometry
+        var geometry = new THREE.BufferGeometry();
+        geometry.setIndex( indices );
+        geometry.setAttribute( 'position', new THREE.BufferAttribute( positions, 3 ));
+        geometry.setAttribute( 'color',    new THREE.BufferAttribute( colors,    3 ));
 
-	    for(var i=0; i<args.x[0].length; i++){
-	        for(var j=0; j<args.x.length-1; j++){
-	            if(!isNaN(args.z[j][i]) && 
-	               !isNaN(args.z[j+1][i])){
-	                var coords1 = [args.x[j][i], args.y[j][i], args.z[j][i]];
-	                var coords2 = [args.x[j+1][i], args.y[j+1][i], args.z[j+1][i]];
-	                geo.vertices.push(
-	                    new THREE.Vector3(
-	                        coords1[0],
-	                        coords1[1],
-	                        coords1[2]
-	                    ),
-	                    new THREE.Vector3(
-	                        coords2[0],
-	                        coords2[1],
-	                        coords2[2]
-	                    )
-	                );
-	                if(vertex_cols){
-	                    var n1 = j*(args.x[0].length)+i;
-	                    var n2 = (j+1)*(args.x[0].length)+i;
-	                    geo.colors.push(new THREE.Color(colors.r[n1],
-	                                                    colors.g[n1],
-	                                                    colors.b[n1]));
-	                    geo.colors.push(new THREE.Color(colors.r[n2],
-	                                                    colors.g[n2],
-	                                                    colors.b[n2]));
-	                }
-	            }
-	        }
-	    }
+        material.vertexColors = THREE.VertexColors;
+        material.color = new THREE.Color();
 
 	    // Make the object
-	    this.object = new THREE.LineSegments(geo, material, args.properties.lwd);
+	    this.object = new THREE.LineSegments(geometry, material, args.properties.lwd);
 	    this.object.element = this;
 
 	}

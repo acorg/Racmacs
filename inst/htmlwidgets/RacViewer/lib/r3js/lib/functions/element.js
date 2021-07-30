@@ -6,9 +6,38 @@ R3JS.element.base = class Element {
 
     constructor(){
         this.layers = new THREE.Layers();
+        this.dynamic_shown = true;
+        this.shown = true;
     }
-	show(){ this.object.visible = true  }
-    hide(){ this.object.visible = false }
+
+	show() { 
+        this.shown = true;
+        this.showhide();
+    }
+
+    hide() { 
+        this.shown = false;
+        this.showhide();
+    }
+
+    showdynamic(){ 
+        this.dynamic_shown = true;
+        this.showhide();
+    }
+
+    hidedynamic(){ 
+        this.dynamic_shown = false;
+        this.showhide();
+    }
+
+    showhide(){
+        if (this.shown && this.dynamic_shown) {
+            this.object.visible = true;
+        } else {
+            this.object.visible = false;
+        }
+    }
+
     showMat(){ 
         if(this.object.material){
             this.object.material.visible = true
@@ -83,7 +112,9 @@ R3JS.element.base = class Element {
     }
 
     raycast(a,b){
-        this.object.raycast(a,b);
+        if (this.shown && this.dynamic_shown) {
+            this.object.raycast(a,b);
+        }
     }
 
     hover(){

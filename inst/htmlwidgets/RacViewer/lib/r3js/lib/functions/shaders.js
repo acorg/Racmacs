@@ -10,6 +10,7 @@ R3JS.Shaders.VertexShader2D = `
 	attribute float fillAlpha;
 	//attribute float outlineAlpha;
 	attribute float aspect;
+	attribute float rotation;
 	attribute float visible;
 	
 	varying vec4 pFillColor;
@@ -18,6 +19,7 @@ R3JS.Shaders.VertexShader2D = `
 	varying float pOutlineWidth;
 	varying float pSize;
 	varying float pAspect;
+	varying float pRotation;
 	varying float pScale;
 	varying float pShape;
 	varying float pVisible;
@@ -38,6 +40,7 @@ R3JS.Shaders.VertexShader2D = `
 		//pOutlineAlpha = outlineAlpha;
 	    pVisible      = visible;
 		pAspect       = aspect;
+		pRotation     = rotation;
 	    pSize         = size;
 	    pShape        = shape;
 	    pOutlineWidth = outlineWidth;
@@ -48,6 +51,7 @@ R3JS.Shaders.VertexShader2D = `
 		screenpos     = vec2(gl_Position[0], gl_Position[1]);
 
 		pScale       = pSize*scale*(viewportHeight/20.0)*pPixelRatio;
+	    if (pShape == 5.0) pScale = 100.0;
 		if (pScale > maxpointsize) { 
 
 			exceeds_maxpointsize = 1.0;
@@ -175,6 +179,7 @@ R3JS.Shaders.FragmentShader2D = `
 	varying float pShape;
 	varying float pScale;
 	varying float pAspect;
+	varying float pRotation;
 	varying float pVisible;
 	varying float pPixelRatio;
 	varying float exceeds_maxpointsize;
@@ -414,6 +419,64 @@ R3JS.Shaders.FragmentShader2D = `
 	        if(emin < radius + fade_range){
 	            gl_FragColor.a = gl_FragColor.a*(1.0-((radius - fade_range) - emin)/fade_range);
 	        }	    	
+
+	    }
+
+	    // Arrowhead
+	    if(pShape == 5.0){	    	
+
+	        // Apply rotation
+	        float xo = p.x;
+	        float yo = p.y;
+	        p.x = xo*cos(pRotation) - yo*sin(pRotation);
+	        p.y = xo*sin(pRotation) + yo*cos(pRotation);
+
+	        // Set outline width
+	        outline_width = 0.1;
+
+		    vec2 p1 = vec2(0.2,  0.4);
+			vec2 p2 = vec2(-0.2, 0.4);
+			vec2 p3 = vec2(0,    0.0);
+	        
+			float alpha = ((p2.y - p3.y)*(p.x - p3.x) + (p3.x - p2.x)*(p.y - p3.y)) /
+			        ((p2.y - p3.y)*(p1.x - p3.x) + (p3.x - p2.x)*(p1.y - p3.y));
+			float beta = ((p3.y - p1.y)*(p.x - p3.x) + (p1.x - p3.x)*(p.y - p3.y)) /
+			       ((p2.y - p3.y)*(p1.x - p3.x) + (p3.x - p2.x)*(p1.y - p3.y));
+			float gamma = 1.0 - alpha - beta;
+	        
+	        if(alpha < 0.0 || beta < 0.0 || gamma < 0.0){
+	            discard;
+	        } else if(alpha < outline_width || beta < outline_width || gamma < outline_width){
+			    if(pOutlineColor[3] == 0.0){
+	            	discard;
+	            } else {
+	                gl_FragColor = pOutlineColor;
+	            }
+	        } else if(alpha < outline_width + blend_range || beta < outline_width + blend_range || gamma < outline_width + blend_range){
+	            if(alpha < beta && alpha < gamma){
+	                gl_FragColor = mix(pOutlineColor, pFillColor, (alpha-outline_width)/blend_range);
+	            } else if(beta < gamma) {
+	                gl_FragColor = mix(pOutlineColor, pFillColor, (beta-outline_width)/blend_range);
+	            } else {
+	                gl_FragColor = mix(pOutlineColor, pFillColor, (gamma-outline_width)/blend_range);
+	            }
+	        } else {
+	            if(pFillColor[3] == 0.0){
+	            	discard;
+	            } else {
+	                gl_FragColor = pFillColor;
+	            }
+	        }
+	        
+	        if(alpha < fade_range || beta < fade_range || gamma < fade_range){
+	            if(alpha < beta && alpha < gamma){
+	                gl_FragColor.a = gl_FragColor.a*(alpha/fade_range);
+	            } else if(beta < gamma) {
+	                gl_FragColor.a = gl_FragColor.a*(beta/fade_range);
+	            } else {
+	                gl_FragColor.a = gl_FragColor.a*(gamma/fade_range);
+	            }
+	        }
 
 	    }
 

@@ -47,19 +47,21 @@ R3JS.element.Line = class Line extends R3JS.element.base {
         var geo = new THREE.BufferGeometry();
 
       } else {
-      
-        if(args.dimensions == 2){
-          var geo = R3JS.Geometries.line2d({
-            from: args.from,
-            to: args.to,
-            lwd: args.lwd
-          });
-        } else {
-          var geo = R3JS.Geometries.line3d({
-            from: args.from,
-            to: args.to,
-            lwd: args.lwd
-          });
+        
+        if(args.lwd > 0){
+          if(args.dimensions == 2){
+            var geo = R3JS.Geometries.line2d({
+              from: args.from,
+              to: args.to,
+              lwd: args.lwd
+            });
+          } else {
+            var geo = R3JS.Geometries.line3d({
+              from: args.from,
+              to: args.to,
+              lwd: args.lwd
+            });
+          }
         }
 
       }

@@ -36,7 +36,14 @@ R3JS.element.constructors.point = function(
         shape : shape,
         properties : plotobj.properties,
         dimensions : plotobj.properties.dimensions
-    });
+    });    
+
+    // Apply rotation to geometry
+    if (plotobj.properties.rotation !== undefined) {
+        if (plotobj.properties.rotation[0] !== 0) element.rotateGeoX(plotobj.properties.rotation[0]);
+        if (plotobj.properties.rotation[1] !== 0) element.rotateGeoY(plotobj.properties.rotation[1]);
+        if (plotobj.properties.rotation[2] !== 0) element.rotateGeoZ(plotobj.properties.rotation[2]);
+    }
 
     // Scale geometry
     element.scaleGeo([
@@ -85,14 +92,18 @@ R3JS.element.Point = class Point extends R3JS.element.base {
       }
 
       // Scale the object
-      this.object.scale.set(args.size, 
-                            args.size, 
-                            args.size);
+      this.object.scale.set(
+        args.size, 
+        args.size, 
+        args.size
+      );
 
       // Position object
-      this.object.position.set(args.coords[0],
-                               args.coords[1],
-                               args.coords[2]);
+      this.object.position.set(
+        args.coords[0],
+        args.coords[1],
+        args.coords[2]
+      );
 
     }
 
@@ -133,9 +144,25 @@ R3JS.element.Point = class Point extends R3JS.element.base {
       this.outline.material.opacity = opacity; 
     }
 
+    // Geometry rotation
+    rotateGeoX(rotation) { 
+      if (this.fill.geometry) this.fill.geometry.rotateX(rotation);
+      if (this.outline && this.outline.geometry) this.outline.geometry.rotateX(rotation);
+    }
+    rotateGeoY(rotation) { 
+      if (this.fill.geometry) this.fill.geometry.rotateY(rotation);
+      if (this.outline && this.outline.geometry) this.outline.geometry.rotateY(rotation);
+    }
+    rotateGeoZ(rotation) { 
+      if (this.fill.geometry) this.fill.geometry.rotateZ(rotation);
+      if (this.outline && this.outline.geometry) this.outline.geometry.rotateZ(rotation);
+    }
+
     raycast(ray, intersected){
-      if(this.fill){
-        this.fill.raycast(ray,intersected);
+      if (this.shown && this.dynamic_shown) {
+        if(this.fill){
+          this.fill.raycast(ray,intersected);
+        }
       }
     }
 
@@ -228,10 +255,10 @@ R3JS.Geometries.square3d = {
 // 2D point geometries
 R3JS.Geometries.circle2d = {
   fill : function(lwd){
-    return(new THREE.CircleBufferGeometry(0.2, 32));
+    return(new THREE.CircleBufferGeometry(0.1, 32));
   },
   outline : function(lwd){
-    return(new THREE.RingGeometry( 0.2-lwd/25, 0.2, 32 ));
+    return(new THREE.RingGeometry( 0.1-lwd/25, 0.2, 32 ));
   }
 }
 

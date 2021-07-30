@@ -87,6 +87,14 @@ R3JS.element.make = function(
     viewer
     ){
 
+    // Apply any additional offset
+    var plotdims = viewer.scene.plotdims;
+    if(plotobj.properties && plotobj.properties.poffset && plotobj.position) {
+        plotobj.position[0] = plotobj.position[0] + plotobj.properties.poffset[0]*plotdims.size[0]/plotdims.aspect[0];
+        plotobj.position[1] = plotobj.position[1] + plotobj.properties.poffset[1]*plotdims.size[1]/plotdims.aspect[1];
+        plotobj.position[2] = plotobj.position[2] + plotobj.properties.poffset[2]*plotdims.size[2]/plotdims.aspect[2];
+    }
+
     if(plotobj.type == "point"){
         // Point
         var element = this.constructors.point(
@@ -152,9 +160,16 @@ R3JS.element.make = function(
     }
 
     // Apply renderOrder
-    if(plotobj.properties && plotobj.properties.renderOrder){
-        element.setRenderOrder(plotobj.properties.renderOrder);
+    if(plotobj.properties){
+        
+        // Set render order
+        if (plotobj.properties.renderOrder !== undefined) {
+            element.setRenderOrder(plotobj.properties.renderOrder);
+        }
+
     }
+
+    
 
     // if(element.object.material){
     //     // element.object = R3JS.utils.separateSides(element.object);
@@ -234,6 +249,52 @@ R3JS.Scene.prototype.addPlotElement = function(
         hlelement.hide();
         element.highlight = hlelement;
         this.add(hlelement.object);
+
+        if(plotobj.highlight.properties.faces){
+
+            this.dynamic_objects.push(hlelement);
+            if(plotobj.highlight.properties.faces.indexOf("x+") != -1){ this.dynamicDeco.faces[0].push(hlelement) }
+            if(plotobj.highlight.properties.faces.indexOf("y+") != -1){ this.dynamicDeco.faces[1].push(hlelement) }
+            if(plotobj.highlight.properties.faces.indexOf("z+") != -1){ this.dynamicDeco.faces[2].push(hlelement) }
+            if(plotobj.highlight.properties.faces.indexOf("x-") != -1){ this.dynamicDeco.faces[3].push(hlelement) }
+            if(plotobj.highlight.properties.faces.indexOf("y-") != -1){ this.dynamicDeco.faces[4].push(hlelement) }
+            if(plotobj.highlight.properties.faces.indexOf("z-") != -1){ this.dynamicDeco.faces[5].push(hlelement) }
+
+        }
+
+        if(plotobj.properties.corners){
+
+            this.dynamic_objects.push(hlelement);
+            
+            var corners  = plotobj.properties.corners[0];
+            var edgecode = corners.substring(0,3);
+            var poscode  = corners.substring(3,4);
+            var a;
+            var b;
+
+            if(edgecode == "x--"){ a = 0  }
+            if(edgecode == "x-+"){ a = 1  }
+            if(edgecode == "x++"){ a = 2  }
+            if(edgecode == "x+-"){ a = 3  }
+            if(edgecode == "-y-"){ a = 4  }
+            if(edgecode == "-y+"){ a = 5  }
+            if(edgecode == "+y+"){ a = 6  }
+            if(edgecode == "+y-"){ a = 7  }
+            if(edgecode == "--z"){ a = 8  }
+            if(edgecode == "-+z"){ a = 9  }
+            if(edgecode == "++z"){ a = 10 }
+            if(edgecode == "+-z"){ a = 11 }
+
+            if(poscode == "r"){ b = 0 } // Up
+            if(poscode == "u"){ b = 1 } // Down
+            if(poscode == "f"){ b = 2 } // Front
+            if(poscode == "l"){ b = 3 } // Left
+            if(poscode == "d"){ b = 4 } // Right
+            if(poscode == "b"){ b = 5 } // Back
+
+            this.dynamicDeco.edges[a][b].push(hlelement);
+
+        }
 
     }
 

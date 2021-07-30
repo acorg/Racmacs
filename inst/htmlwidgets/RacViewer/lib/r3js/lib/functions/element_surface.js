@@ -27,88 +27,69 @@ R3JS.element.surface = class Surface extends R3JS.element.base {
 
         super();
 
-        // Set default properties
-        if(!args.properties){
-            args.properties = {
-                mat : "phong",
-                color : [0,1,0]
-            };
-        }
+        // Calculate number of vertices
+        var nx = args.x.length;
+        var ny = args.x[0].length;
+        var nverts = nx*ny;
+        var positions = new Float32Array( nverts * 3 );
+        var colors    = new Float32Array( nverts * 3 );
 
-        var nrow = args.x.length;
-        var ncol = args.x[0].length;
+        // Set defaults
+        // args.properties = R3JS.DefaultProperties(args.properties, nx*ny);
 
         // Set object geometry
-        var geo = new THREE.PlaneGeometry(5, 5, ncol-1, nrow-1);
         var material = R3JS.Material(args.properties);
 
-        // Color surface by vertices if more than one color supplied
-        var surface_cols = args.properties.color;
-        if(surface_cols.r.length > 1){
-            for(var i=0; i<geo.faces.length; i++){
-                geo.faces[i].vertexColors[0] = new THREE.Color(
-                    surface_cols.r[geo.faces[i].a],
-                    surface_cols.g[geo.faces[i].a],
-                    surface_cols.b[geo.faces[i].a]
-                );
-                geo.faces[i].vertexColors[1] = new THREE.Color(
-                    surface_cols.r[geo.faces[i].b],
-                    surface_cols.g[geo.faces[i].b],
-                    surface_cols.b[geo.faces[i].b]
-                );
-                geo.faces[i].vertexColors[2] = new THREE.Color(
-                    surface_cols.r[geo.faces[i].c],
-                    surface_cols.g[geo.faces[i].c],
-                    surface_cols.b[geo.faces[i].c]
-                );
-            }
-            material.vertexColors = THREE.VertexColors;
-            material.color = new THREE.Color();
-        }
+        var rcol = args.properties.color.r;
+        var gcol = args.properties.color.g;
+        var bcol = args.properties.color.b;
 
-
-        // Set vertices
-        var n = 0;
-        var nas = [];
-        for(var i=args.x.length - 1; i >= 0; i--){
-            for(var j=0; j<args.x[0].length; j++){
-                if(!isNaN(args.z[i][j])){
-                    var coords = [args.x[i][j], args.y[i][j], args.z[i][j]];
-                    geo.vertices[n].set(
-                        coords[0],
-                        coords[1],
-                        coords[2]
-                    )
-                } else {
-                    geo.vertices[n].set(
-                        null,
-                        null,
-                        null
-                    );
-                    nas.push(n);
-                };
-                n++;
-            }
-        }
-
-        // Remove faces with nas
-        var i=0
-        while(i<geo.faces.length){
-            var face = geo.faces[i];
-            if(nas.indexOf(face.a) != -1 || 
-               nas.indexOf(face.b) != -1 || 
-               nas.indexOf(face.c) != -1){
-                geo.faces.splice(i,1);
-            } else {
+        // Cycle through and set positions and colors
+        var i=0;
+        for (var x=0; x<nx; x++) {
+            for (var y=0; y<ny; y++) {
+                positions[i*3 + 0] = args.x[x][y];
+                positions[i*3 + 1] = args.y[x][y];
+                positions[i*3 + 2] = args.z[x][y];
+                colors[i*3 + 0] = rcol[x][y];
+                colors[i*3 + 1] = gcol[x][y];
+                colors[i*3 + 2] = bcol[x][y];
+                args.x[x][y] = i;
                 i++;
             }
         }
 
-        // Calculate normals
-        geo.computeVertexNormals();
+        var indices = [];
+        for (var x=0; x<(nx - 1); x++) {
+            for (var y=0; y<(ny - 1); y++) {
+
+                indices.push(
+                    args.x[x][y],
+                    args.x[x+1][y],
+                    args.x[x][y+1]
+                );
+
+                indices.push(
+                    args.x[x][y+1],
+                    args.x[x+1][y],
+                    args.x[x+1][y+1]
+                );
+
+            }
+        }
+
+        // Create buffer geometry
+        var geometry = new THREE.BufferGeometry();
+        geometry.setIndex( indices );
+        geometry.setAttribute( 'position', new THREE.BufferAttribute( positions, 3 ));
+        geometry.setAttribute( 'color',    new THREE.BufferAttribute( colors,    3 ));
+        geometry.computeVertexNormals();
+
+        material.vertexColors = THREE.VertexColors;
+        material.color = new THREE.Color();
 
         // Make object
-        var object = new THREE.Mesh(geo, material);
+        var object = new THREE.Mesh(geometry, material);
         this.object = object;
         this.object.element = this;
 

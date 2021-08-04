@@ -14,6 +14,7 @@
   plot_labels = FALSE,
   plot_blobs = TRUE,
   show_procrustes = TRUE,
+  show_error_lines = TRUE,
   plot_stress = FALSE,
   indicate_outliers = TRUE,
   grid.col = "grey90",
@@ -46,6 +47,8 @@
 \item{plot_blobs}{logical, should stress blobs be plotted if present}
 
 \item{show_procrustes}{logical, should procrustes lines be shown, if present}
+
+\item{show_error_lines}{logical, should error lines be drawn}
 
 \item{plot_stress}{logical, should map stress be plotted in lower left corner}
 

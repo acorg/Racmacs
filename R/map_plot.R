@@ -13,6 +13,7 @@
 #'   "antigens" or "sera"
 #' @param plot_blobs logical, should stress blobs be plotted if present
 #' @param show_procrustes logical, should procrustes lines be shown, if present
+#' @param show_error_lines logical, should error lines be drawn
 #' @param plot_stress logical, should map stress be plotted in lower left corner
 #' @param indicate_outliers logical, should points outside of plot limits be
 #'   indicated with an arrow
@@ -41,6 +42,7 @@ plot.acmap <- function(
   plot_labels = FALSE,
   plot_blobs = TRUE,
   show_procrustes = TRUE,
+  show_error_lines = TRUE,
   plot_stress = FALSE,
   indicate_outliers = TRUE,
   grid.col = "grey90",
@@ -288,6 +290,55 @@ plot.acmap <- function(
     }
   }
 
+  ## Plot error lines
+  if (show_error_lines) {
+
+    residual_table <- mapResiduals(map, optimization_number)
+    ag_coords <- agCoords(map, optimization_number)
+    sr_coords <- srCoords(map, optimization_number)
+
+    for (ag_num in seq_len(numAntigens(map))) {
+      for (sr_num in seq_len(numSera(map))) {
+
+        # Fetch variables
+        from <- ag_coords[ag_num, ]
+        to   <- sr_coords[sr_num, ]
+        residual <- residual_table[ag_num, sr_num]
+
+        if (!is.na(residual)) {
+
+          # Calculate the unit vector
+          vec <- to - from
+          vec <- vec / sqrt(sum(vec^2))
+
+          # Draw error lines
+          if (residual > 0) linecol <- "blue"
+          else              linecol <- "red"
+
+          from_end <- from + vec * (residual / 2)
+          to_end   <- to - vec * (residual / 2)
+
+          lines(
+            x = c(from[1], from_end[1]),
+            y = c(from[2], from_end[2]),
+            col = linecol,
+            xpd = TRUE
+          )
+
+          lines(
+            x = c(to[1], to_end[1]),
+            y = c(to[2], to_end[2]),
+            col = linecol,
+            xpd = TRUE
+          )
+
+        }
+
+      }
+    }
+
+  }
+
   ## Add the map stress
   if (plot_stress) {
     graphics::text(
@@ -364,22 +415,22 @@ setup_acmap <- function(
 
 
 # Calculate map limits (not yet exported)
-mapLims <- function(...) {
+mapLims <- function(..., antigens = TRUE, sera = TRUE) {
 
   all_coords <- c()
   for (map in list(...)) {
-    all_coords <- rbind(
-      all_coords,
-      agCoords(map),
-      srCoords(map)
-    )
+
+    if (antigens) all_coords <- rbind(all_coords, agCoords(map))
+    if (sera)     all_coords <- rbind(all_coords, srCoords(map))
+
     if (!is.null(map$procrustes)) {
-      all_coords <- rbind(
-        all_coords,
-        applyMapTransform(map$procrustes$pc_coords$ag, map),
-        applyMapTransform(map$procrustes$pc_coords$sr, map)
-      )
+
+      pc_coords_ag <- applyMapTransform(map$procrustes$pc_coords$ag, map)
+      pc_coords_sr <- applyMapTransform(map$procrustes$pc_coords$sr, map)
+      if (antigens) all_coords <- rbind(all_coords, pc_coords_ag)
+      if (sera)     all_coords <- rbind(all_coords, pc_coords_sr)
     }
+
   }
   coord_lims(all_coords)
 

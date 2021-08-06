@@ -474,6 +474,34 @@ checkHemisphering <- function(
     options = do.call(RacOptimizer.options, options)
   )
 
+  # Message if any hemisphering points were found
+  pt_diagnostics <- vapply(
+    c(agHemisphering(map, optimization_number), srHemisphering(map, optimization_number)),
+    function(pt) {
+      diagnosis <- unique(vapply(pt, function(x) x$diagnosis, character(1)))
+      if (length(diagnosis) == 0) diagnosis <- ""
+      diagnosis
+    },
+    character(1)
+  )
+
+  # Setup diagnosis table
+  if (sum(pt_diagnostics != "") > 0) {
+    diagnosis_table <- data.frame(
+      name = c(agNames(map), srNames(map)),
+      diagnosis = pt_diagnostics
+    )
+    diagnosis_table <- diagnosis_table[diagnosis_table$diagnosis != "", , drop = F]
+    warning(
+      sprintf(
+        "Hemisphering or trapped points found:\n\n%s\n",
+        paste(capture.output(diagnosis_table), collapse = "\n")
+      )
+    )
+  } else {
+    message("No hemisphering or trapped points found")
+  }
+
   # Return the map
   map
 

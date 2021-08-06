@@ -1,7 +1,7 @@
 
 /* Placeholder styling */
-#placeholder,
-#placeholder-overlay {
+.RacViewer #placeholder,
+.RacViewer #placeholder-overlay {
   position: absolute;
   top: 0;
   left: 0;
@@ -10,12 +10,12 @@
   text-align: center;
 }
 
-#placeholder-img {
+.RacViewer #placeholder-img {
   max-width: 100%;
   max-height: 100%;
 }
 
-#placeholder-overlay {
+.RacViewer #placeholder-overlay {
   border: solid 8px #bbb;
   text-align: left;
   padding: 10px;
@@ -25,7 +25,7 @@
   cursor: pointer;
 }
 
-#placeholder-overlay:hover {
+.RacViewer #placeholder-overlay:hover {
   opacity: 0.2;
 }
 
@@ -43,15 +43,15 @@
 
 
 /* Headings */
-h1 {
+.RacViewer h1 {
 
 }
 
-h2 {
+.RacViewer h2 {
 
 }
 
-h3 {
+.RacViewer h3 {
   font-size: 80%;
   margin-top: 4px;
   margin-bottom: 6px;
@@ -60,14 +60,14 @@ h3 {
 
 
 /* General classes */
-.not-selectable {
+.RacViewer .not-selectable {
   -webkit-user-select: none; /* Safari 3.1+ */
     -moz-user-select: none; /* Firefox 2+ */
     -ms-user-select: none; /* IE 10+ */
     user-select: none; /* Standard syntax */
 }
 
-#info-div {
+.RacViewer #info-div {
   position: absolute;
   top:  8px;
   left: 8px;
@@ -75,18 +75,18 @@ h3 {
   background-color: transparent;
 }
 
-.point-info {
+.RacViewer .point-info {
   margin-bottom: 12px;
 }
 
-#selection-info-panel::before {
+.RacViewer #selection-info-panel::before {
     content: "Selected points";
     font-size: 18px;
     display: block;
     margin-bottom: 4px;
 }
 
-#loading-div {
+.RacViewer #loading-div {
     position: absolute;
     left: 0;
     right: 0;
@@ -97,12 +97,12 @@ h3 {
 }
 
 /* Classes for control btns */
-.btn-icon-panel {
+.RacViewer .btn-icon-panel {
 	font-size: 32px;
 	margin-left: -2px;
 }
 
-.btn-icon {
+.RacViewer .btn-icon {
 	color: #222222;
 	cursor: pointer;
   display: inline-block;
@@ -112,28 +112,28 @@ h3 {
   padding: 2px;
 }
 
-.btn-icon:hover {
+.RacViewer .btn-icon:hover {
 	color : #33cccc;
   background-color: #555555;
 }
 
-.btn-icon-selected {
+.RacViewer .btn-icon-selected {
 	background-color: #33cccc;
 	color: #000000;
 }
 
-.btn-icon-selected:hover {
+.RacViewer .btn-icon-selected:hover {
   background-color: #33cccc;
 	color: #444444;
 }
 
-.btn-icon-disabled {
+.RacViewer .btn-icon-disabled {
   cursor: default;
   background-color: #292929;
   color: #333333;
 }
 
-.btn-icon-disabled:hover {
+.RacViewer .btn-icon-disabled:hover {
   color: #333333;
   background-color: #292929;
 }
@@ -141,14 +141,14 @@ h3 {
 
 
 
-.btn-link-panel {
+.RacViewer .btn-link-panel {
 	color: #ffffff;
 	font-size: 14px;
 	margin-top: 12px;
 	margin-bottom: 12px;
 }
 
-.btn-link {
+.RacViewer .btn-link {
     cursor : pointer;
     display : inline-block;
     margin-right : 8px;
@@ -158,20 +158,20 @@ h3 {
     user-select: none; /* Standard syntax */
 }
 
-.btn-link:hover {
+.RacViewer .btn-link:hover {
 	color : #33cccc;
 }
 
-.btn-link-disabled {
+.RacViewer .btn-link-disabled {
   cursor: default;
   color: #000000;
 }
 
-.btn-link-disabled:hover {
+.RacViewer .btn-link-disabled:hover {
   color: #000000;
 }
 
-#stress-div {
+.RacViewer #stress-div {
     position: absolute;
     left: 8px;
     bottom: 8px;
@@ -180,7 +180,7 @@ h3 {
 }
 
 
-#color-by-div {
+.RacViewer #color-by-div {
   font-size : 10px;
   margin-top : 6px;
   margin-bottom : 20px;
@@ -188,7 +188,7 @@ h3 {
 
 
 /* Popup boxes */
-.popup-box {
+.RacViewer .popup-box {
   position : absolute;
   font-family : sans-serif, "Arial";
   font-size : 12px;
@@ -199,20 +199,20 @@ h3 {
   bottom : 8px;
   right : 8px;
 }
-.graphic-box {
+.RacViewer .graphic-box {
 
 }
 
-.filter-box {
+.RacViewer .filter-box {
 
 }
 
-.filter-opt-title {
+.RacViewer .filter-opt-title {
     font-size: 16px;
     margin-bottom: 12px;
 }
 
-.filter-opt-col {
+.RacViewer .filter-opt-col {
     display : inline-block;
     vertical-align : top;
     margin-right: 18px;
@@ -220,221 +220,12 @@ h3 {
 
 
 /* Sequence legend */
-.sequence-legend {
+.RacViewer .sequence-legend {
     position: absolute;
     bottom: 10px;
     right: 10px;
 }
 
-.sequence-legend table {
+.RacViewer .sequence-legend table {
     margin-left: auto;
 }
-
-
-
-
-
-
-/*/* Set body styles */*/
-/*body {*/
-/*    font-family: sans-serif;*/
-/*}*/
-/**/
-/**/
-/* General classes */
-/**/
-/*.warning-div {*/
-/*	background-color : #ffeeba;*/
-/*    border-color : #fff3cd;*/
-/*    color : #000000;*/
-/*    padding : 8px;*/
-/*    margin-bottom : 8px;*/
-/*    border-radius : .25rem;*/
-/*    max-width : 250px;*/
-/*    font-size : 60%;*/
-/*    opacity : 0.8;*/
-/*    position: relative;*/
-/*    padding-right: 20px;*/
-/*}*/
-/**/
-/*.warning-closer {*/
-/*	/*float : right;*/*/
-/*	position: absolute;*/
-/*	top: 4px;*/
-/*	right: 8px;*/
-/*    font-weight : 700;*/
-/*    text-shadow : 0 1px 0 #fff;*/
-/*    cursor: pointer;*/
-/*}*/
-/**/
-/*.warning-closer:hover {*/
-/*	color: orange;*/
-/*}*/
-/**/
-/*/* Viewport settings */*/
-/*.rac-viewport {*/
-/*	width : 100%;*/
-/*    height : 100%;*/
-/*    position : relative;*/
-/*}*/
-/**/
-/*.viewer {*/
-/*	width    : 100%;*/
-/*    height   : 100%;*/
-/*    position : relative;*/
-/*}*/
-/**/
-/*.viewport-holder {*/
-/*    position   : absolute;*/
-/*    top        : 0;*/
-/*    bottom     : 0;*/
-/*    left       : 0;*/
-/*    right      : 0;*/
-/*    border     : 6px solid #eeeeee;*/
-/*    box-sizing : border-box;*/
-/*    display    : inline-block;*/
-/*}*/
-/**/
-/*.selection-info {*/
-/*	position : absolute;*/
-/*    bottom : 4px;*/
-/*    right : 4px;*/
-/*    padding : 4px;*/
-/*    background : inherit;*/
-/*    font-family : sans-serif;*/
-/*    font-size : 60%;*/
-/*    display : none;*/
-/*}*/
-/**/
-/*/* Control panel */*/
-/*.caption {*/
-/*    margin-bottom: 18px;*/
-/*    font-size: 80%;*/
-/*    border-bottom: solid #555555 1px;*/
-/*    padding-bottom: 12px;*/
-/*}*/
-/**/
-
-/*/* Add glyph font */*/
-/*@font-face {*/
-/*    font-family: "viewerglyphs";*/
-/*    src: url(glyphs/glyphs.ttf);*/
-/*}*/
-/**/
-/*.table-name {*/
-/*	width : 95%;*/
-/*    font-size : 24px;*/
-/*    overflow-wrap : break-word;*/
-/*    margin-bottom : 20px;*/
-/*}*/
-/**/
-/**/
-/*/* Classes for control btns */*/
-/*.btn-icon-panel {*/
-/*	font-size: 24px;*/
-/*	margin-left: -2px;*/
-/*}*/
-/**/
-/*.btn-icon {*/
-/*	color: #ffffff;*/
-/*	cursor: pointer;*/
-/*    display: inline-block;*/
-/*    margin: 2px;*/
-/*    padding: 3px;*/
-/*    font-family : "viewerglyphs";*/
-/*    border-radius: 4px;*/
-/*    background-color: #111111;*/
-/*    width: 24px;*/
-/*    height: 24px;*/
-/*    text-align: center;*/
-/*    user-select: none;*/
-/*    -webkit-user-select: none; /* Safari 3.1+ */*/
-/*    -moz-user-select: none; /* Firefox 2+ */*/
-/*    -ms-user-select: none; /* IE 10+ */*/
-/*    user-select: none; /* Standard syntax */*/
-/*}*/
-/**/
-/*.btn-icon:hover {*/
-/*	color : #33cccc;*/
-/*}*/
-/**/
-/*.btn-icon-selected {*/
-/*	background-color: #33cccc;*/
-/*	color: #000000;*/
-/*}*/
-/**/
-/*.btn-icon-selected:hover {*/
-/*	color: #444444;*/
-/*}*/
-/**/
-/**/
-/**/
-/**/
-/*.btn-link-panel {*/
-/*	color: #ffffff;*/
-/*	font-size: 14px;*/
-/*	margin-top: 12px;*/
-/*	margin-bottom: 12px;*/
-/*}*/
-/**/
-/*.btn-link {*/
-/*    cursor : pointer;*/
-/*    display : inline-block;*/
-/*    margin-right : 8px;*/
-/*    -webkit-user-select: none; /* Safari 3.1+ */*/
-/*    -moz-user-select: none; /* Firefox 2+ */*/
-/*    -ms-user-select: none; /* IE 10+ */*/
-/*    user-select: none; /* Standard syntax */*/
-/*}*/
-/**/
-/*.btn-link:hover {*/
-/*	color : #33cccc;*/
-/*}*/
-/**/
-/**/
-/*/* Top-left glyphs */*/
-/*.glyph-holder {*/
-/*	position : absolute;*/
-/*    top  : 8px;*/
-/*    right : 5px;*/
-/*    padding : 4px;*/
-/*}*/
-/**/
-/*.glyph-btn {*/
-/*	cursor : pointer;*/
-/*	margin-right : 8px;*/
-/*	-webkit-user-select: none; /* Safari 3.1+ */*/
-/*    -moz-user-select: none; /* Firefox 2+ */*/
-/*    -ms-user-select: none; /* IE 10+ */*/
-/*    user-select: none; /* Standard syntax */*/
-/*}*/
-/**/
-/*.glyph-btn:hover {*/
-/*	color : #33cccc;*/
-/*}*/
-/**/
-/**/
-/**/
-/*.search-box {*/
-/*	spellcheck : false;*/
-/*    width : 100%;*/
-/*    padding : 4px;*/
-/*    color : #ffffff;*/
-/*    border : none;*/
-/*    background : #000000;*/
-/*    margin-bottom : 12px;*/
-/*}*/
-/**/
-/*.name-list {*/
-/*	width : 100%;*/
-/*    height : 200px;*/
-/*    padding : 2px;*/
-/*    overflow-x : hidden;*/
-/*    overflow-y : scroll;*/
-/*    font-size : 10px;*/
-/*    color : #cccccc;*/
-/*    margin-bottom : 24px;*/
-/*    background : #000000;*/
-/*}*/
-
-

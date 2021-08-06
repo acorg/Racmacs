@@ -42,7 +42,7 @@ plot.acmap <- function(
   plot_labels = FALSE,
   plot_blobs = TRUE,
   show_procrustes = TRUE,
-  show_error_lines = TRUE,
+  show_error_lines = FALSE,
   plot_stress = FALSE,
   indicate_outliers = TRUE,
   grid.col = "grey90",
@@ -293,12 +293,12 @@ plot.acmap <- function(
   ## Plot error lines
   if (show_error_lines) {
 
-    residual_table <- mapResiduals(map, optimization_number)
-    ag_coords <- agCoords(map, optimization_number)
-    sr_coords <- srCoords(map, optimization_number)
+    residual_table <- mapResiduals(x, optimization_number)
+    ag_coords <- agCoords(x, optimization_number)
+    sr_coords <- srCoords(x, optimization_number)
 
-    for (ag_num in seq_len(numAntigens(map))) {
-      for (sr_num in seq_len(numSera(map))) {
+    for (ag_num in seq_len(numAntigens(x))) {
+      for (sr_num in seq_len(numSera(x))) {
 
         # Fetch variables
         from <- ag_coords[ag_num, ]

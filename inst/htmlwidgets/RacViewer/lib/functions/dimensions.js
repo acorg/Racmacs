@@ -79,6 +79,10 @@ Racmacs.Viewer.prototype.setDims = function(
         [Math.min(...z_coords), Math.max(...z_coords)]
     ];
 
+    if (mapdims.xlim) this.mapdims.lims[0] = mapdims.xlim;
+    if (mapdims.ylim) this.mapdims.lims[1] = mapdims.ylim;
+    if (mapdims.zlim) this.mapdims.lims[2] = mapdims.zlim;
+
     // Work out map lims and aspect
     if(this.mapdims.dimensions == 2) {
 

@@ -14,6 +14,8 @@
 #' @param show.errorlines Toggle error lines on
 #' @param show.connectionlines Toggle connection lines on
 #' @param show.titers Toggle titer labels on
+#' @param xlim x limits to zoom the plot to
+#' @param ylim y limits to zoom the plot to
 #'
 #' @family {functions to view maps}
 #'
@@ -28,7 +30,9 @@ RacViewer.options <- function(
   show.names = FALSE,
   show.errorlines = FALSE,
   show.connectionlines = FALSE,
-  show.titers = FALSE
+  show.titers = FALSE,
+  xlim = NULL,
+  ylim = NULL
 ) {
 
   # Check input
@@ -44,7 +48,9 @@ RacViewer.options <- function(
     show.names = show.names,
     show.errorlines = show.errorlines,
     show.connectionlines = show.connectionlines,
-    show.titers = show.titers
+    show.titers = show.titers,
+    xlim = xlim,
+    ylim = ylim
   )
 
 }

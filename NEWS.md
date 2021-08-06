@@ -26,3 +26,4 @@
 * Fix error in Racmacs when calculating antigen and sera mean stress per titer
 * Fix error in viewer code when accounting for antigen reactivity adjustments in stress calculations
 * Add option in `plot.acmap()` to draw stress lines
+* Add xlim and ylim options to `view.acmap()` to control how maps are displayed

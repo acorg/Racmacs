@@ -61,6 +61,7 @@ srNamesFull         <- sera_getter(ac_sr_get_name_full)
 srNamesAbbreviated  <- sera_getter(ac_sr_get_name_abbreviated)
 srPassage           <- sera_getter(ac_sr_get_passage)
 srGroupValues       <- sera_getter(ac_sr_get_group)
+srMatchIDs          <- sera_getter(ac_sr_get_match_id) # Not exported
 
 `srIDs<-`               <- sera_setter(ac_sr_set_id)
 `srDates<-`             <- sera_setter(ac_sr_set_date)

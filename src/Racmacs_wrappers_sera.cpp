@@ -32,6 +32,8 @@ std::string ac_sr_get_name_full( const AcSerum &sr ){ return sr.get_name_full();
 std::string ac_sr_get_name_abbreviated( const AcSerum &sr ){ return sr.get_name_abbreviated(); }
 
 // [[Rcpp::export(rng = false)]]
+std::string ac_sr_get_match_id( const AcSerum &sr ){ return sr.get_match_id(); }
+// [[Rcpp::export(rng = false)]]
 int ac_sr_get_group( const AcSerum &sr ){ return sr.get_group(); }
 // [[Rcpp::export(rng = false)]]
 std::vector<std::string> ac_sr_get_group_levels( const AcMap map ){ return map.get_sr_group_levels(); }

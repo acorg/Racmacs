@@ -285,6 +285,16 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// ac_ag_get_match_id
+std::string ac_ag_get_match_id(const AcAntigen& ag);
+RcppExport SEXP _Racmacs_ac_ag_get_match_id(SEXP agSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::traits::input_parameter< const AcAntigen& >::type ag(agSEXP);
+    rcpp_result_gen = Rcpp::wrap(ac_ag_get_match_id(ag));
+    return rcpp_result_gen;
+END_RCPP
+}
 // ac_ag_get_group
 int ac_ag_get_group(const AcAntigen& ag);
 RcppExport SEXP _Racmacs_ac_ag_get_group(SEXP agSEXP) {
@@ -917,6 +927,16 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// ac_sr_get_match_id
+std::string ac_sr_get_match_id(const AcSerum& sr);
+RcppExport SEXP _Racmacs_ac_sr_get_match_id(SEXP srSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::traits::input_parameter< const AcSerum& >::type sr(srSEXP);
+    rcpp_result_gen = Rcpp::wrap(ac_sr_get_match_id(sr));
+    return rcpp_result_gen;
+END_RCPP
+}
 // ac_sr_get_group
 int ac_sr_get_group(const AcSerum& sr);
 RcppExport SEXP _Racmacs_ac_sr_get_group(SEXP srSEXP) {
@@ -1543,6 +1563,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_Racmacs_ac_ag_get_name", (DL_FUNC) &_Racmacs_ac_ag_get_name, 1},
     {"_Racmacs_ac_ag_get_name_full", (DL_FUNC) &_Racmacs_ac_ag_get_name_full, 1},
     {"_Racmacs_ac_ag_get_name_abbreviated", (DL_FUNC) &_Racmacs_ac_ag_get_name_abbreviated, 1},
+    {"_Racmacs_ac_ag_get_match_id", (DL_FUNC) &_Racmacs_ac_ag_get_match_id, 1},
     {"_Racmacs_ac_ag_get_group", (DL_FUNC) &_Racmacs_ac_ag_get_group, 1},
     {"_Racmacs_ac_ag_get_group_levels", (DL_FUNC) &_Racmacs_ac_ag_get_group_levels, 1},
     {"_Racmacs_ac_ag_set_id", (DL_FUNC) &_Racmacs_ac_ag_set_id, 2},
@@ -1603,6 +1624,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_Racmacs_ac_sr_get_name", (DL_FUNC) &_Racmacs_ac_sr_get_name, 1},
     {"_Racmacs_ac_sr_get_name_full", (DL_FUNC) &_Racmacs_ac_sr_get_name_full, 1},
     {"_Racmacs_ac_sr_get_name_abbreviated", (DL_FUNC) &_Racmacs_ac_sr_get_name_abbreviated, 1},
+    {"_Racmacs_ac_sr_get_match_id", (DL_FUNC) &_Racmacs_ac_sr_get_match_id, 1},
     {"_Racmacs_ac_sr_get_group", (DL_FUNC) &_Racmacs_ac_sr_get_group, 1},
     {"_Racmacs_ac_sr_get_group_levels", (DL_FUNC) &_Racmacs_ac_sr_get_group_levels, 1},
     {"_Racmacs_ac_sr_set_id", (DL_FUNC) &_Racmacs_ac_sr_set_id, 2},

@@ -64,6 +64,7 @@ agNamesFull         <- antigens_getter(ac_ag_get_name_full)
 agNamesAbbreviated  <- antigens_getter(ac_ag_get_name_abbreviated)
 agPassage           <- antigens_getter(ac_ag_get_passage)
 agGroupValues       <- antigens_getter(ac_ag_get_group) # Not exported
+agMatchIDs          <- antigens_getter(ac_ag_get_match_id) # Not exported
 
 `agIDs<-`               <- antigens_setter(ac_ag_set_id)
 `agDates<-`             <- antigens_setter(ac_ag_set_date)
@@ -73,6 +74,7 @@ agGroupValues       <- antigens_getter(ac_ag_get_group) # Not exported
 `agNamesAbbreviated<-`  <- antigens_setter(ac_ag_set_name_abbreviated)
 `agPassage<-`           <- antigens_setter(ac_ag_set_passage)
 `agGroupValues<-`       <- antigens_setter(ac_ag_set_group) # Not exported
+
 
 #' Getting and setting antigen groups
 #'

@@ -65,11 +65,14 @@ test_that("Viewing a map", {
 
   agCoords(map)[1, ] <- c(5.1, 5.4)
   agFill(map) <- "green"
+
   x <- view(
-    map,
+    orderAntigens(map, rev(seq_len(numAntigens(map)))),
     options = list(
       viewer.controls = "diagnostics",
-      show.names = "antigens"
+      show.names = "antigens",
+      xlim = range(agCoords(map)[, 1]),
+      ylim = range(agCoords(map)[, 2])
     )
   )
 

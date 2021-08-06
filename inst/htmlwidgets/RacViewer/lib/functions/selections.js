@@ -275,6 +275,9 @@ Racmacs.Point.prototype.select = function(){
 
     }
 
+    // Fire the on select handler
+    this.viewer.onSelectPoint();
+
 }
 
 Racmacs.Point.prototype.deselect = function(){
@@ -309,6 +312,9 @@ Racmacs.Point.prototype.deselect = function(){
         }
 
     }
+
+    // Fire the on select handler
+    this.viewer.onDeselectPoint();
 
 }
 

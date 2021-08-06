@@ -18,7 +18,8 @@ Racmacs.App.prototype.onMoveTrappedPoints     = function(){ console.log("Find tr
 Racmacs.App.prototype.onCheckHemisphering     = function(){ console.log("Check hemisphering") }
 Racmacs.App.prototype.onAddTriangulationBlobs = function(args){ console.log(args) }
 Racmacs.App.prototype.onProcrustes            = function(args){ console.log(args) }
-Racmacs.App.prototype.onReflectMap            = function(axis){ console.log(axis) }
+Racmacs.App.prototype.onSelectPoint           = function(axis){ console.log("Point selected") }
+Racmacs.App.prototype.onDeselectPoint         = function(axis){ console.log("Point deselected") }
 
 // Manipulating the control panel
 Racmacs.App.prototype.showControlPanel = function(){

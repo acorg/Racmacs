@@ -47,6 +47,11 @@ test_that("Optimizing a perfect map", {
     fixed_column_bases = colbases
   )
 
+  expect_message(
+    checkHemisphering(perfect_map_opt),
+    "No hemisphering or trapped points found"
+  )
+
   # Check output
   pcdata <- procrustesData(perfect_map_opt, perfect_map)
   expect_equal(numOptimizations(perfect_map_opt), 1000)
@@ -140,15 +145,19 @@ test_that("Finding hemisphering points", {
   hemi_map_ag <- perfect_map
   titerTable(hemi_map_ag)[1, -c(2, 7)] <- "*"
 
-  hemi_map_ag <- expect_warning(optimizeMap(
-    map = hemi_map_ag,
-    number_of_dimensions = 2,
-    number_of_optimizations = 1,
-    fixed_column_bases = colbases
-  ))
+  hemi_map_ag <- expect_warning(
+    optimizeMap(
+      map = hemi_map_ag,
+      number_of_dimensions = 2,
+      number_of_optimizations = 1,
+      fixed_column_bases = colbases
+    )
+  )
 
-  hemi_map_ag <- checkHemisphering(hemi_map_ag, stress_lim = 0.1)
-  mapDimensions(hemi_map_ag, 1)
+  hemi_map_ag <- expect_warning(
+    checkHemisphering(hemi_map_ag, stress_lim = 0.1),
+    "Hemisphering or trapped points found:.*"
+  )
 
   expect_false(is.null(agHemisphering(hemi_map_ag)[[1]]))
   export.plot.test(
@@ -171,7 +180,10 @@ test_that("Finding hemisphering points", {
     number_of_optimizations = 1,
     fixed_column_bases = colbases
   ))
-  hemi_map_sr <- checkHemisphering(hemi_map_sr, stress_lim = 0.1)
+  hemi_map_sr <- expect_warning(
+    checkHemisphering(hemi_map_sr, stress_lim = 0.1),
+    "Hemisphering or trapped points found:.*"
+  )
 
   expect_false(is.null(srHemisphering(hemi_map_sr)[[6]]))
 

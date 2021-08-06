@@ -30,6 +30,35 @@ Racmacs.Data = class Data {
         this.update_colbases();
     }
 
+    // For calculating the number of titers
+    numTiters(){
+        var ntiters = 0;
+        this.titertable.map(
+            row => row.map(
+                titer => {
+                    if (Racmacs.utils.titerType(titer) != 0) {
+                        ntiters++;
+                    }
+                }
+            )
+        )
+        return(ntiters);
+    }
+
+    numDetectableTiters(){
+        var ntiters = 0;
+        this.titertable.map(
+            row => row.map(
+                titer => {
+                    if (Racmacs.utils.titerType(titer) == 1) {
+                        ntiters++;
+                    }
+                }
+            )
+        )
+        return(ntiters);
+    }
+
     // For updating stress
     updateStress(stress) {
         this.data.c.P[this.pnum].s = stress;
@@ -170,9 +199,9 @@ Racmacs.Data = class Data {
     // Projection attributes
     stress(){
         if(this.data.c.P[this.pnum] && this.data.c.P[this.pnum].s){
-          return(this.data.c.P[this.pnum].s);
+            return(this.data.c.P[this.pnum].s);
         } else {
-          return(0);
+            return(0);
         }
     }
 

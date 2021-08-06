@@ -607,6 +607,17 @@ Racmacs.Point = class Point {
         return(stress);
     }
 
+    // Get detectable titer stress
+    stress_detectable(){
+        var stress = 0;
+        for (var i=0; i<this.partners.length; i++) {
+            if (this.titerTypeTo(this.partners[i]) == 1) {
+                stress += this.stressTo(this.partners[i]);
+            }
+        }
+        return(stress);
+    }
+
 }
 
 

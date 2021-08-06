@@ -17,7 +17,10 @@ Racmacs.StressElement = class StressElement {
 
   update(value){
 
-    this.div.innerHTML = value.toFixed(2);
+    this.div.innerHTML = value.total.toFixed(2) + 
+    "|" + 
+    value.pertiter.toFixed(2) + 
+    "<span style='font-size:80%; margin-left:2px;'>[" + value.perdetectable.toFixed(2) + "]</span>";
 
   }
 
@@ -34,9 +37,18 @@ Racmacs.Viewer.prototype.updateStress = function(stress){
     }
   }
 
+  var stress_detectable = 0;
+  for(var i=0; i<this.sera.length; i++){
+    stress_detectable += this.sera[i].stress_detectable();
+  }
+
   // Update the stress
   this.stress.value = stress;
-  this.stress.update(stress);
+  this.stress.update({
+    total: stress,
+    pertiter: stress / this.data.numTiters(),
+    perdetectable: stress_detectable / this.data.numDetectableTiters()
+  });
 
   // Update any batch run viewers bound
   if(this.projectionList){

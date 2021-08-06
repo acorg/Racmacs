@@ -12,7 +12,9 @@ RacViewer.options(
   show.names = FALSE,
   show.errorlines = FALSE,
   show.connectionlines = FALSE,
-  show.titers = FALSE
+  show.titers = FALSE,
+  xlim = NULL,
+  ylim = NULL
 )
 }
 \arguments{
@@ -33,6 +35,10 @@ or "sera"}
 \item{show.connectionlines}{Toggle connection lines on}
 
 \item{show.titers}{Toggle titer labels on}
+
+\item{xlim}{x limits to zoom the plot to}
+
+\item{ylim}{y limits to zoom the plot to}
 }
 \value{
 Returns a named list of viewer options

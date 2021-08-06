@@ -57,9 +57,9 @@ class AcMap {
     }
 
     // Invalidate all calculated optimization stresses, for example when titers are changed
-    void invalidate_stresses() {
+    void update_stresses() {
       for(auto &optimization : optimizations){
-        optimization.invalidate_stress();
+        optimization.update_stress(titer_table_flat);
       }
     };
 
@@ -79,7 +79,7 @@ class AcMap {
     ){
       titer_table_flat = titers;
       titer_table_layers.clear();
-      invalidate_stresses();
+      update_stresses();
     }
 
     // Get and set the flat version of the titer table directly
@@ -107,7 +107,7 @@ class AcMap {
     ){
       titer_table_flat = ac_merge_titer_layers(titers);
       titer_table_layers = titers;
-      invalidate_stresses();
+      update_stresses();
     }
 
     // Remove antigen(s)
@@ -195,8 +195,8 @@ class AcMap {
       pt_drawing_order = arma::sort_index(pt_drawing_order); // Ordering twice means you retrieve
       pt_drawing_order = arma::sort_index(pt_drawing_order); // 1:nPoints numeric sequence
 
-      // Invalidate stresses
-      invalidate_stresses();
+      // Update stresses
+      update_stresses();
 
     }
 

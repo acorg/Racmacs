@@ -136,6 +136,22 @@ class AcOptimization {
 
     }
 
+    // Update the currently calculated stress
+    void update_stress(
+      AcTiterTable titertable
+    ) {
+
+      stress = ac_coords_stress(
+        titertable,
+        min_column_basis,
+        fixed_column_bases,
+        ag_reactivity_adjustments,
+        ag_base_coords,
+        sr_base_coords
+      );
+
+    }
+
     // Invalidate the currently calculated stress, for example when points are moved
     void invalidate_stress() { stress = arma::datum::nan; }
 

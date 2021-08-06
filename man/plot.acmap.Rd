@@ -14,7 +14,7 @@
   plot_labels = FALSE,
   plot_blobs = TRUE,
   show_procrustes = TRUE,
-  show_error_lines = TRUE,
+  show_error_lines = FALSE,
   plot_stress = FALSE,
   indicate_outliers = TRUE,
   grid.col = "grey90",

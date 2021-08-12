@@ -7,6 +7,7 @@
 #include <rapidjson/document.h>
 #include <rapidjson/stringbuffer.h>
 #include <rapidjson/writer.h>
+#include <rapidjson/prettywriter.h>
 // #include <rapidjson/filereadstream.h>
 
 #ifndef Racmacs__json_write_from_acmap__h

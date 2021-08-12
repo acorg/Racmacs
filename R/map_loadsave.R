@@ -57,6 +57,8 @@ read.acmap <- function(
 #'
 #' @param map The acmap data object.
 #' @param filename Path to the file.
+#' @param compress Should the file be xz compressed
+#' @param pretty Should json be output prettily with new lines and indentation
 #'
 #' @export
 #'
@@ -64,7 +66,9 @@ read.acmap <- function(
 #'
 save.acmap <- function(
   map,
-  filename
+  filename,
+  compress = TRUE,
+  pretty = !compress
   ) {
 
   # Check file extension
@@ -74,9 +78,11 @@ save.acmap <- function(
   }
 
   # Save to a file
-  conn <- xzfile(filename, "w")
-  writeChar(as.json(map), conn, eos = NULL)
-  close(conn)
+  if (compress) conn <- xzfile(filename, "w")
+  else          conn <- filename
+
+  writeChar(as.json(map, pretty = pretty), conn, eos = NULL)
+  if (compress) close(conn)
 
 }
 
@@ -84,16 +90,18 @@ save.acmap <- function(
 #' Convert map to json format
 #'
 #' @param map The map data object
+#' @param pretty Should json be output prettily with new lines and indentation?
 #'
 #' @return Returns map data as .ace json format
 #' @family {functions for working with map data}
 #' @export
 #'
-as.json <- function(map) {
+as.json <- function(map, pretty = FALSE) {
 
   acmap_to_json(
     map = map,
-    version = paste0("racmacs-ace-v", utils::packageVersion("Racmacs"))
+    version = paste0("racmacs-ace-v", utils::packageVersion("Racmacs")),
+    pretty = pretty
   )
 
 }

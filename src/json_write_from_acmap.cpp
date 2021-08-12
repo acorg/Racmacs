@@ -1,4 +1,4 @@
-// #include <cstdio>
+// #in// #include <cstdio>
 #include <string.h>
 #include <RcppArmadillo.h>
 #include "acmap_map.h"
@@ -10,7 +10,8 @@ using namespace rapidjson;
 // [[Rcpp::export]]
 std::string acmap_to_json(
     AcMap map,
-    std::string version
+    std::string version,
+    bool pretty
 ){
 
   // Setup the document
@@ -315,15 +316,27 @@ std::string acmap_to_json(
 
   // Return the map
   StringBuffer buffer;
-  Writer<StringBuffer> writer(buffer);
-  // Writer<
-  //   StringBuffer, // Output Stream
-  //   UTF8<>,       // Source Encoding
-  //   UTF8<>,       // Target Encoding
-  //   CrtAllocator,
-  //   kWriteNanAndInfFlag
-  //   > writer(buffer);
-  bool success = doc.Accept(writer);
+  bool success;
+
+  // Setup the writer
+  if (pretty) {
+
+    PrettyWriter<StringBuffer> writer(buffer);
+    success = doc.Accept(writer);
+
+  } else {
+
+    Writer<StringBuffer> writer(buffer);
+    success = doc.Accept(writer);
+    // Writer<
+    //   StringBuffer, // Output Stream
+    //   UTF8<>,       // Source Encoding
+    //   UTF8<>,       // Target Encoding
+    //   CrtAllocator,
+    //   kWriteNanAndInfFlag
+    //   > writer(buffer);
+
+  }
 
   // Check for errors
   if(!success){

@@ -32,3 +32,6 @@
 * Add check to procrustes that there are sufficient matching points
 
 # Racmacs 1.1.14
+* Add option to save map in uncompressed format
+* Add option to output json in pretty format
+

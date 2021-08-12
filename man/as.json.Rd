@@ -4,10 +4,12 @@
 \alias{as.json}
 \title{Convert map to json format}
 \usage{
-as.json(map)
+as.json(map, pretty = FALSE)
 }
 \arguments{
 \item{map}{The map data object}
+
+\item{pretty}{Should json be output prettily with new lines and indentation?}
 }
 \value{
 Returns map data as .ace json format

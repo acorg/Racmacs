@@ -67,7 +67,7 @@ read.acmap <- function(
 save.acmap <- function(
   map,
   filename,
-  compress = TRUE,
+  compress = FALSE,
   pretty = !compress
   ) {
 

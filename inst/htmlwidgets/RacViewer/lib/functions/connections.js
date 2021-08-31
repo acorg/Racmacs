@@ -500,7 +500,7 @@ Racmacs.Point.prototype.showTiters = function(){
 		// Show colbasis if a sera
 		if(this.type == "sr"){
 			var element = new R3JS.element.htmltext({
-	            text   : "*"+Math.round(Math.pow(2, this.colbase)*10),
+	            text   : "*"+Math.round(Math.pow(2, this.colbase())*10),
 	            coords : this.coords3,
 	        });
 	        element.setStyle("font-size", "12px");

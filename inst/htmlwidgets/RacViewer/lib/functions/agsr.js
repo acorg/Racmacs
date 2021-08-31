@@ -668,6 +668,11 @@ Racmacs.Serum = class Serum extends Racmacs.Point {
         return(this.viewer.data.tableDist(to.typeIndex, this.typeIndex));
     }
 
+    // Get the column base
+    colbase(){
+        return(this.viewer.data.colbases(this.typeIndex));
+    }
+
 
 }
 

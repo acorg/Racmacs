@@ -18,7 +18,7 @@
   plot_stress = FALSE,
   indicate_outliers = TRUE,
   grid.col = "grey90",
-  grid.margin.col = grid.col,
+  grid.margin.col = "grey50",
   outlier.arrow.col = grid.col,
   fill.alpha = 0.8,
   outline.alpha = 0.8,

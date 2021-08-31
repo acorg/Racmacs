@@ -98,6 +98,7 @@ save.acmap <- function(
 #'
 as.json <- function(map, pretty = FALSE) {
 
+  check.acmap(map)
   acmap_to_json(
     map = map,
     version = paste0("racmacs-ace-v", utils::packageVersion("Racmacs")),

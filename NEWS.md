@@ -33,4 +33,5 @@
 # Racmacs 1.1.14
 * Add option to save map in uncompressed format
 * Add option to output json in pretty format
+* Set default grid margin color to slightly darker than the grid color
 

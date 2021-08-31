@@ -318,14 +318,14 @@ plot.acmap <- function(
           from_end <- from + vec * (residual / 2)
           to_end   <- to - vec * (residual / 2)
 
-          lines(
+          graphics::lines(
             x = c(from[1], from_end[1]),
             y = c(from[2], from_end[2]),
             col = linecol,
             xpd = TRUE
           )
 
-          lines(
+          graphics::lines(
             x = c(to[1], to_end[1]),
             y = c(to[2], to_end[2]),
             col = linecol,

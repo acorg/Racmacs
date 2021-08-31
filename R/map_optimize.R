@@ -495,7 +495,7 @@ checkHemisphering <- function(
     warning(
       sprintf(
         "Hemisphering or trapped points found:\n\n%s\n",
-        paste(capture.output(diagnosis_table), collapse = "\n")
+        paste(utils::capture.output(diagnosis_table), collapse = "\n")
       )
     )
   } else {

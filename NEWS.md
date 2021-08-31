@@ -35,3 +35,6 @@
 * Add option to output json in pretty format
 * Set default grid margin color to slightly darker than the grid color
 * Correct error showing column bases in the viewer
+
+# Racmacs 1.1.15
+* Add option to set `dilutionStepsize()` for cases where dilution series did not follow 2-fold dilution steps

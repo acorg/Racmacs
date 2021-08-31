@@ -162,8 +162,8 @@ BEGIN_RCPP
 END_RCPP
 }
 // ac_relaxOptimization
-AcOptimization ac_relaxOptimization(AcOptimization opt, AcTiterTable titers, arma::uvec fixed_antigens, arma::uvec fixed_sera, AcOptimizerOptions options, arma::mat titer_weights);
-RcppExport SEXP _Racmacs_ac_relaxOptimization(SEXP optSEXP, SEXP titersSEXP, SEXP fixed_antigensSEXP, SEXP fixed_seraSEXP, SEXP optionsSEXP, SEXP titer_weightsSEXP) {
+AcOptimization ac_relaxOptimization(AcOptimization opt, AcTiterTable titers, arma::uvec fixed_antigens, arma::uvec fixed_sera, AcOptimizerOptions options, arma::mat titer_weights, double dilution_stepsize);
+RcppExport SEXP _Racmacs_ac_relaxOptimization(SEXP optSEXP, SEXP titersSEXP, SEXP fixed_antigensSEXP, SEXP fixed_seraSEXP, SEXP optionsSEXP, SEXP titer_weightsSEXP, SEXP dilution_stepsizeSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -173,7 +173,8 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< arma::uvec >::type fixed_sera(fixed_seraSEXP);
     Rcpp::traits::input_parameter< AcOptimizerOptions >::type options(optionsSEXP);
     Rcpp::traits::input_parameter< arma::mat >::type titer_weights(titer_weightsSEXP);
-    rcpp_result_gen = Rcpp::wrap(ac_relaxOptimization(opt, titers, fixed_antigens, fixed_sera, options, titer_weights));
+    Rcpp::traits::input_parameter< double >::type dilution_stepsize(dilution_stepsizeSEXP);
+    rcpp_result_gen = Rcpp::wrap(ac_relaxOptimization(opt, titers, fixed_antigens, fixed_sera, options, titer_weights, dilution_stepsize));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -1109,8 +1110,8 @@ BEGIN_RCPP
 END_RCPP
 }
 // ac_hemi_test
-AcOptimization ac_hemi_test(AcOptimization optimization, AcTiterTable titertable, double grid_spacing, double stress_lim, AcOptimizerOptions options);
-RcppExport SEXP _Racmacs_ac_hemi_test(SEXP optimizationSEXP, SEXP titertableSEXP, SEXP grid_spacingSEXP, SEXP stress_limSEXP, SEXP optionsSEXP) {
+AcOptimization ac_hemi_test(AcOptimization optimization, AcTiterTable titertable, double grid_spacing, double stress_lim, AcOptimizerOptions options, double dilution_stepsize);
+RcppExport SEXP _Racmacs_ac_hemi_test(SEXP optimizationSEXP, SEXP titertableSEXP, SEXP grid_spacingSEXP, SEXP stress_limSEXP, SEXP optionsSEXP, SEXP dilution_stepsizeSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -1119,7 +1120,8 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< double >::type grid_spacing(grid_spacingSEXP);
     Rcpp::traits::input_parameter< double >::type stress_lim(stress_limSEXP);
     Rcpp::traits::input_parameter< AcOptimizerOptions >::type options(optionsSEXP);
-    rcpp_result_gen = Rcpp::wrap(ac_hemi_test(optimization, titertable, grid_spacing, stress_lim, options));
+    Rcpp::traits::input_parameter< double >::type dilution_stepsize(dilution_stepsizeSEXP);
+    rcpp_result_gen = Rcpp::wrap(ac_hemi_test(optimization, titertable, grid_spacing, stress_lim, options, dilution_stepsize));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -1246,8 +1248,8 @@ BEGIN_RCPP
 END_RCPP
 }
 // ac_move_trapped_points
-AcOptimization ac_move_trapped_points(AcOptimization optimization, AcTiterTable titertable, double grid_spacing, AcOptimizerOptions options, int max_iterations);
-RcppExport SEXP _Racmacs_ac_move_trapped_points(SEXP optimizationSEXP, SEXP titertableSEXP, SEXP grid_spacingSEXP, SEXP optionsSEXP, SEXP max_iterationsSEXP) {
+AcOptimization ac_move_trapped_points(AcOptimization optimization, AcTiterTable titertable, double grid_spacing, AcOptimizerOptions options, int max_iterations, double dilution_stepsize);
+RcppExport SEXP _Racmacs_ac_move_trapped_points(SEXP optimizationSEXP, SEXP titertableSEXP, SEXP grid_spacingSEXP, SEXP optionsSEXP, SEXP max_iterationsSEXP, SEXP dilution_stepsizeSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -1256,13 +1258,14 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< double >::type grid_spacing(grid_spacingSEXP);
     Rcpp::traits::input_parameter< AcOptimizerOptions >::type options(optionsSEXP);
     Rcpp::traits::input_parameter< int >::type max_iterations(max_iterationsSEXP);
-    rcpp_result_gen = Rcpp::wrap(ac_move_trapped_points(optimization, titertable, grid_spacing, options, max_iterations));
+    Rcpp::traits::input_parameter< double >::type dilution_stepsize(dilution_stepsizeSEXP);
+    rcpp_result_gen = Rcpp::wrap(ac_move_trapped_points(optimization, titertable, grid_spacing, options, max_iterations, dilution_stepsize));
     return rcpp_result_gen;
 END_RCPP
 }
 // ac_coords_stress
-double ac_coords_stress(const AcTiterTable& titers, const std::string& min_colbasis, const arma::vec& fixed_colbases, const arma::vec& ag_reactivity_adjustments, arma::mat& ag_coords, arma::mat& sr_coords);
-RcppExport SEXP _Racmacs_ac_coords_stress(SEXP titersSEXP, SEXP min_colbasisSEXP, SEXP fixed_colbasesSEXP, SEXP ag_reactivity_adjustmentsSEXP, SEXP ag_coordsSEXP, SEXP sr_coordsSEXP) {
+double ac_coords_stress(const AcTiterTable& titers, const std::string& min_colbasis, const arma::vec& fixed_colbases, const arma::vec& ag_reactivity_adjustments, arma::mat& ag_coords, arma::mat& sr_coords, double dilution_stepsize);
+RcppExport SEXP _Racmacs_ac_coords_stress(SEXP titersSEXP, SEXP min_colbasisSEXP, SEXP fixed_colbasesSEXP, SEXP ag_reactivity_adjustmentsSEXP, SEXP ag_coordsSEXP, SEXP sr_coordsSEXP, SEXP dilution_stepsizeSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -1272,13 +1275,14 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< const arma::vec& >::type ag_reactivity_adjustments(ag_reactivity_adjustmentsSEXP);
     Rcpp::traits::input_parameter< arma::mat& >::type ag_coords(ag_coordsSEXP);
     Rcpp::traits::input_parameter< arma::mat& >::type sr_coords(sr_coordsSEXP);
-    rcpp_result_gen = Rcpp::wrap(ac_coords_stress(titers, min_colbasis, fixed_colbases, ag_reactivity_adjustments, ag_coords, sr_coords));
+    Rcpp::traits::input_parameter< double >::type dilution_stepsize(dilution_stepsizeSEXP);
+    rcpp_result_gen = Rcpp::wrap(ac_coords_stress(titers, min_colbasis, fixed_colbases, ag_reactivity_adjustments, ag_coords, sr_coords, dilution_stepsize));
     return rcpp_result_gen;
 END_RCPP
 }
 // ac_point_stresses
-arma::mat ac_point_stresses(AcTiterTable titer_table, std::string min_colbasis, arma::vec fixed_colbases, arma::vec ag_reactivity_adjustments, arma::mat map_dists);
-RcppExport SEXP _Racmacs_ac_point_stresses(SEXP titer_tableSEXP, SEXP min_colbasisSEXP, SEXP fixed_colbasesSEXP, SEXP ag_reactivity_adjustmentsSEXP, SEXP map_distsSEXP) {
+arma::mat ac_point_stresses(AcTiterTable titer_table, std::string min_colbasis, arma::vec fixed_colbases, arma::vec ag_reactivity_adjustments, arma::mat map_dists, double dilution_stepsize);
+RcppExport SEXP _Racmacs_ac_point_stresses(SEXP titer_tableSEXP, SEXP min_colbasisSEXP, SEXP fixed_colbasesSEXP, SEXP ag_reactivity_adjustmentsSEXP, SEXP map_distsSEXP, SEXP dilution_stepsizeSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -1287,13 +1291,14 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< arma::vec >::type fixed_colbases(fixed_colbasesSEXP);
     Rcpp::traits::input_parameter< arma::vec >::type ag_reactivity_adjustments(ag_reactivity_adjustmentsSEXP);
     Rcpp::traits::input_parameter< arma::mat >::type map_dists(map_distsSEXP);
-    rcpp_result_gen = Rcpp::wrap(ac_point_stresses(titer_table, min_colbasis, fixed_colbases, ag_reactivity_adjustments, map_dists));
+    Rcpp::traits::input_parameter< double >::type dilution_stepsize(dilution_stepsizeSEXP);
+    rcpp_result_gen = Rcpp::wrap(ac_point_stresses(titer_table, min_colbasis, fixed_colbases, ag_reactivity_adjustments, map_dists, dilution_stepsize));
     return rcpp_result_gen;
 END_RCPP
 }
 // ac_point_residuals
-arma::mat ac_point_residuals(AcTiterTable titer_table, std::string min_colbasis, arma::vec fixed_colbases, arma::vec ag_reactivity_adjustments, arma::mat map_dists);
-RcppExport SEXP _Racmacs_ac_point_residuals(SEXP titer_tableSEXP, SEXP min_colbasisSEXP, SEXP fixed_colbasesSEXP, SEXP ag_reactivity_adjustmentsSEXP, SEXP map_distsSEXP) {
+arma::mat ac_point_residuals(AcTiterTable titer_table, std::string min_colbasis, arma::vec fixed_colbases, arma::vec ag_reactivity_adjustments, arma::mat map_dists, double dilution_stepsize);
+RcppExport SEXP _Racmacs_ac_point_residuals(SEXP titer_tableSEXP, SEXP min_colbasisSEXP, SEXP fixed_colbasesSEXP, SEXP ag_reactivity_adjustmentsSEXP, SEXP map_distsSEXP, SEXP dilution_stepsizeSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -1302,13 +1307,14 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< arma::vec >::type fixed_colbases(fixed_colbasesSEXP);
     Rcpp::traits::input_parameter< arma::vec >::type ag_reactivity_adjustments(ag_reactivity_adjustmentsSEXP);
     Rcpp::traits::input_parameter< arma::mat >::type map_dists(map_distsSEXP);
-    rcpp_result_gen = Rcpp::wrap(ac_point_residuals(titer_table, min_colbasis, fixed_colbases, ag_reactivity_adjustments, map_dists));
+    Rcpp::traits::input_parameter< double >::type dilution_stepsize(dilution_stepsizeSEXP);
+    rcpp_result_gen = Rcpp::wrap(ac_point_residuals(titer_table, min_colbasis, fixed_colbases, ag_reactivity_adjustments, map_dists, dilution_stepsize));
     return rcpp_result_gen;
 END_RCPP
 }
 // ac_relax_coords
-double ac_relax_coords(const arma::mat& tabledist_matrix, const arma::umat& titertype_matrix, arma::mat& ag_coords, arma::mat& sr_coords, const AcOptimizerOptions& options, const arma::uvec& fixed_antigens, const arma::uvec& fixed_sera, const arma::mat& titer_weights);
-RcppExport SEXP _Racmacs_ac_relax_coords(SEXP tabledist_matrixSEXP, SEXP titertype_matrixSEXP, SEXP ag_coordsSEXP, SEXP sr_coordsSEXP, SEXP optionsSEXP, SEXP fixed_antigensSEXP, SEXP fixed_seraSEXP, SEXP titer_weightsSEXP) {
+double ac_relax_coords(const arma::mat& tabledist_matrix, const arma::umat& titertype_matrix, arma::mat& ag_coords, arma::mat& sr_coords, const AcOptimizerOptions& options, const arma::uvec& fixed_antigens, const arma::uvec& fixed_sera, const arma::mat& titer_weights, const double& dilution_stepsize);
+RcppExport SEXP _Racmacs_ac_relax_coords(SEXP tabledist_matrixSEXP, SEXP titertype_matrixSEXP, SEXP ag_coordsSEXP, SEXP sr_coordsSEXP, SEXP optionsSEXP, SEXP fixed_antigensSEXP, SEXP fixed_seraSEXP, SEXP titer_weightsSEXP, SEXP dilution_stepsizeSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -1320,13 +1326,14 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< const arma::uvec& >::type fixed_antigens(fixed_antigensSEXP);
     Rcpp::traits::input_parameter< const arma::uvec& >::type fixed_sera(fixed_seraSEXP);
     Rcpp::traits::input_parameter< const arma::mat& >::type titer_weights(titer_weightsSEXP);
-    rcpp_result_gen = Rcpp::wrap(ac_relax_coords(tabledist_matrix, titertype_matrix, ag_coords, sr_coords, options, fixed_antigens, fixed_sera, titer_weights));
+    Rcpp::traits::input_parameter< const double& >::type dilution_stepsize(dilution_stepsizeSEXP);
+    rcpp_result_gen = Rcpp::wrap(ac_relax_coords(tabledist_matrix, titertype_matrix, ag_coords, sr_coords, options, fixed_antigens, fixed_sera, titer_weights, dilution_stepsize));
     return rcpp_result_gen;
 END_RCPP
 }
 // ac_runOptimizations
-std::vector<AcOptimization> ac_runOptimizations(const AcTiterTable& titertable, const std::string& minimum_col_basis, const arma::vec& fixed_colbases, const arma::vec& ag_reactivity_adjustments, const arma::uword& num_dims, const arma::uword& num_optimizations, const AcOptimizerOptions& options, const arma::mat& titer_weights);
-RcppExport SEXP _Racmacs_ac_runOptimizations(SEXP titertableSEXP, SEXP minimum_col_basisSEXP, SEXP fixed_colbasesSEXP, SEXP ag_reactivity_adjustmentsSEXP, SEXP num_dimsSEXP, SEXP num_optimizationsSEXP, SEXP optionsSEXP, SEXP titer_weightsSEXP) {
+std::vector<AcOptimization> ac_runOptimizations(const AcTiterTable& titertable, const std::string& minimum_col_basis, const arma::vec& fixed_colbases, const arma::vec& ag_reactivity_adjustments, const arma::uword& num_dims, const arma::uword& num_optimizations, const AcOptimizerOptions& options, const arma::mat& titer_weights, const double& dilution_stepsize);
+RcppExport SEXP _Racmacs_ac_runOptimizations(SEXP titertableSEXP, SEXP minimum_col_basisSEXP, SEXP fixed_colbasesSEXP, SEXP ag_reactivity_adjustmentsSEXP, SEXP num_dimsSEXP, SEXP num_optimizationsSEXP, SEXP optionsSEXP, SEXP titer_weightsSEXP, SEXP dilution_stepsizeSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -1338,7 +1345,8 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< const arma::uword& >::type num_optimizations(num_optimizationsSEXP);
     Rcpp::traits::input_parameter< const AcOptimizerOptions& >::type options(optionsSEXP);
     Rcpp::traits::input_parameter< const arma::mat& >::type titer_weights(titer_weightsSEXP);
-    rcpp_result_gen = Rcpp::wrap(ac_runOptimizations(titertable, minimum_col_basis, fixed_colbases, ag_reactivity_adjustments, num_dims, num_optimizations, options, titer_weights));
+    Rcpp::traits::input_parameter< const double& >::type dilution_stepsize(dilution_stepsizeSEXP);
+    rcpp_result_gen = Rcpp::wrap(ac_runOptimizations(titertable, minimum_col_basis, fixed_colbases, ag_reactivity_adjustments, num_dims, num_optimizations, options, titer_weights, dilution_stepsize));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -1365,8 +1373,8 @@ BEGIN_RCPP
 END_RCPP
 }
 // ac_stress_blob_grid
-StressBlobGrid ac_stress_blob_grid(arma::vec testcoords, arma::mat coords, arma::vec tabledists, arma::uvec titertypes, double stress_lim, double grid_spacing);
-RcppExport SEXP _Racmacs_ac_stress_blob_grid(SEXP testcoordsSEXP, SEXP coordsSEXP, SEXP tabledistsSEXP, SEXP titertypesSEXP, SEXP stress_limSEXP, SEXP grid_spacingSEXP) {
+StressBlobGrid ac_stress_blob_grid(arma::vec testcoords, arma::mat coords, arma::vec tabledists, arma::uvec titertypes, double stress_lim, double grid_spacing, double dilution_stepsize);
+RcppExport SEXP _Racmacs_ac_stress_blob_grid(SEXP testcoordsSEXP, SEXP coordsSEXP, SEXP tabledistsSEXP, SEXP titertypesSEXP, SEXP stress_limSEXP, SEXP grid_spacingSEXP, SEXP dilution_stepsizeSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -1376,7 +1384,8 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< arma::uvec >::type titertypes(titertypesSEXP);
     Rcpp::traits::input_parameter< double >::type stress_lim(stress_limSEXP);
     Rcpp::traits::input_parameter< double >::type grid_spacing(grid_spacingSEXP);
-    rcpp_result_gen = Rcpp::wrap(ac_stress_blob_grid(testcoords, coords, tabledists, titertypes, stress_lim, grid_spacing));
+    Rcpp::traits::input_parameter< double >::type dilution_stepsize(dilution_stepsizeSEXP);
+    rcpp_result_gen = Rcpp::wrap(ac_stress_blob_grid(testcoords, coords, tabledists, titertypes, stress_lim, grid_spacing, dilution_stepsize));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -1553,7 +1562,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_Racmacs_ac_table_colbases", (DL_FUNC) &_Racmacs_ac_table_colbases, 4},
     {"_Racmacs_ac_numeric_table_distances", (DL_FUNC) &_Racmacs_ac_numeric_table_distances, 4},
     {"_Racmacs_ac_newOptimization", (DL_FUNC) &_Racmacs_ac_newOptimization, 3},
-    {"_Racmacs_ac_relaxOptimization", (DL_FUNC) &_Racmacs_ac_relaxOptimization, 6},
+    {"_Racmacs_ac_relaxOptimization", (DL_FUNC) &_Racmacs_ac_relaxOptimization, 7},
     {"_Racmacs_ac_optimize_map", (DL_FUNC) &_Racmacs_ac_optimize_map, 8},
     {"_Racmacs_ac_new_antigen", (DL_FUNC) &_Racmacs_ac_new_antigen, 1},
     {"_Racmacs_ac_ag_get_id", (DL_FUNC) &_Racmacs_ac_ag_get_id, 1},
@@ -1640,7 +1649,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_Racmacs_ac_sr_set_group_levels", (DL_FUNC) &_Racmacs_ac_sr_set_group_levels, 2},
     {"_Racmacs_ac_bootstrap_map", (DL_FUNC) &_Racmacs_ac_bootstrap_map, 13},
     {"_Racmacs_ac_dimension_test_map", (DL_FUNC) &_Racmacs_ac_dimension_test_map, 8},
-    {"_Racmacs_ac_hemi_test", (DL_FUNC) &_Racmacs_ac_hemi_test, 5},
+    {"_Racmacs_ac_hemi_test", (DL_FUNC) &_Racmacs_ac_hemi_test, 6},
     {"_Racmacs_ac_match_map_ags", (DL_FUNC) &_Racmacs_ac_match_map_ags, 2},
     {"_Racmacs_ac_match_map_sr", (DL_FUNC) &_Racmacs_ac_match_map_sr, 2},
     {"_Racmacs_ac_merge_titer_layers", (DL_FUNC) &_Racmacs_ac_merge_titer_layers, 1},
@@ -1651,14 +1660,14 @@ static const R_CallMethodDef CallEntries[] = {
     {"_Racmacs_ac_merge_frozen_merge", (DL_FUNC) &_Racmacs_ac_merge_frozen_merge, 2},
     {"_Racmacs_ac_merge_incremental", (DL_FUNC) &_Racmacs_ac_merge_incremental, 5},
     {"_Racmacs_ac_merge_titers", (DL_FUNC) &_Racmacs_ac_merge_titers, 2},
-    {"_Racmacs_ac_move_trapped_points", (DL_FUNC) &_Racmacs_ac_move_trapped_points, 5},
-    {"_Racmacs_ac_coords_stress", (DL_FUNC) &_Racmacs_ac_coords_stress, 6},
-    {"_Racmacs_ac_point_stresses", (DL_FUNC) &_Racmacs_ac_point_stresses, 5},
-    {"_Racmacs_ac_point_residuals", (DL_FUNC) &_Racmacs_ac_point_residuals, 5},
-    {"_Racmacs_ac_relax_coords", (DL_FUNC) &_Racmacs_ac_relax_coords, 8},
-    {"_Racmacs_ac_runOptimizations", (DL_FUNC) &_Racmacs_ac_runOptimizations, 8},
+    {"_Racmacs_ac_move_trapped_points", (DL_FUNC) &_Racmacs_ac_move_trapped_points, 6},
+    {"_Racmacs_ac_coords_stress", (DL_FUNC) &_Racmacs_ac_coords_stress, 7},
+    {"_Racmacs_ac_point_stresses", (DL_FUNC) &_Racmacs_ac_point_stresses, 6},
+    {"_Racmacs_ac_point_residuals", (DL_FUNC) &_Racmacs_ac_point_residuals, 6},
+    {"_Racmacs_ac_relax_coords", (DL_FUNC) &_Racmacs_ac_relax_coords, 9},
+    {"_Racmacs_ac_runOptimizations", (DL_FUNC) &_Racmacs_ac_runOptimizations, 9},
     {"_Racmacs_ac_reactivity_adjustment_stress", (DL_FUNC) &_Racmacs_ac_reactivity_adjustment_stress, 12},
-    {"_Racmacs_ac_stress_blob_grid", (DL_FUNC) &_Racmacs_ac_stress_blob_grid, 6},
+    {"_Racmacs_ac_stress_blob_grid", (DL_FUNC) &_Racmacs_ac_stress_blob_grid, 7},
     {"_Racmacs_numeric_titers", (DL_FUNC) &_Racmacs_numeric_titers, 1},
     {"_Racmacs_log_titers", (DL_FUNC) &_Racmacs_log_titers, 1},
     {"_Racmacs_titer_types_int", (DL_FUNC) &_Racmacs_titer_types_int, 1},

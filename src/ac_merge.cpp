@@ -444,7 +444,10 @@ AcMap ac_merge_frozen_overlay(
   opt.set_ag_reactivity_adjustments( merge_ag_reactivity_adjustments( maps, merged_map.antigens ) );
 
   // Calculate stress
-  opt.recalculate_stress( merged_map.titer_table_flat );
+  opt.update_stress(
+    merged_map.titer_table_flat,
+    maps[0].dilution_stepsize
+  );
 
   // Add optimization
   merged_map.optimizations.push_back( opt );

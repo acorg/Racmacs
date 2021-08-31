@@ -122,7 +122,8 @@ BootstrapOutput ac_bootstrap_map(
       num_dimensions,
       num_optimizations,
       options,
-      titer_weights
+      titer_weights,
+      map.dilution_stepsize
     );
 
     // Sort by stress and keep lowest stress coords
@@ -144,7 +145,8 @@ BootstrapOutput ac_bootstrap_map(
       options,
       arma::uvec(), // Fixed ags
       arma::uvec(), // Fixed sera
-      titer_weights
+      titer_weights,
+      map.dilution_stepsize
     );
 
   }

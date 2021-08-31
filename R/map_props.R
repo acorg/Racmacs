@@ -152,6 +152,56 @@ titerTableLayers <- function(map) {
 
 }
 
+
+#' Get or set the dilution stepsize associated with a map
+#'
+#' This defaults to 1 but can be changed using this function with knock-on
+#' effects for how < values are treated when maps are optimized or relaxed and
+#' the way stress is calculated, see details.
+#'
+#' @param map The acmap object from which to get or set the dilution stepsize
+#' @param value The dilution stepsize value to set
+#'
+#' @details Antigenic cartography was originally developed for HI titers which
+#'   typically follow a 2-fold dilution series starting from 1/10, then 1/20,
+#'   1/40 etc. This represents a "dilution stepsize" of 1 when converted to the
+#'   log2 scale. When no inhibition was recorded at the highest dilution, the
+#'   value is typically recorded as <10 but the optimization regime effectively
+#'   treats this as a <=5, the rationale being that, had the dilution series been
+#'   continued to higher concentrations, the next lowest titer would have been a
+#'   5. Over time the method has also been applied to other neutralization
+#'   assays that sometimes have a continuous read out with a lower end, in these
+#'   cases a <10 really means a <10 since any other values like 9.8 or 7.62
+#'   would also be possible. To indicate these continuous cases, you can specify
+#'   the dilution stepsize as 0. Equally, if the dilution regime followed a
+#'   different pattern, you can also set that here.
+#'
+#' @name dilutionStepsize
+#' @family {map attribute functions}
+#' @export
+#'
+dilutionStepsize <- function(map) {
+
+  check.acmap(map)
+  if (is.null(map$dilution_stepsize)) {
+    1
+  } else {
+    map$dilution_stepsize
+  }
+
+}
+
+#' @export
+#' @rdname dilutionStepsize
+`dilutionStepsize<-` <- function(map, value) {
+
+  check.acmap(map)
+  map$dilution_stepsize <- value
+  map
+
+}
+
+
 #' Sort optimizations by stress
 #'
 #' Sorts all the optimization runs for a given map object by stress

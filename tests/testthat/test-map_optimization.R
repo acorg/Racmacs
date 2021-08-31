@@ -502,3 +502,27 @@ test_that("Adjust antigen reactivity", {
   expect_equal(agReactivityAdjustments(map2)[2], 1.12)
 
 })
+
+
+# Setting a different dilution stepsize
+test_that("Setting dilution stepsize", {
+
+  map <- read.acmap(test_path("../testdata/testmap.ace"))
+  map <- randomizeCoords(map)
+
+  map1 <- map
+  titerTable(map1)[titerTable(map1) == "<10"] <- "<20"
+  map1 <- relaxMap(map1)
+
+  map2a <- map
+  map2a <- relaxMap(map2a)
+
+  map2b <- map
+  dilutionStepsize(map2b) <- 0
+  map2b <- relaxMap(map2b)
+
+  expect_equal(dilutionStepsize(map), 1)
+  expect_false(isTRUE(all.equal(ptCoords(map1), ptCoords(map2a))))
+  expect_true(isTRUE(all.equal(ptCoords(map1), ptCoords(map2b))))
+
+})

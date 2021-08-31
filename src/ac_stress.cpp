@@ -19,7 +19,8 @@ double d_sigmoid(double &x){
 double ac_ptStress(
     double &map_dist,
     double &table_dist,
-    unsigned int &titer_type
+    unsigned int &titer_type,
+    double &dilution_stepsize
   ){
 
   double x;
@@ -32,7 +33,7 @@ double ac_ptStress(
     break;
   case 2:
     // Less than titer
-    x = table_dist - map_dist + 1;
+    x = table_dist - map_dist + dilution_stepsize;
     stress = pow(x,2)*sigmoid(x);
     break;
   case 3:
@@ -53,7 +54,8 @@ double ac_ptStress(
 double ac_ptResidual(
     double &map_dist,
     double &table_dist,
-    unsigned int &titer_type
+    unsigned int &titer_type,
+    double &dilution_stepsize
 ){
 
   double x;
@@ -66,7 +68,7 @@ double ac_ptResidual(
     break;
   case 2:
     // Less than titer
-    x = table_dist - map_dist + 1;
+    x = table_dist - map_dist + dilution_stepsize;
     residual = x*sigmoid(x);
     break;
   case 3:
@@ -88,7 +90,8 @@ double ac_ptResidual(
 double inc_base(
     double &map_dist,
     double &table_dist,
-    unsigned int &titer_type
+    unsigned int &titer_type,
+    double &dilution_stepsize
   ){
 
   double ibase;
@@ -106,7 +109,7 @@ double inc_base(
     break;
   case 2:
     // Less than titer
-    x = table_dist - map_dist + 1;
+    x = table_dist - map_dist + dilution_stepsize;
     ibase = (10*x*x*d_sigmoid(x) + 2*x*sigmoid(x)) / map_dist;
     break;
   case 3:

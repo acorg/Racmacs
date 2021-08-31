@@ -111,7 +111,8 @@ AcOptimization ac_move_trapped_points(
   AcTiterTable titertable,
   double grid_spacing,
   AcOptimizerOptions options,
-  int max_iterations = 10
+  int max_iterations = 10,
+  double dilution_stepsize = 1.0
 ){
 
 
@@ -156,7 +157,11 @@ AcOptimization ac_move_trapped_points(
     optimization.relax_from_raw_matrices(
       tabledists,
       titertypes,
-      options
+      options,
+      arma::uvec(),
+      arma::uvec(),
+      arma::mat(),
+      dilution_stepsize
     );
 
     // Increment loop num

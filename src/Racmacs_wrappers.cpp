@@ -168,7 +168,8 @@ AcOptimization ac_relaxOptimization(
     arma::uvec fixed_antigens,
     arma::uvec fixed_sera,
     AcOptimizerOptions options,
-    arma::mat titer_weights
+    arma::mat titer_weights,
+    double dilution_stepsize
 ){
 
   opt.relax_from_titer_table(
@@ -176,7 +177,8 @@ AcOptimization ac_relaxOptimization(
     options,
     fixed_antigens,
     fixed_sera,
-    titer_weights
+    titer_weights,
+    dilution_stepsize
   );
   return opt;
 

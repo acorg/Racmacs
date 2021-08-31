@@ -22,6 +22,7 @@ class AcMap {
   public:
     // ATTRIBUTES
     std::string name;
+    double dilution_stepsize;
     std::vector<AcOptimization> optimizations;
     std::vector<AcAntigen> antigens;
     std::vector<AcSerum> sera;
@@ -50,6 +51,9 @@ class AcMap {
       // Set point drawing order
       pt_drawing_order = arma::regspace<arma::uvec>(0, num_ags + num_sr - 1);
 
+      // Set dilution stepsize
+      dilution_stepsize = 1.0;
+
       // Set ag and sr group levels
       ag_group_levels.resize(0);
       sr_group_levels.resize(0);
@@ -59,7 +63,10 @@ class AcMap {
     // Invalidate all calculated optimization stresses, for example when titers are changed
     void update_stresses() {
       for(auto &optimization : optimizations){
-        optimization.update_stress(titer_table_flat);
+        optimization.update_stress(
+          titer_table_flat,
+          dilution_stepsize
+        );
       }
     };
 
@@ -253,7 +260,8 @@ class AcMap {
         num_dims,
         num_optimizations,
         options,
-        titer_weights
+        titer_weights,
+        dilution_stepsize
       );
 
     }

@@ -30,6 +30,7 @@ variation in titer seen between a single antigen and serum pair.
 \seealso{
 Other {map attribute functions}: 
 \code{\link{acmapAttributes}},
+\code{\link{dilutionStepsize}()},
 \code{\link{mapName}()},
 \code{\link{titerTable}()}
 }

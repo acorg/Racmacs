@@ -181,7 +181,8 @@ mapStress <- function(
     fixed_colbases = fixedColBases(map, optimization_number),
     ag_reactivity_adjustments = agReactivityAdjustments(map, optimization_number),
     ag_coords = agBaseCoords(map, optimization_number),
-    sr_coords = srBaseCoords(map, optimization_number)
+    sr_coords = srBaseCoords(map, optimization_number),
+    dilution_stepsize = dilutionStepsize(map)
   )
 
 }

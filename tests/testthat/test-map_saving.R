@@ -101,3 +101,21 @@ test_that(
 
   }
 )
+
+test_that(
+  "Map saves and loads attributes", {
+
+    map <- read.acmap(test_path("../testdata/testmap.ace"))
+    expect_equal(dilutionStepsize(map), 1)
+
+    dilutionStepsize(map) <- 0
+
+    temp <- tempfile(fileext = ".ace")
+    save.acmap(map, temp)
+
+    map_loaded <- read.acmap(temp)
+    expect_equal(dilutionStepsize(map_loaded), 0)
+
+  }
+)
+

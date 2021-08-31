@@ -68,7 +68,8 @@ triangulationBlobs <- function(
         tabledists = numeric_min_tabledists(tableDistances(map, optimization_number))[agnum, ],
         titertypes = titertypesTable(map)[agnum, ],
         stress_lim = stress_lim,
-        grid_spacing = grid_spacing
+        grid_spacing = grid_spacing,
+        dilution_stepsize = dilutionStepsize(map)
       )
 
       agDiagnostics(
@@ -93,7 +94,8 @@ triangulationBlobs <- function(
         tabledists = numeric_min_tabledists(tableDistances(map, optimization_number))[, srnum],
         titertypes = titertypesTable(map)[, srnum],
         stress_lim = stress_lim,
-        grid_spacing = grid_spacing
+        grid_spacing = grid_spacing,
+        dilution_stepsize = dilutionStepsize(map)
       )
 
       srDiagnostics(

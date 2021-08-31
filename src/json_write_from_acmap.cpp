@@ -302,6 +302,7 @@ std::string acmap_to_json(
   // = OTHER =
   x.AddMember("agv", jsonifya(map.get_ag_group_levels(), allocator), allocator);
   x.AddMember("srv", jsonifya(map.get_sr_group_levels(), allocator), allocator);
+  x.AddMember("ds",  map.dilution_stepsize, allocator);
 
   // == FINISH UP ===============================
   // Assemble the json map data and add it

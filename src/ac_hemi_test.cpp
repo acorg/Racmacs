@@ -13,7 +13,8 @@ std::vector<HemiData> ac_hemi_test_points(
   arma::umat titertypes,
   double grid_spacing,
   double stress_lim,
-  AcOptimizerOptions options
+  AcOptimizerOptions options,
+  double dilution_stepsize
 ){
 
   // Set variables
@@ -158,7 +159,8 @@ AcOptimization ac_hemi_test(
     AcTiterTable titertable,
     double grid_spacing,
     double stress_lim,
-    AcOptimizerOptions options
+    AcOptimizerOptions options,
+    double dilution_stepsize
 ){
 
   arma::mat tabledists = titertable.numeric_table_distances(
@@ -182,7 +184,8 @@ AcOptimization ac_hemi_test(
     titertypes,
     grid_spacing,
     stress_lim,
-    options
+    options,
+    dilution_stepsize
   );
 
   // Test sera
@@ -193,7 +196,8 @@ AcOptimization ac_hemi_test(
     titertypes.t(),
     grid_spacing,
     stress_lim,
-    options
+    options,
+    dilution_stepsize
   );
 
   // Update optimization diagnostic info

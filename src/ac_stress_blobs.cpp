@@ -8,7 +8,8 @@
 double point_stress(
     arma::vec &mapdists,
     arma::vec &tabledists,
-    arma::uvec &titertypes
+    arma::uvec &titertypes,
+    double &dilution_stepsize
 ) {
 
   double stress = 0;
@@ -24,7 +25,8 @@ double point_stress(
     stress += ac_ptStress(
       mapdists(i),
       tabledists(i),
-      titertypes(i)
+      titertypes(i),
+      dilution_stepsize
     );
 
   }
@@ -57,7 +59,8 @@ StressBlobGrid ac_stress_blob_grid(
     arma::vec tabledists,
     arma::uvec titertypes,
     double stress_lim,
-    double grid_spacing
+    double grid_spacing,
+    double dilution_stepsize
 ){
 
   // Get the map dimensions
@@ -87,7 +90,8 @@ StressBlobGrid ac_stress_blob_grid(
   double base_stress = point_stress(
     mapdists,
     tabledists,
-    titertypes
+    titertypes,
+    dilution_stepsize
   );
 
   // Setup results grid
@@ -108,7 +112,8 @@ StressBlobGrid ac_stress_blob_grid(
         stressmat(i,j,k) = point_stress(
           mapdists,
           tabledists,
-          titertypes
+          titertypes,
+          dilution_stepsize
         );
 
       }

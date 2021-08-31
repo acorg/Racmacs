@@ -39,6 +39,7 @@ class MapOptimizer {
     arma::mat titer_weights;
     arma::mat ag_gradients;
     arma::mat sr_gradients;
+    double dilution_stepsize;
     double gradient;
     double stress;
 
@@ -49,7 +50,8 @@ class MapOptimizer {
       arma::mat sr_start_coords,
       arma::mat tabledist,
       arma::umat titertype,
-      arma::uword dims
+      arma::uword dims,
+      double dilution_stepsize
     )
       :ag_coords(ag_start_coords),
        sr_coords(sr_start_coords),
@@ -57,7 +59,8 @@ class MapOptimizer {
        titertype_matrix(titertype),
        num_dims(dims),
        num_ags(tabledist.n_rows),
-       num_sr(tabledist.n_cols)
+       num_sr(tabledist.n_cols),
+       dilution_stepsize(dilution_stepsize)
     {
 
       // Set default moveable antigens and sera to all
@@ -88,7 +91,8 @@ class MapOptimizer {
       arma::uword dims,
       arma::uvec moveable_ags,
       arma::uvec moveable_sr,
-      arma::mat titer_weights_in
+      arma::mat titer_weights_in,
+      double dilution_stepsize
     )
       :ag_coords(ag_start_coords),
        sr_coords(sr_start_coords),
@@ -98,7 +102,8 @@ class MapOptimizer {
        num_ags(tabledist.n_rows),
        num_sr(tabledist.n_cols),
        moveable_ags(moveable_ags),
-       moveable_sr(moveable_sr)
+       moveable_sr(moveable_sr),
+       dilution_stepsize(dilution_stepsize)
       {
 
       // Set default weights to 1 if missing
@@ -179,7 +184,8 @@ class MapOptimizer {
           double ibase = titer_weights.at(ag,sr) * inc_base(
             mapdist_matrix.at(ag, sr),
             tabledist_matrix.at(ag, sr),
-            titertype_matrix.at(ag, sr)
+            titertype_matrix.at(ag, sr),
+            dilution_stepsize
           );
 
           // Now calculate the gradient for each coordinate
@@ -213,7 +219,8 @@ class MapOptimizer {
           stress += titer_weights.at(ag,sr) * ac_ptStress(
             mapdist_matrix.at(ag,sr),
             tabledist_matrix.at(ag,sr),
-            titertype_matrix.at(ag,sr)
+            titertype_matrix.at(ag,sr),
+            dilution_stepsize
           );
 
         }
@@ -272,7 +279,8 @@ double ac_coords_stress(
     const arma::vec &fixed_colbases,
     const arma::vec &ag_reactivity_adjustments,
     arma::mat &ag_coords,
-    arma::mat &sr_coords
+    arma::mat &sr_coords,
+    double dilution_stepsize
 ){
 
   // Set variables
@@ -288,7 +296,8 @@ double ac_coords_stress(
         ag_reactivity_adjustments
       ),
       titers.get_titer_types(),
-      num_dims
+      num_dims,
+      dilution_stepsize
   );
 
   // Calculate and return the stress
@@ -302,7 +311,8 @@ arma::mat ac_point_stresses(
     std::string min_colbasis,
     arma::vec fixed_colbases,
     arma::vec ag_reactivity_adjustments,
-    arma::mat map_dists
+    arma::mat map_dists,
+    double dilution_stepsize
 ){
 
   // Fetch variables
@@ -324,7 +334,8 @@ arma::mat ac_point_stresses(
       stress_table(ag, sr) = ac_ptStress(
         map_dists(ag, sr),
         numeric_table_dists(ag, sr),
-        titer_types(ag, sr)
+        titer_types(ag, sr),
+        dilution_stepsize
       );
     }
   }
@@ -341,7 +352,8 @@ arma::mat ac_point_residuals(
     std::string min_colbasis,
     arma::vec fixed_colbases,
     arma::vec ag_reactivity_adjustments,
-    arma::mat map_dists
+    arma::mat map_dists,
+    double dilution_stepsize
   ){
 
   // Fetch variables
@@ -363,7 +375,8 @@ arma::mat ac_point_residuals(
       residual_table(ag, sr) = ac_ptResidual(
         map_dists(ag, sr),
         numeric_table_dists(ag, sr),
-        titer_types(ag, sr)
+        titer_types(ag, sr),
+        dilution_stepsize
       );
     }
   }
@@ -383,7 +396,8 @@ double ac_relax_coords(
     const AcOptimizerOptions &options,
     const arma::uvec &fixed_antigens,
     const arma::uvec &fixed_sera,
-    const arma::mat &titer_weights
+    const arma::mat &titer_weights,
+    const double &dilution_stepsize
 ){
 
   // Set variables
@@ -402,7 +416,8 @@ double ac_relax_coords(
     num_dims,
     moveable_antigens,
     moveable_sera,
-    titer_weights
+    titer_weights,
+    dilution_stepsize
   );
 
   // Create the vector of parameters
@@ -434,7 +449,8 @@ std::vector<AcOptimization> ac_generateOptimizations(
     const arma::vec &ag_reactivity_adjustments,
     const int &num_dims,
     const int &num_optimizations,
-    const AcOptimizerOptions &options
+    const AcOptimizerOptions &options,
+    const double &dilution_stepsize
 ){
 
   // Infer number of antigens and sera
@@ -455,7 +471,11 @@ std::vector<AcOptimization> ac_generateOptimizations(
   initial_optim.relax_from_raw_matrices(
     tabledist_matrix,
     titertype_matrix,
-    options
+    options,
+    arma::uvec(),
+    arma::uvec(),
+    arma::mat(),
+    dilution_stepsize
   );
 
   // Set boxsize based on initial optimization result
@@ -493,7 +513,8 @@ void ac_relaxOptimizations(
   const arma::mat &tabledist_matrix,
   const arma::umat &titertype_matrix,
   const AcOptimizerOptions &options,
-  const arma::mat &titer_weights
+  const arma::mat &titer_weights,
+  const double &dilution_stepsize
 ){
 
   // Set variables
@@ -517,7 +538,8 @@ void ac_relaxOptimizations(
           options,
           arma::uvec(), // Fixed ags
           arma::uvec(), // Fixed sr
-          titer_weights
+          titer_weights,
+          dilution_stepsize
       );
     }
 
@@ -542,7 +564,8 @@ std::vector<AcOptimization> ac_runOptimizations(
     const arma::uword &num_dims,
     const arma::uword &num_optimizations,
     const AcOptimizerOptions &options,
-    const arma::mat &titer_weights
+    const arma::mat &titer_weights,
+    const double &dilution_stepsize
 ){
 
   // Get table distance matrix and titer type matrix
@@ -571,7 +594,8 @@ std::vector<AcOptimization> ac_runOptimizations(
     ag_reactivity_adjustments,
     dim_set(0),
     num_optimizations,
-    options
+    options,
+    dilution_stepsize
   );
 
   // Now cycle "anneal" through the dimensions
@@ -583,7 +607,8 @@ std::vector<AcOptimization> ac_runOptimizations(
       tabledist_matrix,
       titertype_matrix,
       options,
-      titer_weights
+      titer_weights,
+      dilution_stepsize
     );
 
     // Reduce dimensions to next step if doing dimensional annealing

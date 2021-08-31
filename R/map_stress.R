@@ -173,11 +173,12 @@ stressTable <- function(
   }
 
   ac_point_stresses(
-    titerTable(map),
-    minColBasis(map, optimization_number),
-    fixedColBases(map, optimization_number),
-    agReactivityAdjustments(map, optimization_number),
-    mapDistances(map, optimization_number)
+    titer_table = titerTable(map),
+    min_colbasis = minColBasis(map, optimization_number),
+    fixed_colbases = fixedColBases(map, optimization_number),
+    ag_reactivity_adjustments = agReactivityAdjustments(map, optimization_number),
+    map_dists = mapDistances(map, optimization_number),
+    dilution_stepsize = dilutionStepsize(map)
   )
 
 }
@@ -213,11 +214,12 @@ mapResiduals <- function(
   }
 
   residual_matrix <- ac_point_residuals(
-    titerTable(map),
-    minColBasis(map, optimization_number),
-    fixedColBases(map, optimization_number),
-    agReactivityAdjustments(map, optimization_number),
-    mapDistances(map, optimization_number)
+    titer_table = titerTable(map),
+    min_colbasis = minColBasis(map, optimization_number),
+    fixed_colbases = fixedColBases(map, optimization_number),
+    ag_reactivity_adjustments = agReactivityAdjustments(map, optimization_number),
+    map_dists = mapDistances(map, optimization_number),
+    dilution_stepsize = dilutionStepsize(map)
   )
 
   if (exclude_nd) {
@@ -258,7 +260,8 @@ recalculateStress <- function(
     fixed_colbases = fixedColBases(map, optimization_number),
     ag_reactivity_adjustments = agReactivityAdjustments(map, optimization_number),
     ag_coords = agBaseCoords(map, optimization_number),
-    sr_coords = srBaseCoords(map, optimization_number)
+    sr_coords = srBaseCoords(map, optimization_number),
+    dilutionStepsize(map)
   )
 
 }

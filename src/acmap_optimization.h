@@ -138,7 +138,8 @@ class AcOptimization {
 
     // Update the currently calculated stress
     void update_stress(
-      AcTiterTable titertable
+      AcTiterTable titertable,
+      double dilution_stepsize
     ) {
 
       stress = ac_coords_stress(
@@ -147,7 +148,8 @@ class AcOptimization {
         fixed_column_bases,
         ag_reactivity_adjustments,
         ag_base_coords,
-        sr_base_coords
+        sr_base_coords,
+        dilution_stepsize
       );
 
     }
@@ -456,22 +458,6 @@ class AcOptimization {
 
     }
 
-    // Recalulate the optimization stress
-    void recalculate_stress(
-      AcTiterTable titertable
-    ){
-
-      stress = ac_coords_stress(
-        titertable,
-        min_column_basis,
-        fixed_column_bases,
-        ag_reactivity_adjustments,
-        ag_base_coords,
-        sr_base_coords
-      );
-
-    }
-
     // Relax the optimization
     void relax_from_raw_matrices(
       const arma::mat &tabledist_matrix,
@@ -479,7 +465,8 @@ class AcOptimization {
       const AcOptimizerOptions options,
       const arma::uvec &fixed_antigens = arma::uvec(),
       const arma::uvec &fixed_sera = arma::uvec(),
-      const arma::mat &titer_weights = arma::mat()
+      const arma::mat &titer_weights = arma::mat(),
+      const double &dilution_stepsize = 1.0
     ){
 
       stress = ac_relax_coords(
@@ -490,7 +477,8 @@ class AcOptimization {
         options,
         fixed_antigens,
         fixed_sera,
-        titer_weights
+        titer_weights,
+        dilution_stepsize
       );
 
     }
@@ -500,7 +488,8 @@ class AcOptimization {
       const AcOptimizerOptions options,
       const arma::uvec &fixed_antigens = arma::uvec(),
       const arma::uvec &fixed_sera = arma::uvec(),
-      const arma::mat &titer_weights = arma::mat()
+      const arma::mat &titer_weights = arma::mat(),
+      const double &dilution_stepsize = 1.0
     ){
 
       relax_from_raw_matrices(
@@ -513,7 +502,8 @@ class AcOptimization {
         options,
         fixed_antigens,
         fixed_sera,
-        titer_weights
+        titer_weights,
+        dilution_stepsize
       );
 
     }

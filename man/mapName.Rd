@@ -24,6 +24,7 @@ Getting and setting the map name
 \seealso{
 Other {map attribute functions}: 
 \code{\link{acmapAttributes}},
+\code{\link{dilutionStepsize}()},
 \code{\link{titerTableLayers}()},
 \code{\link{titerTable}()}
 }

@@ -274,6 +274,7 @@ SEXP wrap(const AcMap& acmap){
   // Assemable list
   List out = List::create(
     _["name"] = acmap.name,
+    _["dilution_stepsize"] = acmap.dilution_stepsize,
     _["antigens"] = antigens,
     _["sera"] = sera,
     _["optimizations"] = optimizations,
@@ -616,6 +617,7 @@ AcMap as(SEXP sxp){
 
   // Attributes
   if(list.containsElementNamed("name")) acmap.name = as<std::string>(list["name"]);
+  if(list.containsElementNamed("dilution_stepsize")) acmap.dilution_stepsize = as<double>(list["dilution_stepsize"]);
   if(list.containsElementNamed("pt_drawing_order")){
     acmap.set_pt_drawing_order(
       as<arma::uvec>(wrap(list["pt_drawing_order"])) - 1

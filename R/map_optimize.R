@@ -298,7 +298,8 @@ relaxMap <- function(
     fixed_antigens = fixed_antigens - 1,
     fixed_sera = fixed_sera - 1,
     options = options,
-    titer_weights = titer_weights
+    titer_weights = titer_weights,
+    dilution_stepsize = dilutionStepsize(map)
   )
 
   # Return the map
@@ -343,7 +344,8 @@ relaxMapOneStep <- function(
     fixed_antigens = fixed_antigens - 1,
     fixed_sera = fixed_sera - 1,
     options = options,
-    titer_weights = matrix(1, numAntigens(map), numSera(map))
+    titer_weights = matrix(1, numAntigens(map), numSera(map)),
+    dilution_stepsize = dilutionStepsize(map)
   )
   map
 
@@ -471,7 +473,8 @@ checkHemisphering <- function(
     titertable = titerTable(map),
     grid_spacing = grid_spacing,
     stress_lim = stress_lim,
-    options = do.call(RacOptimizer.options, options)
+    options = do.call(RacOptimizer.options, options),
+    dilution_stepsize = dilutionStepsize(map)
   )
 
   # Message if any hemisphering points were found
@@ -547,7 +550,8 @@ moveTrappedPoints <- function(
     titertable = titerTable(map),
     grid_spacing = grid_spacing,
     options = do.call(RacOptimizer.options, options),
-    max_iterations = max_iterations
+    max_iterations = max_iterations,
+    dilution_stepsize = dilutionStepsize(map)
   )
 
   # Realign optimizations

@@ -83,7 +83,7 @@ option settings." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">Racmacs</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.9</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.15</span>
       </span>
     </div>
 
@@ -100,6 +100,9 @@ option settings." />
 </li>
 <li>
   <a href="../articles/index.html">Articles</a>
+</li>
+<li>
+  <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
@@ -136,11 +139,13 @@ option settings.</p>
   point.opacity <span class='op'>=</span> <span class='cn'>NA</span>,
   viewer.controls <span class='op'>=</span> <span class='st'>"hidden"</span>,
   grid.display <span class='op'>=</span> <span class='st'>"static"</span>,
-  grid.col <span class='op'>=</span> <span class='st'>"#e0e0e0"</span>,
+  grid.col <span class='op'>=</span> <span class='st'>"#cfcfcf"</span>,
   show.names <span class='op'>=</span> <span class='cn'>FALSE</span>,
   show.errorlines <span class='op'>=</span> <span class='cn'>FALSE</span>,
   show.connectionlines <span class='op'>=</span> <span class='cn'>FALSE</span>,
-  show.titers <span class='op'>=</span> <span class='cn'>FALSE</span>
+  show.titers <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  xlim <span class='op'>=</span> <span class='cn'>NULL</span>,
+  ylim <span class='op'>=</span> <span class='cn'>NULL</span>
 <span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -165,7 +170,8 @@ or enclose and rotate along with the map</p></td>
     </tr>
     <tr>
       <th>show.names</th>
-      <td><p>Toggle name labels on</p></td>
+      <td><p>Toggle name labels on, can be true or false or "antigens"
+or "sera"</p></td>
     </tr>
     <tr>
       <th>show.errorlines</th>
@@ -178,6 +184,14 @@ or enclose and rotate along with the map</p></td>
     <tr>
       <th>show.titers</th>
       <td><p>Toggle titer labels on</p></td>
+    </tr>
+    <tr>
+      <th>xlim</th>
+      <td><p>x limits to zoom the plot to</p></td>
+    </tr>
+    <tr>
+      <th>ylim</th>
+      <td><p>y limits to zoom the plot to</p></td>
     </tr>
     </table>
 

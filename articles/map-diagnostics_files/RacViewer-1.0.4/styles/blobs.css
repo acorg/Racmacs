@@ -1,0 +1,16 @@
+
+.triangulationblobs-tab {
+
+	display : flex;
+	flex-direction: column;
+	width: 100%;
+
+}
+
+.triangulationblobs-tab .control-input-holder {
+
+	margin-top: 8px;
+
+}
+
+

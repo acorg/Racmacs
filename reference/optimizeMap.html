@@ -85,7 +85,7 @@ random starting conditions will be added to the acmap object." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">Racmacs</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.9</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.15</span>
       </span>
     </div>
 
@@ -102,6 +102,9 @@ random starting conditions will be added to the acmap object." />
 </li>
 <li>
   <a href="../articles/index.html">Articles</a>
+</li>
+<li>
+  <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
@@ -142,6 +145,8 @@ random starting conditions will be added to the acmap object.</p>
   <span class='va'>number_of_optimizations</span>,
   minimum_column_basis <span class='op'>=</span> <span class='st'>"none"</span>,
   fixed_column_bases <span class='op'>=</span> <span class='cn'>NULL</span>,
+  ag_reactivity_adjustments <span class='op'>=</span> <span class='cn'>NULL</span>,
+  titer_weights <span class='op'>=</span> <span class='cn'>NULL</span>,
   sort_optimizations <span class='op'>=</span> <span class='cn'>TRUE</span>,
   verbose <span class='op'>=</span> <span class='cn'>TRUE</span>,
   options <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='op'>)</span>
@@ -170,6 +175,16 @@ random starting conditions will be added to the acmap object.</p>
       <th>fixed_column_bases</th>
       <td><p>A vector of fixed values to use as column bases
 directly, rather than calculating them from the titer table.</p></td>
+    </tr>
+    <tr>
+      <th>ag_reactivity_adjustments</th>
+      <td><p>A vector of antigen reactivity adjustments to
+apply to each antigen. Corresponding antigen titers will be adjusted by these
+amounts when calculating column bases and table distances.</p></td>
+    </tr>
+    <tr>
+      <th>titer_weights</th>
+      <td><p>An optional matrix of weights to assign each titer when optimizing</p></td>
     </tr>
     <tr>
       <th>sort_optimizations</th>

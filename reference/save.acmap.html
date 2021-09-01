@@ -84,7 +84,7 @@ the format of the file will be a json file of map data compressed using
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">Racmacs</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.9</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.15</span>
       </span>
     </div>
 
@@ -101,6 +101,9 @@ the format of the file will be a json file of map data compressed using
 </li>
 <li>
   <a href="../articles/index.html">Articles</a>
+</li>
+<li>
+  <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
@@ -134,7 +137,7 @@ the format of the file will be a json file of map data compressed using
 'xz' compression.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>save.acmap</span><span class='op'>(</span><span class='va'>map</span>, <span class='va'>filename</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>save.acmap</span><span class='op'>(</span><span class='va'>map</span>, <span class='va'>filename</span>, compress <span class='op'>=</span> <span class='cn'>FALSE</span>, pretty <span class='op'>=</span> <span class='op'>!</span><span class='va'>compress</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -146,6 +149,14 @@ the format of the file will be a json file of map data compressed using
     <tr>
       <th>filename</th>
       <td><p>Path to the file.</p></td>
+    </tr>
+    <tr>
+      <th>compress</th>
+      <td><p>Should the file be xz compressed</p></td>
+    </tr>
+    <tr>
+      <th>pretty</th>
+      <td><p>Should json be output prettily with new lines and indentation</p></td>
     </tr>
     </table>
 

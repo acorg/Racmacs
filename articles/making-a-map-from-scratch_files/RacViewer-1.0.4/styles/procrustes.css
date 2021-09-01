@@ -1,0 +1,83 @@
+
+.procrustes-tab {
+	
+	display : flex;
+	flex-direction: column;
+	width: 100%;
+
+}
+
+.procrustes-tab .table-list {
+
+    margin-bottom: 8px;
+
+}
+
+.procrustes-tab .details-panel {
+	
+	padding: 6px;
+	background-color: #111111;
+	margin-top: 8px;
+	border-radius: 4px;
+
+}
+
+
+/* Description */
+.procrustes-tab .description {
+
+	font-size: 80%;
+	margin-bottom: 8px;
+
+}
+
+/* Scaling and translation */
+.procrustes-tab .scaling,
+.procrustes-tab .translation {
+
+	font-size: 70%;
+	text-align: right;
+
+}
+
+.procrustes-tab .translation {
+
+	margin-top: 4px;
+
+}
+
+.procrustes-tab .scaling:before {
+
+	content: "Scaling: ";
+
+}
+
+.procrustes-tab .translation:before {
+
+	content: "Translation: ";
+
+}
+
+
+/* RMSD */
+.procrustes-tab .agrmsd,
+.procrustes-tab .srrmsd,
+.procrustes-tab .rmsd {
+
+	margin-top: 4px;
+	font-size: 70%;
+	text-align: right;
+
+}
+.procrustes-tab .rmsd:before {
+	content: "Total RMSD: ";
+}
+
+.procrustes-tab .srrmsd:before {
+	content: "Sera RMSD: ";
+}
+
+.procrustes-tab .agrmsd:before {
+	content: "Antigen RMSD: ";
+}
+

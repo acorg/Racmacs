@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Perform a noisy bootstrap on a map — bootstrapMap • Racmacs</title>
+<title>Perform a bootstrap on a map — bootstrapMap • Racmacs</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -48,14 +48,13 @@
   <link href="../extra.css" rel="stylesheet">
   
 
-<meta property="og:title" content="Perform a noisy bootstrap on a map — bootstrapMap" />
-<meta property="og:description" content="This function takes the map and original titer table, converts the titers to
-the log scale and reoptimizes the map from scratch. For each bootstrap run
+<meta property="og:title" content="Perform a bootstrap on a map — bootstrapMap" />
+<meta property="og:description" content="This function takes the map and original titer table, and performs a version
+of bootstrapping
+defined by the method argument. For each bootstrap run
 this process is performed and a record of the coordinates of points in the
-lowest stress solution is kept. This can only be performed on a map that
-has already been optimized, the intention is that you can use this function
-to see how robust point positions are in that map when additional noise is
-simulated." />
+lowest stress solution is kept. See details for a description of the bootstrapping
+methods you can apply." />
 <meta property="og:image" content="/logo.png" />
 
 
@@ -88,7 +87,7 @@ simulated." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">Racmacs</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.9</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.15</span>
       </span>
     </div>
 
@@ -105,6 +104,9 @@ simulated." />
 </li>
 <li>
   <a href="../articles/index.html">Articles</a>
+</li>
+<li>
+  <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
@@ -127,24 +129,27 @@ simulated." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Perform a noisy bootstrap on a map</h1>
+    <h1>Perform a bootstrap on a map</h1>
     <small class="dont-index">Source: <a href='https://github.com/acorg/Racmacs/blob/master/R/map_diagnostics_bootstrap.R'><code>R/map_diagnostics_bootstrap.R</code></a></small>
     <div class="hidden name"><code>bootstrapMap.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>This function takes the map and original titer table, converts the titers to
-the log scale and reoptimizes the map from scratch. For each bootstrap run
+    <p>This function takes the map and original titer table, and performs a version
+of <a href='https://en.wikipedia.org/wiki/Bootstrapping_(statistics)'>bootstrapping</a>
+defined by the method argument. For each bootstrap run
 this process is performed and a record of the coordinates of points in the
-lowest stress solution is kept. This can only be performed on a map that
-has already been optimized, the intention is that you can use this function
-to see how robust point positions are in that map when additional noise is
-simulated.</p>
+lowest stress solution is kept. See details for a description of the bootstrapping
+methods you can apply.</p>
     </div>
 
     <pre class="usage"><span class='fu'>bootstrapMap</span><span class='op'>(</span>
   <span class='va'>map</span>,
+  <span class='va'>method</span>,
   bootstrap_repeats <span class='op'>=</span> <span class='fl'>1000</span>,
+  bootstrap_ags <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  bootstrap_sr <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  reoptimize <span class='op'>=</span> <span class='cn'>TRUE</span>,
   optimizations_per_repeat <span class='op'>=</span> <span class='fl'>100</span>,
   ag_noise_sd <span class='op'>=</span> <span class='fl'>0.7</span>,
   titer_noise_sd <span class='op'>=</span> <span class='fl'>0.7</span>,
@@ -159,23 +164,40 @@ simulated.</p>
       <td><p>The map object</p></td>
     </tr>
     <tr>
+      <th>method</th>
+      <td><p>One of "resample", "bayesian" or "noisy" (see details)</p></td>
+    </tr>
+    <tr>
       <th>bootstrap_repeats</th>
       <td><p>The number of bootstrap repeats to perform</p></td>
     </tr>
     <tr>
+      <th>bootstrap_ags</th>
+      <td><p>For "resample" and "bayesian" methods, whether to apply bootstrapping across antigens</p></td>
+    </tr>
+    <tr>
+      <th>bootstrap_sr</th>
+      <td><p>For "resample" and "bayesian" methods, whether to apply bootstrapping across sera</p></td>
+    </tr>
+    <tr>
+      <th>reoptimize</th>
+      <td><p>Should the whole map be reoptimized with each bootstrap run. If FALSE,
+the map is simply relaxed from it's current optimization with each run.</p></td>
+    </tr>
+    <tr>
       <th>optimizations_per_repeat</th>
-      <td><p>When reoptimizing the map from scratch, the
+      <td><p>When re-optimizing the map from scratch, the
 number of optimization runs to perform</p></td>
     </tr>
     <tr>
       <th>ag_noise_sd</th>
-      <td><p>The standard deviation (on the log titer scale) to use
-when applying noise per antigen</p></td>
+      <td><p>The standard deviation (on the log titer scale) of measurement noise
+applied per antigen when using the "noisy" method</p></td>
     </tr>
     <tr>
       <th>titer_noise_sd</th>
-      <td><p>The standard deviation (on the log titer scale) to use
-when applying noise per titer</p></td>
+      <td><p>The standard deviation (on the log titer scale) of measurement noise
+applied per titer when using the "noisy" method</p></td>
     </tr>
     <tr>
       <th>options</th>
@@ -186,6 +208,48 @@ when applying noise per titer</p></td>
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>Returns the map object updated with bootstrap information</p>
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    
+<h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Bootstrapping methods</h3>
+
+
+<p><strong>"resample"</strong>:
+The <a href='https://en.wikipedia.org/wiki/Bootstrapping_(statistics)#Case_resampling'>resample boostrap</a>
+is the most standard bootstrap method, a random resample of the titer table data is
+taken <em>with replacement</em>. Depending on your specification, resampling is applied across
+either individual antigens, individual sera or both antigens and sera.
+In essence this method tries to let you see how robust the map is to inclusion of
+particular titer measurements or antigens or sera. Like most bootstrapping techniques it
+will prove give more reliable results the more antigens and sera you have in your map. It
+won't work very well for a map of 5 sera and antigens for example, in this case a "noisy"
+bootstrap may be better.</p>
+<p><strong>"bayesian"</strong>:
+The <a href='https://en.wikipedia.org/wiki/Bootstrapping_(statistics)#Bayesian_bootstrap'>bayesian bootstrap</a>
+is akin to the resampling bootstrap, but rather than explicitly resampling data, weights are
+assigned to each part of the titer table data according to random draws from a dirichilet distribution.
+Under this scheme, every data point will play at least some role in making the map, even if only
+weighted slightly. Sometimes this is helpful, if you know for example that the points in your map
+are highly dependent upon the presence of a few antigens / sera / titers to achieve reasonable
+triangulation of point positions and you don't really want to risk removing them completely and
+ending up with bootstrap runs that are under-constrained, you might want to consider this approach.
+On the other hand this might be exactly what you don't want and you want to know uncertainty that
+can be generated when certain subsets of the data are excluded completely, in that case you probably
+want to stick with the "resample" method.</p>
+<p><strong>"noisy"</strong>:
+The noisy bootstrap, sometimes termed a
+<a href='https://en.wikipedia.org/wiki/Bootstrapping_(statistics)#Smooth_bootstrap'>smooth bootstrap</a>
+involved adding normally distributed noise to each observation. The distribution of this noise can
+be parametrised through the <code>ag_noise_sd</code> and <code>titer_noise_sd</code> arguments. <code>titer_noise_sd</code> refers to the
+standard deviation (on the log scale) of noise added to each individual titer measurement in the table,
+while <code>antigen_noise_sd</code> refers to the standard deviation of noise applied to titers for each antigen.
+The reason for this distinction is that we have noticed with repeat measurements of influenza data there
+is often both a random noise per titer and a random noise per antigen, i.e. in one repeat titers may all
+be around one 2-fold higher on average, in addition to unbiased additional titer noise. If you wish to only
+simulate additional noise per titer and not a per antigen effect, simply set <code>antigen_noise_sd</code> to 0. Note
+that in order to use this most effectively it is best to have an idea of the amount and type of measurement
+noise you may expect in your data and set these parameters accordingly.</p>
+
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p>Other map diagnostic functions: 

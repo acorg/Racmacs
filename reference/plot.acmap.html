@@ -82,7 +82,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">Racmacs</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.9</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.15</span>
       </span>
     </div>
 
@@ -99,6 +99,9 @@
 </li>
 <li>
   <a href="../articles/index.html">Articles</a>
+</li>
+<li>
+  <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
@@ -141,10 +144,15 @@
   plot_labels <span class='op'>=</span> <span class='cn'>FALSE</span>,
   plot_blobs <span class='op'>=</span> <span class='cn'>TRUE</span>,
   show_procrustes <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  show_error_lines <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  plot_stress <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  indicate_outliers <span class='op'>=</span> <span class='cn'>TRUE</span>,
   grid.col <span class='op'>=</span> <span class='st'>"grey90"</span>,
-  grid.margin.col <span class='op'>=</span> <span class='va'>grid.col</span>,
+  grid.margin.col <span class='op'>=</span> <span class='st'>"grey50"</span>,
+  outlier.arrow.col <span class='op'>=</span> <span class='va'>grid.col</span>,
   fill.alpha <span class='op'>=</span> <span class='fl'>0.8</span>,
   outline.alpha <span class='op'>=</span> <span class='fl'>0.8</span>,
+  label.offset <span class='op'>=</span> <span class='fl'>0</span>,
   padding <span class='op'>=</span> <span class='fl'>1</span>,
   cex <span class='op'>=</span> <span class='fl'>1</span>,
   <span class='va'>...</span>
@@ -179,7 +187,8 @@
     </tr>
     <tr>
       <th>plot_labels</th>
-      <td><p>logical, should point labels be plotted</p></td>
+      <td><p>should point labels be plotted, can be true, false or
+"antigens" or "sera"</p></td>
     </tr>
     <tr>
       <th>plot_blobs</th>
@@ -190,6 +199,19 @@
       <td><p>logical, should procrustes lines be shown, if present</p></td>
     </tr>
     <tr>
+      <th>show_error_lines</th>
+      <td><p>logical, should error lines be drawn</p></td>
+    </tr>
+    <tr>
+      <th>plot_stress</th>
+      <td><p>logical, should map stress be plotted in lower left corner</p></td>
+    </tr>
+    <tr>
+      <th>indicate_outliers</th>
+      <td><p>logical, should points outside of plot limits be
+indicated with an arrow</p></td>
+    </tr>
+    <tr>
       <th>grid.col</th>
       <td><p>grid line color</p></td>
     </tr>
@@ -198,12 +220,21 @@
       <td><p>grid margin color</p></td>
     </tr>
     <tr>
+      <th>outlier.arrow.col</th>
+      <td><p>outlier arrow color</p></td>
+    </tr>
+    <tr>
       <th>fill.alpha</th>
       <td><p>alpha for point fill</p></td>
     </tr>
     <tr>
       <th>outline.alpha</th>
       <td><p>alpha for point outline</p></td>
+    </tr>
+    <tr>
+      <th>label.offset</th>
+      <td><p>amount by which any point labels should be offset from
+point coordinates in fractions of a character width</p></td>
     </tr>
     <tr>
       <th>padding</th>

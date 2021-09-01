@@ -353,11 +353,16 @@ class AcTiterTable {
 
       // Apply any minimum column bases
       if(min_colbasis != "none"){
+
+        double log_min_colbasis = AcTiter(min_colbasis).logTiter();
+        double max_colbasis = colbases.max();
+
         colbases = arma::clamp(
           colbases,
-          AcTiter(min_colbasis).logTiter(),
-          colbases.max()
+          log_min_colbasis,
+          std::max(max_colbasis, log_min_colbasis)
         );
+
       }
 
       // Apply any fixed column bases

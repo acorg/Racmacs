@@ -38,3 +38,6 @@
 
 # Racmacs 1.1.15
 * Add option to set `dilutionStepsize()` for cases where dilution series did not follow 2-fold dilution steps
+
+# Racmacs 1.1.16
+* Fix error when minimum column basis is set to higher than any measurable titer

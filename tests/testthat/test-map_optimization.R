@@ -526,3 +526,15 @@ test_that("Setting dilution stepsize", {
   expect_true(isTRUE(all.equal(ptCoords(map1), ptCoords(map2b))))
 
 })
+
+
+# Setting a different dilution stepsize
+test_that("Setting high min column bases", {
+
+  map <- read.acmap(test_path("../testdata/testmap.ace"))
+  map <- optimizeMap(map, 2, 1, "10240")
+  expect_equal(numOptimizations(map), 1)
+
+})
+
+

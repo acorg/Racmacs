@@ -9,13 +9,21 @@
 #' @param ylim optional y axis limits
 #' @param plot_ags logical, should antigens be plotted
 #' @param plot_sr logical, should antigens be plotted
-#' @param plot_labels logical, should point labels be plotted
+#' @param plot_labels should point labels be plotted, can be true, false or
+#'   "antigens" or "sera"
 #' @param plot_blobs logical, should stress blobs be plotted if present
 #' @param show_procrustes logical, should procrustes lines be shown, if present
+#' @param show_error_lines logical, should error lines be drawn
+#' @param plot_stress logical, should map stress be plotted in lower left corner
+#' @param indicate_outliers logical, should points outside of plot limits be
+#'   indicated with an arrow
 #' @param grid.col grid line color
 #' @param grid.margin.col grid margin color
+#' @param outlier.arrow.col outlier arrow color
 #' @param fill.alpha alpha for point fill
 #' @param outline.alpha alpha for point outline
+#' @param label.offset amount by which any point labels should be offset from
+#'   point coordinates in fractions of a character width
 #' @param padding padding at limits of the antigenic map, ignored if xlim or
 #'   ylim set explicitly
 #' @param cex point size expansion factor
@@ -34,10 +42,15 @@ plot.acmap <- function(
   plot_labels = FALSE,
   plot_blobs = TRUE,
   show_procrustes = TRUE,
+  show_error_lines = FALSE,
+  plot_stress = FALSE,
+  indicate_outliers = TRUE,
   grid.col = "grey90",
-  grid.margin.col = grid.col,
+  grid.margin.col = "grey50",
+  outlier.arrow.col = grid.col,
   fill.alpha    = 0.8,
   outline.alpha = 0.8,
+  label.offset = 0,
   padding = 1,
   cex = 1,
   ...
@@ -121,6 +134,16 @@ plot.acmap <- function(
     optimization_number = optimization_number
   )
 
+  # Deal with cases outside plot limits
+  if (indicate_outliers) {
+    pts_orig_coords <- pts$coords
+    pts_left   <- pts$coords[,1] < xlim[1]; pts$coords[pts_left,   1] <- xlim[1]
+    pts_right  <- pts$coords[,1] > xlim[2]; pts$coords[pts_right,  1] <- xlim[2]
+    pts_bottom <- pts$coords[,2] < ylim[1]; pts$coords[pts_bottom, 2] <- ylim[1]
+    pts_top    <- pts$coords[,2] > ylim[2]; pts$coords[pts_top,    2] <- ylim[2]
+    pts_outside_bounds <- pts_left | pts_right | pts_top | pts_bottom
+  }
+
   ## Check for special points that won't be plotted properly
   if (
     sum(pts$aspect != 1) > 0 ||
@@ -139,7 +162,22 @@ plot.acmap <- function(
 
   ## Get point blobs
   pt_blobs <- ptTriangulationBlobs(x)
+  if (hasBootstrapBlobs(x)) pt_blobs <- ptBootstrapBlobs(x, optimization_number)
   pts$blob <- !sapply(pt_blobs, is.null)
+
+  ## Transform blobs to match map transform
+  pt_blobs <- lapply(pt_blobs, function(blobs) {
+    lapply(blobs, function(blob) {
+      coords <- applyMapTransform(
+        coords = cbind(blob$x, blob$y),
+        map = x,
+        optimization_number = optimization_number
+      )
+      blob$x <- coords[,1]
+      blob$y <- coords[,2]
+      blob
+    })
+  })
 
   ## Adjust alpha
   if (!is.null(fill.alpha)) {
@@ -162,7 +200,8 @@ plot.acmap <- function(
     bg  = pts$fill[plotted_pt_order],
     col = pts$outline[plotted_pt_order],
     cex = pts$size[plotted_pt_order] * cex * 0.3,
-    lwd = pts$outline_width[plotted_pt_order]
+    lwd = pts$outline_width[plotted_pt_order],
+    xpd = TRUE
   )
 
   ## Plot blobs
@@ -180,22 +219,24 @@ plot.acmap <- function(
   }
 
   ## Add labels if requested
-  if (plot_labels) {
-    graphics::text(
-      x = ag_coords[, 1],
-      y = ag_coords[, 2],
-      labels = agNames(x),
-      pos = 3,
-      offset = 1
-    )
+  if (!isFALSE(plot_labels)) {
+
+    if (plot_labels == "antigens") {
+      label_pts <- seq_len(numAntigens(x))
+    } else if (plot_labels == "sera") {
+      label_pts <- seq_len(numSera(x)) + numAntigens(x)
+    } else {
+      label_pts <- seq_len(numPoints(x))
+    }
 
     graphics::text(
-      x = sr_coords[, 1],
-      y = sr_coords[, 2],
-      labels = srNames(x),
+      x = pts$coords[label_pts, 1],
+      y = pts$coords[label_pts, 2],
+      labels = c(agNames(x), srNames(x))[label_pts],
       pos = 3,
-      offset = 1
+      offset = label.offset
     )
+
   }
 
   ## Add procrustes
@@ -223,6 +264,92 @@ plot.acmap <- function(
       )
     })
 
+  }
+
+  ## Plot arrows for points outside bounds
+  if (indicate_outliers) {
+    for (n in which(pts_outside_bounds)) {
+
+      from <- pts$coords[n,]
+      oto  <- pts_orig_coords[n,]
+      tovec <- oto - from
+      tovec <- tovec / sqrt(sum(tovec^2))
+      to <- from + tovec*diff(range(ylim))*0.05
+
+      shape::Arrows(
+        x0 = from[1],
+        y0 = from[2],
+        x1 = to[1],
+        y1 = to[2],
+        arr.type = "triangle",
+        arr.width = 0.15,
+        arr.length = 0.2,
+        col = outlier.arrow.col,
+        xpd = TRUE
+      )
+    }
+  }
+
+  ## Plot error lines
+  if (show_error_lines) {
+
+    residual_table <- mapResiduals(x, optimization_number)
+    ag_coords <- agCoords(x, optimization_number)
+    sr_coords <- srCoords(x, optimization_number)
+
+    for (ag_num in seq_len(numAntigens(x))) {
+      for (sr_num in seq_len(numSera(x))) {
+
+        # Fetch variables
+        from <- ag_coords[ag_num, ]
+        to   <- sr_coords[sr_num, ]
+        residual <- residual_table[ag_num, sr_num]
+
+        if (!is.na(residual)) {
+
+          # Calculate the unit vector
+          vec <- to - from
+          vec <- vec / sqrt(sum(vec^2))
+
+          # Draw error lines
+          if (residual > 0) linecol <- "blue"
+          else              linecol <- "red"
+
+          from_end <- from + vec * (residual / 2)
+          to_end   <- to - vec * (residual / 2)
+
+          graphics::lines(
+            x = c(from[1], from_end[1]),
+            y = c(from[2], from_end[2]),
+            col = linecol,
+            xpd = TRUE
+          )
+
+          graphics::lines(
+            x = c(to[1], to_end[1]),
+            y = c(to[2], to_end[2]),
+            col = linecol,
+            xpd = TRUE
+          )
+
+        }
+
+      }
+    }
+
+  }
+
+  ## Add the map stress
+  if (plot_stress) {
+    graphics::text(
+      x = xlim[1],
+      y = ylim[1],
+      labels = round(mapStress(x, optimization_number), 2),
+      family = "mono",
+      adj = c(0, -0.5),
+      cex = 0.75,
+      col = "grey40"
+    )
   }
 
   ## Return the map invisibly
@@ -288,22 +415,22 @@ setup_acmap <- function(
 
 
 # Calculate map limits (not yet exported)
-mapLims <- function(...) {
+mapLims <- function(..., antigens = TRUE, sera = TRUE) {
 
   all_coords <- c()
   for (map in list(...)) {
-    all_coords <- rbind(
-      all_coords,
-      agCoords(map),
-      srCoords(map)
-    )
+
+    if (antigens) all_coords <- rbind(all_coords, agCoords(map))
+    if (sera)     all_coords <- rbind(all_coords, srCoords(map))
+
     if (!is.null(map$procrustes)) {
-      all_coords <- rbind(
-        all_coords,
-        applyMapTransform(map$procrustes$pc_coords$ag, map),
-        applyMapTransform(map$procrustes$pc_coords$sr, map)
-      )
+
+      pc_coords_ag <- applyMapTransform(map$procrustes$pc_coords$ag, map)
+      pc_coords_sr <- applyMapTransform(map$procrustes$pc_coords$sr, map)
+      if (antigens) all_coords <- rbind(all_coords, pc_coords_ag)
+      if (sera)     all_coords <- rbind(all_coords, pc_coords_sr)
     }
+
   }
   coord_lims(all_coords)
 

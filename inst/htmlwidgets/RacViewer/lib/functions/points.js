@@ -99,14 +99,6 @@ Racmacs.Viewer.prototype.addAgSrPoints = function(){
             }
 
             // Plot points by drawing order
-            // var order = Array(points.length).fill(0).map((x,i) => i);
-            // order.sort(function(a,b){
-            //   return(points[a].drawing_order - points[b].drawing_order);
-            // });
-            // var order = [];
-            // for(var i=this.data.data.c.p.d.length-1; i>=0; i--){
-            //     order.push(this.data.data.c.p.d[i]);
-            // }
             var order = this.data.ptDrawingOrder();
 
             // Generate the point objects
@@ -158,85 +150,45 @@ Racmacs.Viewer.prototype.addAgSrPoints = function(){
     // For 3D maps
     if(this.mapdims.dimensions == 3){
 
-        if(this.svg){
+        var shape;
+        for(var i=0; i<points.length; i++){
 
-            for(var i=0; i<points.length; i++){
+            if(points[i].shape.toLowerCase() == "circle"){ shape = "circle3d" }
+            if(points[i].shape.toLowerCase() == "box")   { shape = "square3d" }
+            var fillcolor    = points[i].getFillColorRGBA();
+            var outlinecolor = points[i].getOutlineColorRGBA();
 
-                var fillcolor    = points[i].getFillColorRGBA();
-                var outlinecolor = points[i].getOutlineColorRGBA();
+            var element = new R3JS.element.Point({
+                coords : points[i].coords3,
+                size : points[i].size,
+                shape : shape,
+                viewer: this,
+                properties : {
+                    mat : "lambert",
+                    fillcolor : {
+                        r : fillcolor[0],
+                        g : fillcolor[1],
+                        b : fillcolor[2]
+                    },
+                    outlinecolor : {
+                        r : outlinecolor[0],
+                        g : outlinecolor[1],
+                        b : outlinecolor[2]
+                    },
+                    transparent : true,
+                    lwd : points[i].outlineWidth,
+                    visible: points[i].shown
+                }
+            });
 
-                var element = new Racmacs.svgelement.Point({
-                    coords : points[i].coords,
-                    size : points[i].size,
-                    shape : shape,
-                    properties : {
-                        fillcolor : {
-                            r : fillcolor[0],
-                            g : fillcolor[1],
-                            b : fillcolor[2]
-                        },
-                        outlinecolor : {
-                            r : outlinecolor[0],
-                            g : outlinecolor[1],
-                            b : outlinecolor[2]
-                        },
-                        transparent : true,
-                        lwd : points[i].outlineWidth,
-                        visible: points[i].shown
-                    }
-                });
+            element.setFillOpacity(fillcolor[3]);
+            element.setOutlineOpacity(outlinecolor[3]);
 
-                // Add object to scene
-                this.scene.add(element.object);
+            // Add object to scene
+            this.scene.add(element.object);
 
-                // Add to point elements
-                point_elements.push(element);
-
-            }
-
-        } else {
-
-            var shape;
-            for(var i=0; i<points.length; i++){
-
-                if(points[i].shape.toLowerCase() == "circle"){ shape = "circle3d" }
-                if(points[i].shape.toLowerCase() == "box")   { shape = "square3d" }
-                var fillcolor    = points[i].getFillColorRGBA();
-                var outlinecolor = points[i].getOutlineColorRGBA();
-
-                var element = new R3JS.element.Point({
-                    coords : points[i].coords,
-                    size : points[i].size,
-                    shape : shape,
-                    viewer: this,
-                    properties : {
-                        mat : "lambert",
-                        fillcolor : {
-                            r : fillcolor[0],
-                            g : fillcolor[1],
-                            b : fillcolor[2]
-                        },
-                        outlinecolor : {
-                            r : outlinecolor[0],
-                            g : outlinecolor[1],
-                            b : outlinecolor[2]
-                        },
-                        transparent : true,
-                        lwd : points[i].outlineWidth,
-                        visible: points[i].shown
-                    }
-                });
-
-                element.setFillOpacity(fillcolor[3]);
-                element.setOutlineOpacity(outlinecolor[3]);
-
-                // Add object to scene
-                this.scene.add(element.object);
-
-                // Add to point elements
-                point_elements.push(element);
-
-            }
+            // Add to point elements
+            point_elements.push(element);
 
         }
 
@@ -268,52 +220,6 @@ Racmacs.Viewer.prototype.addAgSrPoints = function(){
     for(var i=0; i<points.length; i++){
         points[i].bindElement(point_elements[i]);
         points[i].pointElement = point_elements[i];
-    }
-
-}
-
-
-Racmacs.svgelement = {};
-Racmacs.svgelement.Point = class SVGPoint extends R3JS.element.base {
-
-    constructor(args){
-        super();
-
-        var svgns = "http://www.w3.org/2000/svg";
-        var circle = document.createElementNS(svgns, 'circle');
-        var stroke = 'rgba('+args.properties.outlinecolor.r*255+','+args.properties.outlinecolor.g*255+','+args.properties.outlinecolor.b*255+')';
-        var fill = 'rgba('+args.properties.fillcolor.r*255+','+args.properties.fillcolor.g*255+','+args.properties.fillcolor.b*255+')';
-
-        circle.setAttributeNS(null, 'cx', 0);
-        circle.setAttributeNS(null, 'cy', 0);
-        circle.setAttributeNS(null, 'r', args.size*2);
-        circle.setAttributeNS(null, 'style', 'fill: url(#_Radial2); stroke: '+stroke+'; stroke-width: 0.1px;' );
-
-        // Make object
-        this.object  = new THREE.SVGObject(circle);
-        this.object.element = this;
-
-        
-        
-        // Set position
-        this.object.position.set(
-            args.coords[0],
-            args.coords[1],
-            args.coords[2]
-        );
-
-    }
-
-    setOutlineColor(color){
-
-    }
-
-    setFillOpacity(color){
-
-    }
-
-    setOutlineOpacity(color){
-
     }
 
 }

@@ -34,10 +34,8 @@ Racmacs.Point.prototype.showHemisphering = function(data){
 		// Cycle through the hemisphering information
 		for(var i=0; i<data.length; i++){
 
-			let from = this.coords;
+			let from = this.coords3;
 			let to   = data[i].coords;
-
-			while (from.length < 3) from.push(0);
 			while (to.length < 3)   to.push(0);
 
 			coords.push([from, to]);

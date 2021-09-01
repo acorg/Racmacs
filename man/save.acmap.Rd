@@ -4,12 +4,16 @@
 \alias{save.acmap}
 \title{Save acmap data to a file}
 \usage{
-save.acmap(map, filename)
+save.acmap(map, filename, compress = FALSE, pretty = !compress)
 }
 \arguments{
 \item{map}{The acmap data object.}
 
 \item{filename}{Path to the file.}
+
+\item{compress}{Should the file be xz compressed}
+
+\item{pretty}{Should json be output prettily with new lines and indentation}
 }
 \description{
 Save acmap data to a file. The preferred extension is ".ace", although

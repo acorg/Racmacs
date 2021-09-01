@@ -1,4 +1,9 @@
 
+R3JS.Viewer.prototype.scrollFocus = function(){
+    // return this.viewport.holder.matches(':focus');
+    return true;
+}
+
 R3JS.Viewer.prototype.bindNavigation = function(){
 
     // Add viewport variables
@@ -18,7 +23,7 @@ R3JS.Viewer.prototype.bindNavigation = function(){
         var viewport = this.viewport;
 
         if(viewer.navigable){
-            if(viewport.mouse.down && !viewport.dragObject){
+            if(viewport.mouse.down && !viewport.dragObject && viewer.scrollFocus()){
                 if(!viewport.mouse.event.metaKey && !viewport.mouse.event.shiftKey && viewport.touch.num <= 1){
                     viewer.mouseMove();
                 } else if(viewport.mouse.event.metaKey){
@@ -37,7 +42,7 @@ R3JS.Viewer.prototype.bindNavigation = function(){
         var viewer   = this.viewport.viewer;
         var viewport = this.viewport;
 
-        if(viewer.navigable){
+        if(viewer.navigable && viewer.scrollFocus()){
             if(viewport.mouse.scrollShift){
                 viewer.mouseScrollShift();
             } else {
@@ -119,7 +124,7 @@ R3JS.Viewer.prototype.panScene = function(){
     position.x += panX;
     position.y += panY;
     var inverse_mat = new THREE.Matrix4();
-    inverse_mat.getInverse(plotHolder.matrixWorld);
+    inverse_mat.copy(plotHolder.matrixWorld).invert();
     position.unproject(this.camera.camera).applyMatrix4(inverse_mat);
 
     this.scene.panScene(position.toArray());

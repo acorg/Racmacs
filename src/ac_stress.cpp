@@ -19,7 +19,8 @@ double d_sigmoid(double &x){
 double ac_ptStress(
     double &map_dist,
     double &table_dist,
-    unsigned int &titer_type
+    unsigned int &titer_type,
+    double &dilution_stepsize
   ){
 
   double x;
@@ -32,7 +33,7 @@ double ac_ptStress(
     break;
   case 2:
     // Less than titer
-    x = table_dist - map_dist + 1;
+    x = table_dist - map_dist + dilution_stepsize;
     stress = pow(x,2)*sigmoid(x);
     break;
   case 3:
@@ -49,19 +50,55 @@ double ac_ptStress(
 
 }
 
+// This is the point residual function
+double ac_ptResidual(
+    double &map_dist,
+    double &table_dist,
+    unsigned int &titer_type,
+    double &dilution_stepsize
+){
 
-// This is the point stress function
+  double x;
+  double residual;
+
+  switch(titer_type) {
+  case 1:
+    // Measurable titer
+    residual = table_dist - map_dist;
+    break;
+  case 2:
+    // Less than titer
+    x = table_dist - map_dist + dilution_stepsize;
+    residual = x*sigmoid(x);
+    break;
+  case 3:
+    // More than titer
+    residual = 0;
+    break;
+  default:
+    // Missing titer
+    residual = 0;
+  }
+
+  // Return the residual result
+  return -residual;
+
+}
+
+
+// This is for calculating the inc_base part of the stress gradient function
 double inc_base(
     double &map_dist,
     double &table_dist,
-    unsigned int &titer_type
+    unsigned int &titer_type,
+    double &dilution_stepsize
   ){
 
   double ibase;
   double x;
 
   // Deal with 0 map distance
-  if(map_dist == 0){
+  if (map_dist == 0) {
     map_dist = 1e-5;
   }
 
@@ -72,7 +109,7 @@ double inc_base(
     break;
   case 2:
     // Less than titer
-    x = table_dist - map_dist + 1;
+    x = table_dist - map_dist + dilution_stepsize;
     ibase = (10*x*x*d_sigmoid(x) + 2*x*sigmoid(x)) / map_dist;
     break;
   case 3:

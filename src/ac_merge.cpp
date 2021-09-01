@@ -206,6 +206,7 @@ std::string merge_min_column_basis(
 
 }
 
+
 // Merging fixed column bases
 arma::vec merge_fixed_column_bases(
     const std::vector<AcMap>& maps,
@@ -239,6 +240,43 @@ arma::vec merge_fixed_column_bases(
 
   // Return the fixed column basis
   return merged_fixed_colbases;
+
+}
+
+
+// Merging antigen reacitivity adjustments
+arma::vec merge_ag_reactivity_adjustments(
+    const std::vector<AcMap>& maps,
+    const std::vector<AcAntigen>& merged_antigens
+){
+
+  // Create the merged column bases
+  arma::vec merged_ag_reactivity_adjustments( merged_antigens.size() );
+  merged_ag_reactivity_adjustments.fill( arma::datum::nan );
+
+  // Fetch ag reactivity adjustments from maps
+  for(arma::uword i=0; i<maps.size(); i++){
+
+    arma::ivec matches = ac_match_points( maps[i].antigens, merged_antigens );
+    for(arma::uword j=0; j<matches.n_elem; j++){
+
+      double merged_ag_reactivity_adjustment = merged_ag_reactivity_adjustments( matches(j) );
+      double map_ag_reactivity_adjustment = maps[i].optimizations[0].get_ag_reactivity_adjustments(j);
+
+      if(std::isfinite(merged_ag_reactivity_adjustment) && merged_ag_reactivity_adjustment != map_ag_reactivity_adjustment){
+        // Warn if different ag reactivity adjustments used
+        Rcpp::Rcerr << "\nAntigen reactivity adjustments of merged maps do not match, they will be taken from the first map";
+      } else {
+        // Otherwise apply the fixed column base to the merge
+        merged_ag_reactivity_adjustments( matches(j) ) = map_ag_reactivity_adjustment;
+      }
+
+    }
+
+  }
+
+  // Return the fixed column basis
+  return merged_ag_reactivity_adjustments;
 
 }
 
@@ -328,12 +366,16 @@ AcMap ac_merge_reoptimized(
   std::string min_col_basis = merge_min_column_basis( maps );
   arma::vec fixed_col_bases = merge_fixed_column_bases( maps, merged_map.sera );
 
+  // Merge antigen reactivity adjustments
+  arma::vec ag_reactivity_adjustments = merge_ag_reactivity_adjustments( maps, merged_map.antigens );
+
   // Run the optimizations
   merged_map.optimize(
     num_dims,
     num_optimizations,
     min_col_basis,
     fixed_col_bases,
+    ag_reactivity_adjustments,
     options
   );
 
@@ -398,8 +440,14 @@ AcMap ac_merge_frozen_overlay(
   opt.set_min_column_basis( merge_min_column_basis(maps) );
   opt.set_fixed_column_bases( merge_fixed_column_bases(maps, merged_map.sera) );
 
+  // Merge antigen reactivity adjustments
+  opt.set_ag_reactivity_adjustments( merge_ag_reactivity_adjustments( maps, merged_map.antigens ) );
+
   // Calculate stress
-  opt.recalculate_stress( merged_map.titer_table_flat );
+  opt.update_stress(
+    merged_map.titer_table_flat,
+    maps[0].dilution_stepsize
+  );
 
   // Add optimization
   merged_map.optimizations.push_back( opt );
@@ -486,20 +534,31 @@ AcMap ac_merge_incremental_single(
   // Merge the maps
   AcMap merged_map = ac_merge_tables(maps);
 
-  // Work out column bases
+  // Setup default fixed column bases
   arma::vec fixed_colbases = arma::vec( merged_map.sera.size() );
   fixed_colbases.fill( arma::datum::nan );
-  arma::vec colbases = merged_map.titer_table_flat.colbases( min_colbasis, fixed_colbases );
+
+  // Setup default ag reactivity adjustments
+  arma::vec ag_reactivity_adjustments = arma::vec(
+    merged_map.antigens.size(),
+    arma::fill::zeros
+  );
 
   // Get table distance matrix and titer type matrix
-  arma::mat tabledist_matrix = merged_map.titer_table_flat.numeric_table_distances(colbases);
+  arma::mat tabledist_matrix = merged_map.titer_table_flat.numeric_table_distances(
+    min_colbasis,
+    fixed_colbases,
+    ag_reactivity_adjustments
+  );
   arma::umat titertype_matrix = merged_map.titer_table_flat.get_titer_types();
 
   // Generate optimizations with random starting coords
   std::vector<AcOptimization> optimizations = ac_generateOptimizations(
-    colbases,
     tabledist_matrix,
     titertype_matrix,
+    min_colbasis,
+    fixed_colbases,
+    ag_reactivity_adjustments,
     num_dims,
     num_optimizations,
     options
@@ -521,7 +580,6 @@ AcMap ac_merge_incremental_single(
   // Relax the optimizations
   ac_relaxOptimizations(
     optimizations,
-    colbases,
     tabledist_matrix,
     titertype_matrix,
     options
@@ -565,6 +623,13 @@ AcMap ac_merge_incremental(
   arma::vec fixed_colbases = arma::vec( merged_map.sera.size() );
   fixed_colbases.fill( arma::datum::nan );
 
+  // Set ag reactivity adjustments to all ignored, setting ag reactivity adjustments
+  // isn't included in inc merge yet.
+  arma::vec ag_reactivity_adjustments = arma::vec(
+    merged_map.sera.size(),
+    arma::fill::zeros
+  );
+
   // Perform an optimization on the first map, if not done already
   if(merged_map.num_optimizations() == 0){
     merged_map.optimize(
@@ -572,6 +637,7 @@ AcMap ac_merge_incremental(
       num_optimizations,
       min_colbasis,
       fixed_colbases,
+      ag_reactivity_adjustments,
       options
     );
   }

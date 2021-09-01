@@ -10,6 +10,7 @@
 #include "ac_optimizer_options.h"
 #include "ac_relax_coords.h"
 #include "ac_coords_stress.h"
+#include "ac_bootstrap_output.h"
 
 #ifndef Racmacs__acmap_optimization__h
 #define Racmacs__acmap_optimization__h
@@ -19,8 +20,9 @@ class AcOptimization {
 
   private:
 
-    arma::vec fixed_column_bases;
     std::string min_column_basis;
+    arma::vec fixed_column_bases;
+    arma::vec ag_reactivity_adjustments;
     arma::mat ag_base_coords;
     arma::mat sr_base_coords;
     std::string comment;
@@ -31,24 +33,49 @@ class AcOptimization {
 
     std::vector<AcDiagnostics> ag_diagnostics;
     std::vector<AcDiagnostics> sr_diagnostics;
-    std::vector<NoisyBootstrapOutput> bootstrap;
+    std::vector<BootstrapOutput> bootstrap;
     double stress = arma::datum::nan;
 
     // Constructors
     AcOptimization(){}
+
     AcOptimization(
       const int &dimensions,
       const int &num_antigens,
       const int &num_sera
-    ){
+    ) {
 
       ag_base_coords = arma::mat(num_antigens, dimensions, arma::fill::zeros);
       sr_base_coords = arma::mat(num_sera, dimensions, arma::fill::zeros);
       transformation = arma::mat(dimensions, dimensions, arma::fill::eye);
       translation    = arma::mat(dimensions, 1, arma::fill::zeros);
+      ag_diagnostics.resize(num_antigens);
+      sr_diagnostics.resize(num_sera);
+
       min_column_basis = "none";
       fixed_column_bases = arma::vec(num_sera);
       fixed_column_bases.fill(arma::datum::nan);
+      ag_reactivity_adjustments = arma::vec(num_antigens, arma::fill::zeros);
+
+    }
+
+    AcOptimization(
+      const int &dimensions,
+      const int &num_antigens,
+      const int &num_sera,
+      const std::string &min_column_basis,
+      const arma::vec &fixed_column_bases,
+      const arma::vec &ag_reactivity_adjustments
+    )
+      :min_column_basis(min_column_basis),
+       fixed_column_bases(fixed_column_bases),
+       ag_reactivity_adjustments(ag_reactivity_adjustments)
+      {
+
+      ag_base_coords = arma::mat(num_antigens, dimensions, arma::fill::zeros);
+      sr_base_coords = arma::mat(num_sera, dimensions, arma::fill::zeros);
+      transformation = arma::mat(dimensions, dimensions, arma::fill::eye);
+      translation    = arma::mat(dimensions, 1, arma::fill::zeros);
       ag_diagnostics.resize(num_antigens);
       sr_diagnostics.resize(num_sera);
 
@@ -57,7 +84,9 @@ class AcOptimization {
     // Getters
     std::string get_min_column_basis() const { return min_column_basis; }
     arma::vec get_fixed_column_bases() const { return fixed_column_bases; }
-    double get_fixed_column_bases(int i) const { return fixed_column_bases(i); }
+    double get_fixed_column_bases(arma::uword i) const { return fixed_column_bases(i); }
+    arma::vec get_ag_reactivity_adjustments() const { return ag_reactivity_adjustments; }
+    double get_ag_reactivity_adjustments(arma::uword i) const { return ag_reactivity_adjustments(i); }
     std::string get_comment() const { return comment; }
     arma::mat get_transformation() const { return transformation; }
     arma::mat get_translation() const { return translation; }
@@ -69,6 +98,9 @@ class AcOptimization {
     void set_transformation( arma::mat transformation_in ){ transformation = transformation_in; }
     void set_translation( arma::mat translation_in ){ translation = translation_in; }
     void set_stress( double stress_in ){ stress = stress_in; }
+    void set_ag_reactivity_adjustments( arma::vec ag_reactivity_adjustments_in ) {
+      ag_reactivity_adjustments = ag_reactivity_adjustments_in;
+    }
 
     void set_fixed_column_bases(
         arma::vec fixed_column_bases_in,
@@ -101,6 +133,24 @@ class AcOptimization {
 
       // Invalidate stress
       if (reset_stress) invalidate_stress();
+
+    }
+
+    // Update the currently calculated stress
+    void update_stress(
+      AcTiterTable titertable,
+      double dilution_stepsize
+    ) {
+
+      stress = ac_coords_stress(
+        titertable,
+        min_column_basis,
+        fixed_column_bases,
+        ag_reactivity_adjustments,
+        ag_base_coords,
+        sr_base_coords,
+        dilution_stepsize
+      );
 
     }
 
@@ -365,9 +415,10 @@ class AcOptimization {
     arma::vec calc_colbases(
        AcTiterTable titers
     ) const {
-      return titers.colbases(
+      return titers.calc_colbases(
         min_column_basis,
-        fixed_column_bases
+        fixed_column_bases,
+        ag_reactivity_adjustments
       );
     }
 
@@ -382,8 +433,12 @@ class AcOptimization {
         sr_base_coords
       );
       arma::mat coeff = arma::princomp(coords);
-      ag_base_coords = ag_base_coords*coeff.cols(0, dims);
-      sr_base_coords = sr_base_coords*coeff.cols(0, dims);
+      ag_base_coords = ag_base_coords * coeff.cols(0, dims - 1);
+      sr_base_coords = sr_base_coords * coeff.cols(0, dims - 1);
+
+      transformation.resize(dims, dims);
+      translation.resize(dims, 1);
+
       invalidate_stress();
 
     }
@@ -403,28 +458,15 @@ class AcOptimization {
 
     }
 
-    // Recalulate the optimization stress
-    void recalculate_stress(
-      AcTiterTable titertable
-    ){
-
-      arma::vec colbases = calc_colbases( titertable );
-      stress = ac_coords_stress(
-        titertable.numeric_table_distances( colbases ),
-        titertable.get_titer_types(),
-        ag_base_coords,
-        sr_base_coords
-      );
-
-    }
-
     // Relax the optimization
     void relax_from_raw_matrices(
       const arma::mat &tabledist_matrix,
       const arma::umat &titertype_matrix,
       const AcOptimizerOptions options,
       const arma::uvec &fixed_antigens = arma::uvec(),
-      const arma::uvec &fixed_sera = arma::uvec()
+      const arma::uvec &fixed_sera = arma::uvec(),
+      const arma::mat &titer_weights = arma::mat(),
+      const double &dilution_stepsize = 1.0
     ){
 
       stress = ac_relax_coords(
@@ -434,7 +476,9 @@ class AcOptimization {
         sr_base_coords,
         options,
         fixed_antigens,
-        fixed_sera
+        fixed_sera,
+        titer_weights,
+        dilution_stepsize
       );
 
     }
@@ -443,17 +487,23 @@ class AcOptimization {
       AcTiterTable titers,
       const AcOptimizerOptions options,
       const arma::uvec &fixed_antigens = arma::uvec(),
-      const arma::uvec &fixed_sera = arma::uvec()
+      const arma::uvec &fixed_sera = arma::uvec(),
+      const arma::mat &titer_weights = arma::mat(),
+      const double &dilution_stepsize = 1.0
     ){
 
       relax_from_raw_matrices(
         titers.numeric_table_distances(
-          calc_colbases(titers)
+          min_column_basis,
+          fixed_column_bases,
+          ag_reactivity_adjustments
         ),
         titers.get_titer_types(),
         options,
         fixed_antigens,
-        fixed_sera
+        fixed_sera,
+        titer_weights,
+        dilution_stepsize
       );
 
     }
@@ -464,6 +514,7 @@ class AcOptimization {
     ){
       ag_base_coords.shed_row(ag);
       ag_diagnostics.erase(ag_diagnostics.begin() + ag);
+      ag_reactivity_adjustments.shed_row(ag);
     }
 
     void remove_serum(
@@ -483,6 +534,7 @@ class AcOptimization {
       ag_base_coords = ag_base_coords.rows(ags);
       sr_base_coords = sr_base_coords.rows(sr);
       fixed_column_bases = fixed_column_bases.elem(sr);
+      ag_reactivity_adjustments = ag_reactivity_adjustments.elem(ags);
       ag_diagnostics = subset_vector(ag_diagnostics, ags);
       sr_diagnostics = subset_vector(sr_diagnostics, sr);
       invalidate_stress();

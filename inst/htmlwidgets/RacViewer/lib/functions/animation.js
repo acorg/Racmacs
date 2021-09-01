@@ -38,11 +38,11 @@ Racmacs.Point.prototype.stepToCoords = function(){
         var stepCoords = this.coordsVector.clone().add(this.movementVector);
 
         // Step to the coordinates
-        this.setPosition(
+        this.setPosition([
             stepCoords.x,
             stepCoords.y,
             stepCoords.z
-        );
+        ]);
 
         // Decrease the number of steps remaining
         this.targetSteps--;

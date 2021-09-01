@@ -124,6 +124,7 @@ Racmacs.Viewer.prototype.switchToProjection = function(num){
 
     // Fire the onprojectionswitch event
     this.onProjectionChange(num);
+    if(this.data.numProjections() == 0) return(null);
 
     // Check num
     if(num > this.data.numProjections()){
@@ -140,14 +141,14 @@ Racmacs.Viewer.prototype.switchToProjection = function(num){
     for(var i=0; i<this.antigens.length; i++){
         var coords = this.data.agCoords(i);
         if(coords.length == 2){ coords.push(0) }
-        this.antigens[i].setPosition(coords[0], coords[1], coords[2])
+        this.antigens[i].setPosition([coords[0], coords[1], coords[2]]);
     }
 
     // Move sera point coordinates
     for(var i=0; i<this.sera.length; i++){
         var coords = this.data.srCoords(i);
         if(coords.length == 2){ coords.push(0) }
-        this.sera[i].setPosition(coords[0], coords[1], coords[2])
+        this.sera[i].setPosition([coords[0], coords[1], coords[2]]);
     }
 
     // Change dimensions if necessary
@@ -197,7 +198,7 @@ Racmacs.Viewer.prototype.switchToProjection = function(num){
     this.render();
 
     // Update stress
-    this.updateStress();
+    this.updateStress(this.data.stress());
 
 }
 

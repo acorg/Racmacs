@@ -33,29 +33,6 @@ R3JS.Viewer.prototype.eventListeners.push({
     }
 });
 
-Racmacs.TriangulationblobsPanel = class TriangulationblobsPanel {
-
-    constructor(viewer){
-
-        // Create holder div
-        this.div = document.createElement("div");
-        this.div.classList.add("triangulationblobs-tab");
-
-        var newTriangulationBlobsWell = new Racmacs.utils.InputWell({
-            inputs: [
-                { id: "stresslim",   value: 1,      label : "Stress limit" },
-                { id: "gridspacing", value: 0.25,   label : "Grid spacing" }
-            ],
-            submit: "Calculate stress blobs",
-            fn : function(args){ viewer.onAddTriangulationBlobs(args) }
-        });
-        this.div.appendChild(newTriangulationBlobsWell.div);
-        newTriangulationBlobsWell.div.classList.add("shiny-element");
-
-    }
-
-
-}
 
 // Show blobs in the viewer
 Racmacs.Viewer.prototype.addTriangulationBlobs = function(blobdata){
@@ -76,8 +53,6 @@ Racmacs.Viewer.prototype.removeBlobs = function(){
 
 }
 
-
-
 // Show blob instead of a point
 Racmacs.Point.prototype.addBlob = function(blob){
 
@@ -97,7 +72,7 @@ Racmacs.Point.prototype.addBlob = function(blob){
         for(var i=0; i<blob.length; i++){
 
             var coords = blob[i].x.map(
-                (x,j) => [blob[i].x[j], blob[i].y[j], 0]
+                (x,j) => [blob[i].x[j], blob[i].y[j]]
             );
 
             // Apply map transformation to coordinates
@@ -108,6 +83,13 @@ Racmacs.Point.prototype.addBlob = function(blob){
                     translation
                 )
             );
+
+            // Make 3d
+            for(var i=0; i<coords.length; i++){
+                while(coords[i].length < 3){
+                    coords[i].push(0);
+                }
+            }
 
 
             var fillcolor    = this.getFillColorRGBA();
@@ -125,10 +107,10 @@ Racmacs.Point.prototype.addBlob = function(blob){
                         a:fillcolor[3]
                     },
                     outlinecolor : {
-                        r:Array(coords.length).fill(outlinecolor[0]),
-                        g:Array(coords.length).fill(outlinecolor[1]),
-                        b:Array(coords.length).fill(outlinecolor[2]),
-                        a:Array(coords.length).fill(outlinecolor[3])
+                        r:Array(coords.length*2).fill(outlinecolor[0]),
+                        g:Array(coords.length*2).fill(outlinecolor[1]),
+                        b:Array(coords.length*2).fill(outlinecolor[2]),
+                        a:Array(coords.length*2).fill(outlinecolor[3])
                     }
                 },
                 viewport : this.viewer.viewport
@@ -146,10 +128,6 @@ Racmacs.Point.prototype.addBlob = function(blob){
         let faces    = blob.faces;
         let normals  = blob.normals;
 
-        // 3D blobs
-        var fillcolor    = this.getFillColorRGBA();
-        var outlinecolor = this.getOutlineColorRGBA();
-
         // Get transformation and translation
         let transformation = this.viewer.data.transformation();
         let translation = this.viewer.data.translation();
@@ -164,33 +142,20 @@ Racmacs.Point.prototype.addBlob = function(blob){
         );
 
         // Generate the blob element
-        this.blob = new R3JS.element.Polygon3d({
-            faces    : faces,
-            vertices : vertices,
-            normals  : normals,
-            properties : {
-                mat : "phong",
-                transparent : true,
-                fillcolor : {
-                    r:fillcolor[0],
-                    g:fillcolor[1],
-                    b:fillcolor[2],
-                    a:fillcolor[3]
-                },
-                outlinecolor : {
-                    r:outlinecolor[0],
-                    g:outlinecolor[1],
-                    b:outlinecolor[2],
-                    a:outlinecolor[3]
-                }
-            },
-            viewport : this.viewer.viewport,
-            outline : this.fillColor == "transparent"
+        this.blob = new Racmacs.element.Blob3d({
+            faces        : faces,
+            vertices     : vertices,
+            normals      : normals,
+            fillcolor    : this.fillColor,
+            outlinecolor : this.outlineColor,
+            viewport     : this.viewer.viewport
         });
+
 
     }
 
     // Show the blob
+    this.bindElement(this.blob);
     this.showBlob();
 
 }

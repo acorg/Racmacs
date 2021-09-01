@@ -10,7 +10,7 @@ Racmacs.App.prototype.onRelaxMap              = function(){ console.log("Relax m
 Racmacs.App.prototype.onRelaxMapOneStep       = function(){ console.log("Relax map one step") }
 Racmacs.App.prototype.onRandomizeMap          = function(){ console.log("Randomize map") }
 Racmacs.App.prototype.onProjectionChange      = function(projection){}
-Racmacs.App.prototype.onCoordsChange          = function(){}
+Racmacs.App.prototype.onCoordsChange          = function(){ console.log("Coords moved") }
 Racmacs.App.prototype.onOrientProjections     = function(){ console.log("Orient projections") }
 Racmacs.App.prototype.onRemoveOptimizations   = function(){ console.log("Remove optimizations") }
 Racmacs.App.prototype.onRunOptimizations      = function(args){ console.log(args) }
@@ -18,7 +18,8 @@ Racmacs.App.prototype.onMoveTrappedPoints     = function(){ console.log("Find tr
 Racmacs.App.prototype.onCheckHemisphering     = function(){ console.log("Check hemisphering") }
 Racmacs.App.prototype.onAddTriangulationBlobs = function(args){ console.log(args) }
 Racmacs.App.prototype.onProcrustes            = function(args){ console.log(args) }
-Racmacs.App.prototype.onReflectMap            = function(axis){ console.log(axis) }
+Racmacs.App.prototype.onSelectPoint           = function(axis){ console.log("Point selected") }
+Racmacs.App.prototype.onDeselectPoint         = function(axis){ console.log("Point deselected") }
 
 // Manipulating the control panel
 Racmacs.App.prototype.showControlPanel = function(){
@@ -60,12 +61,20 @@ Racmacs.App.prototype.setCoords = function(data){
 
     for(var i=0; i<data.antigens.length; i++){
         if(data.antigens[i].length == 2){ data.antigens[i].push(0) }
-        this.antigens[i].setPosition(data.antigens[i][0], data.antigens[i][1], data.antigens[i][2]);
+        this.antigens[i].setPosition([
+            data.antigens[i][0], 
+            data.antigens[i][1], 
+            data.antigens[i][2]
+        ]);
     }
 
     for(var i=0; i<data.sera.length; i++){
         if(data.sera[i].length == 2){ data.sera[i].push(0) }
-        this.sera[i].setPosition(data.sera[i][0], data.sera[i][1], data.sera[i][2]);
+        this.sera[i].setPosition([
+            data.sera[i][0], 
+            data.sera[i][1], 
+            data.sera[i][2]
+        ]);
     }
 
     if (data.stress !== undefined) {

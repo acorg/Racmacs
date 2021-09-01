@@ -28,9 +28,11 @@ check.numericmatrix <- function(x) {
 }
 
 check.numericvector <- function(x) {
+  if (sum(!is.na(x)) == 0) mode(x) <- "numeric"
   if (!is.vector(x) || !is.numeric(x)) {
     stop("Input must be a numeric vector", call. = FALSE)
   }
+  x
 }
 
 check.logical <- function(x) {

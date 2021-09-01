@@ -26,7 +26,9 @@ tableDistances <- function(
   }
   numeric_dists <- ac_numeric_table_distances(
     titer_table = titerTable(map),
-    colbases = colBases(map, optimization_number)
+    min_col_basis = minColBasis(map, optimization_number),
+    fixed_col_bases = fixedColBases(map, optimization_number),
+    ag_reactivity_adjustments = agReactivityAdjustments(map, optimization_number)
   )
   numeric_dists[titertypesTable(map) == 0] <- "*"
   numeric_dists[titertypesTable(map) == 2] <- paste0(">", numeric_dists[titertypesTable(map) == 2])
@@ -36,18 +38,14 @@ tableDistances <- function(
 }
 
 # Backend function to get numeric form of table distances
-numerictableDistances <- function(
-  map,
-  optimization_number = 1
-  ) {
+numeric_min_tabledists <- function(tabledists) {
 
-  if (numOptimizations(map) == 0) {
-    stop("This map has no optimizations for which to calculate table distances")
-  }
-  ac_numeric_table_distances(
-    titer_table = titerTable(map),
-    colbases = colBases(map, optimization_number)
-  )
+  thresholded <- substr(tabledists, 1, 1) == ">"
+  tabledists[thresholded] <- substr(tabledists[thresholded], 2, nchar(tabledists[thresholded]))
+  tabledists[tabledists == "*"] <- NA
+  mode(tabledists) <- "numeric"
+  tabledists[thresholded] <- tabledists[thresholded] + 1
+  tabledists
 
 }
 
@@ -60,6 +58,7 @@ numerictableDistances <- function(
 #' @param titer_table The titer table
 #' @param minimum_column_basis The minimum column basis to assume
 #' @param fixed_column_bases Fixed column bases to apply
+#' @param ag_reactivity_adjustments Reactivity adjustments to apply on a per-antigen basis
 #'
 #' @return Returns a numeric vector of the log-converted column bases for the
 #'   table
@@ -71,16 +70,20 @@ numerictableDistances <- function(
 tableColbases <- function(
   titer_table,
   minimum_column_basis = "none",
-  fixed_column_bases = rep(NA, ncol(titer_table))
+  fixed_column_bases = rep(NA, ncol(titer_table)),
+  ag_reactivity_adjustments = rep(0, nrow(titer_table))
   ) {
 
   check.charactermatrix(titer_table)
   check.string(minimum_column_basis)
+  fixed_column_bases <- check.numericvector(fixed_column_bases)
+  ag_reactivity_adjustments <- check.numericvector(ag_reactivity_adjustments)
 
   ac_table_colbases(
     titer_table = format_titers(titer_table),
     min_col_basis = minimum_column_basis,
-    fixed_col_bases = fixed_column_bases
+    fixed_col_bases = fixed_column_bases,
+    ag_reactivity_adjustments = ag_reactivity_adjustments
   )
 
 }
@@ -163,26 +166,20 @@ stressTable <- function(
   ) {
 
   if (numOptimizations(map) == 0) {
-    stop("This map has no optimizations for which to calculate a stress table")
+    stop(strwrap(
+      "This map has no optimizations for which
+      to calculate a stress table"
+    ))
   }
 
-  table_dist  <- numerictableDistances(map, optimization_number)
-  titer_types <- titertypesTable(map)
-  ag_coords   <- agBaseCoords(map, optimization_number)
-  sr_coords   <- srBaseCoords(map, optimization_number)
-
-  stress_table <- matrix(NaN, numAntigens(map), numSera(map))
-  for (ag in seq_len(numAntigens(map))) {
-    for (sr in seq_len(numSera(map))) {
-      stress_table[ag, sr] <- ac_coords_stress(
-        tabledist_matrix = table_dist[ag, sr, drop = F],
-        titertype_matrix = titer_types[ag, sr, drop = F],
-        ag_coords = ag_coords[ag, , drop = F],
-        sr_coords = sr_coords[sr, , drop = F]
-      )
-    }
-  }
-  stress_table
+  ac_point_stresses(
+    titer_table = titerTable(map),
+    min_colbasis = minColBasis(map, optimization_number),
+    fixed_colbases = fixedColBases(map, optimization_number),
+    ag_reactivity_adjustments = agReactivityAdjustments(map, optimization_number),
+    map_dists = mapDistances(map, optimization_number),
+    dilution_stepsize = dilutionStepsize(map)
+  )
 
 }
 
@@ -216,21 +213,21 @@ mapResiduals <- function(
     ))
   }
 
-  map_dist    <- mapDistances(map, optimization_number)
-  table_dist  <- numerictableDistances(map, optimization_number)
-  titer_types <- titertypesTable(map)
-
-  residuals <- table_dist - map_dist
+  residual_matrix <- ac_point_residuals(
+    titer_table = titerTable(map),
+    min_colbasis = minColBasis(map, optimization_number),
+    fixed_colbases = fixedColBases(map, optimization_number),
+    ag_reactivity_adjustments = agReactivityAdjustments(map, optimization_number),
+    map_dists = mapDistances(map, optimization_number),
+    dilution_stepsize = dilutionStepsize(map)
+  )
 
   if (exclude_nd) {
-    residuals[map_dist > table_dist & titer_types == 2] <- NA
-    residuals[map_dist < table_dist & titer_types == 3] <- NA
-  } else {
-    residuals[map_dist > table_dist & titer_types == 2] <- 0
-    residuals[map_dist < table_dist & titer_types == 3] <- 0
+    titertypes <- titertypesTable(map)
+    residual_matrix[titertypes != 1] <- NA
   }
 
-  residuals
+  residual_matrix
 
 }
 
@@ -258,10 +255,13 @@ recalculateStress <- function(
   check.optnum(map, optimization_number)
 
   ac_coords_stress(
-    tabledist_matrix = numerictableDistances(map, optimization_number),
-    titertype_matrix = titertypesTable(map),
+    titers = titerTable(map),
+    min_colbasis = minColBasis(map, optimization_number),
+    fixed_colbases = fixedColBases(map, optimization_number),
+    ag_reactivity_adjustments = agReactivityAdjustments(map, optimization_number),
     ag_coords = agBaseCoords(map, optimization_number),
-    sr_coords = srBaseCoords(map, optimization_number)
+    sr_coords = srBaseCoords(map, optimization_number),
+    dilutionStepsize(map)
   )
 
 }
@@ -339,12 +339,12 @@ srStressPerTiter <- function(
     exclude_nd          = exclude_nd
   )
 
-  # Calculate the serum likelihood
+  # Calculate the serum stress per titer
   vapply(sera, function(serum) {
 
     sr_residuals <- map_residuals[, serum]
     sr_residuals <- sr_residuals[!is.na(sr_residuals)]
-    sqrt((sum(sr_residuals^2) / length(sr_residuals)))
+    sum(sr_residuals^2) / length(sr_residuals)
 
   }, numeric(1))
 
@@ -370,12 +370,12 @@ agStressPerTiter <- function(
     exclude_nd          = exclude_nd
   )
 
-  # Calculate the serum likelihood
+  # Calculate the antigen stress per titer
   vapply(antigens, function(antigen) {
 
     ag_residuals <- map_residuals[antigen, ]
     ag_residuals <- ag_residuals[!is.na(ag_residuals)]
-    sqrt((sum(ag_residuals^2) / length(ag_residuals)))
+    sum(ag_residuals^2) / length(ag_residuals)
 
   }, numeric(1))
 

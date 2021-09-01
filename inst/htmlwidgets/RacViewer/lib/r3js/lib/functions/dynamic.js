@@ -147,7 +147,7 @@ R3JS.Scene.prototype.showhideDynamics = function(camera){
         // Hide all objects associated with dynamic faces
         var dynamic_objects = this.dynamic_objects;
         for(var i=0; i<dynamic_objects.length; i++){
-            dynamic_objects[i].hide();
+            dynamic_objects[i].hidedynamic();
         }
 
         // Show objects associated with shown box faces
@@ -155,7 +155,7 @@ R3JS.Scene.prototype.showhideDynamics = function(camera){
         for(var i=0; i<6; i++){
             if(face_visibility[i] == 1){
                 for(var j=0; j<boxfaces[i].length; j++){
-                    boxfaces[i][j].show();
+                    boxfaces[i][j].showdynamic();
                 }
             }
         }
@@ -203,13 +203,13 @@ R3JS.Scene.prototype.showhideDynamics = function(camera){
                     if(visible_edges[i][j+1] == 1){
                         
                         for(var k=0; k<boxedges[i][j].length; k++){
-                            boxedges[i][j][k].show();
+                            boxedges[i][j][k].showdynamic();
                         }
 
                     } else {
 
                         for(var k=0; k<boxedges[i][j+3].length; k++){
-                            boxedges[i][j+3][k].show();
+                            boxedges[i][j+3][k].showdynamic();
                         }
 
                     }

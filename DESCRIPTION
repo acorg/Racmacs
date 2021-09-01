@@ -1,7 +1,7 @@
 Package: Racmacs
 Type: Package
 Title: R Antigenic Cartography Macros
-Version: 1.1.9
+Version: 1.1.15
 Date: 2021-01-22
 Author: Sam Wilks
 Maintainer: Sam Wilks <sw463@cam.ac.uk>
@@ -37,7 +37,6 @@ Suggests:
     plotly,
     knitr,
     rmarkdown,
-    misc3d,
     r3js,
     base64enc
 RoxygenNote: 7.1.1
@@ -49,8 +48,7 @@ LinkingTo:
     RcppEnsmallen, 
     rapidjsonr
 Remotes: 
-    shwilks/r3js,
-    shwilks/rmarchingcubes
+    shwilks/r3js
 VignetteBuilder: knitr
 URL: https://github.com/acorg/Racmacs
 BugReports: https://github.com/acorg/Racmacs/issues

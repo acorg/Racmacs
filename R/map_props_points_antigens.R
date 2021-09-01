@@ -64,6 +64,7 @@ agNamesFull         <- antigens_getter(ac_ag_get_name_full)
 agNamesAbbreviated  <- antigens_getter(ac_ag_get_name_abbreviated)
 agPassage           <- antigens_getter(ac_ag_get_passage)
 agGroupValues       <- antigens_getter(ac_ag_get_group) # Not exported
+agMatchIDs          <- antigens_getter(ac_ag_get_match_id) # Not exported
 
 `agIDs<-`               <- antigens_setter(ac_ag_set_id)
 `agDates<-`             <- antigens_setter(ac_ag_set_date)
@@ -73,6 +74,7 @@ agGroupValues       <- antigens_getter(ac_ag_get_group) # Not exported
 `agNamesAbbreviated<-`  <- antigens_setter(ac_ag_set_name_abbreviated)
 `agPassage<-`           <- antigens_setter(ac_ag_set_passage)
 `agGroupValues<-`       <- antigens_setter(ac_ag_set_group) # Not exported
+
 
 #' Getting and setting antigen groups
 #'
@@ -151,3 +153,69 @@ agSequences <- function(map) {
   }
   map
 }
+
+
+#' Getting and setting point clade information
+#'
+#' @param map The acmap data object
+#' @param value A list of character vectors with clade information for each
+#'   point
+#'
+#' @name ptClades
+#' @family {antigen and sera attribute functions}
+#'
+
+#' @rdname ptClades
+#' @export
+agClades <- function(map) {
+  check.acmap(map)
+  lapply(map$antigens, function(ag) {
+    ac_ag_get_clade(ag)
+  })
+}
+
+#' @rdname ptClades
+#' @export
+srClades <- function(map) {
+  check.acmap(map)
+  lapply(map$sera, function(sr) {
+    ac_sr_get_clade(sr)
+  })
+}
+
+#' @rdname ptClades
+#' @export
+`agClades<-` <- function(map, value) {
+  check.acmap(map)
+  if (!is.list(value)) {
+    stop("Input must be a list of character vectors")
+  }
+  if (length(value) != numAntigens(map)) {
+    stop("Number of sequences does not match number of antigens")
+  }
+  for (x in seq_len(numAntigens(map))) {
+    map$antigens[[x]] <- ac_ag_set_clade(map$antigens[[x]], value[[x]])
+  }
+  map
+}
+
+#' @rdname ptClades
+#' @export
+`srClades<-` <- function(map, value) {
+  check.acmap(map)
+  if (!is.list(value)) {
+    stop("Input must be a list of character vectors")
+  }
+  if (length(value) != numSera(map)) {
+    stop("Number of sequences does not match number of sera")
+  }
+  for (x in seq_len(numSera(map))) {
+    map$sera[[x]] <- ac_sr_set_clade(map$sera[[x]], value[[x]])
+  }
+  map
+}
+
+
+
+
+

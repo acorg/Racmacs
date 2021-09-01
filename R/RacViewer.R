@@ -44,7 +44,8 @@ RacViewer <- function(
     plotdata = jsonlite::toJSON(map$plot),
     options  = jsonlite::toJSON(
       do.call(RacViewer.options, options),
-      auto_unbox = TRUE
+      auto_unbox = TRUE,
+      null = 'null'
     )
   )
 

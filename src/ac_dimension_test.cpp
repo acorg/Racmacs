@@ -12,12 +12,10 @@ DimTestOutput ac_dimension_test_map(
   double test_proportion,
   std::string minimum_column_basis,
   arma::vec fixed_column_bases,
+  arma::vec ag_reactivity_adjustments,
   int num_optimizations,
   AcOptimizerOptions options
 ){
-
-  // Declare variables
-  arma::vec colbases;
 
   // Silence normal optimization progress reporting
   options.report_progress = false;
@@ -35,9 +33,10 @@ DimTestOutput ac_dimension_test_map(
   titer_table.set_unmeasured(indices_test);
 
   // Get column bases after setting don't cares if not setting from full table
-  colbases = titer_table.colbases(
+  arma::vec colbases = titer_table.calc_colbases(
     minimum_column_basis,
-    fixed_column_bases
+    fixed_column_bases,
+    ag_reactivity_adjustments
   );
 
   // Setup for output
@@ -59,8 +58,10 @@ DimTestOutput ac_dimension_test_map(
     // Get optimizations
     optimizations = ac_runOptimizations(
       titer_table,
-      colbases,
-      dimensions_to_test[i],
+      minimum_column_basis,
+      fixed_column_bases,
+      ag_reactivity_adjustments,
+      dimensions_to_test(i),
       num_optimizations,
       options
     );

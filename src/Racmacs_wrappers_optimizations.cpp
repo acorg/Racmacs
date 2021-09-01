@@ -17,6 +17,8 @@ std::string ac_opt_get_mincolbasis( const AcOptimization opt ){ return opt.get_m
 // [[Rcpp::export(rng = false)]]
 arma::vec ac_opt_get_fixedcolbases( const AcOptimization opt ){ return opt.get_fixed_column_bases(); }
 // [[Rcpp::export(rng = false)]]
+arma::vec ac_opt_get_agreactivityadjustments( const AcOptimization opt ){ return opt.get_ag_reactivity_adjustments(); }
+// [[Rcpp::export(rng = false)]]
 double ac_opt_get_stress( const AcOptimization opt ){ return opt.get_stress(); }
 // [[Rcpp::export(rng = false)]]
 int ac_opt_get_dimensions( const AcOptimization opt ){ return opt.get_dimensions(); }
@@ -41,6 +43,11 @@ AcOptimization ac_opt_set_mincolbasis( AcOptimization opt, std::string value ){ 
 // [[Rcpp::export(rng = false)]]
 AcOptimization ac_opt_set_fixedcolbases( AcOptimization opt, arma::vec value ){
   opt.set_fixed_column_bases(value);
+  return opt;
+}
+// [[Rcpp::export(rng = false)]]
+AcOptimization ac_opt_set_agreactivityadjustments( AcOptimization opt, arma::vec value ){
+  opt.set_ag_reactivity_adjustments(value);
   return opt;
 }
 // [[Rcpp::export(rng = false)]]

@@ -64,6 +64,7 @@ mergeMaps <- function(
   ) {
 
   # Check input
+  if (!is.list(maps)) stop("Input must be a list of acmap objects", call. = FALSE)
   lapply(maps, check.acmap)
 
   # Set options for any relaxation or optimizations

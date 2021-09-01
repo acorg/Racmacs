@@ -253,6 +253,7 @@ R3JS.element.glarrowhead = class GLArrowhead extends R3JS.element.base {
         var vwidth  = viewport.getWidth();
         var vheight = viewport.getWidth();
         var pixelratio = renderer.getPixelRatio();
+        var maxpointsize = renderer.maxPointSize;
 
         var material = new THREE.ShaderMaterial( { 
             uniforms: { 
@@ -261,7 +262,8 @@ R3JS.element.glarrowhead = class GLArrowhead extends R3JS.element.base {
                 viewportWidth: { value: vwidth }, 
                 viewportHeight: { value: vheight },
                 viewportPixelRatio: { value: pixelratio },
-                sceneRotation: { value: scene.getRotation()[2] }
+                sceneRotation: { value: scene.getRotation()[2] },
+                maxpointsize: { value: maxpointsize }
             }, 
             vertexShader:   R3JS.Shaders.VertexShaderArrowHead,
             fragmentShader: R3JS.Shaders.FragmentShaderArrowHead,

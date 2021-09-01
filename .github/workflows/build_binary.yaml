@@ -1,0 +1,205 @@
+# For help debugging build failures open an issue on the RStudio community with the 'github-actions' tag.
+# https://community.rstudio.com/new-topic?category=Package%20development&tags=github-actions
+on:
+  push:
+    branches:
+      - main
+      - master
+  pull_request:
+    branches:
+      - main
+      - master
+
+name: Build-binary-packages
+
+jobs:
+  build:
+    runs-on: ${{ matrix.config.os }}
+
+    name: ${{ matrix.config.os }} (${{ matrix.config.r }})
+
+    strategy:
+      fail-fast: false
+      max-parallel: 1
+      matrix:
+        config:
+          - {os: windows-latest, r: 'release'}
+          - {os: macOS-latest, r: 'release'}
+
+    env:
+      R_REMOTES_NO_ERRORS_FROM_WARNINGS: true
+      RSPM: ${{ matrix.config.rspm }}
+      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: r-lib/actions/setup-r@v1
+        with:
+          r-version: ${{ matrix.config.r }}
+
+      - uses: r-lib/actions/setup-pandoc@v1
+
+      - name: Query dependencies
+        run: |
+          install.packages('remotes')
+          saveRDS(remotes::dev_package_deps(dependencies = TRUE), ".github/depends.Rds", version = 2)
+          writeLines(sprintf("R-%i.%i", getRversion()$major, getRversion()$minor), ".github/R-version")
+        shell: Rscript {0}
+
+      - name: Restore R package cache
+        uses: actions/cache@v2
+        with:
+          path: ${{ env.R_LIBS_USER }}
+          key: ${{ runner.os }}-${{ hashFiles('.github/R-version') }}-1-${{ hashFiles('.github/depends.Rds') }}
+          restore-keys: ${{ runner.os }}-${{ hashFiles('.github/R-version') }}-1-
+
+      - name: Install dependencies
+        run: |
+          remotes::install_deps(dependencies = TRUE)
+          remotes::install_cran("rcmdcheck")
+          install.packages("pkgdown", type = "binary")
+        shell: Rscript {0}
+
+      - name: Configure git
+        run: |
+          git config --local user.email "actions@github.com"
+          git config --local user.name "GitHub Actions"
+
+      - name: Build binary
+        run: |
+
+          # Set variables
+          pkg <- "."
+          branch <- "gh-builds"
+          remote <- "origin"
+
+          # Create destination directory for built files
+          build_dir <- fs::dir_create(fs::file_temp())
+          on.exit(fs::dir_delete(build_dir))
+
+          # Create desination directory for working tree
+          dest_dir <- fs::dir_create(fs::file_temp())
+          on.exit(fs::dir_delete(dest_dir))
+
+          if (!pkgdown:::git_has_remote_branch(remote, branch)) {
+            old_branch <- pkgdown:::git_current_branch()
+
+            # If no remote branch, we need to create it
+            pkgdown:::git("checkout", "--orphan", branch)
+            pkgdown:::git("rm", "-rf", "--quiet", ".")
+            pkgdown:::git("commit", "--allow-empty", "-m", sprintf("Initializing %s branch", branch))
+            pkgdown:::git("push", remote, paste0("HEAD:", branch))
+
+            # checkout the previous branch
+            pkgdown:::git("checkout", old_branch)
+          }
+
+          # Explicitly set the branches tracked by the origin remote.
+          # Needed if we are using a shallow clone, such as on travis-CI
+          pkgdown:::git("remote", "set-branches", remote, branch)
+
+          # Fetch the remote branch
+          pkgdown:::git("fetch", remote, branch)
+
+          # Create a worktree for the built packages
+          pkgdown:::github_worktree_add(dest_dir, remote, branch)
+          on.exit(pkgdown:::github_worktree_remove(dest_dir), add = TRUE)
+
+          # Get package details
+          desc <- pkgdown:::read_desc(pkg)
+          package <- desc$get("Package")[[1]]
+          version <- desc$get_field("Version")
+
+          # Get session details
+          R_version <- sessionInfo()$R.version$major
+          platform <- sessionInfo()$R.version$platform
+
+          # Create a folder for the version number
+          R_version_dir <- sprintf("R_v%s", R_version)
+          package_filename <- sprintf("%s_%s_%s", package, version, platform)
+          package_output_dir <- file.path(dest_dir, R_version_dir)
+          dir.create(package_output_dir, showWarnings = FALSE)
+
+          # Build the package in the build dir
+          options <- pkgbuild:::build_setup(
+            path = ".",
+            dest_path = build_dir,
+            binary = TRUE,
+            vignettes = TRUE,
+            manual = TRUE,
+            clean_doc = NULL,
+            args = NULL,
+            needs_compilation = TRUE,
+            compile_attributes = FALSE,
+            register_routines = FALSE,
+            quiet = TRUE
+          )
+          on.exit(unlink(options$out_dir, recursive = TRUE), add = TRUE)
+
+          pkgbuild::clean_dll(".")
+
+          if (file.exists("/usr/local/gfortran/bin/g++")) {
+            makevars <- c(
+              pkgbuild::compiler_flags(debug = FALSE),
+              CXX = "/usr/local/gfortran/bin/g++",
+              CXX1X = "/usr/local/gfortran/bin/g++",
+              CXX11 = "/usr/local/gfortran/bin/g++",
+              SHLIB_CXXLD = "/usr/local/gfortran/bin/g++",
+              FC = "/usr/local/gfortran/bin/gfortran",
+              F77 = "/usr/local/gfortran/bin/gfortran",
+              MAKE = "make -j8",
+              SHLIB_OPENMP_CFLAGS = "-fopenmp",
+              SHLIB_OPENMP_CXXFLAGS = "-fopenmp",
+              SHLIB_OPENMP_FCFLAGS = "-fopenmp",
+              SHLIB_OPENMP_FFLAGS = "-fopenmp"
+            )
+          } else {
+            makevars <- c(
+              pkgbuild::compiler_flags(debug = FALSE),
+              MAKE = "make -j8",
+              SHLIB_OPENMP_CFLAGS = "-fopenmp",
+              SHLIB_OPENMP_CXXFLAGS = "-fopenmp",
+              SHLIB_OPENMP_FCFLAGS = "-fopenmp",
+              SHLIB_OPENMP_FFLAGS = "-fopenmp"
+            )
+          }
+
+          withr::local_makevars(
+            makevars,
+            .assignment = "="
+          )
+          withr::with_temp_libpaths(
+            pkgbuild::rcmd_build_tools(
+              options$cmd,
+              c(options$path, options$args),
+              wd = options$out_dir,
+              fail_on_status = TRUE,
+              required = FALSE,
+              quiet = FALSE
+            )
+          )
+
+          # Move the built package to the output directory
+          built_pkg_path <- list.files(options$out_dir, full.names = T)[1]
+          built_pkg_file <- list.files(options$out_dir)[1]
+          built_pkg_name <- gsub(".*\\.", paste0(package_filename, "."), built_pkg_file)
+          built_pkg_name_latest <- gsub(version, "latest", built_pkg_name, fixed = TRUE)
+
+          file.copy(
+            built_pkg_path,
+            file.path(package_output_dir, built_pkg_name_latest),
+            overwrite = TRUE
+          )
+
+          file.rename(
+            built_pkg_path,
+            file.path(package_output_dir, built_pkg_name)
+          )
+
+          # Push the contents of the directory
+          commit_message <- paste("build", built_pkg_name)
+          pkgdown:::github_push(dest_dir, commit_message, remote, branch)
+
+        shell: Rscript {0}
+

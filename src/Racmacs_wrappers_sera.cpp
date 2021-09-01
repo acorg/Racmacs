@@ -23,12 +23,16 @@ bool ac_sr_get_reference( const AcSerum &sr ){ return sr.get_reference(); }
 // [[Rcpp::export(rng = false)]]
 std::string ac_sr_get_passage( const AcSerum &sr ){ return sr.get_passage(); }
 // [[Rcpp::export(rng = false)]]
+std::vector<std::string> ac_sr_get_clade( const AcSerum &sr ){ return sr.get_clade(); }
+// [[Rcpp::export(rng = false)]]
 std::string ac_sr_get_name( const AcSerum &sr ){ return sr.get_name(); }
 // [[Rcpp::export(rng = false)]]
 std::string ac_sr_get_name_full( const AcSerum &sr ){ return sr.get_name_full(); }
 // [[Rcpp::export(rng = false)]]
 std::string ac_sr_get_name_abbreviated( const AcSerum &sr ){ return sr.get_name_abbreviated(); }
 
+// [[Rcpp::export(rng = false)]]
+std::string ac_sr_get_match_id( const AcSerum &sr ){ return sr.get_match_id(); }
 // [[Rcpp::export(rng = false)]]
 int ac_sr_get_group( const AcSerum &sr ){ return sr.get_group(); }
 // [[Rcpp::export(rng = false)]]
@@ -45,6 +49,8 @@ AcSerum ac_sr_set_date( AcSerum sr, std::string value ){ sr.set_date(value); ret
 AcSerum ac_sr_set_reference( AcSerum sr, bool value ){  sr.set_reference(value); return sr; }
 // [[Rcpp::export(rng = false)]]
 AcSerum ac_sr_set_passage( AcSerum sr, std::string value ){ sr.set_passage(value); return sr; }
+// [[Rcpp::export(rng = false)]]
+AcSerum ac_sr_set_clade( AcSerum sr, std::vector<std::string> value ){ sr.set_clade(value); return sr; }
 // [[Rcpp::export(rng = false)]]
 AcSerum ac_sr_set_name( AcSerum sr, std::string value ){ sr.set_name(value); return sr; }
 // [[Rcpp::export(rng = false)]]

@@ -166,9 +166,26 @@ Racmacs.Viewer = class RacViewer extends Racmacs.App {
                     this.toggleLabels();
                     break;
                 case "Escape":
+                    this.exitDragMode();
+                    this.hideErrorLines();
+                    this.hideConnectionLines();
+                    this.hideTiters();
                     this.deselectAll();
                     break;
             }
+        });
+
+        // Add events for clipping points outside camera frustrum
+        this.addEventListener("zoom", e => {
+            this.updateFrustrum();
+        });
+
+        this.addEventListener("rotate", e => {
+            this.updateFrustrum();
+        });
+
+        this.addEventListener("translate", e => {
+            this.updateFrustrum();
         });
 
         // Set a default title
@@ -187,7 +204,10 @@ Racmacs.Viewer = class RacViewer extends Racmacs.App {
             if(viewer.animated){
                 if(viewer.animated_points.length > 0){
                     viewer.animated_points.map( x => x.stepToCoords() );
-                    viewer.updateStress();
+                    viewer.sceneChange = true;
+                }
+                if(viewer.optimizing) {
+                    viewer.stepOptimizer();
                     viewer.sceneChange = true;
                 }
                 if(viewer.raytraceNeeded || viewer.sceneChange || viewer.scene.sceneChange){
@@ -207,6 +227,140 @@ Racmacs.Viewer = class RacViewer extends Racmacs.App {
 
     }
 
+};
+
+// Check if viewer is full screen or not
+Racmacs.Viewer.prototype.isFullScreen = function() {
+    return(
+        this.container.offsetHeight == window.innerHeight &&
+        this.container.offsetWidth == window.innerWidth
+    );
 }
 
+// Reset the scroll focus function
+Racmacs.Viewer.prototype.scrollFocus = function() {  
+    return this.isFullScreen() || this.viewport.holder.matches(':focus');
+};
+
+// Update the viewport frustrum
+Racmacs.Viewer.prototype.updateFrustrum = function() {
+
+    if (this.camera && this.camera.frustrum && this.mapdims && this.mapdims.dimensions) {
+
+        var pvec = new THREE.Vector3();
+        var frustrum = this.camera.frustrum();
+        var frustrum_height = frustrum.top - frustrum.bottom;
+        var matworld = this.scene.plotPoints.matrixWorld;
+        var inverse_matworld = this.scene.plotPoints.matrixWorld.clone().invert();
+        
+        if (this.points) {
+            this.points.map(p => {
+
+                if (p.element && p.element.radius) {
+
+                    var radius = p.element.radius() - 0.01;
+                    pvec.fromArray(p.coords3)
+                    .applyMatrix4(matworld)
+                    .project(this.camera.camera);
+
+                    if (pvec.x + radius < -1) {
+
+                        pvec.x = -1;
+                        if (pvec.y > 1) {
+                            // Top left
+                            pvec.y = 1;
+                            pvec.unproject(this.camera.camera).applyMatrix4(inverse_matworld);
+                            p.element.setCoords(pvec.x, pvec.y, pvec.z);
+                            p.element.setShape(5);
+                            p.element.setRotation(0.785);
+                        } else if (pvec.y < -1) {
+                            // Bottom left
+                            pvec.y = -1;
+                            pvec.unproject(this.camera.camera).applyMatrix4(inverse_matworld);
+                            p.element.setCoords(pvec.x, pvec.y, pvec.z);
+                            p.element.setShape(5);
+                            p.element.setRotation(2.356);
+                        } else {
+                            // Left
+                            pvec.unproject(this.camera.camera).applyMatrix4(inverse_matworld);
+                            p.element.setCoords(pvec.x, pvec.y, pvec.z);
+                            p.element.setShape(5);
+                            p.element.setRotation(1.57);
+                        }
+
+                    } else if (pvec.x - radius > 1) {
+                        
+                        pvec.x = 1;
+                        if (pvec.y > 1) {
+                            // Top right
+                            pvec.y = 1;
+                            pvec.unproject(this.camera.camera).applyMatrix4(inverse_matworld);
+                            p.element.setCoords(pvec.x, pvec.y, pvec.z);
+                            p.element.setShape(5);
+                            p.element.setRotation(-0.785);
+                        } else if (pvec.y < -1) {
+                            // Bottom right
+                            pvec.y = -1;
+                            pvec.unproject(this.camera.camera).applyMatrix4(inverse_matworld);
+                            p.element.setCoords(pvec.x, pvec.y, pvec.z);
+                            p.element.setShape(5);
+                            p.element.setRotation(-2.356);
+                        } else {
+                            // Right
+                            pvec.unproject(this.camera.camera).applyMatrix4(inverse_matworld);
+                            p.element.setCoords(pvec.x, pvec.y, pvec.z);
+                            p.element.setShape(5);
+                            p.element.setRotation(-1.57);
+                        }
+
+                    } else if (pvec.y - radius > 1) {
+                        // Top
+                        pvec.y = 1;
+                        pvec.unproject(this.camera.camera).applyMatrix4(inverse_matworld);
+                        p.element.setCoords(pvec.x, pvec.y, pvec.z);
+                        p.element.setShape(5);
+                        p.element.setRotation(0);
+                    } else if (pvec.y + radius < -1) {
+                        // Bottom
+                        pvec.y = -1;
+                        pvec.unproject(this.camera.camera).applyMatrix4(inverse_matworld);
+                        p.element.setCoords(pvec.x, pvec.y, pvec.z);
+                        p.element.setShape(5);
+                        p.element.setRotation(-3.14);
+                    } else {
+                        
+                        // Restore coords
+                        p.element.setCoords(p.coords3[0], p.coords3[1], p.coords3[2]);
+
+                        // Restore shape
+                        switch(p.shape) {
+                          case "CIRCLE":
+                            p.element.setShape(0);
+                            break;
+                          case "BOX":
+                            p.element.setShape(1);
+                            break;
+                          case "TRIANGLE":
+                            p.element.setShape(2);
+                            break;
+                          case "EGG":
+                            p.element.setShape(3);
+                            break;
+                          case "UGLYEGG":
+                            p.element.setShape(4);
+                            break;
+                          default:
+                            p.element.setShape(0);
+                        };
+
+                        // Restore rotation
+                        p.element.setRotation(0);
+
+                    }
+                }
+            });
+        }
+
+    }
+}
 

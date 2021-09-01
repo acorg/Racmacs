@@ -142,6 +142,20 @@ test_that("Procrustes a map to itself", {
 
 })
 
+
+test_that("Procrustes a map to one with no matching viruses", {
+
+  map1a <- map1
+  agNames(map1a) <- paste(agNames(map1a), "alt")
+  srNames(map1a) <- paste(srNames(map1a), "alt")
+  expect_error(
+    procrustesData(map1, map1a),
+    "Not enough matching points \\(0\\)"
+  )
+
+})
+
+
 test_that("Realign to a transformed version", {
 
   omap1 <- realignMap(map1, map1rot)

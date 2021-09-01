@@ -12,6 +12,10 @@
 #' @param minimum_column_basis The minimum column basis to use (see details)
 #' @param fixed_column_bases A vector of fixed values to use as column bases
 #'   directly, rather than calculating them from the titer table.
+#' @param ag_reactivity_adjustments A vector of antigen reactivity adjustments to
+#'   apply to each antigen. Corresponding antigen titers will be adjusted by these
+#'   amounts when calculating column bases and table distances.
+#' @param titer_weights An optional matrix of weights to assign each titer when optimizing
 #' @param sort_optimizations Should optimizations be sorted by stress
 #'   afterwards?
 #' @param verbose Should progress messages be reported, see also
@@ -46,15 +50,17 @@ optimizeMap <- function(
   number_of_optimizations,
   minimum_column_basis = "none",
   fixed_column_bases = NULL,
+  ag_reactivity_adjustments = NULL,
+  titer_weights = NULL,
   sort_optimizations = TRUE,
   verbose  = TRUE,
   options = list()
   ) {
 
-  # Set arguments
-  if (is.null(fixed_column_bases)) {
-    fixed_column_bases <- rep(NA, numSera(map))
-  }
+  # Set default arguments
+  if (is.null(fixed_column_bases)) fixed_column_bases <- rep(NA, numSera(map))
+  if (is.null(titer_weights)) titer_weights <- matrix(1, numAntigens(map), numSera(map))
+  if (is.null(ag_reactivity_adjustments)) ag_reactivity_adjustments <- rep(0, numAntigens(map))
 
   # Warn about overwriting previous optimizations
   if (numOptimizations(map) > 0) {
@@ -74,6 +80,8 @@ optimizeMap <- function(
     num_optimizations = number_of_optimizations,
     min_col_basis = minimum_column_basis,
     fixed_col_bases = fixed_column_bases,
+    ag_reactivity_adjustments = ag_reactivity_adjustments,
+    titer_weights = titer_weights,
     options = options
   )
 
@@ -87,15 +95,19 @@ optimizeMap <- function(
   ag_underconstrained <- ag_num_measured < number_of_dimensions + 1
   sr_underconstrained <- sr_num_measured < number_of_dimensions + 1
 
-  if (sum(ag_disconnected) > 0) warn_disconnected("antigens", agNames(map)[ag_disconnected], number_of_dimensions)
-  if (sum(sr_disconnected) > 0) warn_disconnected("sera", srNames(map)[sr_disconnected], number_of_dimensions)
+  if (sum(ag_disconnected) > 0) warn_disconnected("ANTIGENS", agNames(map)[ag_disconnected], number_of_dimensions)
+  if (sum(sr_disconnected) > 0) warn_disconnected("SERA", srNames(map)[sr_disconnected], number_of_dimensions)
 
-  if (sum(ag_underconstrained) > 0) warn_underconstrained("antigens", agNames(map)[ag_underconstrained], number_of_dimensions)
-  if (sum(sr_underconstrained) > 0) warn_underconstrained("sera", srNames(map)[sr_underconstrained], number_of_dimensions)
+  if (sum(ag_underconstrained) > 0) warn_underconstrained("ANTIGENS", agNames(map)[ag_underconstrained], number_of_dimensions)
+  if (sum(sr_underconstrained) > 0) warn_underconstrained("SERA", srNames(map)[sr_underconstrained], number_of_dimensions)
 
   # Set disconnected point coordinates to NaN
-  agCoords(map)[ag_disconnected,] <- NaN
-  srCoords(map)[sr_disconnected,] <- NaN
+  for (n in seq_len(numOptimizations(map))) {
+    opt_stress <- optStress(map, n)
+    agBaseCoords(map, n)[ag_disconnected,] <- NaN
+    srBaseCoords(map, n)[sr_disconnected,] <- NaN
+    optStress(map, n) <- opt_stress
+  }
 
   # Output finishing messages
   tend <- Sys.time()
@@ -248,6 +260,7 @@ RacOptimizer.options <- function(
 #' @param optimization_number The optimization number to relax
 #' @param fixed_antigens Antigens to set fixed positions for when relaxing
 #' @param fixed_sera Sera to set fixed positions for when relaxing
+#' @param titer_weights An optional matrix of weights to assign each titer when optimizing
 #' @param options List of named optimizer options, see `RacOptimizer.options()`
 #'
 #' @return Returns an acmap object with the optimization relaxed.
@@ -263,12 +276,16 @@ relaxMap <- function(
   optimization_number = 1,
   fixed_antigens = FALSE,
   fixed_sera = FALSE,
+  titer_weights = NULL,
   options = list()
   ) {
 
   # Get options
   if (sum(titerTable(map) != "*") == 0) stop("Table has no measurable titers")
   options <- do.call(RacOptimizer.options, options)
+
+  # Set default arguments
+  if (is.null(titer_weights)) titer_weights <- matrix(1, numAntigens(map), numSera(map))
 
   # Convert point references to indices
   fixed_antigens <- get_ag_indices(fixed_antigens, map)
@@ -280,7 +297,9 @@ relaxMap <- function(
     titers = titerTable(map),
     fixed_antigens = fixed_antigens - 1,
     fixed_sera = fixed_sera - 1,
-    options = options
+    options = options,
+    titer_weights = titer_weights,
+    dilution_stepsize = dilutionStepsize(map)
   )
 
   # Return the map
@@ -324,7 +343,9 @@ relaxMapOneStep <- function(
     titers = titerTable(map),
     fixed_antigens = fixed_antigens - 1,
     fixed_sera = fixed_sera - 1,
-    options = options
+    options = options,
+    titer_weights = matrix(1, numAntigens(map), numSera(map)),
+    dilution_stepsize = dilutionStepsize(map)
   )
   map
 
@@ -353,7 +374,7 @@ randomizeCoords <- function(
   table_dist_factor = 2
   ) {
 
-  table_dists <- numerictableDistances(map, optimization_number = optimization_number)
+  table_dists <- numeric_min_tabledists(tableDistances(map, optimization_number = optimization_number))
   max_table_dist <- max(table_dists, na.rm = TRUE)
 
   random_coords <- function(nrow, ndim, min, max) {
@@ -449,12 +470,40 @@ checkHemisphering <- function(
   # Perform the hemi test
   map$optimizations[[optimization_number]] <- ac_hemi_test(
     optimization = map$optimizations[[optimization_number]],
-    tabledists = numerictableDistances(map, optimization_number),
-    titertypes = titertypesTable(map),
+    titertable = titerTable(map),
     grid_spacing = grid_spacing,
     stress_lim = stress_lim,
-    options = do.call(RacOptimizer.options, options)
+    options = do.call(RacOptimizer.options, options),
+    dilution_stepsize = dilutionStepsize(map)
   )
+
+  # Message if any hemisphering points were found
+  pt_diagnostics <- vapply(
+    c(agHemisphering(map, optimization_number), srHemisphering(map, optimization_number)),
+    function(pt) {
+      diagnosis <- unique(vapply(pt, function(x) x$diagnosis, character(1)))
+      if (length(diagnosis) == 0) diagnosis <- ""
+      diagnosis
+    },
+    character(1)
+  )
+
+  # Setup diagnosis table
+  if (sum(pt_diagnostics != "") > 0) {
+    diagnosis_table <- data.frame(
+      name = c(agNames(map), srNames(map)),
+      diagnosis = pt_diagnostics
+    )
+    diagnosis_table <- diagnosis_table[diagnosis_table$diagnosis != "", , drop = F]
+    warning(
+      sprintf(
+        "Hemisphering or trapped points found:\n\n%s\n",
+        paste(utils::capture.output(diagnosis_table), collapse = "\n")
+      )
+    )
+  } else {
+    message("No hemisphering or trapped points found")
+  }
 
   # Return the map
   map
@@ -498,11 +547,11 @@ moveTrappedPoints <- function(
   # Move trapped points in the optimization
   map$optimizations[[optimization_number]] <- ac_move_trapped_points(
     optimization = map$optimizations[[optimization_number]],
-    tabledists = numerictableDistances(map, optimization_number),
-    titertypes = titertypesTable(map),
+    titertable = titerTable(map),
     grid_spacing = grid_spacing,
     options = do.call(RacOptimizer.options, options),
-    max_iterations = max_iterations
+    max_iterations = max_iterations,
+    dilution_stepsize = dilutionStepsize(map)
   )
 
   # Realign optimizations

@@ -4,7 +4,6 @@ library(Racmacs)
 context("Diagnostic plotting")
 
 map <- read.acmap(test_path("../testdata/testmap_h3subset.ace"))
-
 test_that("plot a map", {
 
   export.plot.test(

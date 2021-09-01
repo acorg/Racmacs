@@ -9,10 +9,13 @@
 #' @param grid.display For 3d maps, should the grid be fixed in the background
 #'   or enclose and rotate along with the map
 #' @param grid.col Color to use for the grid shown behind the map
-#' @param show.names Toggle name labels on
+#' @param show.names Toggle name labels on, can be true or false or "antigens"
+#'   or "sera"
 #' @param show.errorlines Toggle error lines on
 #' @param show.connectionlines Toggle connection lines on
 #' @param show.titers Toggle titer labels on
+#' @param xlim x limits to zoom the plot to
+#' @param ylim y limits to zoom the plot to
 #'
 #' @family {functions to view maps}
 #'
@@ -23,11 +26,13 @@ RacViewer.options <- function(
   point.opacity = NA,
   viewer.controls = "hidden",
   grid.display = "static",
-  grid.col = "#e0e0e0",
+  grid.col = "#cfcfcf",
   show.names = FALSE,
   show.errorlines = FALSE,
   show.connectionlines = FALSE,
-  show.titers = FALSE
+  show.titers = FALSE,
+  xlim = NULL,
+  ylim = NULL
 ) {
 
   # Check input
@@ -43,7 +48,9 @@ RacViewer.options <- function(
     show.names = show.names,
     show.errorlines = show.errorlines,
     show.connectionlines = show.connectionlines,
-    show.titers = show.titers
+    show.titers = show.titers,
+    xlim = xlim,
+    ylim = ylim
   )
 
 }

@@ -59,8 +59,8 @@ srCoords <- function(map, optimization_number = 1) {
 #' @export
 ptCoords <- function(map, optimization_number = 1) {
   rbind(
-    agCoords(map),
-    srCoords(map)
+    agCoords(map, optimization_number),
+    srCoords(map, optimization_number)
   )
 }
 

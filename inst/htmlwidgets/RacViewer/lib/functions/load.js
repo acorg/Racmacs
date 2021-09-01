@@ -6,6 +6,9 @@ Racmacs.Viewer.prototype.load = function(
     plotdata
     ){
 
+    // Set default options    
+    if (options["grid.col"] === undefined) options["grid.col"] = "#cfcfcf";
+
     if(options.maintain_viewpoint){ 
         var selected_points = this.getSelectedPointIndices(); 
         var selected_projection = this.data.projection();
@@ -23,6 +26,7 @@ Racmacs.Viewer.prototype.load = function(
     // Set viewer controls
     if(options["viewer.controls"] !== "hidden") this.controlpanel.show();
     if(options["viewer.controls"] === "optimizations") this.controlpanel.tabset.showTab("projections");
+    if(options["viewer.controls"] === "diagnostics") this.controlpanel.tabset.showTab("diagnostics");
 
     // Plot new map data
     if(mapData === null) {
@@ -59,9 +63,22 @@ Racmacs.Viewer.prototype.load = function(
         // Generate the antigen and sera objects
         this.addAntigensAndSera();
 
+        // Get plot limits
+        if (!options.xlim) var xlim = this.data.xlim();
+        else               var xlim = options.xlim;
+        if (!options.ylim) var ylim = this.data.ylim();
+        else               var ylim = options.ylim;
+        var zlim = this.data.zlim();
+        console.log(xlim);
+        console.log(ylim);
+
         // Set dims from map data
         if(!options.maintain_viewpoint){
-            this.setDims();
+            this.setDims({
+                xlim : xlim,
+                ylim : ylim,
+                zlim : zlim
+            });
         }
 
         // Load the hi table
@@ -76,9 +93,6 @@ Racmacs.Viewer.prototype.load = function(
         if(this.data.numProjections() > 0) {
             this.addAgSrPoints();
         }
-
-        // Update the stress
-        this.updateStress();
 
         // Update antigen and sera browsers
         this.browsers.antigens.populate();
@@ -127,14 +141,18 @@ Racmacs.Viewer.prototype.load = function(
             var zoom = this.data.getViewerSetting("zoom");
             if(zoom === null){
                 
-                var xlim = this.data.xlim();
-                var ylim = this.data.ylim();
-                var zlim = this.data.zlim();
-
                 var scale = this.scene.getWorldScale();
                 xlim = [xlim[0]*scale[0], xlim[1]*scale[0]];
                 ylim = [ylim[0]*scale[1], ylim[1]*scale[1]];
                 zlim = [zlim[0]*scale[1], zlim[1]*scale[1]];
+
+                var translation = [
+                  (xlim[1] + xlim[0]) / 2,
+                  (ylim[1] + ylim[0]) / 2,
+                  (zlim[1] + zlim[0]) / 2
+                ];
+
+                // this.scene.setTranslation(translation);
 
                 this.camera.zoomToLims({
                     x : xlim,
@@ -176,10 +194,26 @@ Racmacs.Viewer.prototype.load = function(
         if(this.scene.dynamic) this.scene.showhideDynamics(this.camera.camera);
 
         // Set viewer toggles
-        if(options["show.names"])            this.showLabels();
+        switch(options["show.names"]) {
+          case true:
+            this.showLabels("all");
+            break;
+          case "antigens":
+            this.showLabels("antigens");
+            break;
+          case "sera":
+            this.showLabels("sera");
+            break;
+        }
         if(options["show.connectionlines"])  this.showConnectionLines();
         if(options["show.errorlines"])       this.showErrorLines();
         if(options["show.titers"])           this.showTiters();
+
+        // Update the viewer frustrum
+        this.updateFrustrum();
+
+        // Update the stress
+        this.updateStress(this.data.stress());
 
         // Note that content is now loaded
         this.contentLoaded = true;

@@ -122,21 +122,3 @@ NULL
 #' @docType package
 #' @name Racmacs
 NULL
-
-
-#' Hooks for setting package options on load
-#'
-#' @details
-#' \code{Racmacs.parallel}:
-#' Should optimizations be run in parallel. If true
-#' this will speed up computation, but can sometimes lead to instability.
-#' @noRd
-#'
-.onLoad <- function(libname, pkgname) {
-
-  # Set options
-  options(
-    Racmacs.parallel = TRUE
-  )
-
-}

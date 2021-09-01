@@ -108,16 +108,23 @@ arma::mat check_sr_trapped_points(
 // [[Rcpp::export]]
 AcOptimization ac_move_trapped_points(
   AcOptimization optimization,
-  arma::mat tabledists,
-  arma::umat titertypes,
+  AcTiterTable titertable,
   double grid_spacing,
   AcOptimizerOptions options,
-  int max_iterations = 10
+  int max_iterations = 10,
+  double dilution_stepsize = 1.0
 ){
 
 
   // Check antigen and sera trapped points recursively
   if(options.report_progress) REprintf("Checking for trapped points recursively:");
+
+  arma::umat titertypes = titertable.get_titer_types();
+  arma::mat tabledists = titertable.numeric_table_distances(
+    optimization.get_min_column_basis(),
+    optimization.get_fixed_column_bases(),
+    optimization.get_ag_reactivity_adjustments()
+  );
 
   int num_iterations = 0;
   while(num_iterations < max_iterations){
@@ -150,7 +157,11 @@ AcOptimization ac_move_trapped_points(
     optimization.relax_from_raw_matrices(
       tabledists,
       titertypes,
-      options
+      options,
+      arma::uvec(),
+      arma::uvec(),
+      arma::mat(),
+      dilution_stepsize
     );
 
     // Increment loop num

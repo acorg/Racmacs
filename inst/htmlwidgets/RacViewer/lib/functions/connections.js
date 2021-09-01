@@ -108,7 +108,7 @@ Racmacs.App.prototype.hideConnectionLines = function(){
 // Add connection lines to a point object
 Racmacs.Point.prototype.showConnections = function(){
 
-	if(!this.connectionLinesShown){
+	if(!this.connectionLinesShown && this.shown){
 
 		this.connectionLinesShown = true;
 
@@ -247,7 +247,7 @@ Racmacs.App.prototype.hideErrorLines = function(){
 // Add connection lines to a point object
 Racmacs.Point.prototype.showErrors = function(){
 
-	if(!this.errorLinesShown){
+	if(!this.errorLinesShown && this.shown){
 
 		this.errorLinesShown = true;
 
@@ -329,20 +329,7 @@ Racmacs.Point.prototype.getErrorData = function(pt = null){
 		var to = connectedPoints[i];
 
 		// Work out whether point is too close or far away
-		var table_dist = from.tableDistTo(to);
-		var titer      = from.titerTo(to);
-		var map_dist   = from.mapDistTo(to);
-		
-		// Get the error
-		var residual = (map_dist - table_dist);
-		if(map_dist > table_dist && titer.charAt(0) == "<"){
-		    residual = 0;
-		}
-
-		// Deal with greater thans
-		if(titer.charAt(0) == ">"){
-			residual = map_dist;
-		}
+		var residual = this.residualErrorTo(to);
 
 		// Calculate the error vector
 		var error_vector = [
@@ -501,7 +488,7 @@ Racmacs.Point.prototype.removeLinkedTiterLabel = function(element){
 // Add titers to a point object
 Racmacs.Point.prototype.showTiters = function(){
 
-	if(!this.titersShown){
+	if(!this.titersShown && this.shown){
 
 		this.titersShown = true;
 		this.titerlabels = [];
@@ -513,7 +500,7 @@ Racmacs.Point.prototype.showTiters = function(){
 		// Show colbasis if a sera
 		if(this.type == "sr"){
 			var element = new R3JS.element.htmltext({
-	            text   : "*"+Math.round(Math.pow(2, this.colbase)*10),
+	            text   : "*"+Math.round(Math.pow(2, this.colbase())*10),
 	            coords : this.coords3,
 	        });
 	        element.setStyle("font-size", "12px");
@@ -592,32 +579,41 @@ Racmacs.Point.prototype.updateTiterLabels = function(){
 
 
 // POINT LABELS
-Racmacs.App.prototype.toggleLabels = function(){
+Racmacs.App.prototype.toggleLabels = function(category){
 
 	if(!this.labelsShown){
-		this.showLabels();
+		this.showLabels(category);
 	} else {
 		this.hideLabels();
 	}
 
 }
 
-Racmacs.App.prototype.showLabels = function(){
+Racmacs.App.prototype.showLabels = function(category){
 	
 	if(!this.labelsShown){
 
+		// Highlight button
 		this.labelsShown = true;
 		if(this.btns.toggleLabels){ this.btns.toggleLabels.highlight() }
 
-		if(this.selected_pts.length == 0){
-			var points = this.points;
-		} else {
-			var points = this.selected_pts;
-		}
+		// Work out which points to label
+	    if (category === undefined) { 
+	    	if (this.labelcategory === undefined) {
+	    		category = "all";
+	    	} else {
+	    		category = this.labelcategory;
+	    	}
+	    } else {
+	    	this.labelcategory = category;
+	    }
 
-		for(var i=0; i<points.length; i++){
-			points[i].showLabel();
-		}
+		// Set default points
+		var points;
+		if(category === "all")      points = this.points;
+		if(category === "antigens") points = this.antigens;
+		if(category === "sera")     points = this.sera;
+		points.map(p => p.showLabel());
 
 	}
 
@@ -641,7 +637,8 @@ Racmacs.App.prototype.hideLabels = function(){
 // Add name label to a point object
 Racmacs.Point.prototype.showLabel = function(){
 
-	if(!this.labelShown){
+	if(!this.labelShown && this.shown &&
+		(this.selected || this.viewer.selected_pts.length == 0)){
 
 		this.labelShown = true;
 		this.namelabel = null;
@@ -649,10 +646,7 @@ Racmacs.Point.prototype.showLabel = function(){
 		// Show label
 		var element = new R3JS.element.htmltext({
             text   : this.name,
-            coords : this.coords3,
-            // alignment : plotobj.alignment,
-            // offset     : plotobj.offset,
-            // properties : R3JS.Material(plotobj.properties)
+            coords : this.coords3
         });
         element.setStyle("font-size", "12px");
 		this.namelabel = element;

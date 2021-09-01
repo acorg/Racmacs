@@ -14,12 +14,12 @@ fns <- gsub("[\"]*\\)$", "", fns)
 
 # Exclude some functions
 excluded_fns <- c(
-  "runGUI",
-  "RacViewerOutput",
-  "view",
-  "agStressBlobSize",
-  "srStressBlobSize",
-  "stressBlobs"
+  "runGUI",           # Starts shiny app
+  "RacViewerOutput",  # Boilerplate function
+  "view",             # S3 method
+  "agStressBlobSize", # Deprecated
+  "srStressBlobSize", # Deprecated
+  "stressBlobs"       # Deprecated
 )
 fns <- fns[!fns %in% excluded_fns]
 

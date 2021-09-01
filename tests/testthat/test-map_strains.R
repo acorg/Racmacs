@@ -91,3 +91,39 @@ test_that("Mix of known and unknown dates", {
   )
 
 })
+
+
+# Getting and setting clades
+test_that("Getting and setting clades", {
+
+  expect_equal(numAntigens(map), length(agClades(map)))
+
+  new_ag_clades <- as.character(seq_len(numAntigens(map)))
+  new_ag_clades[c(2, 4)] <- "a"
+
+  new_sr_clades <- as.character(seq_len(numSera(map)))
+  new_sr_clades[c(1, 2)] <- "b"
+
+  expect_error(agClades(map) <- new_ag_clades)
+  expect_error(srClades(map) <- new_sr_clades)
+
+  new_ag_clades <- as.list(new_ag_clades)
+  new_sr_clades <- as.list(new_sr_clades)
+
+  agClades(map) <- new_ag_clades
+  srClades(map) <- new_sr_clades
+
+  expect_equal(agClades(map), new_ag_clades)
+  expect_equal(srClades(map), new_sr_clades)
+
+  tmp <- tempfile(fileext = ".ace")
+  save.acmap(map, tmp)
+  map <- read.acmap(tmp)
+  unlink(tmp)
+
+  expect_equal(agClades(map), new_ag_clades)
+  expect_equal(srClades(map), new_sr_clades)
+
+})
+
+

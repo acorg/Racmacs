@@ -20,7 +20,7 @@ Other {map optimization attribute functions}:
 \code{\link{mapComment}()},
 \code{\link{mapDimensions}()},
 \code{\link{mapTransformation}()},
-\code{\link{ptBaseCoords}},
+\code{\link{ptBaseCoords}()},
 \code{\link{ptCoords}()}
 }
 \concept{{map optimization attribute functions}}

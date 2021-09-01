@@ -15,7 +15,8 @@ set.seed(100)
 # end <- Sys.time()
 # print(end - start)
 # # map <- moveTrappedPoints(map)
-# grid.plot.acmap(checkHemisphering(map))
+# # grid.plot.acmap(checkHemisphering(map))
+# plot(map)
 # stop()
 
 # Generate some toy data
@@ -46,6 +47,11 @@ test_that("Optimizing a perfect map", {
     fixed_column_bases = colbases
   )
 
+  expect_message(
+    checkHemisphering(perfect_map_opt),
+    "No hemisphering or trapped points found"
+  )
+
   # Check output
   pcdata <- procrustesData(perfect_map_opt, perfect_map)
   expect_equal(numOptimizations(perfect_map_opt), 1000)
@@ -53,6 +59,56 @@ test_that("Optimizing a perfect map", {
 
   # Check stresses are calculated correctly
   expect_lt(optStress(perfect_map_opt, 1), 0.001)
+
+})
+
+# Setup a perfect optimization to test
+test_that("Optimizing with weights", {
+
+  # Optimize the map setting weights in different ways
+  set.seed(200)
+  map1 <- optimizeMap(
+    map = perfect_map,
+    number_of_dimensions = 2,
+    number_of_optimizations = 10
+  )
+
+  set.seed(200)
+  map2 <- optimizeMap(
+    map = perfect_map,
+    number_of_dimensions = 2,
+    number_of_optimizations = 10,
+    titer_weights = matrix(1, numAntigens(perfect_map), numSera(perfect_map))
+  )
+
+  set.seed(200)
+  map3 <- optimizeMap(
+    map = perfect_map,
+    number_of_dimensions = 2,
+    number_of_optimizations = 10,
+    titer_weights = matrix(6.3, numAntigens(perfect_map), numSera(perfect_map))
+  )
+  map3 <- realignMap(map3, map1)
+
+  titer_weights <- matrix(
+    runif(numAntigens(perfect_map)*numSera(perfect_map)),
+    numAntigens(perfect_map),
+    numSera(perfect_map)
+  )
+
+  set.seed(200)
+  map4 <- optimizeMap(
+    map = perfect_map,
+    number_of_dimensions = 2,
+    number_of_optimizations = 10,
+    titer_weights = titer_weights
+  )
+  map4 <- realignMap(map4, map1)
+
+  # Check output
+  expect_equal(ptCoords(map1), ptCoords(map2))
+  expect_equal(ptCoords(map1), ptCoords(map3), tolerance = 1e-5)
+  expect_false(isTRUE(all.equal(ptCoords(map1), ptCoords(map4))))
 
 })
 
@@ -74,6 +130,8 @@ test_that("Optimizing a perfect map with dimensional annealing", {
   pcdata <- procrustesData(perfect_map_opt, perfect_map)
   expect_equal(numOptimizations(perfect_map_opt), 1000)
   expect_lt(pcdata$total_rmsd, 0.01)
+  expect_equal(ncol(agCoords(perfect_map_opt)), 2)
+  expect_equal(ncol(srCoords(perfect_map_opt)), 2)
 
   # Check stresses are calculated correctly
   expect_lt(optStress(perfect_map_opt, 1), 0.001)
@@ -87,14 +145,19 @@ test_that("Finding hemisphering points", {
   hemi_map_ag <- perfect_map
   titerTable(hemi_map_ag)[1, -c(2, 7)] <- "*"
 
-  hemi_map_ag <- expect_warning(optimizeMap(
-    map = hemi_map_ag,
-    number_of_dimensions = 2,
-    number_of_optimizations = 1,
-    fixed_column_bases = colbases
-  ))
-  hemi_map_ag <- checkHemisphering(hemi_map_ag, stress_lim = 0.1)
-  mapDimensions(hemi_map_ag, 1)
+  hemi_map_ag <- expect_warning(
+    optimizeMap(
+      map = hemi_map_ag,
+      number_of_dimensions = 2,
+      number_of_optimizations = 1,
+      fixed_column_bases = colbases
+    )
+  )
+
+  hemi_map_ag <- expect_warning(
+    checkHemisphering(hemi_map_ag, stress_lim = 0.1),
+    "Hemisphering or trapped points found:.*"
+  )
 
   expect_false(is.null(agHemisphering(hemi_map_ag)[[1]]))
   export.plot.test(
@@ -117,7 +180,10 @@ test_that("Finding hemisphering points", {
     number_of_optimizations = 1,
     fixed_column_bases = colbases
   ))
-  hemi_map_sr <- checkHemisphering(hemi_map_sr, stress_lim = 0.1)
+  hemi_map_sr <- expect_warning(
+    checkHemisphering(hemi_map_sr, stress_lim = 0.1),
+    "Hemisphering or trapped points found:.*"
+  )
 
   expect_false(is.null(srHemisphering(hemi_map_sr)[[6]]))
 
@@ -166,13 +232,16 @@ test_that("Calculating table distances", {
   colbases <- ac_table_colbases(
     titer_table = titerTable(map),
     fixed_col_bases = rep(NA, numSera(map)),
-    min_col_basis = "none"
+    min_col_basis = "none",
+    ag_reactivity_adjustments = rep(0, numAntigens(map))
   )
   expect_equal(colbases, c(8, 9, 9, 9, 8))
 
   table_dists <- ac_numeric_table_distances(
     titer_table = titerTable(map),
-    colbases = colbases
+    min_col_basis = minColBasis(map),
+    fixed_col_bases = fixedColBases(map),
+    ag_reactivity_adjustments = agReactivityAdjustments(map)
   )
 
   numeric_titers <- numerictiterTable(map)
@@ -259,8 +328,8 @@ test_that("Relax existing maps", {
   stress2        <- mapStress(map_relax)
   stress2_2      <- mapStress(map_relax, 2)
 
-  expect_equal(round(stress2, 4), 95.0448)
-  expect_equal(round(stress2_2, 4), 95.0448)
+  expect_equal(stress2, 95.0448, tolerance = 1e-4)
+  expect_equal(stress2_2, 95.0448, tolerance = 1e-4)
 
   expect_lt(stress2, stress1)
   expect_lt(stress2_2, stress1_2)
@@ -367,5 +436,93 @@ test_that("Randomize map coordinates", {
   expect_true(sum(srCoords(map) - srCoords(rmap)) != 0)
   expect_gt(new_stress, orig_stress)
   expect_true(is.na(optStress(rmap)))
+
+})
+
+
+# Making a 1D map
+test_that("Make a 1D map", {
+
+  # generate random test data
+  coord <- matrix(rep(runif(10, 0, 10), times = 2), ncol = 2, byrow = T)
+  dist <- as.matrix(dist(coord)) + rnorm(100)
+  max_mat <- matrix(apply(round(dist),2,max), ncol = 10, nrow = 10, byrow = T)
+  tab1 <- 10 * 2^round(max_mat - dist)
+
+  # make map
+  map1 <- make.acmap(
+    titer_table = tab1,
+    number_of_dimensions = 1,
+    number_of_optimizations = 10,
+    minimum_column_basis = "2560"
+  )
+
+  expect_equal(
+    ncol(agCoords(map1)),
+    1
+  )
+
+})
+
+
+# Adjusting antigen reactivity
+test_that("Adjust antigen reactivity", {
+
+  map <- read.acmap(test_path("../testdata/testmap.ace"))
+  expect_equal(
+    agReactivityAdjustments(map),
+    rep(0, numAntigens(map))
+  )
+
+  original_stress <- mapStress(map)
+  original_coords <- ptCoords(map)
+
+  # Normal optimization
+  map1 <- optimizeAgReactivity(map)
+  expect_equal(sum(agReactivityAdjustments(map1) == 0), 0)
+
+  new_stress <- mapStress(map1)
+  new_coords <- ptCoords(map1)
+
+  expect_lt(new_stress, original_stress)
+  expect_false(isTRUE(all.equal(original_coords, new_coords)))
+
+  # Optimization with fixed reactivities
+  ag_reactivities <- rep(NA, numAntigens(map))
+  ag_reactivities[2] <- 1.12
+
+  map2 <- optimizeAgReactivity(map, fixed_ag_reactivities = ag_reactivities)
+  expect_equal(sum(agReactivityAdjustments(map2) == 0), 0)
+
+  new_stress <- mapStress(map2)
+  new_coords <- ptCoords(map2)
+
+  expect_lt(new_stress, original_stress)
+  expect_false(isTRUE(all.equal(original_coords, new_coords)))
+  expect_equal(agReactivityAdjustments(map2)[2], 1.12)
+
+})
+
+
+# Setting a different dilution stepsize
+test_that("Setting dilution stepsize", {
+
+  map <- read.acmap(test_path("../testdata/testmap.ace"))
+  map <- randomizeCoords(map)
+
+  map1 <- map
+  titerTable(map1)[titerTable(map1) == "<10"] <- "<20"
+  map1 <- relaxMap(map1)
+
+  map2a <- map
+  map2a <- relaxMap(map2a)
+
+  map2b <- map
+  dilutionStepsize(map2b) <- 0
+  map2b <- relaxMap(map2b)
+
+  expect_equal(dilutionStepsize(map), 1)
+  expect_false(isTRUE(all.equal(ptCoords(map1), ptCoords(map2a))))
+  expect_true(isTRUE(all.equal(ptCoords(map1), ptCoords(map2b))))
 
 })

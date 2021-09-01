@@ -36,8 +36,10 @@ class MapOptimizer {
     arma::uword num_sr;
     arma::uvec moveable_ags;
     arma::uvec moveable_sr;
+    arma::mat titer_weights;
     arma::mat ag_gradients;
     arma::mat sr_gradients;
+    double dilution_stepsize;
     double gradient;
     double stress;
 
@@ -48,7 +50,8 @@ class MapOptimizer {
       arma::mat sr_start_coords,
       arma::mat tabledist,
       arma::umat titertype,
-      arma::uword dims
+      arma::uword dims,
+      double dilution_stepsize
     )
       :ag_coords(ag_start_coords),
        sr_coords(sr_start_coords),
@@ -56,12 +59,16 @@ class MapOptimizer {
        titertype_matrix(titertype),
        num_dims(dims),
        num_ags(tabledist.n_rows),
-       num_sr(tabledist.n_cols)
+       num_sr(tabledist.n_cols),
+       dilution_stepsize(dilution_stepsize)
     {
 
       // Set default moveable antigens and sera to all
       moveable_ags = arma::regspace<arma::uvec>(0, num_ags - 1);
       moveable_sr = arma::regspace<arma::uvec>(0, num_sr - 1);
+
+      // Set default weights to 1
+      titer_weights.ones(num_ags, num_sr);
 
       // Setup map dist matrices
       mapdist_matrix = arma::mat(num_ags, num_sr, arma::fill::zeros);
@@ -83,7 +90,9 @@ class MapOptimizer {
       arma::umat titertype,
       arma::uword dims,
       arma::uvec moveable_ags,
-      arma::uvec moveable_sr
+      arma::uvec moveable_sr,
+      arma::mat titer_weights_in,
+      double dilution_stepsize
     )
       :ag_coords(ag_start_coords),
        sr_coords(sr_start_coords),
@@ -93,8 +102,13 @@ class MapOptimizer {
        num_ags(tabledist.n_rows),
        num_sr(tabledist.n_cols),
        moveable_ags(moveable_ags),
-       moveable_sr(moveable_sr)
+       moveable_sr(moveable_sr),
+       dilution_stepsize(dilution_stepsize)
       {
+
+      // Set default weights to 1 if missing
+      if (titer_weights_in.n_elem == 0) titer_weights.ones(num_ags, num_sr);
+      else                              titer_weights = titer_weights_in;
 
       // Setup map dist matrices
       mapdist_matrix = arma::mat(num_ags, num_sr, arma::fill::zeros);
@@ -151,7 +165,7 @@ class MapOptimizer {
     }
 
     // CALCULATING STRESS GRADIENTS
-    void update_gradients(){
+    void update_gradients() {
 
       // Setup to update gradients
       ag_gradients.zeros();
@@ -162,22 +176,23 @@ class MapOptimizer {
         for(arma::uword ag = 0; ag < num_ags; ++ag) {
 
           // Skip unmeasured titers
-          if(titertype_matrix.at(ag,sr) == 0){
+          if(titertype_matrix.at(ag, sr) == 0){
             continue;
           }
 
           // Calculate inc_base
-          double ibase = inc_base(
-            mapdist_matrix.at(ag,sr),
-            tabledist_matrix.at(ag,sr),
-            titertype_matrix.at(ag,sr)
+          double ibase = titer_weights.at(ag,sr) * inc_base(
+            mapdist_matrix.at(ag, sr),
+            tabledist_matrix.at(ag, sr),
+            titertype_matrix.at(ag, sr),
+            dilution_stepsize
           );
 
           // Now calculate the gradient for each coordinate
           for(arma::uword i = 0; i < num_dims; ++i) {
-            gradient = ibase*(ag_coords.at(ag,i) - sr_coords.at(sr,i));
-            ag_gradients.at(ag,i) -= gradient;
-            sr_gradients.at(sr,i) += gradient;
+            gradient = ibase*(ag_coords.at(ag, i) - sr_coords.at(sr, i));
+            ag_gradients.at(ag, i) -= gradient;
+            sr_gradients.at(sr, i) += gradient;
           }
 
         }
@@ -201,10 +216,11 @@ class MapOptimizer {
           }
 
           // Now calculate the stress
-          stress += ac_ptStress(
+          stress += titer_weights.at(ag,sr) * ac_ptStress(
             mapdist_matrix.at(ag,sr),
             tabledist_matrix.at(ag,sr),
-            titertype_matrix.at(ag,sr)
+            titertype_matrix.at(ag,sr),
+            dilution_stepsize
           );
 
         }
@@ -258,10 +274,13 @@ class MapOptimizer {
 
 // [[Rcpp::export]]
 double ac_coords_stress(
-    const arma::mat &tabledist_matrix,
-    const arma::umat &titertype_matrix,
+    const AcTiterTable &titers,
+    const std::string &min_colbasis,
+    const arma::vec &fixed_colbases,
+    const arma::vec &ag_reactivity_adjustments,
     arma::mat &ag_coords,
-    arma::mat &sr_coords
+    arma::mat &sr_coords,
+    double dilution_stepsize
 ){
 
   // Set variables
@@ -271,13 +290,99 @@ double ac_coords_stress(
   MapOptimizer map(
       ag_coords,
       sr_coords,
-      tabledist_matrix,
-      titertype_matrix,
-      num_dims
+      titers.numeric_table_distances(
+        min_colbasis,
+        fixed_colbases,
+        ag_reactivity_adjustments
+      ),
+      titers.get_titer_types(),
+      num_dims,
+      dilution_stepsize
   );
 
   // Calculate and return the stress
   return map.calculate_stress();
+
+}
+
+// [[Rcpp::export]]
+arma::mat ac_point_stresses(
+    AcTiterTable titer_table,
+    std::string min_colbasis,
+    arma::vec fixed_colbases,
+    arma::vec ag_reactivity_adjustments,
+    arma::mat map_dists,
+    double dilution_stepsize
+){
+
+  // Fetch variables
+  arma::uword num_ags = map_dists.n_rows;
+  arma::uword num_sr  = map_dists.n_cols;
+  arma::mat numeric_table_dists = titer_table.numeric_table_distances(
+    min_colbasis,
+    fixed_colbases,
+    ag_reactivity_adjustments
+  );
+  arma::umat titer_types = titer_table.get_titer_types();
+
+  // Setup residual table
+  arma::mat stress_table(num_ags, num_sr);
+
+  // Populate residual table
+  for (arma::uword ag = 0; ag < num_ags; ag++) {
+    for (arma::uword sr = 0; sr < num_sr; sr++) {
+      stress_table(ag, sr) = ac_ptStress(
+        map_dists(ag, sr),
+        numeric_table_dists(ag, sr),
+        titer_types(ag, sr),
+        dilution_stepsize
+      );
+    }
+  }
+
+  // Return the table
+  return(stress_table);
+
+}
+
+
+// [[Rcpp::export]]
+arma::mat ac_point_residuals(
+    AcTiterTable titer_table,
+    std::string min_colbasis,
+    arma::vec fixed_colbases,
+    arma::vec ag_reactivity_adjustments,
+    arma::mat map_dists,
+    double dilution_stepsize
+  ){
+
+  // Fetch variables
+  arma::uword num_ags = map_dists.n_rows;
+  arma::uword num_sr  = map_dists.n_cols;
+  arma::mat numeric_table_dists = titer_table.numeric_table_distances(
+    min_colbasis,
+    fixed_colbases,
+    ag_reactivity_adjustments
+  );
+  arma::umat titer_types = titer_table.get_titer_types();
+
+  // Setup residual table
+  arma::mat residual_table(num_ags, num_sr);
+
+  // Populate residual table
+  for (arma::uword ag = 0; ag < num_ags; ag++) {
+    for (arma::uword sr = 0; sr < num_sr; sr++) {
+      residual_table(ag, sr) = ac_ptResidual(
+        map_dists(ag, sr),
+        numeric_table_dists(ag, sr),
+        titer_types(ag, sr),
+        dilution_stepsize
+      );
+    }
+  }
+
+  // Return the table
+  return(residual_table);
 
 }
 
@@ -290,7 +395,9 @@ double ac_relax_coords(
     arma::mat &sr_coords,
     const AcOptimizerOptions &options,
     const arma::uvec &fixed_antigens,
-    const arma::uvec &fixed_sera
+    const arma::uvec &fixed_sera,
+    const arma::mat &titer_weights,
+    const double &dilution_stepsize
 ){
 
   // Set variables
@@ -308,7 +415,9 @@ double ac_relax_coords(
     titertype_matrix,
     num_dims,
     moveable_antigens,
-    moveable_sera
+    moveable_sera,
+    titer_weights,
+    dilution_stepsize
   );
 
   // Create the vector of parameters
@@ -333,12 +442,15 @@ double ac_relax_coords(
 // Generate a bunch of optimizations with randomized coordinates
 // this is a starting point for later relaxation
 std::vector<AcOptimization> ac_generateOptimizations(
-    const arma::vec &colbases,
     const arma::mat &tabledist_matrix,
     const arma::umat &titertype_matrix,
+    const std::string &min_colbasis,
+    const arma::vec &fixed_colbases,
+    const arma::vec &ag_reactivity_adjustments,
     const int &num_dims,
     const int &num_optimizations,
-    const AcOptimizerOptions &options
+    const AcOptimizerOptions &options,
+    const double &dilution_stepsize
 ){
 
   // Infer number of antigens and sera
@@ -349,14 +461,21 @@ std::vector<AcOptimization> ac_generateOptimizations(
   AcOptimization initial_optim = AcOptimization(
     num_dims,
     num_ags,
-    num_sr
+    num_sr,
+    min_colbasis,
+    fixed_colbases,
+    ag_reactivity_adjustments
   );
 
   initial_optim.randomizeCoords( tabledist_matrix.max() );
   initial_optim.relax_from_raw_matrices(
     tabledist_matrix,
     titertype_matrix,
-    options
+    options,
+    arma::uvec(),
+    arma::uvec(),
+    arma::mat(),
+    dilution_stepsize
   );
 
   // Set boxsize based on initial optimization result
@@ -371,7 +490,10 @@ std::vector<AcOptimization> ac_generateOptimizations(
     AcOptimization optimization(
         num_dims,
         num_ags,
-        num_sr
+        num_sr,
+        min_colbasis,
+        fixed_colbases,
+        ag_reactivity_adjustments
     );
 
     optimization.randomizeCoords(coord_boxsize);
@@ -388,10 +510,11 @@ std::vector<AcOptimization> ac_generateOptimizations(
 // Relax the optimizations generated randomly
 void ac_relaxOptimizations(
   std::vector<AcOptimization>& optimizations,
-  const arma::vec &colbases,
   const arma::mat &tabledist_matrix,
   const arma::umat &titertype_matrix,
-  const AcOptimizerOptions &options
+  const AcOptimizerOptions &options,
+  const arma::mat &titer_weights,
+  const double &dilution_stepsize
 ){
 
   // Set variables
@@ -412,7 +535,11 @@ void ac_relaxOptimizations(
       optimizations[i].relax_from_raw_matrices(
           tabledist_matrix,
           titertype_matrix,
-          options
+          options,
+          arma::uvec(), // Fixed ags
+          arma::uvec(), // Fixed sr
+          titer_weights,
+          dilution_stepsize
       );
     }
 
@@ -431,14 +558,22 @@ void ac_relaxOptimizations(
 // [[Rcpp::export]]
 std::vector<AcOptimization> ac_runOptimizations(
     const AcTiterTable &titertable,
-    const arma::vec &colbases,
+    const std::string &minimum_col_basis,
+    const arma::vec &fixed_colbases,
+    const arma::vec &ag_reactivity_adjustments,
     const arma::uword &num_dims,
     const arma::uword &num_optimizations,
-    const AcOptimizerOptions &options
+    const AcOptimizerOptions &options,
+    const arma::mat &titer_weights,
+    const double &dilution_stepsize
 ){
 
   // Get table distance matrix and titer type matrix
-  arma::mat tabledist_matrix = titertable.numeric_table_distances(colbases);
+  arma::mat tabledist_matrix = titertable.numeric_table_distances(
+    minimum_col_basis,
+    fixed_colbases,
+    ag_reactivity_adjustments
+  );
   arma::umat titertype_matrix = titertable.get_titer_types();
 
   // Set dimensions to cycle through, for e.g. dimensional annealing
@@ -452,12 +587,15 @@ std::vector<AcOptimization> ac_runOptimizations(
 
   // Generate optimizations with random starting coords
   std::vector<AcOptimization> optimizations = ac_generateOptimizations(
-    colbases,
     tabledist_matrix,
     titertype_matrix,
+    minimum_col_basis,
+    fixed_colbases,
+    ag_reactivity_adjustments,
     dim_set(0),
     num_optimizations,
-    options
+    options,
+    dilution_stepsize
   );
 
   // Now cycle "anneal" through the dimensions
@@ -466,10 +604,11 @@ std::vector<AcOptimization> ac_runOptimizations(
     // Relax the optimizations
     ac_relaxOptimizations(
       optimizations,
-      colbases,
       tabledist_matrix,
       titertype_matrix,
-      options
+      options,
+      titer_weights,
+      dilution_stepsize
     );
 
     // Reduce dimensions to next step if doing dimensional annealing

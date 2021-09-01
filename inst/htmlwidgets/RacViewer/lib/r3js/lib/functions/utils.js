@@ -45,6 +45,14 @@ R3JS.utils.normalise_coord = function(
 
 }
 
+R3JS.utils.convertColor = function(color) {
+    if (color == "transparent") {
+        return(new THREE.Color("black"));
+    } else {
+        return(new THREE.Color(color));
+    }
+}
+
 R3JS.utils.generatePlane = function(planeData){
 
     var plane = new THREE.Plane();
@@ -72,9 +80,6 @@ R3JS.utils.breakupMesh = function(full_mesh){
 
     // Get the geometry
     var geo = full_mesh.geometry;
-    if(!geo.isBufferGeometry){
-        geo = new THREE.BufferGeometry().fromGeometry(geo);
-    }
 
     // Get the material
     var mat = R3JS.utils.cloneMaterial(full_mesh.material);

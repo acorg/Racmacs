@@ -22,6 +22,7 @@ Getting and setting antigen sequence information
 Other {antigen and sera attribute functions}: 
 \code{\link{agAttributes}},
 \code{\link{agGroups}()},
+\code{\link{ptClades}},
 \code{\link{srAttributes}},
 \code{\link{srGroups}()},
 \code{\link{srSequences}()}

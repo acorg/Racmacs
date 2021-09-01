@@ -29,7 +29,7 @@ R3JS.element.Triangles = class Triangles extends R3JS.element.base {
         super();
 
         // Make geometry
-        var geometry = new THREE.Geometry();
+        var geometry = new THREE.BufferGeometry();
 
         // Add vertices
         for(var i=0; i<args.vertices.length; i++){
@@ -72,7 +72,6 @@ R3JS.element.Triangles = class Triangles extends R3JS.element.base {
         }
 
         // Convert to buffer geometry
-        var geometry = new THREE.BufferGeometry().fromGeometry( geometry );
         geometry.computeFaceNormals();
         geometry.computeVertexNormals();
 

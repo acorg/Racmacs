@@ -23,9 +23,33 @@ server_relaxMap <- function(env) {
       session = env$session
     )
 
-    env$storage$map <- relaxMap(env$storage$map, env$storage$opt_selected)
-    newstress <- mapStress(env$storage$map, env$storage$opt_selected)
+    # Convert point selections
+    selections <- convertSelectedPoints(
+      env$input$selectedPoints,
+      env$storage$map
+    )
 
+    # Define fixed points
+    fixed_ags <- rep(TRUE, numAntigens(env$storage$map))
+    fixed_sr  <- rep(TRUE, numSera(env$storage$map))
+    fixed_ags[selections$antigens] <- FALSE
+    fixed_sr[selections$sera] <- FALSE
+
+    # Relax map
+    env$storage$map <- relaxMap(
+      map = env$storage$map,
+      optimization_number = env$storage$opt_selected,
+      fixed_antigens = fixed_ags,
+      fixed_sera = fixed_sr
+    )
+
+    # Get new stress
+    newstress <- mapStress(
+      env$storage$map,
+      env$storage$opt_selected
+    )
+
+    # Animate coordinates to new optima
     env$session$sendCustomMessage("animateCoords", list(
       antigens = agCoords(env$storage$map, env$storage$opt_selected),
       sera     = srCoords(env$storage$map, env$storage$opt_selected),
@@ -33,6 +57,7 @@ server_relaxMap <- function(env) {
     ))
     env$session$sendCustomMessage("updateMapData", as.json(env$storage$map))
 
+    # Notify on completion
     message(sprintf(
       "Map relaxed, new stress = %s",
       round(newstress, 2)

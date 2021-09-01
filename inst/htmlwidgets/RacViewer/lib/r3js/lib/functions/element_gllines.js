@@ -64,8 +64,10 @@ R3JS.element.gllines_thin = class GLLines_thin extends R3JS.element.base {
 
         // Create buffer geometry
         var geometry = new THREE.BufferGeometry();
-        geometry.setAttribute( 'position', new THREE.BufferAttribute( positions, 3 ) );
-        geometry.setAttribute( 'color',    new THREE.BufferAttribute( color,     4 ) );
+        if(args.properties.lwd > 0){
+            geometry.setAttribute( 'position', new THREE.BufferAttribute( positions, 3 ) );
+            geometry.setAttribute( 'color',    new THREE.BufferAttribute( color,     4 ) );
+        }
 
         // Create the material
         var material = R3JS.Material(args.properties);
@@ -150,7 +152,9 @@ R3JS.element.gllines_fat = class GLLines_fat extends R3JS.element.base {
         this.object = new THREE.Line2( geometry, matLine );
 
         // Set colors and positions
-        this.setCoords(args.coords);
+        if(args.properties.lwd > 0){
+            this.setCoords(args.coords);
+        }
         this.setColor(args.properties.color);
 
         // Compute line distances for dashed lines

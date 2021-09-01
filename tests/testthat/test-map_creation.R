@@ -1,7 +1,7 @@
 
 library(Racmacs)
 library(testthat)
-context("Test local map creation (test_map_creation.R)")
+context("Test local map creation")
 
 # Set test table
 testtable <- matrix(2 ^ (1:6) * 10, 6, 4)

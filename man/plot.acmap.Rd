@@ -14,10 +14,15 @@
   plot_labels = FALSE,
   plot_blobs = TRUE,
   show_procrustes = TRUE,
+  show_error_lines = FALSE,
+  plot_stress = FALSE,
+  indicate_outliers = TRUE,
   grid.col = "grey90",
-  grid.margin.col = grid.col,
+  grid.margin.col = "grey50",
+  outlier.arrow.col = grid.col,
   fill.alpha = 0.8,
   outline.alpha = 0.8,
+  label.offset = 0,
   padding = 1,
   cex = 1,
   ...
@@ -36,19 +41,32 @@
 
 \item{plot_sr}{logical, should antigens be plotted}
 
-\item{plot_labels}{logical, should point labels be plotted}
+\item{plot_labels}{should point labels be plotted, can be true, false or
+"antigens" or "sera"}
 
 \item{plot_blobs}{logical, should stress blobs be plotted if present}
 
 \item{show_procrustes}{logical, should procrustes lines be shown, if present}
 
+\item{show_error_lines}{logical, should error lines be drawn}
+
+\item{plot_stress}{logical, should map stress be plotted in lower left corner}
+
+\item{indicate_outliers}{logical, should points outside of plot limits be
+indicated with an arrow}
+
 \item{grid.col}{grid line color}
 
 \item{grid.margin.col}{grid margin color}
 
+\item{outlier.arrow.col}{outlier arrow color}
+
 \item{fill.alpha}{alpha for point fill}
 
 \item{outline.alpha}{alpha for point outline}
+
+\item{label.offset}{amount by which any point labels should be offset from
+point coordinates in fractions of a character width}
 
 \item{padding}{padding at limits of the antigenic map, ignored if xlim or
 ylim set explicitly}

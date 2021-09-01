@@ -15,17 +15,13 @@ data2json <- function(x) {
 # Convert point selections into TRUE, FALSE or base 1 indices
 convertSelectedPoints <- function(selections, map) {
 
-  antigens <- unlist(selections$antigens) + 1
-  sera     <- unlist(selections$sera) + 1
+  antigens <- unique(unlist(selections$antigens) + 1)
+  sera <- unique(unlist(selections$sera) + 1)
 
   if (length(antigens) == 0 && length(sera) == 0) {
-    return(list(antigens = TRUE, sera = TRUE))
+    antigens <- seq_len(numAntigens(map))
+    sera <- seq_len(numSera(map))
   }
-
-  if (length(antigens) == numAntigens(map))  antigens <- TRUE
-  if (length(sera) == numSera(map))          sera <- TRUE
-  if (length(antigens) == 0)                 antigens <- FALSE
-  if (length(sera) == 0)                     sera <- FALSE
 
   list(
     antigens = antigens,

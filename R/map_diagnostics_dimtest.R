@@ -70,13 +70,14 @@ dimensionTestMap <- function(
 # Run dimtest result
 runDimensionTestMap <- function(
   map,
-  dimensions_to_test       = 1:5,
-  test_proportion          = 0.1,
-  minimum_column_basis     = "none",
-  fixed_column_bases       = rep(NA, numSera(map)),
-  number_of_optimizations  = 1000,
-  replicates_per_dimension = 100,
-  options                  = list()
+  dimensions_to_test        = 1:5,
+  test_proportion           = 0.1,
+  minimum_column_basis      = "none",
+  fixed_column_bases        = rep(NA, numSera(map)),
+  ag_reactivity_adjustments = rep(0, numAntigens(map)),
+  number_of_optimizations   = 1000,
+  replicates_per_dimension  = 100,
+  options                   = list()
   ) {
 
   # Set optimizer options
@@ -92,13 +93,14 @@ runDimensionTestMap <- function(
   # Get results
   results <- lapply(seq_len(replicates_per_dimension), function(x) {
     result <- ac_dimension_test_map(
-      titer_table          = titerTable(map),
-      dimensions_to_test   = dimensions_to_test,
-      test_proportion      = test_proportion,
-      minimum_column_basis = minimum_column_basis,
-      fixed_column_bases   = fixed_column_bases,
-      num_optimizations    = number_of_optimizations,
-      options              = options
+      titer_table               = titerTable(map),
+      dimensions_to_test        = dimensions_to_test,
+      test_proportion           = test_proportion,
+      minimum_column_basis      = minimum_column_basis,
+      fixed_column_bases        = fixed_column_bases,
+      ag_reactivity_adjustments = ag_reactivity_adjustments,
+      num_optimizations         = number_of_optimizations,
+      options                   = options
     )
     ac_update_progress(progress, x)
     result

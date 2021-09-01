@@ -17,7 +17,10 @@ Racmacs.StressElement = class StressElement {
 
   update(value){
 
-    this.div.innerHTML = value.toFixed(2);
+    this.div.innerHTML = value.total.toFixed(2) + 
+    "|" + 
+    value.pertiter.toFixed(2) + 
+    "<span style='font-size:80%; margin-left:2px;'>[" + value.perdetectable.toFixed(2) + "]</span>";
 
   }
 
@@ -26,15 +29,26 @@ Racmacs.StressElement = class StressElement {
 
 Racmacs.Viewer.prototype.updateStress = function(stress){
 
-  // Create function to update the map stress
+  // Recalculate stress if not supplied in the function
   if(stress === undefined) {
     var stress = 0;
     for(var i=0; i<this.sera.length; i++){
-      stress += this.sera[i].stress;
+      stress += this.sera[i].stress();
     }
-    this.stress.value = stress;
-    this.stress.update(stress);
   }
+
+  var stress_detectable = 0;
+  for(var i=0; i<this.sera.length; i++){
+    stress_detectable += this.sera[i].stress_detectable();
+  }
+
+  // Update the stress
+  this.stress.value = stress;
+  this.stress.update({
+    total: stress,
+    pertiter: stress / this.data.numTiters(),
+    perdetectable: stress_detectable / this.data.numDetectableTiters()
+  });
 
   // Update any batch run viewers bound
   if(this.projectionList){
@@ -44,22 +58,23 @@ Racmacs.Viewer.prototype.updateStress = function(stress){
       );
   }
 
-}
-
-Racmacs.utils.logTiters = function(titerset){
-
-  var logtiters = titerset.map(function(titers){
-    return(titers.map(function(titer){
-      return(Racmacs.utils.logTiter(titer));
-    }));
-  });
-  return(logtiters);
+  // Update data stress
+  this.data.updateStress(stress);
 
 }
+
 
 Racmacs.utils.calcColBases = function(args){
 
   var logtiters   = Racmacs.utils.logTiters(args.titers);
+
+  // Apply antigen reactivity adjustments
+  for (var ag = 0; ag < logtiters.length; ag++) {
+    for (var sr = 0; sr < logtiters[0].length; sr++) {
+      logtiters[ag][sr] += args.ag_reactivity_adjustment[ag];
+    }
+  }
+
   var colbases = Array(logtiters[0].length);
   for(var i=0; i<colbases.length; i++){
     
@@ -90,17 +105,6 @@ Racmacs.utils.calcColBases = function(args){
 }
 
 
-Racmacs.utils.getLogTiters = function(titers){
-
-  var log_titers = new Array(titers.length);
-  for(var i=0; i<titers.length; i++){
-    log_titers[i] = Racmacs.utils.logTiter(titers[i]);
-  }
-  return(log_titers);
-  
-}
-
-
 // Key functions for calculating stress
 Racmacs.utils.logTiter = function(titer){
   
@@ -115,37 +119,15 @@ Racmacs.utils.logTiter = function(titer){
 }
 
 
-Racmacs.utils.calc_table_dist = function(logTiter, colbase){
-  return(colbase - logTiter);
-}
 
-Racmacs.utils.calc_stress = function(
-  tableDist,
-  mapDist,
-  titer
-  ){
-  
-  var con_stress;
-  if(titer == "*"){
-    return(0);
-  } else if(titer.charAt(0) == ">"){
-    return(0);
-  } else {
-    if(titer.charAt(0) == "<"){
-      var x = tableDist+1-mapDist;
-      return(
-        Math.pow(x,2)*(1/(1+Math.exp(-10*x)))
-      );
-    } else {
-      return(
-        Math.pow(tableDist-mapDist,2)
-      );
-    }
-  }
+Racmacs.utils.logTiters = function(titerset){
+
+  var logtiters = titerset.map(function(titers){
+    return(titers.map(function(titer){
+      return(Racmacs.utils.logTiter(titer));
+    }));
+  });
+  return(logtiters);
 
 }
-
-
-
-
 

@@ -10,7 +10,8 @@ addOptimization(
   sr_coords = NULL,
   number_of_dimensions = NULL,
   minimum_column_basis = "none",
-  fixed_column_bases = NULL
+  fixed_column_bases = NULL,
+  ag_reactivity_adjustments = NULL
 )
 }
 \arguments{
@@ -29,6 +30,10 @@ optimization}
 
 \item{fixed_column_bases}{A vector of fixed column bases with NA for sera
 where the minimum column basis should be applied}
+
+\item{ag_reactivity_adjustments}{A vector of antigen reactivity adjustments to
+apply to each antigen. Corresponding antigen titers will be adjusted by these
+amounts when calculating column bases and table distances.}
 }
 \value{
 Returns the acmap data object with new optimization added (but not

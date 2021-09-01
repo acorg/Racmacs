@@ -7,7 +7,8 @@
 tableColbases(
   titer_table,
   minimum_column_basis = "none",
-  fixed_column_bases = rep(NA, ncol(titer_table))
+  fixed_column_bases = rep(NA, ncol(titer_table)),
+  ag_reactivity_adjustments = rep(0, nrow(titer_table))
 )
 }
 \arguments{
@@ -16,6 +17,8 @@ tableColbases(
 \item{minimum_column_basis}{The minimum column basis to assume}
 
 \item{fixed_column_bases}{Fixed column bases to apply}
+
+\item{ag_reactivity_adjustments}{Reactivity adjustments to apply on a per-antigen basis}
 }
 \value{
 Returns a numeric vector of the log-converted column bases for the

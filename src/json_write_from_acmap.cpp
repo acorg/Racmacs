@@ -1,4 +1,4 @@
-// #include <cstdio>
+// #in// #include <cstdio>
 #include <string.h>
 #include <RcppArmadillo.h>
 #include "acmap_map.h"
@@ -10,7 +10,8 @@ using namespace rapidjson;
 // [[Rcpp::export]]
 std::string acmap_to_json(
     AcMap map,
-    std::string version
+    std::string version,
+    bool pretty
 ){
 
   // Setup the document
@@ -44,6 +45,7 @@ std::string acmap_to_json(
 
     agval.AddMember("N", jsonifya(ag.get_name(), allocator), allocator);
     agval.AddMember("P", jsonifya(ag.get_passage(), allocator), allocator);
+    agval.AddMember("c", jsonifya(ag.get_clade(), allocator), allocator);
     // set_group_values
     // set_date
     // set_reference
@@ -66,6 +68,7 @@ std::string acmap_to_json(
 
     srval.AddMember("N", jsonifya(sr.get_name(), allocator), allocator);
     srval.AddMember("P", jsonifya(sr.get_passage(), allocator), allocator);
+    srval.AddMember("c", jsonifya(sr.get_clade(), allocator), allocator);
     // set_group_values
     // set_date
     // set_reference
@@ -233,6 +236,16 @@ std::string acmap_to_json(
       allocator
     );
 
+    // Ag reactivity adjustments
+    optx.AddMember(
+      "r",
+      jsonifya(
+        map.optimizations[i].get_ag_reactivity_adjustments(),
+        allocator
+      ),
+      allocator
+    );
+
     // Bootstrapping
     if (map.optimizations[i].bootstrap.size() > 0) {
       optx.AddMember(
@@ -289,6 +302,7 @@ std::string acmap_to_json(
   // = OTHER =
   x.AddMember("agv", jsonifya(map.get_ag_group_levels(), allocator), allocator);
   x.AddMember("srv", jsonifya(map.get_sr_group_levels(), allocator), allocator);
+  x.AddMember("ds",  map.dilution_stepsize, allocator);
 
   // == FINISH UP ===============================
   // Assemble the json map data and add it
@@ -303,15 +317,27 @@ std::string acmap_to_json(
 
   // Return the map
   StringBuffer buffer;
-  Writer<StringBuffer> writer(buffer);
-  // Writer<
-  //   StringBuffer, // Output Stream
-  //   UTF8<>,       // Source Encoding
-  //   UTF8<>,       // Target Encoding
-  //   CrtAllocator,
-  //   kWriteNanAndInfFlag
-  //   > writer(buffer);
-  bool success = doc.Accept(writer);
+  bool success;
+
+  // Setup the writer
+  if (pretty) {
+
+    PrettyWriter<StringBuffer> writer(buffer);
+    success = doc.Accept(writer);
+
+  } else {
+
+    Writer<StringBuffer> writer(buffer);
+    success = doc.Accept(writer);
+    // Writer<
+    //   StringBuffer, // Output Stream
+    //   UTF8<>,       // Source Encoding
+    //   UTF8<>,       // Target Encoding
+    //   CrtAllocator,
+    //   kWriteNanAndInfFlag
+    //   > writer(buffer);
+
+  }
 
   // Check for errors
   if(!success){

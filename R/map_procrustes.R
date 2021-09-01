@@ -88,6 +88,15 @@ procrustesMap <- function(
   antigens_included[get_ag_indices(antigens, map)] <- TRUE
   sera_included[get_sr_indices(sera, map)] <- TRUE
 
+  # Throw error if no points match
+  num_antigens_matching <- sum(agMatchIDs(map)[antigens_included] %in% agMatchIDs(comparison_map))
+  num_sera_matching <- sum(srMatchIDs(map)[sera_included] %in% srMatchIDs(comparison_map))
+  num_points_matching <- num_antigens_matching + num_sera_matching
+
+  if (num_points_matching < mapDimensions(map) + 1) {
+    stop(sprintf("Not enough matching points (%s)", num_points_matching), call. = FALSE)
+  }
+
   # Set unselected point coords to NaN
   pc_map <- keepSingleOptimization(map, optimization_number)
   agBaseCoords(pc_map)[!antigens_included, ] <- NaN

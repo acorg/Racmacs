@@ -56,13 +56,27 @@ Racmacs.ButtonPanel = class ButtonPanel {
             fn    : function(e){
                 if(e.shiftKey){
                     viewer.onRelaxMapOneStep();
-                } else {
+                    viewer.relaxMap(1);
+                } else if(!e.metaKey) {
                     viewer.onRelaxMap();
+                    viewer.toggleRelaxMap();
                 }
             },
             disabled : false
         });
-        relax_btn.classList.add("shiny-element");
+
+        // Add a custom event listener for the meta key
+        relax_btn.addEventListener("mousedown", e => {
+            if (e.metaKey) {
+                viewer.relaxMap();
+            }
+        });
+        relax_btn.addEventListener("mouseup", e => {
+            if (e.metaKey) {
+                viewer.endOptimizer();
+            }
+        });
+        // relax_btn.classList.add("shiny-element");
 
         // Add randomise button
         var relax_btn = this.addButton({

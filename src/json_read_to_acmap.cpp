@@ -88,6 +88,7 @@ AcMap json_to_acmap(
     const Value& ag = a[i];
     if(ag.HasMember("N")) map.antigens[i].set_name( ag["N"].GetString() );
     if(ag.HasMember("P")) map.antigens[i].set_passage( ag["P"].GetString() );
+    if(ag.HasMember("c")) map.antigens[i].set_clade( parse<std::vector<std::string>>(ag["c"]) );
     // set_group_values
     // set_date
     // set_reference
@@ -107,6 +108,7 @@ AcMap json_to_acmap(
     const Value& sr = s[i];
     if(sr.HasMember("N")) map.sera[i].set_name( sr["N"].GetString() );
     if(sr.HasMember("P")) map.sera[i].set_passage( sr["P"].GetString() );
+    if(sr.HasMember("c")) map.sera[i].set_clade( parse<std::vector<std::string>>(sr["c"]) );
     // set_group_values
     // set_date
     // set_reference
@@ -173,23 +175,27 @@ AcMap json_to_acmap(
 
   // == PLOTSPEC =====================
   // Rcpp::Rcout << "\n" << "PLOTSPEC";
-  const Value& p = c["p"]; // plotspec
-  const Value& pindices = p["p"];
-  const Value& pstyles = p["P"];
+  if(c.HasMember("p")){
 
-  // Set drawing order
-  if(p.HasMember("d")){
-    map.set_pt_drawing_order( parse<arma::uvec>(p["d"]) );
-  }
+    const Value& p = c["p"]; // plotspec
+    const Value& pindices = p["p"];
+    const Value& pstyles = p["P"];
 
-  // Style antigens
-  for(int i=0; i<num_antigens; i++){
-    set_style_from_json( map.antigens[i], pstyles[pindices[i].GetInt()]);
-  }
+    // Set drawing order
+    if(p.HasMember("d")){
+      map.set_pt_drawing_order( parse<arma::uvec>(p["d"]) );
+    }
 
-  // Style sera
-  for(int i=0; i<num_sera; i++){
-    set_style_from_json( map.sera[i], pstyles[pindices[i + num_antigens].GetInt()]);
+    // Style antigens
+    for(int i=0; i<num_antigens; i++){
+      set_style_from_json( map.antigens[i], pstyles[pindices[i].GetInt()]);
+    }
+
+    // Style sera
+    for(int i=0; i<num_sera; i++){
+      set_style_from_json( map.sera[i], pstyles[pindices[i + num_antigens].GetInt()]);
+    }
+
   }
 
   // == OPTIMIZATION RUNS ======================
@@ -284,14 +290,16 @@ AcMap json_to_acmap(
       const Value& xp = x["p"];
       for(SizeType i=0; i<xp.Size(); i++){
         const Value& xpi = xp[i];
-        if(xpi.HasMember("t")) map.optimizations[i].set_translation( parse<arma::mat>(xpi["t"]));
-        if(xpi.HasMember("b")) map.optimizations[i].bootstrap = parse<std::vector<NoisyBootstrapOutput>>(xpi["b"]);
+        if(xpi.HasMember("t")) map.optimizations[i].set_translation(parse<arma::mat>(xpi["t"]));
+        if(xpi.HasMember("r")) map.optimizations[i].set_ag_reactivity_adjustments(parse<arma::vec>(xpi["r"]));
+        if(xpi.HasMember("b")) map.optimizations[i].bootstrap = parse<std::vector<BootstrapOutput>>(xpi["b"]);
       }
     }
 
     // = OTHER =
     if(x.HasMember("agv")) map.set_ag_group_levels( parse<std::vector<std::string>>(x["agv"]));
     if(x.HasMember("srv")) map.set_sr_group_levels( parse<std::vector<std::string>>(x["srv"]));
+    if(x.HasMember("ds"))  map.dilution_stepsize = x["ds"].GetDouble();
 
   }
 

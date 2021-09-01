@@ -9,39 +9,23 @@ Racmacs.App.prototype.clearAntigensAndSera = function(){
 }
 
 // Method to add antigens and sera to a plot
-Racmacs.App.prototype.addAntigensAndSera = function(mapData, stress = true){
-
-    // Fetch variables
-    var table = this.data.table();
+Racmacs.App.prototype.addAntigensAndSera = function(mapData){
 
     // Create a transposed array (for getting serum titers)
-    var ttable = [];
     var nAntigens = this.data.numAntigens();
     var nSera     = this.data.numSera();
     var i;
 
-    for(i = 0; i < nSera; i++){
-        ttable.push([]);
-    };
-
-    for(i = 0; i < nAntigens; i++){
-        for(var j = 0; j < nSera; j++){
-            ttable[j].push(table[i][j]);
-        };
-    };
-
     // Create points
-    var pIndex = 0;
-    var ptObjects = [];
+    this.antigens = [];
+    this.sera     = [];
+    this.points   = [];
 
     // antigens
-    var agObjects = [];
     for(var i=0; i<nAntigens; i++){
 
-        var ag = new Racmacs.Point({
-            type          : "ag",
+        var ag = new Racmacs.Antigen({
             name          : this.data.agNames(i),
-            titers        : table[i],
             coords        : this.data.agCoords(i),
             size          : this.data.agSize(i),
             fillColor     : this.data.agFill(i),
@@ -52,12 +36,12 @@ Racmacs.App.prototype.addAntigensAndSera = function(mapData, stress = true){
             shown         : this.data.agShown(i),
             drawing_order : this.data.agDrawingOrder(i),
             typeIndex     : i,
-            pIndex        : pIndex
+            pIndex        : i,
+            viewer        : this
         });
-        ag.viewer = this;
-        agObjects.push(ag);
-        ptObjects.push(ag);
-        pIndex++;
+        ag.partners = this.sera;
+        this.antigens.push(ag);
+        this.points.push(ag);
 
     }
 
@@ -65,10 +49,9 @@ Racmacs.App.prototype.addAntigensAndSera = function(mapData, stress = true){
     var srObjects = [];
     for(var i=0; i<nSera; i++){
 
-        var sr = new Racmacs.Point({
+        var sr = new Racmacs.Serum({
             type          : "sr",
             name          : this.data.srNames(i),
-            titers        : ttable[i],
             coords        : this.data.srCoords(i),
             size          : this.data.srSize(i),
             fillColor     : this.data.srFill(i),
@@ -79,26 +62,13 @@ Racmacs.App.prototype.addAntigensAndSera = function(mapData, stress = true){
             shown         : this.data.srShown(i),
             drawing_order : this.data.srDrawingOrder(i),
             typeIndex     : i,
-            pIndex        : pIndex
+            pIndex        : i + nAntigens,
+            viewer        : this
         });
-        sr.colbase = this.data.colbases(i);
-        sr.viewer  = this;
-        srObjects.push(sr);
-        ptObjects.push(sr);
-        pIndex++;
+        sr.partners = this.antigens;
+        this.sera.push(sr);
+        this.points.push(sr);
 
-    }
-
-    // Attach to the viewport
-    this.antigens = agObjects;
-    this.sera     = srObjects;
-    this.points   = ptObjects;
-
-    // Update stress
-    if(stress){
-        for(var i=0; i<this.sera.length; i++){
-            this.sera[i].updateStress();
-        }
     }
 
 }
@@ -111,11 +81,9 @@ Racmacs.Point = class Point {
     constructor(args){
 
         // Set properties
-        this.type          = args.type;
+        this.viewer        = args.viewer;
+
         this.name          = args.name;
-        this.titers        = args.titers;
-        this.logTiters     = Racmacs.utils.getLogTiters(this.titers);
-        this.coords        = args.coords;
         this.size          = args.size;
         this.fillColor     = args.fillColor;
         this.outlineColor  = args.outlineColor;
@@ -134,14 +102,12 @@ Racmacs.Point = class Point {
         this.opacity      = 1;
         this.scaling      = 1;
 
-        this.stress   = 0;
-        this.stresses = new Float32Array(new Array(args.titers.length).fill(0));
 
         this.coords_na = args.coords === null || isNaN(args.coords[0]) || args.coords[0] === null;
         if(this.coords_na){
             this.coords3 = [0,0,0];
         } else {
-            this.coords3 = this.coords.slice();
+            this.coords3 = args.coords.slice();
             while(this.coords3.length < 3){ this.coords3.push(0) }
         }
 
@@ -193,7 +159,7 @@ Racmacs.Point = class Point {
     // Coordinates without NA
     coordsNoNA(){
         if(this.coords_na){ return([0,0,0] )    }
-        else              { return(this.coords) }
+        else              { return(this.coords3) }
     }
 
     // Show point information
@@ -204,7 +170,7 @@ Racmacs.Point = class Point {
 
         if(this.viewer.coloring == "stress"){
             this.infoDiv.innerHTML += ", Stress : "+this.stress.toFixed(2);
-            this.infoDiv.innerHTML += ", Mean stress : "+this.calcMeanStress().toFixed(2);
+            this.infoDiv.innerHTML += ", Mean stress : "+this.meanstress.toFixed(2);
         }
         
         this.viewer.addHoverInfo(this.infoDiv);
@@ -300,7 +266,9 @@ Racmacs.Point = class Point {
     }
 
     // Set the point position
-    setPosition(x, y, z){
+    setPosition(to){
+
+        while (to.length < 3) to.push(0);
 
         // Set from and to
         var from = [
@@ -309,34 +277,29 @@ Racmacs.Point = class Point {
             this.coordsVector.z,
         ];
 
-        var to = [x, y, z];
-
         // Remove blobs if shown
         if(this.blob){
             this.removeBlob();
         }
         
-        if(isNaN(x) || isNaN(y) || isNaN(z)){
+        if(isNaN(to[0]) || isNaN(to[1]) || isNaN(to[2])){
             this.coords_na = true;
-            x = 0;
-            y = 0;
-            z = 0;
+            to[0] = 0;
+            to[1] = 0;
+            to[2] = 0;
         }
 
         // Update the coordinate vector
-        this.coordsVector.x = x;
-        this.coordsVector.y = y;
-        this.coordsVector.z = z;
+        this.coordsVector.x = to[0];
+        this.coordsVector.y = to[1];
+        this.coordsVector.z = to[2];
 
         // Update the coordinates array
         this.coords3 = this.coordsVector.toArray();
-
-        // Update the point stress
-        this.updateStress();
         
         // Move the point geometry
         if(this.element){
-            this.element.setCoords(x, y, z);
+            this.element.setCoords(to[0], to[1], to[2]);
         }
 
         // Update any connections or error lines
@@ -456,7 +419,8 @@ Racmacs.Point = class Point {
 
     // Set point fill color
     setFillColor(col){
-        
+
+        if(col == "green") col = "#00ff00";
         if(!this.coloring_fixed){
             
             this.fillColor = col;
@@ -500,6 +464,7 @@ Racmacs.Point = class Point {
     // Set the point outline color
     setOutlineColor(col){
         
+        if(col == "green") col = "#00ff00";
         if(!this.coloring_fixed && this.element){
             
             this.outlineColor = col;
@@ -523,24 +488,10 @@ Racmacs.Point = class Point {
         }
 
     }
-
-    // Get the titer to another point
-    titerTo(to){
-
-        return(this.titers[to.typeIndex]);
-
-    }
-
-    // Get the log titer to another point
-    logTiterTo(to){
-
-        return(this.logTiters[to.typeIndex]);
-
-    }
     
     // Get the map distance to another point
     mapDistTo(to){
-        
+
         return(
             Math.sqrt(
                 (this.coords3[0] - to.coords3[0])*(this.coords3[0] - to.coords3[0]) +
@@ -551,113 +502,21 @@ Racmacs.Point = class Point {
 
     }
 
-    // Get the table distance to another point
-    tableDistTo(to){
-        
-        var logTiter = this.logTiterTo(to);
-        if(this.type == "ag"){
-            var tabledist = Racmacs.utils.calc_table_dist(logTiter, to.colbase);
-        } else {
-            var tabledist = Racmacs.utils.calc_table_dist(logTiter, this.colbase);
-        }
-        return(tabledist);
-
-    }
-
-    // Calculate the point stress
-    calcStress(){
-
-        if(this.type == "ag"){
-            var partners = this.viewer.sera;
-        } else {
-            var partners = this.viewer.antigens;
-        }
-        
-        var stress = 0;
-        for(var i=0; i<partners.length; i++){
-            
-            // Update the stress to the corresponding point
-            stress += this.calcStressTo(partners[i]);
-
-        }
-        return(stress);
-
-    }
-
     // Calculate the mean stress for this point
     calcMeanStress(){
 
-        // var connections = this.getConnections();
         var num_detectable = 0;
-        for(var i=0; i<this.titers.length; i++){
-            if(this.titers[i].charAt(0) != "<"
-               && this.titers[i].charAt(0) != "*"){
+        var stress = 0;
+        for(var i=0; i<this.partners.length; i++){
+            if(this.titerTo(this.partners[i]).charAt(0) != "<"
+               && this.titerTo(this.partners[i]).charAt(0) != "*"){
                 num_detectable++;
+                stress += this.stressTo(this.partners[i]);
             }
         }
-        return(this.stress / num_detectable);
-
-    }
-
-    // Calculate the stress to another point
-    calcStressTo(to){
-
-        var tableDist = this.tableDistTo(to);
-        var mapDist   = this.mapDistTo(to);
-        var titer     = this.titers[to.typeIndex];
-        
-        // Deal with NA coordinates and NaN table distances
-        if(this.coords_na || to.coords_na){
-
-            return(0);
-
-        } else {
-
-            var stress = Racmacs.utils.calc_stress(
-                tableDist,
-                mapDist,
-                titer
-            );
-            return(stress);
-
-        }
-
-    }
-    
-    // Update the stored stress to another point
-    updateStressTo(to){
-
-        // Record the start stress
-        var last_stress = this.stresses[to.typeIndex];
-
-        // Calculate the stress
-        var stress = this.calcStressTo(to);
-
-        // Update the stress on the partner
-        to.stresses[this.typeIndex] = stress;
-        to.stress += stress - last_stress;
-        
-        // Update the stress on this point
-        this.stresses[to.typeIndex] = stress;
-        this.stress += stress - last_stress;
-
-    }
-    
-    // Update the stress of this point
-    updateStress(){
-
-        if(this.type == "ag"){
-            var partners = this.viewer.sera;
-        } else {
-            var partners = this.viewer.antigens;
-        }
-
-        for(var i=0; i<partners.length; i++){
-            
-            // Update the stress to the corresponding point
-            this.updateStressTo(partners[i]);
-
-        }
+        this.stress = stress;
+        this.meanstress = stress / num_detectable;
+        return(this.meanstress);
 
     }
  
@@ -665,50 +524,24 @@ Racmacs.Point = class Point {
     translate(x, y, z){
 
         // Update the position of the point in the viewer
-        this.setPosition(
+        this.setPosition([
             this.coordsVector.x + x,
             this.coordsVector.y + y,
             this.coordsVector.z + z
-        );
+        ]);
 
     }
 
     // Get connections from this point
-    getConnections(){
-        
-        var titers = this.titers;
-        var connections = [];
-        for(var i=0; i<titers.length; i++){
-            if(titers[i] != "*"){
-                connections.push(i);
+    getConnectedPoints(){
+
+        var connected_points = [];
+        for (var i = 0; i < this.partners.length; i++) {
+            if (this.titerTo(this.partners[i]) != "*" && this.partners[i].shown) {
+                connected_points.push(this.partners[i]);
             }
         }
-        return(connections);
-
-    }
-
-    getConnectedPoints(updateCache = false){
-
-        if(!this.connectedPoints || updateCache == true){
-
-
-            if(this.type == "ag"){
-                var partners = this.viewer.sera;
-            } else {
-                var partners = this.viewer.antigens;
-            }
-
-            var connections = this.getConnections();
-            this.connectedPoints = Array(connections.length);
-            for(var i=0; i<connections.length; i++){
-                
-                this.connectedPoints[i] = partners[connections[i]];
-
-            }
-
-        }
-
-        return(this.connectedPoints);
+        return(connected_points);
 
     }
 
@@ -734,4 +567,113 @@ Racmacs.Point = class Point {
 
     }
 
+    // Get titer type to
+    titerTypeTo(to){ 
+        return(
+            Racmacs.utils.titerType(
+                this.titerTo(to)
+            )
+        );
+    }
+
+    // Get residual error
+    residualErrorTo(to){
+        return(
+            Racmacs.utils.ptResidual(
+                this.mapDistTo(to),
+                this.tableDistTo(to),
+                this.titerTypeTo(to)
+            )
+        );
+    }
+
+    // Get stress to
+    stressTo(to){
+        return(
+            Racmacs.utils.ptStress(
+                this.mapDistTo(to),
+                this.tableDistTo(to),
+                this.titerTypeTo(to)
+            )
+        );
+    }
+
+    // Get overall stress
+    stress(){
+        var stress = 0;
+        for (var i=0; i<this.partners.length; i++) {
+            stress += this.stressTo(this.partners[i]);
+        }
+        return(stress);
+    }
+
+    // Get detectable titer stress
+    stress_detectable(){
+        var stress = 0;
+        for (var i=0; i<this.partners.length; i++) {
+            if (this.titerTypeTo(this.partners[i]) == 1) {
+                stress += this.stressTo(this.partners[i]);
+            }
+        }
+        return(stress);
+    }
+
 }
+
+
+// Antigen class
+Racmacs.Antigen = class Antigen extends Racmacs.Point {
+
+    // Constructor function
+    constructor(args) {
+
+        super(args);
+        this.type = "ag";
+
+    }
+
+    // Get the titers to another point
+    titerTo(to){ 
+        return(this.viewer.data.titertable[this.typeIndex][to.typeIndex]);
+    }
+    logTiterTo(to){ 
+        return(this.viewer.data.logtitertable[this.typeIndex][to.typeIndex]);
+    }
+    tableDistTo(to){
+        return(this.viewer.data.tableDist(this.typeIndex, to.typeIndex));
+    }
+
+}
+
+
+// Antigen class
+Racmacs.Serum = class Serum extends Racmacs.Point {
+
+    // Constructor function
+    constructor(args) {
+
+        super(args);
+        this.type = "sr";
+
+    }
+
+    // Get the titers to another point
+    titerTo(to){ 
+        return(this.viewer.data.titertable[to.typeIndex][this.typeIndex]);
+    }
+    logTiterTo(to){ 
+        return(this.viewer.data.logtitertable[to.typeIndex][this.typeIndex]);
+    }
+    tableDistTo(to){
+        return(this.viewer.data.tableDist(to.typeIndex, this.typeIndex));
+    }
+
+    // Get the column base
+    colbase(){
+        return(this.viewer.data.colbases(this.typeIndex));
+    }
+
+
+}
+
+

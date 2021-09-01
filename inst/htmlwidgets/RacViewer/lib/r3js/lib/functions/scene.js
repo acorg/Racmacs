@@ -154,6 +154,7 @@ R3JS.Scene = class Scene {
         }
 
         // Run any rotation events
+        this.plotHolder.updateMatrixWorld();
         this.viewer.dispatchEvent(
             "rotate",
             {}
@@ -223,6 +224,7 @@ R3JS.Scene = class Scene {
 
         translation = new THREE.Vector3().fromArray(translation);
         this.plotPoints.position.add(translation);
+        this.plotPoints.updateMatrixWorld();
 
         // Pan outer plot clipping planes
         var globalpos = translation.applyMatrix4(this.plotHolder.matrixWorld);

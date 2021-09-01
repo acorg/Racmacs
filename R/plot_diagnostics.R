@@ -23,7 +23,7 @@ plot_map_table_distance <- function(
 
   # Calculate distances and types
   map_distances <- mapDistances(map, optimization_number)
-  table_distances <- numerictableDistances(map, optimization_number)
+  table_distances <- numeric_min_tabledists(tableDistances(map, optimization_number))
   titer_types <- titertypesTable(map)
 
   # Format data
@@ -271,22 +271,29 @@ plot_srMeanResiduals <- function(map, exclude_nd = TRUE, .plot = TRUE) {
 
 
 plotly_agMeanResiduals <- function(...) plotlyfn(plot_agMeanResiduals)(...)
+plotly_srMeanResiduals <- function(...) plotlyfn(plot_srMeanResiduals)(...)
 
 
 
-plot_agStressPerTiter <- function(map, .plot = TRUE) {
-  # hist_ggplot(
-  #   names  = agNames(map),
-  #   values = agStressPerTiter(map),
-  #   title  = "Antigen stress per titer",
-  #   subtitle = switch(
-  #     exclude_nd,
-  #     "TRUE"  = "(nd excluded)",
-  #     "FALSE" = "(nd excluded)"
-  #   ),
-  #   vline = 0,
-  #   .plot = .plot
-  # )
+plot_agStressPerTiter <- function(
+  map,
+  exclude_nd = TRUE,
+  .plot = TRUE
+  ) {
+
+  hist_ggplot(
+    names  = agNames(map),
+    values = agStressPerTiter(map, exclude_nd = exclude_nd),
+    title  = "Antigen stress per titer",
+    subtitle = switch(
+      exclude_nd,
+      "TRUE"  = "(< excluded)",
+      "FALSE" = "(< included)"
+    ),
+    vline = 0,
+    .plot = .plot
+  )
+
 }
 
 
@@ -294,19 +301,25 @@ plotly_agStressPerTiter <- function(...) plotlyfn(plot_agStressPerTiter)(...)
 
 
 
-plot_srStressPerTiter <- function(map, .plot = TRUE) {
-  # hist_ggplot(
-  #   names  = srNames(map),
-  #   values = srStressPerTiter(map),
-  #   title  = "Serum stress per titer",
-  #   subtitle = switch(
-  #     exclude_nd,
-  #     "TRUE"  = "(nd excluded)",
-  #     "FALSE" = "(nd excluded)"
-  #   ),
-  #   vline = 0,
-  #   .plot = .plot
-  # )
+plot_srStressPerTiter <- function(
+  map,
+  exclude_nd = TRUE,
+  .plot = TRUE
+  ) {
+
+  hist_ggplot(
+    names  = srNames(map),
+    values = srStressPerTiter(map, exclude_nd = exclude_nd),
+    title  = "Serum stress per titer",
+    subtitle = switch(
+      exclude_nd,
+      "TRUE"  = "(< excluded)",
+      "FALSE" = "(< included)"
+    ),
+    vline = 0,
+    .plot = .plot
+  )
+
 }
 
 

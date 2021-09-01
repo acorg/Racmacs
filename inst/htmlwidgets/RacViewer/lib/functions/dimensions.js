@@ -65,7 +65,7 @@ Racmacs.Viewer.prototype.setDims = function(
     var coords   = [];
     for(var i=0; i<this.points.length; i++){
         if(!this.points[i].coords_na){
-        	coords.push(this.points[i].coords);
+        	coords.push(this.points[i].coords3);
         }
     }
     var x_coords = coords.map( p => p[0] );
@@ -78,6 +78,10 @@ Racmacs.Viewer.prototype.setDims = function(
         [Math.min(...y_coords), Math.max(...y_coords)],
         [Math.min(...z_coords), Math.max(...z_coords)]
     ];
+
+    if (mapdims.xlim) this.mapdims.lims[0] = mapdims.xlim;
+    if (mapdims.ylim) this.mapdims.lims[1] = mapdims.ylim;
+    if (mapdims.zlim) this.mapdims.lims[2] = mapdims.zlim;
 
     // Work out map lims and aspect
     if(this.mapdims.dimensions == 2) {

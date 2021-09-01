@@ -6,12 +6,16 @@
 \alias{minColBasis<-}
 \alias{fixedColBases}
 \alias{fixedColBases<-}
+\alias{agReactivityAdjustments}
+\alias{agReactivityAdjustments<-}
 \title{Getting and setting column bases}
 \usage{
 minColBasis(map, optimization_number = 1)
 minColBasis(map, optimization_number = 1) <- value
 fixedColBases(map, optimization_number = 1)
 fixedColBases(map, optimization_number = 1) <- value
+agReactivityAdjustments(map, optimization_number = 1)
+agReactivityAdjustments(map, optimization_number = 1) <- value
 }
 \arguments{
 \item{map}{The acmap data object}
@@ -54,7 +58,7 @@ Other {map optimization attribute functions}:
 \code{\link{mapDimensions}()},
 \code{\link{mapStress}()},
 \code{\link{mapTransformation}()},
-\code{\link{ptBaseCoords}},
+\code{\link{ptBaseCoords}()},
 \code{\link{ptCoords}()}
 }
 \concept{{map optimization attribute functions}}

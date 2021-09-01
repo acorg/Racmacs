@@ -13,4 +13,23 @@ test_that("Plotting a bare bones", {
   x <- plot(map)
   expect_true(inherits(x, "acmap"))
 
+  export.plot.test(
+    plot(map),
+    "simplemap.pdf",
+    8, 8
+  )
+
+})
+
+test_that("Plotting a map with error lines", {
+
+  map <- read.acmap(test_path("../testdata/testmap.ace"))
+
+  x <- plot(map, show_error_lines = TRUE)
+  export.plot.test(
+    plot(map),
+    "simplemap.pdf",
+    8, 8
+  )
+
 })

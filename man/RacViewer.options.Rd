@@ -8,11 +8,13 @@ RacViewer.options(
   point.opacity = NA,
   viewer.controls = "hidden",
   grid.display = "static",
-  grid.col = "#e0e0e0",
+  grid.col = "#cfcfcf",
   show.names = FALSE,
   show.errorlines = FALSE,
   show.connectionlines = FALSE,
-  show.titers = FALSE
+  show.titers = FALSE,
+  xlim = NULL,
+  ylim = NULL
 )
 }
 \arguments{
@@ -25,13 +27,18 @@ or enclose and rotate along with the map}
 
 \item{grid.col}{Color to use for the grid shown behind the map}
 
-\item{show.names}{Toggle name labels on}
+\item{show.names}{Toggle name labels on, can be true or false or "antigens"
+or "sera"}
 
 \item{show.errorlines}{Toggle error lines on}
 
 \item{show.connectionlines}{Toggle connection lines on}
 
 \item{show.titers}{Toggle titer labels on}
+
+\item{xlim}{x limits to zoom the plot to}
+
+\item{ylim}{y limits to zoom the plot to}
 }
 \value{
 Returns a named list of viewer options

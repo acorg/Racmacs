@@ -2,10 +2,13 @@
 % Please edit documentation in R/map_diagnostics_bootstrap.R
 \name{mapBootstrapCoords}
 \alias{mapBootstrapCoords}
+\alias{mapBootstrap_ptBaseCoords}
 \alias{mapBootstrap_agCoords}
 \alias{mapBootstrap_srCoords}
 \title{Get bootstrap coordinates associated with a map}
 \usage{
+mapBootstrap_ptBaseCoords(map)
+
 mapBootstrap_agCoords(map)
 
 mapBootstrap_srCoords(map)

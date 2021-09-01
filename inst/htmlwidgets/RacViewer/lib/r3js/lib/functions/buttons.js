@@ -39,12 +39,12 @@ R3JS.Viewer.prototype.addViewerButtons = function(){
 	// 	})
     // }
 
- // 	this.addButton({
-	// 	name  : "openInNewWindow",
-	// 	title : "Open in new window",
-	// 	icon  : R3JS.icons.open(),
-	// 	fn    : e => this.popOutViewer()
-	// });
+ 	this.addButton({
+		name  : "openInNewWindow",
+		title : "Open in new window",
+		icon  : R3JS.icons.open(),
+		fn    : e => this.popOutViewer()
+	});
 
 }
 
@@ -77,9 +77,44 @@ R3JS.Viewport.prototype.addButtons = function(){
 
 }
 
-R3JS.Viewport.prototype.popOutViewer = function(){
-	window.open(window.location.href);
-}
+R3JS.Viewer.prototype.popOutViewer = function(){
+	
+    // Hide the button
+    this.btns["openInNewWindow"].style.display = "none";
+
+	var popoutwindow = window.open("", "", "width=600,height=600");
+
+    window.addEventListener("beforeunload", e => {
+    	popoutwindow.close();
+    });
+    popoutwindow.addEventListener("beforeunload", e => {
+    	this.btns["openInNewWindow"].style.display = "inline-block";
+    	this.container.appendChild(this.wrapper);
+    	this.viewport.onwindowresize();
+    });
+    popoutwindow.addEventListener("resize", e => {
+        this.viewport.onwindowresize();
+    });
+
+    // Copy the styles over to the new window
+    var popoutstyle = popoutwindow.document.createElement("style");
+	popoutwindow.document.head.appendChild(popoutstyle);
+	var popoutstylesheet = popoutstyle.sheet;
+    
+    for (var i=0; i<document.styleSheets.length; i++) {
+	    for (var j=0; j<document.styleSheets[i].cssRules.length; j++) {
+	    	popoutstylesheet.insertRule(document.styleSheets[i].cssRules[j].cssText);
+	    }
+    }
+    
+    // Set 0 padding and margin
+    popoutwindow.document.body.style.padding = 0;
+    popoutwindow.document.body.style.margin = 0;
+
+    // Pop out into the new viewer
+    popoutwindow.document.body.appendChild(this.wrapper);
+
+};
 
 R3JS.Viewer.prototype.addButton = function(args, position){
 

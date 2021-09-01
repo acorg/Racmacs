@@ -22,6 +22,7 @@ class AcMap {
   public:
     // ATTRIBUTES
     std::string name;
+    double dilution_stepsize;
     std::vector<AcOptimization> optimizations;
     std::vector<AcAntigen> antigens;
     std::vector<AcSerum> sera;
@@ -50,6 +51,9 @@ class AcMap {
       // Set point drawing order
       pt_drawing_order = arma::regspace<arma::uvec>(0, num_ags + num_sr - 1);
 
+      // Set dilution stepsize
+      dilution_stepsize = 1.0;
+
       // Set ag and sr group levels
       ag_group_levels.resize(0);
       sr_group_levels.resize(0);
@@ -57,9 +61,12 @@ class AcMap {
     }
 
     // Invalidate all calculated optimization stresses, for example when titers are changed
-    void invalidate_stresses() {
+    void update_stresses() {
       for(auto &optimization : optimizations){
-        optimization.invalidate_stress();
+        optimization.update_stress(
+          titer_table_flat,
+          dilution_stepsize
+        );
       }
     };
 
@@ -79,7 +86,7 @@ class AcMap {
     ){
       titer_table_flat = titers;
       titer_table_layers.clear();
-      invalidate_stresses();
+      update_stresses();
     }
 
     // Get and set the flat version of the titer table directly
@@ -107,7 +114,7 @@ class AcMap {
     ){
       titer_table_flat = ac_merge_titer_layers(titers);
       titer_table_layers = titers;
-      invalidate_stresses();
+      update_stresses();
     }
 
     // Remove antigen(s)
@@ -195,8 +202,8 @@ class AcMap {
       pt_drawing_order = arma::sort_index(pt_drawing_order); // Ordering twice means you retrieve
       pt_drawing_order = arma::sort_index(pt_drawing_order); // 1:nPoints numeric sequence
 
-      // Invalidate stresses
-      invalidate_stresses();
+      // Update stresses
+      update_stresses();
 
     }
 
@@ -239,41 +246,24 @@ class AcMap {
       int num_optimizations,
       std::string min_col_basis,
       arma::vec fixed_col_bases,
-      const AcOptimizerOptions &options
+      arma::vec ag_reactivity_adjustments,
+      const AcOptimizerOptions &options,
+      const arma::mat &titer_weights = arma::mat()
     ){
-
-      // Calculate column bases
-      arma::vec colbases = titer_table_flat.colbases(
-        min_col_basis,
-        fixed_col_bases
-      );
 
       // Run optimizations
       optimizations = ac_runOptimizations(
         titer_table_flat,
-        colbases,
+        min_col_basis,
+        fixed_col_bases,
+        ag_reactivity_adjustments,
         num_dims,
         num_optimizations,
-        options
+        options,
+        titer_weights,
+        dilution_stepsize
       );
 
-      // Add colbases information
-      for(auto &optimization : optimizations){
-        optimization.set_min_column_basis(min_col_basis, false); // Do not invalidate stress
-        optimization.set_fixed_column_bases(fixed_col_bases, false); // Do not invalidate stress
-      }
-
-    }
-
-    // Get optimization
-    AcOptimization * get_optimization_pointer(
-      const arma::uword &optimization_number
-    ){
-      if(optimization_number >= optimizations.size()){
-        std::string msg = "Requested optimization "+std::to_string(optimization_number + 1)+" but map only has "+std::to_string(optimizations.size())+" optimization(s)";
-        Rf_error(msg.c_str());
-      }
-      return &optimizations[optimization_number];
     }
 
     // Shuffling optimizations
@@ -301,14 +291,14 @@ class AcMap {
       // Get the target map coords
       arma::mat target_ag_coords;
       arma::mat target_sr_coords;
-      AcOptimization *targetopt = targetmap.get_optimization_pointer(targetmap_optnum);
+      AcOptimization targetopt = targetmap.optimizations[targetmap_optnum];
 
       if(align_to_base_coords){
-        target_ag_coords = subset_rows(targetopt->get_ag_base_coords(), matched_ags);
-        target_sr_coords = subset_rows(targetopt->get_sr_base_coords(), matched_sr);
+        target_ag_coords = subset_rows(targetopt.get_ag_base_coords(), matched_ags);
+        target_sr_coords = subset_rows(targetopt.get_sr_base_coords(), matched_sr);
       } else {
-        target_ag_coords = subset_rows(targetopt->agCoords(), matched_ags);
-        target_sr_coords = subset_rows(targetopt->srCoords(), matched_sr);
+        target_ag_coords = subset_rows(targetopt.agCoords(), matched_ags);
+        target_sr_coords = subset_rows(targetopt.srCoords(), matched_sr);
       }
       arma::mat target_coords = arma::join_cols(target_ag_coords, target_sr_coords);
 

@@ -41,6 +41,7 @@ layers information.
 \seealso{
 Other {map attribute functions}: 
 \code{\link{acmapAttributes}},
+\code{\link{dilutionStepsize}()},
 \code{\link{mapName}()},
 \code{\link{titerTableLayers}()}
 }

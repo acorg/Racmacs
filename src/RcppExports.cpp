@@ -1149,80 +1149,98 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// ac_merge_titers
+AcTiter ac_merge_titers(const std::vector<AcTiter>& titers, const AcMergeOptions& options);
+RcppExport SEXP _Racmacs_ac_merge_titers(SEXP titersSEXP, SEXP optionsSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const std::vector<AcTiter>& >::type titers(titersSEXP);
+    Rcpp::traits::input_parameter< const AcMergeOptions& >::type options(optionsSEXP);
+    rcpp_result_gen = Rcpp::wrap(ac_merge_titers(titers, options));
+    return rcpp_result_gen;
+END_RCPP
+}
 // ac_merge_titer_layers
-AcTiterTable ac_merge_titer_layers(const std::vector<AcTiterTable>& titer_layers);
-RcppExport SEXP _Racmacs_ac_merge_titer_layers(SEXP titer_layersSEXP) {
+AcTiterTable ac_merge_titer_layers(const std::vector<AcTiterTable>& titer_layers, const AcMergeOptions& options);
+RcppExport SEXP _Racmacs_ac_merge_titer_layers(SEXP titer_layersSEXP, SEXP optionsSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< const std::vector<AcTiterTable>& >::type titer_layers(titer_layersSEXP);
-    rcpp_result_gen = Rcpp::wrap(ac_merge_titer_layers(titer_layers));
+    Rcpp::traits::input_parameter< const AcMergeOptions& >::type options(optionsSEXP);
+    rcpp_result_gen = Rcpp::wrap(ac_merge_titer_layers(titer_layers, options));
     return rcpp_result_gen;
 END_RCPP
 }
 // ac_merge_tables
-AcMap ac_merge_tables(std::vector<AcMap> maps);
-RcppExport SEXP _Racmacs_ac_merge_tables(SEXP mapsSEXP) {
+AcMap ac_merge_tables(std::vector<AcMap> maps, const AcMergeOptions& merge_options);
+RcppExport SEXP _Racmacs_ac_merge_tables(SEXP mapsSEXP, SEXP merge_optionsSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< std::vector<AcMap> >::type maps(mapsSEXP);
-    rcpp_result_gen = Rcpp::wrap(ac_merge_tables(maps));
+    Rcpp::traits::input_parameter< const AcMergeOptions& >::type merge_options(merge_optionsSEXP);
+    rcpp_result_gen = Rcpp::wrap(ac_merge_tables(maps, merge_options));
     return rcpp_result_gen;
 END_RCPP
 }
 // ac_merge_reoptimized
-AcMap ac_merge_reoptimized(std::vector<AcMap> maps, int num_dims, int num_optimizations, AcOptimizerOptions options);
-RcppExport SEXP _Racmacs_ac_merge_reoptimized(SEXP mapsSEXP, SEXP num_dimsSEXP, SEXP num_optimizationsSEXP, SEXP optionsSEXP) {
+AcMap ac_merge_reoptimized(std::vector<AcMap> maps, int num_dims, int num_optimizations, AcOptimizerOptions optimizer_options, AcMergeOptions merge_options);
+RcppExport SEXP _Racmacs_ac_merge_reoptimized(SEXP mapsSEXP, SEXP num_dimsSEXP, SEXP num_optimizationsSEXP, SEXP optimizer_optionsSEXP, SEXP merge_optionsSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< std::vector<AcMap> >::type maps(mapsSEXP);
     Rcpp::traits::input_parameter< int >::type num_dims(num_dimsSEXP);
     Rcpp::traits::input_parameter< int >::type num_optimizations(num_optimizationsSEXP);
-    Rcpp::traits::input_parameter< AcOptimizerOptions >::type options(optionsSEXP);
-    rcpp_result_gen = Rcpp::wrap(ac_merge_reoptimized(maps, num_dims, num_optimizations, options));
+    Rcpp::traits::input_parameter< AcOptimizerOptions >::type optimizer_options(optimizer_optionsSEXP);
+    Rcpp::traits::input_parameter< AcMergeOptions >::type merge_options(merge_optionsSEXP);
+    rcpp_result_gen = Rcpp::wrap(ac_merge_reoptimized(maps, num_dims, num_optimizations, optimizer_options, merge_options));
     return rcpp_result_gen;
 END_RCPP
 }
 // ac_merge_frozen_overlay
-AcMap ac_merge_frozen_overlay(std::vector<AcMap> maps);
-RcppExport SEXP _Racmacs_ac_merge_frozen_overlay(SEXP mapsSEXP) {
+AcMap ac_merge_frozen_overlay(std::vector<AcMap> maps, const AcMergeOptions& merge_options);
+RcppExport SEXP _Racmacs_ac_merge_frozen_overlay(SEXP mapsSEXP, SEXP merge_optionsSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< std::vector<AcMap> >::type maps(mapsSEXP);
-    rcpp_result_gen = Rcpp::wrap(ac_merge_frozen_overlay(maps));
+    Rcpp::traits::input_parameter< const AcMergeOptions& >::type merge_options(merge_optionsSEXP);
+    rcpp_result_gen = Rcpp::wrap(ac_merge_frozen_overlay(maps, merge_options));
     return rcpp_result_gen;
 END_RCPP
 }
 // ac_merge_relaxed_overlay
-AcMap ac_merge_relaxed_overlay(std::vector<AcMap> maps, AcOptimizerOptions options);
-RcppExport SEXP _Racmacs_ac_merge_relaxed_overlay(SEXP mapsSEXP, SEXP optionsSEXP) {
+AcMap ac_merge_relaxed_overlay(std::vector<AcMap> maps, AcOptimizerOptions optimizer_options, AcMergeOptions merge_options);
+RcppExport SEXP _Racmacs_ac_merge_relaxed_overlay(SEXP mapsSEXP, SEXP optimizer_optionsSEXP, SEXP merge_optionsSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< std::vector<AcMap> >::type maps(mapsSEXP);
-    Rcpp::traits::input_parameter< AcOptimizerOptions >::type options(optionsSEXP);
-    rcpp_result_gen = Rcpp::wrap(ac_merge_relaxed_overlay(maps, options));
+    Rcpp::traits::input_parameter< AcOptimizerOptions >::type optimizer_options(optimizer_optionsSEXP);
+    Rcpp::traits::input_parameter< AcMergeOptions >::type merge_options(merge_optionsSEXP);
+    rcpp_result_gen = Rcpp::wrap(ac_merge_relaxed_overlay(maps, optimizer_options, merge_options));
     return rcpp_result_gen;
 END_RCPP
 }
 // ac_merge_frozen_merge
-AcMap ac_merge_frozen_merge(std::vector<AcMap> maps, AcOptimizerOptions options);
-RcppExport SEXP _Racmacs_ac_merge_frozen_merge(SEXP mapsSEXP, SEXP optionsSEXP) {
+AcMap ac_merge_frozen_merge(std::vector<AcMap> maps, const AcOptimizerOptions& optimizer_options, const AcMergeOptions& merge_options);
+RcppExport SEXP _Racmacs_ac_merge_frozen_merge(SEXP mapsSEXP, SEXP optimizer_optionsSEXP, SEXP merge_optionsSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< std::vector<AcMap> >::type maps(mapsSEXP);
-    Rcpp::traits::input_parameter< AcOptimizerOptions >::type options(optionsSEXP);
-    rcpp_result_gen = Rcpp::wrap(ac_merge_frozen_merge(maps, options));
+    Rcpp::traits::input_parameter< const AcOptimizerOptions& >::type optimizer_options(optimizer_optionsSEXP);
+    Rcpp::traits::input_parameter< const AcMergeOptions& >::type merge_options(merge_optionsSEXP);
+    rcpp_result_gen = Rcpp::wrap(ac_merge_frozen_merge(maps, optimizer_options, merge_options));
     return rcpp_result_gen;
 END_RCPP
 }
 // ac_merge_incremental
-AcMap ac_merge_incremental(const std::vector<AcMap>& maps, int num_dims, int num_optimizations, std::string min_colbasis, AcOptimizerOptions options);
-RcppExport SEXP _Racmacs_ac_merge_incremental(SEXP mapsSEXP, SEXP num_dimsSEXP, SEXP num_optimizationsSEXP, SEXP min_colbasisSEXP, SEXP optionsSEXP) {
+AcMap ac_merge_incremental(const std::vector<AcMap>& maps, int num_dims, int num_optimizations, std::string min_colbasis, const AcOptimizerOptions& optimizer_options, const AcMergeOptions& merge_options);
+RcppExport SEXP _Racmacs_ac_merge_incremental(SEXP mapsSEXP, SEXP num_dimsSEXP, SEXP num_optimizationsSEXP, SEXP min_colbasisSEXP, SEXP optimizer_optionsSEXP, SEXP merge_optionsSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -1230,20 +1248,9 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< int >::type num_dims(num_dimsSEXP);
     Rcpp::traits::input_parameter< int >::type num_optimizations(num_optimizationsSEXP);
     Rcpp::traits::input_parameter< std::string >::type min_colbasis(min_colbasisSEXP);
-    Rcpp::traits::input_parameter< AcOptimizerOptions >::type options(optionsSEXP);
-    rcpp_result_gen = Rcpp::wrap(ac_merge_incremental(maps, num_dims, num_optimizations, min_colbasis, options));
-    return rcpp_result_gen;
-END_RCPP
-}
-// ac_merge_titers
-AcTiter ac_merge_titers(const std::vector<AcTiter>& titers, double sd_lim);
-RcppExport SEXP _Racmacs_ac_merge_titers(SEXP titersSEXP, SEXP sd_limSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< const std::vector<AcTiter>& >::type titers(titersSEXP);
-    Rcpp::traits::input_parameter< double >::type sd_lim(sd_limSEXP);
-    rcpp_result_gen = Rcpp::wrap(ac_merge_titers(titers, sd_lim));
+    Rcpp::traits::input_parameter< const AcOptimizerOptions& >::type optimizer_options(optimizer_optionsSEXP);
+    Rcpp::traits::input_parameter< const AcMergeOptions& >::type merge_options(merge_optionsSEXP);
+    rcpp_result_gen = Rcpp::wrap(ac_merge_incremental(maps, num_dims, num_optimizations, min_colbasis, optimizer_options, merge_options));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -1652,14 +1659,14 @@ static const R_CallMethodDef CallEntries[] = {
     {"_Racmacs_ac_hemi_test", (DL_FUNC) &_Racmacs_ac_hemi_test, 6},
     {"_Racmacs_ac_match_map_ags", (DL_FUNC) &_Racmacs_ac_match_map_ags, 2},
     {"_Racmacs_ac_match_map_sr", (DL_FUNC) &_Racmacs_ac_match_map_sr, 2},
-    {"_Racmacs_ac_merge_titer_layers", (DL_FUNC) &_Racmacs_ac_merge_titer_layers, 1},
-    {"_Racmacs_ac_merge_tables", (DL_FUNC) &_Racmacs_ac_merge_tables, 1},
-    {"_Racmacs_ac_merge_reoptimized", (DL_FUNC) &_Racmacs_ac_merge_reoptimized, 4},
-    {"_Racmacs_ac_merge_frozen_overlay", (DL_FUNC) &_Racmacs_ac_merge_frozen_overlay, 1},
-    {"_Racmacs_ac_merge_relaxed_overlay", (DL_FUNC) &_Racmacs_ac_merge_relaxed_overlay, 2},
-    {"_Racmacs_ac_merge_frozen_merge", (DL_FUNC) &_Racmacs_ac_merge_frozen_merge, 2},
-    {"_Racmacs_ac_merge_incremental", (DL_FUNC) &_Racmacs_ac_merge_incremental, 5},
     {"_Racmacs_ac_merge_titers", (DL_FUNC) &_Racmacs_ac_merge_titers, 2},
+    {"_Racmacs_ac_merge_titer_layers", (DL_FUNC) &_Racmacs_ac_merge_titer_layers, 2},
+    {"_Racmacs_ac_merge_tables", (DL_FUNC) &_Racmacs_ac_merge_tables, 2},
+    {"_Racmacs_ac_merge_reoptimized", (DL_FUNC) &_Racmacs_ac_merge_reoptimized, 5},
+    {"_Racmacs_ac_merge_frozen_overlay", (DL_FUNC) &_Racmacs_ac_merge_frozen_overlay, 2},
+    {"_Racmacs_ac_merge_relaxed_overlay", (DL_FUNC) &_Racmacs_ac_merge_relaxed_overlay, 3},
+    {"_Racmacs_ac_merge_frozen_merge", (DL_FUNC) &_Racmacs_ac_merge_frozen_merge, 3},
+    {"_Racmacs_ac_merge_incremental", (DL_FUNC) &_Racmacs_ac_merge_incremental, 6},
     {"_Racmacs_ac_move_trapped_points", (DL_FUNC) &_Racmacs_ac_move_trapped_points, 6},
     {"_Racmacs_ac_coords_stress", (DL_FUNC) &_Racmacs_ac_coords_stress, 7},
     {"_Racmacs_ac_point_stresses", (DL_FUNC) &_Racmacs_ac_point_stresses, 6},

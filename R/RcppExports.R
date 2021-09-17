@@ -409,36 +409,36 @@ ac_match_map_sr <- function(map1, map2) {
     .Call('_Racmacs_ac_match_map_sr', PACKAGE = 'Racmacs', map1, map2)
 }
 
-ac_merge_titer_layers <- function(titer_layers) {
-    .Call('_Racmacs_ac_merge_titer_layers', PACKAGE = 'Racmacs', titer_layers)
+ac_merge_titers <- function(titers, options) {
+    .Call('_Racmacs_ac_merge_titers', PACKAGE = 'Racmacs', titers, options)
 }
 
-ac_merge_tables <- function(maps) {
-    .Call('_Racmacs_ac_merge_tables', PACKAGE = 'Racmacs', maps)
+ac_merge_titer_layers <- function(titer_layers, options) {
+    .Call('_Racmacs_ac_merge_titer_layers', PACKAGE = 'Racmacs', titer_layers, options)
 }
 
-ac_merge_reoptimized <- function(maps, num_dims, num_optimizations, options) {
-    .Call('_Racmacs_ac_merge_reoptimized', PACKAGE = 'Racmacs', maps, num_dims, num_optimizations, options)
+ac_merge_tables <- function(maps, merge_options) {
+    .Call('_Racmacs_ac_merge_tables', PACKAGE = 'Racmacs', maps, merge_options)
 }
 
-ac_merge_frozen_overlay <- function(maps) {
-    .Call('_Racmacs_ac_merge_frozen_overlay', PACKAGE = 'Racmacs', maps)
+ac_merge_reoptimized <- function(maps, num_dims, num_optimizations, optimizer_options, merge_options) {
+    .Call('_Racmacs_ac_merge_reoptimized', PACKAGE = 'Racmacs', maps, num_dims, num_optimizations, optimizer_options, merge_options)
 }
 
-ac_merge_relaxed_overlay <- function(maps, options) {
-    .Call('_Racmacs_ac_merge_relaxed_overlay', PACKAGE = 'Racmacs', maps, options)
+ac_merge_frozen_overlay <- function(maps, merge_options) {
+    .Call('_Racmacs_ac_merge_frozen_overlay', PACKAGE = 'Racmacs', maps, merge_options)
 }
 
-ac_merge_frozen_merge <- function(maps, options) {
-    .Call('_Racmacs_ac_merge_frozen_merge', PACKAGE = 'Racmacs', maps, options)
+ac_merge_relaxed_overlay <- function(maps, optimizer_options, merge_options) {
+    .Call('_Racmacs_ac_merge_relaxed_overlay', PACKAGE = 'Racmacs', maps, optimizer_options, merge_options)
 }
 
-ac_merge_incremental <- function(maps, num_dims, num_optimizations, min_colbasis, options) {
-    .Call('_Racmacs_ac_merge_incremental', PACKAGE = 'Racmacs', maps, num_dims, num_optimizations, min_colbasis, options)
+ac_merge_frozen_merge <- function(maps, optimizer_options, merge_options) {
+    .Call('_Racmacs_ac_merge_frozen_merge', PACKAGE = 'Racmacs', maps, optimizer_options, merge_options)
 }
 
-ac_merge_titers <- function(titers, sd_lim = 1.0) {
-    .Call('_Racmacs_ac_merge_titers', PACKAGE = 'Racmacs', titers, sd_lim)
+ac_merge_incremental <- function(maps, num_dims, num_optimizations, min_colbasis, optimizer_options, merge_options) {
+    .Call('_Racmacs_ac_merge_incremental', PACKAGE = 'Racmacs', maps, num_dims, num_optimizations, min_colbasis, optimizer_options, merge_options)
 }
 
 ac_move_trapped_points <- function(optimization, titertable, grid_spacing, options, max_iterations = 10L, dilution_stepsize = 1.0) {

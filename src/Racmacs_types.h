@@ -10,6 +10,7 @@
 #include "ac_stress_blobs.h"
 #include "ac_optim_map_stress.h"
 #include "ac_hemi_test.h"
+#include "ac_merge.h"
 #include "utils_error.h"
 
 #ifndef Racmacs__RacmacsWrap__h
@@ -354,6 +355,17 @@ AcCoords as(SEXP sxp){
   };
 }
 
+// TO: AcMergeOptions
+template <>
+AcMergeOptions as(SEXP sxp){
+
+  List opt = as<List>(sxp);
+  return AcMergeOptions{
+    opt["sd_limit"]
+  };
+
+}
+
 // TO: AcOptimizerOptions
 template <>
 AcOptimizerOptions as(SEXP sxp){
@@ -361,11 +373,11 @@ AcOptimizerOptions as(SEXP sxp){
   List opt = as<List>(sxp);
   return AcOptimizerOptions{
     opt["dim_annealing"],
-       opt["method"],
-          opt["maxit"],
-             opt["num_cores"],
-                opt["report_progress"],
-                   opt["progress_bar_length"]
+    opt["method"],
+    opt["maxit"],
+    opt["num_cores"],
+    opt["report_progress"],
+    opt["progress_bar_length"]
   };
 
 }

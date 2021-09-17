@@ -43,3 +43,7 @@
 * Fix error when minimum column basis is set to higher than any measurable titer
 * Points not included in a procrustes will now be faded out when plotted with `plot()`, similar to the behaviour 
   already implemented in the `view()` function.
+* Added the ability to set merge options when merging maps, controlling for example how much standard deviation 
+  there has to be between merged titers before the merged titer gets excluded as unreliable.
+* Added `mergeReport()` and `htmlMergeReport()` to output formatted tables showing how different titers have 
+  been merged in a merged map.

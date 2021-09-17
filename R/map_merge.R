@@ -11,7 +11,8 @@
 #'   runs, the number of optimization runs to do.
 #' @param minimum_column_basis For merging that generates new optimization runs,
 #'   the minimum column basis to use.
-#' @param options For merging that generates new optimization runs, optimizer
+#' @param merge_options Options to use when merging titers (see `RacMerge.options()`).
+#' @param optimizer_options For merging that generates new optimization runs, optimizer
 #'   settings (see `RacOptimizer.options()`).
 #'
 #' @details Maps can be merged in a number of ways depending upon the desired
@@ -60,7 +61,8 @@ mergeMaps <- function(
   number_of_dimensions,
   number_of_optimizations,
   minimum_column_basis = "none",
-  options = list()
+  optimizer_options = list(),
+  merge_options = list()
   ) {
 
   # Check input
@@ -68,7 +70,8 @@ mergeMaps <- function(
   lapply(maps, check.acmap)
 
   # Set options for any relaxation or optimizations
-  options <- do.call(RacOptimizer.options, options)
+  optimizer_options <- do.call(RacOptimizer.options, optimizer_options)
+  merge_options <- do.call(RacMerge.options, merge_options)
 
   # Apply the relevant merge method
   switch(
@@ -76,7 +79,8 @@ mergeMaps <- function(
     # Table merge
     `table` = {
       ac_merge_tables(
-        maps = maps
+        maps = maps,
+        merge_options = merge_options
       )
     },
     # Re-optimized merge
@@ -85,7 +89,8 @@ mergeMaps <- function(
         maps = maps,
         num_dims = number_of_dimensions,
         num_optimizations = number_of_optimizations,
-        options = options
+        optimizer_options = optimizer_options,
+        merge_options = merge_options
       )
     },
     # Incremental merge
@@ -95,27 +100,31 @@ mergeMaps <- function(
         num_dims = number_of_dimensions,
         num_optimizations = number_of_optimizations,
         min_colbasis = minimum_column_basis,
-        options = options
+        optimizer_options = optimizer_options,
+        merge_options = merge_options
       )
     },
     # Frozen overlay merge
     `frozen-overlay` = {
       ac_merge_frozen_overlay(
-        maps = maps
+        maps = maps,
+        merge_options = merge_options
       )
     },
     # Relaxed overlay merge
     `relaxed-overlay` = {
       ac_merge_relaxed_overlay(
         maps = maps,
-        options = options
+        optimizer_options = optimizer_options,
+        merge_options = merge_options
       )
     },
     # Frozen overlay merge
     `frozen-merge` = {
       ac_merge_frozen_merge(
         maps = maps,
-        options = options
+        optimizer_options = optimizer_options,
+        merge_options = merge_options
       )
     },
     # Other merge
@@ -129,15 +138,149 @@ mergeMaps <- function(
 #'
 #' Prints a raw text merge report from merging two map tables.
 #'
-#' @param maps List of acmaps to merge
+#' @param map An acmap object that was the result of merging several maps
 #'
 #' @family {map merging functions}
 #' @export
-mergeReport <- function(
-  maps
-  ) {
+mergeReport <- function(map) {
 
-  lapply(maps, check.acmap)
-  stop("mergeReport not yet implemented")
+  # Set variables
+  merged_table <- titerTable(map)
+  table_layers <- titerTableLayers(map)
+
+  # Setup merge report table
+  merge_report <- matrix("", numAntigens(map), numSera(map))
+  rownames(merge_report) <- agNames(map)
+  colnames(merge_report) <- srNames(map)
+
+  # Setup for merge classes
+  merge_type      <- merge_report
+  separate_titers <- merge_report
+  merged_titers   <- merge_report
+
+  # Fill in merge report table
+  for (ag in seq_len(numAntigens(map))) {
+    for (sr in seq_len(numSera(map))) {
+
+      # Fetch titers and merged value
+      titers <- vapply(table_layers, function(x) x[ag, sr], character(1))
+      merged_value <- merged_table[ag, sr]
+
+      # Record the original and merged titers
+      separate_titers[ag, sr] <- paste(titers, collapse = ", ")
+      merged_titers[ag, sr] <- merged_table[ag, sr]
+
+      # Fill in merge report
+      merge_report[ag, sr] <- sprintf(
+        "[%s] &rarr; %s",
+        paste(titers, collapse = ", "),
+        merged_value
+      )
+
+      # Assign a class of merge
+      titers <- titers[titers != "*"]
+      if (length(unique(titers)) <= 1) {
+        merge_type[ag, sr] <- "identity"
+      } else if (merged_value == "*") {
+        merge_type[ag, sr] <- "excluded"
+      } else if (grepl("<", merged_value)) {
+        merge_type[ag, sr] <- "lessthan"
+      } else if (grepl(">", merged_value)) {
+        merge_type[ag, sr] <- "morethan"
+      } else {
+        merge_type[ag, sr] <- "average"
+      }
+
+    }
+  }
+
+  # Return the merge report table
+  attr(merge_report, "separate-titers") <- separate_titers
+  attr(merge_report, "merged-titers") <- merged_titers
+  attr(merge_report, "merge-type") <- merge_type
+  merge_report
 
 }
+
+
+#' Return an html formatted merge report
+#'
+#' Prints an html formatted table merge report of a set of merged maps, visualising
+#' with colors how different titers have been merged together.
+#'
+#' @param map An acmap object that was the result of merging several maps
+#'
+#' @family {map merging functions}
+#' @export
+htmlMergeReport <- function(map) {
+
+  report <- mergeReport(map)
+  htmlreport <- report
+
+  escape_titers <- function(x) {
+    x <- gsub("<", "&lt;", x)
+    x <- gsub(">", "&gt;", x)
+    x <- gsub("\\*", "&lowast;", x)
+    x
+  }
+
+  merge_type_colors <- c(
+    identity = "#aaaaaa",
+    excluded = "#ed0909",
+    lessthan = "#0066ff",
+    morethan = "#0066ff",
+    average  = "#000000"
+  )
+
+  for (ag in seq_len(numAntigens(map))) {
+    for (sr in seq_len(numSera(map))) {
+
+      htmlreport[ag, sr] <- sprintf(
+        "<div style='font-size:75%%; color: #cccccc;'>%s</div><div style='color:%s;'>%s</div>",
+        escape_titers(attr(report, "separate-titers")[ag, sr]),
+        merge_type_colors[attr(report, "merge-type")[ag,sr]],
+        escape_titers(attr(report, "merged-titers")[ag, sr])
+      )
+
+    }
+  }
+
+  htmlreport
+
+}
+
+
+#' Set acmap merge options
+#'
+#' This function facilitates setting options for the acmap titer merging process by
+#' returning a list of option settings.
+#'
+#' @param sd_limit When merging titers, titers that have a standard deviation of
+#'   this amount or greater on the log2 scale will be set to "*" and excluded,
+#'   set to NA to always simply take the GMT regardless of log titer standard deviation
+#'
+#' @family {map merging functions}
+#'
+#' @return Returns a named list of merging options
+#' @export
+#'
+RacMerge.options <- function(
+  sd_limit = 1
+) {
+
+  # Check input
+  if (is.na(sd_limit)) sd_limit <- NA_real_
+  check.numeric(sd_limit)
+
+  list(
+    sd_limit = sd_limit
+  )
+
+}
+
+
+
+
+
+
+

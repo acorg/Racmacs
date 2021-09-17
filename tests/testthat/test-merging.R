@@ -36,7 +36,7 @@ test_that("Test titer merging", {
 
     expect_equal(
       titer_merge_tests$expected[x],
-      ac_merge_titers(titer_merge_tests$sum[[x]])
+      ac_merge_titers(titer_merge_tests$sum[[x]], options = RacMerge.options())
     )
 
   }
@@ -47,12 +47,12 @@ test_that("sd_lim working", {
 
   expect_equal(
     "10",
-    ac_merge_titers(c("<10", "20"), sd_lim = NA)
+    ac_merge_titers(c("<10", "20"), options = RacMerge.options(sd_limit = NA))
   )
 
   expect_equal(
     "*",
-    ac_merge_titers(c("<10", "20"), sd_lim = 0.8)
+    ac_merge_titers(c("<10", "20"), options = RacMerge.options(sd_limit = 0.8))
   )
 
 })
@@ -72,7 +72,7 @@ test_that("titer table merging working", {
   )
 
   expect_equal(
-    ac_merge_titer_layers(titer_tables),
+    ac_merge_titer_layers(titer_tables, options = RacMerge.options()),
     test_merged_table
   )
 

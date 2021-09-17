@@ -2,14 +2,16 @@
 # include <RcppArmadillo.h>
 # include "acmap_map.h"
 # include "acmap_titers.h"
+# include "ac_merge.h"
 # include "ac_titers.h"
 # include "ac_matching.h"
 # include "ac_optimization.h"
 
 // For merging character titers
+// [[Rcpp::export]]
 AcTiter ac_merge_titers(
     const std::vector<AcTiter>& titers,
-    double sd_lim
+    const AcMergeOptions& options
 ){
 
   // Return the titer if size 1
@@ -48,8 +50,8 @@ AcTiter ac_merge_titers(
           // 5. Convert > and < titers to their next values, i.e. <40 to 20, >10240 to 20480, etc. and take the log
           arma::vec logtiters = log_titers(titers);
 
-          // 6. Compute SD, if SD > 1, result is *
-          if(sd_lim == sd_lim && arma::stddev(logtiters.elem(nona)) > sd_lim){
+          // 6. Compute SD, if SD > options.sd_limit, result is *
+          if(options.sd_limit == options.sd_limit && arma::stddev(logtiters.elem(nona)) > options.sd_limit){
             return AcTiter();
           }
           // 7. Otherwise return the mean (ignoring nas)
@@ -66,7 +68,8 @@ AcTiter ac_merge_titers(
 // For merging titer layers
 // [[Rcpp::export]]
 AcTiterTable ac_merge_titer_layers(
-    const std::vector<AcTiterTable>& titer_layers
+    const std::vector<AcTiterTable>& titer_layers,
+    const AcMergeOptions& options
 ){
 
   int num_ags = titer_layers[0].nags();
@@ -88,7 +91,8 @@ AcTiterTable ac_merge_titer_layers(
       merged_table.set_titer(
         ag, sr,
         ac_merge_titers(
-          titers
+          titers,
+          options
         )
       );
     }
@@ -287,7 +291,8 @@ arma::vec merge_ag_reactivity_adjustments(
 // for all of the other merging functions
 // [[Rcpp::export]]
 AcMap ac_merge_tables(
-  std::vector<AcMap> maps
+  std::vector<AcMap> maps,
+  const AcMergeOptions& merge_options
 ){
 
   // Setup for output
@@ -340,10 +345,17 @@ AcMap ac_merge_tables(
 
   merged_map.antigens = merged_antigens;
   merged_map.sera = merged_sera;
-  merged_map.set_titer_table_layers(
-    merged_layers
+
+  // Set the titer table layers
+  merged_map.titer_table_layers = merged_layers;
+
+  // Set the flat titer table
+  merged_map.titer_table_flat = ac_merge_titer_layers(
+    merged_layers,
+    merge_options
   );
 
+  // Return the merged map
   return merged_map;
 
 }
@@ -356,11 +368,12 @@ AcMap ac_merge_reoptimized(
   std::vector<AcMap> maps,
   int num_dims,
   int num_optimizations,
-  AcOptimizerOptions options
+  AcOptimizerOptions optimizer_options,
+  AcMergeOptions merge_options
 ){
 
   // Merge the map tables
-  AcMap merged_map = ac_merge_tables(maps);
+  AcMap merged_map = ac_merge_tables(maps, merge_options);
 
   // Merge column bases
   std::string min_col_basis = merge_min_column_basis( maps );
@@ -376,7 +389,7 @@ AcMap ac_merge_reoptimized(
     min_col_basis,
     fixed_col_bases,
     ag_reactivity_adjustments,
-    options
+    optimizer_options
   );
 
   // Return the map
@@ -391,7 +404,8 @@ AcMap ac_merge_reoptimized(
 // position.
 // [[Rcpp::export]]
 AcMap ac_merge_frozen_overlay(
-  std::vector<AcMap> maps
+  std::vector<AcMap> maps,
+  const AcMergeOptions& merge_options
 ){
 
   // Check input
@@ -403,7 +417,7 @@ AcMap ac_merge_frozen_overlay(
   }
 
   // Merge the map tables
-  AcMap merged_map = ac_merge_tables(maps);
+  AcMap merged_map = ac_merge_tables(maps, merge_options);
 
   // Orient map 2 to map 1
   maps[1].realign_to_map( maps[0] );
@@ -464,16 +478,20 @@ AcMap ac_merge_frozen_overlay(
 // [[Rcpp::export]]
 AcMap ac_merge_relaxed_overlay(
     std::vector<AcMap> maps,
-    AcOptimizerOptions options
+    AcOptimizerOptions optimizer_options,
+    AcMergeOptions merge_options
 ){
 
   // Do the frozen overlay
-  AcMap merged_map = ac_merge_frozen_overlay(maps);
+  AcMap merged_map = ac_merge_frozen_overlay(
+    maps,
+    merge_options
+  );
 
   // Relax the optimization
   merged_map.optimizations[0].relax_from_titer_table(
     merged_map.titer_table_flat,
-    options
+    optimizer_options
   );
 
   // Return the result
@@ -490,11 +508,12 @@ AcMap ac_merge_relaxed_overlay(
 // [[Rcpp::export]]
 AcMap ac_merge_frozen_merge(
     std::vector<AcMap> maps,
-    AcOptimizerOptions options
+    const AcOptimizerOptions& optimizer_options,
+    const AcMergeOptions& merge_options
 ){
 
   // Start with a frozen merge
-  AcMap merged_map = ac_merge_frozen_overlay(maps);
+  AcMap merged_map = ac_merge_frozen_overlay(maps, merge_options);
 
   // Find matching points from map 1
   arma::uvec map1_ag_matches = arma::conv_to< arma::uvec >::from( ac_match_points(maps[0].antigens, merged_map.antigens) );
@@ -508,7 +527,7 @@ AcMap ac_merge_frozen_merge(
   // Now relax the map while fixing points in map 1
   merged_map.optimizations[0].relax_from_titer_table(
       merged_map.titer_table_flat,
-      options,
+      optimizer_options,
       map1_ag_matches,
       map1_sr_matches
   );
@@ -525,14 +544,15 @@ AcMap ac_merge_incremental_single(
     int num_dims,
     int num_optimizations,
     std::string min_colbasis,
-    AcOptimizerOptions options
+    const AcOptimizerOptions& optimizer_options,
+    const AcMergeOptions& merge_options
 ){
 
   // Check input
   if(maps.size() != 2) Rf_error("Expecting 2 maps");
 
   // Merge the maps
-  AcMap merged_map = ac_merge_tables(maps);
+  AcMap merged_map = ac_merge_tables(maps, merge_options);
 
   // Setup default fixed column bases
   arma::vec fixed_colbases = arma::vec( merged_map.sera.size() );
@@ -561,7 +581,7 @@ AcMap ac_merge_incremental_single(
     ag_reactivity_adjustments,
     num_dims,
     num_optimizations,
-    options
+    optimizer_options
   );
 
   // Set coordinates of points found in map 1 back to their positions in map1
@@ -582,7 +602,7 @@ AcMap ac_merge_incremental_single(
     optimizations,
     tabledist_matrix,
     titertype_matrix,
-    options
+    optimizer_options
   );
 
   // Sort the optimizations by stress
@@ -609,7 +629,8 @@ AcMap ac_merge_incremental(
     int num_dims,
     int num_optimizations,
     std::string min_colbasis,
-    AcOptimizerOptions options
+    const AcOptimizerOptions& optimizer_options,
+    const AcMergeOptions& merge_options
 ){
 
   // Check input
@@ -638,7 +659,7 @@ AcMap ac_merge_incremental(
       min_colbasis,
       fixed_colbases,
       ag_reactivity_adjustments,
-      options
+      optimizer_options
     );
   }
 
@@ -649,7 +670,8 @@ AcMap ac_merge_incremental(
       num_dims,
       num_optimizations,
       min_colbasis,
-      options
+      optimizer_options,
+      merge_options
     );
   }
 

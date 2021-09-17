@@ -98,6 +98,7 @@ class AcMap {
       AcTiterTable titers
     ){
       titer_table_flat = titers;
+      update_stresses();
     }
 
     // Get and set titers from vector of titer layers
@@ -110,9 +111,10 @@ class AcMap {
     }
 
     void set_titer_table_layers(
-      const std::vector<AcTiterTable> titers
+      const std::vector<AcTiterTable> titers,
+      const AcMergeOptions& merge_options
     ){
-      titer_table_flat = ac_merge_titer_layers(titers);
+      titer_table_flat = ac_merge_titer_layers(titers, merge_options);
       titer_table_layers = titers;
       update_stresses();
     }

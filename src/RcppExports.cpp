@@ -1408,13 +1408,14 @@ BEGIN_RCPP
 END_RCPP
 }
 // log_titers
-arma::vec log_titers(std::vector<AcTiter> titers);
-RcppExport SEXP _Racmacs_log_titers(SEXP titersSEXP) {
+arma::vec log_titers(std::vector<AcTiter> titers, double dilution_stepsize);
+RcppExport SEXP _Racmacs_log_titers(SEXP titersSEXP, SEXP dilution_stepsizeSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< std::vector<AcTiter> >::type titers(titersSEXP);
-    rcpp_result_gen = Rcpp::wrap(log_titers(titers));
+    Rcpp::traits::input_parameter< double >::type dilution_stepsize(dilution_stepsizeSEXP);
+    rcpp_result_gen = Rcpp::wrap(log_titers(titers, dilution_stepsize));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -1676,7 +1677,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_Racmacs_ac_reactivity_adjustment_stress", (DL_FUNC) &_Racmacs_ac_reactivity_adjustment_stress, 12},
     {"_Racmacs_ac_stress_blob_grid", (DL_FUNC) &_Racmacs_ac_stress_blob_grid, 7},
     {"_Racmacs_numeric_titers", (DL_FUNC) &_Racmacs_numeric_titers, 1},
-    {"_Racmacs_log_titers", (DL_FUNC) &_Racmacs_log_titers, 1},
+    {"_Racmacs_log_titers", (DL_FUNC) &_Racmacs_log_titers, 2},
     {"_Racmacs_titer_types_int", (DL_FUNC) &_Racmacs_titer_types_int, 1},
     {"_Racmacs_reduce_matrix_dimensions", (DL_FUNC) &_Racmacs_reduce_matrix_dimensions, 2},
     {"_Racmacs_json_to_acmap", (DL_FUNC) &_Racmacs_json_to_acmap, 1},

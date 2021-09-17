@@ -9,7 +9,8 @@ arma::vec numeric_titers(
 );
 
 arma::vec log_titers(
-    std::vector<AcTiter> titers
+    std::vector<AcTiter> titers,
+    double dilution_stepsize
 );
 
 arma::uvec titer_types_int(

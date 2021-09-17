@@ -51,12 +51,13 @@ arma::vec numeric_titers(
 // Get log titers from a vector of titers
 // [[Rcpp::export]]
 arma::vec log_titers(
-    std::vector<AcTiter> titers
+    std::vector<AcTiter> titers,
+    double dilution_stepsize
 ){
 
   arma::vec logtiters(titers.size());
   for(arma::uword i=0; i<titers.size(); i++){
-    logtiters[i] = titers[i].logTiter();
+    logtiters[i] = titers[i].logTiter(dilution_stepsize);
   }
   return logtiters;
 

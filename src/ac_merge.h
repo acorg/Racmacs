@@ -8,6 +8,7 @@
 // Merge options
 struct AcMergeOptions {
   double sd_limit;
+  double dilution_stepsize;
 };
 
 

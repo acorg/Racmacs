@@ -93,16 +93,18 @@ class AcTiter {
     }
 
     // Conversion to log titer
-    double logTiter(){
+    double logTiter(
+        double dilution_stepsize
+    ){
       switch(type){
       case 1:
         return std::log2(numeric/10.0);
         break;
       case 2:
-        return std::log2(numeric/10.0)-1;
+        return std::log2(numeric/10.0) - dilution_stepsize;
         break;
       case 3:
-        return std::log2(numeric/10.0)+1;
+        return std::log2(numeric/10.0) + dilution_stepsize;
         break;
       default:
         return arma::datum::nan;
@@ -354,7 +356,7 @@ class AcTiterTable {
       // Apply any minimum column bases
       if(min_colbasis != "none"){
 
-        double log_min_colbasis = AcTiter(min_colbasis).logTiter();
+        double log_min_colbasis = AcTiter(min_colbasis).logTiter(1.0);
         double max_colbasis = colbases.max();
 
         colbases = arma::clamp(

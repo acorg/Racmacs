@@ -73,6 +73,9 @@ mergeMaps <- function(
   optimizer_options <- do.call(RacOptimizer.options, optimizer_options)
   merge_options <- do.call(RacMerge.options, merge_options)
 
+  # Set the dilution stepsize for merging
+  merge_options$dilution_stepsize <- mean(vapply(maps, dilutionStepsize, numeric(1)))
+
   # Apply the relevant merge method
   switch(
     method,
@@ -258,6 +261,8 @@ htmlMergeReport <- function(map) {
 #' @param sd_limit When merging titers, titers that have a standard deviation of
 #'   this amount or greater on the log2 scale will be set to "*" and excluded,
 #'   set to NA to always simply take the GMT regardless of log titer standard deviation
+#' @param dilution_stepsize The dilution stepsize to assume when merging titers (see
+#'   `dilutionStepsize()`)
 #'
 #' @family {map merging functions}
 #'
@@ -265,15 +270,18 @@ htmlMergeReport <- function(map) {
 #' @export
 #'
 RacMerge.options <- function(
-  sd_limit = 1
+  sd_limit = 1,
+  dilution_stepsize = 1
 ) {
 
   # Check input
   if (is.na(sd_limit)) sd_limit <- NA_real_
   check.numeric(sd_limit)
+  check.numeric(dilution_stepsize)
 
   list(
-    sd_limit = sd_limit
+    sd_limit = sd_limit,
+    dilution_stepsize = dilution_stepsize
   )
 
 }

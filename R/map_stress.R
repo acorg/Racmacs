@@ -138,7 +138,7 @@ mapDistances <- function(
 logtiterTable <- function(map) {
 
   matrix(
-    log_titers(titerTable(map)),
+    log_titers(titerTable(map), dilutionStepsize(map)),
     numAntigens(map),
     numSera(map)
   )

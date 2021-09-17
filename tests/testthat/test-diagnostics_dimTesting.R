@@ -22,7 +22,7 @@ test_that("Dimension test summary working correctly", {
   predtiter2 <- dimresults$results[[2]]$predictions[[1]]
 
   expect_equal(
-    mean(c(abs(predtiter1 - log_titers(testtiter1)), abs(predtiter2 - log_titers(testtiter2)))),
+    mean(c(abs(predtiter1 - log_titers(testtiter1, 1)), abs(predtiter2 - log_titers(testtiter2, 1)))),
     dimtest_summary(dimresults)$mean_rmse_detectable[1]
   )
 

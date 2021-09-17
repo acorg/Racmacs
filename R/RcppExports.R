@@ -477,8 +477,8 @@ numeric_titers <- function(titers) {
     .Call('_Racmacs_numeric_titers', PACKAGE = 'Racmacs', titers)
 }
 
-log_titers <- function(titers) {
-    .Call('_Racmacs_log_titers', PACKAGE = 'Racmacs', titers)
+log_titers <- function(titers, dilution_stepsize) {
+    .Call('_Racmacs_log_titers', PACKAGE = 'Racmacs', titers, dilution_stepsize)
 }
 
 titer_types_int <- function(titers) {

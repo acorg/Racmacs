@@ -47,3 +47,4 @@
   there has to be between merged titers before the merged titer gets excluded as unreliable.
 * Added `mergeReport()` and `htmlMergeReport()` to output formatted tables showing how different titers have 
   been merged in a merged map.
+* Functions like `logtiterTable()` and `mergeMaps()` now take account of the dilutionStepsize map setting

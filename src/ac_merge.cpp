@@ -48,7 +48,7 @@ AcTiter ac_merge_titers(
         } else {
 
           // 5. Convert > and < titers to their next values, i.e. <40 to 20, >10240 to 20480, etc. and take the log
-          arma::vec logtiters = log_titers(titers);
+          arma::vec logtiters = log_titers(titers, options.dilution_stepsize);
 
           // 6. Compute SD, if SD > options.sd_limit, result is *
           if(options.sd_limit == options.sd_limit && arma::stddev(logtiters.elem(nona)) > options.sd_limit){

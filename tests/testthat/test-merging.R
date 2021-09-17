@@ -22,12 +22,12 @@ titer_merge_tests <- tibble::tribble(
 )
 
 test_that("Test log titer conversion", {
-  expect_equal(NaN, log_titers("*"))
-  expect_equal(-1, log_titers("<10"))
-  expect_equal(0, log_titers("10"))
-  expect_equal(0, log_titers("<20"))
-  expect_equal(1, log_titers("20"))
-  expect_equal(2, log_titers(">20"))
+  expect_equal(NaN, log_titers("*", 1))
+  expect_equal(-1, log_titers("<10", 1))
+  expect_equal(0, log_titers("10", 1))
+  expect_equal(0, log_titers("<20", 1))
+  expect_equal(1, log_titers("20", 1))
+  expect_equal(2, log_titers(">20", 1))
 })
 
 test_that("Test titer merging", {

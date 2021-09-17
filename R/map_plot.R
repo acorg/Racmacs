@@ -187,6 +187,21 @@ plot.acmap <- function(
     pts$outline <- grDevices::adjustcolor(pts$outline, alpha.f = outline.alpha)
   }
 
+  ## Fade out points not included in procrustes
+  if (
+    hasProcrustes(x, optimization_number)
+    && !isFALSE(show_procrustes)
+  ) {
+
+    pc_data <- ptProcrustes(x, optimization_number)
+    pc_coords <- rbind(pc_data$ag_coords, pc_data$sr_coords)
+    pc_coords_na <- is.na(pc_coords[,1])
+
+    pts$fill[pc_coords_na] <- grDevices::adjustcolor(pts$fill[pc_coords_na], alpha.f = 0.2)
+    pts$outline[pc_coords_na] <- grDevices::adjustcolor(pts$outline[pc_coords_na], alpha.f = 0.2)
+
+  }
+
   ## Plot the points
   pt_order <- ptDrawingOrder(x)
   plotted_pt_order <- pt_order[pts$shown[pt_order]]

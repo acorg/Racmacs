@@ -41,3 +41,5 @@
 
 # Racmacs 1.1.16
 * Fix error when minimum column basis is set to higher than any measurable titer
+* Points not included in a procrustes will now be faded out when plotted with `plot()`, similar to the behaviour 
+  already implemented in the `view()` function.

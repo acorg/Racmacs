@@ -509,7 +509,8 @@ Racmacs.Point = class Point {
         var stress = 0;
         for(var i=0; i<this.partners.length; i++){
             if(this.titerTo(this.partners[i]).charAt(0) != "<"
-               && this.titerTo(this.partners[i]).charAt(0) != "*"){
+               && this.titerTo(this.partners[i]).charAt(0) != "*"
+               && this.titerTo(this.partners[i]).charAt(0) != "."){
                 num_detectable++;
                 stress += this.stressTo(this.partners[i]);
             }
@@ -537,7 +538,7 @@ Racmacs.Point = class Point {
 
         var connected_points = [];
         for (var i = 0; i < this.partners.length; i++) {
-            if (this.titerTo(this.partners[i]) != "*" && this.partners[i].shown) {
+            if (this.titerTo(this.partners[i]) != "*" && this.partners[i]) != "*" && this.partners[i].shown) {
                 connected_points.push(this.partners[i]);
             }
         }

@@ -21,29 +21,33 @@ AcTiter ac_merge_titers(
 
   // Get vectors of numeric titers and titer types
   arma::vec numtiters = numeric_titers(titers);
-  arma::uvec ttypes = titer_types_int(titers);
-  arma::uvec nona = arma::find(ttypes != 0);
+  arma::ivec ttypes = titer_types_int(titers);
+  arma::uvec nona = arma::find(ttypes > 0);
 
-  // 1. If there are > and < titers, result is *
+  // 1. If there are > and < titers, result is "*"
   if(arma::any(ttypes == 2) && arma::any(ttypes == 3)){
     return AcTiter();
   } else
-    // 2. If there are just *, result is *
-    if(arma::all(ttypes == 0)){
+    // 2a. If there are just ".", result is "."
+    if(arma::all(ttypes == -1)){
+      return AcTiter(0, -1);
+    } else
+    // 2. If there are just "*" or ".", result is "*"
+    if(arma::all(ttypes <= 0)){
       return AcTiter();
     } else
       // 3. If there are just lessthan titers, result is min of them, keeping lessthan
       if(arma::all(ttypes.elem(nona) == 2)){
         return AcTiter(
           arma::min(numtiters),
-          2
+          2 // Less than type
         );
       } else
         // 4. If there are just morethan titers, result is max of them, keeping morethan
         if(arma::all(ttypes.elem(nona) == 3)){
           return AcTiter(
             arma::max(numtiters),
-            3
+            3 // More than type
           );
         } else {
 
@@ -51,14 +55,17 @@ AcTiter ac_merge_titers(
           arma::vec logtiters = log_titers(titers, options.dilution_stepsize);
 
           // 6. Compute SD, if SD > options.sd_limit, result is *
-          if(options.sd_limit == options.sd_limit && arma::stddev(logtiters.elem(nona)) > options.sd_limit){
+          if(
+            options.sd_limit == options.sd_limit && // Check sd_limit not set to NA
+              arma::stddev(logtiters.elem(nona)) > options.sd_limit
+            ){
             return AcTiter();
           }
           // 7. Otherwise return the mean (ignoring nas)
           else{
             return AcTiter(
               std::pow(2.0, arma::mean(logtiters.elem(nona)))*10,
-              1
+              1 // Set measurable type
             );
           }
         }
@@ -132,15 +139,20 @@ AcTiterTable subset_titer_table(
     srsubset.n_elem
   );
 
-  for(arma::uword ag=0; ag<agsubset.n_elem; ag++){
-    for(arma::uword sr=0; sr<srsubset.n_elem; sr++){
-      if(agsubset(ag) != -1 && srsubset(sr) != -1){
+  for (arma::uword ag=0; ag<agsubset.n_elem; ag++) {
+    for (arma::uword sr=0; sr<srsubset.n_elem; sr++) {
+      if (agsubset(ag) != -1 && srsubset(sr) != -1) {
         titer_table_subset.set_titer(
           ag, sr,
           titer_table.get_titer(
             agsubset(ag),
             srsubset(sr)
           )
+        );
+      } else {
+        titer_table_subset.set_titer(
+          ag, sr,
+          AcTiter(".")
         );
       }
     }
@@ -570,7 +582,7 @@ AcMap ac_merge_incremental_single(
     fixed_colbases,
     ag_reactivity_adjustments
   );
-  arma::umat titertype_matrix = merged_map.titer_table_flat.get_titer_types();
+  arma::imat titertype_matrix = merged_map.titer_table_flat.get_titer_types();
 
   // Generate optimizations with random starting coords
   std::vector<AcOptimization> optimizations = ac_generateOptimizations(

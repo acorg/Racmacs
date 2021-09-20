@@ -30,9 +30,10 @@ tableDistances <- function(
     fixed_col_bases = fixedColBases(map, optimization_number),
     ag_reactivity_adjustments = agReactivityAdjustments(map, optimization_number)
   )
-  numeric_dists[titertypesTable(map) == 0] <- "*"
-  numeric_dists[titertypesTable(map) == 2] <- paste0(">", numeric_dists[titertypesTable(map) == 2])
-  numeric_dists[titertypesTable(map) == 3] <- "NA"
+  numeric_dists[titertypesTable(map) == -1]  <- "."
+  numeric_dists[titertypesTable(map) == 0]  <- "*"
+  numeric_dists[titertypesTable(map) == 2]  <- paste0(">", numeric_dists[titertypesTable(map) == 2])
+  numeric_dists[titertypesTable(map) == 3]  <- "NA"
   numeric_dists
 
 }
@@ -43,6 +44,7 @@ numeric_min_tabledists <- function(tabledists) {
   thresholded <- substr(tabledists, 1, 1) == ">"
   tabledists[thresholded] <- substr(tabledists[thresholded], 2, nchar(tabledists[thresholded]))
   tabledists[tabledists == "*"] <- NA
+  tabledists[tabledists == "."] <- NA
   mode(tabledists) <- "numeric"
   tabledists[thresholded] <- tabledists[thresholded] + 1
   tabledists

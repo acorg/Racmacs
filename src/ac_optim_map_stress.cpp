@@ -29,7 +29,7 @@ class MapOptimizer {
     arma::mat ag_coords;
     arma::mat sr_coords;
     arma::mat tabledist_matrix;
-    arma::umat titertype_matrix;
+    arma::imat titertype_matrix;
     arma::mat mapdist_matrix;
     arma::uword num_dims;
     arma::uword num_ags;
@@ -49,7 +49,7 @@ class MapOptimizer {
       arma::mat ag_start_coords,
       arma::mat sr_start_coords,
       arma::mat tabledist,
-      arma::umat titertype,
+      arma::imat titertype,
       arma::uword dims,
       double dilution_stepsize
     )
@@ -87,7 +87,7 @@ class MapOptimizer {
       arma::mat ag_start_coords,
       arma::mat sr_start_coords,
       arma::mat tabledist,
-      arma::umat titertype,
+      arma::imat titertype,
       arma::uword dims,
       arma::uvec moveable_ags,
       arma::uvec moveable_sr,
@@ -176,7 +176,7 @@ class MapOptimizer {
         for(arma::uword ag = 0; ag < num_ags; ++ag) {
 
           // Skip unmeasured titers
-          if(titertype_matrix.at(ag, sr) == 0){
+          if(titertype_matrix.at(ag, sr) <= 0){
             continue;
           }
 
@@ -211,7 +211,7 @@ class MapOptimizer {
         for(arma::uword ag = 0; ag < num_ags; ++ag) {
 
           // Skip unmeasured titers
-          if(titertype_matrix.at(ag,sr) == 0){
+          if(titertype_matrix.at(ag,sr) <= 0){
             continue;
           }
 
@@ -257,7 +257,7 @@ class MapOptimizer {
         for (arma::uword ag = 0; ag < num_ags; ag++) {
 
           // Only calculate distances where ag and sr were titrated
-          if(titertype_matrix.at(ag,sr) == 0) continue;
+          if(titertype_matrix.at(ag,sr) <= 0) continue;
 
           // Calculate the euclidean distance
           mapdist_matrix.at(ag,sr) = sqrt(arma::accu(arma::square(
@@ -323,7 +323,7 @@ arma::mat ac_point_stresses(
     fixed_colbases,
     ag_reactivity_adjustments
   );
-  arma::umat titer_types = titer_table.get_titer_types();
+  arma::imat titer_types = titer_table.get_titer_types();
 
   // Setup residual table
   arma::mat stress_table(num_ags, num_sr);
@@ -364,7 +364,7 @@ arma::mat ac_point_residuals(
     fixed_colbases,
     ag_reactivity_adjustments
   );
-  arma::umat titer_types = titer_table.get_titer_types();
+  arma::imat titer_types = titer_table.get_titer_types();
 
   // Setup residual table
   arma::mat residual_table(num_ags, num_sr);
@@ -390,7 +390,7 @@ arma::mat ac_point_residuals(
 // [[Rcpp::export]]
 double ac_relax_coords(
     const arma::mat &tabledist_matrix,
-    const arma::umat &titertype_matrix,
+    const arma::imat &titertype_matrix,
     arma::mat &ag_coords,
     arma::mat &sr_coords,
     const AcOptimizerOptions &options,
@@ -443,7 +443,7 @@ double ac_relax_coords(
 // this is a starting point for later relaxation
 std::vector<AcOptimization> ac_generateOptimizations(
     const arma::mat &tabledist_matrix,
-    const arma::umat &titertype_matrix,
+    const arma::imat &titertype_matrix,
     const std::string &min_colbasis,
     const arma::vec &fixed_colbases,
     const arma::vec &ag_reactivity_adjustments,
@@ -511,7 +511,7 @@ std::vector<AcOptimization> ac_generateOptimizations(
 void ac_relaxOptimizations(
   std::vector<AcOptimization>& optimizations,
   const arma::mat &tabledist_matrix,
-  const arma::umat &titertype_matrix,
+  const arma::imat &titertype_matrix,
   const AcOptimizerOptions &options,
   const arma::mat &titer_weights,
   const double &dilution_stepsize
@@ -574,7 +574,7 @@ std::vector<AcOptimization> ac_runOptimizations(
     fixed_colbases,
     ag_reactivity_adjustments
   );
-  arma::umat titertype_matrix = titertable.get_titer_types();
+  arma::imat titertype_matrix = titertable.get_titer_types();
 
   // Set dimensions to cycle through, for e.g. dimensional annealing
   arma::uvec dim_set { num_dims };
@@ -636,7 +636,7 @@ std::vector<AcOptimization> ac_runOptimizations(
 // // [[Rcpp::export]]
 // Rcpp::NumericVector benchmark_relaxation(
 //     const arma::mat &tabledist_matrix,
-//     const arma::umat &titertype_matrix,
+//     const arma::imat &titertype_matrix,
 //     arma::mat ag_coords,
 //     arma::mat sr_coords,
 //     const std::string method = "L-BFGS-B",

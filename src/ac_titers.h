@@ -13,7 +13,7 @@ arma::vec log_titers(
     double dilution_stepsize
 );
 
-arma::uvec titer_types_int(
+arma::ivec titer_types_int(
     std::vector<AcTiter> titers
 );
 

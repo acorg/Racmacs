@@ -62,7 +62,7 @@ check.charactermatrix <- function(x) {
 check.validtiters <- function(titers) {
 
   x <- titers
-  unmeasured <- x == "*"
+  unmeasured <- x == "*" | x == "."
   lessthans  <- substr(x, 1, 1) == "<"
   morethans  <- substr(x, 1, 1) == ">"
   x[unmeasured] <- "10"

@@ -181,7 +181,7 @@ mergeReport <- function(map) {
       )
 
       # Assign a class of merge
-      titers <- titers[titers != "*"]
+      titers <- titers[titers != "*" & titers != "."]
       if (length(unique(titers)) <= 1) {
         merge_type[ag, sr] <- "identity"
       } else if (merged_value == "*") {

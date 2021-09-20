@@ -461,7 +461,7 @@ class AcOptimization {
     // Relax the optimization
     void relax_from_raw_matrices(
       const arma::mat &tabledist_matrix,
-      const arma::umat &titertype_matrix,
+      const arma::imat &titertype_matrix,
       const AcOptimizerOptions options,
       const arma::uvec &fixed_antigens = arma::uvec(),
       const arma::uvec &fixed_sera = arma::uvec(),

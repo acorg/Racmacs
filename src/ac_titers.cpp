@@ -38,7 +38,7 @@ arma::vec numeric_titers(
 
   arma::vec numerictiters(titers.size());
   for(arma::uword i=0; i<titers.size(); i++){
-    if(titers[i].type == 0){
+    if(titers[i].type <= 0){
       numerictiters[i] = arma::datum::nan;
     } else {
       numerictiters[i] = titers[i].numeric;
@@ -65,11 +65,11 @@ arma::vec log_titers(
 
 // Get titer types from a vector of titers
 // [[Rcpp::export]]
-arma::uvec titer_types_int(
+arma::ivec titer_types_int(
     std::vector<AcTiter> titers
 ){
 
-  arma::uvec titertypes(titers.size());
+  arma::ivec titertypes(titers.size());
   for(arma::uword i=0; i<titers.size(); i++){
     titertypes[i] = titers[i].type;
   }

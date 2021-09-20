@@ -10,6 +10,10 @@ Racmacs.utils.d_sigmoid = function(x) {
 Racmacs.utils.titerType = function(titer) {
 
     switch(titer.charAt(0)) {
+    case ".":
+      // Not there in merge
+      return(-1);
+      break;
     case "*":
       // Unmeasured
       return(0);

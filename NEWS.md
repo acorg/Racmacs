@@ -48,3 +48,5 @@
 * Added `mergeReport()` and `htmlMergeReport()` to output formatted tables showing how different titers have 
   been merged in a merged map.
 * Functions like `logtiterTable()` and `mergeMaps()` now take account of the dilutionStepsize map setting
+* Implement a new titer type '.', like '*' but to represent titers that are missing as a result
+  of antigen sera combinations not being present in merged tables

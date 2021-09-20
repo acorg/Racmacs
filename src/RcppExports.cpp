@@ -1320,13 +1320,13 @@ BEGIN_RCPP
 END_RCPP
 }
 // ac_relax_coords
-double ac_relax_coords(const arma::mat& tabledist_matrix, const arma::umat& titertype_matrix, arma::mat& ag_coords, arma::mat& sr_coords, const AcOptimizerOptions& options, const arma::uvec& fixed_antigens, const arma::uvec& fixed_sera, const arma::mat& titer_weights, const double& dilution_stepsize);
+double ac_relax_coords(const arma::mat& tabledist_matrix, const arma::imat& titertype_matrix, arma::mat& ag_coords, arma::mat& sr_coords, const AcOptimizerOptions& options, const arma::uvec& fixed_antigens, const arma::uvec& fixed_sera, const arma::mat& titer_weights, const double& dilution_stepsize);
 RcppExport SEXP _Racmacs_ac_relax_coords(SEXP tabledist_matrixSEXP, SEXP titertype_matrixSEXP, SEXP ag_coordsSEXP, SEXP sr_coordsSEXP, SEXP optionsSEXP, SEXP fixed_antigensSEXP, SEXP fixed_seraSEXP, SEXP titer_weightsSEXP, SEXP dilution_stepsizeSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< const arma::mat& >::type tabledist_matrix(tabledist_matrixSEXP);
-    Rcpp::traits::input_parameter< const arma::umat& >::type titertype_matrix(titertype_matrixSEXP);
+    Rcpp::traits::input_parameter< const arma::imat& >::type titertype_matrix(titertype_matrixSEXP);
     Rcpp::traits::input_parameter< arma::mat& >::type ag_coords(ag_coordsSEXP);
     Rcpp::traits::input_parameter< arma::mat& >::type sr_coords(sr_coordsSEXP);
     Rcpp::traits::input_parameter< const AcOptimizerOptions& >::type options(optionsSEXP);
@@ -1380,7 +1380,7 @@ BEGIN_RCPP
 END_RCPP
 }
 // ac_stress_blob_grid
-StressBlobGrid ac_stress_blob_grid(arma::vec testcoords, arma::mat coords, arma::vec tabledists, arma::uvec titertypes, double stress_lim, double grid_spacing, double dilution_stepsize);
+StressBlobGrid ac_stress_blob_grid(arma::vec testcoords, arma::mat coords, arma::vec tabledists, arma::ivec titertypes, double stress_lim, double grid_spacing, double dilution_stepsize);
 RcppExport SEXP _Racmacs_ac_stress_blob_grid(SEXP testcoordsSEXP, SEXP coordsSEXP, SEXP tabledistsSEXP, SEXP titertypesSEXP, SEXP stress_limSEXP, SEXP grid_spacingSEXP, SEXP dilution_stepsizeSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
@@ -1388,7 +1388,7 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< arma::vec >::type testcoords(testcoordsSEXP);
     Rcpp::traits::input_parameter< arma::mat >::type coords(coordsSEXP);
     Rcpp::traits::input_parameter< arma::vec >::type tabledists(tabledistsSEXP);
-    Rcpp::traits::input_parameter< arma::uvec >::type titertypes(titertypesSEXP);
+    Rcpp::traits::input_parameter< arma::ivec >::type titertypes(titertypesSEXP);
     Rcpp::traits::input_parameter< double >::type stress_lim(stress_limSEXP);
     Rcpp::traits::input_parameter< double >::type grid_spacing(grid_spacingSEXP);
     Rcpp::traits::input_parameter< double >::type dilution_stepsize(dilution_stepsizeSEXP);
@@ -1420,7 +1420,7 @@ BEGIN_RCPP
 END_RCPP
 }
 // titer_types_int
-arma::uvec titer_types_int(std::vector<AcTiter> titers);
+arma::ivec titer_types_int(std::vector<AcTiter> titers);
 RcppExport SEXP _Racmacs_titer_types_int(SEXP titersSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;

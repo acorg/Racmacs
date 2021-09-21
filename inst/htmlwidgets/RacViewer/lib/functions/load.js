@@ -69,8 +69,6 @@ Racmacs.Viewer.prototype.load = function(
         if (!options.ylim) var ylim = this.data.ylim();
         else               var ylim = options.ylim;
         var zlim = this.data.zlim();
-        console.log(xlim);
-        console.log(ylim);
 
         // Set dims from map data
         if(!options.maintain_viewpoint){

@@ -14,9 +14,9 @@ mapName(map) <- value
 \item{value}{New value to set}
 }
 \value{
-Returns either the requested attribute when using a getter function or the updated
+Returns either the requested attribute when using a getter function or
 
-acmap object when using the setter function.
+the updated acmap object when using the setter function.
 }
 \description{
 Getting and setting the map name

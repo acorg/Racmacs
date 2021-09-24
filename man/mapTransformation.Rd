@@ -20,9 +20,9 @@ mapTranslation(map, optimization_number = 1) <- value
 \item{value}{New value to set}
 }
 \value{
-Returns either the requested attribute when using a getter function or the updated
+Returns either the requested attribute when using a getter function or
 
-acmap object when using the setter function.
+the updated acmap object when using the setter function.
 }
 \description{
 These functions can be used to query and if necessary set the map

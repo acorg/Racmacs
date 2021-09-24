@@ -50,3 +50,5 @@
 * Functions like `logtiterTable()` and `mergeMaps()` now take account of the dilutionStepsize map setting
 * Implement a new titer type '.', like '*' but to represent titers that are missing as a result
   of antigen sera combinations not being present in merged tables
+* Fix error calculating bootstrap blobs and showing from a bootstrapped map where "resample" method 
+  was used

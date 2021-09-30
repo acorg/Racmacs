@@ -370,13 +370,13 @@ std::string acmap_to_json(
   if (pretty) {
 
     PrettyWriter<StringBuffer> writer(buffer);
-    // writer.SetMaxDecimalPlaces(6);
+    writer.SetMaxDecimalPlaces(6);
     success = doc.Accept(writer);
 
   } else {
 
     Writer<StringBuffer> writer(buffer);
-    // writer.SetMaxDecimalPlaces(6);
+    writer.SetMaxDecimalPlaces(6);
     success = doc.Accept(writer);
     // Writer<
     //   StringBuffer, // Output Stream

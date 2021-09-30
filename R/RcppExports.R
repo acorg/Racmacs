@@ -485,6 +485,10 @@ titer_types_int <- function(titers) {
     .Call('_Racmacs_titer_types_int', PACKAGE = 'Racmacs', titers)
 }
 
+make_titers <- function(numeric_titers, titer_types_int) {
+    .Call('_Racmacs_make_titers', PACKAGE = 'Racmacs', numeric_titers, titer_types_int)
+}
+
 reduce_matrix_dimensions <- function(m, dim) {
     .Call('_Racmacs_reduce_matrix_dimensions', PACKAGE = 'Racmacs', m, dim)
 }

@@ -52,3 +52,8 @@
   of antigen sera combinations not being present in merged tables
 * Fix error calculating bootstrap blobs and showing from a bootstrapped map where "resample" method 
   was used
+
+# Racmacs 1.1.17
+* Added `htmlMergeReport()` showing how titers were merged as a formatted html table.
+* Added `htmlTiterTable()` for visualizing an html formatted titer table
+* Added functions for getting titers after applying antigen reactivity adjustments set with `agReactivityAdjustments()<-`, namely `adjustedTiterTable()`, `adjustedLogTiterTable()`, `htmlAdjustedTiterTable()`

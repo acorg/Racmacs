@@ -1430,6 +1430,18 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// make_titers
+std::vector<AcTiter> make_titers(arma::vec numeric_titers, arma::ivec titer_types_int);
+RcppExport SEXP _Racmacs_make_titers(SEXP numeric_titersSEXP, SEXP titer_types_intSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< arma::vec >::type numeric_titers(numeric_titersSEXP);
+    Rcpp::traits::input_parameter< arma::ivec >::type titer_types_int(titer_types_intSEXP);
+    rcpp_result_gen = Rcpp::wrap(make_titers(numeric_titers, titer_types_int));
+    return rcpp_result_gen;
+END_RCPP
+}
 // reduce_matrix_dimensions
 arma::mat reduce_matrix_dimensions(arma::mat m, int dim);
 RcppExport SEXP _Racmacs_reduce_matrix_dimensions(SEXP mSEXP, SEXP dimSEXP) {
@@ -1679,6 +1691,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_Racmacs_numeric_titers", (DL_FUNC) &_Racmacs_numeric_titers, 1},
     {"_Racmacs_log_titers", (DL_FUNC) &_Racmacs_log_titers, 2},
     {"_Racmacs_titer_types_int", (DL_FUNC) &_Racmacs_titer_types_int, 1},
+    {"_Racmacs_make_titers", (DL_FUNC) &_Racmacs_make_titers, 2},
     {"_Racmacs_reduce_matrix_dimensions", (DL_FUNC) &_Racmacs_reduce_matrix_dimensions, 2},
     {"_Racmacs_json_to_acmap", (DL_FUNC) &_Racmacs_json_to_acmap, 1},
     {"_Racmacs_acmap_to_json", (DL_FUNC) &_Racmacs_acmap_to_json, 3},

@@ -77,5 +77,20 @@ arma::ivec titer_types_int(
 
 }
 
+// Make titers from numeric and titer types
+// [[Rcpp::export]]
+std::vector<AcTiter> make_titers(
+    arma::vec numeric_titers,
+    arma::ivec titer_types_int
+){
+
+  std::vector<AcTiter> titers(numeric_titers.n_elem);
+  for(arma::uword i=0; i<numeric_titers.n_elem; i++){
+    titers[i] = AcTiter(numeric_titers[i], titer_types_int[i]);
+  }
+  return titers;
+
+}
+
 
 

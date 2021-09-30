@@ -4,7 +4,7 @@
 \alias{htmlAdjustedTiterTable}
 \title{Return an html formatted titer table with antigen reactivity adjustments applied}
 \usage{
-htmlAdjustedTiterTable(map, optimization_number)
+htmlAdjustedTiterTable(map, optimization_number = 1)
 }
 \arguments{
 \item{map}{An acmap object}

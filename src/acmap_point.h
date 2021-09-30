@@ -63,6 +63,26 @@ class AcPoint {
       }
     }
 
+    // Check if values are defaults
+    bool isdefault(std::string attribute) {
+
+      if (attribute == "passage") {
+        return(passage == "");
+      } else if (attribute == "clade") {
+        return(clade.size() == 0);
+        return(passage == "");
+      } else if (attribute == "group") {
+        return(group == 0);
+      } else if (attribute == "sequence") {
+        return(sequence == "");
+      } else if (attribute == "id") {
+        return(id == "");
+      } else {
+        return(false);
+      }
+
+    }
+
 };
 
 // Define the antigen class

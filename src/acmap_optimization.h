@@ -600,6 +600,73 @@ class AcOptimization {
 
     }
 
+    // Check if values are still the default (used when outputting to json)
+    bool isdefault(
+        std::string attribute
+    ) {
+
+      if (attribute == "fixed_column_bases") {
+
+        return(
+          arma::accu(arma::find_finite(fixed_column_bases)) == 0
+        );
+
+      } else if (attribute == "minimum_column_basis") {
+
+        return(
+          min_column_basis == "none"
+        );
+
+      } else if (attribute == "comment") {
+
+        return(
+          comment == ""
+        );
+
+      } else if (attribute == "transformation") {
+
+        return(
+          arma::approx_equal(
+            transformation,
+            arma::mat(ag_base_coords.n_cols, ag_base_coords.n_cols, arma::fill::eye),
+            "absdiff", 0.0001
+          )
+        );
+
+      } else if (attribute == "translation") {
+
+        return(
+          arma::approx_equal(
+            translation,
+            arma::mat(ag_base_coords.n_cols, 1, arma::fill::zeros),
+            "absdiff", 0.0001
+          )
+        );
+
+      } else if (attribute == "ag_reactivity") {
+
+        return(
+          arma::approx_equal(
+            ag_reactivity_adjustments,
+            arma::vec(ag_base_coords.n_rows, arma::fill::zeros),
+            "absdiff", 0.0001
+          )
+        );
+
+      } else if (attribute == "bootstrap") {
+
+        return(
+          bootstrap.size() == 0
+        );
+
+      } else {
+
+        return(false);
+
+      }
+
+    }
+
 };
 
 #endif

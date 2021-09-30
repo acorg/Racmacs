@@ -337,6 +337,25 @@ class AcMap {
       pt_drawing_order = order;
     }
 
+    // Determine if setting are defaults, useful when outputting to json
+    bool isdefault(
+        std::string attribute
+    ) {
+
+      if (attribute == "ag_group_levels") {
+        return(ag_group_levels.size() == 0);
+      }
+      else if (attribute == "sr_group_levels") {
+        return(sr_group_levels.size() == 0);
+      }
+      else if (attribute == "dilution_stepsize") {
+        return(dilution_stepsize == 1);
+      } else {
+        return(false);
+      }
+
+    }
+
 };
 
 #endif

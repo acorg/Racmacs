@@ -1466,15 +1466,16 @@ BEGIN_RCPP
 END_RCPP
 }
 // acmap_to_json
-std::string acmap_to_json(AcMap map, std::string version, bool pretty);
-RcppExport SEXP _Racmacs_acmap_to_json(SEXP mapSEXP, SEXP versionSEXP, SEXP prettySEXP) {
+std::string acmap_to_json(AcMap map, std::string version, bool pretty, bool round_titers);
+RcppExport SEXP _Racmacs_acmap_to_json(SEXP mapSEXP, SEXP versionSEXP, SEXP prettySEXP, SEXP round_titersSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< AcMap >::type map(mapSEXP);
     Rcpp::traits::input_parameter< std::string >::type version(versionSEXP);
     Rcpp::traits::input_parameter< bool >::type pretty(prettySEXP);
-    rcpp_result_gen = Rcpp::wrap(acmap_to_json(map, version, pretty));
+    Rcpp::traits::input_parameter< bool >::type round_titers(round_titersSEXP);
+    rcpp_result_gen = Rcpp::wrap(acmap_to_json(map, version, pretty, round_titers));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -1694,7 +1695,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_Racmacs_make_titers", (DL_FUNC) &_Racmacs_make_titers, 2},
     {"_Racmacs_reduce_matrix_dimensions", (DL_FUNC) &_Racmacs_reduce_matrix_dimensions, 2},
     {"_Racmacs_json_to_acmap", (DL_FUNC) &_Racmacs_json_to_acmap, 1},
-    {"_Racmacs_acmap_to_json", (DL_FUNC) &_Racmacs_acmap_to_json, 3},
+    {"_Racmacs_acmap_to_json", (DL_FUNC) &_Racmacs_acmap_to_json, 4},
     {"_Racmacs_ac_procrustes", (DL_FUNC) &_Racmacs_ac_procrustes, 4},
     {"_Racmacs_ac_align_coords", (DL_FUNC) &_Racmacs_ac_align_coords, 4},
     {"_Racmacs_ac_procrustes_map_coords", (DL_FUNC) &_Racmacs_ac_procrustes_map_coords, 6},

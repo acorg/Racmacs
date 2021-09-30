@@ -57,3 +57,5 @@
 * Added `htmlMergeReport()` showing how titers were merged as a formatted html table.
 * Added `htmlTiterTable()` for visualizing an html formatted titer table
 * Added functions for getting titers after applying antigen reactivity adjustments set with `agReactivityAdjustments()<-`, namely `adjustedTiterTable()`, `adjustedLogTiterTable()`, `htmlAdjustedTiterTable()`
+* Details are no longer saved in map json if they are map defaults
+* Added an option to round titers to the nearest unit when outputting (for e.g. listmds compatibility)

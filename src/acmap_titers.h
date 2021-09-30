@@ -120,6 +120,11 @@ class AcTiter {
       }
     }
 
+    // Round the titer
+    void roundTiter() {
+      numeric = round(numeric);
+    }
+
 };
 
 
@@ -437,6 +442,11 @@ class AcTiterTable {
       logtiters += log_titers_to_add;
       numeric_titers = arma::exp2(logtiters)*10.0;
 
+    }
+
+    // Round the titers
+    void roundTiters() {
+      numeric_titers = arma::round(numeric_titers);
     }
 
 };

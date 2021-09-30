@@ -497,8 +497,8 @@ json_to_acmap <- function(json) {
     .Call('_Racmacs_json_to_acmap', PACKAGE = 'Racmacs', json)
 }
 
-acmap_to_json <- function(map, version, pretty) {
-    .Call('_Racmacs_acmap_to_json', PACKAGE = 'Racmacs', map, version, pretty)
+acmap_to_json <- function(map, version, pretty, round_titers) {
+    .Call('_Racmacs_acmap_to_json', PACKAGE = 'Racmacs', map, version, pretty, round_titers)
 }
 
 ac_procrustes <- function(X, Xstar, translation, dilation) {

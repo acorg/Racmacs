@@ -197,8 +197,11 @@ plot.acmap <- function(
     pc_coords <- rbind(pc_data$ag_coords, pc_data$sr_coords)
     pc_coords_na <- is.na(pc_coords[,1])
 
-    pts$fill[pc_coords_na] <- grDevices::adjustcolor(pts$fill[pc_coords_na], alpha.f = 0.2)
-    pts$outline[pc_coords_na] <- grDevices::adjustcolor(pts$outline[pc_coords_na], alpha.f = 0.2)
+    # Fade out points with NA procrustes coords
+    if (sum(pc_coords_na) > 0) {
+      pts$fill[pc_coords_na] <- grDevices::adjustcolor(pts$fill[pc_coords_na], alpha.f = 0.2)
+      pts$outline[pc_coords_na] <- grDevices::adjustcolor(pts$outline[pc_coords_na], alpha.f = 0.2)
+    }
 
   }
 

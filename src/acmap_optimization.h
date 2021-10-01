@@ -600,6 +600,31 @@ class AcOptimization {
 
     }
 
+    // Scale
+    void scale(
+        double scaling
+    ) {
+
+      transform(
+        ac_scaling_matrix(
+          dim(),
+          scaling
+        )
+      );
+
+    }
+
+    // Set scaling
+    void set_scaling(
+        double scaling
+    ) {
+
+      double current_scaling = arma::det(transformation);
+      double scaling_diff = scaling / current_scaling;
+      scale(scaling_diff);
+
+    }
+
     // Check if values are still the default (used when outputting to json)
     bool isdefault(
         std::string attribute

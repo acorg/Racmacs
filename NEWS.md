@@ -59,3 +59,4 @@
 * Added functions for getting titers after applying antigen reactivity adjustments set with `agReactivityAdjustments()<-`, namely `adjustedTiterTable()`, `adjustedLogTiterTable()`, `htmlAdjustedTiterTable()`
 * Details are no longer saved in map json if they are map defaults
 * Added an option to round titers to the nearest unit when outputting (for e.g. listmds compatibility)
+* Adds the ability to apply and set scaling on an optimization

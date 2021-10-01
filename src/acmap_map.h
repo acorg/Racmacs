@@ -323,6 +323,7 @@ class AcMap {
         // Apply it to the optimization
         optimization.set_transformation( pc.R );
         optimization.set_translation( pc.tt );
+        optimization.set_scaling( pc.s );
 
       }
 

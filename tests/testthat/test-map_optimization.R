@@ -4,20 +4,19 @@ library(testthat)
 context("Optimizing maps")
 set.seed(100)
 
-# map <- read.acmap(test_path("../../inst/extdata/h3map2004.ace"))
-# start <- Sys.time()
-# map <- optimizeMap(
-#   map = map,
-#   number_of_dimensions = 2,
-#   number_of_optimizations = 100,
-#   minimum_column_basis = "none"
-# )
-# end <- Sys.time()
-# print(end - start)
-# # map <- moveTrappedPoints(map)
-# # grid.plot.acmap(checkHemisphering(map))
-# plot(map)
-# stop()
+# Rough benchmarking ~4.5 secs
+if (1==2) {
+  map <- read.acmap(test_path("../../inst/extdata/h3map2004.ace"))
+  start <- Sys.time()
+  map <- optimizeMap(
+    map = map,
+    number_of_dimensions = 2,
+    number_of_optimizations = 100,
+    minimum_column_basis = "none"
+  )
+  end <- Sys.time()
+  print(end - start)
+}
 
 # Generate some toy data
 ag_coords <- cbind(-4:4, runif(9, -1, 1))

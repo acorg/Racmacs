@@ -36,6 +36,12 @@ class MapOptimizer {
     arma::uword num_sr;
     arma::uvec moveable_ags;
     arma::uvec moveable_sr;
+    arma::uvec included_ags;
+    arma::uvec included_srs;
+    arma::uvec::iterator agi;
+    arma::uvec::iterator agi_end;
+    arma::uvec::iterator sri;
+    arma::uvec::iterator sri_end;
     arma::mat titer_weights;
     arma::mat ag_gradients;
     arma::mat sr_gradients;
@@ -66,6 +72,12 @@ class MapOptimizer {
       // Set default moveable antigens and sera to all
       moveable_ags = arma::regspace<arma::uvec>(0, num_ags - 1);
       moveable_sr = arma::regspace<arma::uvec>(0, num_sr - 1);
+
+      // Set included antigens and sera
+      included_ags = arma::find_finite(ag_start_coords.col(0));
+      included_srs = arma::find_finite(sr_start_coords.col(0));
+      agi_end = included_ags.end();
+      sri_end = included_srs.end();
 
       // Set default weights to 1
       titer_weights.ones(num_ags, num_sr);
@@ -109,6 +121,12 @@ class MapOptimizer {
       // Set default weights to 1 if missing
       if (titer_weights_in.n_elem == 0) titer_weights.ones(num_ags, num_sr);
       else                              titer_weights = titer_weights_in;
+
+      // Set included antigens and sera
+      included_ags = arma::find_finite(ag_start_coords.col(0));
+      included_srs = arma::find_finite(sr_start_coords.col(0));
+      agi_end = included_ags.end();
+      sri_end = included_srs.end();
 
       // Setup map dist matrices
       mapdist_matrix = arma::mat(num_ags, num_sr, arma::fill::zeros);
@@ -172,27 +190,27 @@ class MapOptimizer {
       sr_gradients.zeros();
 
       // Now we cycle through each antigen and sera and calculate the gradient
-      for(arma::uword sr = 0; sr < num_sr; ++sr) {
-        for(arma::uword ag = 0; ag < num_ags; ++ag) {
+      for(sri = included_srs.begin(); sri != sri_end; ++sri) {
+        for(agi = included_ags.begin(); agi != agi_end; ++agi) {
 
           // Skip unmeasured titers
-          if(titertype_matrix.at(ag, sr) <= 0){
+          if(titertype_matrix.at(*agi, *sri) <= 0){
             continue;
           }
 
           // Calculate inc_base
-          double ibase = titer_weights.at(ag,sr) * inc_base(
-            mapdist_matrix.at(ag, sr),
-            tabledist_matrix.at(ag, sr),
-            titertype_matrix.at(ag, sr),
+          double ibase = titer_weights.at(*agi,*sri) * inc_base(
+            mapdist_matrix.at(*agi, *sri),
+            tabledist_matrix.at(*agi, *sri),
+            titertype_matrix.at(*agi, *sri),
             dilution_stepsize
           );
 
           // Now calculate the gradient for each coordinate
           for(arma::uword i = 0; i < num_dims; ++i) {
-            gradient = ibase*(ag_coords.at(ag, i) - sr_coords.at(sr, i));
-            ag_gradients.at(ag, i) -= gradient;
-            sr_gradients.at(sr, i) += gradient;
+            gradient = ibase*(ag_coords.at(*agi, i) - sr_coords.at(*sri, i));
+            ag_gradients.at(*agi, i) -= gradient;
+            sr_gradients.at(*sri, i) += gradient;
           }
 
         }
@@ -207,19 +225,19 @@ class MapOptimizer {
       stress = 0;
 
       // Now we cycle through and sum up the stresses
-      for(arma::uword sr = 0; sr < num_sr; ++sr) {
-        for(arma::uword ag = 0; ag < num_ags; ++ag) {
+      for(sri = included_srs.begin(); sri != sri_end; ++sri) {
+        for(agi = included_ags.begin(); agi != agi_end; ++agi) {
 
           // Skip unmeasured titers
-          if(titertype_matrix.at(ag,sr) <= 0){
+          if(titertype_matrix.at(*agi,*sri) <= 0){
             continue;
           }
 
           // Now calculate the stress
-          stress += titer_weights.at(ag,sr) * ac_ptStress(
-            mapdist_matrix.at(ag,sr),
-            tabledist_matrix.at(ag,sr),
-            titertype_matrix.at(ag,sr),
+          stress += titer_weights.at(*agi,*sri) * ac_ptStress(
+            mapdist_matrix.at(*agi,*sri),
+            tabledist_matrix.at(*agi,*sri),
+            titertype_matrix.at(*agi,*sri),
             dilution_stepsize
           );
 
@@ -253,15 +271,15 @@ class MapOptimizer {
     // UPDATE THE MAP DISTANCE MATRIX
     void update_map_dist_matrix(){
 
-      for (arma::uword sr = 0; sr < num_sr; sr++) {
-        for (arma::uword ag = 0; ag < num_ags; ag++) {
+      for(sri = included_srs.begin(); sri != sri_end; ++sri) {
+        for(agi = included_ags.begin(); agi != agi_end; ++agi) {
 
           // Only calculate distances where ag and sr were titrated
-          if(titertype_matrix.at(ag,sr) <= 0) continue;
+          if(titertype_matrix.at(*agi,*sri) <= 0) continue;
 
           // Calculate the euclidean distance
-          mapdist_matrix.at(ag,sr) = sqrt(arma::accu(arma::square(
-            ag_coords.row(ag) - sr_coords.row(sr)
+          mapdist_matrix.at(*agi,*sri) = sqrt(arma::accu(arma::square(
+            ag_coords.row(*agi) - sr_coords.row(*sri)
           )));
 
         }

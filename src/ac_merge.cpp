@@ -540,8 +540,8 @@ AcMap ac_merge_frozen_merge(
   merged_map.optimizations[0].relax_from_titer_table(
       merged_map.titer_table_flat,
       optimizer_options,
-      map1_ag_matches,
-      map1_sr_matches
+      map1_ag_matches, // Fixed antigens
+      map1_sr_matches  // Fixed sera
   );
 
   // Return the map

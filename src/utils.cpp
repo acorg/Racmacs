@@ -5,13 +5,22 @@ double rmsd(
   const arma::vec &x
 ){
 
-  return std::sqrt(
-    arma::mean(
-      arma::square(
-        x.elem( arma::find_finite(x) )
+  arma::uvec x_finite = arma::find_finite(x);
+  if (x_finite.n_elem == 0) {
+
+    return arma::datum::nan;
+
+  } else {
+
+    return std::sqrt(
+      arma::mean(
+        arma::square(
+          x.elem( x_finite )
+        )
       )
-    )
-  );
+    );
+
+  }
 
 }
 

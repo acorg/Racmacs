@@ -101,8 +101,8 @@ class MapOptimizer {
       arma::mat tabledist,
       arma::imat titertype,
       arma::uword dims,
-      arma::uvec moveable_ags,
-      arma::uvec moveable_sr,
+      arma::uvec ag_fixed,
+      arma::uvec sr_fixed,
       arma::mat titer_weights_in,
       double dilution_stepsize
     )
@@ -113,14 +113,16 @@ class MapOptimizer {
        num_dims(dims),
        num_ags(tabledist.n_rows),
        num_sr(tabledist.n_cols),
-       moveable_ags(moveable_ags),
-       moveable_sr(moveable_sr),
        dilution_stepsize(dilution_stepsize)
       {
 
       // Set default weights to 1 if missing
       if (titer_weights_in.n_elem == 0) titer_weights.ones(num_ags, num_sr);
       else                              titer_weights = titer_weights_in;
+
+      // Set moveable antigens
+      moveable_ags = arma::find(ag_fixed == 0);
+      moveable_sr = arma::find(sr_fixed == 0);
 
       // Set included antigens and sera
       included_ags = arma::find_finite(ag_start_coords.col(0));
@@ -418,20 +420,13 @@ double ac_relax_coords(
     const double &dilution_stepsize
 ){
 
-  // Set variables
-  arma::uword num_dims = ag_coords.n_cols;
-  arma::uvec moveable_antigens = arma::regspace<arma::uvec>(0, ag_coords.n_rows - 1);
-  arma::uvec moveable_sera = arma::regspace<arma::uvec>(0, sr_coords.n_rows - 1);
-  moveable_antigens.shed_rows(fixed_antigens);
-  moveable_sera.shed_rows(fixed_sera);
-
   // Do not move antigens and sera with NA coords
-  arma::mat moveable_ag_coords = ag_coords.rows(moveable_antigens);
-  arma::mat moveable_sr_coords = sr_coords.rows(moveable_sera);
-  arma::uvec moveable_antigens_na_coords = arma::find_nonfinite(moveable_ag_coords.col(0));
-  arma::uvec moveable_sera_na_coords = arma::find_nonfinite(moveable_sr_coords.col(0));
-  moveable_antigens.shed_rows(moveable_antigens_na_coords);
-  moveable_sera.shed_rows(moveable_sera_na_coords);
+  arma::uvec ag_fixed(ag_coords.n_rows, arma::fill::zeros);
+  arma::uvec sr_fixed(sr_coords.n_rows, arma::fill::zeros);
+  ag_fixed.elem(fixed_antigens).ones();
+  sr_fixed.elem(fixed_sera).ones();
+  ag_fixed.elem(arma::find_nonfinite(ag_coords.col(0))).ones();
+  sr_fixed.elem(arma::find_nonfinite(sr_coords.col(0))).ones();
 
   // Create the map object for the map optimizer
   MapOptimizer map(
@@ -439,17 +434,17 @@ double ac_relax_coords(
     sr_coords,
     tabledist_matrix,
     titertype_matrix,
-    num_dims,
-    moveable_antigens,
-    moveable_sera,
+    ag_coords.n_cols,
+    ag_fixed,
+    sr_fixed,
     titer_weights,
     dilution_stepsize
   );
 
   // Create the vector of parameters
   arma::mat pars = arma::join_cols(
-    ag_coords.rows(moveable_antigens),
-    sr_coords.rows(moveable_sera)
+    ag_coords.rows(arma::find(ag_fixed == 0)),
+    sr_coords.rows(arma::find(sr_fixed == 0))
   );
 
   // Perform the optimization

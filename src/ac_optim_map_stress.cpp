@@ -425,6 +425,14 @@ double ac_relax_coords(
   moveable_antigens.shed_rows(fixed_antigens);
   moveable_sera.shed_rows(fixed_sera);
 
+  // Do not move antigens and sera with NA coords
+  arma::mat moveable_ag_coords = ag_coords.rows(moveable_antigens);
+  arma::mat moveable_sr_coords = sr_coords.rows(moveable_sera);
+  arma::uvec moveable_antigens_na_coords = arma::find_nonfinite(moveable_ag_coords.col(0));
+  arma::uvec moveable_sera_na_coords = arma::find_nonfinite(moveable_sr_coords.col(0));
+  moveable_antigens.shed_rows(moveable_antigens_na_coords);
+  moveable_sera.shed_rows(moveable_sera_na_coords);
+
   // Create the map object for the map optimizer
   MapOptimizer map(
     ag_coords,

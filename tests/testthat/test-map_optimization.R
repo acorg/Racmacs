@@ -538,3 +538,23 @@ test_that("Setting high min column bases", {
 })
 
 
+# Relaxing a map with NA coords
+test_that("Relaxing a map with NA coords", {
+
+  map <- read.acmap(test_path("../testdata/testmap.ace"))
+  agCoords(map)[2:3,] <- NA
+  map_relaxed <- relaxMap(map)
+
+  expect_lt(
+    mapStress(map_relaxed),
+    mapStress(map)
+  )
+
+  expect_gt(
+    mapStress(map_relaxed),
+    0
+  )
+
+})
+
+

@@ -103,4 +103,5 @@ dependencies:
       - functions/bootstrap.js
       - functions/sequences.js
       - functions/optimization.js
+      - functions/agreactivity.js
 

@@ -10,6 +10,8 @@ optimizeAgReactivity(
   reactivity_stress_weighting = 1,
   fixed_ag_reactivities = rep(NA, numAntigens(map)),
   start_pars = rep(0, numAntigens(map)),
+  reoptimize = FALSE,
+  number_of_optimizations = 100,
   options = list()
 )
 }
@@ -30,6 +32,13 @@ be optimized.}
 \item{start_pars}{A vector of starting parameters to use for the optimizer,
 you can still supply starting parameters for antigens listed in
 \code{fixed_ag_reactivities} but they will be ignored.}
+
+\item{reoptimize}{Should the map be reoptimized from scratch (slower but
+more likely to explore other optima) when testing each reactivity adjustment
+or simply relaxed from it's current coordinates (default)}
+
+\item{number_of_optimizations}{If reoptimizing from scratch, how many optimization
+runs should be performed each time.}
 
 \item{options}{A named list of additional options to pass to
 \code{RacOptimizer.options()}}

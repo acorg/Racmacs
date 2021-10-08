@@ -10,6 +10,11 @@
 #' @param fixed_ag_reactivities A vector of fixed antigen reactivities,
 #'   use NA values to distinguish the positions you would still like to
 #'   be optimized.
+#' @param reoptimize Should the map be reoptimized from scratch (slower but
+#'   more likely to explore other optima) when testing each reactivity adjustment
+#'   or simply relaxed from it's current coordinates (default)
+#' @param number_of_optimizations If reoptimizing from scratch, how many optimization
+#'   runs should be performed each time.
 #' @param start_pars A vector of starting parameters to use for the optimizer,
 #'   you can still supply starting parameters for antigens listed in
 #'   `fixed_ag_reactivities` but they will be ignored.
@@ -28,6 +33,8 @@ optimizeAgReactivity <- function(
   reactivity_stress_weighting = 1,
   fixed_ag_reactivities = rep(NA, numAntigens(map)),
   start_pars = rep(0, numAntigens(map)),
+  reoptimize = FALSE,
+  number_of_optimizations = 100,
   options = list()
   ) {
 
@@ -58,7 +65,10 @@ optimizeAgReactivity <- function(
     fixed_antigens = integer(),
     fixed_sera = integer(),
     titer_weights = matrix(1, numAntigens(map), numSera(map)),
-    reactivity_stress_weighting = reactivity_stress_weighting
+    reactivity_stress_weighting = reactivity_stress_weighting,
+    reoptimize = reoptimize,
+    num_optimizations = number_of_optimizations,
+    dilution_stepsize = dilutionStepsize(map)
   )
 
   # Apply the reactivity adjustments

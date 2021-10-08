@@ -60,3 +60,4 @@
 * Details are no longer saved in map json if they are map defaults
 * Added an option to round titers to the nearest unit when outputting (for e.g. listmds compatibility)
 * Adds the ability to apply and set scaling on an optimization
+* Add option to optimize from scratch when performing optimizeAgReactivity

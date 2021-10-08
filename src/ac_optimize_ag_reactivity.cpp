@@ -14,7 +14,7 @@ double ac_reactivity_adjustment_stress(
     const AcTiterTable &titertable,
     arma::mat ag_coords,
     arma::mat sr_coords,
-    const AcOptimizerOptions &options,
+    AcOptimizerOptions &options,
     const arma::uvec &fixed_antigens,
     const arma::uvec &fixed_sera,
     const arma::mat &titer_weights,

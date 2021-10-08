@@ -1358,8 +1358,8 @@ BEGIN_RCPP
 END_RCPP
 }
 // ac_reactivity_adjustment_stress
-double ac_reactivity_adjustment_stress(const arma::vec& par, const arma::vec& fixed_ag_reactivities, const std::string& minimum_column_basis, const arma::vec& fixed_column_bases, const AcTiterTable& titertable, arma::mat ag_coords, arma::mat sr_coords, const AcOptimizerOptions& options, const arma::uvec& fixed_antigens, const arma::uvec& fixed_sera, const arma::mat& titer_weights, const double& reactivity_stress_weighting);
-RcppExport SEXP _Racmacs_ac_reactivity_adjustment_stress(SEXP parSEXP, SEXP fixed_ag_reactivitiesSEXP, SEXP minimum_column_basisSEXP, SEXP fixed_column_basesSEXP, SEXP titertableSEXP, SEXP ag_coordsSEXP, SEXP sr_coordsSEXP, SEXP optionsSEXP, SEXP fixed_antigensSEXP, SEXP fixed_seraSEXP, SEXP titer_weightsSEXP, SEXP reactivity_stress_weightingSEXP) {
+double ac_reactivity_adjustment_stress(const arma::vec& par, const arma::vec& fixed_ag_reactivities, const std::string& minimum_column_basis, const arma::vec& fixed_column_bases, const AcTiterTable& titertable, arma::mat ag_coords, arma::mat sr_coords, AcOptimizerOptions& options, const arma::uvec& fixed_antigens, const arma::uvec& fixed_sera, const arma::mat& titer_weights, const double& reactivity_stress_weighting, const bool reoptimize, const arma::uword num_optimizations, const double& dilution_stepsize);
+RcppExport SEXP _Racmacs_ac_reactivity_adjustment_stress(SEXP parSEXP, SEXP fixed_ag_reactivitiesSEXP, SEXP minimum_column_basisSEXP, SEXP fixed_column_basesSEXP, SEXP titertableSEXP, SEXP ag_coordsSEXP, SEXP sr_coordsSEXP, SEXP optionsSEXP, SEXP fixed_antigensSEXP, SEXP fixed_seraSEXP, SEXP titer_weightsSEXP, SEXP reactivity_stress_weightingSEXP, SEXP reoptimizeSEXP, SEXP num_optimizationsSEXP, SEXP dilution_stepsizeSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -1370,12 +1370,15 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< const AcTiterTable& >::type titertable(titertableSEXP);
     Rcpp::traits::input_parameter< arma::mat >::type ag_coords(ag_coordsSEXP);
     Rcpp::traits::input_parameter< arma::mat >::type sr_coords(sr_coordsSEXP);
-    Rcpp::traits::input_parameter< const AcOptimizerOptions& >::type options(optionsSEXP);
+    Rcpp::traits::input_parameter< AcOptimizerOptions& >::type options(optionsSEXP);
     Rcpp::traits::input_parameter< const arma::uvec& >::type fixed_antigens(fixed_antigensSEXP);
     Rcpp::traits::input_parameter< const arma::uvec& >::type fixed_sera(fixed_seraSEXP);
     Rcpp::traits::input_parameter< const arma::mat& >::type titer_weights(titer_weightsSEXP);
     Rcpp::traits::input_parameter< const double& >::type reactivity_stress_weighting(reactivity_stress_weightingSEXP);
-    rcpp_result_gen = Rcpp::wrap(ac_reactivity_adjustment_stress(par, fixed_ag_reactivities, minimum_column_basis, fixed_column_bases, titertable, ag_coords, sr_coords, options, fixed_antigens, fixed_sera, titer_weights, reactivity_stress_weighting));
+    Rcpp::traits::input_parameter< const bool >::type reoptimize(reoptimizeSEXP);
+    Rcpp::traits::input_parameter< const arma::uword >::type num_optimizations(num_optimizationsSEXP);
+    Rcpp::traits::input_parameter< const double& >::type dilution_stepsize(dilution_stepsizeSEXP);
+    rcpp_result_gen = Rcpp::wrap(ac_reactivity_adjustment_stress(par, fixed_ag_reactivities, minimum_column_basis, fixed_column_bases, titertable, ag_coords, sr_coords, options, fixed_antigens, fixed_sera, titer_weights, reactivity_stress_weighting, reoptimize, num_optimizations, dilution_stepsize));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -1687,7 +1690,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_Racmacs_ac_point_residuals", (DL_FUNC) &_Racmacs_ac_point_residuals, 6},
     {"_Racmacs_ac_relax_coords", (DL_FUNC) &_Racmacs_ac_relax_coords, 9},
     {"_Racmacs_ac_runOptimizations", (DL_FUNC) &_Racmacs_ac_runOptimizations, 9},
-    {"_Racmacs_ac_reactivity_adjustment_stress", (DL_FUNC) &_Racmacs_ac_reactivity_adjustment_stress, 12},
+    {"_Racmacs_ac_reactivity_adjustment_stress", (DL_FUNC) &_Racmacs_ac_reactivity_adjustment_stress, 15},
     {"_Racmacs_ac_stress_blob_grid", (DL_FUNC) &_Racmacs_ac_stress_blob_grid, 7},
     {"_Racmacs_numeric_titers", (DL_FUNC) &_Racmacs_numeric_titers, 1},
     {"_Racmacs_log_titers", (DL_FUNC) &_Racmacs_log_titers, 2},

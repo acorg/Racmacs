@@ -216,7 +216,7 @@ Racmacs.Data = class Data {
     }
 
     translation(){
-        if(this.data.c.x.p && this.data.c.x.p[this.pnum].t){
+        if(this.data.c.x && this.data.c.x.p && this.data.c.x.p[this.pnum].t){
             return(this.data.c.x.p[this.pnum].t);
         } else {
             return(null);
@@ -297,7 +297,7 @@ Racmacs.Data = class Data {
     srCoords(i){ return(this.ptCoords(i + this.numAntigens())); }
 
     agSequences(i){
-        if(this.data.c.x.a[0].q){
+        if(this.data.c.x && this.data.c.x.a && this.data.c.x.a[0].q){
             if(i === undefined) return(this.data.c.x.a.map( p => p.q.split("") ));
             else                return(this.data.c.x.a[i].q.split(""));
         } else {
@@ -306,7 +306,7 @@ Racmacs.Data = class Data {
     }
 
     srSequences(i){
-        if(this.data.c.x.s[0].q){
+        if(this.data.c.x && this.data.c.x.s && this.data.c.x.s[0].q){
             if(i === undefined) return(this.data.c.x.s.map( p => p.q.split("") ));
             else                return(this.data.c.x.s[i].q.split(""));
         } else {

@@ -61,3 +61,4 @@
 * Added an option to round titers to the nearest unit when outputting (for e.g. listmds compatibility)
 * Adds the ability to apply and set scaling on an optimization
 * Add option to optimize from scratch when performing optimizeAgReactivity
+* Fix an error when performing procrustes with some coordinates set to NA

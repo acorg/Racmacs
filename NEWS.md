@@ -62,3 +62,4 @@
 * Adds the ability to apply and set scaling on an optimization
 * Add option to optimize from scratch when performing optimizeAgReactivity
 * Fix an error when performing procrustes with some coordinates set to NA
+* Fix an error where transforming na coordinates in the viewer would give a numeric value

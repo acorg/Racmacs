@@ -76,6 +76,7 @@ test_that("Bayesian bootstrap", {
     optimizations_per_repeat = 10
   )
 
+
   sample1 <- bsmap$optimizations[[1]]$bootstrap[[1]]$sampling
   expect_equal(length(mapBootstrap_agCoords(bsmap)), num_bs_repeats)
   expect_equal(length(mapBootstrap_srCoords(bsmap)), num_bs_repeats)
@@ -91,6 +92,12 @@ test_that("Resample bootstrap", {
     method = "resample",
     bootstrap_repeats        = num_bs_repeats,
     optimizations_per_repeat = 10
+  )
+
+  bsmap_withblobs <- bootstrapBlobs(bsmap)
+  export.viewer.test(
+    view(bsmap_withblobs),
+    "resample_bsmap_with_blobs.html"
   )
 
   expect_equal(length(mapBootstrap_agCoords(bsmap)), num_bs_repeats)

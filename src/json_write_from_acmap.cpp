@@ -11,8 +11,17 @@ using namespace rapidjson;
 std::string acmap_to_json(
     AcMap map,
     std::string version,
-    bool pretty
+    bool pretty,
+    bool round_titers
 ){
+
+  // Round titers if requested
+  if (round_titers) {
+    map.titer_table_flat.roundTiters();
+    for(auto &titer_table : map.titer_table_layers){
+      titer_table.roundTiters();
+    }
+  }
 
   // Setup the document
   Document doc;
@@ -44,8 +53,8 @@ std::string acmap_to_json(
     Value agval(kObjectType);
 
     agval.AddMember("N", jsonifya(ag.get_name(), allocator), allocator);
-    agval.AddMember("P", jsonifya(ag.get_passage(), allocator), allocator);
-    agval.AddMember("c", jsonifya(ag.get_clade(), allocator), allocator);
+    if (!ag.isdefault("passage")) agval.AddMember("P", jsonifya(ag.get_passage(), allocator), allocator);
+    if (!ag.isdefault("clade"))   agval.AddMember("c", jsonifya(ag.get_clade(), allocator), allocator);
     // set_group_values
     // set_date
     // set_reference
@@ -67,8 +76,8 @@ std::string acmap_to_json(
     Value srval(kObjectType);
 
     srval.AddMember("N", jsonifya(sr.get_name(), allocator), allocator);
-    srval.AddMember("P", jsonifya(sr.get_passage(), allocator), allocator);
-    srval.AddMember("c", jsonifya(sr.get_clade(), allocator), allocator);
+    if (!sr.isdefault("passage")) srval.AddMember("P", jsonifya(sr.get_passage(), allocator), allocator);
+    if (!sr.isdefault("clade"))   srval.AddMember("c", jsonifya(sr.get_clade(), allocator), allocator);
     // set_group_values
     // set_date
     // set_reference
@@ -170,20 +179,28 @@ std::string acmap_to_json(
     Value optjson(kObjectType);
 
     // Comment
-    optjson.AddMember("c", jsonifya(map.optimizations[i].get_comment(), allocator), allocator);
+    if (!map.optimizations[i].isdefault("comment")) {
+      optjson.AddMember("c", jsonifya(map.optimizations[i].get_comment(), allocator), allocator);
+    }
 
     // Stress
     optjson.AddMember("s", jsonify(map.optimizations[i].stress), allocator);
 
     // Minimum column basis
-    optjson.AddMember("m", jsonifya(map.optimizations[i].get_min_column_basis(), allocator), allocator);
+    if (!map.optimizations[i].isdefault("minimum_column_basis")) {
+      optjson.AddMember("m", jsonifya(map.optimizations[i].get_min_column_basis(), allocator), allocator);
+    }
 
     // Fixed column bases
-    optjson.AddMember("C", jsonifya( map.optimizations[i].get_fixed_column_bases(), allocator), allocator);
+    if (!map.optimizations[i].isdefault("fixed_column_bases")) {
+      optjson.AddMember("C", jsonifya( map.optimizations[i].get_fixed_column_bases(), allocator), allocator);
+    }
 
     // Transformation
-    arma::vec transformation_vec = arma::vectorise( map.optimizations[i].get_transformation() );
-    optjson.AddMember("t", jsonifya( transformation_vec , allocator ), allocator);
+    if (!map.optimizations[i].isdefault("transformation")) {
+      arma::vec transformation_vec = arma::vectorise( map.optimizations[i].get_transformation() );
+      optjson.AddMember("t", jsonifya( transformation_vec , allocator ), allocator);
+    }
 
     // Coords
     arma::mat coords = arma::join_cols( map.optimizations[i].get_ag_base_coords(), map.optimizations[i].get_sr_base_coords() );
@@ -200,59 +217,89 @@ std::string acmap_to_json(
 
   // = AGs =
   Value xa(kArrayType);
+  bool ag_extras = false;
   for(arma::uword i=0; i<map.antigens.size(); i++){
     Value agx(kObjectType);
-    agx.AddMember("g", map.antigens[i].get_group(), allocator);
-    agx.AddMember("q", jsonifya(map.antigens[i].get_sequence(), allocator), allocator);
-    agx.AddMember("i", jsonifya(map.antigens[i].get_id(), allocator), allocator);
+    if (!map.antigens[i].isdefault("group")) {
+      ag_extras = true;
+      agx.AddMember("g", map.antigens[i].get_group(), allocator);
+    }
+    if (!map.antigens[i].isdefault("sequence")) {
+      ag_extras = true;
+      agx.AddMember("q", jsonifya(map.antigens[i].get_sequence(), allocator), allocator);
+    }
+    if (!map.antigens[i].isdefault("id")) {
+      ag_extras = true;
+      agx.AddMember("i", jsonifya(map.antigens[i].get_id(), allocator), allocator);
+    }
     xa.PushBack(agx, allocator);
   }
-  x.AddMember("a", xa, allocator);
+  if (ag_extras) x.AddMember("a", xa, allocator);
 
   // = SR =
   Value xs(kArrayType);
+  bool sr_extras = false;
   for(arma::uword i=0; i<map.sera.size(); i++){
     Value srx(kObjectType);
-    srx.AddMember("g", map.sera[i].get_group(), allocator);
-    srx.AddMember("q", jsonifya(map.sera[i].get_sequence(), allocator), allocator);
-    srx.AddMember("i", jsonifya(map.sera[i].get_id(), allocator), allocator);
+    if (!map.sera[i].isdefault("group")) {
+      sr_extras = true;
+      srx.AddMember("g", map.sera[i].get_group(), allocator);
+    }
+    if (!map.sera[i].isdefault("sequence")) {
+      sr_extras = true;
+      srx.AddMember("q", jsonifya(map.sera[i].get_sequence(), allocator), allocator);
+    }
+    if (!map.sera[i].isdefault("id")) {
+      sr_extras = true;
+      srx.AddMember("i", jsonifya(map.sera[i].get_id(), allocator), allocator);
+    }
     xs.PushBack(srx, allocator);
   }
-  x.AddMember("s", xs, allocator);
+  if (sr_extras) x.AddMember("s", xs, allocator);
 
   // = OPTIMIZATIONS =
   Value xp(kArrayType);
+  bool opt_extras = false;
   for(arma::uword i=0; i<map.optimizations.size(); i++){
 
     Value optx(kObjectType);
 
     // Translation
-    optx.AddMember(
-      "t",
-      jsonifya(
-        arma::conv_to<arma::vec>::from(map.optimizations[i].get_translation()),
-        allocator
-      ),
-      allocator
-    );
-
-    // Ag reactivity adjustments
-    optx.AddMember(
-      "r",
-      jsonifya(
-        map.optimizations[i].get_ag_reactivity_adjustments(),
-        allocator
-      ),
-      allocator
-    );
-
-    // Bootstrapping
-    if (map.optimizations[i].bootstrap.size() > 0) {
+    if (!map.optimizations[i].isdefault("translation")) {
+      opt_extras = true;
       optx.AddMember(
-        "b",
-        jsonifya(map.optimizations[i].bootstrap, allocator),
+        "t",
+        jsonifya(
+          arma::conv_to<arma::vec>::from(map.optimizations[i].get_translation()),
+          allocator
+        ),
         allocator
       );
+    }
+
+    // Ag reactivity adjustments
+    if (!map.optimizations[i].isdefault("ag_reactivity")) {
+      opt_extras = true;
+      optx.AddMember(
+        "r",
+        jsonifya(
+          map.optimizations[i].get_ag_reactivity_adjustments(),
+          allocator
+        ),
+        allocator
+      );
+    }
+
+    // Bootstrapping
+    if (!map.optimizations[i].isdefault("bootstrap")) {
+      opt_extras = true;
+      if (map.optimizations[i].bootstrap.size() > 0) {
+        optx.AddMember(
+          "b",
+          jsonifya(map.optimizations[i].bootstrap, allocator),
+          allocator
+        );
+      }
     }
 
     // // Hemisphering
@@ -297,12 +344,12 @@ std::string acmap_to_json(
     xp.PushBack(optx, allocator);
 
   }
-  x.AddMember("p", xp, allocator);
+  if (opt_extras) x.AddMember("p", xp, allocator);
 
   // = OTHER =
-  x.AddMember("agv", jsonifya(map.get_ag_group_levels(), allocator), allocator);
-  x.AddMember("srv", jsonifya(map.get_sr_group_levels(), allocator), allocator);
-  x.AddMember("ds",  map.dilution_stepsize, allocator);
+  if (!map.isdefault("ag_group_levels"))   x.AddMember("agv", jsonifya(map.get_ag_group_levels(), allocator), allocator);
+  if (!map.isdefault("sr_group_levels"))   x.AddMember("srv", jsonifya(map.get_sr_group_levels(), allocator), allocator);
+  if (!map.isdefault("dilution_stepsize")) x.AddMember("ds",  map.dilution_stepsize, allocator);
 
   // == FINISH UP ===============================
   // Assemble the json map data and add it
@@ -323,11 +370,13 @@ std::string acmap_to_json(
   if (pretty) {
 
     PrettyWriter<StringBuffer> writer(buffer);
+    writer.SetMaxDecimalPlaces(6);
     success = doc.Accept(writer);
 
   } else {
 
     Writer<StringBuffer> writer(buffer);
+    writer.SetMaxDecimalPlaces(6);
     success = doc.Accept(writer);
     // Writer<
     //   StringBuffer, // Output Stream

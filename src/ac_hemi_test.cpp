@@ -10,7 +10,7 @@ std::vector<HemiData> ac_hemi_test_points(
   arma::mat ag_coords,
   arma::mat sr_coords,
   arma::mat tabledists,
-  arma::umat titertypes,
+  arma::imat titertypes,
   double grid_spacing,
   double stress_lim,
   AcOptimizerOptions options,
@@ -168,7 +168,7 @@ AcOptimization ac_hemi_test(
     optimization.get_fixed_column_bases(),
     optimization.get_ag_reactivity_adjustments()
   );
-  arma::umat titertypes =titertable.get_titer_types();
+  arma::imat titertypes =titertable.get_titer_types();
 
   // Setup output
   arma::uword num_antigens = optimization.num_ags();

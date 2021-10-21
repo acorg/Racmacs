@@ -4,6 +4,7 @@
 .RData
 .Rapp.history
 .DS_Store
+.clang-format
 *.sublime-project
 *.sublime-workspace
 *.o

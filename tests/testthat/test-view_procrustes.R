@@ -124,6 +124,7 @@ test_that("Procrustes a map to another map", {
 
   pc12 <- procrustesMap(map1, map2)
   export.viewer.test(view(pc12), "map_procrustes_with_mismatches.html")
+  export.plot.test(plot(pc12), "map_procrustes_with_mismatches.pdf")
 
 })
 

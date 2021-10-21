@@ -4,14 +4,25 @@
 #ifndef Racmacs__ac_merge__h
 #define Racmacs__ac_merge__h
 
-// [[Rcpp::export]]
+
+// Merge options
+struct AcMergeOptions {
+  double sd_limit;
+  double dilution_stepsize;
+};
+
+
+// Merge titers
 AcTiter ac_merge_titers(
     const std::vector<AcTiter>& titers,
-    double sd_lim = 1.0
+    const AcMergeOptions& options
 );
 
+
+// Merge titer layers
 AcTiterTable ac_merge_titer_layers(
-    const std::vector<AcTiterTable>& titer_layers
+    const std::vector<AcTiterTable>& titer_layers,
+    const AcMergeOptions& options
 );
 
 #endif

@@ -619,7 +619,7 @@ class AcOptimization {
         double scaling
     ) {
 
-      double current_scaling = abs(arma::det(transformation));
+      double current_scaling = fabs(arma::det(transformation));
       double scaling_diff = scaling / current_scaling;
       scale(scaling_diff);
 

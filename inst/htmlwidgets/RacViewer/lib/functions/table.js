@@ -209,11 +209,11 @@ Racmacs.HItable = class HItable {
 		});
 
 		// Add titers
-		var titers = viewer.data.table();
+		var titers = viewer.data.titertable;
 		viewer.sera.map( (sera, j) => {
 			sera.titercells = [];
 			viewer.antigens.map( (antigen, i) => {
-				var cell = this.getCell(i,j)
+				var cell = this.getCell(i,j);
 				cell.innerHTML = titers[i][j];
 				cell.style.minWidth = this.cellwidth+"px";
 				cell.style.maxWidth = this.cellwidth+"px";
@@ -277,6 +277,38 @@ Racmacs.HItable = class HItable {
 						viewer.points.map( p => p.showErrors() );
 					}
 				});
+				cell.addEventListener("mouseup", e => {
+					cell.innerHTML = "";
+
+					var input = document.createElement("input");
+					input.value = viewer.data.titertable[i][j];
+					input.style.width = "100%";
+					input.style.fontSize = "inherit";
+					input.style.fontFamily = "inherit";
+					input.style.fontWeight = "inherit";
+					input.style.borderStyle = "none";
+					input.style.padding = 0;
+					input.style.margin = 0;
+					input.style.outline = "none";
+					input.style.backgroundColor = "transparent";
+					cell.style.outline = "solid 2px red";
+					cell.appendChild(input);
+					input.focus();
+					input.addEventListener("blur", e => {
+						cell.innerHTML = viewer.data.titertable[i][j];
+						cell.style.outline = "none";
+					});
+					input.addEventListener("change", e => {
+						viewer.data.setTiter(i, j, input.value);
+						this.logtiters = viewer.data.logtable();
+		                this.colbases  = viewer.data.colbases();
+						this.styleHighestTiters();
+						input.blur();
+						cell.innerHTML = viewer.data.titertable[i][j];
+						cell.style.outline = "none";
+					});
+
+				});
 			});
 		});
 
@@ -289,10 +321,7 @@ Racmacs.HItable = class HItable {
 		});
 
 		// Style highest in col
-		this.styleHighestTiters({
-			fontWeight : "bolder",
-			color      : "#000"
-		});
+		this.styleHighestTiters();
 
 		// Style row labels
 		var labelwidths = [];
@@ -466,14 +495,16 @@ Racmacs.HItable = class HItable {
 		}
 	}
 
-	styleHighestTiters(styles){
+	styleHighestTiters(){
 		for(var i=0; i<this.nrow; i++){
 			for(var j=0; j<this.ncol; j++){
+				var cell = this.getCell(i,j);
 				if(this.logtiters[i][j] >= this.colbases[j]){
-				    var cell = this.getCell(i,j);
-					for(var s in styles){
-						cell.style[s] = styles[s];
-					}
+					cell.style.fontWeight = "bolder";
+					cell.style.color = "#000000";
+				} else {
+					cell.style.fontWeight = "normal";
+					cell.style.color = "#666666";
 				}
 			}
 		}

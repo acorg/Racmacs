@@ -64,3 +64,6 @@
 * Fix an error when performing procrustes with some coordinates set to NA
 * Fix an error where transforming na coordinates in the viewer would give a numeric value
 * Add an option to use arrowheads rather than arrows to show outlier points when plotting
+
+# Racmacs 1.1.18
+* Add option to edit titers in the titer table view and fix previous error that had been introduced stopping the table view

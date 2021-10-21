@@ -172,6 +172,30 @@ Racmacs.Data = class Data {
 
     }
 
+    setTiter(ag, sr, value){
+
+        // Set titer table record
+        if (this.titertable) this.titertable[ag][sr] = value;
+
+        // If table data provided as a list of objects
+        if(this.data.c.t.d) {
+            this.data.c.t.d[ag][sr.toString()] = value;
+        } else {
+            this.data.c.t.l[ag][sr] = value;
+        }
+
+        // Update the column bases cache
+        this.update_colbases();
+
+        // Update the logtiter cache
+        this.logtitertable = Racmacs.utils.logTiters(this.titertable);
+
+        // Log the change in the console
+        console.log("Titer data updated");
+
+
+    }
+
     logtable(){
         return(this.logtitertable);
     }

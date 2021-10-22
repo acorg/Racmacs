@@ -137,6 +137,9 @@ Racmacs.App.prototype.clickBackground = function(e){
 Racmacs.Point.prototype.click = function(e){
 
     if(!this.viewer.dragMode){
+        if(!e.shiftKey && !e.metaKey){
+            this.viewer.deselectAll();
+        }
         if(!this.viewer.viewport.mouse || 
             !this.viewer.viewport.mouse.moved){
             if(!e.metaKey){
@@ -148,9 +151,6 @@ Racmacs.Point.prototype.click = function(e){
                     this.select();
                 }
             }
-        }
-        if(!e.shiftKey && !e.metaKey){
-            this.viewer.deselectAll(this);
         }
     }
 

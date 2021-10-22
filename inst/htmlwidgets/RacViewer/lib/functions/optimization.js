@@ -289,14 +289,14 @@ Racmacs.Optimizer = class RacOptimizer {
 
 }
 
-Racmacs.Viewer.prototype.toggleRelaxMap = function(maxsteps) {
+Racmacs.Viewer.prototype.toggleRelaxMap = function(onlyselected) {
 
     if (this.optimizing) this.endOptimizer();
-    else                 this.relaxMap(maxsteps);
+    else                 this.relaxMap(onlyselected);
 
 }
 
-Racmacs.Viewer.prototype.relaxMap = function(maxsteps) {
+Racmacs.Viewer.prototype.relaxMap = function(onlyselected, maxsteps) {
 
     // Record whether this is only a onestep optimization
     this.optimizer_maxsteps = maxsteps;
@@ -315,7 +315,7 @@ Racmacs.Viewer.prototype.relaxMap = function(maxsteps) {
     // Get fixed points
     var fixed_ags = [];
     var fixed_sr = [];
-    if (this.selected_pts.length > 0) {
+    if (this.selected_pts.length > 0 && onlyselected) {
         this.antigens.map(ag => { if(!ag.selected) fixed_ags.push(ag.typeIndex); });
         this.sera.map(sr => { if(!sr.selected) fixed_sr.push(sr.typeIndex); });
     }

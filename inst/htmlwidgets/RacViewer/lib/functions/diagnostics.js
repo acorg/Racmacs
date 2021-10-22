@@ -54,12 +54,12 @@ Racmacs.ButtonPanel = class ButtonPanel {
             title : "Relax map points",
             icon  : Racmacs.icons.relax(),
             fn    : function(e){
-                if(e.shiftKey){
+                if (e.shiftKey) {
                     viewer.onRelaxMapOneStep();
-                    viewer.relaxMap(1);
-                } else if(!e.metaKey) {
+                    viewer.relaxMap(e.altKey, 1);
+                } else {
                     viewer.onRelaxMap();
-                    viewer.toggleRelaxMap();
+                    viewer.toggleRelaxMap(e.altKey);
                 }
             },
             disabled : false
@@ -68,7 +68,7 @@ Racmacs.ButtonPanel = class ButtonPanel {
         // Add a custom event listener for the meta key
         relax_btn.addEventListener("mousedown", e => {
             if (e.metaKey) {
-                viewer.relaxMap();
+                viewer.relaxMap(e.altKey);
             }
         });
         relax_btn.addEventListener("mouseup", e => {

@@ -22,6 +22,7 @@ Racmacs.Data = class Data {
         this.titertable = this.getTable();
         this.logtitertable = Racmacs.utils.logTiters(this.titertable);
         this.pnum = 0;
+        this.dilutionstepsize_cache = this.dilutionStepsize();
     }
 
     // Set the projection
@@ -533,6 +534,15 @@ Racmacs.Data = class Data {
             ];
         }
         return(lim);
+    }
+
+    // Extras
+    dilutionStepsize(){
+        if (this.data.c.x && this.data.c.x.ds !== undefined) {
+            return(this.data.c.x.ds);
+        } else {
+            return(1);
+        }
     }
 
 }

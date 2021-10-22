@@ -583,7 +583,8 @@ Racmacs.Point = class Point {
             Racmacs.utils.ptResidual(
                 this.mapDistTo(to),
                 this.tableDistTo(to),
-                this.titerTypeTo(to)
+                this.titerTypeTo(to),
+                this.viewer.data.dilutionstepsize_cache
             )
         );
     }
@@ -594,7 +595,8 @@ Racmacs.Point = class Point {
             Racmacs.utils.ptStress(
                 this.mapDistTo(to),
                 this.tableDistTo(to),
-                this.titerTypeTo(to)
+                this.titerTypeTo(to),
+                this.viewer.data.dilutionstepsize_cache
             )
         );
     }

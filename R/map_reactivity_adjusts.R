@@ -2,8 +2,13 @@
 # Apply a reactivity adjustment to a titer
 reactivity_adjust_titers <- function(titers, adjustment) {
 
-  if (length(adjustment) != 1) stop("Adjustment must be length 1")
+  # Check and adjust adjustment length
+  if (length(adjustment) != 1 && length(adjustment) != length(titers)) {
+    stop("Adjustment must be length 1 or same as titers")
+  }
+  adjustment <- rep_len(adjustment, length(titers))
 
+  # Apply the adjustment
   titertypes <- titer_types_int(titers)
   numtiters <- numeric_titers(titers)
   numtiters <- 2^(log2(numtiters) + adjustment)

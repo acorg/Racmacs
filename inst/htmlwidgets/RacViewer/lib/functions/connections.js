@@ -3,23 +3,25 @@
 R3JS.Viewer.prototype.eventListeners.push({
 	name : "point-moved",
 	fn : function(e){
+
 		let point = e.detail.point;
 		point.updateConnectionLines();
 		point.updateErrorLines();
 		point.updateTiterLabels();
 		point.updatePointLabel();
+
 	}
 });
 
 R3JS.Viewer.prototype.eventListeners.push({
 	name : "point-selected",
 	fn : function(e){
+
 		let point  = e.detail.point;
 		let viewer = point.viewer;
-		if(viewer.errorLinesShown){
-		    viewer.hideErrorLines();
-            viewer.showErrorLines();
-        }
+		
+		viewer.updateErrorLines();
+
         if(viewer.connectionLinesShown){
             viewer.hideConnectionLines();
             viewer.showConnectionLines();
@@ -32,6 +34,7 @@ R3JS.Viewer.prototype.eventListeners.push({
             viewer.hideLabels();
             viewer.showLabels();
         }
+
 	}
 });
 
@@ -239,6 +242,15 @@ Racmacs.App.prototype.hideErrorLines = function(){
 		for(var i=0; i<this.points.length; i++){
 			this.points[i].hideErrors();
 		}
+	}
+
+}
+
+Racmacs.App.prototype.updateErrorLines = function(){
+
+	if (this.errorLinesShown) {
+		this.hideErrorLines();
+		this.showErrorLines();
 	}
 
 }

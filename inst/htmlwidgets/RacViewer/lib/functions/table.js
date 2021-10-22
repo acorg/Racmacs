@@ -166,14 +166,14 @@ Racmacs.HItable = class HItable {
 		var noneSelected_deselected_opacity = viewer.styleset.noselections.unhovered.unselected.opacity;
 		var plusSelected_deselected_opacity = viewer.styleset.selections.unhovered.unselected.opacity;
 
-        container.addEventListener("mouseenter", function(){
-            viewer.graphics.noneSelected.deselected.opacity = plusSelected_deselected_opacity;
-            viewer.updatePointStyles();
-        });
-        container.addEventListener("mouseleave", function(){
-            viewer.graphics.noneSelected.deselected.opacity = noneSelected_deselected_opacity;
-            viewer.updatePointStyles();
-        });
+        // container.addEventListener("mouseenter", function(){
+        //     viewer.graphics.noneSelected.deselected.opacity = plusSelected_deselected_opacity;
+        //     viewer.updatePointStyles();
+        // });
+        // container.addEventListener("mouseleave", function(){
+        //     viewer.graphics.noneSelected.deselected.opacity = noneSelected_deselected_opacity;
+        //     viewer.updatePointStyles();
+        // });
 
 		// Style cells
 		this.cells.map( cell => {
@@ -226,12 +226,12 @@ Racmacs.HItable = class HItable {
 		// Add antigen cell event listeners
 		viewer.antigens.map( (antigen, i) => {
 			var cell = this.getRowLabel(i);
-			cell.addEventListener("mouseenter", e => {
-				antigen.hover();
-			});
-			cell.addEventListener("mouseleave", e => {
-				antigen.dehover();
-			});
+			// cell.addEventListener("mouseenter", e => {
+			// 	antigen.hover();
+			// });
+			// cell.addEventListener("mouseleave", e => {
+			// 	antigen.dehover();
+			// });
 			cell.addEventListener("mouseup", e => {
 				antigen.click(e);
 				e.stopPropagation();
@@ -241,12 +241,12 @@ Racmacs.HItable = class HItable {
 		// Add sera cell event listeners
 		viewer.sera.map( (sera, i) => {
 			var cell = this.getColLabel(i);
-			cell.parentElement.addEventListener("mouseenter", e => {
-				sera.hover();
-			});
-			cell.parentElement.addEventListener("mouseleave", e => {
-				sera.dehover();
-			});
+			// cell.parentElement.addEventListener("mouseenter", e => {
+			// 	sera.hover();
+			// });
+			// cell.parentElement.addEventListener("mouseleave", e => {
+			// 	sera.dehover();
+			// });
 			cell.parentElement.addEventListener("mouseup", e => {
 				sera.click(e);
 				e.stopPropagation();
@@ -258,24 +258,26 @@ Racmacs.HItable = class HItable {
 			viewer.antigens.map( (antigen, i) => {
 				var cell = this.getCell(i,j);
 				cell.addEventListener("mouseenter", e => {
-					antigen.hover();
-					sera.hover();
-					cell.style.backgroundColor = this.styles.cell_hover_color;
-					cell.color                 = cell.style.color;
-					cell.style.color           = "#000";
-					if(viewer.errorLinesShown){
-						viewer.points.map( p => p.hideErrors() );
-						antigen.showErrors([sera]);
-					}
+					// cell.style.outline = "solid 1px blue";
+					// antigen.hover();
+					// sera.hover();
+					// cell.style.backgroundColor = this.styles.cell_hover_color;
+					// cell.color                 = cell.style.color;
+					// cell.style.color           = "#000";
+					// if(viewer.errorLinesShown){
+					// 	viewer.points.map( p => p.hideErrors() );
+					// 	antigen.showErrors([sera]);
+					// }
 				});
 				cell.addEventListener("mouseleave", e => {
-					antigen.dehover();
-					sera.dehover();
-					cell.style.backgroundColor = null;
-					cell.style.color           = cell.color;
-					if(viewer.errorLinesShown){
-						viewer.points.map( p => p.showErrors() );
-					}
+					// antigen.dehover();
+					// sera.dehover();
+					// cell.style.outline = "none";
+					// cell.style.backgroundColor = null;
+					// cell.style.color           = cell.color;
+					// if(viewer.errorLinesShown){
+					// 	viewer.points.map( p => p.showErrors() );
+					// }
 				});
 				cell.addEventListener("mouseup", e => {
 					cell.innerHTML = "";

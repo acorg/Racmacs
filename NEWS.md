@@ -68,3 +68,4 @@
 # Racmacs 1.1.18
 * Add option to edit titers in the titer table view and fix previous error that had been introduced stopping the table view
 * Fix the map viewer stress calculations to account for the new "dilution stepsize" setting
+* Add option to get and set antigen reactivity in the viewer

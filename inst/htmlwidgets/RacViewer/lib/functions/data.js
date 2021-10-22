@@ -292,6 +292,15 @@ Racmacs.Data = class Data {
         }
     }
 
+    setAgReactivityAdjustment(i, value){
+        let pnum = this.projection();
+        if (!this.data.c.x) this.data.c.x = {};
+        if (!this.data.c.x.p) this.data.c.x.p = Array(this.numProjections()).fill({});
+        if (!this.data.c.x.p[pnum].r) this.data.c.x.p[pnum].r = Array(this.numAntigens()).fill(0);
+        this.data.c.x.p[pnum].r[i] = value;
+        this.update_colbases();
+    }
+
     ptBaseCoords(i){
         if(this.data.c.P.length == 0) return(null);
         if(i === undefined) return(this.data.c.P[this.pnum].l.slice());

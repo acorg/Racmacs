@@ -218,9 +218,10 @@ std::string acmap_to_json(
   // = AGs =
   Value xa(kArrayType);
   bool ag_extras = false;
+  bool ag_grouping_included = !map.isdefault("ag_group_levels");
   for(arma::uword i=0; i<map.antigens.size(); i++){
     Value agx(kObjectType);
-    if (!map.antigens[i].isdefault("group")) {
+    if (ag_grouping_included) {
       ag_extras = true;
       agx.AddMember("g", map.antigens[i].get_group(), allocator);
     }
@@ -239,9 +240,10 @@ std::string acmap_to_json(
   // = SR =
   Value xs(kArrayType);
   bool sr_extras = false;
+  bool sr_grouping_included = !map.isdefault("sr_group_levels");
   for(arma::uword i=0; i<map.sera.size(); i++){
     Value srx(kObjectType);
-    if (!map.sera[i].isdefault("group")) {
+    if (sr_grouping_included) {
       sr_extras = true;
       srx.AddMember("g", map.sera[i].get_group(), allocator);
     }

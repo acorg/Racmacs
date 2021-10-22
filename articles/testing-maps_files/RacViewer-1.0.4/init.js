@@ -204,19 +204,25 @@ Racmacs.Viewer = class RacViewer extends Racmacs.App {
             if(viewer.animated){
                 if(viewer.animated_points.length > 0){
                     viewer.animated_points.map( x => x.stepToCoords() );
+                    viewer.pointsMoved = true;
                     viewer.sceneChange = true;
                 }
                 if(viewer.optimizing) {
                     viewer.stepOptimizer();
+                    viewer.pointsMoved = true;
                     viewer.sceneChange = true;
                 }
                 if(viewer.raytraceNeeded || viewer.sceneChange || viewer.scene.sceneChange){
                     viewer.raytraceNeeded = false;
                     viewer.raytrace();
                 }
+                if(viewer.pointsMoved) {
+                    viewer.updateFrustrum();
+                }
                 if(viewer.sceneChange || viewer.scene.sceneChange){
                     viewer.sceneChange = false;
                     viewer.scene.sceneChange = false;
+                    viewer.pointsMoved = false;
                     viewer.render();
                 }
             }

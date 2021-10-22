@@ -163,6 +163,7 @@ Racmacs.Viewer.prototype.enterDragMode = function(){
 		}
 
 	    viewer.updateStress();
+	    viewer.updateFrustrum();
 		viewer.render();
 
 	}
@@ -219,6 +220,7 @@ Racmacs.Viewer.prototype.exitDragMode = function(accept = false){
 		};
 
 		// Update the stress
+		this.updateFrustrum();
 		this.render();
 	}
 

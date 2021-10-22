@@ -84,7 +84,7 @@ the format of the file will be a json file of map data compressed using
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">Racmacs</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.15</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.18</span>
       </span>
     </div>
 
@@ -137,7 +137,13 @@ the format of the file will be a json file of map data compressed using
 'xz' compression.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>save.acmap</span><span class='op'>(</span><span class='va'>map</span>, <span class='va'>filename</span>, compress <span class='op'>=</span> <span class='cn'>FALSE</span>, pretty <span class='op'>=</span> <span class='op'>!</span><span class='va'>compress</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>save.acmap</span><span class='op'>(</span>
+  <span class='va'>map</span>,
+  <span class='va'>filename</span>,
+  compress <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  pretty <span class='op'>=</span> <span class='op'>!</span><span class='va'>compress</span>,
+  round_titers <span class='op'>=</span> <span class='cn'>FALSE</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -157,6 +163,11 @@ the format of the file will be a json file of map data compressed using
     <tr>
       <th>pretty</th>
       <td><p>Should json be output prettily with new lines and indentation</p></td>
+    </tr>
+    <tr>
+      <th>round_titers</th>
+      <td><p>Should titers be rounded when outputted (this is needed
+for acmacs web and lispmds compatibility)</p></td>
     </tr>
     </table>
 

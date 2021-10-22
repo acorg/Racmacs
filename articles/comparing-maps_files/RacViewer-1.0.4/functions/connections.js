@@ -3,23 +3,25 @@
 R3JS.Viewer.prototype.eventListeners.push({
 	name : "point-moved",
 	fn : function(e){
+
 		let point = e.detail.point;
 		point.updateConnectionLines();
 		point.updateErrorLines();
 		point.updateTiterLabels();
 		point.updatePointLabel();
+
 	}
 });
 
 R3JS.Viewer.prototype.eventListeners.push({
 	name : "point-selected",
 	fn : function(e){
+
 		let point  = e.detail.point;
 		let viewer = point.viewer;
-		if(viewer.errorLinesShown){
-		    viewer.hideErrorLines();
-            viewer.showErrorLines();
-        }
+		
+		viewer.updateErrorLines();
+
         if(viewer.connectionLinesShown){
             viewer.hideConnectionLines();
             viewer.showConnectionLines();
@@ -32,6 +34,7 @@ R3JS.Viewer.prototype.eventListeners.push({
             viewer.hideLabels();
             viewer.showLabels();
         }
+
 	}
 });
 
@@ -193,6 +196,9 @@ Racmacs.Point.prototype.updateConnectionLines = function(){
 	if(this.connectionLinesShown){
 
 		var connectiondata = this.getConnectionData();
+		if (this.viewer.getPlotDims() === 2) {
+			connectiondata.coords.map( x => x[2] = 0.01 );
+		}
 		this.connectionlines.setCoords(connectiondata.coords);
 
 	}
@@ -239,6 +245,15 @@ Racmacs.App.prototype.hideErrorLines = function(){
 		for(var i=0; i<this.points.length; i++){
 			this.points[i].hideErrors();
 		}
+	}
+
+}
+
+Racmacs.App.prototype.updateErrorLines = function(){
+
+	if (this.errorLinesShown) {
+		this.hideErrorLines();
+		this.showErrorLines();
 	}
 
 }
@@ -395,6 +410,9 @@ Racmacs.Point.prototype.updateErrorLines = function(){
 	if (this.errorLinesShown) {
 
 		var data = this.getErrorData();
+		if (this.viewer.getPlotDims() === 2) {
+			data.coords.map( x => x[2] = 0.01 );
+		}
 		this.errorlines.setCoords(data.coords);
 		this.errorlines.setColor(data.colors);
 
@@ -475,16 +493,6 @@ R3JS.Viewer.prototype.eventListeners.push({
     }
 });
 
-Racmacs.Point.prototype.addLinkedTiterLabel = function(element){
-	if(!this.linkedtiterlabels) this.linkedtiterlabels = [];
-	this.linkedtiterlabels.push(element);
-}
-
-Racmacs.Point.prototype.removeLinkedTiterLabel = function(element){
-	const index = this.linkedtiterlabels.indexOf(element);
-	if (index > -1) { this.linkedtiterlabels.splice(index, 1); }
-}
-
 // Add titers to a point object
 Racmacs.Point.prototype.showTiters = function(){
 
@@ -509,8 +517,6 @@ Racmacs.Point.prototype.showTiters = function(){
 	        element.from = this;
 	        element.to   = this;
 	        this.viewer.scene.add(element.object);
-	        this.titerlabels.push(element);
-	        this.addLinkedTiterLabel(element);
 		}
 
 		// Show titers to connected points
@@ -532,8 +538,6 @@ Racmacs.Point.prototype.showTiters = function(){
 	        element.to = p;
 	        this.viewer.scene.add(element.object);
 	        this.titerlabels.push(element);
-	        this.addLinkedTiterLabel(element);
-	        p.addLinkedTiterLabel(element);
 		});
 
 	}

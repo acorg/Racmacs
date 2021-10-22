@@ -137,6 +137,9 @@ Racmacs.App.prototype.clickBackground = function(e){
 Racmacs.Point.prototype.click = function(e){
 
     if(!this.viewer.dragMode){
+        if(!e.shiftKey && !e.metaKey){
+            this.viewer.deselectAll();
+        }
         if(!this.viewer.viewport.mouse || 
             !this.viewer.viewport.mouse.moved){
             if(!e.metaKey){
@@ -149,9 +152,6 @@ Racmacs.Point.prototype.click = function(e){
                 }
             }
         }
-        if(!e.shiftKey && !e.metaKey){
-            this.viewer.deselectAll(this);
-        }
     }
 
 }
@@ -160,7 +160,7 @@ Racmacs.Point.prototype.click = function(e){
 // Set prototypes
 Racmacs.Point.prototype.hover = function(){
     
-    if(this.shown){
+    if(this.shown && !this.hovered){
 
         this.hovered = true;
         
@@ -189,27 +189,30 @@ Racmacs.Point.prototype.hover = function(){
 
 Racmacs.Point.prototype.dehover = function(){
     
-    this.hovered = false;
+    if (this.hovered) {
 
-    // Hide the fill for transparent objects
-    if(this.fillColor == "transparent"){
-        if(this.element){
-            this.element.setFillColor("#ffffff");
-            this.element.setFillOpacity(0);
+        this.hovered = false;
+
+        // Hide the fill for transparent objects
+        if(this.fillColor == "transparent"){
+            if(this.element){
+                this.element.setFillColor("#ffffff");
+                this.element.setFillOpacity(0);
+            }
         }
+
+        this.updateDisplay();
+
+        // Show the point info
+        this.moveFromTop();
+        this.hideInfo();
+
+        // Run additional dehover functions
+        this.viewer.dispatchEvent("point-dehovered", { 
+            point : this 
+        });
+
     }
-
-    this.updateDisplay();
-
-    // Show the point info
-    this.moveFromTop();
-    this.hideInfo();
-
-    // Run additional dehover functions
-    this.viewer.dispatchEvent("point-dehovered", { 
-        point : this 
-    });
-
 
 }
 

@@ -10,6 +10,10 @@ Racmacs.utils.d_sigmoid = function(x) {
 Racmacs.utils.titerType = function(titer) {
 
     switch(titer.charAt(0)) {
+    case ".":
+      // Not there in merge
+      return(-1);
+      break;
     case "*":
       // Unmeasured
       return(0);
@@ -32,7 +36,8 @@ Racmacs.utils.titerType = function(titer) {
 Racmacs.utils.inc_base = function(
     map_dist,
     table_dist,
-    titer_type
+    titer_type,
+    dilution_stepsize
     ) {
 
     var ibase;
@@ -50,7 +55,7 @@ Racmacs.utils.inc_base = function(
       break;
     case 2:
       // Less than titer
-      x = table_dist - map_dist + 1;
+      x = table_dist - map_dist + dilution_stepsize;
       ibase = (10*x*x*Racmacs.utils.d_sigmoid(x) + 2*x*Racmacs.utils.sigmoid(x)) / map_dist;
       break;
     case 3:
@@ -70,7 +75,8 @@ Racmacs.utils.inc_base = function(
 Racmacs.utils.ptStress = function(
         map_dist,
         table_dist,
-        titer_type
+        titer_type,
+        dilution_stepsize
     ) {
 
     var x;
@@ -83,7 +89,7 @@ Racmacs.utils.ptStress = function(
       break;
     case 2:
       // Less than titer
-      x = table_dist - map_dist + 1;
+      x = table_dist - map_dist + dilution_stepsize;
       stress = Math.pow(x,2)*Racmacs.utils.sigmoid(x);
       break;
     case 3:
@@ -103,7 +109,8 @@ Racmacs.utils.ptStress = function(
 Racmacs.utils.ptResidual = function(
         map_dist,
         table_dist,
-        titer_type
+        titer_type,
+        dilution_stepsize
     ) {
 
     var x;
@@ -116,7 +123,7 @@ Racmacs.utils.ptResidual = function(
       break;
     case 2:
       // Less than titer
-      x = table_dist - map_dist + 1;
+      x = table_dist - map_dist + dilution_stepsize;
       residual = x*Racmacs.utils.sigmoid(x);
       break;
     case 3:
@@ -146,6 +153,7 @@ Racmacs.Optimizer = class RacOptimizer {
        this.num_sr           = args.sr_coords.length;
        this.titertype_matrix = args.titertypes;
        this.tabledist_matrix = args.tabledists;
+       this.dilutionstepsize = args.dilutionstepsize;
        this.mapdist_matrix = new Array(this.num_ags);
        for (var i=0; i<this.num_ags; i++) {
           this.mapdist_matrix[i] = new Array(this.num_sr);
@@ -228,7 +236,8 @@ Racmacs.Optimizer = class RacOptimizer {
           var ibase = Racmacs.utils.inc_base(
             this.mapdist_matrix[ag][sr],
             this.tabledist_matrix[ag][sr],
-            this.titertype_matrix[ag][sr]
+            this.titertype_matrix[ag][sr],
+            this.dilutionstepsize
           );
 
           // Now calculate the gradient for each coordinate
@@ -266,7 +275,8 @@ Racmacs.Optimizer = class RacOptimizer {
                 stress += Racmacs.utils.ptStress(
                     this.mapdist_matrix[ag][sr],
                     this.tabledist_matrix[ag][sr],
-                    this.titertype_matrix[ag][sr]
+                    this.titertype_matrix[ag][sr],
+                    this.dilutionstepsize
                 );
     
             }
@@ -279,14 +289,14 @@ Racmacs.Optimizer = class RacOptimizer {
 
 }
 
-Racmacs.Viewer.prototype.toggleRelaxMap = function(maxsteps) {
+Racmacs.Viewer.prototype.toggleRelaxMap = function(onlyselected) {
 
     if (this.optimizing) this.endOptimizer();
-    else                 this.relaxMap(maxsteps);
+    else                 this.relaxMap(onlyselected);
 
 }
 
-Racmacs.Viewer.prototype.relaxMap = function(maxsteps) {
+Racmacs.Viewer.prototype.relaxMap = function(onlyselected, maxsteps) {
 
     // Record whether this is only a onestep optimization
     this.optimizer_maxsteps = maxsteps;
@@ -305,7 +315,7 @@ Racmacs.Viewer.prototype.relaxMap = function(maxsteps) {
     // Get fixed points
     var fixed_ags = [];
     var fixed_sr = [];
-    if (this.selected_pts.length > 0) {
+    if (this.selected_pts.length > 0 && onlyselected) {
         this.antigens.map(ag => { if(!ag.selected) fixed_ags.push(ag.typeIndex); });
         this.sera.map(sr => { if(!sr.selected) fixed_sr.push(sr.typeIndex); });
     }
@@ -317,7 +327,8 @@ Racmacs.Viewer.prototype.relaxMap = function(maxsteps) {
         tabledists : tabledists,
         titertypes : titertypes,
         fixed_ags : fixed_ags,
-        fixed_sr : fixed_sr
+        fixed_sr : fixed_sr,
+        dilutionstepsize : this.data.dilutionstepsize_cache
     });
 
     this.optimizer.update_map_dist_matrix();

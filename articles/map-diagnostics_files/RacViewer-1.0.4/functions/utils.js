@@ -156,7 +156,9 @@ Racmacs.utils.matrixMultiply = function(t1, t2){
 Racmacs.utils.transformCoords = function(
 	coords, 
 	transformation
-){
+){  
+
+	if(coords[0] === null) return(coords);
 
     if(coords.length == 2){
     	
@@ -202,6 +204,8 @@ Racmacs.utils.translateCoords = function(
 	coords, 
 	translation
 ){
+
+	if(coords[0] === null) return(coords);
 	
     if(coords.length == 2){
     	

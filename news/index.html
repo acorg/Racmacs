@@ -81,7 +81,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">Racmacs</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.15</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.18</span>
       </span>
     </div>
 
@@ -187,6 +187,46 @@
 <a href="#racmacs-1115" class="anchor"></a>Racmacs 1.1.15</h1>
 <ul>
 <li>Add option to set <code><a href="../reference/dilutionStepsize.html">dilutionStepsize()</a></code> for cases where dilution series did not follow 2-fold dilution steps</li>
+</ul>
+</div>
+    <div id="racmacs-1116" class="section level1">
+<h1 class="page-header" data-toc-text="1.1.16">
+<a href="#racmacs-1116" class="anchor"></a>Racmacs 1.1.16</h1>
+<ul>
+<li>Fix error when minimum column basis is set to higher than any measurable titer</li>
+<li>Points not included in a procrustes will now be faded out when plotted with <code><a href="https://rdrr.io/r/graphics/plot.default.html">plot()</a></code>, similar to the behaviour already implemented in the <code><a href="../reference/view.html">view()</a></code> function.</li>
+<li>Added the ability to set merge options when merging maps, controlling for example how much standard deviation there has to be between merged titers before the merged titer gets excluded as unreliable.</li>
+<li>Added <code><a href="../reference/mergeReport.html">mergeReport()</a></code> and <code><a href="../reference/htmlMergeReport.html">htmlMergeReport()</a></code> to output formatted tables showing how different titers have been merged in a merged map.</li>
+<li>Functions like <code><a href="../reference/logtiterTable.html">logtiterTable()</a></code> and <code><a href="../reference/mergeMaps.html">mergeMaps()</a></code> now take account of the dilutionStepsize map setting</li>
+<li>Implement a new titer type ‘.’, like ’*’ but to represent titers that are missing as a result of antigen sera combinations not being present in merged tables</li>
+<li>Fix error calculating bootstrap blobs and showing from a bootstrapped map where “resample” method was used</li>
+</ul>
+</div>
+    <div id="racmacs-1117" class="section level1">
+<h1 class="page-header" data-toc-text="1.1.17">
+<a href="#racmacs-1117" class="anchor"></a>Racmacs 1.1.17</h1>
+<ul>
+<li>Added <code><a href="../reference/htmlMergeReport.html">htmlMergeReport()</a></code> showing how titers were merged as a formatted html table.</li>
+<li>Added <code><a href="../reference/htmlTiterTable.html">htmlTiterTable()</a></code> for visualizing an html formatted titer table</li>
+<li>Added functions for getting titers after applying antigen reactivity adjustments set with <code>agReactivityAdjustments()&lt;-</code>, namely <code><a href="../reference/adjustedTiterTable.html">adjustedTiterTable()</a></code>, <code><a href="../reference/adjustedLogTiterTable.html">adjustedLogTiterTable()</a></code>, <code><a href="../reference/htmlAdjustedTiterTable.html">htmlAdjustedTiterTable()</a></code>
+</li>
+<li>Details are no longer saved in map json if they are map defaults</li>
+<li>Added an option to round titers to the nearest unit when outputting (for e.g. listmds compatibility)</li>
+<li>Adds the ability to apply and set scaling on an optimization</li>
+<li>Add option to optimize from scratch when performing optimizeAgReactivity</li>
+<li>Fix an error when performing procrustes with some coordinates set to NA</li>
+<li>Fix an error where transforming na coordinates in the viewer would give a numeric value</li>
+<li>Add an option to use arrowheads rather than arrows to show outlier points when plotting</li>
+</ul>
+</div>
+    <div id="racmacs-1118" class="section level1">
+<h1 class="page-header" data-toc-text="1.1.18">
+<a href="#racmacs-1118" class="anchor"></a>Racmacs 1.1.18</h1>
+<ul>
+<li>Add option to edit titers in the titer table view and fix previous error that had been introduced stopping the table view</li>
+<li>Fix the map viewer stress calculations to account for the new “dilution stepsize” setting</li>
+<li>Add option to get and set antigen reactivity in the viewer</li>
+<li>Fix an error that was causing NAs to appear in transformed coordinates in linux builds</li>
 </ul>
 </div>
   </div>

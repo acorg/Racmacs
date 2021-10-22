@@ -109,7 +109,7 @@ Racmacs.utils.calcColBases = function(args){
 Racmacs.utils.logTiter = function(titer){
   
   // Deal with > titers
-  if(titer == "*" || titer.charAt(0) == ">"){
+  if(titer == "*" || titer == "." || titer.charAt(0) == ">"){
     return(NaN);
   } else {
     var hi = Number(titer.replace(/^(\<|\>)/, ""));

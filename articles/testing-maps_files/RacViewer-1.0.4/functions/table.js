@@ -166,14 +166,14 @@ Racmacs.HItable = class HItable {
 		var noneSelected_deselected_opacity = viewer.styleset.noselections.unhovered.unselected.opacity;
 		var plusSelected_deselected_opacity = viewer.styleset.selections.unhovered.unselected.opacity;
 
-        container.addEventListener("mouseenter", function(){
-            viewer.graphics.noneSelected.deselected.opacity = plusSelected_deselected_opacity;
-            viewer.updatePointStyles();
-        });
-        container.addEventListener("mouseleave", function(){
-            viewer.graphics.noneSelected.deselected.opacity = noneSelected_deselected_opacity;
-            viewer.updatePointStyles();
-        });
+        // container.addEventListener("mouseenter", function(){
+        //     viewer.graphics.noneSelected.deselected.opacity = plusSelected_deselected_opacity;
+        //     viewer.updatePointStyles();
+        // });
+        // container.addEventListener("mouseleave", function(){
+        //     viewer.graphics.noneSelected.deselected.opacity = noneSelected_deselected_opacity;
+        //     viewer.updatePointStyles();
+        // });
 
 		// Style cells
 		this.cells.map( cell => {
@@ -209,11 +209,11 @@ Racmacs.HItable = class HItable {
 		});
 
 		// Add titers
-		var titers = viewer.data.table();
+		var titers = viewer.data.titertable;
 		viewer.sera.map( (sera, j) => {
 			sera.titercells = [];
 			viewer.antigens.map( (antigen, i) => {
-				var cell = this.getCell(i,j)
+				var cell = this.getCell(i,j);
 				cell.innerHTML = titers[i][j];
 				cell.style.minWidth = this.cellwidth+"px";
 				cell.style.maxWidth = this.cellwidth+"px";
@@ -226,12 +226,12 @@ Racmacs.HItable = class HItable {
 		// Add antigen cell event listeners
 		viewer.antigens.map( (antigen, i) => {
 			var cell = this.getRowLabel(i);
-			cell.addEventListener("mouseenter", e => {
-				antigen.hover();
-			});
-			cell.addEventListener("mouseleave", e => {
-				antigen.dehover();
-			});
+			// cell.addEventListener("mouseenter", e => {
+			// 	antigen.hover();
+			// });
+			// cell.addEventListener("mouseleave", e => {
+			// 	antigen.dehover();
+			// });
 			cell.addEventListener("mouseup", e => {
 				antigen.click(e);
 				e.stopPropagation();
@@ -241,12 +241,12 @@ Racmacs.HItable = class HItable {
 		// Add sera cell event listeners
 		viewer.sera.map( (sera, i) => {
 			var cell = this.getColLabel(i);
-			cell.parentElement.addEventListener("mouseenter", e => {
-				sera.hover();
-			});
-			cell.parentElement.addEventListener("mouseleave", e => {
-				sera.dehover();
-			});
+			// cell.parentElement.addEventListener("mouseenter", e => {
+			// 	sera.hover();
+			// });
+			// cell.parentElement.addEventListener("mouseleave", e => {
+			// 	sera.dehover();
+			// });
 			cell.parentElement.addEventListener("mouseup", e => {
 				sera.click(e);
 				e.stopPropagation();
@@ -258,24 +258,58 @@ Racmacs.HItable = class HItable {
 			viewer.antigens.map( (antigen, i) => {
 				var cell = this.getCell(i,j);
 				cell.addEventListener("mouseenter", e => {
-					antigen.hover();
-					sera.hover();
-					cell.style.backgroundColor = this.styles.cell_hover_color;
-					cell.color                 = cell.style.color;
-					cell.style.color           = "#000";
-					if(viewer.errorLinesShown){
-						viewer.points.map( p => p.hideErrors() );
-						antigen.showErrors([sera]);
-					}
+					// cell.style.outline = "solid 1px blue";
+					// antigen.hover();
+					// sera.hover();
+					// cell.style.backgroundColor = this.styles.cell_hover_color;
+					// cell.color                 = cell.style.color;
+					// cell.style.color           = "#000";
+					// if(viewer.errorLinesShown){
+					// 	viewer.points.map( p => p.hideErrors() );
+					// 	antigen.showErrors([sera]);
+					// }
 				});
 				cell.addEventListener("mouseleave", e => {
-					antigen.dehover();
-					sera.dehover();
-					cell.style.backgroundColor = null;
-					cell.style.color           = cell.color;
-					if(viewer.errorLinesShown){
-						viewer.points.map( p => p.showErrors() );
-					}
+					// antigen.dehover();
+					// sera.dehover();
+					// cell.style.outline = "none";
+					// cell.style.backgroundColor = null;
+					// cell.style.color           = cell.color;
+					// if(viewer.errorLinesShown){
+					// 	viewer.points.map( p => p.showErrors() );
+					// }
+				});
+				cell.addEventListener("mouseup", e => {
+					cell.innerHTML = "";
+
+					var input = document.createElement("input");
+					input.value = viewer.data.titertable[i][j];
+					input.style.width = "100%";
+					input.style.fontSize = "inherit";
+					input.style.fontFamily = "inherit";
+					input.style.fontWeight = "inherit";
+					input.style.borderStyle = "none";
+					input.style.padding = 0;
+					input.style.margin = 0;
+					input.style.outline = "none";
+					input.style.backgroundColor = "transparent";
+					cell.style.outline = "solid 2px red";
+					cell.appendChild(input);
+					input.focus();
+					input.addEventListener("blur", e => {
+						cell.innerHTML = viewer.data.titertable[i][j];
+						cell.style.outline = "none";
+					});
+					input.addEventListener("change", e => {
+						viewer.data.setTiter(i, j, input.value);
+						this.logtiters = viewer.data.logtable();
+		                this.colbases  = viewer.data.colbases();
+						this.styleHighestTiters();
+						input.blur();
+						cell.innerHTML = viewer.data.titertable[i][j];
+						cell.style.outline = "none";
+					});
+
 				});
 			});
 		});
@@ -289,10 +323,7 @@ Racmacs.HItable = class HItable {
 		});
 
 		// Style highest in col
-		this.styleHighestTiters({
-			fontWeight : "bolder",
-			color      : "#000"
-		});
+		this.styleHighestTiters();
 
 		// Style row labels
 		var labelwidths = [];
@@ -466,14 +497,16 @@ Racmacs.HItable = class HItable {
 		}
 	}
 
-	styleHighestTiters(styles){
+	styleHighestTiters(){
 		for(var i=0; i<this.nrow; i++){
 			for(var j=0; j<this.ncol; j++){
+				var cell = this.getCell(i,j);
 				if(this.logtiters[i][j] >= this.colbases[j]){
-				    var cell = this.getCell(i,j);
-					for(var s in styles){
-						cell.style[s] = styles[s];
-					}
+					cell.style.fontWeight = "bolder";
+					cell.style.color = "#000000";
+				} else {
+					cell.style.fontWeight = "normal";
+					cell.style.color = "#666666";
 				}
 			}
 		}

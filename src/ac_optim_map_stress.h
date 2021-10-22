@@ -10,7 +10,7 @@
 // Generating optimizations with randomised coords
 std::vector<AcOptimization> ac_generateOptimizations(
     const arma::mat &tabledist_matrix,
-    const arma::umat &titertype_matrix,
+    const arma::imat &titertype_matrix,
     const std::string &min_colbasis,
     const arma::vec &fixed_colbases,
     const arma::vec &ag_reactivity_adjustments,
@@ -24,7 +24,7 @@ std::vector<AcOptimization> ac_generateOptimizations(
 void ac_relaxOptimizations(
     std::vector<AcOptimization>& optimizations,
     const arma::mat &tabledist_matrix,
-    const arma::umat &titertype_matrix,
+    const arma::imat &titertype_matrix,
     const AcOptimizerOptions &options,
     const arma::mat &titer_weights = arma::mat(),
     const double &dilution_stepsize = 1.0

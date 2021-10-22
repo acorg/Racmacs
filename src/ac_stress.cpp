@@ -19,7 +19,7 @@ double d_sigmoid(double &x){
 double ac_ptStress(
     double &map_dist,
     double &table_dist,
-    unsigned int &titer_type,
+    arma::sword &titer_type,
     double &dilution_stepsize
   ){
 
@@ -54,7 +54,7 @@ double ac_ptStress(
 double ac_ptResidual(
     double &map_dist,
     double &table_dist,
-    unsigned int &titer_type,
+    arma::sword &titer_type,
     double &dilution_stepsize
 ){
 
@@ -90,7 +90,7 @@ double ac_ptResidual(
 double inc_base(
     double &map_dist,
     double &table_dist,
-    unsigned int &titer_type,
+    arma::sword &titer_type,
     double &dilution_stepsize
   ){
 

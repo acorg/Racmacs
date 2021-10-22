@@ -115,7 +115,8 @@ runDimensionTestMap <- function(
   # Add titer info and return the result
   list(
     titers = titerTable(map),
-    results = results
+    results = results,
+    dilution_stepsize = dilutionStepsize(map)
   )
 
 }
@@ -128,7 +129,7 @@ dimtest_summary <- function(
 ) {
 
   # Get actual log titers
-  measured_logtiters <- log_titers(object$titers)
+  measured_logtiters <- log_titers(object$titers, object$dilution_stepsize)
   titer_types        <- titer_types_int(object$titers)
   results            <- object$results
   dims_tested        <- as.vector(results[[1]]$dim)

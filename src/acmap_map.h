@@ -98,6 +98,7 @@ class AcMap {
       AcTiterTable titers
     ){
       titer_table_flat = titers;
+      update_stresses();
     }
 
     // Get and set titers from vector of titer layers
@@ -110,9 +111,10 @@ class AcMap {
     }
 
     void set_titer_table_layers(
-      const std::vector<AcTiterTable> titers
+      const std::vector<AcTiterTable> titers,
+      const AcMergeOptions& merge_options
     ){
-      titer_table_flat = ac_merge_titer_layers(titers);
+      titer_table_flat = ac_merge_titer_layers(titers, merge_options);
       titer_table_layers = titers;
       update_stresses();
     }
@@ -321,6 +323,7 @@ class AcMap {
         // Apply it to the optimization
         optimization.set_transformation( pc.R );
         optimization.set_translation( pc.tt );
+        optimization.set_scaling( pc.s );
 
       }
 
@@ -333,6 +336,25 @@ class AcMap {
 
     void set_pt_drawing_order( const arma::uvec& order ){
       pt_drawing_order = order;
+    }
+
+    // Determine if setting are defaults, useful when outputting to json
+    bool isdefault(
+        std::string attribute
+    ) {
+
+      if (attribute == "ag_group_levels") {
+        return(ag_group_levels.size() == 0);
+      }
+      else if (attribute == "sr_group_levels") {
+        return(sr_group_levels.size() == 0);
+      }
+      else if (attribute == "dilution_stepsize") {
+        return(dilution_stepsize == 1);
+      } else {
+        return(false);
+      }
+
     }
 
 };

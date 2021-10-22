@@ -171,8 +171,20 @@ test_that("Merging titers", {
 # Generating merge reports
 test_that("Merge reports", {
 
-  warning("Need to implement merge report")
-  # expect_message(mergeReport(mergemap1, mergemap2))
+  merged_map <- mergeMaps(list(mergemap1, mergemap2))
+
+  merge_report <- mergeReport(merged_map)
+  html_merge_report <- htmlMergeReport(merged_map)
+
+  expect_equal(
+    dim(merge_report),
+    c(numAntigens(merged_map), numSera(merged_map))
+  )
+
+  expect_equal(
+    class(html_merge_report),
+    c("Rac_html_merge_report", "shiny.tag")
+  )
 
 })
 

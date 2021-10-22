@@ -14,7 +14,7 @@
 arma::mat check_ag_trapped_points(
     const AcOptimization &optimization,
     const arma::mat &tabledists,
-    const arma::umat &titertypes,
+    const arma::imat &titertypes,
     const double &grid_spacing
 ){
 
@@ -61,7 +61,7 @@ arma::mat check_ag_trapped_points(
 arma::mat check_sr_trapped_points(
     const AcOptimization &optimization,
     const arma::mat &tabledists,
-    const arma::umat &titertypes,
+    const arma::imat &titertypes,
     const double &grid_spacing
 ){
 
@@ -119,7 +119,7 @@ AcOptimization ac_move_trapped_points(
   // Check antigen and sera trapped points recursively
   if(options.report_progress) REprintf("Checking for trapped points recursively:");
 
-  arma::umat titertypes = titertable.get_titer_types();
+  arma::imat titertypes = titertable.get_titer_types();
   arma::mat tabledists = titertable.numeric_table_distances(
     optimization.get_min_column_basis(),
     optimization.get_fixed_column_bases(),

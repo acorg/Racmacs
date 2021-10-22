@@ -56,6 +56,9 @@ Racmacs.Point.prototype.addBootstrapPoints = function(data){
     // Get coords
     let coords = data.coords;
 
+    // Remove NaN coords
+    coords = coords.filter( value => value[0] !== null );
+
     // Get transformation and translation
     let transformation = this.viewer.data.transformation();
     let translation = this.viewer.data.translation();

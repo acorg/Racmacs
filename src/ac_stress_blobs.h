@@ -16,7 +16,7 @@ StressBlobGrid ac_stress_blob_grid(
     arma::vec testcoords,
     arma::mat coords,
     arma::vec tabledists,
-    arma::uvec titertypes,
+    arma::ivec titertypes,
     double stress_lim = 1.0,
     double grid_spacing = 0.1,
     double dilution_stepsize = 1.0

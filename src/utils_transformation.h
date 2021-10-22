@@ -31,8 +31,14 @@ arma::mat ac_rotation_matrix(
 
 // Creating a reflection transform matrix
 arma::mat ac_reflection_matrix(
-  arma::uword dims,
-  arma::uword axis_num
+    const arma::uword &dims,
+    const arma::uword &axis_num
+);
+
+// Creating a scaling transform matrix
+arma::mat ac_scaling_matrix(
+    const arma::uword &dims,
+    double scaling
 );
 
 #endif

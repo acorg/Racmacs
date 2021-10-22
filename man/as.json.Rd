@@ -4,12 +4,14 @@
 \alias{as.json}
 \title{Convert map to json format}
 \usage{
-as.json(map, pretty = FALSE)
+as.json(map, pretty = FALSE, round_titers = FALSE)
 }
 \arguments{
 \item{map}{The map data object}
 
 \item{pretty}{Should json be output prettily with new lines and indentation?}
+
+\item{round_titers}{Should titers be rounded to the nearest integer before outputting}
 }
 \value{
 Returns map data as .ace json format

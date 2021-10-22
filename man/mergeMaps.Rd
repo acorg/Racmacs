@@ -10,7 +10,8 @@ mergeMaps(
   number_of_dimensions,
   number_of_optimizations,
   minimum_column_basis = "none",
-  options = list()
+  optimizer_options = list(),
+  merge_options = list()
 )
 }
 \arguments{
@@ -27,8 +28,10 @@ runs, the number of optimization runs to do.}
 \item{minimum_column_basis}{For merging that generates new optimization runs,
 the minimum column basis to use.}
 
-\item{options}{For merging that generates new optimization runs, optimizer
+\item{optimizer_options}{For merging that generates new optimization runs, optimizer
 settings (see \code{RacOptimizer.options()}).}
+
+\item{merge_options}{Options to use when merging titers (see \code{RacMerge.options()}).}
 }
 \value{
 Returns the merged map object
@@ -75,6 +78,8 @@ was first implemented in lisp). }
 }
 \seealso{
 Other {map merging functions}: 
+\code{\link{RacMerge.options}()},
+\code{\link{htmlMergeReport}()},
 \code{\link{mergeReport}()}
 }
 \concept{{map merging functions}}

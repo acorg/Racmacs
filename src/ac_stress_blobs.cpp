@@ -8,7 +8,7 @@
 double point_stress(
     arma::vec &mapdists,
     arma::vec &tabledists,
-    arma::uvec &titertypes,
+    arma::ivec &titertypes,
     double &dilution_stepsize
 ) {
 
@@ -57,7 +57,7 @@ StressBlobGrid ac_stress_blob_grid(
     arma::vec testcoords,
     arma::mat coords,
     arma::vec tabledists,
-    arma::uvec titertypes,
+    arma::ivec titertypes,
     double stress_lim,
     double grid_spacing,
     double dilution_stepsize

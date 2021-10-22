@@ -4,20 +4,19 @@ library(testthat)
 context("Optimizing maps")
 set.seed(100)
 
-# map <- read.acmap(test_path("../../inst/extdata/h3map2004.ace"))
-# start <- Sys.time()
-# map <- optimizeMap(
-#   map = map,
-#   number_of_dimensions = 2,
-#   number_of_optimizations = 100,
-#   minimum_column_basis = "none"
-# )
-# end <- Sys.time()
-# print(end - start)
-# # map <- moveTrappedPoints(map)
-# # grid.plot.acmap(checkHemisphering(map))
-# plot(map)
-# stop()
+# Rough benchmarking ~4.5 secs
+if (1==2) {
+  map <- read.acmap(test_path("../../inst/extdata/h3map2004.ace"))
+  start <- Sys.time()
+  map <- optimizeMap(
+    map = map,
+    number_of_dimensions = 2,
+    number_of_optimizations = 100,
+    minimum_column_basis = "none"
+  )
+  end <- Sys.time()
+  print(end - start)
+}
 
 # Generate some toy data
 ag_coords <- cbind(-4:4, runif(9, -1, 1))
@@ -526,3 +525,35 @@ test_that("Setting dilution stepsize", {
   expect_true(isTRUE(all.equal(ptCoords(map1), ptCoords(map2b))))
 
 })
+
+
+# Setting a different dilution stepsize
+test_that("Setting high min column bases", {
+
+  map <- read.acmap(test_path("../testdata/testmap.ace"))
+  map <- optimizeMap(map, 2, 1, "10240")
+  expect_equal(numOptimizations(map), 1)
+
+})
+
+
+# Relaxing a map with NA coords
+test_that("Relaxing a map with NA coords", {
+
+  map <- read.acmap(test_path("../testdata/testmap.ace"))
+  agCoords(map)[2:3,] <- NA
+  map_relaxed <- relaxMap(map)
+
+  expect_lt(
+    mapStress(map_relaxed),
+    mapStress(map)
+  )
+
+  expect_gt(
+    mapStress(map_relaxed),
+    0
+  )
+
+})
+
+

@@ -39,6 +39,8 @@ allow you to manipulate the flat version without effecting the titer table
 layers information.
 }
 \seealso{
+adjustedTiterTable
+
 Other {map attribute functions}: 
 \code{\link{acmapAttributes}},
 \code{\link{dilutionStepsize}()},

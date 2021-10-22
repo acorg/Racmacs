@@ -22,6 +22,7 @@ Racmacs.Data = class Data {
         this.titertable = this.getTable();
         this.logtitertable = Racmacs.utils.logTiters(this.titertable);
         this.pnum = 0;
+        this.dilutionstepsize_cache = this.dilutionStepsize();
     }
 
     // Set the projection
@@ -172,6 +173,30 @@ Racmacs.Data = class Data {
 
     }
 
+    setTiter(ag, sr, value){
+
+        // Set titer table record
+        if (this.titertable) this.titertable[ag][sr] = value;
+
+        // If table data provided as a list of objects
+        if(this.data.c.t.d) {
+            this.data.c.t.d[ag][sr.toString()] = value;
+        } else {
+            this.data.c.t.l[ag][sr] = value;
+        }
+
+        // Update the column bases cache
+        this.update_colbases();
+
+        // Update the logtiter cache
+        this.logtitertable = Racmacs.utils.logTiters(this.titertable);
+
+        // Log the change in the console
+        console.log("Titer data updated");
+
+
+    }
+
     logtable(){
         return(this.logtitertable);
     }
@@ -216,7 +241,7 @@ Racmacs.Data = class Data {
     }
 
     translation(){
-        if(this.data.c.x.p && this.data.c.x.p[this.pnum].t){
+        if(this.data.c.x && this.data.c.x.p && this.data.c.x.p[this.pnum].t){
             return(this.data.c.x.p[this.pnum].t);
         } else {
             return(null);
@@ -267,6 +292,15 @@ Racmacs.Data = class Data {
         }
     }
 
+    setAgReactivityAdjustment(i, value){
+        let pnum = this.projection();
+        if (!this.data.c.x) this.data.c.x = {};
+        if (!this.data.c.x.p) this.data.c.x.p = Array(this.numProjections()).fill({});
+        if (!this.data.c.x.p[pnum].r) this.data.c.x.p[pnum].r = Array(this.numAntigens()).fill(0);
+        this.data.c.x.p[pnum].r[i] = value;
+        this.update_colbases();
+    }
+
     ptBaseCoords(i){
         if(this.data.c.P.length == 0) return(null);
         if(i === undefined) return(this.data.c.P[this.pnum].l.slice());
@@ -297,7 +331,7 @@ Racmacs.Data = class Data {
     srCoords(i){ return(this.ptCoords(i + this.numAntigens())); }
 
     agSequences(i){
-        if(this.data.c.x.a[0].q){
+        if(this.data.c.x && this.data.c.x.a && this.data.c.x.a[0].q){
             if(i === undefined) return(this.data.c.x.a.map( p => p.q.split("") ));
             else                return(this.data.c.x.a[i].q.split(""));
         } else {
@@ -306,7 +340,7 @@ Racmacs.Data = class Data {
     }
 
     srSequences(i){
-        if(this.data.c.x.s[0].q){
+        if(this.data.c.x && this.data.c.x.s && this.data.c.x.s[0].q){
             if(i === undefined) return(this.data.c.x.s.map( p => p.q.split("") ));
             else                return(this.data.c.x.s[i].q.split(""));
         } else {
@@ -509,6 +543,15 @@ Racmacs.Data = class Data {
             ];
         }
         return(lim);
+    }
+
+    // Extras
+    dilutionStepsize(){
+        if (this.data.c.x && this.data.c.x.ds !== undefined) {
+            return(this.data.c.x.ds);
+        } else {
+            return(1);
+        }
     }
 
 }

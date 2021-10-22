@@ -87,6 +87,7 @@ map2 <- acmap(
   minimum_column_basis = "none"
 )
 
+
 # Create a rotated and shuffled version
 ## Shuffle antigens and sera
 ag_order1rot <- sample(seq_along(ag_names1))
@@ -420,3 +421,14 @@ test_that("Procrustes against only antigens or sera", {
   )
 
 })
+
+
+test_that("Procrustes data with no matching sera", {
+
+  mapA <- map1
+  mapB <- map2
+  srNames(mapB) <- paste("mismatch", srNames(mapB))
+  expect_true("total_rmsd" %in% names(procrustesData(mapA, mapB)))
+
+})
+

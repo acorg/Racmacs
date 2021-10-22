@@ -195,6 +195,13 @@ AcCoords ac_procrustes_map_coords(
   result.ag_coords = subset_rows( procrustes_map.optimizations[0].agCoords(), ac_match_points( base_map.antigens, procrustes_map.antigens ) );
   result.sr_coords = subset_rows( procrustes_map.optimizations[0].srCoords(), ac_match_points( base_map.sera, procrustes_map.sera ) );
 
+  // Set coords that were na in the main map to na in the procrustes coords
+  arma::uvec na_ags = arma::find_nonfinite(base_map.optimizations[base_map_optimization_number].get_ag_base_coords());
+  arma::uvec na_srs = arma::find_nonfinite(base_map.optimizations[base_map_optimization_number].get_sr_base_coords());
+  result.ag_coords.elem(na_ags).fill(arma::datum::nan);
+  result.sr_coords.elem(na_srs).fill(arma::datum::nan);
+
+  // Return the coordinates
   return result;
 
 }

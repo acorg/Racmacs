@@ -329,11 +329,11 @@ plot.acmap <- function(
       to <- pts$coords[n,]
       oto  <- pts_orig_coords[n,]
 
-      x <- to[1]-oto[1]
-      y <- to[2]-oto[2]
-      radians <- atan(y / x)
+      xval <- to[1]-oto[1]
+      yval <- to[2]-oto[2]
+      radians <- atan(yval / xval)
       degrees <- 180*radians / pi + 180
-      if (x < 0) degrees <- degrees + 180
+      if (xval < 0) degrees <- degrees + 180
 
       shape::Arrowhead(
         x0 = to[1],

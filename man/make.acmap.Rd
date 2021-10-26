@@ -38,6 +38,9 @@ directly, rather than calculating them from the titer table.}
 \item{sort_optimizations}{Should optimizations be sorted by stress
 afterwards?}
 
+\item{check_convergence}{Should a basic check for convergence of lowest stress
+optimization runs onto a similar solution be performed.}
+
 \item{verbose}{Should progress messages be reported, see also
 \code{RacOptimizer.options()}}
 

@@ -40,7 +40,7 @@ amounts when calculating column bases and table distances.}
 afterwards?}
 
 \item{check_convergence}{Should a basic check for convergence of lowest stress
-optimization runs onto a similar solution.}
+optimization runs onto a similar solution be performed.}
 
 \item{verbose}{Should progress messages be reported, see also
 \code{RacOptimizer.options()}}

@@ -19,7 +19,7 @@
 #' @param sort_optimizations Should optimizations be sorted by stress
 #'   afterwards?
 #' @param check_convergence Should a basic check for convergence of lowest stress
-#'   optimization runs onto a similar solution.
+#'   optimization runs onto a similar solution be performed.
 #' @param verbose Should progress messages be reported, see also
 #'   `RacOptimizer.options()`
 #' @param options List of named optimizer options, see `RacOptimizer.options()`
@@ -165,6 +165,8 @@ optimizeMap <- function(
 #'   directly, rather than calculating them from the titer table.
 #' @param sort_optimizations Should optimizations be sorted by stress
 #'   afterwards?
+#' @param check_convergence Should a basic check for convergence of lowest stress
+#'   optimization runs onto a similar solution be performed.
 #' @param verbose Should progress messages be reported, see also
 #'   `RacOptimizer.options()`
 #' @param options List of named optimizer options, see `RacOptimizer.options()`

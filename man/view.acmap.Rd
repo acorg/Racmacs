@@ -14,7 +14,7 @@
   select_sr = NULL,
   show_procrustes = NULL,
   show_diagnostics = NULL,
-  keep_all_optimization_runs = FALSE,
+  num_optimizations = 1,
   options = list()
 )
 }
@@ -40,9 +40,8 @@ procrustes lines be shown by default?}
 \item{show_diagnostics}{If the map contains diagnostics information like
 stress blobs or hemisphering, should it be shown by default?}
 
-\item{keep_all_optimization_runs}{Should information on all the optimization
-runs be kept in the viewer, or just view the currently selected
-optimisation run.}
+\item{num_optimizations}{Number of optimization runs to send to the viewer
+for inclusion in the "optimizations" pane.}
 
 \item{options}{A named list of viewer options to pass to
 \code{RacViewer.options()}}

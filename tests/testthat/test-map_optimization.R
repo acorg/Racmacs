@@ -42,8 +42,18 @@ test_that("Optimizing a perfect map", {
   perfect_map_opt <- optimizeMap(
     map = perfect_map,
     number_of_dimensions = 2,
-    number_of_optimizations = 1000,
-    fixed_column_bases = colbases
+    number_of_optimizations = 100,
+    fixed_column_bases = colbases,
+    options = list(dim_annealing = TRUE)
+  )
+
+  expect_warning(
+    optimizeMap(
+      map = perfect_map,
+      number_of_dimensions = 2,
+      number_of_optimizations = 100,
+      fixed_column_bases = colbases
+    )
   )
 
   expect_message(
@@ -53,7 +63,7 @@ test_that("Optimizing a perfect map", {
 
   # Check output
   pcdata <- procrustesData(perfect_map_opt, perfect_map)
-  expect_equal(numOptimizations(perfect_map_opt), 1000)
+  expect_equal(numOptimizations(perfect_map_opt), 100)
   expect_lt(pcdata$total_rmsd, 0.01)
 
   # Check stresses are calculated correctly
@@ -301,7 +311,8 @@ test_that("Optimizing a map with just a data frame", {
     map = map,
     number_of_dimensions = 2,
     number_of_optimizations = 2,
-    minimum_column_basis = "none"
+    minimum_column_basis = "none",
+    check_convergence = FALSE
   )
   expect_equal(numOptimizations(map), 2)
 })
@@ -453,7 +464,8 @@ test_that("Make a 1D map", {
     titer_table = tab1,
     number_of_dimensions = 1,
     number_of_optimizations = 10,
-    minimum_column_basis = "2560"
+    minimum_column_basis = "2560",
+    check_convergence = FALSE
   )
 
   expect_equal(

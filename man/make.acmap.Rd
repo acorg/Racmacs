@@ -13,6 +13,7 @@ make.acmap(
   minimum_column_basis = "none",
   fixed_column_bases = NULL,
   sort_optimizations = TRUE,
+  check_convergence = TRUE,
   verbose = TRUE,
   options = list(),
   ...

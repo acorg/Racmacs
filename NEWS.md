@@ -73,3 +73,4 @@
 
 # Racmacs 1.1.19
 * Add option to `procrustesData()` to included only specific antigens or sera, as can already be done for `procrustesMap()`
+* Add methods to calculate point leverage, the effect of removing different strains and sera from the map, `agLeverage()`, `srLeverage()`, `titerLeverage()`

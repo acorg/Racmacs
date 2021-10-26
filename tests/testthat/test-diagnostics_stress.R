@@ -32,3 +32,26 @@ test_that("point stress per titer", {
   expect_equal(length(sr_stress_per_titer), numSera(map))
 
 })
+
+test_that("point leverage", {
+
+  ag_leverage    <- agLeverage(map)
+  sr_leverage    <- srLeverage(map)
+  titer_leverage <- titerLeverage(map)
+
+  expect_equal(
+    length(ag_leverage),
+    numAntigens(map)
+  )
+
+  expect_equal(
+    length(sr_leverage),
+    numSera(map)
+  )
+
+  expect_equal(
+    dim(titer_leverage),
+    c(numAntigens(map), numSera(map))
+  )
+
+})

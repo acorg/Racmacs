@@ -70,3 +70,6 @@
 * Fix the map viewer stress calculations to account for the new "dilution stepsize" setting
 * Add option to get and set antigen reactivity in the viewer
 * Fix an error that was causing NAs to appear in transformed coordinates in linux builds
+
+# Racmacs 1.1.19
+* Add option to `procrustesData()` to included only specific antigens or sera, as can already be done for `procrustesMap()`

@@ -56,6 +56,42 @@ Racmacs.DiagnosticsPanel = class DiagnosticsPanel {
         });
         this.buttons.appendChild(moveTrappedPointsBtn.div);
 
+
+        // Add the optimizer panel control
+        var optimizer_control_panel = document.createElement("div");
+        this.div.appendChild(optimizer_control_panel);
+
+        var fix_ags_panel = document.createElement("div");
+        optimizer_control_panel.appendChild(fix_ags_panel);
+        var fix_ags_checkbox = document.createElement("input");
+        fix_ags_checkbox.setAttribute("type", "checkbox");
+        fix_ags_checkbox.addEventListener("change", e => {
+            if (e.target.checked) viewer.dispatchEvent("optimizer-ags-fixed", { viewer : viewer });
+            else                  viewer.dispatchEvent("optimizer-ags-unfixed", { viewer : viewer });
+        });
+        fix_ags_panel.appendChild(fix_ags_checkbox);
+        var fix_ags_label = document.createElement("span");
+        fix_ags_label.style.marginLeft = "4px";
+        fix_ags_label.style.fontSize = "90%";
+        fix_ags_label.innerHTML = "Fix antigens";
+        fix_ags_panel.appendChild(fix_ags_label);
+
+        var fix_srs_panel = document.createElement("div");
+        optimizer_control_panel.appendChild(fix_srs_panel);
+        var fix_srs_checkbox = document.createElement("input");
+        fix_srs_checkbox.setAttribute("type", "checkbox");
+        fix_srs_panel.appendChild(fix_srs_checkbox);
+        fix_srs_checkbox.addEventListener("change", e => {
+            if (e.target.checked) viewer.dispatchEvent("optimizer-srs-fixed", { viewer : viewer });
+            else                  viewer.dispatchEvent("optimizer-srs-unfixed", { viewer : viewer });
+        });
+        var fix_srs_label = document.createElement("span");
+        fix_srs_label.style.marginLeft = "4px";
+        fix_srs_label.style.fontSize = "90%";
+        fix_srs_label.innerHTML = "Fix sera";
+        fix_srs_panel.appendChild(fix_srs_label);
+
+
         // Add the antigen info panel
         var aginfopanel = document.createElement("div");
         aginfopanel.style.border = "1px solid rgb(16, 87, 116)";
@@ -148,15 +184,11 @@ Racmacs.DiagnosticsPanel = class DiagnosticsPanel {
                 Number(agreactivityslot.value)
             );
 
-            // Update error lines and stress
-            viewer.updateErrorLines();
-            viewer.updateStress();
-
-            // Update the optimizer if present
-            if (viewer.optimizing) {
-                viewer.endOptimizer();
-                viewer.relaxMap();
-            }
+            // Dispatch an event
+            viewer.dispatchEvent("ag-reactivity-changed", { 
+                point : viewer.selected_pts[0],
+                reactivity : Number(agreactivityslot.value)
+            });
 
         });
         agreactivity.appendChild(agreactivityslot);
@@ -215,11 +247,11 @@ Racmacs.ButtonPanel = class ButtonPanel {
             title : "Randomize map points",
             icon  : Racmacs.icons.randomize(),
             fn    : function(e){
-                viewer.onRandomizeMap();
+                viewer.randomizeCoords();
             },
             disabled : false
         });
-        relax_btn.classList.add("shiny-element");
+        // relax_btn.classList.add("shiny-element");
 
         // Add connection lines button
         this.addButton({

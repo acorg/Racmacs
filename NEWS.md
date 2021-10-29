@@ -79,3 +79,5 @@
 
 # Racmacs 1.1.20
 * Slight re-implementation of dimensional annealing to not report progress bar multiple times.
+* Added ability to include and exclude antigens and sera when optimizing in the javascript viewer by alt clicking the name in the browser or the titer in the interactive titer table.
+* Added ability in the javascript viewer to change the antigen reactivity adjustment by selecting the antigen and editing the value as it appears in the `diagnostics` tab.

@@ -23,6 +23,7 @@ std::vector<AcOptimization> ac_generateOptimizations(
 // Relaxing optimizations
 void ac_relaxOptimizations(
     std::vector<AcOptimization>& optimizations,
+    arma::uword num_dims,
     const arma::mat &tabledist_matrix,
     const arma::imat &titertype_matrix,
     const AcOptimizerOptions &options,

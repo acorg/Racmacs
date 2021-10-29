@@ -72,6 +72,7 @@ view.default <- function(x, ...) {
 #'   for inclusion in the "optimizations" pane.
 #'
 #' @family {functions to view maps}
+#'   {shiny app functions}
 #'
 #' @return Returns the htmlwidget object
 #'

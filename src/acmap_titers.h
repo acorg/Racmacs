@@ -352,8 +352,16 @@ class AcTiterTable {
     ) const {
 
       // Check input
-      if(fixed_colbases.n_elem != nsr()) Rf_error("fixed_colbases does not match number of sera");
-      if(ag_reactivity_adjustments.n_elem != nags()) Rf_error("ag_reactivity_adjustments does not match number of antigens");
+      if(fixed_colbases.n_elem != nsr()) {
+        char msg [400];
+        std::sprintf(msg, "fixed_colbases length (%d) does not match number of sera (%d)", fixed_colbases.n_elem, nsr());
+        Rf_error(msg);
+      }
+      if(ag_reactivity_adjustments.n_elem != nags()) {
+        char msg [400];
+        std::sprintf(msg, "ag_reactivity_adjustments length (%d) does not match number of antigens (%d)", ag_reactivity_adjustments.n_elem, nags());
+        Rf_error(msg);
+      }
       if(arma::accu(titer_types > 0) == 0) return fixed_colbases;
 
       // Get log titers

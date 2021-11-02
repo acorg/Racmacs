@@ -1,4 +1,29 @@
 
+R3JS.Viewer.prototype.eventListeners.push({
+    name : "point-selected",
+    fn : function(e){
+        let point  = e.detail.point;
+        let viewer = point.viewer;
+        if (viewer.selected_pts.length == 1 && point.type == "ag") {
+            
+            viewer.aginfopanel.style.display = "block";
+            viewer.aginfopanel.agreactivityslot.value = viewer.data.agReactivityAdjustment(point.typeIndex);
+
+        } else {
+
+            viewer.aginfopanel.style.display = "none";
+
+        }
+    }
+});
+
+R3JS.Viewer.prototype.eventListeners.push({
+    name : "points-deselected",
+    fn : function(e){
+        let viewer = e.detail.viewer;
+        viewer.aginfopanel.style.display = "none";
+    }
+});
 
 Racmacs.DiagnosticsPanel = class DiagnosticsPanel {
 
@@ -31,6 +56,112 @@ Racmacs.DiagnosticsPanel = class DiagnosticsPanel {
         });
         this.buttons.appendChild(moveTrappedPointsBtn.div);
 
+        // Add the antigen info panel
+        var aginfopanel = document.createElement("div");
+        aginfopanel.style.border = "1px solid rgb(16, 87, 116)";
+        aginfopanel.style.borderRadius = "4px";
+        aginfopanel.style.backgroundColor = "#000000";
+        aginfopanel.style.padding = "8px";
+        aginfopanel.style.fontSize = "85%";
+        aginfopanel.style.display = "none";
+        this.div.appendChild(aginfopanel);
+        viewer.aginfopanel = aginfopanel;
+
+        // Add the name panel
+        // var agnameslot = document.createElement("input");
+        // agnameslot.value = "antigen 1";
+        // agnameslot.contentEditable = true;
+        // agnameslot.style.width = "100%";
+        // agnameslot.style.backgroundColor = "transparent";
+        // agnameslot.style.outline = "none";
+        // aginfopanel.appendChild(agnameslot);
+
+        // Add the ag reactivity panel
+        var agreactivity = document.createElement("div");
+        agreactivity.style.textAlign = "right";
+        aginfopanel.appendChild(agreactivity);
+        agreactivity.classList.add("not-selectable");
+
+        var agreactivitylabel = document.createElement("div");
+        agreactivitylabel.innerHTML = "Antigen reactivity adjustment:";
+        agreactivitylabel.style.display = "inline-block";
+        agreactivitylabel.style.marginRight = "10px";
+        agreactivity.appendChild(agreactivitylabel);
+        
+        var agreactivityplus = document.createElement("div");
+        var agreactivityminus = document.createElement("div");
+        var agreactivityslot = document.createElement("input");
+
+        var agreactivityplusminus = document.createElement("div");
+        agreactivityplusminus.style.display = "inline-block";
+        agreactivityplusminus.style.marginRight = "4px";
+        agreactivity.appendChild(agreactivityplusminus);
+
+        agreactivityplus.innerHTML = "+";
+        agreactivityplus.style.display = "inline-block";
+        agreactivityplus.style.padding = "2px 4px";
+        agreactivityplus.style.fontWeight = "bolder";
+        agreactivityplus.style.cursor = "pointer";
+        agreactivityplus.style.border = "solid 1px green";
+        agreactivityplus.style.width = "8px";
+        agreactivityplus.style.textAlign = "center";
+        agreactivityplus.style.borderRadius = "2px";
+        agreactivityplus.style.marginRight = "4px";
+        agreactivityplusminus.appendChild(agreactivityplus);
+
+        agreactivityplus.addEventListener("mouseup", e => {
+            agreactivityslot.value = Number(agreactivityslot.value) + 1;
+            var event = document.createEvent('HTMLEvents');
+            event.initEvent('change', false, true); // onchange event
+            agreactivityslot.dispatchEvent(event);
+        });
+
+        agreactivityminus.innerHTML = "-";
+        agreactivityminus.style.display = "inline-block";
+        agreactivityminus.style.padding = "2px 4px";
+        agreactivityminus.style.fontWeight = "bolder";
+        agreactivityminus.style.cursor = "pointer";
+        agreactivityminus.style.border = "solid 1px red";
+        agreactivityminus.style.width = "8px";
+        agreactivityminus.style.textAlign = "center";
+        agreactivityminus.style.borderRadius = "2px";
+        agreactivityplusminus.appendChild(agreactivityminus);
+
+        agreactivityminus.addEventListener("mouseup", e => {
+            agreactivityslot.value = Number(agreactivityslot.value) - 1;
+            var event = document.createEvent('HTMLEvents');
+            event.initEvent('change', false, true); // onchange event
+            agreactivityslot.dispatchEvent(event);
+        });
+
+        agreactivityslot.style.width = "20px";
+        agreactivityslot.style.display = "inline-block";
+        agreactivityslot.style.padding = "4px";
+        agreactivityslot.style.borderRadius = "4px";
+        // agreactivityslot.style.backgroundColor = "transparent";
+        agreactivityslot.style.outline = "none";
+        agreactivityslot.addEventListener("change", e => {
+            
+            // Set the antigen reactivity in the data
+            viewer.data.setAgReactivityAdjustment(
+                viewer.selected_pts[0].typeIndex,
+                Number(agreactivityslot.value)
+            );
+
+            // Update error lines and stress
+            viewer.updateErrorLines();
+            viewer.updateStress();
+
+            // Update the optimizer if present
+            if (viewer.optimizing) {
+                viewer.endOptimizer();
+                viewer.relaxMap();
+            }
+
+        });
+        agreactivity.appendChild(agreactivityslot);
+        aginfopanel.agreactivityslot = agreactivityslot;
+
     }
 
 
@@ -54,12 +185,12 @@ Racmacs.ButtonPanel = class ButtonPanel {
             title : "Relax map points",
             icon  : Racmacs.icons.relax(),
             fn    : function(e){
-                if(e.shiftKey){
+                if (e.shiftKey) {
                     viewer.onRelaxMapOneStep();
-                    viewer.relaxMap(1);
-                } else if(!e.metaKey) {
+                    viewer.relaxMap(e.altKey, 1);
+                } else {
                     viewer.onRelaxMap();
-                    viewer.toggleRelaxMap();
+                    viewer.toggleRelaxMap(e.altKey);
                 }
             },
             disabled : false
@@ -68,7 +199,7 @@ Racmacs.ButtonPanel = class ButtonPanel {
         // Add a custom event listener for the meta key
         relax_btn.addEventListener("mousedown", e => {
             if (e.metaKey) {
-                viewer.relaxMap();
+                viewer.relaxMap(e.altKey);
             }
         });
         relax_btn.addEventListener("mouseup", e => {

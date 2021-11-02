@@ -38,7 +38,7 @@ arma::vec numeric_titers(
 
   arma::vec numerictiters(titers.size());
   for(arma::uword i=0; i<titers.size(); i++){
-    if(titers[i].type == 0){
+    if(titers[i].type <= 0){
       numerictiters[i] = arma::datum::nan;
     } else {
       numerictiters[i] = titers[i].numeric;
@@ -51,12 +51,13 @@ arma::vec numeric_titers(
 // Get log titers from a vector of titers
 // [[Rcpp::export]]
 arma::vec log_titers(
-    std::vector<AcTiter> titers
+    std::vector<AcTiter> titers,
+    double dilution_stepsize
 ){
 
   arma::vec logtiters(titers.size());
   for(arma::uword i=0; i<titers.size(); i++){
-    logtiters[i] = titers[i].logTiter();
+    logtiters[i] = titers[i].logTiter(dilution_stepsize);
   }
   return logtiters;
 
@@ -64,15 +65,30 @@ arma::vec log_titers(
 
 // Get titer types from a vector of titers
 // [[Rcpp::export]]
-arma::uvec titer_types_int(
+arma::ivec titer_types_int(
     std::vector<AcTiter> titers
 ){
 
-  arma::uvec titertypes(titers.size());
+  arma::ivec titertypes(titers.size());
   for(arma::uword i=0; i<titers.size(); i++){
     titertypes[i] = titers[i].type;
   }
   return titertypes;
+
+}
+
+// Make titers from numeric and titer types
+// [[Rcpp::export]]
+std::vector<AcTiter> make_titers(
+    arma::vec numeric_titers,
+    arma::ivec titer_types_int
+){
+
+  std::vector<AcTiter> titers(numeric_titers.n_elem);
+  for(arma::uword i=0; i<numeric_titers.n_elem; i++){
+    titers[i] = AcTiter(numeric_titers[i], titer_types_int[i]);
+  }
+  return titers;
 
 }
 

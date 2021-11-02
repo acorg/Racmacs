@@ -290,8 +290,12 @@ bootstrapBlobs <- function(
   # Calculate for antigens
   for (agnum in seq_along(map$antigens)) {
 
+    # Fetch coords, removing nas found in the resample method
+    coords <- t(sapply(bootstrap_ag_coords, function(x) x[agnum, ]))
+    coords <- coords[!is.na(coords[,1]), , drop=F]
+
     agDiagnostics(map, 1)[[agnum]]$bootstrap_blob <- coordDensityBlob(
-      coords = t(sapply(bootstrap_ag_coords, function(x) x[agnum, ])),
+      coords = coords,
       conf.level = conf.level,
       smoothing = smoothing,
       gridspacing = gridspacing
@@ -303,8 +307,12 @@ bootstrapBlobs <- function(
   # Calculate for sera
   for (srnum in seq_along(map$sera)) {
 
+    # Fetch coords, removing nas found in the resample method
+    coords <- t(sapply(bootstrap_sr_coords, function(x) x[srnum, ]))
+    coords <- coords[!is.na(coords[,1]), , drop=F]
+
     srDiagnostics(map, 1)[[srnum]]$bootstrap_blob <- coordDensityBlob(
-      coords = t(sapply(bootstrap_sr_coords, function(x) x[srnum, ])),
+      coords = coords,
       conf.level = conf.level,
       smoothing = smoothing,
       gridspacing = gridspacing

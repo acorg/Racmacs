@@ -15,8 +15,10 @@
 #' @param show_procrustes logical, should procrustes lines be shown, if present
 #' @param show_error_lines logical, should error lines be drawn
 #' @param plot_stress logical, should map stress be plotted in lower left corner
-#' @param indicate_outliers logical, should points outside of plot limits be
-#'   indicated with an arrow
+#' @param indicate_outliers how should points outside the plotting region be
+#'   indicated, either FALSE, for not shown, "arrowheads" for small arrowheads
+#'   like in the viewer, or "arrows" for arrows pointing from the edge of the
+#'   plot margin, default is "arrowheads".
 #' @param grid.col grid line color
 #' @param grid.margin.col grid margin color
 #' @param outlier.arrow.col outlier arrow color
@@ -44,7 +46,7 @@ plot.acmap <- function(
   show_procrustes = TRUE,
   show_error_lines = FALSE,
   plot_stress = FALSE,
-  indicate_outliers = TRUE,
+  indicate_outliers = "arrowheads",
   grid.col = "grey90",
   grid.margin.col = "grey50",
   outlier.arrow.col = grid.col,
@@ -135,13 +137,26 @@ plot.acmap <- function(
   )
 
   # Deal with cases outside plot limits
-  if (indicate_outliers) {
+  if (!isFALSE(indicate_outliers)) {
+
     pts_orig_coords <- pts$coords
-    pts_left   <- pts$coords[,1] < xlim[1]; pts$coords[pts_left,   1] <- xlim[1]
-    pts_right  <- pts$coords[,1] > xlim[2]; pts$coords[pts_right,  1] <- xlim[2]
-    pts_bottom <- pts$coords[,2] < ylim[1]; pts$coords[pts_bottom, 2] <- ylim[1]
-    pts_top    <- pts$coords[,2] > ylim[2]; pts$coords[pts_top,    2] <- ylim[2]
+    pts_left   <- pts$coords[,1] < xlim[1]
+    pts_right  <- pts$coords[,1] > xlim[2]
+    pts_bottom <- pts$coords[,2] < ylim[1]
+    pts_top    <- pts$coords[,2] > ylim[2]
     pts_outside_bounds <- pts_left | pts_right | pts_top | pts_bottom
+
+    pts$coords[pts_left,   1] <- xlim[1]
+    pts$coords[pts_right,  1] <- xlim[2]
+    pts$coords[pts_bottom, 2] <- ylim[1]
+    pts$coords[pts_top,    2] <- ylim[2]
+
+    if (indicate_outliers == "arrowheads") {
+      pts$shown[pts_outside_bounds] <- FALSE
+    } else if (indicate_outliers != "arrows") {
+      stop("'indicate_outliers' must be one of 'arrows', 'arrowheads' or FALSE")
+    }
+
   }
 
   ## Check for special points that won't be plotted properly
@@ -187,6 +202,24 @@ plot.acmap <- function(
     pts$outline <- grDevices::adjustcolor(pts$outline, alpha.f = outline.alpha)
   }
 
+  ## Fade out points not included in procrustes
+  if (
+    hasProcrustes(x, optimization_number)
+    && !isFALSE(show_procrustes)
+  ) {
+
+    pc_data <- ptProcrustes(x, optimization_number)
+    pc_coords <- rbind(pc_data$ag_coords, pc_data$sr_coords)
+    pc_coords_na <- is.na(pc_coords[,1])
+
+    # Fade out points with NA procrustes coords
+    if (sum(pc_coords_na) > 0) {
+      pts$fill[pc_coords_na] <- grDevices::adjustcolor(pts$fill[pc_coords_na], alpha.f = 0.2)
+      pts$outline[pc_coords_na] <- grDevices::adjustcolor(pts$outline[pc_coords_na], alpha.f = 0.2)
+    }
+
+  }
+
   ## Plot the points
   pt_order <- ptDrawingOrder(x)
   plotted_pt_order <- pt_order[pts$shown[pt_order]]
@@ -201,7 +234,7 @@ plot.acmap <- function(
     col = pts$outline[plotted_pt_order],
     cex = pts$size[plotted_pt_order] * cex * 0.3,
     lwd = pts$outline_width[plotted_pt_order],
-    xpd = TRUE
+    xpd = FALSE
   )
 
   ## Plot blobs
@@ -267,7 +300,7 @@ plot.acmap <- function(
   }
 
   ## Plot arrows for points outside bounds
-  if (indicate_outliers) {
+  if (indicate_outliers == "arrows") {
     for (n in which(pts_outside_bounds)) {
 
       from <- pts$coords[n,]
@@ -286,6 +319,34 @@ plot.acmap <- function(
         arr.length = 0.2,
         col = outlier.arrow.col,
         xpd = TRUE
+      )
+    }
+  }
+
+  if (indicate_outliers == "arrowheads") {
+    for (n in which(pts_outside_bounds)) {
+
+      to <- pts$coords[n,]
+      oto  <- pts_orig_coords[n,]
+
+      xval <- to[1]-oto[1]
+      yval <- to[2]-oto[2]
+      radians <- atan(yval / xval)
+      degrees <- 180*radians / pi + 180
+      if (xval < 0) degrees <- degrees + 180
+
+      shape::Arrowhead(
+        x0 = to[1],
+        y0 = to[2],
+        angle = degrees,
+        arr.type = "triangle",
+        arr.adj = 1,
+        arr.width = 0.20,
+        arr.length = 0.25,
+        lcol = pts$outline[n],
+        arr.col = pts$fill[n],,
+        arr.lwd = 1,
+        xpd = FALSE
       )
     }
   }

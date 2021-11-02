@@ -16,7 +16,7 @@
   show_procrustes = TRUE,
   show_error_lines = FALSE,
   plot_stress = FALSE,
-  indicate_outliers = TRUE,
+  indicate_outliers = "arrowheads",
   grid.col = "grey90",
   grid.margin.col = "grey50",
   outlier.arrow.col = grid.col,
@@ -52,8 +52,10 @@
 
 \item{plot_stress}{logical, should map stress be plotted in lower left corner}
 
-\item{indicate_outliers}{logical, should points outside of plot limits be
-indicated with an arrow}
+\item{indicate_outliers}{how should points outside the plotting region be
+indicated, either FALSE, for not shown, "arrowheads" for small arrowheads
+like in the viewer, or "arrows" for arrows pointing from the edge of the
+plot margin, default is "arrowheads".}
 
 \item{grid.col}{grid line color}
 

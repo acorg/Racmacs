@@ -7,7 +7,7 @@
 
 double ac_relax_coords(
     const arma::mat &tabledist_matrix,
-    const arma::umat &titertype_matrix,
+    const arma::imat &titertype_matrix,
     arma::mat &ag_coords,
     arma::mat &sr_coords,
     const AcOptimizerOptions &options,

@@ -11,7 +11,8 @@
 #'   runs, the number of optimization runs to do.
 #' @param minimum_column_basis For merging that generates new optimization runs,
 #'   the minimum column basis to use.
-#' @param options For merging that generates new optimization runs, optimizer
+#' @param merge_options Options to use when merging titers (see `RacMerge.options()`).
+#' @param optimizer_options For merging that generates new optimization runs, optimizer
 #'   settings (see `RacOptimizer.options()`).
 #'
 #' @details Maps can be merged in a number of ways depending upon the desired
@@ -60,7 +61,8 @@ mergeMaps <- function(
   number_of_dimensions,
   number_of_optimizations,
   minimum_column_basis = "none",
-  options = list()
+  optimizer_options = list(),
+  merge_options = list()
   ) {
 
   # Check input
@@ -68,7 +70,11 @@ mergeMaps <- function(
   lapply(maps, check.acmap)
 
   # Set options for any relaxation or optimizations
-  options <- do.call(RacOptimizer.options, options)
+  optimizer_options <- do.call(RacOptimizer.options, optimizer_options)
+  merge_options <- do.call(RacMerge.options, merge_options)
+
+  # Set the dilution stepsize for merging
+  merge_options$dilution_stepsize <- mean(vapply(maps, dilutionStepsize, numeric(1)))
 
   # Apply the relevant merge method
   switch(
@@ -76,7 +82,8 @@ mergeMaps <- function(
     # Table merge
     `table` = {
       ac_merge_tables(
-        maps = maps
+        maps = maps,
+        merge_options = merge_options
       )
     },
     # Re-optimized merge
@@ -85,7 +92,8 @@ mergeMaps <- function(
         maps = maps,
         num_dims = number_of_dimensions,
         num_optimizations = number_of_optimizations,
-        options = options
+        optimizer_options = optimizer_options,
+        merge_options = merge_options
       )
     },
     # Incremental merge
@@ -95,27 +103,31 @@ mergeMaps <- function(
         num_dims = number_of_dimensions,
         num_optimizations = number_of_optimizations,
         min_colbasis = minimum_column_basis,
-        options = options
+        optimizer_options = optimizer_options,
+        merge_options = merge_options
       )
     },
     # Frozen overlay merge
     `frozen-overlay` = {
       ac_merge_frozen_overlay(
-        maps = maps
+        maps = maps,
+        merge_options = merge_options
       )
     },
     # Relaxed overlay merge
     `relaxed-overlay` = {
       ac_merge_relaxed_overlay(
         maps = maps,
-        options = options
+        optimizer_options = optimizer_options,
+        merge_options = merge_options
       )
     },
     # Frozen overlay merge
     `frozen-merge` = {
       ac_merge_frozen_merge(
         maps = maps,
-        options = options
+        optimizer_options = optimizer_options,
+        merge_options = merge_options
       )
     },
     # Other merge
@@ -125,19 +137,42 @@ mergeMaps <- function(
 }
 
 
-#' Return a merge report
+#' Set acmap merge options
 #'
-#' Prints a raw text merge report from merging two map tables.
+#' This function facilitates setting options for the acmap titer merging process by
+#' returning a list of option settings.
 #'
-#' @param maps List of acmaps to merge
+#' @param sd_limit When merging titers, titers that have a standard deviation of
+#'   this amount or greater on the log2 scale will be set to "*" and excluded,
+#'   set to NA to always simply take the GMT regardless of log titer standard deviation
+#' @param dilution_stepsize The dilution stepsize to assume when merging titers (see
+#'   `dilutionStepsize()`)
 #'
 #' @family {map merging functions}
+#'
+#' @return Returns a named list of merging options
 #' @export
-mergeReport <- function(
-  maps
-  ) {
+#'
+RacMerge.options <- function(
+  sd_limit = 1,
+  dilution_stepsize = 1
+) {
 
-  lapply(maps, check.acmap)
-  stop("mergeReport not yet implemented")
+  # Check input
+  if (is.na(sd_limit)) sd_limit <- NA_real_
+  check.numeric(sd_limit)
+  check.numeric(dilution_stepsize)
+
+  list(
+    sd_limit = sd_limit,
+    dilution_stepsize = dilution_stepsize
+  )
 
 }
+
+
+
+
+
+
+

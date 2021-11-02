@@ -49,8 +49,13 @@ class AcTiter {
           numeric = std::stod(titer);
           break;
         case '*':
-          // Non-detectable titer
+          // Unmeasured or ignored titer
           type = 0;
+          numeric = arma::datum::nan;
+          break;
+        case '.':
+          // Omitted titer (relevant for merges)
+          type = -1;
           numeric = arma::datum::nan;
           break;
         default:
@@ -71,6 +76,10 @@ class AcTiter {
 
       // Append lessthan signs etc depending on type
       switch(type) {
+        case 0:
+          // Unmeasured titer
+          titer = "*";
+          break;
         case 1:
           // Measurable titer
           break;
@@ -83,8 +92,8 @@ class AcTiter {
           titer = ">"+titer;
           break;
         default:
-          // Missing titer
-          titer = "*";
+          // Omitted titer
+          titer = ".";
       }
 
       // Return the titer
@@ -93,20 +102,27 @@ class AcTiter {
     }
 
     // Conversion to log titer
-    double logTiter(){
+    double logTiter(
+        double dilution_stepsize
+    ){
       switch(type){
       case 1:
         return std::log2(numeric/10.0);
         break;
       case 2:
-        return std::log2(numeric/10.0)-1;
+        return std::log2(numeric/10.0) - dilution_stepsize;
         break;
       case 3:
-        return std::log2(numeric/10.0)+1;
+        return std::log2(numeric/10.0) + dilution_stepsize;
         break;
       default:
         return arma::datum::nan;
       }
+    }
+
+    // Round the titer
+    void roundTiter() {
+      numeric = round(numeric);
     }
 
 };
@@ -123,7 +139,7 @@ class AcTiterTable {
     // 2 = measured lessthan e.g. "<10"
     // 3 = measured morethan e.g. ">1280"
     arma::mat numeric_titers;
-    arma::umat titer_types;
+    arma::imat titer_types;
 
   public:
 
@@ -144,8 +160,8 @@ class AcTiterTable {
     arma::mat get_numeric_titers() const { return numeric_titers; }
     void set_numeric_titers(arma::mat numeric_titers_in){ numeric_titers = numeric_titers_in; }
 
-    arma::umat get_titer_types() const { return titer_types; }
-    void set_titer_types(arma::umat titer_types_in){ titer_types = titer_types_in; }
+    arma::imat get_titer_types() const { return titer_types; }
+    void set_titer_types(arma::imat titer_types_in){ titer_types = titer_types_in; }
 
     // Get a given titer
     AcTiter get_titer(
@@ -290,7 +306,7 @@ class AcTiterTable {
 
     int num_unmeasured(
     ) const {
-      return arma::accu(titer_types == 0);
+      return arma::accu(titer_types <= 0);
     }
 
     // Check if a titer is measured
@@ -298,7 +314,7 @@ class AcTiterTable {
       const int& ag,
       const int& sr
     ) const {
-      return titer_types(ag, sr) != 0;
+      return titer_types(ag, sr) > 0;
     }
 
     // Setting unmeasured titers
@@ -313,12 +329,12 @@ class AcTiterTable {
     arma::uvec vec_indices_measured(
     ) const {
 
-      int n_measured = arma::accu(titer_types != 0);
+      int n_measured = arma::accu(titer_types > 0);
       arma::uvec indices(n_measured);
 
       int vec_i = 0;
       for(arma::uword i=0; i<titer_types.n_elem; i++){
-          if(titer_types(i) != 0){
+          if(titer_types(i) > 0){
             indices(vec_i) = i;
             vec_i++;
           }
@@ -338,7 +354,7 @@ class AcTiterTable {
       // Check input
       if(fixed_colbases.n_elem != nsr()) Rf_error("fixed_colbases does not match number of sera");
       if(ag_reactivity_adjustments.n_elem != nags()) Rf_error("ag_reactivity_adjustments does not match number of antigens");
-      if(arma::accu(titer_types) == 0) return fixed_colbases;
+      if(arma::accu(titer_types > 0) == 0) return fixed_colbases;
 
       // Get log titers
       arma::mat num_titers = numeric_titers;
@@ -353,11 +369,16 @@ class AcTiterTable {
 
       // Apply any minimum column bases
       if(min_colbasis != "none"){
+
+        double log_min_colbasis = AcTiter(min_colbasis).logTiter(1.0);
+        double max_colbasis = colbases.max();
+
         colbases = arma::clamp(
           colbases,
-          AcTiter(min_colbasis).logTiter(),
-          colbases.max()
+          log_min_colbasis,
+          std::max(max_colbasis, log_min_colbasis)
         );
+
       }
 
       // Apply any fixed column bases
@@ -405,7 +426,7 @@ class AcTiterTable {
       // }
 
       // Replace na titers with na dists
-      dists.elem( arma::find(titer_types == 0) ).fill( arma::datum::nan );
+      dists.elem( arma::find(titer_types <= 0) ).fill( arma::datum::nan );
 
       // Return distance matrix
       return dists;
@@ -421,6 +442,11 @@ class AcTiterTable {
       logtiters += log_titers_to_add;
       numeric_titers = arma::exp2(logtiters)*10.0;
 
+    }
+
+    // Round the titers
+    void roundTiters() {
+      numeric_titers = arma::round(numeric_titers);
     }
 
 };

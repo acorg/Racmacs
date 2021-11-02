@@ -31,6 +31,7 @@ mapName <- function(map) {
 #'
 #' @name titerTable
 #' @family {map attribute functions}
+#' @seealso adjustedTiterTable
 #'
 
 #' @export

@@ -282,7 +282,7 @@ relaxMap <- function(
   ) {
 
   # Get options
-  if (sum(titerTable(map) != "*") == 0) stop("Table has no measurable titers")
+  if (sum(!titerTable(map) %in% c("*", ".")) == 0) stop("Table has no measurable titers")
   options <- do.call(RacOptimizer.options, options)
 
   # Set default arguments

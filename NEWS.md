@@ -38,3 +38,35 @@
 
 # Racmacs 1.1.15
 * Add option to set `dilutionStepsize()` for cases where dilution series did not follow 2-fold dilution steps
+
+# Racmacs 1.1.16
+* Fix error when minimum column basis is set to higher than any measurable titer
+* Points not included in a procrustes will now be faded out when plotted with `plot()`, similar to the behaviour 
+  already implemented in the `view()` function.
+* Added the ability to set merge options when merging maps, controlling for example how much standard deviation 
+  there has to be between merged titers before the merged titer gets excluded as unreliable.
+* Added `mergeReport()` and `htmlMergeReport()` to output formatted tables showing how different titers have 
+  been merged in a merged map.
+* Functions like `logtiterTable()` and `mergeMaps()` now take account of the dilutionStepsize map setting
+* Implement a new titer type '.', like '*' but to represent titers that are missing as a result
+  of antigen sera combinations not being present in merged tables
+* Fix error calculating bootstrap blobs and showing from a bootstrapped map where "resample" method 
+  was used
+
+# Racmacs 1.1.17
+* Added `htmlMergeReport()` showing how titers were merged as a formatted html table.
+* Added `htmlTiterTable()` for visualizing an html formatted titer table
+* Added functions for getting titers after applying antigen reactivity adjustments set with `agReactivityAdjustments()<-`, namely `adjustedTiterTable()`, `adjustedLogTiterTable()`, `htmlAdjustedTiterTable()`
+* Details are no longer saved in map json if they are map defaults
+* Added an option to round titers to the nearest unit when outputting (for e.g. listmds compatibility)
+* Adds the ability to apply and set scaling on an optimization
+* Add option to optimize from scratch when performing optimizeAgReactivity
+* Fix an error when performing procrustes with some coordinates set to NA
+* Fix an error where transforming na coordinates in the viewer would give a numeric value
+* Add an option to use arrowheads rather than arrows to show outlier points when plotting
+
+# Racmacs 1.1.18
+* Add option to edit titers in the titer table view and fix previous error that had been introduced stopping the table view
+* Fix the map viewer stress calculations to account for the new "dilution stepsize" setting
+* Add option to get and set antigen reactivity in the viewer
+* Fix an error that was causing NAs to appear in transformed coordinates in linux builds

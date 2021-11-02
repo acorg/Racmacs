@@ -119,3 +119,39 @@ test_that(
   }
 )
 
+test_that(
+  "Map does not save values when they are default", {
+
+    map <- read.acmap(test_path("../testdata/testmap.ace"))
+    temp <- tempfile(fileext = ".ace")
+    save.acmap(map, temp)
+
+    json <- jsonlite::read_json(temp)
+
+    # Antigens
+    expect_equal(
+      names(json$c$a[[1]]),
+      c("N")
+    )
+
+    # Sera
+    expect_equal(
+      names(json$c$s[[1]]),
+      c("N")
+    )
+
+    # Optimizations
+    expect_equal(
+      names(json$c$P[[1]]),
+      c("s", "l")
+    )
+
+    # Extensions
+    expect_equal(
+      names(json$c$x),
+      "racmacs-v"
+    )
+
+  }
+)
+

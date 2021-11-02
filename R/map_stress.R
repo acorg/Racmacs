@@ -30,9 +30,10 @@ tableDistances <- function(
     fixed_col_bases = fixedColBases(map, optimization_number),
     ag_reactivity_adjustments = agReactivityAdjustments(map, optimization_number)
   )
-  numeric_dists[titertypesTable(map) == 0] <- "*"
-  numeric_dists[titertypesTable(map) == 2] <- paste0(">", numeric_dists[titertypesTable(map) == 2])
-  numeric_dists[titertypesTable(map) == 3] <- "NA"
+  numeric_dists[titertypesTable(map) == -1]  <- "."
+  numeric_dists[titertypesTable(map) == 0]  <- "*"
+  numeric_dists[titertypesTable(map) == 2]  <- paste0(">", numeric_dists[titertypesTable(map) == 2])
+  numeric_dists[titertypesTable(map) == 3]  <- "NA"
   numeric_dists
 
 }
@@ -43,6 +44,7 @@ numeric_min_tabledists <- function(tabledists) {
   thresholded <- substr(tabledists, 1, 1) == ">"
   tabledists[thresholded] <- substr(tabledists[thresholded], 2, nchar(tabledists[thresholded]))
   tabledists[tabledists == "*"] <- NA
+  tabledists[tabledists == "."] <- NA
   mode(tabledists) <- "numeric"
   tabledists[thresholded] <- tabledists[thresholded] + 1
   tabledists
@@ -138,7 +140,7 @@ mapDistances <- function(
 logtiterTable <- function(map) {
 
   matrix(
-    log_titers(titerTable(map)),
+    log_titers(titerTable(map), dilutionStepsize(map)),
     numAntigens(map),
     numSera(map)
   )
@@ -333,20 +335,16 @@ srStressPerTiter <- function(
   sera <- get_sr_indices(sera, map, warnings = TRUE)
 
   # Get map residuals omitting anything that's not a measurable value
-  map_residuals <- mapResiduals(
+  stress_table <- stressTable(
     map                 = map,
-    optimization_number = optimization_number,
-    exclude_nd          = exclude_nd
+    optimization_number = optimization_number
   )
 
-  # Calculate the serum stress per titer
-  vapply(sera, function(serum) {
+  # Exclude nd values
+  if (exclude_nd) stress_table[titertypesTable(map) != 1] <- NA
 
-    sr_residuals <- map_residuals[, serum]
-    sr_residuals <- sr_residuals[!is.na(sr_residuals)]
-    sum(sr_residuals^2) / length(sr_residuals)
-
-  }, numeric(1))
+  # Calculate the antigen stress per titer
+  colMeans(stress_table)[sera]
 
 }
 
@@ -364,20 +362,16 @@ agStressPerTiter <- function(
   antigens <- get_ag_indices(antigens, map, warnings = TRUE)
 
   # Get map residuals omitting anything that's not a measurable value
-  map_residuals <- mapResiduals(
+  stress_table <- stressTable(
     map                 = map,
-    optimization_number = optimization_number,
-    exclude_nd          = exclude_nd
+    optimization_number = optimization_number
   )
 
+  # Exclude nd values
+  if (exclude_nd) stress_table[titertypesTable(map) != 1] <- NA
+
   # Calculate the antigen stress per titer
-  vapply(antigens, function(antigen) {
-
-    ag_residuals <- map_residuals[antigen, ]
-    ag_residuals <- ag_residuals[!is.na(ag_residuals)]
-    sum(ag_residuals^2) / length(ag_residuals)
-
-  }, numeric(1))
+  rowMeans(stress_table)[antigens]
 
 }
 

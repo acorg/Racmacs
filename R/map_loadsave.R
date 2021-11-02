@@ -59,6 +59,8 @@ read.acmap <- function(
 #' @param filename Path to the file.
 #' @param compress Should the file be xz compressed
 #' @param pretty Should json be output prettily with new lines and indentation
+#' @param round_titers Should titers be rounded when outputted (this is needed
+#'   for acmacs web and lispmds compatibility)
 #'
 #' @export
 #'
@@ -68,7 +70,8 @@ save.acmap <- function(
   map,
   filename,
   compress = FALSE,
-  pretty = !compress
+  pretty = !compress,
+  round_titers = FALSE
   ) {
 
   # Check file extension
@@ -81,7 +84,7 @@ save.acmap <- function(
   if (compress) conn <- xzfile(filename, "w")
   else          conn <- filename
 
-  writeChar(as.json(map, pretty = pretty), conn, eos = NULL)
+  writeChar(as.json(map, pretty = pretty, round_titers = round_titers), conn, eos = NULL)
   if (compress) close(conn)
 
 }
@@ -91,18 +94,20 @@ save.acmap <- function(
 #'
 #' @param map The map data object
 #' @param pretty Should json be output prettily with new lines and indentation?
+#' @param round_titers Should titers be rounded to the nearest integer before outputting
 #'
 #' @return Returns map data as .ace json format
 #' @family {functions for working with map data}
 #' @export
 #'
-as.json <- function(map, pretty = FALSE) {
+as.json <- function(map, pretty = FALSE, round_titers = FALSE) {
 
   check.acmap(map)
   acmap_to_json(
     map = map,
     version = paste0("racmacs-ace-v", utils::packageVersion("Racmacs")),
-    pretty = pretty
+    pretty = pretty,
+    round_titers = round_titers
   )
 
 }

@@ -29,13 +29,19 @@ class MapOptimizer {
     arma::mat ag_coords;
     arma::mat sr_coords;
     arma::mat tabledist_matrix;
-    arma::umat titertype_matrix;
+    arma::imat titertype_matrix;
     arma::mat mapdist_matrix;
     arma::uword num_dims;
     arma::uword num_ags;
     arma::uword num_sr;
     arma::uvec moveable_ags;
     arma::uvec moveable_sr;
+    arma::uvec included_ags;
+    arma::uvec included_srs;
+    arma::uvec::iterator agi;
+    arma::uvec::iterator agi_end;
+    arma::uvec::iterator sri;
+    arma::uvec::iterator sri_end;
     arma::mat titer_weights;
     arma::mat ag_gradients;
     arma::mat sr_gradients;
@@ -49,7 +55,7 @@ class MapOptimizer {
       arma::mat ag_start_coords,
       arma::mat sr_start_coords,
       arma::mat tabledist,
-      arma::umat titertype,
+      arma::imat titertype,
       arma::uword dims,
       double dilution_stepsize
     )
@@ -66,6 +72,12 @@ class MapOptimizer {
       // Set default moveable antigens and sera to all
       moveable_ags = arma::regspace<arma::uvec>(0, num_ags - 1);
       moveable_sr = arma::regspace<arma::uvec>(0, num_sr - 1);
+
+      // Set included antigens and sera
+      included_ags = arma::find_finite(ag_start_coords.col(0));
+      included_srs = arma::find_finite(sr_start_coords.col(0));
+      agi_end = included_ags.end();
+      sri_end = included_srs.end();
 
       // Set default weights to 1
       titer_weights.ones(num_ags, num_sr);
@@ -87,10 +99,10 @@ class MapOptimizer {
       arma::mat ag_start_coords,
       arma::mat sr_start_coords,
       arma::mat tabledist,
-      arma::umat titertype,
+      arma::imat titertype,
       arma::uword dims,
-      arma::uvec moveable_ags,
-      arma::uvec moveable_sr,
+      arma::uvec ag_fixed,
+      arma::uvec sr_fixed,
       arma::mat titer_weights_in,
       double dilution_stepsize
     )
@@ -101,14 +113,22 @@ class MapOptimizer {
        num_dims(dims),
        num_ags(tabledist.n_rows),
        num_sr(tabledist.n_cols),
-       moveable_ags(moveable_ags),
-       moveable_sr(moveable_sr),
        dilution_stepsize(dilution_stepsize)
       {
 
       // Set default weights to 1 if missing
       if (titer_weights_in.n_elem == 0) titer_weights.ones(num_ags, num_sr);
       else                              titer_weights = titer_weights_in;
+
+      // Set moveable antigens
+      moveable_ags = arma::find(ag_fixed == 0);
+      moveable_sr = arma::find(sr_fixed == 0);
+
+      // Set included antigens and sera
+      included_ags = arma::find_finite(ag_start_coords.col(0));
+      included_srs = arma::find_finite(sr_start_coords.col(0));
+      agi_end = included_ags.end();
+      sri_end = included_srs.end();
 
       // Setup map dist matrices
       mapdist_matrix = arma::mat(num_ags, num_sr, arma::fill::zeros);
@@ -172,27 +192,27 @@ class MapOptimizer {
       sr_gradients.zeros();
 
       // Now we cycle through each antigen and sera and calculate the gradient
-      for(arma::uword sr = 0; sr < num_sr; ++sr) {
-        for(arma::uword ag = 0; ag < num_ags; ++ag) {
+      for(sri = included_srs.begin(); sri != sri_end; ++sri) {
+        for(agi = included_ags.begin(); agi != agi_end; ++agi) {
 
           // Skip unmeasured titers
-          if(titertype_matrix.at(ag, sr) == 0){
+          if(titertype_matrix.at(*agi, *sri) <= 0){
             continue;
           }
 
           // Calculate inc_base
-          double ibase = titer_weights.at(ag,sr) * inc_base(
-            mapdist_matrix.at(ag, sr),
-            tabledist_matrix.at(ag, sr),
-            titertype_matrix.at(ag, sr),
+          double ibase = titer_weights.at(*agi,*sri) * inc_base(
+            mapdist_matrix.at(*agi, *sri),
+            tabledist_matrix.at(*agi, *sri),
+            titertype_matrix.at(*agi, *sri),
             dilution_stepsize
           );
 
           // Now calculate the gradient for each coordinate
           for(arma::uword i = 0; i < num_dims; ++i) {
-            gradient = ibase*(ag_coords.at(ag, i) - sr_coords.at(sr, i));
-            ag_gradients.at(ag, i) -= gradient;
-            sr_gradients.at(sr, i) += gradient;
+            gradient = ibase*(ag_coords.at(*agi, i) - sr_coords.at(*sri, i));
+            ag_gradients.at(*agi, i) -= gradient;
+            sr_gradients.at(*sri, i) += gradient;
           }
 
         }
@@ -207,19 +227,19 @@ class MapOptimizer {
       stress = 0;
 
       // Now we cycle through and sum up the stresses
-      for(arma::uword sr = 0; sr < num_sr; ++sr) {
-        for(arma::uword ag = 0; ag < num_ags; ++ag) {
+      for(sri = included_srs.begin(); sri != sri_end; ++sri) {
+        for(agi = included_ags.begin(); agi != agi_end; ++agi) {
 
           // Skip unmeasured titers
-          if(titertype_matrix.at(ag,sr) == 0){
+          if(titertype_matrix.at(*agi,*sri) <= 0){
             continue;
           }
 
           // Now calculate the stress
-          stress += titer_weights.at(ag,sr) * ac_ptStress(
-            mapdist_matrix.at(ag,sr),
-            tabledist_matrix.at(ag,sr),
-            titertype_matrix.at(ag,sr),
+          stress += titer_weights.at(*agi,*sri) * ac_ptStress(
+            mapdist_matrix.at(*agi,*sri),
+            tabledist_matrix.at(*agi,*sri),
+            titertype_matrix.at(*agi,*sri),
             dilution_stepsize
           );
 
@@ -253,15 +273,15 @@ class MapOptimizer {
     // UPDATE THE MAP DISTANCE MATRIX
     void update_map_dist_matrix(){
 
-      for (arma::uword sr = 0; sr < num_sr; sr++) {
-        for (arma::uword ag = 0; ag < num_ags; ag++) {
+      for(sri = included_srs.begin(); sri != sri_end; ++sri) {
+        for(agi = included_ags.begin(); agi != agi_end; ++agi) {
 
           // Only calculate distances where ag and sr were titrated
-          if(titertype_matrix.at(ag,sr) == 0) continue;
+          if(titertype_matrix.at(*agi,*sri) <= 0) continue;
 
           // Calculate the euclidean distance
-          mapdist_matrix.at(ag,sr) = sqrt(arma::accu(arma::square(
-            ag_coords.row(ag) - sr_coords.row(sr)
+          mapdist_matrix.at(*agi,*sri) = sqrt(arma::accu(arma::square(
+            ag_coords.row(*agi) - sr_coords.row(*sri)
           )));
 
         }
@@ -323,7 +343,7 @@ arma::mat ac_point_stresses(
     fixed_colbases,
     ag_reactivity_adjustments
   );
-  arma::umat titer_types = titer_table.get_titer_types();
+  arma::imat titer_types = titer_table.get_titer_types();
 
   // Setup residual table
   arma::mat stress_table(num_ags, num_sr);
@@ -364,7 +384,7 @@ arma::mat ac_point_residuals(
     fixed_colbases,
     ag_reactivity_adjustments
   );
-  arma::umat titer_types = titer_table.get_titer_types();
+  arma::imat titer_types = titer_table.get_titer_types();
 
   // Setup residual table
   arma::mat residual_table(num_ags, num_sr);
@@ -390,7 +410,7 @@ arma::mat ac_point_residuals(
 // [[Rcpp::export]]
 double ac_relax_coords(
     const arma::mat &tabledist_matrix,
-    const arma::umat &titertype_matrix,
+    const arma::imat &titertype_matrix,
     arma::mat &ag_coords,
     arma::mat &sr_coords,
     const AcOptimizerOptions &options,
@@ -400,12 +420,13 @@ double ac_relax_coords(
     const double &dilution_stepsize
 ){
 
-  // Set variables
-  arma::uword num_dims = ag_coords.n_cols;
-  arma::uvec moveable_antigens = arma::regspace<arma::uvec>(0, ag_coords.n_rows - 1);
-  arma::uvec moveable_sera = arma::regspace<arma::uvec>(0, sr_coords.n_rows - 1);
-  moveable_antigens.shed_rows(fixed_antigens);
-  moveable_sera.shed_rows(fixed_sera);
+  // Do not move antigens and sera with NA coords
+  arma::uvec ag_fixed(ag_coords.n_rows, arma::fill::zeros);
+  arma::uvec sr_fixed(sr_coords.n_rows, arma::fill::zeros);
+  ag_fixed.elem(fixed_antigens).ones();
+  sr_fixed.elem(fixed_sera).ones();
+  ag_fixed.elem(arma::find_nonfinite(ag_coords.col(0))).ones();
+  sr_fixed.elem(arma::find_nonfinite(sr_coords.col(0))).ones();
 
   // Create the map object for the map optimizer
   MapOptimizer map(
@@ -413,17 +434,17 @@ double ac_relax_coords(
     sr_coords,
     tabledist_matrix,
     titertype_matrix,
-    num_dims,
-    moveable_antigens,
-    moveable_sera,
+    ag_coords.n_cols,
+    ag_fixed,
+    sr_fixed,
     titer_weights,
     dilution_stepsize
   );
 
   // Create the vector of parameters
   arma::mat pars = arma::join_cols(
-    ag_coords.rows(moveable_antigens),
-    sr_coords.rows(moveable_sera)
+    ag_coords.rows(arma::find(ag_fixed == 0)),
+    sr_coords.rows(arma::find(sr_fixed == 0))
   );
 
   // Perform the optimization
@@ -443,7 +464,7 @@ double ac_relax_coords(
 // this is a starting point for later relaxation
 std::vector<AcOptimization> ac_generateOptimizations(
     const arma::mat &tabledist_matrix,
-    const arma::umat &titertype_matrix,
+    const arma::imat &titertype_matrix,
     const std::string &min_colbasis,
     const arma::vec &fixed_colbases,
     const arma::vec &ag_reactivity_adjustments,
@@ -511,7 +532,7 @@ std::vector<AcOptimization> ac_generateOptimizations(
 void ac_relaxOptimizations(
   std::vector<AcOptimization>& optimizations,
   const arma::mat &tabledist_matrix,
-  const arma::umat &titertype_matrix,
+  const arma::imat &titertype_matrix,
   const AcOptimizerOptions &options,
   const arma::mat &titer_weights,
   const double &dilution_stepsize
@@ -574,7 +595,7 @@ std::vector<AcOptimization> ac_runOptimizations(
     fixed_colbases,
     ag_reactivity_adjustments
   );
-  arma::umat titertype_matrix = titertable.get_titer_types();
+  arma::imat titertype_matrix = titertable.get_titer_types();
 
   // Set dimensions to cycle through, for e.g. dimensional annealing
   arma::uvec dim_set { num_dims };
@@ -636,7 +657,7 @@ std::vector<AcOptimization> ac_runOptimizations(
 // // [[Rcpp::export]]
 // Rcpp::NumericVector benchmark_relaxation(
 //     const arma::mat &tabledist_matrix,
-//     const arma::umat &titertype_matrix,
+//     const arma::imat &titertype_matrix,
 //     arma::mat ag_coords,
 //     arma::mat sr_coords,
 //     const std::string method = "L-BFGS-B",

@@ -1,4 +1,5 @@
 
+
 #' Set viewer options
 #'
 #' This function facilitates setting racviewer options by returning a list of
@@ -22,23 +23,22 @@
 #' @return Returns a named list of viewer options
 #' @export
 #'
-RacViewer.options <- function(
-  point.opacity = NA,
-  viewer.controls = "hidden",
-  grid.display = "static",
-  grid.col = "#cfcfcf",
-  show.names = FALSE,
-  show.errorlines = FALSE,
-  show.connectionlines = FALSE,
-  show.titers = FALSE,
-  xlim = NULL,
-  ylim = NULL
-) {
-
+RacViewer.options <- function(point.opacity = NA,
+                              viewer.controls = "hidden",
+                              grid.display = "static",
+                              grid.col = "#cfcfcf",
+                              show.names = FALSE,
+                              show.errorlines = FALSE,
+                              show.connectionlines = FALSE,
+                              show.titers = FALSE,
+                              xlim = NULL,
+                              ylim = NULL) {
   # Check input
   check.string(viewer.controls)
   check.string(grid.display)
-  if (!is.na(point.opacity)) check.numeric(point.opacity)
+  if (!is.na(point.opacity)) {
+    check.numeric(point.opacity)
+  }
 
   list(
     viewer.controls = viewer.controls,
@@ -52,7 +52,6 @@ RacViewer.options <- function(
     xlim = xlim,
     ylim = ylim
   )
-
 }
 
 
@@ -71,13 +70,10 @@ RacViewer.options <- function(
 #'
 #' @export
 #'
-export_viewer <- function(
-  map,
-  file,
-  selfcontained = TRUE,
-  ...
-  ) {
-
+export_viewer <- function(map,
+                          file,
+                          selfcontained = TRUE,
+                          ...) {
   # Check file has .html extension
   if (!grepl("\\.html$", file)) {
     stop("File extension must be '.html'")
@@ -94,14 +90,15 @@ export_viewer <- function(
   )
 
   # Move the file to the proper location
-  file.copy(from = tmp_file,
-            to   = file,
-            overwrite = TRUE)
+  file.copy(
+    from = tmp_file,
+    to = file,
+    overwrite = TRUE
+  )
 
   # Remove the temporary file
   unlink(tmp_file)
 
   # Return the widget
   invisible(widget)
-
 }

@@ -83,10 +83,18 @@ export_viewer <- function(map,
   tmp_file <- tempfile(fileext = ".html")
   widget <- view(map, ...)
 
+  name <- Racmacs::mapName(map)
+  if (is.null(name)) {
+    title <- class(widget)[[1]]
+  } else {
+    title <- paste("RacViewer", name, sep = " - ")
+  }
+
   widget <- htmlwidgets::saveWidget(
-    widget        = widget,
-    file          = tmp_file,
-    selfcontained = selfcontained
+    widget = widget,
+    file = tmp_file,
+    selfcontained = selfcontained,
+    title = title
   )
 
   # Move the file to the proper location

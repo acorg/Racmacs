@@ -6,8 +6,9 @@ optimization_getter <- function(fn) {
       fn = fn
     ), expr = {
       function(map, optimization_number = 1) {
+        check.acmap(map)
+        check.optnum(map, optimization_number)
         optimization <- map$optimizations[[optimization_number]]
-        if (is.null(optimization)) stop("Optimization run not found")
         fn(optimization)
       }
     })
@@ -21,10 +22,11 @@ optimization_setter <- function(fn, checker_fn = NULL) {
       fn = fn
     ), expr = {
       function(map, optimization_number = 1, value) {
+        check.acmap(map)
+        check.optnum(map, optimization_number)
         if (is.null(value)) stop("Cannot set null value")
         if (!is.null(checker_fn)) checker_fn(value)
         optimization <- map$optimizations[[optimization_number]]
-        if (is.null(optimization)) stop("Optimization run not found")
         map$optimizations[[optimization_number]] <- fn(optimization, value)
         map
       }

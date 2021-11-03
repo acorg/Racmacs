@@ -37,7 +37,6 @@ class AcOptimization {
     double stress = arma::datum::nan;
 
     // Constructors
-    AcOptimization();
     AcOptimization(
       const int &dimensions,
       const int &num_antigens,

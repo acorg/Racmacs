@@ -14,10 +14,6 @@
 #include "acmap_optimization.h"
 
 // Constructors
-AcOptimization::AcOptimization() {
-
-};
-
 AcOptimization::AcOptimization(
   const int &dimensions,
   const int &num_antigens,
@@ -442,7 +438,6 @@ arma::mat AcOptimization::numeric_table_distances(
     AcTiterTable titers
 ) {
 
-  Rcpp::Rcout << fixed_column_bases;
   return(
     titers.numeric_table_distances(
       min_column_basis,

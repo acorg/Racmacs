@@ -276,7 +276,7 @@ void AcTiterTable::subset(
 // Counting titers
 int AcTiterTable::num_measured(
 ) const {
-  return arma::accu(titer_types == 1);
+  return arma::accu(titer_types > 0);
 }
 
 int AcTiterTable::num_unmeasured(

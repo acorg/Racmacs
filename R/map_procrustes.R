@@ -135,6 +135,10 @@ procrustesMap <- function(
 #'   calculation (other optimization runs are discarded)
 #' @param comparison_optimization_number The optimization run int the comparison
 #'   map to compare against
+#' @param antigens Antigens to include (specified by name or index or TRUE/FALSE
+#'   for all/none)
+#' @param sera Sera to include (specified by name or index or TRUE/FALSE for
+#'   all/none)
 #' @param translation Should translation be allowed
 #' @param scaling Should scaling be allowed (generally not recommended unless
 #'   comparing maps made with different assays)
@@ -152,6 +156,8 @@ procrustesData <- function(
   comparison_map,
   optimization_number = 1,
   comparison_optimization_number = 1,
+  antigens    = TRUE,
+  sera        = TRUE,
   translation = TRUE,
   scaling     = FALSE
   ) {
@@ -162,6 +168,8 @@ procrustesData <- function(
     comparison_map = comparison_map,
     optimization_number = optimization_number,
     comparison_optimization_number = comparison_optimization_number,
+    antigens    = antigens,
+    sera        = sera,
     translation = translation,
     scaling = scaling
   )

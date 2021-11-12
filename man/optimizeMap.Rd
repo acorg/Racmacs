@@ -13,6 +13,7 @@ optimizeMap(
   ag_reactivity_adjustments = NULL,
   titer_weights = NULL,
   sort_optimizations = TRUE,
+  check_convergence = TRUE,
   verbose = TRUE,
   options = list()
 )
@@ -37,6 +38,9 @@ amounts when calculating column bases and table distances.}
 
 \item{sort_optimizations}{Should optimizations be sorted by stress
 afterwards?}
+
+\item{check_convergence}{Should a basic check for convergence of lowest stress
+optimization runs onto a similar solution be performed.}
 
 \item{verbose}{Should progress messages be reported, see also
 \code{RacOptimizer.options()}}

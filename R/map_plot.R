@@ -99,23 +99,36 @@ plot.acmap <- function(
 
   # Plot grid
   for (n in seq(from = xlim[1], to = xlim[2], by = 1)) {
-    if (n == xlim[1] | n == xlim[2]) col <- grid.margin.col
-    else                            col <- grid.col
     graphics::lines(
       x = c(n, n),
       y = ylim,
-      col = col,
+      col = grid.col,
       xpd = TRUE
     )
   }
 
   for (n in seq(from = ylim[1], to = ylim[2], by = 1)) {
-    if (n == ylim[1] | n == ylim[2]) col <- grid.margin.col
-    else                             col <- grid.col
     graphics::lines(
       x = xlim,
       y = c(n, n),
-      col = col,
+      col = grid.col,
+      xpd = TRUE
+    )
+  }
+
+  # Plot grid outline
+  grid_outline <- list(
+    c(xlim, rep(ylim[1], 2)),
+    c(xlim, rep(ylim[2], 2)),
+    c(rep(xlim[1], 2), ylim),
+    c(rep(xlim[2], 2), ylim)
+  )
+
+  for (coords in grid_outline) {
+    graphics::lines(
+      x = coords[1:2],
+      y = coords[3:4],
+      col = grid.margin.col,
       xpd = TRUE
     )
   }

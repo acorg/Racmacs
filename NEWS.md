@@ -70,3 +70,9 @@
 * Fix the map viewer stress calculations to account for the new "dilution stepsize" setting
 * Add option to get and set antigen reactivity in the viewer
 * Fix an error that was causing NAs to appear in transformed coordinates in linux builds
+
+# Racmacs 1.1.19
+* Add option to `procrustesData()` to included only specific antigens or sera, as can already be done for `procrustesMap()`
+* Add methods to calculate point leverage, the effect of removing different strains and sera from the map, `agLeverage()`, `srLeverage()`, `titerLeverage()`
+* Change the `view.acmap()` method to allow for an option `num_optimizations` to specify how many optimizations to send to the viewer.
+* Add an option for and basic check by default for convergence of solutions when running map optimizations.

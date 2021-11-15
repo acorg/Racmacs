@@ -205,7 +205,7 @@ AcMap json_to_acmap(
     const Value& P = c["P"]; // optimizations aka "projections"
 
     // Setup optimizations
-    std::vector<AcOptimization> optimizations( P.Size() );
+    std::vector<AcOptimization> optimizations;
     for ( SizeType i=0; i<P.Size(); i++ ){
       const Value& Opt = P[i];
 
@@ -249,7 +249,7 @@ AcMap json_to_acmap(
       if(Opt.HasMember("s")) optimization.set_stress(parse<double>(Opt["s"]));
 
       // Add to optimizations
-      optimizations[i] = optimization;
+      optimizations.push_back(optimization);
 
     }
 

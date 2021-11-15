@@ -618,6 +618,24 @@ AcOptimization as(SEXP sxp){
 
 }
 
+// TO: VECTOR OF ACOPTIMIZATION
+template <>
+std::vector<AcOptimization> as(SEXP sxp){
+
+  // Setup output
+  std::vector<AcOptimization> out;
+
+  // Convert to list
+  List optlist = as<List>(sxp);
+  for (arma::uword i=0; i<optlist.size(); i++) {
+    out.push_back(as<AcOptimization>(wrap(optlist[i])));
+  }
+
+  // Return vector output
+  return(out);
+
+}
+
 // TO: ACMAP
 template <>
 AcMap as(SEXP sxp){

@@ -4,7 +4,7 @@ library(testthat)
 context("Bootstrapping maps")
 
 # Set variables
-num_bs_repeats <- 20
+num_bs_repeats <- 200
 map <- read.acmap(test_path("../testdata/testmap_h3subset.ace"))
 
 test_that("Test map noisy bootstrapping", {

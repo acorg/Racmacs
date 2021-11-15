@@ -612,6 +612,7 @@ AcMap ac_merge_incremental_single(
   // Relax the optimizations
   ac_relaxOptimizations(
     optimizations,
+    optimizations[0].dim(),
     tabledist_matrix,
     titertype_matrix,
     optimizer_options

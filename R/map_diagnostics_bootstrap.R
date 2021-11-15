@@ -356,7 +356,7 @@ hasBootstrapBlobs <- function(map, optimization_number = 1) {
 #'   kernel density estimate
 #' @param gridspacing grid spacing to use when calculating blobs, smaller values
 #'   will produce more accurate blobs with smoother edges but will take longer
-#'   to calculate.
+#'   to calculate, the default is 0.05 for 2d maps and 0.25 for 2d maps
 #'
 #' @noRd
 #'
@@ -364,8 +364,8 @@ coordDensityBlob <- function(
   coords,
   conf.level = 0.68,
   smoothing = 1,
-  gridspacing = 0.25
-  ) {
+  gridspacing = NULL
+) {
 
   # Check dimensions
   ndims <- ncol(coords)
@@ -373,24 +373,64 @@ coordDensityBlob <- function(
     stop("Bootstrap blobs are only supported for 2 or 3 dimensions")
   }
 
+  # Set default grid spacing
+  if (is.null(gridspacing)) {
+    if (ndims == 2) gridspacing <- 0.05
+    else            gridspacing <- 0.25
+  }
+
   # Check confidence level
   if (conf.level != round(conf.level, 2)) {
     stop("conf.level must be to the nearest percent")
   }
 
-  # Perform a kernal density fit
-  kd_fit <- ks::kde(
-    coords,
-    gridsize = apply(coords, 2, function(x) ceiling(diff(range(x)) / gridspacing)),
-    H = ks::Hpi(x = coords, nstage = 2, deriv.order = 0) * smoothing
-  )
+  # Use a quicker algorithm for 2 dimensions, 3d must use the slower kde method
+  if (ndims == 2) {
 
-  # Calculate the contour blob
-  # We have to negate things here so that 3d contours are calculated appropriately
+    # Perform a kernel density fit
+    kd_fit <- MASS::kde2d(
+      x = coords[,1],
+      y = coords[,2],
+      n = c(
+        ceiling(diff(range(coords[,1])) / gridspacing),
+        ceiling(diff(range(coords[,2])) / gridspacing)
+      ),
+      h = apply(coords, 2, MASS::bandwidth.nrd)*smoothing
+    )
+
+    # Calculate the contour level for the appropriate confidence level
+    fhat <- ks:::grid.interp.2d(x = coords, gridx = list(kd_fit$x, kd_fit$y), f = kd_fit$z)
+    contour_level <- quantile(fhat, 1 - conf.level)
+
+    grid_values = -kd_fit$z
+    grid_points = list(kd_fit$x, kd_fit$y)
+    value_lim   = -contour_level
+
+  } else {
+
+    # Perform a kernel density fit
+    kd_fit <- ks::kde(
+      coords,
+      gridsize = apply(coords, 2, function(x) ceiling(diff(range(x)) / gridspacing)),
+      H = ks::Hpi(x = coords, nstage = 2, deriv.order = 0) * smoothing
+    )
+
+    # Calculate the contour level for the appropriate confidence level
+    contour_level <- ks::contourLevels(kd_fit, prob = 1 - conf.level)
+
+    # Calculate the contour blob
+    # We have to negate things here so that 3d contours are calculated appropriately
+    grid_values <- -kd_fit$estimate
+    grid_points <- kd_fit$eval.points
+    value_lim   <- -contour_level
+
+  }
+
+  # Calculate the blob
   contour_blob(
-    grid_values = -kd_fit$estimate,
-    grid_points = kd_fit$eval.points,
-    value_lim   = -ks::contourLevels(kd_fit, prob = 1 - conf.level)
+    grid_values = grid_values,
+    grid_points = grid_points,
+    value_lim   = value_lim
   )
 
 }

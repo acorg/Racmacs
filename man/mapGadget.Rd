@@ -13,3 +13,16 @@ mapGadget(map)
 This function is equivalent to running \code{runGUI()} and loading a map file, but this
 takes the acmap object to open as an input argument.
 }
+\seealso{
+Other {functions to view maps}: 
+\code{\link{RacViewer.options}()},
+\code{\link{RacViewer}()},
+\code{\link{export_viewer}()},
+\code{\link{grid.plot.acmap}()},
+\code{\link{plot.acmap}()},
+\code{\link{setLegend}()},
+\code{\link{snapshotMap}()},
+\code{\link{view.default}()},
+\code{\link{view}()}
+}
+\concept{{functions to view maps}}

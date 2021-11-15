@@ -1,4 +1,112 @@
 
+// == Add relevant event listeners ==
+R3JS.Viewer.prototype.eventListeners.push({
+    name : "optimizer-ags-fixed",
+    fn : function(e){
+        let viewer = e.detail.viewer;
+        viewer.optimizerFixAntigens();
+        if (viewer.optimizing) {
+            viewer.endOptimizer();
+            viewer.relaxMap();
+        }
+    }
+});
+
+R3JS.Viewer.prototype.eventListeners.push({
+    name : "optimizer-ags-unfixed",
+    fn : function(e){
+        let viewer = e.detail.viewer;
+        viewer.optimizerUnfixAntigens();
+        if (viewer.optimizing) {
+            viewer.endOptimizer();
+            viewer.relaxMap();
+        }
+    }
+});
+
+R3JS.Viewer.prototype.eventListeners.push({
+    name : "optimizer-srs-fixed",
+    fn : function(e){
+        let viewer = e.detail.viewer;
+        viewer.optimizerFixSera();
+        if (viewer.optimizing) {
+            viewer.endOptimizer();
+            viewer.relaxMap();
+        }
+    }
+});
+
+R3JS.Viewer.prototype.eventListeners.push({
+    name : "optimizer-srs-unfixed",
+    fn : function(e){
+        let viewer = e.detail.viewer;
+        viewer.optimizerUnfixSera();
+        if (viewer.optimizing) {
+            viewer.endOptimizer();
+            viewer.relaxMap();
+        }
+    }
+});
+
+R3JS.Viewer.prototype.eventListeners.push({
+    name : "point-included",
+    fn : function(e){
+        let point  = e.detail.point;
+        let viewer = point.viewer;
+        if (viewer.optimizing) {
+            viewer.endOptimizer();
+            viewer.relaxMap();
+        }
+    }
+});
+
+R3JS.Viewer.prototype.eventListeners.push({
+    name : "point-excluded",
+    fn : function(e){
+        let point  = e.detail.point;
+        let viewer = point.viewer;
+        if (viewer.optimizing) {
+            viewer.endOptimizer();
+            viewer.relaxMap();
+        }
+    }
+});
+
+R3JS.Viewer.prototype.eventListeners.push({
+    name : "titer-changed",
+    fn : function(e){
+        let viewer = e.detail.viewer;
+        if (viewer.optimizing) {
+            viewer.endOptimizer();
+            viewer.relaxMap();
+        }
+    }
+});
+
+R3JS.Viewer.prototype.eventListeners.push({
+    name : "points-randomized",
+    fn : function(e){
+        let viewer = e.detail.viewer;
+        if (viewer.optimizing) {
+            viewer.endOptimizer(false);
+            viewer.relaxMap();
+        }
+    }
+});
+
+R3JS.Viewer.prototype.eventListeners.push({
+    name : "ag-reactivity-changed",
+    fn : function(e){
+        let viewer = e.detail.point.viewer;
+        if (viewer.optimizing) {
+            viewer.endOptimizer();
+            viewer.relaxMap();
+        }
+    }
+});
+
+
+// == Stress related functions ==
 Racmacs.utils.sigmoid = function(x) {
     return(1/(1+Math.exp(-10*x)));
 }
@@ -289,6 +397,11 @@ Racmacs.Optimizer = class RacOptimizer {
 
 }
 
+Racmacs.Viewer.prototype.optimizerFixAntigens = function() { this.optimizer_ags_fixed = true; }
+Racmacs.Viewer.prototype.optimizerUnfixAntigens = function() { this.optimizer_ags_fixed = false; }
+Racmacs.Viewer.prototype.optimizerFixSera = function() { this.optimizer_srs_fixed = true; }
+Racmacs.Viewer.prototype.optimizerUnfixSera = function() { this.optimizer_srs_fixed = false; }
+
 Racmacs.Viewer.prototype.toggleRelaxMap = function(onlyselected) {
 
     if (this.optimizing) this.endOptimizer();
@@ -297,6 +410,37 @@ Racmacs.Viewer.prototype.toggleRelaxMap = function(onlyselected) {
 }
 
 Racmacs.Viewer.prototype.relaxMap = function(onlyselected, maxsteps) {
+
+    this.optimDragOn = () => {
+
+        if(this.raytracer.intersected.length > 0){
+
+            this.navigable = false;
+            this.optimdragging = true;
+            var intersected_elements = this.raytracer.intersectedElements();
+            this.primaryDragPoint = intersected_elements[0].point;
+            this.dragfn = e => this.dragPoints(false);
+            this.viewport.div.addEventListener("mousemove", this.dragfn);
+
+        }
+
+    }
+
+    this.optimDragOff = () => {
+
+        this.navigable = true;
+        this.optimdragging = false;
+        this.primaryDragPoint = null;
+        this.viewport.div.removeEventListener("mousemove", this.dragfn);
+        this.endOptimizer();
+        this.data.updateCoords();
+        this.relaxMap();
+        console.log("end dragging");
+
+    }
+
+    this.viewport.div.addEventListener("mousedown", this.optimDragOn);
+    this.viewport.div.addEventListener("mouseup", this.optimDragOff);
 
     // Record whether this is only a onestep optimization
     this.optimizer_maxsteps = maxsteps;
@@ -319,6 +463,9 @@ Racmacs.Viewer.prototype.relaxMap = function(onlyselected, maxsteps) {
         this.antigens.map(ag => { if(!ag.selected) fixed_ags.push(ag.typeIndex); });
         this.sera.map(sr => { if(!sr.selected) fixed_sr.push(sr.typeIndex); });
     }
+
+    if (this.optimizer_ags_fixed) this.antigens.map(ag => { fixed_ags.push(ag.typeIndex) });
+    if (this.optimizer_srs_fixed) this.sera.map(sr => { fixed_sr.push(sr.typeIndex) });
 
     // Setup optimizer object
     this.optimizer = new Racmacs.Optimizer({
@@ -382,6 +529,9 @@ Racmacs.Viewer.prototype.relaxMap = function(onlyselected, maxsteps) {
 
 Racmacs.Viewer.prototype.stepOptimizer = function() {
 
+    // Do not run optimizer if dragging
+    if (this.optimdragging) return(false);
+
     // Record stepnum
     this.optimizer_stepnum++;
 
@@ -420,8 +570,9 @@ Racmacs.Viewer.prototype.stepOptimizer = function() {
     this.updateStress(new_stress);
 
     // Check if optimization should be ended
-    if ((this.optimizer_maxsteps !== undefined && this.optimizer_stepnum == this.optimizer_maxsteps) || 
-        this.optimizer_solution - new_stress < 1e-8) {
+    if ((this.optimizer_maxsteps !== undefined && this.optimizer_stepnum == this.optimizer_maxsteps) 
+        // || this.optimizer_solution - new_stress < 1e-8
+        ) {
         this.endOptimizer();
     } else {
         this.optimizer_solution = new_stress;
@@ -431,8 +582,10 @@ Racmacs.Viewer.prototype.stepOptimizer = function() {
 }
 
 
-Racmacs.Viewer.prototype.endOptimizer = function() {
+Racmacs.Viewer.prototype.endOptimizer = function(update_coords = true) {
 
+    this.viewport.div.removeEventListener("mousedown", this.optimDragOn);
+    this.viewport.div.removeEventListener("mouseup", this.optimDragOff);
 
     // Quit the optimization loop
     this.btns["relaxMap"].dehighlight();
@@ -444,7 +597,7 @@ Racmacs.Viewer.prototype.endOptimizer = function() {
     new_coords = new_coords.concat(this.optimizer.sr_coords);
 
     // Update the stress
-    this.data.updateBaseCoords(new_coords);
+    if (update_coords) this.data.updateBaseCoords(new_coords);
     this.updateStress(
         this.optimizer.calculate_stress()
     );
@@ -454,5 +607,40 @@ Racmacs.Viewer.prototype.endOptimizer = function() {
 
 }
 
+
+Racmacs.Viewer.prototype.randomizeCoords = function(){
+
+    // this.antigens.map( ag => ag.setPosition() );
+    var xcoords = this.data.transformedCoords().map( x => isNaN(x[0]) ? 0 : x[0] );
+    var xlim = [Math.min(...xcoords), Math.max(...xcoords)];
+    
+    var ycoords = this.data.transformedCoords().map( x => isNaN(x[1]) ? 0 : x[1] );
+    var ylim = [Math.min(...ycoords), Math.max(...ycoords)];
+
+    var zcoords = this.data.transformedCoords().map( x => isNaN(x[2]) ? 0 : x[2] );
+    var zlim = [Math.min(...zcoords), Math.max(...zcoords)];
+
+    this.antigens.map( ag => ag.setPosition([
+        xlim[0] + Math.random()*(xlim[1] - xlim[0]),
+        ylim[0] + Math.random()*(ylim[1] - ylim[0]),
+        zlim[0] + Math.random()*(zlim[1] - zlim[0])
+    ], false) );
+
+    this.sera.map( sr => sr.setPosition([
+        xlim[0] + Math.random()*(xlim[1] - xlim[0]),
+        ylim[0] + Math.random()*(ylim[1] - ylim[0]),
+        zlim[0] + Math.random()*(zlim[1] - zlim[0])
+    ], false) );
+
+    // Dispatch an event
+    this.updateStress();
+    this.updateFrustrum();
+    this.data.updateCoords();
+    this.dispatchEvent("points-randomized", { 
+        viewer : this
+    });
+    this.render();
+
+}
 
 

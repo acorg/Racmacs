@@ -28,6 +28,7 @@ Other {map diagnostic functions}:
 \code{\link{dimensionTestMap}()},
 \code{\link{map-table-distances}},
 \code{\link{mapRelaxed}()},
+\code{\link{ptLeverage}},
 \code{\link{ptTriangulationBlobsize}},
 \code{\link{triangulationBlobs}()}
 }

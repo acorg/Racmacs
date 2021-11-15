@@ -24,6 +24,8 @@ Functions to get various attributes about an acmap object.
 }
 \seealso{
 Other {map attribute functions}: 
+\code{\link{adjustedLogTiterTable}()},
+\code{\link{adjustedTiterTable}()},
 \code{\link{dilutionStepsize}()},
 \code{\link{mapName}()},
 \code{\link{titerTableLayers}()},

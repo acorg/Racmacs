@@ -76,3 +76,11 @@
 * Add methods to calculate point leverage, the effect of removing different strains and sera from the map, `agLeverage()`, `srLeverage()`, `titerLeverage()`
 * Change the `view.acmap()` method to allow for an option `num_optimizations` to specify how many optimizations to send to the viewer.
 * Add an option for and basic check by default for convergence of solutions when running map optimizations.
+
+# Racmacs 1.1.20
+* Slight re-implementation of dimensional annealing to not report progress bar multiple times.
+* Added ability to include and exclude antigens and sera when optimizing in the javascript viewer by alt clicking the name in the browser or the titer in the interactive titer table.
+* Added ability in the javascript viewer to change the antigen reactivity adjustment by selecting the antigen and editing the value as it appears in the `diagnostics` tab.
+* Use quicker algorithm for calculating 2d density blobs
+* Dimension testing now calculates proportion of titers to exclude as test set as proportion of measured titers, not proportion of detectable titers.
+* Fixes an error when only one blob would be displayed in the viewer in cases where more than one blob was associated with a point

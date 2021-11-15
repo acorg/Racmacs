@@ -22,7 +22,7 @@
   line-height: 1;
 }
 
-.table-name {
+.control-panel .table-name {
   font-size : 18px;
   margin-top : 4px;
   padding: 16px;
@@ -31,19 +31,19 @@
 }
 
 /* Tabset style */
-.tabset {
+.control-panel .tabset {
   display: flex;
   flex-direction: column;
   flex-grow: 1;
   margin-top: 10px;
 }
 
-.tabset-holder {
+.control-panel .tabset-holder {
   margin: 12px;
   /*overflow-x: scroll;*/
 }
 
-.tabset-content {
+.control-panel .tabset-content {
   display: flex;
   flex-grow: 1;
   background-color: #333333;
@@ -51,13 +51,13 @@
   padding-top: 12px;
 }
 
-.tabset-content-tab {
+.control-panel .tabset-content-tab {
   display: flex;
   flex-grow: 1;
   width: 100%;
 }
 
-.tab {
+.control-panel .tab {
   cursor: default;
   font-size: 12px;
   margin-right: 4px;
@@ -70,32 +70,32 @@
   background-color: #2f2f2f;
 }
 
-.tab.active {
+.control-panel .tab.active {
   color: #eeeeee;
   background-color: #333333;
 }
 
-.tab.disabled {
+.control-panel .tab.disabled {
   color: #222222;
   background-color: #1d1d1d;
 }
 
 
 /* Table lists */
-.table-list {
+.control-panel .table-list {
   width : 100%;
   display : flex;
   flex-grow: 1;
   flex-direction: column;
 }
 
-.table-list-title {
+.control-panel .table-list-title {
   width : 100%;
   margin-bottom: 8px;
   font-size: 80%;
 }
 
-.tableHolder {
+.control-panel .tableHolder {
   display: flex;
   flex-grow: 1;
   width: 100%;
@@ -108,41 +108,50 @@
   padding-bottom: 4px;
 }
 
-.innerTable {
+.control-panel .innerTable {
   width: 100%;
   border-collapse: collapse;
+  display: table;
 }
 
-.innerTableHeader {
+.control-panel .innerTable tr {
+  background-color: transparent;
+}
+
+.control-panel .innerTable td {
+  border: none;
+}
+
+.control-panel .innerTableHeader {
   color: #eeeeee;
   font-size: 50%;
 }
 
-.innerTable .selected {
+.control-panel .innerTable .selected {
   background-color: rgb(46, 91, 159);
   color: #000000;
 }
 
-.tableRow {
+.control-panel .tableRow {
   cursor: default;
   color: #cccccc;
   font-size: 12px;
 }
 
 
-.tableRow:hover {
+.control-panel .tableRow:hover {
   background-color: lightblue;
   color: #333333;
 }
 
-.tableCol {
+.control-panel .tableCol {
   padding-left: 4px;
   padding-right: 4px;
 }
 
 
 /* Control buttons */
-.control-btn {
+.control-panel .control-btn {
   display: inline-block;
   padding: 4px 12px 4px 12px;
   border-radius: 4px;
@@ -154,16 +163,16 @@
   color: #eeeeee;
 }
 
-.control-btn:hover {
+.control-panel .control-btn:hover {
   border: solid 1px #33cccc;
   color: #ffffff;
 }
 
-.control-btn:active {
+.control-panel .control-btn:active {
   background-color:  #0f3e3e;
 }
 
-.btn-icon.gui-element {
+.control-panel .btn-icon.gui-element {
   color: #eeeeee;
   background-color: #000000;
   border: solid 1px #196666;
@@ -171,29 +180,29 @@
   border-radius: 4px;
 }
 
-.btn-icon.gui-element:hover {
+.control-panel .btn-icon.gui-element:hover {
   border: solid 1px #33cccc;
   color: #ffffff;
 }
 
 /* Input wells */
-.control-input-well:focus-within {
+.control-panel .control-input-well:focus-within {
   border: solid 1px #33cccc;
 }
 
-.control-input-well {
+.control-panel .control-input-well {
   padding: 8px;
   background-color: #000000;
   border-radius: 4px;
   border: solid 1px #196666;
 }
 
-.control-label {
+.control-panel .control-label {
   color : #ffffff;
   font-size: 12px;
 }
 
-.control-input {
+.control-panel .control-input {
   width : 100%;
   box-sizing: border-box;
   margin-bottom: 6px;
@@ -205,16 +214,16 @@
   font-size: 80%;
 }
 
-.control-input:focus {
+.control-panel .control-input:focus {
   outline-style: none;
   border-bottom: solid 1px #196666;
 }
 
-#color-by-div {
+.control-panel #color-by-div {
   width: 100%;
 }
 
-#color-by-div input {
+.control-panel #color-by-div input {
   box-sizing: border-box;
   width: 100%;
   font-weight: bolder;
@@ -224,7 +233,7 @@
   color: #fff;
 }
 
-#color-by-div input:focus {
+.control-panel #color-by-div input:focus {
   outline: none;
 }
 

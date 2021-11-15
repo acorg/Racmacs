@@ -30,6 +30,9 @@ articles:
   contents:
   - intro-to-antigenic-cartography
   - making-a-map-from-scratch
+- title: Map diagnostics
+  contents:
+  - assessing_map_uncertainty
 - title: Further usage
   contents:
   - comparing-maps
@@ -76,6 +79,10 @@ reference:
 - title: Using the shiny app
   contents:
   - has_concept("shiny app functions")
+- title: Viewing titers
+  contents:
+  - htmlTiterTable
+  - htmlAdjustedTiterTable
 - title: Utilities
   contents:
   - standardizeStrainNames

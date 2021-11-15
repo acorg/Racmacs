@@ -21,6 +21,8 @@ Racmacs.Data = class Data {
         this.data = data;
         this.titertable = this.getTable();
         this.logtitertable = Racmacs.utils.logTiters(this.titertable);
+        this.origtitertable = this.getTable();
+        this.origlogtitertable = Racmacs.utils.logTiters(this.titertable);
         this.pnum = 0;
         this.dilutionstepsize_cache = this.dilutionStepsize();
     }
@@ -173,7 +175,7 @@ Racmacs.Data = class Data {
 
     }
 
-    setTiter(ag, sr, value){
+    setTiter(ag, sr, value, update_cbases = true){
 
         // Set titer table record
         if (this.titertable) this.titertable[ag][sr] = value;
@@ -186,7 +188,33 @@ Racmacs.Data = class Data {
         }
 
         // Update the column bases cache
-        this.update_colbases();
+        if (update_cbases) this.update_colbases();
+
+        // Update the logtiter cache
+        this.logtitertable = Racmacs.utils.logTiters(this.titertable);
+
+        // Log the change in the console
+        console.log("Titer data updated");
+
+
+    }
+
+    restoreTiter(ag, sr, update_cbases = true){
+
+        var value = this.origtitertable[ag][sr];
+
+        // Set titer table record
+        if (this.titertable) this.titertable[ag][sr] = value;
+
+        // If table data provided as a list of objects
+        if(this.data.c.t.d) {
+            this.data.c.t.d[ag][sr.toString()] = value;
+        } else {
+            this.data.c.t.l[ag][sr] = value;
+        }
+
+        // Update the column bases cache
+        if (update_cbases) this.update_colbases();
 
         // Update the logtiter cache
         this.logtitertable = Racmacs.utils.logTiters(this.titertable);
@@ -222,9 +250,10 @@ Racmacs.Data = class Data {
     }
 
     // Projection attributes
-    stress(){
-        if(this.data.c.P[this.pnum] && this.data.c.P[this.pnum].s){
-            return(this.data.c.P[this.pnum].s);
+    stress(i){
+        if (i === undefined) i = this.pnum;
+        if(this.data.c.P[i] && this.data.c.P[i].s){
+            return(this.data.c.P[i].s);
         } else {
             return(0);
         }
@@ -552,6 +581,33 @@ Racmacs.Data = class Data {
         } else {
             return(1);
         }
+    }
+
+    // Excluding and including points
+    includePoint(type, i) {
+        if (type == "ag") {
+            for (var j=0; j<this.numSera(); j++) {
+                this.restoreTiter(i, j, false);
+            }
+        } else {
+            for (var j=0; j<this.numAntigens(); j++) {
+                this.restoreTiter(j, i, false);
+            }
+        }
+        this.update_colbases();
+    }
+
+    excludePoint(type, i) {
+        if (type == "ag") {
+            for (var j=0; j<this.numSera(); j++) {
+                this.setTiter(i, j, "*", false);
+            }
+        } else {
+            for (var j=0; j<this.numAntigens(); j++) {
+                this.setTiter(j, i, "*", false);
+            }
+        }
+        this.update_colbases();
     }
 
 }

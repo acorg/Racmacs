@@ -400,7 +400,7 @@ coordDensityBlob <- function(
 
     # Calculate the contour level for the appropriate confidence level
     fhat <- ks:::grid.interp.2d(x = coords, gridx = list(kd_fit$x, kd_fit$y), f = kd_fit$z)
-    contour_level <- quantile(fhat, 1 - conf.level)
+    contour_level <- stats::quantile(fhat, 1 - conf.level)
 
     grid_values = -kd_fit$z
     grid_points = list(kd_fit$x, kd_fit$y)

@@ -32,10 +32,11 @@
 #'   conditions so multiple optimization runs may be required. For a full
 #'   explanation see `vignette("intro-to-antigenic-cartography")`.
 #'
-#'   ## Minimum column basis and fixed column bases Fixed column bases is a
-#'   vector of fixed column bases for each sera, where NA is specified (the
-#'   default) column bases will be calculated according to the
-#'   `minimum_column_basis` setting. Again for a full explanation of column
+#'   ## Minimum column basis and fixed column bases
+#'
+#'   Fixed column bases is a vector of fixed column bases for each sera, where
+#'   NA is specified (the default) column bases will be calculated according to
+#'   the `minimum_column_basis` setting. Again for a full explanation of column
 #'   bases and what they mean see `vignette("intro-to-antigenic-cartography")`.
 #'
 #' @return Returns the acmap object updated with new optimizations.

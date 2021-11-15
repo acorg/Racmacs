@@ -64,11 +64,11 @@ points into an optimal position. Depending on the map, this may not be a
 trivial optimization process and results will depend upon the starting
 conditions so multiple optimization runs may be required. For a full
 explanation see \code{vignette("intro-to-antigenic-cartography")}.
-\subsection{Minimum column basis and fixed column bases Fixed column bases is a}{
+\subsection{Minimum column basis and fixed column bases}{
 
-vector of fixed column bases for each sera, where NA is specified (the
-default) column bases will be calculated according to the
-\code{minimum_column_basis} setting. Again for a full explanation of column
+Fixed column bases is a vector of fixed column bases for each sera, where
+NA is specified (the default) column bases will be calculated according to
+the \code{minimum_column_basis} setting. Again for a full explanation of column
 bases and what they mean see \code{vignette("intro-to-antigenic-cartography")}.
 }
 }

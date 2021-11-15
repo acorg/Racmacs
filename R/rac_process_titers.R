@@ -3,7 +3,8 @@
 #' Read in a table of titer data
 #'
 #' Reads in a table of titer data, converting it to a matrix of titers with
-#' labelled column and row names.
+#' labelled column and row names. Missing titers should be represented by an
+#' asterisk character.
 #'
 #' @param filepath Path to the table of titer data
 #'

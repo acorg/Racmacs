@@ -14,7 +14,8 @@ Returns a matrix of titers.
 }
 \description{
 Reads in a table of titer data, converting it to a matrix of titers with
-labelled column and row names.
+labelled column and row names. Missing titers should be represented by an
+asterisk character.
 }
 \details{
 Currently supported file formats are .csv and .xls and .txt

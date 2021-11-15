@@ -83,3 +83,4 @@
 * Added ability in the javascript viewer to change the antigen reactivity adjustment by selecting the antigen and editing the value as it appears in the `diagnostics` tab.
 * Use quicker algorithm for calculating 2d density blobs
 * Dimension testing now calculates proportion of titers to exclude as test set as proportion of measured titers, not proportion of detectable titers.
+* Fixes an error when only one blob would be displayed in the viewer in cases where more than one blob was associated with a point

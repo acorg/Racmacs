@@ -58,7 +58,7 @@ Racmacs.Point.prototype.addBlob = function(blob){
 
     // Remove any current blobs
     this.removeBlob();
-
+    
     // Hide the normal element
     this.pointElement.hide();
 
@@ -85,9 +85,9 @@ Racmacs.Point.prototype.addBlob = function(blob){
             );
 
             // Make 3d
-            for(var i=0; i<coords.length; i++){
-                while(coords[i].length < 3){
-                    coords[i].push(0);
+            for(var j=0; j<coords.length; j++){
+                while(coords[j].length < 3){
+                    coords[j].push(0);
                 }
             }
 

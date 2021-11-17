@@ -30,7 +30,8 @@ Imports:
     rstudioapi,
     rmarchingcubes,
     shape,
-    ellipsis
+    ellipsis,
+    MASS
 LazyData: TRUE
 Suggests: 
     testthat,

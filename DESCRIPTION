@@ -10,14 +10,7 @@ Depends: R (>= 4.0)
 Imports: 
     Rcpp,
     parallel,
-    roptim,
     jsonlite,
-    stringr,
-    MCMCpack,
-    tibble,
-    gdata,
-    geometry,
-    gplots,
     ks,
     shiny,
     shinyFiles,
@@ -26,8 +19,6 @@ Imports:
     crayon,
     ggplot2,
     htmltools,
-    methods,
-    rstudioapi,
     rmarchingcubes,
     shape,
     ellipsis,
@@ -35,11 +26,17 @@ Imports:
 LazyData: TRUE
 Suggests: 
     testthat,
+    rstudioapi,
     plotly,
+    geometry,
+    gdata,
+    stringr,
     knitr,
     rmarkdown,
     r3js,
-    base64enc
+    tibble,
+    base64enc,
+    MCMCpack
 RoxygenNote: 7.1.1
 Roxygen: list(markdown = TRUE)
 LinkingTo: 

@@ -300,6 +300,7 @@ AcMap json_to_acmap(
     if(x.HasMember("agv")) map.set_ag_group_levels( parse<std::vector<std::string>>(x["agv"]));
     if(x.HasMember("srv")) map.set_sr_group_levels( parse<std::vector<std::string>>(x["srv"]));
     if(x.HasMember("ds"))  map.dilution_stepsize = x["ds"].GetDouble();
+    if(x.HasMember("D"))   map.description = x["D"].GetString();
 
   }
 

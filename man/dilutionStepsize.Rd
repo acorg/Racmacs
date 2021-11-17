@@ -39,6 +39,7 @@ Other {map attribute functions}:
 \code{\link{acmapAttributes}},
 \code{\link{adjustedLogTiterTable}()},
 \code{\link{adjustedTiterTable}()},
+\code{\link{mapDescription}()},
 \code{\link{mapName}()},
 \code{\link{titerTableLayers}()},
 \code{\link{titerTable}()}

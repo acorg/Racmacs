@@ -41,9 +41,7 @@ std::string acmap_to_json(
   int num_points = num_antigens + num_sera;
 
   // == INFO ============================
-  Value name;
-  name.SetString( StringRef(map.name.c_str()), allocator );
-  i.AddMember("N", name, allocator);
+  i.AddMember("N", jsonifya(map.name, allocator), allocator);
 
   // == ANTIGENS ========================
   Value a(kArrayType);
@@ -352,6 +350,7 @@ std::string acmap_to_json(
   if (!map.isdefault("ag_group_levels"))   x.AddMember("agv", jsonifya(map.get_ag_group_levels(), allocator), allocator);
   if (!map.isdefault("sr_group_levels"))   x.AddMember("srv", jsonifya(map.get_sr_group_levels(), allocator), allocator);
   if (!map.isdefault("dilution_stepsize")) x.AddMember("ds",  map.dilution_stepsize, allocator);
+  if (!map.isdefault("description"))       x.AddMember("D",   jsonifya(map.description, allocator), allocator);
 
   // == FINISH UP ===============================
   // Assemble the json map data and add it

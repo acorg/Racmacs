@@ -22,6 +22,7 @@ class AcMap {
   public:
     // ATTRIBUTES
     std::string name;
+    std::string description;
     double dilution_stepsize;
     std::vector<AcOptimization> optimizations;
     std::vector<AcAntigen> antigens;

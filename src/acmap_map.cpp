@@ -328,6 +328,9 @@ bool AcMap::isdefault(
   else if (attribute == "sr_group_levels") {
     return(sr_group_levels.size() == 0);
   }
+  else if (attribute == "description") {
+    return(description == "");
+  }
   else if (attribute == "dilution_stepsize") {
     return(dilution_stepsize == 1);
   } else {

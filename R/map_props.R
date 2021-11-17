@@ -19,6 +19,26 @@ mapName <- function(map) {
   map
 }
 
+#' Getting and setting the map description
+#'
+#' @name mapDescription
+#' @family {map attribute functions}
+#' @eval roxygen_tags(
+#'   methods = c("mapDescription", "mapDescription<-"),
+#'   args    = c("map")
+#' )
+#'
+mapDescription <- function(map) {
+  check.acmap(map)
+  map$description
+}
+
+`mapDescription<-` <- function(map, value) {
+  check.acmap(map)
+  map$description <- value
+  map
+}
+
 #' Getting and setting map titers
 #'
 #' Functions to get and set the map titer table. Note that when setting the

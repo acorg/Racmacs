@@ -529,3 +529,7 @@ ac_coordDistMatrix <- function(coords1, coords2) {
     .Call('_Racmacs_ac_coordDistMatrix', PACKAGE = 'Racmacs', coords1, coords2)
 }
 
+interp2d <- function(x, gpoints1, gpoints2, f) {
+    .Call('_Racmacs_interp2d', PACKAGE = 'Racmacs', x, gpoints1, gpoints2, f)
+}
+

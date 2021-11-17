@@ -1572,6 +1572,20 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// interp2d
+arma::vec interp2d(arma::mat x, arma::vec gpoints1, arma::vec gpoints2, arma::mat f);
+RcppExport SEXP _Racmacs_interp2d(SEXP xSEXP, SEXP gpoints1SEXP, SEXP gpoints2SEXP, SEXP fSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< arma::mat >::type x(xSEXP);
+    Rcpp::traits::input_parameter< arma::vec >::type gpoints1(gpoints1SEXP);
+    Rcpp::traits::input_parameter< arma::vec >::type gpoints2(gpoints2SEXP);
+    Rcpp::traits::input_parameter< arma::mat >::type f(fSEXP);
+    rcpp_result_gen = Rcpp::wrap(interp2d(x, gpoints1, gpoints2, f));
+    return rcpp_result_gen;
+END_RCPP
+}
 
 static const R_CallMethodDef CallEntries[] = {
     {"_Racmacs_ac_ag_names", (DL_FUNC) &_Racmacs_ac_ag_names, 1},
@@ -1706,6 +1720,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_Racmacs_ac_coord_dists", (DL_FUNC) &_Racmacs_ac_coord_dists, 2},
     {"_Racmacs_parallel_mode", (DL_FUNC) &_Racmacs_parallel_mode, 0},
     {"_Racmacs_ac_coordDistMatrix", (DL_FUNC) &_Racmacs_ac_coordDistMatrix, 2},
+    {"_Racmacs_interp2d", (DL_FUNC) &_Racmacs_interp2d, 4},
     {NULL, NULL, 0}
 };
 

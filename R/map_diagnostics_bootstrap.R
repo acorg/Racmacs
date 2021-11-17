@@ -384,7 +384,7 @@ coordDensityBlob <- function(
     stop("conf.level must be to the nearest percent")
   }
 
-  # Use a quicker algorithm for 2 dimensions, 3d must use the slower kde method
+  # Use a quicker algorithm for 2 dimensions, 3d must use the slower ks::kde method
   if (ndims == 2) {
 
     # Perform a kernel density fit
@@ -399,7 +399,7 @@ coordDensityBlob <- function(
     )
 
     # Calculate the contour level for the appropriate confidence level
-    fhat <- ks:::grid.interp.2d(x = coords, gridx = list(kd_fit$x, kd_fit$y), f = kd_fit$z)
+    fhat <- interp2d(x = coords, gpoints1 = kd_fit$x, gpoints2 = kd_fit$y, f = kd_fit$z)
     contour_level <- stats::quantile(fhat, 1 - conf.level)
 
     grid_values = -kd_fit$z

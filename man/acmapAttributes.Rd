@@ -4,6 +4,7 @@
 \alias{acmapAttributes}
 \alias{numAntigens}
 \alias{numSera}
+\alias{numSeraGroups}
 \alias{numPoints}
 \alias{numOptimizations}
 \title{Get acmap attributes}
@@ -11,6 +12,8 @@
 numAntigens(map)
 
 numSera(map)
+
+numSeraGroups(map)
 
 numPoints(map)
 

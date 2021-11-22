@@ -369,6 +369,12 @@ numSera <- function(map) {
 
 #' @rdname acmapAttributes
 #' @export
+numSeraGroups <- function(map) {
+  length(unique(srGroups(map)))
+}
+
+#' @rdname acmapAttributes
+#' @export
 numPoints <- function(map) {
   check.acmap(map)
   numAntigens(map) + numSera(map)

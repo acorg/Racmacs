@@ -91,6 +91,10 @@ roxygen_tags <- function(
 # This is a small utility function for outputting an inline image of one of the
 # viewer buttons when writing vignettes that refer to them
 btn_img <- function(btn) {
+
+  # Check base64enc package installed
+  package_required("base64enc")
+
   base64 <- base64enc::base64encode(
     system.file(
       paste0("extdata/icons/buttons/", btn, ".svg"),

@@ -4,6 +4,9 @@ library(testthat)
 context("Test procrustes methods")
 set.seed(100)
 
+# Check MCMCpack installed
+package_required("MCMCpack")
+
 # Setup rotation and translation matrices
 rot_mat <- matrix(
   data = c(cos(0.24), sin(0.24), -sin(0.24), cos(0.24)),

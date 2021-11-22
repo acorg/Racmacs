@@ -31,8 +31,6 @@ Suggests:
     geometry,
     gdata,
     stringr,
-    knitr,
-    rmarkdown,
     r3js,
     tibble,
     base64enc,

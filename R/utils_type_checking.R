@@ -121,3 +121,15 @@ table_arg_deprecated <- function(titer_table, table, ...){
   titer_table
 
 }
+
+# Helper function for specifying that a "suggested" package is required to run a function
+package_required <- function(pkg) {
+
+  if (!requireNamespace(pkg, quietly = TRUE)) {
+    stop(
+      sprintf("Please install package '%s' in order to use this function.", pkg),
+      call. = FALSE
+    )
+  }
+
+}

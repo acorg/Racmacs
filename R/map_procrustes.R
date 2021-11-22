@@ -224,6 +224,9 @@ realignOptimizations <- function(
 # when comparing a 2d map to a 3d map with procrustes
 add_procrustes_grid <- function(map) {
 
+  # Check r3js package installed
+  package_required("r3js")
+
   # # Get the comparator coordinates
   # comp_coords <- rbind(
   #   map$procrustes$comparison_coords$ag,

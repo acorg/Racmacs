@@ -51,7 +51,7 @@ AcMap json_to_acmap(
   // Parse the json
   Document doc;
   // doc.ParseStream(is);
-  doc.Parse(json.c_str());
+  doc.Parse<kParseFullPrecisionFlag>(json.c_str());
 
   // Perform some checks
   if(!doc.IsObject()){

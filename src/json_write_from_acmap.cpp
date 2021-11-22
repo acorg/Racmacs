@@ -370,22 +370,29 @@ std::string acmap_to_json(
   // Setup the writer
   if (pretty) {
 
-    PrettyWriter<StringBuffer> writer(buffer);
+    // PrettyWriter<StringBuffer> writer(buffer);
+    PrettyWriter<
+      StringBuffer, // Output Stream
+      UTF8<>,       // Source Encoding
+      UTF8<>,       // Target Encoding
+      CrtAllocator,
+      kParseFullPrecisionFlag
+    > writer(buffer);
     writer.SetMaxDecimalPlaces(6);
     success = doc.Accept(writer);
 
   } else {
 
-    Writer<StringBuffer> writer(buffer);
+    // Writer<StringBuffer> writer(buffer);
+    Writer<
+      StringBuffer, // Output Stream
+      UTF8<>,       // Source Encoding
+      UTF8<>,       // Target Encoding
+      CrtAllocator,
+      kParseFullPrecisionFlag
+      > writer(buffer);
     writer.SetMaxDecimalPlaces(6);
     success = doc.Accept(writer);
-    // Writer<
-    //   StringBuffer, // Output Stream
-    //   UTF8<>,       // Source Encoding
-    //   UTF8<>,       // Target Encoding
-    //   CrtAllocator,
-    //   kWriteNanAndInfFlag
-    //   > writer(buffer);
 
   }
 

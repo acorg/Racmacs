@@ -86,3 +86,6 @@
 * Fixes an error when only one blob would be displayed in the viewer in cases where more than one blob was associated with a point
 * Speed improvements to the calculation of contour blobs from point densities in 2-dimensions
 * Added the option to set a description field for the map with the `mapDescription()` function
+
+# Racmacs 1.1.21
+* Full precision used in rapidjson when parsing doubles to load and save maps

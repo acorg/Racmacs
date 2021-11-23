@@ -27,6 +27,7 @@ LazyData: TRUE
 Suggests: 
     testthat,
     knitr,
+    rmarkdown,
     rstudioapi,
     plotly,
     geometry,

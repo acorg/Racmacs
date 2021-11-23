@@ -46,6 +46,7 @@ antigens_setter <- function(fn) {
 #' @eval roxygen_tags(
 #'   methods = c(
 #'   "agNames", "agNames<-",
+#'   "agExtra", "agExtra<-",
 #'   "agIDs",   "agIDs<-",
 #'   "agDates", "agDates<-",
 #'   "agNamesFull",
@@ -62,6 +63,7 @@ agReference         <- antigens_getter(ac_ag_get_reference)
 agNames             <- antigens_getter(ac_ag_get_name)
 agNamesFull         <- antigens_getter(ac_ag_get_name_full)
 agNamesAbbreviated  <- antigens_getter(ac_ag_get_name_abbreviated)
+agExtra             <- antigens_getter(ac_ag_get_extra)
 agPassage           <- antigens_getter(ac_ag_get_passage)
 agGroupValues       <- antigens_getter(ac_ag_get_group) # Not exported
 agMatchIDs          <- antigens_getter(ac_ag_get_match_id) # Not exported
@@ -72,6 +74,7 @@ agMatchIDs          <- antigens_getter(ac_ag_get_match_id) # Not exported
 `agNames<-`             <- antigens_setter(ac_ag_set_name)
 `agNamesFull<-`         <- antigens_setter(ac_ag_set_name_full)
 `agNamesAbbreviated<-`  <- antigens_setter(ac_ag_set_name_abbreviated)
+`agExtra<-`             <- antigens_setter(ac_ag_set_extra)
 `agPassage<-`           <- antigens_setter(ac_ag_set_passage)
 `agGroupValues<-`       <- antigens_setter(ac_ag_set_group) # Not exported
 

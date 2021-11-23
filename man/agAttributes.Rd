@@ -5,6 +5,8 @@
 \alias{agIDs}
 \alias{agNames}
 \alias{agNames<-}
+\alias{agExtra}
+\alias{agExtra<-}
 \alias{agIDs<-}
 \alias{agDates}
 \alias{agDates<-}
@@ -16,6 +18,8 @@
 \usage{
 agNames(map)
 agNames(map) <- value
+agExtra(map)
+agExtra(map) <- value
 agIDs(map)
 agIDs(map) <- value
 agDates(map)

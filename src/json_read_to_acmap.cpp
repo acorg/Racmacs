@@ -271,6 +271,7 @@ AcMap json_to_acmap(
         if(xai.HasMember("g")) map.antigens[i].set_group( xai["g"].GetInt() );
         if(xai.HasMember("q")) map.antigens[i].set_sequence( xai["q"].GetString() );
         if(xai.HasMember("i")) map.antigens[i].set_id( xai["i"].GetString() );
+        if(xai.HasMember("x")) map.antigens[i].set_extra( xai["x"].GetString() );
       }
     }
 
@@ -282,6 +283,7 @@ AcMap json_to_acmap(
         if(xsi.HasMember("g")) map.sera[i].set_group( xsi["g"].GetInt() );
         if(xsi.HasMember("q")) map.sera[i].set_sequence( xsi["q"].GetString() );
         if(xsi.HasMember("i")) map.sera[i].set_id( xsi["i"].GetString() );
+        if(xsi.HasMember("x")) map.sera[i].set_extra( xsi["x"].GetString() );
       }
     }
 

@@ -93,6 +93,10 @@ ac_ag_get_name_abbreviated <- function(ag) {
     .Call('_Racmacs_ac_ag_get_name_abbreviated', PACKAGE = 'Racmacs', ag)
 }
 
+ac_ag_get_extra <- function(ag) {
+    .Call('_Racmacs_ac_ag_get_extra', PACKAGE = 'Racmacs', ag)
+}
+
 ac_ag_get_match_id <- function(ag) {
     .Call('_Racmacs_ac_ag_get_match_id', PACKAGE = 'Racmacs', ag)
 }
@@ -135,6 +139,10 @@ ac_ag_set_name_full <- function(ag, value) {
 
 ac_ag_set_name_abbreviated <- function(ag, value) {
     .Call('_Racmacs_ac_ag_set_name_abbreviated', PACKAGE = 'Racmacs', ag, value)
+}
+
+ac_ag_set_extra <- function(ag, value) {
+    .Call('_Racmacs_ac_ag_set_extra', PACKAGE = 'Racmacs', ag, value)
 }
 
 ac_ag_set_group <- function(ag, value) {
@@ -337,6 +345,10 @@ ac_sr_get_name_abbreviated <- function(sr) {
     .Call('_Racmacs_ac_sr_get_name_abbreviated', PACKAGE = 'Racmacs', sr)
 }
 
+ac_sr_get_extra <- function(sr) {
+    .Call('_Racmacs_ac_sr_get_extra', PACKAGE = 'Racmacs', sr)
+}
+
 ac_sr_get_match_id <- function(sr) {
     .Call('_Racmacs_ac_sr_get_match_id', PACKAGE = 'Racmacs', sr)
 }
@@ -379,6 +391,10 @@ ac_sr_set_name_full <- function(sr, value) {
 
 ac_sr_set_name_abbreviated <- function(sr, value) {
     .Call('_Racmacs_ac_sr_set_name_abbreviated', PACKAGE = 'Racmacs', sr, value)
+}
+
+ac_sr_set_extra <- function(sr, value) {
+    .Call('_Racmacs_ac_sr_set_extra', PACKAGE = 'Racmacs', sr, value)
 }
 
 ac_sr_set_group <- function(sr, value) {

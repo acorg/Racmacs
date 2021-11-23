@@ -90,3 +90,4 @@
 # Racmacs 1.1.21
 * Full precision used in rapidjson when parsing doubles to load and save maps
 * Added `numSeraGroups()` function
+* Added "extra" field for antigens and sera, and corresponding `agExtra()` and `srExtra()` functions

@@ -30,6 +30,8 @@ std::string ac_ag_get_name( const AcAntigen &ag ){ return ag.get_name(); }
 std::string ac_ag_get_name_full( const AcAntigen &ag ){ return ag.get_name_full(); }
 // [[Rcpp::export(rng = false)]]
 std::string ac_ag_get_name_abbreviated( const AcAntigen &ag ){ return ag.get_name_abbreviated(); }
+// [[Rcpp::export(rng = false)]]
+std::string ac_ag_get_extra( const AcAntigen &ag ){ return ag.get_extra(); }
 
 // [[Rcpp::export(rng = false)]]
 std::string ac_ag_get_match_id( const AcAntigen &ag ){ return ag.get_match_id(); }
@@ -57,6 +59,8 @@ AcAntigen ac_ag_set_name( AcAntigen ag, std::string value ){ ag.set_name(value);
 AcAntigen ac_ag_set_name_full( AcAntigen ag, std::string value ){  ag.set_name_full(value); return ag; }
 // [[Rcpp::export(rng = false)]]
 AcAntigen ac_ag_set_name_abbreviated( AcAntigen ag, std::string value ){ ag.set_name_abbreviated(value); return ag; }
+// [[Rcpp::export(rng = false)]]
+AcAntigen ac_ag_set_extra( AcAntigen ag, std::string value ){ ag.set_extra(value); return ag; }
 
 // [[Rcpp::export(rng = false)]]
 AcAntigen ac_ag_set_group( AcAntigen ag, int value ){ ag.set_group(value); return ag; }

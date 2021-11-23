@@ -5,6 +5,8 @@
 \alias{srIDs}
 \alias{srNames}
 \alias{srNames<-}
+\alias{srExtra}
+\alias{srExtra<-}
 \alias{srIDs<-}
 \alias{srDates}
 \alias{srDates<-}
@@ -16,6 +18,8 @@
 \usage{
 srNames(map)
 srNames(map) <- value
+srExtra(map)
+srExtra(map) <- value
 srIDs(map)
 srIDs(map) <- value
 srDates(map)

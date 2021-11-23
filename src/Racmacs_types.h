@@ -147,6 +147,7 @@ SEXP wrap(const AcAntigen& ag){
 
       // Attributes
       _["name"] = ag.get_name(),
+      _["extra"] = ag.get_extra(),
       // _["name_abbreviated"] = ag.get_name_abbreviated(),
       // _["name_full"] = ag.get_name_full(),
       _["id"] = ag.get_id(),
@@ -176,6 +177,7 @@ SEXP wrap(const AcSerum& sr){
 
       // Attributes
       _["name"] = sr.get_name(),
+      _["extra"] = sr.get_extra(),
       // _["name_abbreviated"] = sr.get_name_abbreviated(),
       // _["name_full"] = sr.get_name_full(),
       _["id"] = sr.get_id(),
@@ -474,6 +476,7 @@ AcAntigen as(SEXP sxp){
 
   // Attributes
   if(list.containsElementNamed("name")) ag.set_name(list["name"]);
+  if(list.containsElementNamed("extra")) ag.set_extra(list["extra"]);
   // if(list.containsElementNamed("name_abbreviated")) ag.set_name_abbreviated(list["name_abbreviated"]);
   // if(list.containsElementNamed("name_full")) ag.set_name_full(list["name_full"]);
   if(list.containsElementNamed("id")) ag.set_id(list["id"]);
@@ -500,6 +503,7 @@ AcSerum as(SEXP sxp){
 
   // Attributes
   if(list.containsElementNamed("name")) sr.set_name(list["name"]);
+  if(list.containsElementNamed("extra")) sr.set_extra(list["extra"]);
   // if(list.containsElementNamed("name_abbreviated")) sr.set_name_abbreviated(list["name_abbreviated"]);
   // if(list.containsElementNamed("name_full")) sr.set_name_full(list["name_full"]);
   if(list.containsElementNamed("id")) sr.set_id(list["id"]);

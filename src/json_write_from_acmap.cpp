@@ -231,6 +231,10 @@ std::string acmap_to_json(
       ag_extras = true;
       agx.AddMember("i", jsonifya(map.antigens[i].get_id(), allocator), allocator);
     }
+    if (!map.antigens[i].isdefault("extra")) {
+      ag_extras = true;
+      agx.AddMember("x", jsonifya(map.antigens[i].get_extra(), allocator), allocator);
+    }
     xa.PushBack(agx, allocator);
   }
   if (ag_extras) x.AddMember("a", xa, allocator);
@@ -252,6 +256,10 @@ std::string acmap_to_json(
     if (!map.sera[i].isdefault("id")) {
       sr_extras = true;
       srx.AddMember("i", jsonifya(map.sera[i].get_id(), allocator), allocator);
+    }
+    if (!map.sera[i].isdefault("extra")) {
+      sr_extras = true;
+      srx.AddMember("x", jsonifya(map.sera[i].get_extra(), allocator), allocator);
     }
     xs.PushBack(srx, allocator);
   }

@@ -26,6 +26,7 @@ Imports:
 LazyData: TRUE
 Suggests: 
     testthat,
+    knitr,
     rstudioapi,
     plotly,
     geometry,

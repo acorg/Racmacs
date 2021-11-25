@@ -76,12 +76,7 @@ Value jsonifya(
 
   Value a(kArrayType);
   for( arma::uword i=0; i<x.n_elem; i++ ){
-    if(std::isfinite(x(i))){
-      a.PushBack(x(i), allocator);
-    } else {
-      Value null(kNullType);
-      a.PushBack(null, allocator);
-    }
+    a.PushBack(jsonify(x(i)), allocator);
   }
   return a;
 

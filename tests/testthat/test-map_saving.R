@@ -50,6 +50,7 @@ test_that(
     map1save2_lines <- readLines(map1save2, warn = F)
 
     expect_equal(map1save_lines, map2save_lines)
+    expect_equal(ptCoords(map1optim), ptCoords(map2optim))
     if (!isTRUE(all.equal(map1save_lines, map1save1_lines))) warning("Floating point error on first map rewrite")
     if (!isTRUE(all.equal(map1save1_lines, map1save2_lines))) warning("Floating point error on second map rewrite")
 

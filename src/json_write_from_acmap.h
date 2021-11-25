@@ -25,7 +25,7 @@ Value jsonify(
 
   Value val;
   if(std::isfinite(d)){
-    val.SetDouble(d);
+    val.SetDouble(round(d * 1e6) / 1e6);
   } else {
     val.SetNull();
   }

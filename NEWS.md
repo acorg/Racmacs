@@ -91,3 +91,4 @@
 * Full precision used in rapidjson when parsing doubles to load and save maps
 * Added `numSeraGroups()` function
 * Added "extra" field for antigens and sera, and corresponding `agExtra()` and `srExtra()` functions
+* Antigen and serum groups will now be maintained and merged when running `mergeMaps()`

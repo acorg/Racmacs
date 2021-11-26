@@ -318,3 +318,37 @@ test_that("Merging with duplicated serum names", {
   expect_error(mergeMaps(list(mergemap1a, mergemap2a)))
 
 })
+
+# Incremental merge
+test_that("Merging serum and antigen groups", {
+
+  mergemap1a <- mergemap1
+  mergemap2a <- mergemap2
+  srNames(mergemap2a)[1:5] <- paste("SERA", 11:15)
+
+  ag_names <- unique(c(agNames(mergemap1a), agNames(mergemap2a)))
+  sr_names <- unique(c(srNames(mergemap1a), srNames(mergemap2a)))
+
+  set.seed(10)
+  ag_groups <- paste("GROUP", sample(1:2, length(ag_names), replace = T))
+  sr_groups <- paste("GROUP", sample(1:2, length(sr_names), replace = T))
+
+  agGroups(mergemap1a) <- factor(ag_groups[match(agNames(mergemap1a), ag_names)])
+  agGroups(mergemap2a) <- factor(ag_groups[match(agNames(mergemap2a), ag_names)])
+
+  srGroups(mergemap1a) <- factor(sr_groups[match(srNames(mergemap1a), sr_names)])
+  srGroups(mergemap2a) <- factor(sr_groups[match(srNames(mergemap2a), sr_names)])
+
+  merged_map <- mergeMaps(list(mergemap1a, mergemap2a))
+
+  expect_equal(
+    as.character(agGroups(merged_map)),
+    ag_groups[match(agNames(merged_map), ag_names)]
+  )
+
+  expect_equal(
+    as.character(srGroups(merged_map)),
+    sr_groups[match(srNames(merged_map), sr_names)]
+  )
+
+})

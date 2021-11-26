@@ -308,3 +308,13 @@ test_that("Incremental merge", {
   })
 
 })
+
+# Incremental merge
+test_that("Merging with duplicated serum names", {
+
+  mergemap1a <- mergemap1
+  mergemap2a <- mergemap2
+  srNames(mergemap2a)[1:5] <- paste("SERA", 8:12)
+  expect_error(mergeMaps(list(mergemap1a, mergemap2a)))
+
+})

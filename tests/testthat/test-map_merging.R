@@ -320,6 +320,42 @@ test_that("Merging with duplicated serum names", {
 })
 
 # Incremental merge
+test_that("Merging maps with different dilution stepsizes", {
+
+  mergemap1a <- mergemap1
+  mergemap2a <- mergemap2
+
+  dilutionStepsize(mergemap1a) <- 0
+  dilutionStepsize(mergemap2a) <- 0
+
+  expect_equal(
+    dilutionStepsize(mergeMaps(list(mergemap1a, mergemap2a))),
+    0
+  )
+
+  dilutionStepsize(mergemap1a) <- 1
+  dilutionStepsize(mergemap2a) <- 1
+
+  expect_equal(
+    dilutionStepsize(mergeMaps(list(mergemap1a, mergemap2a))),
+    1
+  )
+
+  dilutionStepsize(mergemap1a) <- 1
+  dilutionStepsize(mergemap2a) <- 0
+
+  expect_warning({
+    merged_map <- mergeMaps(list(mergemap1a, mergemap2a))
+  })
+
+  expect_equal(
+    dilutionStepsize(merged_map),
+    1
+  )
+
+})
+
+# Incremental merge
 test_that("Merging serum and antigen groups", {
 
   mergemap1a <- mergemap1

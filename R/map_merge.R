@@ -167,6 +167,15 @@ mergeMaps <- function(
     srGroups(merged_map) <- factor(merged_map_sr_groups, unique(merged_map_sr_groups))
   }
 
+  # Deal with dilution stepsizes
+  dilution_stepsizes <- vapply(maps, dilutionStepsize, numeric(1))
+  if (length(unique(dilution_stepsizes)) == 1) {
+    dilutionStepsize(merged_map) <- unique(dilution_stepsizes)
+  } else {
+    dilutionStepsize(merged_map) <- 1
+    warning("Merged maps have different 'dilutionStepSize()' settings, a default of 1 has been assigned.")
+  }
+
   # Return the map
   merged_map
 

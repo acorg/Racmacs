@@ -93,3 +93,4 @@
 * Added "extra" field for antigens and sera, and corresponding `agExtra()` and `srExtra()` functions
 * Antigen and serum groups will now be maintained and merged when running `mergeMaps()`
 * Where maps have shared `dilutionStepsize()` settings, this will be applied to the merged map. Alternatively a warning will be issued and a default setting of 1 applied where they have different `dilutionStepsize()` settings.
+* Add attribute getter `numLayers()` for returning the number of titer table layers in a map.

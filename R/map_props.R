@@ -386,3 +386,11 @@ numOptimizations <- function(map) {
   check.acmap(map)
   length(map$optimizations)
 }
+
+#' @rdname acmapAttributes
+#' @export
+numLayers <- function(map) {
+  check.acmap(map)
+  length(titerTableLayers(map))
+}
+

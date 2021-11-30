@@ -141,7 +141,9 @@ titerTableFlat <- function(map) {
 #'
 titerTableLayers <- function(map) {
   check.acmap(map)
-  map$titer_table_layers
+  table_layers <- map$titer_table_layers
+  names(table_layers) <- layerNames(map)
+  table_layers
 }
 
 #' @rdname titerTableLayers
@@ -382,6 +384,39 @@ keepSingleOptimization <- function(map, optimization_number = 1) {
 keepBestOptimization <- function(map) {
   map <- sortOptimizations(map)
   keepOptimizations(map, 1)
+}
+
+
+#' Get and set map layer names
+#'
+#' @param map The acmap object
+#'
+#' @family {functions for working with map data}
+#'
+#' @name layerNames
+
+#' @rdname layerNames
+#' @export
+layerNames <- function(map) {
+  check.acmap(map)
+  layer_names <- map$layer_names
+  if (length(layer_names) == 0) layer_names <- NULL
+  layer_names
+}
+
+#' @rdname layerNames
+#' @export
+`layerNames<-` <- function(map, value) {
+  if (is.null(value)) {
+    map$layer_names <- rep("", numLayers(map))
+  } else {
+    check.charactervector(value)
+    if (length(value) != numLayers(map)) {
+      stop("Number of layer names does not match the number of layers", call. = F)
+    }
+    map$layer_names <- value
+  }
+  map
 }
 
 

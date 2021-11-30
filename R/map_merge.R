@@ -79,6 +79,13 @@ mergeMaps <- function(
     stop(strain_list_error("Cannot merge, at least one of the maps has the following duplicated serum ids:", duplicated_srs))
   }
 
+  # If list has names apply them as map names
+  if (!is.null(names(maps))) {
+    for (n in seq_along(maps)) {
+      mapName(maps[[n]]) <- names(maps)[n]
+    }
+  }
+
   # Set options for any relaxation or optimizations
   optimizer_options <- do.call(RacOptimizer.options, optimizer_options)
   merge_options <- do.call(RacMerge.options, merge_options)
@@ -217,7 +224,27 @@ RacMerge.options <- function(
 
 
 
+#' Split a map made up from titer layers into a list of separate maps each with a titer table
+#' corresponding to one of the layers
+#'
+#' @param map An acmap object with titer table layers
+#'
+splitTiterLayers <- function(
+  map
+  ) {
 
+  maps <- lapply(
+    titerTableLayers(map), \(titertable) {
+      splitmap <- map
+      titerTable(splitmap) <- titertable
+      splitmap
+    }
+  )
+
+  names(maps) <- layerNames(map)
+  maps
+
+}
 
 
 

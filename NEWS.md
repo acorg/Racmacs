@@ -95,3 +95,4 @@
 * Where maps have shared `dilutionStepsize()` settings, this will be applied to the merged map. Alternatively a warning will be issued and a default setting of 1 applied where they have different `dilutionStepsize()` settings.
 * Add attribute getter `numLayers()` for returning the number of titer table layers in a map.
 * `titerTable()<-` will now throw an error if the titer table applied does not have the same dimensions as the map in terms of number of antigens and sera
+* When maps are merged the `mapName` will be used to name the titer table layers, layer names can also be get and set directly using the new `layerNames()` function

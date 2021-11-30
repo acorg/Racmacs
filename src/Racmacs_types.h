@@ -286,7 +286,8 @@ SEXP wrap(const AcMap& acmap){
     _["titer_table_layers"] = titer_table_layers,
     _["pt_drawing_order"] = pt_drawing_order,
     _["ag_group_levels"] = acmap.get_ag_group_levels(),
-    _["sr_group_levels"] = acmap.get_sr_group_levels()
+    _["sr_group_levels"] = acmap.get_sr_group_levels(),
+    _["layer_names"] = acmap.get_layer_names()
   );
 
   // Set class attribute and return
@@ -662,6 +663,7 @@ AcMap as(SEXP sxp){
   }
   if(list.containsElementNamed("ag_group_levels")) acmap.set_ag_group_levels( list["ag_group_levels"] );
   if(list.containsElementNamed("sr_group_levels")) acmap.set_sr_group_levels( list["sr_group_levels"] );
+  if(list.containsElementNamed("layer_names")) acmap.set_layer_names( list["layer_names"] );
 
   // Antigens
   for(arma::uword i=0; i<acmap.antigens.size(); i++){

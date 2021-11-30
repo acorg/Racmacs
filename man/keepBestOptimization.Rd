@@ -20,6 +20,7 @@ Other {functions for working with map data}:
 \code{\link{edit_agNames}()},
 \code{\link{edit_srNames}()},
 \code{\link{keepSingleOptimization}()},
+\code{\link{layerNames}()},
 \code{\link{orderPoints}},
 \code{\link{read.acmap}()},
 \code{\link{read.titerTable}()},

@@ -317,6 +317,15 @@ void AcMap::set_pt_drawing_order( const arma::uvec& order ){
   pt_drawing_order = order;
 }
 
+// Get and set layer names
+std::vector<std::string> AcMap::get_layer_names() const {
+  return layer_names;
+}
+
+void AcMap::set_layer_names( const std::vector<std::string> layer_names_in ){
+  layer_names = layer_names_in;
+}
+
 // Determine if setting are defaults, useful when outputting to json
 bool AcMap::isdefault(
     std::string attribute
@@ -330,6 +339,13 @@ bool AcMap::isdefault(
   }
   else if (attribute == "description") {
     return(description == "");
+  }
+  else if (attribute == "layer_names") {
+    int i = 0;
+    for(auto &layer_name : layer_names){
+      if (layer_name != "") i++;
+    }
+    return(i == 0);
   }
   else if (attribute == "dilution_stepsize") {
     return(dilution_stepsize == 1);

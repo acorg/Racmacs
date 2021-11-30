@@ -29,6 +29,7 @@ class AcMap {
     std::vector<AcSerum> sera;
     AcTiterTable titer_table_flat;
     std::vector<AcTiterTable> titer_table_layers;
+    std::vector<std::string> layer_names;
 
     // Construct a new acmap
     AcMap(
@@ -65,6 +66,12 @@ class AcMap {
     void set_titer_table_layers(
       const std::vector<AcTiterTable> titers,
       const AcMergeOptions& merge_options
+    );
+
+    // Get and set layer names
+    std::vector<std::string> get_layer_names() const;
+    void set_layer_names(
+      const std::vector<std::string> layer_names_in
     );
 
     // Remove antigen(s)

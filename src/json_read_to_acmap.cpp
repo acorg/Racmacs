@@ -299,9 +299,10 @@ AcMap json_to_acmap(
     }
 
     // = OTHER =
-    if(x.HasMember("agv")) map.set_ag_group_levels( parse<std::vector<std::string>>(x["agv"]));
-    if(x.HasMember("srv")) map.set_sr_group_levels( parse<std::vector<std::string>>(x["srv"]));
+    if(x.HasMember("agv")) map.set_ag_group_levels( parse<std::vector<std::string>>(x["agv"]) );
+    if(x.HasMember("srv")) map.set_sr_group_levels( parse<std::vector<std::string>>(x["srv"]) );
     if(x.HasMember("ds"))  map.dilution_stepsize = x["ds"].GetDouble();
+    if(x.HasMember("ln"))  map.set_layer_names( parse<std::vector<std::string>>(x["ln"]) );
     if(x.HasMember("D"))   map.description = x["D"].GetString();
 
   }

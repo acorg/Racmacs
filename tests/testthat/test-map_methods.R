@@ -45,3 +45,22 @@ test_that("Edit map strain details", {
 
 
 })
+
+test_that("Edit map titer table", {
+
+  map_edited <- map
+  bad_table  <- matrix("10", 8, 4)
+  good_table <- matrix("10", 10, 5)
+
+  expect_error({
+    titerTable(map_edited) <- bad_table
+  })
+
+  titerTable(map_edited) <- good_table
+  expect_equal(
+    unname(titerTable(map_edited)),
+    good_table
+  )
+
+})
+

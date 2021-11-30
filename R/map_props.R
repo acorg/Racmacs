@@ -110,6 +110,7 @@ titerTableFlat <- function(map) {
 #' @rdname titerTable
 `titerTableFlat<-` <- function(map, value) {
   check.acmap(map)
+  check.dimensions(value, map)
   if (is.data.frame(value)) value <- as.matrix(value)
   check.validtiters(value)
   mode(value)          <- "character"
@@ -154,6 +155,7 @@ titerTableLayers <- function(map) {
 
   # Update layers
   value <- lapply(value, function(titers) {
+    check.dimensions(titers, map)
     if (is.data.frame(titers)) titers <- as.matrix(titers)
     mode(titers) <- "character"
     check.validtiters(titers)

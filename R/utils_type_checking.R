@@ -59,6 +59,18 @@ check.charactermatrix <- function(x) {
   }
 }
 
+check.dimensions <- function(x, map) {
+  if (nrow(x) != numAntigens(map) || ncol(x) != numSera(map)) {
+    stop(
+      sprintf(
+        "Dimensions of input [%s,%s] does not match dimensions of the map in terms of number of antigens and sera [%s,%s]",
+        nrow(x), ncol(x), numAntigens(map), numSera(map)
+      ),
+      call. = FALSE
+    )
+  }
+}
+
 check.validtiters <- function(titers) {
 
   x <- titers

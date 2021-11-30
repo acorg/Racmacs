@@ -174,6 +174,46 @@ titerTableLayers <- function(map) {
 }
 
 
+#' Return a list of titertypes tables
+#'
+#' @param map An acmap data object
+#'
+titertypesTableLayers <- function(map) {
+
+  lapply(
+    titerTableLayers(map),
+    \(titertable) {
+      matrix(
+        titer_types_int(titertable),
+        numAntigens(map),
+        numSera(map)
+      )
+    }
+  )
+
+}
+
+
+#' Return a list of logtiter table layers
+#'
+#' @param map An acmap data object
+#'
+logtiterTableLayers <- function(map) {
+
+  lapply(
+    titerTableLayers(map),
+    \(titertable) {
+      matrix(
+        log_titers(titertable, dilutionStepsize(map)),
+        numAntigens(map),
+        numSera(map)
+      )
+    }
+  )
+
+}
+
+
 #' Get or set the dilution stepsize associated with a map
 #'
 #' This defaults to 1 but can be changed using this function with knock-on
@@ -393,4 +433,5 @@ numLayers <- function(map) {
   check.acmap(map)
   length(titerTableLayers(map))
 }
+
 

@@ -7,6 +7,7 @@
 \alias{numSeraGroups}
 \alias{numPoints}
 \alias{numOptimizations}
+\alias{numLayers}
 \title{Get acmap attributes}
 \usage{
 numAntigens(map)
@@ -18,6 +19,8 @@ numSeraGroups(map)
 numPoints(map)
 
 numOptimizations(map)
+
+numLayers(map)
 }
 \arguments{
 \item{map}{The acmap data object}

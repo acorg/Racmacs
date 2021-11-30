@@ -263,3 +263,58 @@ removeSera <- function(map, sera) {
   sera <- get_sr_indices(sera, map)
   subsetSera(map, which(!seq_len(numSera(map)) %in% sera))
 }
+
+
+
+
+#' Remove antigens and sera
+#'
+#' Functions to subset a list of maps to include only antigens, antigen groups, sera
+#' or serum groups that are in common between them.
+#'
+#' @param maps A list of map data objects
+#'
+#' @name subsetCommonPoints
+#'
+
+# Function to subset a list of maps to common antigens
+#' @rdname subsetCommonPoints
+subsetCommonAgs <- function(maps) {
+
+  map_ags <- lapply(maps, agNames)
+  ag_names <- unique(unlist(map_ags))
+  ag_names_in_maps <- do.call(cbind, lapply(map_ags, \(ags) ag_names %in% ags))
+  common_ags <- ag_names[rowSums(!ag_names_in_maps) == 0]
+
+  lapply(
+    maps,
+    subsetMap,
+    antigens = common_ags
+  )
+
+}
+
+
+#' @rdname subsetCommonPoints
+subsetCommonSrGroups <- function(maps) {
+
+  map_sr_groups <- lapply(maps, \(map) levels(srGroups(map)))
+  sr_groups <- unique(unlist(map_sr_groups))
+  sr_groups_in_maps <- do.call(cbind, lapply(map_sr_groups, \(srgs) sr_groups %in% srgs))
+  common_sr_groups <- sr_groups[rowSums(!sr_groups_in_maps) == 0]
+
+  lapply(
+    maps,
+    \(map) {
+      map <- subsetMap(
+        map,
+        sera = as.character(srGroups(map)) %in% common_sr_groups
+      )
+      srGroups(map) <- factor(as.character(srGroups(map)), levels = common_sr_groups)
+      map
+    }
+  )
+
+}
+
+

@@ -390,6 +390,7 @@ keepBestOptimization <- function(map) {
 #' Get and set map layer names
 #'
 #' @param map The acmap object
+#' @param value A vector of new layer names to apply to the map
 #'
 #' @family {functions for working with map data}
 #'

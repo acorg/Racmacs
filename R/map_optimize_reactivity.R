@@ -21,7 +21,7 @@
 #' @param options A named list of additional options to pass to
 #'   `RacOptimizer.options()`
 #'
-#' @return The axmap object is returned with antigen reactivity adjustments
+#' @return The acmap object is returned with antigen reactivity adjustments
 #'   set to the value calculated in the optimizer. This can be queried with
 #'   `agReactivityAdjustments()`.
 #'
@@ -74,7 +74,7 @@ optimizeAgReactivity <- function(
   # Apply the reactivity adjustments
   optimized_reactivities <- fixed_ag_reactivities
   optimized_reactivities[is.na(optimized_reactivities)] <- result$par
-  agReactivityAdjustments(map, optimization_number) <- optimized_reactivities
+  agReactivityAdjustments(map) <- optimized_reactivities
 
   # Relax and return the map
   relaxMap(map, optimization_number)

@@ -37,6 +37,9 @@ AcMap::AcMap(
   ag_group_levels.resize(0);
   sr_group_levels.resize(0);
 
+  // Set ag reactivity adjustments
+  ag_reactivity_adjustments.zeros(num_ags);
+
 }
 
 // Invalidate all calculated optimization stresses, for example when titers are changed
@@ -54,6 +57,13 @@ std::vector<std::string> AcMap::get_ag_group_levels() const { return ag_group_le
 std::vector<std::string> AcMap::get_sr_group_levels() const { return sr_group_levels; }
 void AcMap::set_ag_group_levels( std::vector<std::string> levels ){ ag_group_levels = levels; }
 void AcMap::set_sr_group_levels( std::vector<std::string> levels ){ sr_group_levels = levels; }
+
+// Get and set antigen reactivity adjustments
+arma::vec AcMap::get_ag_reactivity_adjustments() const { return ag_reactivity_adjustments; }
+double AcMap::get_ag_reactivity_adjustments(arma::uword i) const { return ag_reactivity_adjustments(i); }
+void AcMap::set_ag_reactivity_adjustments( arma::vec ag_reactivity_adjustments_in ) {
+  ag_reactivity_adjustments = ag_reactivity_adjustments_in;
+}
 
 // Get and set titers from a single titer table, resetting any layers
 AcTiterTable AcMap::get_titer_table() const {
@@ -346,8 +356,15 @@ bool AcMap::isdefault(
       if (layer_name != "") i++;
     }
     return(i == 0);
-  }
-  else if (attribute == "dilution_stepsize") {
+  } else if (attribute == "ag_reactivity") {
+    return(
+      arma::approx_equal(
+        ag_reactivity_adjustments,
+        arma::vec(antigens.size(), arma::fill::zeros),
+        "absdiff", 0.0001
+      )
+    );
+  } else if (attribute == "dilution_stepsize") {
     return(dilution_stepsize == 1);
   } else {
     return(false);

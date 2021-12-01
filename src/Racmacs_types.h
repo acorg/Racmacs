@@ -287,6 +287,7 @@ SEXP wrap(const AcMap& acmap){
     _["pt_drawing_order"] = pt_drawing_order,
     _["ag_group_levels"] = acmap.get_ag_group_levels(),
     _["sr_group_levels"] = acmap.get_sr_group_levels(),
+    _["ag_reactivity_adjustments"] = acmap.get_ag_reactivity_adjustments(),
     _["layer_names"] = acmap.get_layer_names()
   );
 
@@ -663,6 +664,7 @@ AcMap as(SEXP sxp){
   }
   if(list.containsElementNamed("ag_group_levels")) acmap.set_ag_group_levels( list["ag_group_levels"] );
   if(list.containsElementNamed("sr_group_levels")) acmap.set_sr_group_levels( list["sr_group_levels"] );
+  if(list.containsElementNamed("ag_reactivity_adjustments")) acmap.set_ag_reactivity_adjustments( list["ag_reactivity_adjustments"] );
   if(list.containsElementNamed("layer_names")) acmap.set_layer_names( list["layer_names"] );
 
   // Antigens

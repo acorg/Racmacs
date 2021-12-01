@@ -128,15 +128,14 @@ mapTranslation        <- optimization_getter(ac_opt_get_translation)
 #' @eval roxygen_tags(
 #'   methods    = c(
 #'   "minColBasis", "minColBasis<-",
-#'   "fixedColBases", "fixedColBases<-",
-#'   "agReactivityAdjustments", "agReactivityAdjustments<-"
+#'   "fixedColBases", "fixedColBases<-"
 #'   ),
 #'   args       = c("map", "optimization_number = 1")
 #' )
 #'
 minColBasis             <- optimization_getter(ac_opt_get_mincolbasis)
 fixedColBases           <- optimization_getter(ac_opt_get_fixedcolbases)
-agReactivityAdjustments <- optimization_getter(ac_opt_get_agreactivityadjustments)
+agOptReactivityAdjustments <- optimization_getter(ac_opt_get_agreactivityadjustments)
 `minColBasis<-`   <- optimization_setter(
   ac_opt_set_mincolbasis,
   check.string
@@ -145,7 +144,7 @@ agReactivityAdjustments <- optimization_getter(ac_opt_get_agreactivityadjustment
   ac_opt_set_fixedcolbases,
   check.numericvector
 )
-`agReactivityAdjustments<-` <- optimization_setter(
+`agOptReactivityAdjustments<-` <- optimization_setter(
   ac_opt_set_agreactivityadjustments,
   check.numericvector
 )
@@ -157,7 +156,7 @@ colBases <- function(map, optimization_number = 1) {
     titerTable(map),
     minColBasis(map, optimization_number),
     fixedColBases(map, optimization_number),
-    agReactivityAdjustments(map, optimization_number)
+    agReactivityAdjustments(map)
   )
 
 }
@@ -181,7 +180,7 @@ mapStress <- function(
     titers = titerTable(map),
     min_colbasis = minColBasis(map, optimization_number),
     fixed_colbases = fixedColBases(map, optimization_number),
-    ag_reactivity_adjustments = agReactivityAdjustments(map, optimization_number),
+    ag_reactivity_adjustments = agReactivityAdjustments(map),
     ag_coords = agBaseCoords(map, optimization_number),
     sr_coords = srBaseCoords(map, optimization_number),
     dilution_stepsize = dilutionStepsize(map)

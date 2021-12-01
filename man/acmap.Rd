@@ -47,6 +47,7 @@ antigen similarity from the acmap titer data.
 
 Other {functions for working with map data}: 
 \code{\link{addOptimization}()},
+\code{\link{agReactivityAdjustments}()},
 \code{\link{as.json}()},
 \code{\link{edit_agNames}()},
 \code{\link{edit_srNames}()},

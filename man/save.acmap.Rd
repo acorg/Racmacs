@@ -33,6 +33,7 @@ the format of the file will be a json file of map data compressed using
 Other {functions for working with map data}: 
 \code{\link{acmap}()},
 \code{\link{addOptimization}()},
+\code{\link{agReactivityAdjustments}()},
 \code{\link{as.json}()},
 \code{\link{edit_agNames}()},
 \code{\link{edit_srNames}()},

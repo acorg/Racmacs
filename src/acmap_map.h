@@ -30,6 +30,14 @@ class AcMap {
     AcTiterTable titer_table_flat;
     std::vector<AcTiterTable> titer_table_layers;
     std::vector<std::string> layer_names;
+    arma::vec ag_reactivity_adjustments;
+
+    // Getters
+    arma::vec get_ag_reactivity_adjustments() const;
+    double get_ag_reactivity_adjustments(arma::uword i) const;
+
+    // Setters
+    void set_ag_reactivity_adjustments( arma::vec ag_reactivity_adjustments_in );
 
     // Construct a new acmap
     AcMap(

@@ -361,6 +361,7 @@ std::string acmap_to_json(
   if (!map.isdefault("layer_names"))       x.AddMember("ln",  jsonifya(map.get_layer_names(), allocator), allocator);
   if (!map.isdefault("dilution_stepsize")) x.AddMember("ds",  map.dilution_stepsize, allocator);
   if (!map.isdefault("description"))       x.AddMember("D",   jsonifya(map.description, allocator), allocator);
+  if (!map.isdefault("ag_reactivity"))     x.AddMember("r",   jsonifya(map.get_ag_reactivity_adjustments(), allocator), allocator);
 
   // == FINISH UP ===============================
   // Assemble the json map data and add it

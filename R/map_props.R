@@ -408,6 +408,7 @@ layerNames <- function(map) {
 #' @rdname layerNames
 #' @export
 `layerNames<-` <- function(map, value) {
+  check.acmap(map)
   if (is.null(value)) {
     map$layer_names <- rep("", numLayers(map))
   } else {
@@ -416,6 +417,40 @@ layerNames <- function(map) {
       stop("Number of layer names does not match the number of layers", call. = F)
     }
     map$layer_names <- value
+  }
+  map
+}
+
+
+#' Get and set antigen reactivity adjustments
+#'
+#' @param map The acmap object
+#' @param value A vector of antigen reactivity adjustments to apply
+#'
+#' @family {functions for working with map data}
+#'
+#' @name agReactivityAdjustments
+
+#' @rdname agReactivityAdjustments
+#' @export
+agReactivityAdjustments <- function(map) {
+  check.acmap(map)
+  ag_reactivity_adjustments <- map$ag_reactivity_adjustments
+  if (is.null(ag_reactivity_adjustments)) ag_reactivity_adjustments <- rep(0, numAntigens(map))
+  ag_reactivity_adjustments
+}
+
+#' @rdname agReactivityAdjustments
+#' @export
+`agReactivityAdjustments<-` <- function(map, value) {
+  check.acmap(map)
+  check.numericvector(value)
+  if (length(value) != numAntigens(map)) {
+    stop("Number of reactivity adjustments does not match the number of antigens", call. = F)
+  }
+  map$ag_reactivity_adjustments <- value
+  for (n in seq_len(numOptimizations(map))) {
+    map$optimizations[[n]]$ag_reactivity_adjustments <- value
   }
   map
 }

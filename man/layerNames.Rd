@@ -11,6 +11,8 @@ layerNames(map) <- value
 }
 \arguments{
 \item{map}{The acmap object}
+
+\item{value}{A vector of new layer names to apply to the map}
 }
 \description{
 Get and set map layer names
@@ -19,6 +21,7 @@ Get and set map layer names
 Other {functions for working with map data}: 
 \code{\link{acmap}()},
 \code{\link{addOptimization}()},
+\code{\link{agReactivityAdjustments}()},
 \code{\link{as.json}()},
 \code{\link{edit_agNames}()},
 \code{\link{edit_srNames}()},

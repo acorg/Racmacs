@@ -293,7 +293,16 @@ AcMap json_to_acmap(
       for(SizeType i=0; i<xp.Size(); i++){
         const Value& xpi = xp[i];
         if(xpi.HasMember("t")) map.optimizations[i].set_translation(parse<arma::mat>(xpi["t"]));
-        if(xpi.HasMember("r")) map.optimizations[i].set_ag_reactivity_adjustments(parse<arma::vec>(xpi["r"]));
+        if(xpi.HasMember("r")) {
+          map.optimizations[i].set_ag_reactivity_adjustments(parse<arma::vec>(xpi["r"]));
+
+          if (i == 0) {
+            // For backwards compatibility before reactivity adjustments were an
+            // attribute of the map not the optimization
+            map.set_ag_reactivity_adjustments(parse<arma::vec>(xpi["r"]));
+          }
+
+        }
         if(xpi.HasMember("b")) map.optimizations[i].bootstrap = parse<std::vector<BootstrapOutput>>(xpi["b"]);
       }
     }
@@ -303,6 +312,7 @@ AcMap json_to_acmap(
     if(x.HasMember("srv")) map.set_sr_group_levels( parse<std::vector<std::string>>(x["srv"]) );
     if(x.HasMember("ds"))  map.dilution_stepsize = x["ds"].GetDouble();
     if(x.HasMember("ln"))  map.set_layer_names( parse<std::vector<std::string>>(x["ln"]) );
+    if(x.HasMember("r"))   map.set_ag_reactivity_adjustments( parse<arma::vec>(x["r"]) );
     if(x.HasMember("D"))   map.description = x["D"].GetString();
 
   }

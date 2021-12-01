@@ -34,7 +34,7 @@ adjustedTiterTable <- function(
   ) {
 
   adjusted_titer_table <- titerTable(map)
-  ag_reactivity_adjusts <- agReactivityAdjustments(map, optimization_number)
+  ag_reactivity_adjusts <- agReactivityAdjustments(map)
 
   for (n in seq_len(numAntigens(map))) {
     adjusted_titer_table[n, ] <- reactivity_adjust_titers(
@@ -64,7 +64,7 @@ adjustedLogTiterTable <- function(
 ) {
 
   adjusted_titer_table <- logtiterTable(map)
-  ag_reactivity_adjusts <- agReactivityAdjustments(map, optimization_number)
+  ag_reactivity_adjusts <- agReactivityAdjustments(map)
   adjusted_titer_table + matrix(
     ag_reactivity_adjusts,
     nrow = numAntigens(map),

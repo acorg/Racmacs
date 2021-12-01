@@ -24,6 +24,7 @@ Currently supported file formats are .csv and .xls and .txt
 Other {functions for working with map data}: 
 \code{\link{acmap}()},
 \code{\link{addOptimization}()},
+\code{\link{agReactivityAdjustments}()},
 \code{\link{as.json}()},
 \code{\link{edit_agNames}()},
 \code{\link{edit_srNames}()},

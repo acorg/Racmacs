@@ -24,6 +24,7 @@ Saves titer data of all or specified antigens and sera to a .csv file.
 Other {functions for working with map data}: 
 \code{\link{acmap}()},
 \code{\link{addOptimization}()},
+\code{\link{agReactivityAdjustments}()},
 \code{\link{as.json}()},
 \code{\link{edit_agNames}()},
 \code{\link{edit_srNames}()},

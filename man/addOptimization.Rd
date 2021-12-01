@@ -45,6 +45,7 @@ Function to add a new optimization to an acmap object, with specified values.
 \seealso{
 Other {functions for working with map data}: 
 \code{\link{acmap}()},
+\code{\link{agReactivityAdjustments}()},
 \code{\link{as.json}()},
 \code{\link{edit_agNames}()},
 \code{\link{edit_srNames}()},

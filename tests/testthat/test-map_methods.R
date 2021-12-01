@@ -64,3 +64,36 @@ test_that("Edit map titer table", {
 
 })
 
+test_that("Antigen reactivity adjustments", {
+
+  map_edited <- map
+  bad_adjustments <- 1:9
+  good_adjustments <- 1:10
+
+  expect_error({
+    agReactivityAdjustments(map_edited) <- bad_adjustments
+  })
+
+  agReactivityAdjustments(map_edited) <- good_adjustments
+  expect_equal(
+    agReactivityAdjustments(map_edited),
+    good_adjustments
+  )
+
+  map_edited <- removeOptimizations(map_edited)
+  agReactivityAdjustments(map_edited) <- good_adjustments + 1
+  expect_equal(
+    agReactivityAdjustments(map_edited),
+    good_adjustments + 1
+  )
+
+  tmp <- tempfile(fileext = ".ace")
+  save.acmap(map_edited, tmp)
+  map_loaded <- read.acmap(tmp)
+  expect_equal(
+    agReactivityAdjustments(map_loaded),
+    good_adjustments + 1
+  )
+
+})
+

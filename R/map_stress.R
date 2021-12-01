@@ -28,7 +28,7 @@ tableDistances <- function(
     titer_table = titerTable(map),
     min_col_basis = minColBasis(map, optimization_number),
     fixed_col_bases = fixedColBases(map, optimization_number),
-    ag_reactivity_adjustments = agReactivityAdjustments(map, optimization_number)
+    ag_reactivity_adjustments = agReactivityAdjustments(map)
   )
   numeric_dists[titertypesTable(map) == -1]  <- "."
   numeric_dists[titertypesTable(map) == 0]  <- "*"
@@ -178,7 +178,7 @@ stressTable <- function(
     titer_table = titerTable(map),
     min_colbasis = minColBasis(map, optimization_number),
     fixed_colbases = fixedColBases(map, optimization_number),
-    ag_reactivity_adjustments = agReactivityAdjustments(map, optimization_number),
+    ag_reactivity_adjustments = agReactivityAdjustments(map),
     map_dists = mapDistances(map, optimization_number),
     dilution_stepsize = dilutionStepsize(map)
   )
@@ -219,7 +219,7 @@ mapResiduals <- function(
     titer_table = titerTable(map),
     min_colbasis = minColBasis(map, optimization_number),
     fixed_colbases = fixedColBases(map, optimization_number),
-    ag_reactivity_adjustments = agReactivityAdjustments(map, optimization_number),
+    ag_reactivity_adjustments = agReactivityAdjustments(map),
     map_dists = mapDistances(map, optimization_number),
     dilution_stepsize = dilutionStepsize(map)
   )
@@ -260,7 +260,7 @@ recalculateStress <- function(
     titers = titerTable(map),
     min_colbasis = minColBasis(map, optimization_number),
     fixed_colbases = fixedColBases(map, optimization_number),
-    ag_reactivity_adjustments = agReactivityAdjustments(map, optimization_number),
+    ag_reactivity_adjustments = agReactivityAdjustments(map),
     ag_coords = agBaseCoords(map, optimization_number),
     sr_coords = srBaseCoords(map, optimization_number),
     dilutionStepsize(map)

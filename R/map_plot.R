@@ -116,23 +116,6 @@ plot.acmap <- function(
     )
   }
 
-  # Plot grid outline
-  grid_outline <- list(
-    c(xlim, rep(ylim[1], 2)),
-    c(xlim, rep(ylim[2], 2)),
-    c(rep(xlim[1], 2), ylim),
-    c(rep(xlim[2], 2), ylim)
-  )
-
-  for (coords in grid_outline) {
-    graphics::lines(
-      x = coords[1:2],
-      y = coords[3:4],
-      col = grid.margin.col,
-      xpd = TRUE
-    )
-  }
-
   # Function to get pch from shape
   get_pch <- function(shapes) {
     shapes[tolower(shapes) == "circle"]   <- 21
@@ -412,6 +395,32 @@ plot.acmap <- function(
     }
 
   }
+
+  # Mask around plot
+  width <- diff(range(xlim))
+  height <- diff(range(ylim))
+  rect(xlim[1] - width, ylim[1] - height, xlim[1], ylim[2] + height, col = "white", border = NA) # Left
+  rect(xlim[2], ylim[1] - height, xlim[2] + width, ylim[2] + height, col = "white", border = NA) # Right
+  rect(xlim[1] - width, ylim[1] - height, xlim[2] + width, ylim[1], col = "white", border = NA) # Bottom
+  rect(xlim[1] - width, ylim[2], xlim[2] + width, ylim[2] + height, col = "white", border = NA) # Top
+
+  # Plot border
+  grid_outline <- list(
+    c(xlim, rep(ylim[1], 2)),
+    c(xlim, rep(ylim[2], 2)),
+    c(rep(xlim[1], 2), ylim),
+    c(rep(xlim[2], 2), ylim)
+  )
+
+  for (coords in grid_outline) {
+    graphics::lines(
+      x = coords[1:2],
+      y = coords[3:4],
+      col = grid.margin.col,
+      xpd = TRUE
+    )
+  }
+
 
   ## Add the map stress
   if (plot_stress) {

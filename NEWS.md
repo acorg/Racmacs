@@ -102,3 +102,6 @@
 
 # Racmacs 1.1.23
 * Fix `subsetMap()` to also subset ag reactivity adjustments!
+
+# Racmacs 1.1.24
+* Regions outside of plot border will now be masked when running `plot()` on a map

@@ -188,6 +188,9 @@ void AcMap::subset(
     optimization.subset(ags, sr);
   }
 
+  // Subset antigen reactivity adjustments
+  ag_reactivity_adjustments = ag_reactivity_adjustments.elem(ags);
+
   // Subset drawing order
   pt_drawing_order = pt_drawing_order.elem(pts); // Subset
   pt_drawing_order = arma::sort_index(pt_drawing_order); // Ordering twice means you retrieve

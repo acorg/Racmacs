@@ -99,3 +99,6 @@
 
 # Racmacs 1.1.22
 * `agReactivityAdjustments` now becomes a property of the base acmap object rather than individual optimization runs
+
+# Racmacs 1.1.23
+* Fix `subsetMap()` to also subset ag reactivity adjustments!

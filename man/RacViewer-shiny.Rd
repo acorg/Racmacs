@@ -28,3 +28,8 @@ is useful if you want to save an expression in a variable.}
 Output and render functions for using RacViewer within Shiny
 applications and interactive Rmd documents.
 }
+\seealso{
+Other {shiny app functions}: 
+\code{\link{runGUI}()}
+}
+\concept{{shiny app functions}}

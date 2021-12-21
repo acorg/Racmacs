@@ -79,6 +79,8 @@ RacViewer <- function(
 #' @param quoted Is \code{expr} a quoted expression (with \code{quote()})? This
 #'   is useful if you want to save an expression in a variable.
 #'
+#' @family {shiny app functions}
+#'
 #' @name RacViewer-shiny
 #' @export
 RacViewerOutput <- function(outputId, width = "100%", height = "100%") {

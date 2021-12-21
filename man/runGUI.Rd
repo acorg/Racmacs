@@ -9,4 +9,8 @@ runGUI()
 \description{
 This function opens the Racmacs GUI in a new window
 }
+\seealso{
+Other {shiny app functions}: 
+\code{\link{RacViewer-shiny}}
+}
 \concept{{shiny app functions}}

@@ -241,7 +241,8 @@ plot.acmap <- function(
           x = blob$x,
           y = blob$y,
           border = pts$outline[x],
-          col = pts$fill[x]
+          col = pts$fill[x],
+          lwd = pts$outline_width[x]
         )
       })
     })

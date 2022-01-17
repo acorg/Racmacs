@@ -283,7 +283,7 @@ subsetCommonAgs <- function(maps) {
 
   map_ags <- lapply(maps, agNames)
   ag_names <- unique(unlist(map_ags))
-  ag_names_in_maps <- do.call(cbind, lapply(map_ags, \(ags) ag_names %in% ags))
+  ag_names_in_maps <- do.call(cbind, lapply(map_ags, function(ags) ag_names %in% ags))
   common_ags <- ag_names[rowSums(!ag_names_in_maps) == 0]
 
   lapply(
@@ -298,14 +298,14 @@ subsetCommonAgs <- function(maps) {
 #' @rdname subsetCommonPoints
 subsetCommonSrGroups <- function(maps) {
 
-  map_sr_groups <- lapply(maps, \(map) levels(srGroups(map)))
+  map_sr_groups <- lapply(maps, function(map) levels(srGroups(map)))
   sr_groups <- unique(unlist(map_sr_groups))
-  sr_groups_in_maps <- do.call(cbind, lapply(map_sr_groups, \(srgs) sr_groups %in% srgs))
+  sr_groups_in_maps <- do.call(cbind, lapply(map_sr_groups, function(srgs) sr_groups %in% srgs))
   common_sr_groups <- sr_groups[rowSums(!sr_groups_in_maps) == 0]
 
   lapply(
     maps,
-    \(map) {
+    function(map) {
       map <- subsetMap(
         map,
         sera = as.character(srGroups(map)) %in% common_sr_groups

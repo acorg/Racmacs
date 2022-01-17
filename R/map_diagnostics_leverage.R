@@ -111,10 +111,10 @@ titerLeverage <- function(
   # Calculate the titer leverage
   vapply(
     seq_len(numSera(map)),
-    \(sr) {
+    function(sr) {
       vapply(
         seq_len(numAntigens(map)),
-        \(ag) {
+        function(ag) {
           calc_titerLeverage(
             map = map,
             ag = ag,

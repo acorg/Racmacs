@@ -70,8 +70,8 @@ mergeMaps <- function(
   lapply(maps, check.acmap)
 
   # Check for duplicate ids before merging
-  duplicated_ags <- unique(unlist(lapply(maps, \(map) agMatchIDs(map)[duplicated(agMatchIDs(map))])))
-  duplicated_srs <- unique(unlist(lapply(maps, \(map) srMatchIDs(map)[duplicated(srMatchIDs(map))])))
+  duplicated_ags <- unique(unlist(lapply(maps, function(map) agMatchIDs(map)[duplicated(agMatchIDs(map))])))
+  duplicated_srs <- unique(unlist(lapply(maps, function(map) srMatchIDs(map)[duplicated(srMatchIDs(map))])))
   if (length(duplicated_ags) > 0) {
     stop(strain_list_error("Cannot merge, at least one of the maps has the following duplicated antigen ids:", duplicated_ags))
   }
@@ -153,13 +153,13 @@ mergeMaps <- function(
 
   # Merge the groups
   ag_ids    <- unlist(lapply(maps, agMatchIDs))
-  ag_groups <- unlist(lapply(maps, \(map) {
+  ag_groups <- unlist(lapply(maps, function(map) {
     if (is.null(agGroups(map))) rep("", numAntigens(map))
     else                        as.character(agGroups(map))
   }))
 
   sr_ids    <- unlist(lapply(maps, srMatchIDs))
-  sr_groups <- unlist(lapply(maps, \(map) {
+  sr_groups <- unlist(lapply(maps, function(map) {
     if (is.null(srGroups(map))) rep("", numSera(map))
     else                        as.character(srGroups(map))
   }))
@@ -234,7 +234,7 @@ splitTiterLayers <- function(
   ) {
 
   maps <- lapply(
-    titerTableLayers(map), \(titertable) {
+    titerTableLayers(map), function(titertable) {
       splitmap <- map
       titerTable(splitmap) <- titertable
       splitmap

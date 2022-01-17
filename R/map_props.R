@@ -186,7 +186,7 @@ titertypesTableLayers <- function(map) {
 
   lapply(
     titerTableLayers(map),
-    \(titertable) {
+    function(titertable) {
       matrix(
         titer_types_int(titertable),
         numAntigens(map),
@@ -206,7 +206,7 @@ logtiterTableLayers <- function(map) {
 
   lapply(
     titerTableLayers(map),
-    \(titertable) {
+    function(titertable) {
       matrix(
         log_titers(titertable, dilutionStepsize(map)),
         numAntigens(map),

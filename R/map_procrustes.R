@@ -82,6 +82,10 @@ procrustesMap <- function(
   check.optnum(map, optimization_number)
   check.optnum(comparison_map, comparison_optimization_number)
 
+  # Check for duplicate names
+  if (sum(duplicated(agMatchIDs(map))) > 0 || sum(duplicated(agMatchIDs(comparison_map))) > 0) stop("Duplicate antigen names/IDs found.", call. = F)
+  if (sum(duplicated(srMatchIDs(map))) > 0 || sum(duplicated(srMatchIDs(comparison_map))) > 0) stop("Duplicate sera names/IDs found.", call. = F)
+
   # Get selected antigen and sera indices
   antigens_included <- rep(FALSE, numAntigens(map))
   sera_included <- rep(FALSE, numSera(map))

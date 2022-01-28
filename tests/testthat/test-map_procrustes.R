@@ -147,6 +147,19 @@ test_that("Procrustes a map to itself", {
 })
 
 
+test_that("Procrustes a map to with duplicate antigen or sera names", {
+
+  map1a <- map1
+  agNames(map1a)[2] <- agNames(map1a)[1]
+  expect_error(procrustesMap(map1, map1a))
+
+  map1a <- map1
+  srNames(map1a)[2] <- srNames(map1a)[1]
+  expect_error(procrustesMap(map1, map1a))
+
+})
+
+
 test_that("Procrustes a map to one with no matching viruses", {
 
   map1a <- map1

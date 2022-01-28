@@ -105,3 +105,6 @@
 
 # Racmacs 1.1.24
 * Regions outside of plot border will now be masked when running `plot()` on a map
+
+# Racmacs 1.1.25
+* Throw an error instead of crashing when trying to do procrustes on maps with duplicate antigen/sera names/ids

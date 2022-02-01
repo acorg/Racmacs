@@ -108,3 +108,4 @@
 
 # Racmacs 1.1.25
 * Throw an error instead of crashing when trying to do procrustes on maps with duplicate antigen/sera names/ids
+* Add option to extend density blobs for e.g. bootstrapBlobs to extend beyond the range of the actual coordinates.

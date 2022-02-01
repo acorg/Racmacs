@@ -265,6 +265,8 @@ mapBootstrap_srCoords <- function(map) {
 #' @param gridspacing grid spacing to use when calculating blobs, smaller values
 #'   will produce more accurate blobs with smoother edges but will take longer
 #'   to calculate.
+#' @param rangefraction What additional fraction of the range of points should
+#'   be searched when calculating the blobs.
 #'
 #' @return Returns an acmap object that will then show the corresponding bootstrap
 #'   blobs when viewed or plotted.
@@ -276,7 +278,8 @@ bootstrapBlobs <- function(
   map,
   conf.level = 0.68,
   smoothing = 6,
-  gridspacing = 0.25
+  gridspacing = 0.25,
+  rangefraction = 0.2
   ) {
 
   # Get coordinates
@@ -298,7 +301,8 @@ bootstrapBlobs <- function(
       coords = coords,
       conf.level = conf.level,
       smoothing = smoothing,
-      gridspacing = gridspacing
+      gridspacing = gridspacing,
+      rangefraction = rangefraction
     )
     ac_update_progress(pb, agnum)
 
@@ -357,6 +361,8 @@ hasBootstrapBlobs <- function(map, optimization_number = 1) {
 #' @param gridspacing grid spacing to use when calculating blobs, smaller values
 #'   will produce more accurate blobs with smoother edges but will take longer
 #'   to calculate, the default is 0.05 for 2d maps and 0.25 for 2d maps
+#' @param rangefraction What additional fraction of the range of points should
+#'   be searched when calculating the blobs.
 #'
 #' @noRd
 #'
@@ -364,7 +370,8 @@ coordDensityBlob <- function(
   coords,
   conf.level = 0.68,
   smoothing = 1,
-  gridspacing = NULL
+  gridspacing = NULL,
+  rangefraction = 0.2
 ) {
 
   # Check dimensions
@@ -395,7 +402,11 @@ coordDensityBlob <- function(
         ceiling(diff(range(coords[,1])) / gridspacing),
         ceiling(diff(range(coords[,2])) / gridspacing)
       ),
-      h = apply(coords, 2, MASS::bandwidth.nrd)*smoothing
+      h = apply(coords, 2, MASS::bandwidth.nrd)*smoothing,
+      lims = c(
+        extendrange(coords[,1], f = rangefraction),
+        extendrange(coords[,2], f = rangefraction)
+      )
     )
 
     # Calculate the contour level for the appropriate confidence level

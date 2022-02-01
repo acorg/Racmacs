@@ -4,7 +4,13 @@
 \alias{bootstrapBlobs}
 \title{Calculate bootstrap blob data for an antigenic map}
 \usage{
-bootstrapBlobs(map, conf.level = 0.68, smoothing = 6, gridspacing = 0.25)
+bootstrapBlobs(
+  map,
+  conf.level = 0.68,
+  smoothing = 6,
+  gridspacing = 0.25,
+  rangefraction = 0.2
+)
 }
 \arguments{
 \item{map}{The acmap data object}
@@ -17,6 +23,9 @@ kernel density estimate, larger equates to more smoothing}
 \item{gridspacing}{grid spacing to use when calculating blobs, smaller values
 will produce more accurate blobs with smoother edges but will take longer
 to calculate.}
+
+\item{rangefraction}{What additional fraction of the range of points should
+be searched when calculating the blobs.}
 }
 \value{
 Returns an acmap object that will then show the corresponding bootstrap

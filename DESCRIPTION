@@ -37,7 +37,7 @@ Suggests:
     tibble,
     base64enc,
     MCMCpack
-RoxygenNote: 7.1.1
+RoxygenNote: 7.1.2.9000
 Roxygen: list(markdown = TRUE)
 LinkingTo: 
     Rcpp, 

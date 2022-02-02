@@ -109,3 +109,6 @@
 # Racmacs 1.1.25
 * Throw an error instead of crashing when trying to do procrustes on maps with duplicate antigen/sera names/ids
 * Add option to extend density blobs for e.g. bootstrapBlobs to extend beyond the range of the actual coordinates.
+
+# Racmacs 1.1.26
+* Add option to select the algorithm MASS::kde2d or ks::kde for calculating 2D density blobs.

@@ -9,7 +9,7 @@ bootstrapBlobs(
   conf.level = 0.68,
   smoothing = 6,
   gridspacing = 0.25,
-  rangefraction = 0.2
+  method = "ks"
 )
 }
 \arguments{
@@ -24,8 +24,8 @@ kernel density estimate, larger equates to more smoothing}
 will produce more accurate blobs with smoother edges but will take longer
 to calculate.}
 
-\item{rangefraction}{What additional fraction of the range of points should
-be searched when calculating the blobs.}
+\item{method}{One of "MASS", the default, or "ks", specifying the algorithm to
+use when calculating blobs in 2D. 3D will always use ks::kde.}
 }
 \value{
 Returns an acmap object that will then show the corresponding bootstrap

@@ -265,8 +265,8 @@ mapBootstrap_srCoords <- function(map) {
 #' @param gridspacing grid spacing to use when calculating blobs, smaller values
 #'   will produce more accurate blobs with smoother edges but will take longer
 #'   to calculate.
-#' @param rangefraction What additional fraction of the range of points should
-#'   be searched when calculating the blobs.
+#' @param method One of "MASS", the default, or "ks", specifying the algorithm to
+#'   use when calculating blobs in 2D. 3D will always use ks::kde.
 #'
 #' @return Returns an acmap object that will then show the corresponding bootstrap
 #'   blobs when viewed or plotted.
@@ -279,7 +279,7 @@ bootstrapBlobs <- function(
   conf.level = 0.68,
   smoothing = 6,
   gridspacing = 0.25,
-  rangefraction = 0.2
+  method = "ks"
   ) {
 
   # Get coordinates
@@ -361,8 +361,8 @@ hasBootstrapBlobs <- function(map, optimization_number = 1) {
 #' @param gridspacing grid spacing to use when calculating blobs, smaller values
 #'   will produce more accurate blobs with smoother edges but will take longer
 #'   to calculate, the default is 0.05 for 2d maps and 0.25 for 2d maps
-#' @param rangefraction What additional fraction of the range of points should
-#'   be searched when calculating the blobs.
+#' @param method One of "MASS", the default, or "ks", specifying the algorithm to
+#'   use when calculating blobs in 2D. 3D will always use ks.
 #'
 #' @noRd
 #'
@@ -371,7 +371,7 @@ coordDensityBlob <- function(
   conf.level = 0.68,
   smoothing = 1,
   gridspacing = NULL,
-  rangefraction = 0.2
+  method = "ks"
 ) {
 
   # Check dimensions
@@ -392,7 +392,7 @@ coordDensityBlob <- function(
   }
 
   # Use a quicker algorithm for 2 dimensions, 3d must use the slower ks::kde method
-  if (ndims == 2) {
+  if (ndims == 2 && method == "MASS") {
 
     # Perform a kernel density fit
     kd_fit <- MASS::kde2d(
@@ -404,8 +404,8 @@ coordDensityBlob <- function(
       ),
       h = apply(coords, 2, MASS::bandwidth.nrd)*smoothing,
       lims = c(
-        extendrange(coords[,1], f = rangefraction),
-        extendrange(coords[,2], f = rangefraction)
+        extendrange(coords[,1], f = 1),
+        extendrange(coords[,2], f = 1)
       )
     )
 

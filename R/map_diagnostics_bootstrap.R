@@ -302,7 +302,7 @@ bootstrapBlobs <- function(
       conf.level = conf.level,
       smoothing = smoothing,
       gridspacing = gridspacing,
-      rangefraction = rangefraction
+      method = method
     )
     ac_update_progress(pb, agnum)
 

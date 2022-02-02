@@ -346,6 +346,100 @@ hasBootstrapBlobs <- function(map, optimization_number = 1) {
 }
 
 
+transformMapBlob <- function(blobs, map) {
+  lapply(blobs, function(blob) {
+    coords <- applyMapTransform(
+      coords = cbind(blob$x, blob$y),
+      map = map,
+      optimization_number = 1
+    )
+    blob$x <- coords[,1]
+    blob$y <- coords[,2]
+    blob
+  })
+}
+
+
+#' Get antigen or serum bootstrap coordinates information
+#'
+#' @param map An acmap object
+#' @param antigen The antigen to get the bootstrap coords
+#' @param serum The serum to get the bootstrap coords
+#'
+#' @return Returns a matrix of coordinates for the point in each of the bootstrap runs
+#' @name ptBootstrapCoords
+
+ptBootstrapCoords <- function(map, point) {
+  check.acmap(map)
+  if (!hasBootstrapBlobs(map)) stop("Map has no bootstrap blobs calculated yet")
+  points <- do.call(
+    rbind,
+    lapply(map$optimizations[[1]]$bootstrap, function(bs) {
+      bs$coords[point,]
+    })
+  )
+  applyMapTransform(points, map)
+}
+
+#' @rdname ptBootstrapCoords
+#' @export
+agBootstrapCoords <- function(map, antigen) {
+  ptBootstrapCoords(
+    map,
+    get_ag_indices(antigen, map)
+  )
+}
+
+#' @rdname ptBootstrapCoords
+#' @export
+srBootstrapCoords <- function(map, serum) {
+  ptBootstrapCoords(
+    map,
+    numAntigens(map) + get_sr_indices(serum, map)
+  )
+}
+
+
+#' Get antigen or serum blob information
+#'
+#' Get antigen or serum blob information for plotting with the `blob()` function.
+#'
+#' @param map An acmap object
+#' @param antigen The antigen to get the blob for
+#' @param serum The serum to get the blob for
+#'
+#' @return Returns an object of class "blob" that can be plotted using the `blob()` funciton.
+#' @name ptBootstrapBlob
+
+#' @rdname ptBootstrapBlob
+#' @export
+agBootstrapBlob <- function(map, antigen) {
+  check.acmap(map)
+  if (!hasBootstrapBlobs(map)) stop("Map has no bootstrap blobs calculated yet")
+  ag <- get_ag_indices(antigen, map)
+  blobs <- transformMapBlob(agBootstrapBlobs(map)[[ag]], map)
+  attr(blobs, "fill") <- agFill(map)[ag]
+  attr(blobs, "outline") <- agOutline(map)[ag]
+  attr(blobs, "lwd") <- agOutlineWidth(map)[ag]
+  class(blobs) <- "blob"
+  blobs
+}
+
+#' @rdname ptBootstrapBlob
+#' @export
+srBootstrapBlob <- function(map, serum) {
+  check.acmap(map)
+  if (!hasBootstrapBlobs(map)) stop("Map has no bootstrap blobs calculated yet")
+  sr <- get_sr_indices(serum, map)
+  blobs <- transformMapBlob(srBootstrapBlobs(map)[[sr]], map)
+  attr(blobs, "fill") <- agFill(map)[sr]
+  attr(blobs, "outline") <- agOutline(map)[sr]
+  attr(blobs, "lwd") <- agOutlineWidth(map)[sr]
+  class(blobs) <- "blob"
+  blobs
+}
+
+
 #' Calculate a blob geometry representing bootstrap point position variation
 #'
 #' This function is used to create "blob" geometries, with the aim to visualise

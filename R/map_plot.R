@@ -572,6 +572,37 @@ plot_lims <- function(coords, padding = 1, round_even = TRUE) {
 }
 
 
+#' Plot a blob object
+#'
+#' Plot a blob object such as that return from `agBootstrapBlob()` using the
+#' `polygon()` function.
+#'
+#' @param x The blob object to plot
+#' @param col Color for the blob fill
+#' @param border Color for the blob outline
+#' @param lwd Line width for the blob outline
+#' @param alpha Blob opacity
+#' @param ... Additional arguments to pass to `polygon()`
+#'
+#' @export
+blob <- function(x, col, border, lwd, alpha, ...) {
+  blobs <- x
+  if (missing(border)) border <- attr(blobs, "outline")
+  if (missing(col)) col <- attr(blobs, "fill")
+  if (missing(lwd)) lwd <- attr(blobs, "lwd")
+  lapply(blobs, function(blob) {
+    graphics::polygon(
+      x = blob$x,
+      y = blob$y,
+      border = adjustcolor(border, alpha.f = alpha),
+      col = adjustcolor(col, alpha.f = alpha),
+      lwd = lwd,
+      ...
+    )
+  })
+}
+
+
 # Helper function for getting a list of point styles for plotting
 mapPoints <- function(map, optimization_number = NULL) {
 

@@ -586,6 +586,7 @@ plot_lims <- function(coords, padding = 1, round_even = TRUE) {
 #'
 #' @export
 blob <- function(x, col, border, lwd, alpha, ...) {
+  if (!inherits(x, "blob")) stop("Must be an object of class 'blob'")
   blobs <- x
   if (missing(border)) border <- attr(blobs, "outline")
   if (missing(col)) col <- attr(blobs, "fill")

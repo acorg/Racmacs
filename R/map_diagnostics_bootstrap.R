@@ -498,8 +498,8 @@ coordDensityBlob <- function(
       ),
       h = apply(coords, 2, MASS::bandwidth.nrd)*smoothing,
       lims = c(
-        extendrange(coords[,1], f = 1),
-        extendrange(coords[,2], f = 1)
+        grDevices::extendrange(coords[,1], f = 1),
+        grDevices::extendrange(coords[,2], f = 1)
       )
     )
 

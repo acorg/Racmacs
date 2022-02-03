@@ -400,10 +400,10 @@ plot.acmap <- function(
   # Mask around plot
   width <- diff(range(xlim))
   height <- diff(range(ylim))
-  rect(xlim[1] - width, ylim[1] - height, xlim[1], ylim[2] + height, col = "white", border = NA) # Left
-  rect(xlim[2], ylim[1] - height, xlim[2] + width, ylim[2] + height, col = "white", border = NA) # Right
-  rect(xlim[1] - width, ylim[1] - height, xlim[2] + width, ylim[1], col = "white", border = NA) # Bottom
-  rect(xlim[1] - width, ylim[2], xlim[2] + width, ylim[2] + height, col = "white", border = NA) # Top
+  graphics::rect(xlim[1] - width, ylim[1] - height, xlim[1], ylim[2] + height, col = "white", border = NA) # Left
+  graphics::rect(xlim[2], ylim[1] - height, xlim[2] + width, ylim[2] + height, col = "white", border = NA) # Right
+  graphics::rect(xlim[1] - width, ylim[1] - height, xlim[2] + width, ylim[1], col = "white", border = NA) # Bottom
+  graphics::rect(xlim[1] - width, ylim[2], xlim[2] + width, ylim[2] + height, col = "white", border = NA) # Top
 
   # Plot border
   grid_outline <- list(
@@ -595,8 +595,8 @@ blob <- function(x, col, border, lwd, alpha, ...) {
     graphics::polygon(
       x = blob$x,
       y = blob$y,
-      border = adjustcolor(border, alpha.f = alpha),
-      col = adjustcolor(col, alpha.f = alpha),
+      border = grDevices::adjustcolor(border, alpha.f = alpha),
+      col = grDevices::adjustcolor(col, alpha.f = alpha),
       lwd = lwd,
       ...
     )

@@ -46,6 +46,7 @@ Other {map optimization functions}:
 \code{\link{RacOptimizer.options}()},
 \code{\link{make.acmap}()},
 \code{\link{optimizeMap}()},
+\code{\link{optimizeSubsetAgsIndividually}()},
 \code{\link{randomizeCoords}()},
 \code{\link{relaxMapOneStep}()},
 \code{\link{relaxMap}()}

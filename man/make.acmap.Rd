@@ -61,6 +61,7 @@ Other {map optimization functions}:
 \code{\link{RacOptimizer.options}()},
 \code{\link{moveTrappedPoints}()},
 \code{\link{optimizeMap}()},
+\code{\link{optimizeSubsetAgsIndividually}()},
 \code{\link{randomizeCoords}()},
 \code{\link{relaxMapOneStep}()},
 \code{\link{relaxMap}()}

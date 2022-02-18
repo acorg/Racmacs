@@ -12,3 +12,4 @@
 ^\.github$
 ^\.lintr$
 ^tests/testoutput$
+^builds$

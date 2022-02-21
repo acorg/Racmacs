@@ -29,6 +29,7 @@ Other {functions for working with map data}:
 \code{\link{save.acmap}()},
 \code{\link{save.coords}()},
 \code{\link{save.titerTable}()},
+\code{\link{subsetCommonPoints}},
 \code{\link{subsetMap}()}
 }
 \concept{{functions for working with map data}}

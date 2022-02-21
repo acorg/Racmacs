@@ -36,6 +36,7 @@ Other {functions for working with map data}:
 \code{\link{removePoints}},
 \code{\link{save.acmap}()},
 \code{\link{save.coords}()},
-\code{\link{save.titerTable}()}
+\code{\link{save.titerTable}()},
+\code{\link{subsetCommonPoints}}
 }
 \concept{{functions for working with map data}}

@@ -275,6 +275,7 @@ removeSera <- function(map, sera) {
 #' @param maps A list of map data objects
 #'
 #' @name subsetCommonPoints
+#' @family {functions for working with map data}
 #'
 
 # Function to subset a list of maps to common antigens

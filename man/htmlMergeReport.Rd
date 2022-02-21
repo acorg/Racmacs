@@ -17,6 +17,7 @@ with colors how different titers have been merged together.
 Other {map merging functions}: 
 \code{\link{RacMerge.options}()},
 \code{\link{mergeMaps}()},
-\code{\link{mergeReport}()}
+\code{\link{mergeReport}()},
+\code{\link{splitTiterLayers}()}
 }
 \concept{{map merging functions}}

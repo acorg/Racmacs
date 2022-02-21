@@ -202,6 +202,8 @@ titertypesTableLayers <- function(map) {
 #'
 #' @param map An acmap data object
 #'
+#' @family {map attribute functions}
+#'
 logtiterTableLayers <- function(map) {
 
   lapply(

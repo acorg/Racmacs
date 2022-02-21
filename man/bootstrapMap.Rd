@@ -103,6 +103,8 @@ Other {map diagnostic functions}:
 \code{\link{map-table-distances}},
 \code{\link{mapBootstrapCoords}},
 \code{\link{mapRelaxed}()},
+\code{\link{ptBootstrapBlob}},
+\code{\link{ptBootstrapCoords}()},
 \code{\link{ptLeverage}},
 \code{\link{ptTriangulationBlobsize}},
 \code{\link{triangulationBlobs}()}

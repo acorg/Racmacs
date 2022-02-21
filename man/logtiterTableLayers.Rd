@@ -12,3 +12,15 @@ logtiterTableLayers(map)
 \description{
 Return a list of logtiter table layers
 }
+\seealso{
+Other {map attribute functions}: 
+\code{\link{acmapAttributes}},
+\code{\link{adjustedLogTiterTable}()},
+\code{\link{adjustedTiterTable}()},
+\code{\link{dilutionStepsize}()},
+\code{\link{mapDescription}()},
+\code{\link{mapName}()},
+\code{\link{titerTableLayers}()},
+\code{\link{titerTable}()}
+}
+\concept{{map attribute functions}}

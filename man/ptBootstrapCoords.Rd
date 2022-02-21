@@ -29,3 +29,18 @@ bootstrap runs
 \description{
 Get antigen or serum bootstrap coordinates information
 }
+\seealso{
+Other {map diagnostic functions}: 
+\code{\link{bootstrapBlobs}()},
+\code{\link{bootstrapMap}()},
+\code{\link{checkHemisphering}()},
+\code{\link{dimensionTestMap}()},
+\code{\link{map-table-distances}},
+\code{\link{mapBootstrapCoords}},
+\code{\link{mapRelaxed}()},
+\code{\link{ptBootstrapBlob}},
+\code{\link{ptLeverage}},
+\code{\link{ptTriangulationBlobsize}},
+\code{\link{triangulationBlobs}()}
+}
+\concept{{map diagnostic functions}}

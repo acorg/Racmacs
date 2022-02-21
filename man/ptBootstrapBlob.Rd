@@ -23,3 +23,18 @@ Returns an object of class "blob" that can be plotted using the \code{blob()} fu
 \description{
 Get antigen or serum blob information for plotting with the \code{blob()} function.
 }
+\seealso{
+Other {map diagnostic functions}: 
+\code{\link{bootstrapBlobs}()},
+\code{\link{bootstrapMap}()},
+\code{\link{checkHemisphering}()},
+\code{\link{dimensionTestMap}()},
+\code{\link{map-table-distances}},
+\code{\link{mapBootstrapCoords}},
+\code{\link{mapRelaxed}()},
+\code{\link{ptBootstrapCoords}()},
+\code{\link{ptLeverage}},
+\code{\link{ptTriangulationBlobsize}},
+\code{\link{triangulationBlobs}()}
+}
+\concept{{map diagnostic functions}}

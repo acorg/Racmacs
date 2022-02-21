@@ -27,6 +27,7 @@ Other {map attribute functions}:
 \code{\link{adjustedLogTiterTable}()},
 \code{\link{adjustedTiterTable}()},
 \code{\link{dilutionStepsize}()},
+\code{\link{logtiterTableLayers}()},
 \code{\link{mapName}()},
 \code{\link{titerTableLayers}()},
 \code{\link{titerTable}()}

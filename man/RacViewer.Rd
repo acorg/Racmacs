@@ -8,6 +8,7 @@ RacViewer(
   map,
   plotdata = NULL,
   show_procrustes = FALSE,
+  show_group_legend = FALSE,
   options = list(),
   width = NULL,
   height = NULL,

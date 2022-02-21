@@ -371,6 +371,9 @@ transformMapBlob <- function(blobs, map) {
 #' @return Returns a matrix of coordinates for the point in each of the
 #'   bootstrap runs
 #' @name ptBootstrapCoords
+#'
+#' @family {map diagnostic functions}
+#'
 #' @export
 ptBootstrapCoords <- function(map, point) {
   check.acmap(map)
@@ -413,6 +416,9 @@ srBootstrapCoords <- function(map, serum) {
 #'
 #' @return Returns an object of class "blob" that can be plotted using the `blob()` funciton.
 #' @name ptBootstrapBlob
+#'
+#' @family {map diagnostic functions}
+#'
 
 #' @rdname ptBootstrapBlob
 #' @export

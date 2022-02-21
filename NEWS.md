@@ -113,3 +113,6 @@
 # Racmacs 1.1.26
 * Add option to select the algorithm MASS::kde2d or ks::kde for calculating 2D density blobs.
 * Add functions to help plot and inspect bootstrap blobs, `agBootstrapBlob()`, `srBootstrapBlob()`, `agBootstrapCoords()`, `srBootstrapCoords()`, `blob()`
+
+# Racmacs 1.1.26
+* `logtiterTable()` nows returns a table with named columns and rows

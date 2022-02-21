@@ -364,11 +364,14 @@ transformMapBlob <- function(blobs, map) {
 #'
 #' @param map An acmap object
 #' @param antigen The antigen to get the bootstrap coords
-#' @param serum The serum to get the bootstrap coords
+#' @param serum The serum from which to get the bootstrap coords
+#' @param point The point from which to get the bootstrap coords (numbered
+#'   antigens then sera)
 #'
-#' @return Returns a matrix of coordinates for the point in each of the bootstrap runs
+#' @return Returns a matrix of coordinates for the point in each of the
+#'   bootstrap runs
 #' @name ptBootstrapCoords
-
+#' @export
 ptBootstrapCoords <- function(map, point) {
   check.acmap(map)
   if (!hasBootstrapBlobs(map)) stop("Map has no bootstrap blobs calculated yet")

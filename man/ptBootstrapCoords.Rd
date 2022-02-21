@@ -15,12 +15,16 @@ srBootstrapCoords(map, serum)
 \arguments{
 \item{map}{An acmap object}
 
+\item{point}{The point from which to get the bootstrap coords (numbered
+antigens then sera)}
+
 \item{antigen}{The antigen to get the bootstrap coords}
 
-\item{serum}{The serum to get the bootstrap coords}
+\item{serum}{The serum from which to get the bootstrap coords}
 }
 \value{
-Returns a matrix of coordinates for the point in each of the bootstrap runs
+Returns a matrix of coordinates for the point in each of the
+bootstrap runs
 }
 \description{
 Get antigen or serum bootstrap coordinates information

@@ -15,15 +15,17 @@ optimizeSubsetAgsIndividually(map, subset, ...)
 number_of_optimizations are mandatory.}
 }
 \value{
-acmap object
+List containing 'merge' and 'individual'. 'merge' is the reference
+map with with the positions of antigens in the subset overlain.
+'individual' is a list containing each of the individual maps.
 }
 \description{
 You may have a large subset of antigens that distort the positions of
 reference antigens and antisera. It can be useful to make a map containing
-only the reference antigens and antisera, and add each antigen in the subset
-to the reference map individually. The resulting reference maps containing
-one additional antigen are then aligned, and the positions of the additional
-antigen are reported.
+only reference antigens and antisera, and add each antigen in the subset to
+the reference map individually. The resulting reference maps containing one
+additional antigen are then aligned, and the positions of the additional
+antigen in their individual map are shown.
 }
 \details{
 A common use case might be if you want to introduce many tens, or even

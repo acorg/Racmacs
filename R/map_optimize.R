@@ -606,10 +606,10 @@ moveTrappedPoints <- function(
 #'
 #' You may have a large subset of antigens that distort the positions of
 #' reference antigens and antisera. It can be useful to make a map containing
-#' only the reference antigens and antisera, and add each antigen in the subset
-#' to the reference map individually. The resulting reference maps containing
-#' one additional antigen are then aligned, and the positions of the additional
-#' antigen are reported.
+#' only reference antigens and antisera, and add each antigen in the subset to
+#' the reference map individually. The resulting reference maps containing one
+#' additional antigen are then aligned, and the positions of the additional
+#' antigen in their individual map are shown.
 #'
 #' A common use case might be if you want to introduce many tens, or even
 #' hundreds, of mutants into an existing map, without the geometric patterns in
@@ -621,7 +621,9 @@ moveTrappedPoints <- function(
 #' @param ... Arguments passed to optimizeMap. number_of_dimensions and
 #'   number_of_optimizations are mandatory.
 #'
-#' @return acmap object
+#' @return List containing 'merge' and 'individual'. 'merge' is the reference
+#'   map with with the positions of antigens in the subset overlain.
+#'   'individual' is a list containing each of the individual maps.
 #' @family {map optimization functions}
 #' @export
 #'
@@ -633,32 +635,41 @@ optimizeSubsetAgsIndividually <- function(map, subset, ...) {
   # For storing coordinates of antigens in the subset
   subsetCoords <- matrix(nrow = length(subset), ncol = mapDimensions(map))
 
+  maps <- list()
+
   for (i in 1:length(subset)) {
     # Remove all antigens in subset, except the ith
-    subset_map <- removeAntigens(map, subset[-i])
+    subsetMap <- removeAntigens(map, subset[-i])
 
     # Optimize and align to reference
-    subset_map <- optimizeMap(subset_map, ...)
-    subset_map <- realignMap(subset_map, target_map = refMap)
-    coords <- agCoords(subset_map)
+    subsetMap <- optimizeMap(subsetMap, ...)
+    subsetMap <- realignMap(subsetMap, target_map = refMap)
+    coords <- agCoords(subsetMap)
 
     # Find coordinates of remaining antigen in subset
-    ag_i <- subset[i]  # Name of the antigen
-    pos <- match(ag_i, agNames(subset_map))  # Position of the antigen
+    ag <- subset[i]  # Name of the antigen
+    pos <- match(ag, agNames(subsetMap))  # Position of the antigen
     subsetCoords[i,] <- coords[pos,]
+
+    # Store map
+    maps[ag] <- list(subsetMap)
   }
 
   # Make an acmap object, stitching together ag coordinates from the reference
   # map, and coordinates of antigens in the subset
-  acmap(
+  merge = acmap(
     ag_names = c(agNames(refMap), subset),
     sr_names = srNames(map),
     ag_coords = rbind(agCoords(refMap), subsetCoords),
     sr_coords = srCoords(refMap),
     titer_table = titerTable(map),
   )
-}
+  merge <- applyPlotspec(map = merge, source_map = map)
 
+  # Return the merge and the individual maps
+  list(merge = merge, individual = maps)
+
+}
 
 # Functions for fetching hemisphering information
 agHemisphering <- function(map, optimization_number = 1) {

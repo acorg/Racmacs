@@ -213,6 +213,9 @@ Racmacs.Point.prototype.hideBlob = function(){
         // Bind the point element
         this.bindElement(this.pointElement);
 
+        // Dehover the point
+        this.dehover();
+
     }
 
 }

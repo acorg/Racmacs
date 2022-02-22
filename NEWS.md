@@ -116,3 +116,4 @@
 
 # Racmacs 1.1.26
 * `logtiterTable()` nows returns a table with named columns and rows
+* Fix issue showing individual bootstrap points in 3D

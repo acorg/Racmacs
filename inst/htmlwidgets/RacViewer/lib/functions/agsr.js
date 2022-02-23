@@ -22,6 +22,7 @@ Racmacs.App.prototype.addAntigensAndSera = function(mapData){
     this.points   = [];
 
     // antigens
+    var ag_group_levels = this.data.agGroupLevels();
     for(var i=0; i<nAntigens; i++){
 
         var ag = new Racmacs.Antigen({
@@ -35,6 +36,8 @@ Racmacs.App.prototype.addAntigensAndSera = function(mapData){
             shape         : this.data.agShape(i),
             shown         : this.data.agShown(i),
             drawing_order : this.data.agDrawingOrder(i),
+            group         : this.data.agGroupValues(i),
+            group_levels  : ag_group_levels,
             typeIndex     : i,
             pIndex        : i,
             viewer        : this
@@ -46,7 +49,7 @@ Racmacs.App.prototype.addAntigensAndSera = function(mapData){
     }
 
     // sera
-    var srObjects = [];
+    var sr_group_levels = this.data.srGroupLevels();
     for(var i=0; i<nSera; i++){
 
         var sr = new Racmacs.Serum({
@@ -61,6 +64,8 @@ Racmacs.App.prototype.addAntigensAndSera = function(mapData){
             shape         : this.data.srShape(i),
             shown         : this.data.srShown(i),
             drawing_order : this.data.srDrawingOrder(i),
+            group         : this.data.srGroupValues(i),
+            group_levels  : sr_group_levels,
             typeIndex     : i,
             pIndex        : i + nAntigens,
             viewer        : this
@@ -91,6 +96,7 @@ Racmacs.Point = class Point {
         this.aspect        = args.aspect;
         this.shape         = args.shape;
         this.shown         = args.shown;
+        this.group         = args.group;
         this.drawing_order = args.drawing_order;
         this.typeIndex     = args.typeIndex;
         this.pIndex        = args.pIndex;
@@ -102,6 +108,10 @@ Racmacs.Point = class Point {
         this.opacity      = 1;
         this.scaling      = 1;
         this.included     = true;
+
+        if (args.group_levels != undefined) {
+            this.groupvalue = args.group_levels[args.group];
+        }
 
 
         this.coords_na = args.coords === null || isNaN(args.coords[0]) || args.coords[0] === null;

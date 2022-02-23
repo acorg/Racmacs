@@ -20,6 +20,7 @@ RacViewer <- function(
   map,
   plotdata  = NULL,
   show_procrustes = FALSE,
+  show_group_legend = FALSE,
   options   = list(),
   width     = NULL,
   height    = NULL,
@@ -32,6 +33,7 @@ RacViewer <- function(
 
   # Parse options
   options <- do.call(RacViewer.options, options)
+  options$show_group_legend <- show_group_legend
 
   # Add a rotating grid to the plotdata if specified
   if (options$grid.display == "rotate") {
@@ -43,7 +45,7 @@ RacViewer <- function(
     mapData  = mapdata,
     plotdata = jsonlite::toJSON(map$plot),
     options  = jsonlite::toJSON(
-      do.call(RacViewer.options, options),
+      options,
       auto_unbox = TRUE,
       null = 'null'
     )

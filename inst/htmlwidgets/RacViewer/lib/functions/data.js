@@ -304,6 +304,82 @@ Racmacs.Data = class Data {
         )
     }
 
+    agGroupValues(i){
+        if (i === undefined) {
+            if (this.data.c.x && this.data.c.x.a) {
+                return(this.data.c.x.a.map( a => a.g ));
+            } else {
+                return(this.data.c.a.map( a => undefined ));
+            }
+        } else {
+            if (this.data.c.x && this.data.c.x.a) {
+                return(this.data.c.x.a[i].g);
+            } else {
+                return(undefined);
+            }
+        }
+    }
+
+    srGroupValues(i){
+        if (i === undefined) {
+            if (this.data.c.x && this.data.c.x.s) {
+                return(this.data.c.x.s.map( s => s.g ));
+            } else {
+                return(this.data.c.s.map( a => undefined ));
+            }
+        } else {
+            if (this.data.c.x && this.data.c.x.s) {
+                return(this.data.c.x.s[i].g);
+            } else {
+                return(undefined);
+            }
+        }
+    }
+
+    agGroupLevelFill(){
+        var ag_group_levels = this.agGroupLevels();
+        var ag_group_values = this.agGroupValues();
+        var vals = ag_group_levels.map((level, i) => this.agFill(ag_group_values.indexOf(i)));
+        return(vals);
+    }
+
+    agGroupLevelOutline(){
+        var ag_group_levels = this.agGroupLevels();
+        var ag_group_values = this.agGroupValues();
+        var vals = ag_group_levels.map((level, i) => this.agOutline(ag_group_values.indexOf(i)));
+        return(vals);
+    }
+
+    srGroupLevelFill(){
+        var sr_group_levels = this.srGroupLevels();
+        var sr_group_values = this.srGroupValues();
+        var vals = sr_group_levels.map((level, i) => this.srFill(sr_group_values.indexOf(i)));
+        return(vals);
+    }
+
+    srGroupLevelOutline(){
+        var sr_group_levels = this.srGroupLevels();
+        var sr_group_values = this.srGroupValues();
+        var vals = sr_group_levels.map((level, i) => this.srOutline(sr_group_values.indexOf(i)));
+        return(vals);
+    }
+
+    agGroupLevels(){
+        if (this.data.c.x) {
+            return(this.data.c.x.agv);
+        } else {
+            return(undefined);
+        }
+    }
+
+    srGroupLevels(){
+        if (this.data.c.x) {
+            return(this.data.c.x.srv);
+        } else {
+            return(undefined);
+        }
+    }
+
     agReactivityAdjustment(i){
         let pnum = this.projection();
         if (this.data.c.x && this.data.c.x.p && this.data.c.x.p[pnum].r) {

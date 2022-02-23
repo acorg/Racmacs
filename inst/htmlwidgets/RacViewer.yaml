@@ -104,4 +104,5 @@ dependencies:
       - functions/sequences.js
       - functions/optimization.js
       - functions/agreactivity.js
+      - functions/legend.js
 

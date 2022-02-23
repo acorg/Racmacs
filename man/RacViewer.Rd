@@ -22,6 +22,9 @@ RacViewer(
 
 \item{show_procrustes}{should procrustes lines be shown}
 
+\item{show_group_legend}{Show an interactive legend detailing different
+groups as set by \code{agGroups()} and \code{srGroups()}}
+
 \item{options}{A named list of viewer options supplied to
 \code{racviewer.options()}}
 

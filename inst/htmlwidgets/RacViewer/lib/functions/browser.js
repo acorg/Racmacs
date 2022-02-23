@@ -159,6 +159,13 @@ Racmacs.NameBrowser = class NameBrowser {
               return(stress[b] - stress[a]);
             });
 
+        } else if(sorting == "group"){
+
+            var group = points.map( p => p.group );
+            order.sort(function(a,b){
+              return(group[b] - group[a]);
+            });
+
         } else if(sorting == "year"){
             
             var years = points.map( p => p.year );

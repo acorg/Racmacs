@@ -118,3 +118,4 @@
 * `logtiterTable()` nows returns a table with named columns and rows
 * Fix issue showing individual bootstrap points in 3D
 * Add option `show_group_legend` to `view()` to show interactive legend based on `agGroups()` and `srGroups()` point groupings
+* Add ability in viewer to filter and color antigens and sera by group

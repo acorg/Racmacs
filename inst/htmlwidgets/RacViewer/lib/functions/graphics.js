@@ -90,6 +90,53 @@ Racmacs.Viewer.prototype.colorPointsByStress = function(){
 
 }
 
+Racmacs.Viewer.prototype.colorPointsByGroup = function(){
+    
+    // Fire event
+    this.dispatchEvent("point-coloring-changed", { coloring : "group" });
+
+    var points = this.points;
+    var ag_group_fill = this.data.agGroupLevelFill();
+    var sr_group_fill = this.data.srGroupLevelFill();
+    var ag_group_outline = this.data.agGroupLevelOutline();
+    var sr_group_outline = this.data.srGroupLevelOutline();
+
+    for(var i=0; i<points.length; i++){
+
+        if(points[i].type == "ag"){
+            
+            points[i].setFillColor(ag_group_fill[points[i].group]);
+            points[i].setOutlineColor(ag_group_outline[points[i].group]);
+
+        } else {
+
+            points[i].setFillColor(sr_group_fill[points[i].group]);
+            points[i].setOutlineColor(sr_group_outline[points[i].group]);
+
+        }
+
+        points[i].updateDisplay();
+
+    }
+
+    // Update any browsers
+    if(this.browsers){
+      if(this.browsers.antigens){
+        this.browsers.antigens.order("group");
+      }
+      if(this.browsers.sera){
+        this.browsers.sera.order("group");
+      }
+    }
+
+    // Note that the viewport is colored by stress
+    this.coloring = "group";
+    
+    // Render the viewport
+    this.render();
+
+}
+
 // Event for showing and hiding the legend
 R3JS.Viewer.prototype.eventListeners.push({
     name : "point-coloring-changed",

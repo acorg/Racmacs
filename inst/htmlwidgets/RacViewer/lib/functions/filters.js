@@ -55,6 +55,35 @@ Racmacs.Filter = class Filter {
 		    agsrOptHolder.appendChild(agsrOptBox.div);
 		}
 
+		// Group options
+		var ag_group_levels = this.viewer.data.agGroupLevels();
+		var sr_group_levels = this.viewer.data.srGroupLevels();
+		var group_levels = [].concat(ag_group_levels).concat(sr_group_levels);
+		group_levels = [...new Set(group_levels)];		
+
+		var groupOptHolder = document.createElement("div");
+		filterOpts.group = [];
+		groupOptHolder.classList.add("filter-opt-col");
+		var groupOptTitle = document.createElement("div");
+		groupOptTitle.innerHTML = "Group";
+		groupOptTitle.classList.add("filter-opt-title");
+		groupOptHolder.appendChild(groupOptTitle);
+
+		for(var i=0; i<group_levels.length; i++){
+			var groupOptBox = new Racmacs.utils.Checkbox({
+				text  : group_levels[i],
+				value : group_levels[i],
+				uncheck_fn : function(){ viewer.filter_selection() },
+				check_fn   : function(){ viewer.filter_selection() }
+		    });
+		    filterOpts.group.push(groupOptBox.checkbox);
+		    groupOptHolder.appendChild(groupOptBox.div);
+		}
+
+        if (group_levels[0] !== undefined) {
+		    filterBox.appendChild(groupOptHolder);
+		}
+
 	}
 
 }
@@ -72,6 +101,14 @@ Racmacs.Viewer.prototype.filter_selection = function(){
     	}
     }
 
+    // Get group selections
+    var groupOpts = [];
+    for(var i=0; i<filterOpts.group.length; i++){
+    	if(filterOpts.group[i].checked){
+    		groupOpts.push(filterOpts.group[i].value);
+    	}
+    }
+
     // Filter selections
     var objects = this.points;
     var deselected_objects = [];
@@ -80,8 +117,8 @@ Racmacs.Viewer.prototype.filter_selection = function(){
     selectionOpts = [];
     selectionOpts.push(agsrOpts);
     selectionVars.push("type");
-    // selectionOpts.push(clusterOpts);
-    // selectionVars.push("cluster");
+    selectionOpts.push(groupOpts);
+    selectionVars.push("groupvalue");
     
     for(var j=0; j<selectionOpts.length; j++){
     	var opts = selectionOpts[j];
@@ -104,7 +141,7 @@ Racmacs.Viewer.prototype.filter_selection = function(){
 	}
 
     // Deselect all if nothing selected
-    if(agsrOpts.length == 0){
+    if(agsrOpts.length == 0 && groupOpts.length == 0){
     	this.deselectAll();
     }
     

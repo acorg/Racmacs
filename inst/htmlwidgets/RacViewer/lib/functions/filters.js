@@ -58,7 +58,7 @@ Racmacs.Filter = class Filter {
 		// Group options
 		var ag_group_levels = this.viewer.data.agGroupLevels();
 		var sr_group_levels = this.viewer.data.srGroupLevels();
-		var group_levels = [].concat(ag_group_levels).concat(sr_group_levels);
+		var group_levels = [].concat(ag_group_levels).concat("||").concat(sr_group_levels);
 		group_levels = [...new Set(group_levels)];		
 
 		var groupOptHolder = document.createElement("div");
@@ -70,14 +70,20 @@ Racmacs.Filter = class Filter {
 		groupOptHolder.appendChild(groupOptTitle);
 
 		for(var i=0; i<group_levels.length; i++){
-			var groupOptBox = new Racmacs.utils.Checkbox({
-				text  : group_levels[i],
-				value : group_levels[i],
-				uncheck_fn : function(){ viewer.filter_selection() },
-				check_fn   : function(){ viewer.filter_selection() }
-		    });
-		    filterOpts.group.push(groupOptBox.checkbox);
-		    groupOptHolder.appendChild(groupOptBox.div);
+			if (group_levels[i] == "||") {
+				var spacer = document.createElement("div");
+				spacer.style.height = "6px";
+				groupOptHolder.appendChild(spacer);
+			} else {
+				var groupOptBox = new Racmacs.utils.Checkbox({
+					text  : group_levels[i],
+					value : group_levels[i],
+					uncheck_fn : function(){ viewer.filter_selection() },
+					check_fn   : function(){ viewer.filter_selection() }
+			    });
+			    filterOpts.group.push(groupOptBox.checkbox);
+			    groupOptHolder.appendChild(groupOptBox.div);
+			}
 		}
 
         if (group_levels[0] !== undefined) {

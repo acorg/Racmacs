@@ -23,3 +23,4 @@ blob(x, col, border, lwd, alpha, ...)
 Plot a blob object such as that return from \code{agBootstrapBlob()} using the
 \code{polygon()} function.
 }
+\concept{{additional plotting functions}}

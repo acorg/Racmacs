@@ -584,6 +584,7 @@ plot_lims <- function(coords, padding = 1, round_even = TRUE) {
 #' @param alpha Blob opacity
 #' @param ... Additional arguments to pass to `polygon()`
 #'
+#' @family {additional plotting functions}
 #' @export
 blob <- function(x, col, border, lwd, alpha, ...) {
   if (!inherits(x, "blob")) stop("Must be an object of class 'blob'")

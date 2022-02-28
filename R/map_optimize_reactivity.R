@@ -1,6 +1,9 @@
 
 #' Optimize antigen reactivity adjustments
 #'
+#' @description
+#' `r lifecycle::badge("experimental")`
+#'
 #' @param map The acmap object
 #' @param optimization_number The optimization number for which to optimize
 #'   antigen reactivity adjustments

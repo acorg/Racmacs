@@ -182,6 +182,7 @@ titerTableLayers <- function(map) {
 #'
 #' @param map An acmap data object
 #'
+#' @noRd
 titertypesTableLayers <- function(map) {
 
   lapply(

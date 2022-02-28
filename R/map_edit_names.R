@@ -76,6 +76,7 @@ edit_srNames <- function(
 #'
 #' @return Returns the updated map data object
 #' @export
+#' @noRd
 #'
 update_ferret_seraNames <- function(
   map,

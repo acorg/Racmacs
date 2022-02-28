@@ -1,13 +1,4 @@
-
-#' @useDynLib Racmacs
-#' @importFrom Rcpp sourceCpp
-NULL
-
-#' Racmacs: A package for performing antigenic cartography
-#'
-#' The Racmacs package provides a toolkit for making antigenic maps from assay
-#' data such as HI assays, as described in Smith et al. 2004 (1).
-#'
+#' @description
 #' \subsection{The acmap data object}{
 #' The fundamental unit of the Racmacs package is the [acmap]
 #' object, short for Antigenic Cartography MAP. This object contains all the
@@ -61,64 +52,7 @@ NULL
 #'
 #' }
 #'
-#'
-#' \subsection{List of key functions}{
-#'
-#' __Reading and writing acmaps__
-#' - [read.acmap]
-#' - [save.acmap]
-#' - [save.coords]
-#' - [save.titerTable]
-#'
-#' __Optimizing maps__
-#' - [optimizeMap]
-#' - [relaxMap]
-#'
-#' __Get and set acmap information__
-#' - [titerTable]
-#' - [numAntigens]
-#' - [numSera]
-#' - [numPoints]
-#' - [numOptimizations]
-#'
-#' __Get and set plotting information__
-#' - [agFill]
-#' - [srFill]
-#' - [agOutline]
-#' - [srOutline]
-#' - [agOutlineWidth]
-#' - [srOutlineWidth]
-#' - [agSize]
-#' - [srSize]
-#' - [agShape]
-#' - [srShape]
-#'
-#' __Get and set optimization information__
-#' - [addOptimization]
-#' - [agCoords]
-#' - [srCoords]
-#' - [colBases]
-#' - [minColBasis]
-#' - [mapStress]
-#' - [mapDimensions]
-#'
-#' __Procrustes and realignment__
-#' - [procrustesMap]
-#' - [realignMap]
-#' - [realignOptimizations]
-#'
-#' __Diagnostic tests__
-#' - [checkHemisphering]
-#' - [moveTrappedPoints]
-#' - [dimensionTestMap]
-#'
-#' __Merging maps__
-#' - [mergeMaps]
-#' - [mergeReport]
-#'
-#' }
-#'
-#' @md
-#' @docType package
-#' @name Racmacs
-NULL
+#' @keywords internal
+#' @useDynLib Racmacs
+#' @importFrom Rcpp sourceCpp
+"_PACKAGE"

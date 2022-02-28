@@ -22,7 +22,8 @@ Imports:
     rmarchingcubes,
     shape,
     ellipsis,
-    MASS
+    MASS,
+    lifecycle
 LazyData: TRUE
 Suggests: 
     testthat,

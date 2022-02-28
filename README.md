@@ -1,6 +1,5 @@
 
 <!-- badges: start -->
-[![Lifecycle:maturing](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/#maturing)
 [![R-CMD-check](https://github.com/acorg/Racmacs/workflows/R-CMD-check/badge.svg)](https://github.com/acorg/Racmacs/actions)
 <!-- badges: end -->
 

@@ -55,3 +55,35 @@ test_that("point leverage", {
   )
 
 })
+
+test_that("Stress with NA coords", {
+
+  agCoords(map)[2,] <- NA
+  srCoords(map)[2,] <- NA
+  srCoords(map)[4,] <- NA
+
+  expect_equal(sum(is.na(agStress(map))), 1)
+  expect_equal(sum(is.na(srStress(map))), 2)
+
+  expect_equal(sum(!is.na(stressTable(map)[2,])), 0)
+  expect_equal(sum(!is.na(stressTable(map)[,2])), 0)
+  expect_equal(sum(!is.na(stressTable(map)[,4])), 0)
+
+})
+
+test_that("Stress with NA coords", {
+
+  set.seed(850909)
+
+  dat <- matrix(10*2^round(10*runif(100)), ncol=10)
+  dat[4,3:5] <- "*"
+
+  map <- make.acmap(dat)
+
+  expect_equal(
+    round(agStressPerTiter(map, exclude_nd = T)[4], 2),
+    1.67
+  )
+
+})
+

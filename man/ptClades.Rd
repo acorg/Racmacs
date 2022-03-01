@@ -29,7 +29,9 @@ Getting and setting point clade information
 Other {antigen and sera attribute functions}: 
 \code{\link{agAttributes}},
 \code{\link{agGroups}()},
+\code{\link{agLabIDs}()},
 \code{\link{agSequences}()},
+\code{\link{ptAnnotations}},
 \code{\link{srAttributes}},
 \code{\link{srGroups}()},
 \code{\link{srSequences}()}

@@ -97,6 +97,7 @@ test_that("Mix of known and unknown dates", {
 test_that("Getting and setting clades", {
 
   expect_equal(numAntigens(map), length(agClades(map)))
+  expect_equal(numSera(map), length(srClades(map)))
 
   new_ag_clades <- as.character(seq_len(numAntigens(map)))
   new_ag_clades[c(2, 4)] <- "a"
@@ -125,6 +126,68 @@ test_that("Getting and setting clades", {
   expect_equal(srClades(map), new_sr_clades)
 
 })
+
+
+# Getting and setting antigen lab ids
+test_that("Getting and setting antigen lab ids", {
+
+  expect_equal(numAntigens(map), length(agLabIDs(map)))
+
+  new_ag_labids <- as.character(seq_len(numAntigens(map)))
+  new_ag_labids[c(2, 4)] <- "a"
+
+  expect_error(agLabIDs(map) <- new_ag_labids)
+
+  new_ag_labids <- as.list(new_ag_labids)
+
+  agLabIDs(map) <- new_ag_labids
+
+  expect_equal(agLabIDs(map), new_ag_labids)
+
+  tmp <- tempfile(fileext = ".ace")
+  save.acmap(map, tmp)
+  map <- read.acmap(tmp)
+  unlink(tmp)
+
+  expect_equal(agLabIDs(map), new_ag_labids)
+
+})
+
+
+# Getting and setting annotations
+test_that("Getting and setting annotations", {
+
+  expect_equal(numAntigens(map), length(agAnnotations(map)))
+  expect_equal(numSera(map), length(srAnnotations(map)))
+
+  new_ag_annotations <- as.character(seq_len(numAntigens(map)))
+  new_ag_annotations[c(2, 4)] <- "a"
+
+  new_sr_annotations <- as.character(seq_len(numSera(map)))
+  new_sr_annotations[c(1, 2)] <- "b"
+
+  expect_error(agAnnotations(map) <- new_ag_annotations)
+  expect_error(srAnnotations(map) <- new_sr_annotations)
+
+  new_ag_annotations <- as.list(new_ag_annotations)
+  new_sr_annotations <- as.list(new_sr_annotations)
+
+  agAnnotations(map) <- new_ag_annotations
+  srAnnotations(map) <- new_sr_annotations
+
+  expect_equal(agAnnotations(map), new_ag_annotations)
+  expect_equal(srAnnotations(map), new_sr_annotations)
+
+  tmp <- tempfile(fileext = ".ace")
+  save.acmap(map, tmp)
+  map <- read.acmap(tmp)
+  unlink(tmp)
+
+  expect_equal(agAnnotations(map), new_ag_annotations)
+  expect_equal(srAnnotations(map), new_sr_annotations)
+
+})
+
 
 # Getting and setting other attributes
 test_that("Getting and setting other attributes", {

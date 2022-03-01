@@ -304,7 +304,9 @@ agStress <- function(
 
   # Calculate the stress
   stress_table <- stressTable(map, optimization_number)
-  rowSums(stress_table[antigens, ])
+  stresses <- rowSums(stress_table[antigens, , drop = F], na.rm = T)
+  stresses[is.na(agCoords(map))[,1]] <- NA
+  stresses
 
 }
 
@@ -321,7 +323,9 @@ srStress <- function(
 
   # Calculate the stress
   stress_table <- stressTable(map, optimization_number)
-  colSums(stress_table[, sera])
+  stresses <- colSums(stress_table[, sera, drop = F], na.rm = T)
+  stresses[is.na(srCoords(map))[,1]] <- NA
+  stresses
 
 }
 
@@ -347,7 +351,9 @@ srStressPerTiter <- function(
   if (exclude_nd) stress_table[titertypesTable(map) != 1] <- NA
 
   # Calculate the antigen stress per titer
-  colMeans(stress_table)[sera]
+  stresses <- colMeans(stress_table, na.rm = T)
+  stresses[is.na(srCoords(map))[,1]] <- NA
+  stresses[sera]
 
 }
 
@@ -374,7 +380,9 @@ agStressPerTiter <- function(
   if (exclude_nd) stress_table[titertypesTable(map) != 1] <- NA
 
   # Calculate the antigen stress per titer
-  rowMeans(stress_table)[antigens]
+  stresses <- rowMeans(stress_table, na.rm = T)
+  stresses[is.na(agCoords(map))[,1]] <- NA
+  stresses[antigens]
 
 }
 

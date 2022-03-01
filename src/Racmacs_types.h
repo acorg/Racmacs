@@ -156,6 +156,8 @@ SEXP wrap(const AcAntigen& ag){
       _["sequence"] = ag.get_sequence(),
       _["passage"] = ag.get_passage(),
       _["clade"] = ag.get_clade(),
+      _["annotations"] = ag.get_annotations(),
+      _["labids"] = ag.get_labids(),
 
       // Plotspec
       _["plotspec"] = as<List>(wrap(ag.plotspec))
@@ -186,6 +188,7 @@ SEXP wrap(const AcSerum& sr){
       _["sequence"] = sr.get_sequence(),
       _["passage"] = sr.get_passage(),
       _["clade"] = sr.get_clade(),
+      _["annotations"] = sr.get_annotations(),
 
       // Plotspec
       _["plotspec"] = as<List>(wrap(sr.plotspec))
@@ -487,6 +490,8 @@ AcAntigen as(SEXP sxp){
   if(list.containsElementNamed("sequence")) ag.set_sequence(list["sequence"]);
   if(list.containsElementNamed("passage")) ag.set_passage(list["passage"]);
   if(list.containsElementNamed("clade")) ag.set_clade(list["clade"]);
+  if(list.containsElementNamed("annotations")) ag.set_annotations(list["annotations"]);
+  if(list.containsElementNamed("labids")) ag.set_labids(list["labids"]);
 
   // Plotspec
   if(list.containsElementNamed("plotspec")) ag.plotspec = as<AcPlotspec>(list["plotspec"]);
@@ -514,6 +519,7 @@ AcSerum as(SEXP sxp){
   if(list.containsElementNamed("sequence")) sr.set_sequence(list["sequence"]);
   if(list.containsElementNamed("passage")) sr.set_passage(list["passage"]);
   if(list.containsElementNamed("clade")) sr.set_clade(list["clade"]);
+  if(list.containsElementNamed("annotations")) sr.set_annotations(list["annotations"]);
 
   // Plotspec
   if(list.containsElementNamed("plotspec")) sr.plotspec = as<AcPlotspec>(list["plotspec"]);

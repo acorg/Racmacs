@@ -119,3 +119,9 @@
 * Fix issue showing individual bootstrap points in 3D
 * Add option `show_group_legend` to `view()` to show interactive legend based on `agGroups()` and `srGroups()` point groupings
 * Add ability in viewer to filter and color antigens and sera by group
+
+# Racmacs 1.1.28
+* `agStress()` and `srStress()` fixed to work with NA coordinates
+* Correct error when calculating `agStressPerTiter()` and `srStressPerTiter()` with missing titers.
+* Antigen/Sera sequence and date information now write to json fields in line with acmacs-web.
+* Add attribute getters and setters `agAnnotations()`, `srAnnotations()`, `agLabIDs()`

@@ -25,6 +25,10 @@ std::string ac_ag_get_passage( const AcAntigen &ag ){ return ag.get_passage(); }
 // [[Rcpp::export(rng = false)]]
 std::vector<std::string> ac_ag_get_clade( const AcAntigen &ag ){ return ag.get_clade(); }
 // [[Rcpp::export(rng = false)]]
+std::vector<std::string> ac_ag_get_annotations( const AcAntigen &ag ){ return ag.get_annotations(); }
+// [[Rcpp::export(rng = false)]]
+std::vector<std::string> ac_ag_get_labids( const AcAntigen &ag ){ return ag.get_labids(); }
+// [[Rcpp::export(rng = false)]]
 std::string ac_ag_get_name( const AcAntigen &ag ){ return ag.get_name(); }
 // [[Rcpp::export(rng = false)]]
 std::string ac_ag_get_name_full( const AcAntigen &ag ){ return ag.get_name_full(); }
@@ -53,6 +57,10 @@ AcAntigen ac_ag_set_reference( AcAntigen ag, bool value ){  ag.set_reference(val
 AcAntigen ac_ag_set_passage( AcAntigen ag, std::string value ){ ag.set_passage(value); return ag; }
 // [[Rcpp::export(rng = false)]]
 AcAntigen ac_ag_set_clade( AcAntigen ag, std::vector<std::string> value ){ ag.set_clade(value); return ag; }
+// [[Rcpp::export(rng = false)]]
+AcAntigen ac_ag_set_annotations( AcAntigen ag, std::vector<std::string> value ){ ag.set_annotations(value); return ag; }
+// [[Rcpp::export(rng = false)]]
+AcAntigen ac_ag_set_labids( AcAntigen ag, std::vector<std::string> value ){ ag.set_labids(value); return ag; }
 // [[Rcpp::export(rng = false)]]
 AcAntigen ac_ag_set_name( AcAntigen ag, std::string value ){ ag.set_name(value); return ag; }
 // [[Rcpp::export(rng = false)]]

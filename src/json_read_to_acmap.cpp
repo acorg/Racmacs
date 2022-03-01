@@ -89,8 +89,9 @@ AcMap json_to_acmap(
     if(ag.HasMember("N")) map.antigens[i].set_name( ag["N"].GetString() );
     if(ag.HasMember("P")) map.antigens[i].set_passage( ag["P"].GetString() );
     if(ag.HasMember("c")) map.antigens[i].set_clade( parse<std::vector<std::string>>(ag["c"]) );
+    if(ag.HasMember("A")) map.antigens[i].set_sequence( ag["A"].GetString() );
+    if(ag.HasMember("D")) map.antigens[i].set_date( ag["D"].GetString() );
     // set_group_values
-    // set_date
     // set_reference
     // set_name_full
     // set_name_abbreviated
@@ -109,8 +110,9 @@ AcMap json_to_acmap(
     if(sr.HasMember("N")) map.sera[i].set_name( sr["N"].GetString() );
     if(sr.HasMember("P")) map.sera[i].set_passage( sr["P"].GetString() );
     if(sr.HasMember("c")) map.sera[i].set_clade( parse<std::vector<std::string>>(sr["c"]) );
+    if(sr.HasMember("A")) map.sera[i].set_sequence( sr["A"].GetString() );
+    if(sr.HasMember("D")) map.sera[i].set_date( sr["D"].GetString() );
     // set_group_values
-    // set_date
     // set_reference
     // set_name_full
     // set_name_abbreviated

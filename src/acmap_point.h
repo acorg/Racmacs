@@ -82,6 +82,8 @@ class AcPoint {
         return(id == "");
       } else if (attribute == "extra") {
         return(extra == "");
+      } else if (attribute == "date") {
+        return(date == "");
       } else {
         return(false);
       }

@@ -213,9 +213,10 @@
 }
 
 .RacViewer .filter-opt-col {
-    display : inline-block;
+    display : block;
     vertical-align : top;
     margin-right: 18px;
+    margin-bottom: 18px;
 }
 
 

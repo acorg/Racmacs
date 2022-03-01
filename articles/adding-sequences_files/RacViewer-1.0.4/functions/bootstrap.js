@@ -80,20 +80,44 @@ Racmacs.Point.prototype.addBootstrapPoints = function(data){
     }
 
     // Create a points object
-    this.bootstrapPoints = new R3JS.element.glpoints({
-        coords : coords,
-        size : Array(coords.length).fill(0.4),
-        properties : {
-            color : {
-                r:Array(coords.length).fill(0),
-                g:Array(coords.length).fill(0),
-                b:Array(coords.length).fill(0),
-                a:Array(coords.length).fill(0.3)
-            }
-        },
-        dimensions : 2,
-        viewer : this.viewer
-    });
+    if (this.viewer.mapdims.dimensions == 3) {
+        var object = new THREE.Object3D();
+        coords.map(coord => {
+            var element = new R3JS.element.Point({
+                coords : coord,
+                size : 0.5,
+                shape : "circle3d",
+                properties : {
+                    lwd : 1,
+                    fillcolor : {
+                        r : 0.2,
+                        g : 0.2,
+                        b : 0.2
+                    },
+                    mat : "lambert"
+                }
+            });
+            object.add(element.object);
+        });
+        this.bootstrapPoints = {
+            object : object
+        };
+    } else {
+        this.bootstrapPoints = new R3JS.element.glpoints({
+            coords : coords,
+            size : Array(coords.length).fill(0.4),
+            properties : {
+                color : {
+                    r:Array(coords.length).fill(0),
+                    g:Array(coords.length).fill(0),
+                    b:Array(coords.length).fill(0),
+                    a:Array(coords.length).fill(0.3)
+                }
+            },
+            dimensions : 2,
+            viewer : this.viewer
+        });
+    }
     
     // Show the blob
     if(this.selected) this.showBootstrapPoints();

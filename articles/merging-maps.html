@@ -20,13 +20,15 @@
 <script src="../pkgdown.js"></script><link href="../extra.css" rel="stylesheet">
 <meta property="og:title" content="Merging maps">
 <meta property="og:description" content="Racmacs">
-<meta property="og:image" content="/logo.png">
+<meta property="og:image" content="https://acorg.github.io/Racmacs/logo.png">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]-->
 </head>
 <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-article">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -39,7 +41,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">Racmacs</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.18</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.1.27</span>
       </span>
     </div>
 
@@ -63,7 +65,7 @@
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
-  <a href="https://github.com/acorg/Racmacs/">
+  <a href="https://github.com/acorg/Racmacs/" class="external-link">
     <span class="fab fa-github fa-lg"></span>
      
   </a>
@@ -84,7 +86,7 @@
       <h1 data-toc-skip>Merging maps</h1>
             
       
-      <small class="dont-index">Source: <a href="https://github.com/acorg/Racmacs/blob/master/vignettes/merging-maps.Rmd"><code>vignettes/merging-maps.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/acorg/Racmacs/blob/HEAD/vignettes/merging-maps.Rmd" class="external-link"><code>vignettes/merging-maps.Rmd</code></a></small>
       <div class="hidden name"><code>merging-maps.Rmd</code></div>
 
     </div>
@@ -102,9 +104,9 @@
   number_of_optimizations <span class="op">=</span> <span class="fl">500</span>,
   number_of_dimensions    <span class="op">=</span> <span class="fl">2</span>
 <span class="op">)</span></code></pre></div>
-<div id="merge-types" class="section level2">
-<h2 class="hasAnchor">
-<a href="#merge-types" class="anchor"></a>Merge types</h2>
+<div class="section level2">
+<h2 id="merge-types">Merge types<a class="anchor" aria-label="anchor" href="#merge-types"></a>
+</h2>
 <p>Currently there are 6 merge types that have been implemented<a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a>:</p>
 <ol style="list-style-type: decimal">
 <li>table</li>
@@ -114,41 +116,41 @@
 <li>relaxed-overlay</li>
 <li>frozen-merge</li>
 </ol>
-<div id="table" class="section level3">
-<h3 class="hasAnchor">
-<a href="#table" class="anchor"></a>“table”</h3>
+<div class="section level3">
+<h3 id="table">“table”<a class="anchor" aria-label="anchor" href="#table"></a>
+</h3>
 <p>As you would expect, this merges the tables of the two maps but does not attempt to create any new optimizations and any existing optimizations are of course lost.</p>
 </div>
-<div id="reoptimized-merge" class="section level3">
-<h3 class="hasAnchor">
-<a href="#reoptimized-merge" class="anchor"></a>“reoptimized-merge”</h3>
+<div class="section level3">
+<h3 id="reoptimized-merge">“reoptimized-merge”<a class="anchor" aria-label="anchor" href="#reoptimized-merge"></a>
+</h3>
 <p>This merges the tables and then does a specified number of fresh optimizations from random starting coordinates, ignoring any pre-existing optimization runs. It’s exactly the same as doing a ‘table’ merge and running <code><a href="../reference/optimizeMap.html">optimizeMap()</a></code> on the merged table.</p>
 </div>
-<div id="incremental-merge" class="section level3">
-<h3 class="hasAnchor">
-<a href="#incremental-merge" class="anchor"></a>“incremental-merge”</h3>
+<div class="section level3">
+<h3 id="incremental-merge">“incremental-merge”<a class="anchor" aria-label="anchor" href="#incremental-merge"></a>
+</h3>
 <p>This takes the currently selected optimization in the first map and then merges in the additional maps in turn. Each time any points not already found in the first map (or the last map in the incremental merge chain) are randomised and everything is relaxed, this is repeated the specified number of times and the process is repeated. Sometimes when extending a map over time this can find a lower-stress solution than simply reoptimizing from scratch, particularly if the better solution is a long spindly one. Normally this would be performed alongside a ‘reoptimized-merge’ to see which found the best result.</p>
 </div>
-<div id="frozen-overlay" class="section level3">
-<h3 class="hasAnchor">
-<a href="#frozen-overlay" class="anchor"></a>“frozen-overlay”</h3>
+<div class="section level3">
+<h3 id="frozen-overlay">“frozen-overlay”<a class="anchor" aria-label="anchor" href="#frozen-overlay"></a>
+</h3>
 <p>This fixes the positions of points in each map and tries to best match them simply through re-orientation. Once the best re-orientation is found, points that are in common between the maps are moved to the average position. In theory this can be useful if you have two maps that you independently trust and you just want to quickly see how they relate to each other. In practise this would only really be used for a rough look, before maps are integrated more carefully, sometimes this has been referred to as “Frankensteining”.</p>
 </div>
-<div id="relaxed-overlay" class="section level3">
-<h3 class="hasAnchor">
-<a href="#relaxed-overlay" class="anchor"></a>“relaxed-overlay”</h3>
+<div class="section level3">
+<h3 id="relaxed-overlay">“relaxed-overlay”<a class="anchor" aria-label="anchor" href="#relaxed-overlay"></a>
+</h3>
 <p>This performs a ‘frozen-overlay’ then relaxes the result. It’s exactly the same as doing a ‘frozen-overlay’ and then calling <code><a href="../reference/relaxMap.html">relaxMap()</a></code> on the result.</p>
 </div>
-<div id="frozen-merge" class="section level3">
-<h3 class="hasAnchor">
-<a href="#frozen-merge" class="anchor"></a>“frozen-merge”</h3>
+<div class="section level3">
+<h3 id="frozen-merge">“frozen-merge”<a class="anchor" aria-label="anchor" href="#frozen-merge"></a>
+</h3>
 <p>In this version, positions of all points in the first map are fixed and remain fixed, so the original map does not change. The second map is then realigned to the first as closely as possible and then all the new points appearing in the second map are allowed to relax into their new positions. This is a way to merge in new antigens and sera into a map without affecting the first one at all (and was first implemented in lispmds).</p>
 </div>
 </div>
 <div class="footnotes">
 <hr>
 <ol>
-<li id="fn1"><p>For the underlying implementation please see <a href="https://github.com/acorg/Racmacs/blob/master/src/ac_merge.cpp" class="uri">https://github.com/acorg/Racmacs/blob/master/src/ac_merge.cpp</a><a href="#fnref1" class="footnote-back">↩︎</a></p></li>
+<li id="fn1"><p>For the underlying implementation please see <a href="https://github.com/acorg/Racmacs/blob/master/src/ac_merge.cpp" class="external-link uri">https://github.com/acorg/Racmacs/blob/master/src/ac_merge.cpp</a><a href="#fnref1" class="footnote-back">↩︎</a></p></li>
 </ol>
 </div>
   </div>
@@ -164,11 +166,13 @@
 
 
       <footer><div class="copyright">
-  <p>Developed by Sam Wilks.</p>
+  <p></p>
+<p>Developed by Sam Wilks.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
+  <p></p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
 </div>
 
       </footer>
@@ -176,6 +180,8 @@
 
   
 
+
+  
 
   </body>
 </html>

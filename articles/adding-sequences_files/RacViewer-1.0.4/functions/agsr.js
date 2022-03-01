@@ -22,6 +22,7 @@ Racmacs.App.prototype.addAntigensAndSera = function(mapData){
     this.points   = [];
 
     // antigens
+    var ag_group_levels = this.data.agGroupLevels();
     for(var i=0; i<nAntigens; i++){
 
         var ag = new Racmacs.Antigen({
@@ -35,6 +36,8 @@ Racmacs.App.prototype.addAntigensAndSera = function(mapData){
             shape         : this.data.agShape(i),
             shown         : this.data.agShown(i),
             drawing_order : this.data.agDrawingOrder(i),
+            group         : this.data.agGroupValues(i),
+            group_levels  : ag_group_levels,
             typeIndex     : i,
             pIndex        : i,
             viewer        : this
@@ -46,7 +49,7 @@ Racmacs.App.prototype.addAntigensAndSera = function(mapData){
     }
 
     // sera
-    var srObjects = [];
+    var sr_group_levels = this.data.srGroupLevels();
     for(var i=0; i<nSera; i++){
 
         var sr = new Racmacs.Serum({
@@ -61,6 +64,8 @@ Racmacs.App.prototype.addAntigensAndSera = function(mapData){
             shape         : this.data.srShape(i),
             shown         : this.data.srShown(i),
             drawing_order : this.data.srDrawingOrder(i),
+            group         : this.data.srGroupValues(i),
+            group_levels  : sr_group_levels,
             typeIndex     : i,
             pIndex        : i + nAntigens,
             viewer        : this
@@ -91,6 +96,7 @@ Racmacs.Point = class Point {
         this.aspect        = args.aspect;
         this.shape         = args.shape;
         this.shown         = args.shown;
+        this.group         = args.group;
         this.drawing_order = args.drawing_order;
         this.typeIndex     = args.typeIndex;
         this.pIndex        = args.pIndex;
@@ -101,6 +107,11 @@ Racmacs.Point = class Point {
         this.rayTraceable = true;
         this.opacity      = 1;
         this.scaling      = 1;
+        this.included     = true;
+
+        if (args.group_levels != undefined) {
+            this.groupvalue = args.group_levels[args.group];
+        }
 
 
         this.coords_na = args.coords === null || isNaN(args.coords[0]) || args.coords[0] === null;
@@ -266,7 +277,7 @@ Racmacs.Point = class Point {
     }
 
     // Set the point position
-    setPosition(to){
+    setPosition(to, dispatch = true){
 
         while (to.length < 3) to.push(0);
 
@@ -303,11 +314,13 @@ Racmacs.Point = class Point {
         }
 
         // Update any connections or error lines
-        this.viewer.dispatchEvent("point-moved", {
-            point : this,
-            from  : from,
-            to    : to
-        });
+        if (dispatch) {
+            this.viewer.dispatchEvent("point-moved", {
+                point : this,
+                from  : from,
+                to    : to
+            });
+        }
 
     }
 
@@ -621,6 +634,56 @@ Racmacs.Point = class Point {
         return(stress);
     }
 
+    // Toggle whether the point is included or not
+    toggleIncluded() {
+
+        if (this.included) {
+            this.excludePoint();
+        } else {
+            this.includePoint();
+        }
+
+    }
+
+    // Include a point
+    includePoint() {
+
+        if (!this.included) {
+
+            this.viewer.data.includePoint(this.type, this.typeIndex);
+            this.included = true;
+            this.shown = true;
+            this.element.show();
+            this.viewer.render();
+            this.viewer.dispatchEvent("point-included", { 
+                point : this 
+            });
+            this.viewer.updateStress();
+
+        }
+
+    }
+
+    // Exclude a point
+    excludePoint() {
+
+        if (!this.excluded) {
+
+            this.viewer.data.excludePoint(this.type, this.typeIndex);
+            this.included = false;
+            this.shown = false;
+            this.element.hide();
+            this.viewer.render();
+            this.viewer.dispatchEvent("point-excluded", { 
+                point : this 
+            });
+            this.viewer.updateStress();
+
+        }
+
+    }
+
+
 }
 
 
@@ -636,6 +699,9 @@ Racmacs.Antigen = class Antigen extends Racmacs.Point {
     }
 
     // Get the titers to another point
+    titers(){
+        return(this.viewer.data.titertable[this.typeIndex]);
+    }
     titerTo(to){ 
         return(this.viewer.data.titertable[this.typeIndex][to.typeIndex]);
     }
@@ -661,6 +727,9 @@ Racmacs.Serum = class Serum extends Racmacs.Point {
     }
 
     // Get the titers to another point
+    titers(){
+        return(this.viewer.data.titertable.map(row => row[this.typeIndex]));
+    }
     titerTo(to){ 
         return(this.viewer.data.titertable[to.typeIndex][this.typeIndex]);
     }

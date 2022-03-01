@@ -178,6 +178,24 @@ Racmacs.Viewer.prototype.load = function(
             this.btns["viewSequences"].style.display = "none";
         }
 
+        // Allow for group data
+        if (this.data.agGroupLevels() !== undefined || this.data.srGroupLevels() !== undefined) {
+
+            // Show legend
+            if (options.show_group_legend) {
+                this.showLegend();
+            } else {
+                this.clearLegend();
+            };
+
+            this.colorpanel.showColorByGroup();
+
+        } else {
+            
+            this.colorpanel.hideColorByGroup();
+
+        }
+
         // Deal with viewer options
         if(options["point.opacity"] !== undefined && options["point.opacity"] !== null)  this.styleset.noselections.unhovered.unselected.opacity = options["point.opacity"];
         this.updatePointStyles();

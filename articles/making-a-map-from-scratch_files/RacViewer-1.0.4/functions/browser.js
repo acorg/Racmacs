@@ -17,6 +17,24 @@ R3JS.Viewer.prototype.eventListeners.push({
     }
 });
 
+R3JS.Viewer.prototype.eventListeners.push({
+    name : "point-included",
+    fn : function(e){
+        let point  = e.detail.point;
+        let viewer = point.viewer;
+        point.browserRecord.unfade();
+    }
+});
+
+R3JS.Viewer.prototype.eventListeners.push({
+    name : "point-excluded",
+    fn : function(e){
+        let point  = e.detail.point;
+        let viewer = point.viewer;
+        point.browserRecord.fade();
+    }
+});
+
 // Clear browsers
 Racmacs.App.prototype.clearBrowsers = function(){
     for(browser in this.browsers){
@@ -141,6 +159,13 @@ Racmacs.NameBrowser = class NameBrowser {
               return(stress[b] - stress[a]);
             });
 
+        } else if(sorting == "group"){
+
+            var group = points.map( p => p.group );
+            order.sort(function(a,b){
+              return(group[b] - group[a]);
+            });
+
         } else if(sorting == "year"){
             
             var years = points.map( p => p.year );
@@ -260,35 +285,45 @@ Racmacs.BrowserRecord = class BrowserRecord {
         this.div.addEventListener("mouseup", function(e){
             
             e.preventDefault();
-            if(!e.shiftKey && !e.metaKey){
-                point.viewer.deselectAll();
-            }
 
-            var namebrowser = browserRecord.nameBrowser;
-            var selected_points = namebrowser.viewer.selected_pts;
-            var index = browserRecord.browserIndex;
-            
-            if(e.shiftKey && selected_points.length > 0){
-                var indexLast = namebrowser.lastSelected;
-                if(indexLast !== null){
-                    
-                    if(index > indexLast){
-                        for(var i=indexLast; i<index; i++){
-                            namebrowser.points[i].select();
-                        }
-                    }
+            if (e.altKey) {
 
-                    if(index < indexLast){
-                        for(var i=indexLast; i>index; i--){
-                            namebrowser.points[i].select();
-                        }
-                    }
+                point.toggleIncluded();
 
+            } else {
+
+                if(!e.shiftKey && !e.metaKey){
+                    point.viewer.deselectAll();
                 }
+
+                var namebrowser = browserRecord.nameBrowser;
+                var selected_points = namebrowser.viewer.selected_pts;
+                var index = browserRecord.browserIndex;
+                
+                if(e.shiftKey && selected_points.length > 0){
+                    var indexLast = namebrowser.lastSelected;
+                    if(indexLast !== null){
+                        
+                        if(index > indexLast){
+                            for(var i=indexLast; i<index; i++){
+                                namebrowser.points[i].select();
+                            }
+                        }
+
+                        if(index < indexLast){
+                            for(var i=indexLast; i>index; i--){
+                                namebrowser.points[i].select();
+                            }
+                        }
+
+                    }
+                }
+
+                namebrowser.lastSelected = index;
+                point.select();
+
             }
 
-            namebrowser.lastSelected = index;
-            point.select();
         });
 
     }
@@ -315,6 +350,18 @@ Racmacs.BrowserRecord = class BrowserRecord {
 
     deselect(){
         this.div.classList.remove("selected");
+    }
+
+    fade(){
+        if(!this.point.coords_na){
+            this.name_box.classList.add("na-coords");
+        }
+    }
+
+    unfade(){
+        if(!this.point.coords_na){
+            this.name_box.classList.remove("na-coords");
+        }
     }
 
     updateColor(){

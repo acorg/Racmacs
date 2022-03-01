@@ -242,6 +242,14 @@ Racmacs.ColorPanel = class ColorPanel {
             false
         );
 
+        this.groupbtn = this.addButton(
+            "Group",
+            function(){
+                viewer.colorPointsByGroup();
+            },
+            false
+        );
+
         this.seqbtn = this.addButton(
             "Sequence",
             e => {
@@ -301,6 +309,13 @@ Racmacs.ColorPanel = class ColorPanel {
     }
     hideColorBySequence(){
         this.seqbtn.div.style.display = "none";
+    }
+
+    showColorByGroup(){
+        this.groupbtn.div.style.display = "";
+    }
+    hideColorByGroup(){
+        this.groupbtn.div.style.display = "none";
     }
 
 }

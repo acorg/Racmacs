@@ -1,13 +1,16 @@
 pandoc: 2.7.3
-pkgdown: 1.6.1
+pkgdown: 2.0.2
 pkgdown_sha: ~
 articles:
   adding-sequences: adding-sequences.html
+  assessing_map_uncertainty: assessing_map_uncertainty.html
   comparing-maps: comparing-maps.html
   intro-to-antigenic-cartography: intro-to-antigenic-cartography.html
   making-a-map-from-scratch: making-a-map-from-scratch.html
   map-diagnostics: map-diagnostics.html
   merging-maps: merging-maps.html
-  testing-maps: testing-maps.html
-last_built: 2021-10-25T08:43Z
+last_built: 2022-03-01T10:39Z
+urls:
+  reference: https://acorg.github.io/Racmacs/reference
+  article: https://acorg.github.io/Racmacs/articles
 

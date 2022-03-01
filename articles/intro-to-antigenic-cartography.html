@@ -20,13 +20,15 @@
 <script src="../pkgdown.js"></script><link href="../extra.css" rel="stylesheet">
 <meta property="og:title" content="An introduction to antigenic cartography">
 <meta property="og:description" content="Racmacs">
-<meta property="og:image" content="/logo.png">
+<meta property="og:image" content="https://acorg.github.io/Racmacs/logo.png">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]-->
 </head>
 <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-article">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -39,7 +41,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">Racmacs</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.18</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.1.27</span>
       </span>
     </div>
 
@@ -63,7 +65,7 @@
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
-  <a href="https://github.com/acorg/Racmacs/">
+  <a href="https://github.com/acorg/Racmacs/" class="external-link">
     <span class="fab fa-github fa-lg"></span>
      
   </a>
@@ -84,7 +86,7 @@
       <h1 data-toc-skip>An introduction to antigenic cartography</h1>
             
       
-      <small class="dont-index">Source: <a href="https://github.com/acorg/Racmacs/blob/master/vignettes/intro-to-antigenic-cartography.Rmd"><code>vignettes/intro-to-antigenic-cartography.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/acorg/Racmacs/blob/HEAD/vignettes/intro-to-antigenic-cartography.Rmd" class="external-link"><code>vignettes/intro-to-antigenic-cartography.Rmd</code></a></small>
       <div class="hidden name"><code>intro-to-antigenic-cartography.Rmd</code></div>
 
     </div>
@@ -118,13 +120,13 @@ blockquote {
 }
 
 </style>
-<div id="introduction" class="section level2">
-<h2 class="hasAnchor">
-<a href="#introduction" class="anchor"></a>Introduction</h2>
+<div class="section level2">
+<h2 id="introduction">Introduction<a class="anchor" aria-label="anchor" href="#introduction"></a>
+</h2>
 <p>Here we aim to give a brief introduction to antigenic cartography, the steps taken to convert a table of titer data to an antigenic map, the potential advantages of doing so, and the potential drawbacks.</p>
-<div id="what-is-an-antigenic-map" class="section level3">
-<h3 class="hasAnchor">
-<a href="#what-is-an-antigenic-map" class="anchor"></a>What is an antigenic map?</h3>
+<div class="section level3">
+<h3 id="what-is-an-antigenic-map">What is an antigenic map?<a class="anchor" aria-label="anchor" href="#what-is-an-antigenic-map"></a>
+</h3>
 <p>Firstly, an antigenic map takes titration data that measures strength of reactivity of a group of antisera (sera where an immunologically naive animal has been infected with a single antigen) against a group of antigens (usually simply different pathogen strains).</p>
 <p>The classic example for which cartography was developed was tables of HI titers measuring ferret antiserum reactivity against different influenza strains, but the same approach has also been used for other assays such as the FRA or HINT assays, and other pathogens, such as dengue.</p>
 <p>In the actual map itself, different antigens are typically represented as solid circles with straight-line distances between them representative of antigenic similarity, hence antigenically similar strains should appear close to each other on the map, while antigenically distinct strains should appear further apart.</p>
@@ -134,9 +136,9 @@ blockquote {
 <p>It even becomes obvious where the virus has done something a little different, as in the case of the SI87, BE89, BE92, WU95 cluster conformation, where for some reason the antigenic variation appears to have departed from its more linear course, creating clusters of strains and sera with more complex patterns of shared reactivity.</p>
 <p>We will go into interpreting antigenic maps in more detail later on, including the role and interpretation of serum positions (the open squares in the map above), but hopefully this gives an essence for starters. Not all data is well described by an antigenic map and not all types of antigenic analyses or scientific questions are well suited to it, but used in the right context and as an adjunct to other analyses it can give a powerful visualization of underlying patterns in titration data that might not otherwise be obvious.</p>
 </div>
-<div id="what-are-the-advantages" class="section level3">
-<h3 class="hasAnchor">
-<a href="#what-are-the-advantages" class="anchor"></a>What are the advantages?</h3>
+<div class="section level3">
+<h3 id="what-are-the-advantages">What are the advantages?<a class="anchor" aria-label="anchor" href="#what-are-the-advantages"></a>
+</h3>
 <p><strong>Ease of interpretation</strong><br>
 With the data visualised like this, basic interpretation of large-scale patterns becomes trivial.</p>
 <p><strong>Accuracy</strong><br>
@@ -148,9 +150,9 @@ Antigenic similarity between strains can be quantified, allowing us to explore h
 <p><strong>Predictions</strong><br>
 Expected reactivity and immunity can be predicted based on antigenic position.</p>
 </div>
-<div id="what-are-the-drawbacks" class="section level3">
-<h3 class="hasAnchor">
-<a href="#what-are-the-drawbacks" class="anchor"></a>What are the drawbacks?</h3>
+<div class="section level3">
+<h3 id="what-are-the-drawbacks">What are the drawbacks?<a class="anchor" aria-label="anchor" href="#what-are-the-drawbacks"></a>
+</h3>
 <p>Antigenic maps shouldn’t be relied on alone to interpret titer data, in general you will still require a good understanding of your data and further investigation and understanding of the root of any patterns seen. Alongside development of the method itself, we continue to develop our own methods of map “diagnostics” to check that the data is being well represented, which we will try to continue to share and document, but in general some things to be aware of include:</p>
 <p><strong>Oversimplification</strong><br>
 The flip-side of the simplified view of antigenic relations that maps provide is the potential for oversimplification. Where patterns in the data do not fit relationships in a euclidean space, nuances or even otherwise clear patterns in the data can be obscured.</p>
@@ -162,9 +164,9 @@ Depending on how much data goes into making a map it can be more or less vulnera
 Again, especially with little data, you may see patterns of antigenic difference suggested in the map but how strongly these differences are supported by the data can vary, sometimes hinging on reactivity seen in a single antigen or serum or even titer. We continue to develop methods like “noisy bootstrapping” of the maps to help better understand the level of uncertainty in such cases.</p>
 </div>
 </div>
-<div id="from-an-assay-to-a-map" class="section level2">
-<h2 class="hasAnchor">
-<a href="#from-an-assay-to-a-map" class="anchor"></a>From an assay to a map</h2>
+<div class="section level2">
+<h2 id="from-an-assay-to-a-map">From an assay to a map<a class="anchor" aria-label="anchor" href="#from-an-assay-to-a-map"></a>
+</h2>
 <p>In general the process of getting from an assay to a map can be summarised as in the figure below:</p>
 <ol style="list-style-type: decimal">
 <li>Start with a titer table</li>
@@ -172,9 +174,9 @@ Again, especially with little data, you may see patterns of antigenic difference
 <li>Take the resulting distance matrix and applying multi-dimensional scaling to create an n-dimensional (often 2-dimensional) representation of antigen and serum positions on a map.</li>
 </ol>
 <p><br><img src="figures/intro_fig1.png" alt="A table to a map"></p>
-<div id="converting-a-titer-table-to-a-distance-table" class="section level3">
-<h3 class="hasAnchor">
-<a href="#converting-a-titer-table-to-a-distance-table" class="anchor"></a>Converting a titer table to a distance table</h3>
+<div class="section level3">
+<h3 id="converting-a-titer-table-to-a-distance-table">Converting a titer table to a distance table<a class="anchor" aria-label="anchor" href="#converting-a-titer-table-to-a-distance-table"></a>
+</h3>
 <p><strong>Log titer conversion</strong><br>
 The first step is converting titers onto the log scale, via the transformation below. Other transformations could be used but error in the HI assay varies approximately normally on the log scale, as do differences in response magnitude between ferrets so there is some justification for this.</p>
 <div class="figure">
@@ -198,10 +200,10 @@ At some point in the development of antigenic cartography it became obvious that
 </div>
 <p>You can probably tell that this is not a pretty way to account for this potential issue, happily in most cases - even if exactly homologous antigens are missing - there are enough antigenically similar viruses that this sort of compensation is not needed and the maximum measured titer is a good representation of what the theoretical “max-response” for that ferret is, but it’s something to be aware of and it’s worth considering if this sort of thing may be an issue in your data.</p>
 </div>
-<div id="converting-a-distance-table-to-a-map" class="section level3">
-<h3 class="hasAnchor">
-<a href="#converting-a-distance-table-to-a-map" class="anchor"></a>Converting a distance table to a map</h3>
-<p>Now we have a distance table we have to convert this to some n-dimensional representation. This process is not uncommon, indeed it is <a href="https://en.wikipedia.org/wiki/Multidimensional_scaling">multi-dimensional scaling</a> (MDS).</p>
+<div class="section level3">
+<h3 id="converting-a-distance-table-to-a-map">Converting a distance table to a map<a class="anchor" aria-label="anchor" href="#converting-a-distance-table-to-a-map"></a>
+</h3>
+<p>Now we have a distance table we have to convert this to some n-dimensional representation. This process is not uncommon, indeed it is <a href="https://en.wikipedia.org/wiki/Multidimensional_scaling" class="external-link">multi-dimensional scaling</a> (MDS).</p>
 <p>What is more uncommon is that we will inevitably have multiple missing values in the distance table since what may seem like a full distance table at first is actually at best only half since we have no measure of antigen-antigen or serum-serum distances, as illustrated below.</p>
 <div class="figure">
 <img src="figures/intro_fig5.png" alt=""><p class="caption">Comparing to a full distance table</p>
@@ -210,7 +212,7 @@ At some point in the development of antigenic cartography it became obvious that
 <p>The steps of this optimisation process are very simple:</p>
 <ol style="list-style-type: decimal">
 <li>Start with antigens and serum in random positions in n-dimensional space<a href="#fn3" class="footnote-ref" id="fnref3"><sup>3</sup></a>.</li>
-<li>“relax” the map from these starting conditions using an optimization routine, by default <a href="https://ensmallen.org/docs.html#l-bfgs">L-BFGS</a>.</li>
+<li>“relax” the map from these starting conditions using an optimization routine, by default <a href="https://ensmallen.org/docs.html#l-bfgs" class="external-link">L-BFGS</a>.</li>
 </ol>
 <p>The optimiser aims to optimise the sum of the squared differences between the table distances (those from the original conversion of titer to distance table) and the map distances (straight-line distance between points in the n-dimensional space), as illustrated below.</p>
 <p><img src="figures/intro_fig6.png" alt="Comparing map and table distances"> More specifically, each serum-antigen pair has an associated stress calculated as:</p>
@@ -230,17 +232,17 @@ One option in the optimiser is whether to apply dimensional annealing or not. Di
 </ol>
 <p>By first relaxing points in a higher dimensional space, dimensional annealing theoretically prevents points from becoming trapped so easily in local optima in a lower number of dimensions. However we have found that while it is more efficient when doing low numbers of optimization runs, it can also tend to reduce the parameter space that is effectively explored and can actually prevent finding more optimal solutions in some cases. Possibly this is because the higher dimensional optimisation step homogenises different starting conditions too much. For this reason it is not used by default, but can be turned on to see if this improves solutions.</p>
 </div>
-<div id="checking-the-optimization-process" class="section level3">
-<h3 class="hasAnchor">
-<a href="#checking-the-optimization-process" class="anchor"></a>Checking the optimization process</h3>
+<div class="section level3">
+<h3 id="checking-the-optimization-process">Checking the optimization process<a class="anchor" aria-label="anchor" href="#checking-the-optimization-process"></a>
+</h3>
 <p>Depending on how many points your map has, it may be more or less difficult to find an optimal solution to the MDS problem of most closely representing a distance table as points in n-dimensional space. For more complex maps it may require more optimization runs from the random starting conditions to have a good chance of finding a more optimal solution.</p>
 <p>Of course we will never know if the optimal solution has been found but an important check is whether multiple optimization runs have found similar or the same lowest stress solutions. An ideal situation is that you have done enough runs such that the lowest stress runs are all ending up with similar solutions. If all the lowest stress maps from your optimization runs look quite different it suggests that by doing more optimization runs you may be able to find better solutions.</p>
 <p>If you are getting very different maps out every time you run <code><a href="../reference/optimizeMap.html">optimizeMap()</a></code>, the problem is probably that you aren’t doing enough optimization runs each time to consistently be chancing upon what is hopefully ultimately just one lowest-stress solution each time.</p>
 </div>
 </div>
-<div id="judging-your-map" class="section level2">
-<h2 class="hasAnchor">
-<a href="#judging-your-map" class="anchor"></a>Judging your map</h2>
+<div class="section level2">
+<h2 id="judging-your-map">Judging your map<a class="anchor" aria-label="anchor" href="#judging-your-map"></a>
+</h2>
 <p>After having done the above you will end up with a map of antigens and sera but you will still need to judge whether it usefully represents the data. This is a big topic and work is ongoing to expand the documentation and code to describe and make more available some of the heuristics we typically employ.</p>
 </div>
 <div class="footnotes">
@@ -267,11 +269,13 @@ One option in the optimiser is whether to apply dimensional annealing or not. Di
 
 
       <footer><div class="copyright">
-  <p>Developed by Sam Wilks.</p>
+  <p></p>
+<p>Developed by Sam Wilks.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
+  <p></p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
 </div>
 
       </footer>
@@ -279,6 +283,8 @@ One option in the optimiser is whether to apply dimensional annealing or not. Di
 
   
 
+
+  
 
   </body>
 </html>

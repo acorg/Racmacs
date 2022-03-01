@@ -100,6 +100,7 @@ R3JS.Shaders.VertexShader3D = `
 	varying float pOutlineWidth;
 	varying float pSize;
 	varying float pAspect;
+	varying float pRotation;
 	varying float pScale;
 	varying float pShape;
 	varying float pPixelRatio;

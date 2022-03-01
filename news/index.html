@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">Racmacs</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.1.27</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.1.28</span>
       </span>
     </div>
 
@@ -198,6 +198,15 @@
 <li>Fix issue showing individual bootstrap points in 3D</li>
 <li>Add option <code>show_group_legend</code> to <code><a href="../reference/view.html">view()</a></code> to show interactive legend based on <code><a href="../reference/agGroups.html">agGroups()</a></code> and <code><a href="../reference/srGroups.html">srGroups()</a></code> point groupings</li>
 <li>Add ability in viewer to filter and color antigens and sera by group</li>
+</ul></div>
+    <div class="section level2">
+<h2 class="page-header" data-toc-text="1.1.28" id="racmacs-1128">Racmacs 1.1.28<a class="anchor" aria-label="anchor" href="#racmacs-1128"></a></h2>
+<ul><li>
+<code><a href="../reference/pointStress.html">agStress()</a></code> and <code><a href="../reference/pointStress.html">srStress()</a></code> fixed to work with NA coordinates</li>
+<li>Correct error when calculating <code><a href="../reference/pointStress.html">agStressPerTiter()</a></code> and <code><a href="../reference/pointStress.html">srStressPerTiter()</a></code> with missing titers.</li>
+<li>Antigen/Sera sequence and date information now write to json fields in line with acmacs-web.</li>
+<li>Add attribute getters and setters <code><a href="../reference/ptAnnotations.html">agAnnotations()</a></code>, <code><a href="../reference/ptAnnotations.html">srAnnotations()</a></code>, <code><a href="../reference/agLabIDs.html">agLabIDs()</a></code>
+</li>
 </ul></div>
   </div>
 

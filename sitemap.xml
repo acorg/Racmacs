@@ -79,6 +79,9 @@
     <loc>https://acorg.github.io/Racmacs/reference/agGroups.html</loc>
   </url>
   <url>
+    <loc>https://acorg.github.io/Racmacs/reference/agLabIDs.html</loc>
+  </url>
+  <url>
     <loc>https://acorg.github.io/Racmacs/reference/agReactivityAdjustments.html</loc>
   </url>
   <url>
@@ -239,6 +242,9 @@
   </url>
   <url>
     <loc>https://acorg.github.io/Racmacs/reference/procrustesMap.html</loc>
+  </url>
+  <url>
+    <loc>https://acorg.github.io/Racmacs/reference/ptAnnotations.html</loc>
   </url>
   <url>
     <loc>https://acorg.github.io/Racmacs/reference/ptBaseCoords.html</loc>

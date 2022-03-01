@@ -76,10 +76,11 @@ std::string acmap_to_json(
     Value srval(kObjectType);
 
     srval.AddMember("N", jsonifya(sr.get_name(), allocator), allocator);
-    if (!sr.isdefault("passage")) srval.AddMember("P", jsonifya(sr.get_passage(), allocator), allocator);
-    if (!sr.isdefault("clade"))   srval.AddMember("c", jsonifya(sr.get_clade(), allocator), allocator);
+    if (!sr.isdefault("passage"))  srval.AddMember("P", jsonifya(sr.get_passage(), allocator), allocator);
+    if (!sr.isdefault("clade"))    srval.AddMember("c", jsonifya(sr.get_clade(), allocator), allocator);
     if (!sr.isdefault("sequence")) srval.AddMember("A", jsonifya(sr.get_sequence(), allocator), allocator);
     if (!sr.isdefault("date"))     srval.AddMember("D", jsonifya(sr.get_date(), allocator), allocator);
+    if (!sr.isdefault("id"))       srval.AddMember("I", jsonifya(sr.get_id(), allocator), allocator);
     // set_group_values
     // set_reference
     // set_name_full
@@ -247,10 +248,6 @@ std::string acmap_to_json(
     if (sr_grouping_included) {
       sr_extras = true;
       srx.AddMember("g", map.sera[i].get_group(), allocator);
-    }
-    if (!map.sera[i].isdefault("id")) {
-      sr_extras = true;
-      srx.AddMember("i", jsonifya(map.sera[i].get_id(), allocator), allocator);
     }
     if (!map.sera[i].isdefault("extra")) {
       sr_extras = true;

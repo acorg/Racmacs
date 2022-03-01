@@ -91,13 +91,9 @@ AcMap json_to_acmap(
     if(ag.HasMember("c")) map.antigens[i].set_clade( parse<std::vector<std::string>>(ag["c"]) );
     if(ag.HasMember("A")) map.antigens[i].set_sequence( ag["A"].GetString() );
     if(ag.HasMember("D")) map.antigens[i].set_date( ag["D"].GetString() );
-    // set_group_values
     // set_reference
     // set_name_full
     // set_name_abbreviated
-    // set_id
-    // set_group
-    // set_sequence
 
   }
 
@@ -112,13 +108,10 @@ AcMap json_to_acmap(
     if(sr.HasMember("c")) map.sera[i].set_clade( parse<std::vector<std::string>>(sr["c"]) );
     if(sr.HasMember("A")) map.sera[i].set_sequence( sr["A"].GetString() );
     if(sr.HasMember("D")) map.sera[i].set_date( sr["D"].GetString() );
-    // set_group_values
+    if(sr.HasMember("I")) map.sera[i].set_id( sr["I"].GetString() );
     // set_reference
     // set_name_full
     // set_name_abbreviated
-    // set_id
-    // set_group
-    // set_sequence
 
   }
 
@@ -271,7 +264,7 @@ AcMap json_to_acmap(
       for(SizeType i=0; i<xa.Size(); i++){
         const Value& xai = xa[i];
         if(xai.HasMember("g")) map.antigens[i].set_group( xai["g"].GetInt() );
-        if(xai.HasMember("q")) map.antigens[i].set_sequence( xai["q"].GetString() );
+        if(xai.HasMember("q")) map.antigens[i].set_sequence( xai["q"].GetString() ); // For backwards compatibility
         if(xai.HasMember("i")) map.antigens[i].set_id( xai["i"].GetString() );
         if(xai.HasMember("x")) map.antigens[i].set_extra( xai["x"].GetString() );
       }
@@ -283,8 +276,8 @@ AcMap json_to_acmap(
       for(SizeType i=0; i<xs.Size(); i++){
         const Value& xsi = xs[i];
         if(xsi.HasMember("g")) map.sera[i].set_group( xsi["g"].GetInt() );
-        if(xsi.HasMember("q")) map.sera[i].set_sequence( xsi["q"].GetString() );
-        if(xsi.HasMember("i")) map.sera[i].set_id( xsi["i"].GetString() );
+        if(xsi.HasMember("q")) map.sera[i].set_sequence( xsi["q"].GetString() ); // For backwards compatibility
+        if(xsi.HasMember("i")) map.sera[i].set_id( xsi["i"].GetString() ); // For backwards compatibility
         if(xsi.HasMember("x")) map.sera[i].set_extra( xsi["x"].GetString() );
       }
     }

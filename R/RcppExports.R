@@ -81,6 +81,14 @@ ac_ag_get_clade <- function(ag) {
     .Call('_Racmacs_ac_ag_get_clade', PACKAGE = 'Racmacs', ag)
 }
 
+ac_ag_get_annotations <- function(ag) {
+    .Call('_Racmacs_ac_ag_get_annotations', PACKAGE = 'Racmacs', ag)
+}
+
+ac_ag_get_labids <- function(ag) {
+    .Call('_Racmacs_ac_ag_get_labids', PACKAGE = 'Racmacs', ag)
+}
+
 ac_ag_get_name <- function(ag) {
     .Call('_Racmacs_ac_ag_get_name', PACKAGE = 'Racmacs', ag)
 }
@@ -127,6 +135,14 @@ ac_ag_set_passage <- function(ag, value) {
 
 ac_ag_set_clade <- function(ag, value) {
     .Call('_Racmacs_ac_ag_set_clade', PACKAGE = 'Racmacs', ag, value)
+}
+
+ac_ag_set_annotations <- function(ag, value) {
+    .Call('_Racmacs_ac_ag_set_annotations', PACKAGE = 'Racmacs', ag, value)
+}
+
+ac_ag_set_labids <- function(ag, value) {
+    .Call('_Racmacs_ac_ag_set_labids', PACKAGE = 'Racmacs', ag, value)
 }
 
 ac_ag_set_name <- function(ag, value) {
@@ -333,6 +349,10 @@ ac_sr_get_clade <- function(sr) {
     .Call('_Racmacs_ac_sr_get_clade', PACKAGE = 'Racmacs', sr)
 }
 
+ac_sr_get_annotations <- function(sr) {
+    .Call('_Racmacs_ac_sr_get_annotations', PACKAGE = 'Racmacs', sr)
+}
+
 ac_sr_get_name <- function(sr) {
     .Call('_Racmacs_ac_sr_get_name', PACKAGE = 'Racmacs', sr)
 }
@@ -379,6 +399,10 @@ ac_sr_set_passage <- function(sr, value) {
 
 ac_sr_set_clade <- function(sr, value) {
     .Call('_Racmacs_ac_sr_set_clade', PACKAGE = 'Racmacs', sr, value)
+}
+
+ac_sr_set_annotations <- function(sr, value) {
+    .Call('_Racmacs_ac_sr_set_annotations', PACKAGE = 'Racmacs', sr, value)
 }
 
 ac_sr_set_name <- function(sr, value) {

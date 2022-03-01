@@ -219,6 +219,98 @@ srClades <- function(map) {
 }
 
 
+#' Getting and setting point annotation information
+#'
+#' @param map The acmap data object
+#' @param value A list of character vectors with annotations information for each
+#'   point
+#'
+#' @name ptAnnotations
+#' @family {antigen and sera attribute functions}
+#'
+
+#' @rdname ptAnnotations
+#' @export
+agAnnotations <- function(map) {
+  check.acmap(map)
+  lapply(map$antigens, function(ag) {
+    ac_ag_get_annotations(ag)
+  })
+}
+
+#' @rdname ptAnnotations
+#' @export
+srAnnotations <- function(map) {
+  check.acmap(map)
+  lapply(map$sera, function(sr) {
+    ac_sr_get_annotations(sr)
+  })
+}
+
+#' @rdname ptAnnotations
+#' @export
+`agAnnotations<-` <- function(map, value) {
+  check.acmap(map)
+  if (!is.list(value)) {
+    stop("Input must be a list of character vectors")
+  }
+  if (length(value) != numAntigens(map)) {
+    stop("Number of sequences does not match number of antigens")
+  }
+  for (x in seq_len(numAntigens(map))) {
+    map$antigens[[x]] <- ac_ag_set_annotations(map$antigens[[x]], value[[x]])
+  }
+  map
+}
+
+#' @rdname ptAnnotations
+#' @export
+`srAnnotations<-` <- function(map, value) {
+  check.acmap(map)
+  if (!is.list(value)) {
+    stop("Input must be a list of character vectors")
+  }
+  if (length(value) != numSera(map)) {
+    stop("Number of sequences does not match number of sera")
+  }
+  for (x in seq_len(numSera(map))) {
+    map$sera[[x]] <- ac_sr_set_annotations(map$sera[[x]], value[[x]])
+  }
+  map
+}
 
 
+#' Getting and setting antigen lab id information
+#'
+#' @param map The acmap data object
+#' @param value A list of character vectors with lab ids information for each
+#'   point
+#'
+#' @name agLabIDs
+#' @family {antigen and sera attribute functions}
+#'
 
+#' @rdname agLabIDs
+#' @export
+agLabIDs <- function(map) {
+  check.acmap(map)
+  lapply(map$antigens, function(ag) {
+    ac_ag_get_labids(ag)
+  })
+}
+
+#' @rdname agLabIDs
+#' @export
+`agLabIDs<-` <- function(map, value) {
+  check.acmap(map)
+  if (!is.list(value)) {
+    stop("Input must be a list of character vectors")
+  }
+  if (length(value) != numAntigens(map)) {
+    stop("Number of sequences does not match number of antigens")
+  }
+  for (x in seq_len(numAntigens(map))) {
+    map$antigens[[x]] <- ac_ag_set_labids(map$antigens[[x]], value[[x]])
+  }
+  map
+}

@@ -124,3 +124,4 @@
 * `agStress()` and `srStress()` fixed to work with NA coordinates
 * Correct error when calculating `agStressPerTiter()` and `srStressPerTiter()` with missing titers.
 * Antigen/Sera sequence and date information now write to json fields in line with acmacs-web.
+* Add attribute getters and setters `agAnnotations()`, `srAnnotations()`, `agLabIDs()`

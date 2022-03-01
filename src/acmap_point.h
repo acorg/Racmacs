@@ -24,6 +24,8 @@ class AcPoint {
     std::string sequence;
     std::string passage;
     std::vector<std::string> clade;
+    std::vector<std::string> annotations;
+    std::vector<std::string> labids;
 
   public:
 
@@ -43,6 +45,8 @@ class AcPoint {
     int get_group() const { return group; }
     std::string get_sequence() const { return sequence; }
     std::vector<std::string> get_clade() const { return clade; }
+    std::vector<std::string> get_annotations() const { return annotations; }
+    std::vector<std::string> get_labids() const { return labids; }
 
     void set_type( std::string value ){ type = value; }
     void set_name( std::string value ){ name = value; }
@@ -56,6 +60,8 @@ class AcPoint {
     void set_group( int value ){ group = value; }
     void set_sequence( std::string value ){ sequence = value; }
     void set_clade( std::vector<std::string> value ){ clade = value; }
+    void set_annotations( std::vector<std::string> value ){ annotations = value; }
+    void set_labids( std::vector<std::string> value ){ labids = value; }
 
     // Get IDs for matching
     std::string get_match_id() const {
@@ -73,7 +79,10 @@ class AcPoint {
         return(passage == "");
       } else if (attribute == "clade") {
         return(clade.size() == 0);
-        return(passage == "");
+      } else if (attribute == "annotations") {
+        return(annotations.size() == 0);
+      } else if (attribute == "labids") {
+        return(labids.size() == 0);
       } else if (attribute == "group") {
         return(group == 0);
       } else if (attribute == "sequence") {

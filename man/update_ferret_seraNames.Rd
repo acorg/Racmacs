@@ -19,3 +19,4 @@ Returns the updated map data object
 \description{
 Update the ferret serum names to match antigens
 }
+\keyword{internal}

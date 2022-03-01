@@ -43,6 +43,7 @@ sera_setter <- function(fn) {
 #' @eval roxygen_tags(
 #'   methods = c(
 #'   "srNames", "srNames<-",
+#'   "srExtra", "srExtra<-",
 #'   "srIDs",   "srIDs<-",
 #'   "srDates", "srDates<-",
 #'   "srNamesFull",
@@ -59,6 +60,7 @@ srReference         <- sera_getter(ac_sr_get_reference)
 srNames             <- sera_getter(ac_sr_get_name)
 srNamesFull         <- sera_getter(ac_sr_get_name_full)
 srNamesAbbreviated  <- sera_getter(ac_sr_get_name_abbreviated)
+srExtra             <- sera_getter(ac_sr_get_extra)
 srPassage           <- sera_getter(ac_sr_get_passage)
 srGroupValues       <- sera_getter(ac_sr_get_group)
 srMatchIDs          <- sera_getter(ac_sr_get_match_id) # Not exported
@@ -69,6 +71,7 @@ srMatchIDs          <- sera_getter(ac_sr_get_match_id) # Not exported
 `srNames<-`             <- sera_setter(ac_sr_set_name)
 `srNamesFull<-`         <- sera_setter(ac_sr_set_name_full)
 `srNamesAbbreviated<-`  <- sera_setter(ac_sr_set_name_abbreviated)
+`srExtra<-`             <- sera_setter(ac_sr_set_extra)
 `srPassage<-`           <- sera_setter(ac_sr_set_passage)
 `srGroupValues<-`       <- sera_setter(ac_sr_set_group)
 

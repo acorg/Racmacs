@@ -82,6 +82,10 @@ procrustesMap <- function(
   check.optnum(map, optimization_number)
   check.optnum(comparison_map, comparison_optimization_number)
 
+  # Check for duplicate names
+  if (sum(duplicated(agMatchIDs(map))) > 0 || sum(duplicated(agMatchIDs(comparison_map))) > 0) stop("Duplicate antigen names/IDs found.", call. = F)
+  if (sum(duplicated(srMatchIDs(map))) > 0 || sum(duplicated(srMatchIDs(comparison_map))) > 0) stop("Duplicate sera names/IDs found.", call. = F)
+
   # Get selected antigen and sera indices
   antigens_included <- rep(FALSE, numAntigens(map))
   sera_included <- rep(FALSE, numSera(map))
@@ -135,6 +139,10 @@ procrustesMap <- function(
 #'   calculation (other optimization runs are discarded)
 #' @param comparison_optimization_number The optimization run int the comparison
 #'   map to compare against
+#' @param antigens Antigens to include (specified by name or index or TRUE/FALSE
+#'   for all/none)
+#' @param sera Sera to include (specified by name or index or TRUE/FALSE for
+#'   all/none)
 #' @param translation Should translation be allowed
 #' @param scaling Should scaling be allowed (generally not recommended unless
 #'   comparing maps made with different assays)
@@ -152,6 +160,8 @@ procrustesData <- function(
   comparison_map,
   optimization_number = 1,
   comparison_optimization_number = 1,
+  antigens    = TRUE,
+  sera        = TRUE,
   translation = TRUE,
   scaling     = FALSE
   ) {
@@ -162,6 +172,8 @@ procrustesData <- function(
     comparison_map = comparison_map,
     optimization_number = optimization_number,
     comparison_optimization_number = comparison_optimization_number,
+    antigens    = antigens,
+    sera        = sera,
     translation = translation,
     scaling = scaling
   )
@@ -215,6 +227,9 @@ realignOptimizations <- function(
 # This is a function to add a grid to a map indicating the original 2d plane,
 # when comparing a 2d map to a 3d map with procrustes
 add_procrustes_grid <- function(map) {
+
+  # Check r3js package installed
+  package_required("r3js")
 
   # # Get the comparator coordinates
   # comp_coords <- rbind(

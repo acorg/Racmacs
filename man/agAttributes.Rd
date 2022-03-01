@@ -5,6 +5,8 @@
 \alias{agIDs}
 \alias{agNames}
 \alias{agNames<-}
+\alias{agExtra}
+\alias{agExtra<-}
 \alias{agIDs<-}
 \alias{agDates}
 \alias{agDates<-}
@@ -16,6 +18,8 @@
 \usage{
 agNames(map)
 agNames(map) <- value
+agExtra(map)
+agExtra(map) <- value
 agIDs(map)
 agIDs(map) <- value
 agDates(map)
@@ -31,9 +35,9 @@ agPassage(map)
 \item{value}{New value to set}
 }
 \value{
-Returns either the requested attribute when using a getter function or the updated acmap object
+Returns either the requested attribute when using a getter function or
 
-when using the setter function.
+the updated acmap object when using the setter function.
 }
 \description{
 These functions get and set the antigen attributes for a map.

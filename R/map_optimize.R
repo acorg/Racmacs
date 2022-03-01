@@ -12,12 +12,11 @@
 #' @param minimum_column_basis The minimum column basis to use (see details)
 #' @param fixed_column_bases A vector of fixed values to use as column bases
 #'   directly, rather than calculating them from the titer table.
-#' @param ag_reactivity_adjustments A vector of antigen reactivity adjustments to
-#'   apply to each antigen. Corresponding antigen titers will be adjusted by these
-#'   amounts when calculating column bases and table distances.
 #' @param titer_weights An optional matrix of weights to assign each titer when optimizing
 #' @param sort_optimizations Should optimizations be sorted by stress
 #'   afterwards?
+#' @param check_convergence Should a basic check for convergence of lowest stress
+#'   optimization runs onto a similar solution be performed.
 #' @param verbose Should progress messages be reported, see also
 #'   `RacOptimizer.options()`
 #' @param options List of named optimizer options, see `RacOptimizer.options()`
@@ -51,9 +50,9 @@ optimizeMap <- function(
   number_of_optimizations,
   minimum_column_basis = "none",
   fixed_column_bases = NULL,
-  ag_reactivity_adjustments = NULL,
   titer_weights = NULL,
   sort_optimizations = TRUE,
+  check_convergence = TRUE,
   verbose  = TRUE,
   options = list()
   ) {
@@ -61,7 +60,6 @@ optimizeMap <- function(
   # Set default arguments
   if (is.null(fixed_column_bases)) fixed_column_bases <- rep(NA, numSera(map))
   if (is.null(titer_weights)) titer_weights <- matrix(1, numAntigens(map), numSera(map))
-  if (is.null(ag_reactivity_adjustments)) ag_reactivity_adjustments <- rep(0, numAntigens(map))
 
   # Warn about overwriting previous optimizations
   if (numOptimizations(map) > 0) {
@@ -81,7 +79,7 @@ optimizeMap <- function(
     num_optimizations = number_of_optimizations,
     min_col_basis = minimum_column_basis,
     fixed_col_bases = fixed_column_bases,
-    ag_reactivity_adjustments = ag_reactivity_adjustments,
+    ag_reactivity_adjustments = agReactivityAdjustments(map),
     titer_weights = titer_weights,
     options = options
   )
@@ -122,6 +120,25 @@ optimizeMap <- function(
     "\n"
   )
 
+  # Check procrustes of the top 2 runs to see if there is much difference between them
+  if (check_convergence && numOptimizations(map) > 1) {
+
+    procrustes_dists <- c(
+      procrustesData(map, map, comparison_optimization_number = 2)$ag_dists,
+      procrustesData(map, map, comparison_optimization_number = 2)$sr_dists
+    )
+
+    if (max(procrustes_dists, na.rm = T) > 0.5) {
+      warning(sprintf(
+        singleline("There is some variation (%s AU for one point) in the top runs,
+                   this may be an indication that more optimization runs could help
+                   achieve a better optimum. Also consider running it with
+                   options = list(dim_annealing = TRUE).")
+      , round(max(procrustes_dists, na.rm = T), 2)))
+    }
+
+  }
+
   # Return the optimised map
   map
 
@@ -144,6 +161,8 @@ optimizeMap <- function(
 #'   directly, rather than calculating them from the titer table.
 #' @param sort_optimizations Should optimizations be sorted by stress
 #'   afterwards?
+#' @param check_convergence Should a basic check for convergence of lowest stress
+#'   optimization runs onto a similar solution be performed.
 #' @param verbose Should progress messages be reported, see also
 #'   `RacOptimizer.options()`
 #' @param options List of named optimizer options, see `RacOptimizer.options()`
@@ -163,6 +182,7 @@ make.acmap <- function(
   minimum_column_basis    = "none",
   fixed_column_bases      = NULL,
   sort_optimizations      = TRUE,
+  check_convergence       = TRUE,
   verbose                 = TRUE,
   options                 = list(),
   ...
@@ -187,6 +207,7 @@ make.acmap <- function(
     minimum_column_basis = minimum_column_basis,
     fixed_column_bases = fixed_column_bases,
     sort_optimizations = sort_optimizations,
+    check_convergence = check_convergence,
     verbose = verbose,
     options = options
   )

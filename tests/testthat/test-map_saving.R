@@ -4,6 +4,63 @@ library(testthat)
 context("Saving map data")
 
 test_that(
+  "Floating point precision errors", {
+
+    # Skip on windows (for some reason this test is failing there)
+    skip_on_os("windows")
+
+    # Create a first map and save it
+    h3map <- read.acmap(test_path("../testdata/h3map2004.ace"))
+    titertable <- titerTable(h3map)
+
+    set.seed(10)
+    map1optim <- make.acmap(
+      titer_table = titertable,
+      number_of_dimensions = 2,
+      number_of_optimizations = 10,
+      minimum_column_basis = "none",
+      check_convergence = FALSE
+    )
+
+    map1save <- tempfile(fileext = ".ace")
+    save.acmap(map1optim, map1save)
+
+    # Create a second map and save it
+    set.seed(10)
+    map2optim <- make.acmap(
+      titer_table = titertable,
+      number_of_dimensions = 2,
+      number_of_optimizations = 10,
+      minimum_column_basis = "none",
+      check_convergence = FALSE
+    )
+
+    map2save <- tempfile(fileext = ".ace")
+    save.acmap(map2optim, map2save)
+
+    # Reload map 1 and save it again
+    map1save1 <- tempfile(fileext = ".ace")
+    save.acmap(read.acmap(map1save), map1save1)
+
+    # Do another save and reload
+    map1save2 <- tempfile(fileext = ".ace")
+    save.acmap(read.acmap(map1save1), map1save2)
+
+    # Check for correspondence
+    map1save_lines <- readLines(map1save, warn = F)
+    map2save_lines <- readLines(map2save, warn = F)
+    map1save1_lines <- readLines(map1save1, warn = F)
+    map1save2_lines <- readLines(map1save2, warn = F)
+
+    expect_equal(map1save_lines, map2save_lines)
+    expect_equal(ptCoords(map1optim), ptCoords(map2optim))
+    expect_equal(map1save_lines, map1save1_lines)
+    expect_equal(map1save1_lines, map1save2_lines)
+
+  }
+)
+
+test_that(
   "Saving a map", {
 
     save_file <- test_path("../testdata/testmap.ace")

@@ -3,6 +3,7 @@
 ^doc$
 ^Meta$
 ^_pkgdown\.yml$
+^src/.clang-format$
 ^docs$
 ^pkgdown$
 ^LICENSE\.md$
@@ -11,3 +12,4 @@
 ^\.github$
 ^\.lintr$
 ^tests/testoutput$
+^builds$

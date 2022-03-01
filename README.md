@@ -1,6 +1,5 @@
 
 <!-- badges: start -->
-[![Lifecycle:maturing](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/#maturing)
 [![R-CMD-check](https://github.com/acorg/Racmacs/workflows/R-CMD-check/badge.svg)](https://github.com/acorg/Racmacs/actions)
 <!-- badges: end -->
 
@@ -65,4 +64,6 @@ SHLIB_OPENMP_FFLAGS=-fopenmp
 ```
 
 Now when you try and install and build the package from source things should be setup to use g++, with support for OpenMP parallization now included.
+
+Finally, to check whether your version of Racmacs has been compiled to work in parallel or not you can run the command `Racmacs:::parallel_mode()`, which should return `TRUE`. It's not a problem if it returns `FALSE`, optimization code just won't run in parallel so will take a bit longer.
 

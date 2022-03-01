@@ -99,23 +99,19 @@ plot.acmap <- function(
 
   # Plot grid
   for (n in seq(from = xlim[1], to = xlim[2], by = 1)) {
-    if (n == xlim[1] | n == xlim[2]) col <- grid.margin.col
-    else                            col <- grid.col
     graphics::lines(
       x = c(n, n),
       y = ylim,
-      col = col,
+      col = grid.col,
       xpd = TRUE
     )
   }
 
   for (n in seq(from = ylim[1], to = ylim[2], by = 1)) {
-    if (n == ylim[1] | n == ylim[2]) col <- grid.margin.col
-    else                             col <- grid.col
     graphics::lines(
       x = xlim,
       y = c(n, n),
-      col = col,
+      col = grid.col,
       xpd = TRUE
     )
   }
@@ -245,7 +241,8 @@ plot.acmap <- function(
           x = blob$x,
           y = blob$y,
           border = pts$outline[x],
-          col = pts$fill[x]
+          col = pts$fill[x],
+          lwd = pts$outline_width[x]
         )
       })
     })
@@ -400,6 +397,32 @@ plot.acmap <- function(
 
   }
 
+  # Mask around plot
+  width <- diff(range(xlim))
+  height <- diff(range(ylim))
+  graphics::rect(xlim[1] - width, ylim[1] - height, xlim[1], ylim[2] + height, col = "white", border = NA) # Left
+  graphics::rect(xlim[2], ylim[1] - height, xlim[2] + width, ylim[2] + height, col = "white", border = NA) # Right
+  graphics::rect(xlim[1] - width, ylim[1] - height, xlim[2] + width, ylim[1], col = "white", border = NA) # Bottom
+  graphics::rect(xlim[1] - width, ylim[2], xlim[2] + width, ylim[2] + height, col = "white", border = NA) # Top
+
+  # Plot border
+  grid_outline <- list(
+    c(xlim, rep(ylim[1], 2)),
+    c(xlim, rep(ylim[2], 2)),
+    c(rep(xlim[1], 2), ylim),
+    c(rep(xlim[2], 2), ylim)
+  )
+
+  for (coords in grid_outline) {
+    graphics::lines(
+      x = coords[1:2],
+      y = coords[3:4],
+      col = grid.margin.col,
+      xpd = TRUE
+    )
+  }
+
+
   ## Add the map stress
   if (plot_stress) {
     graphics::text(
@@ -546,6 +569,39 @@ plot_lims <- function(coords, padding = 1, round_even = TRUE) {
     padding    = padding,
     round_even = round_even
   )
+}
+
+
+#' Plot a blob object
+#'
+#' Plot a blob object such as that return from `agBootstrapBlob()` using the
+#' `polygon()` function.
+#'
+#' @param x The blob object to plot
+#' @param col Color for the blob fill
+#' @param border Color for the blob outline
+#' @param lwd Line width for the blob outline
+#' @param alpha Blob opacity
+#' @param ... Additional arguments to pass to `polygon()`
+#'
+#' @family {additional plotting functions}
+#' @export
+blob <- function(x, col, border, lwd, alpha, ...) {
+  if (!inherits(x, "blob")) stop("Must be an object of class 'blob'")
+  blobs <- x
+  if (missing(border)) border <- attr(blobs, "outline")
+  if (missing(col)) col <- attr(blobs, "fill")
+  if (missing(lwd)) lwd <- attr(blobs, "lwd")
+  lapply(blobs, function(blob) {
+    graphics::polygon(
+      x = blob$x,
+      y = blob$y,
+      border = grDevices::adjustcolor(border, alpha.f = alpha),
+      col = grDevices::adjustcolor(col, alpha.f = alpha),
+      lwd = lwd,
+      ...
+    )
+  })
 }
 
 

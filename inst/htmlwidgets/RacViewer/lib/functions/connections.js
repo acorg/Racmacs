@@ -62,6 +62,110 @@ R3JS.Viewer.prototype.eventListeners.push({
 	}
 });
 
+R3JS.Viewer.prototype.eventListeners.push({
+	name : "point-included",
+	fn : function(e){
+
+		let point  = e.detail.point;
+		let viewer = point.viewer;
+		
+		viewer.updateErrorLines();
+
+        if(viewer.connectionLinesShown){
+            viewer.hideConnectionLines();
+            viewer.showConnectionLines();
+        }
+        if(viewer.titersShown){
+            viewer.hideTiters();
+            viewer.showTiters();
+        }
+        if(viewer.labelsShown){
+            viewer.hideLabels();
+            viewer.showLabels();
+        }
+
+	}
+});
+
+R3JS.Viewer.prototype.eventListeners.push({
+	name : "point-excluded",
+	fn : function(e){
+		let point  = e.detail.point;
+		let viewer = point.viewer;
+		if(viewer.errorLinesShown){
+		    viewer.hideErrorLines();
+            viewer.showErrorLines();
+        }
+        if(viewer.connectionLinesShown){
+            viewer.hideConnectionLines();
+            viewer.showConnectionLines();
+        }
+        if(viewer.titersShown){
+            viewer.hideTiters();
+            viewer.showTiters();
+        }
+        if(viewer.labelsShown){
+            viewer.hideLabels();
+            viewer.showLabels();
+        }
+	}
+});
+
+
+R3JS.Viewer.prototype.eventListeners.push({
+	name : "points-randomized",
+	fn : function(e){
+		let viewer  = e.detail.viewer;
+		if(viewer.errorLinesShown){
+		    viewer.hideErrorLines();
+            viewer.showErrorLines();
+        }
+        if(viewer.connectionLinesShown){
+            viewer.hideConnectionLines();
+            viewer.showConnectionLines();
+        }
+        if(viewer.titersShown){
+            viewer.hideTiters();
+            viewer.showTiters();
+        }
+        if(viewer.labelsShown){
+            viewer.hideLabels();
+            viewer.showLabels();
+        }
+	}
+});
+
+
+R3JS.Viewer.prototype.eventListeners.push({
+	name : "titer-changed",
+	fn : function(e){
+		let viewer = e.detail.viewer;
+		if(viewer.errorLinesShown){
+		    viewer.hideErrorLines();
+            viewer.showErrorLines();
+        }
+        if(viewer.connectionLinesShown){
+            viewer.hideConnectionLines();
+            viewer.showConnectionLines();
+        }
+        if(viewer.titersShown){
+            viewer.hideTiters();
+            viewer.showTiters();
+        }
+	}
+});
+
+
+R3JS.Viewer.prototype.eventListeners.push({
+	name : "ag-reactivity-changed",
+	fn : function(e){
+		let viewer = e.detail.point.viewer;
+		if(viewer.errorLinesShown){
+		    viewer.hideErrorLines();
+            viewer.showErrorLines();
+        }
+	}
+});
 
 // CONNECTION LINES
 Racmacs.App.prototype.toggleConnectionLines = function(){
@@ -193,13 +297,19 @@ Racmacs.Point.prototype.getConnectionData = function(){
 // Update connection lines from a point object
 Racmacs.Point.prototype.updateConnectionLines = function(){
 
-	if(this.connectionLinesShown){
+	if (this.connectionLinesShown){
 
 		var connectiondata = this.getConnectionData();
 		if (this.viewer.getPlotDims() === 2) {
 			connectiondata.coords.map( x => x[2] = 0.01 );
 		}
 		this.connectionlines.setCoords(connectiondata.coords);
+
+	} else {
+
+		this.partners.map( p => {
+			if (p.connectionLinesShown) p.updateConnectionLines();
+		});
 
 	}
 
@@ -416,6 +526,12 @@ Racmacs.Point.prototype.updateErrorLines = function(){
 		this.errorlines.setCoords(data.coords);
 		this.errorlines.setColor(data.colors);
 
+	} else {
+
+		this.partners.map( p => {
+			if (p.errorLinesShown) p.updateErrorLines();
+		});
+
 	}
 
 }
@@ -552,7 +668,6 @@ Racmacs.Point.prototype.hideTiters = function(){
 		this.titersShown = false;
 		this.titerlabels.map( label => {
 			this.viewer.scene.remove(label.object);
-			this.removeLinkedTiterLabel(label);
 		});
 		this.titerlabels = null;
 

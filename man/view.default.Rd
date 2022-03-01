@@ -20,10 +20,10 @@ Other {functions to view maps}:
 \code{\link{RacViewer}()},
 \code{\link{export_viewer}()},
 \code{\link{grid.plot.acmap}()},
+\code{\link{mapGadget}()},
 \code{\link{plot.acmap}()},
 \code{\link{setLegend}()},
 \code{\link{snapshotMap}()},
-\code{\link{view.acmap}()},
 \code{\link{view}()}
 }
 \concept{{functions to view maps}}

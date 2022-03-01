@@ -27,6 +27,9 @@ test_map_subset <- function(map, ag_subset, sr_subset) {
   expect_equal(agNames(map_subset), agNames(map)[ag_subset])
   expect_equal(srNames(map_subset), srNames(map)[sr_subset])
 
+  # Reactivity adjustments
+  expect_equal(agReactivityAdjustments(map_subset), agReactivityAdjustments(map)[ag_subset])
+
   # Titer table
   expect_equal(titerTable(map_subset), titerTable(map)[ag_subset, sr_subset])
 

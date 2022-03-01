@@ -15,3 +15,15 @@ to take any antigen reactivity adjustments}
 \description{
 Return the log titer table plus any antigen reactivity adjustments.
 }
+\seealso{
+Other {map attribute functions}: 
+\code{\link{acmapAttributes}},
+\code{\link{adjustedTiterTable}()},
+\code{\link{dilutionStepsize}()},
+\code{\link{logtiterTableLayers}()},
+\code{\link{mapDescription}()},
+\code{\link{mapName}()},
+\code{\link{titerTableLayers}()},
+\code{\link{titerTable}()}
+}
+\concept{{map attribute functions}}

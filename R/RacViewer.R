@@ -6,6 +6,8 @@
 #' @param map The map data object
 #' @param plotdata r3js plot data
 #' @param show_procrustes should procrustes lines be shown
+#' @param show_group_legend Show an interactive legend detailing different
+#'   groups as set by `agGroups()` and `srGroups()`
 #' @param options A named list of viewer options supplied to
 #'   `racviewer.options()`
 #' @param width Width of the widget
@@ -20,6 +22,7 @@ RacViewer <- function(
   map,
   plotdata  = NULL,
   show_procrustes = FALSE,
+  show_group_legend = FALSE,
   options   = list(),
   width     = NULL,
   height    = NULL,
@@ -32,6 +35,7 @@ RacViewer <- function(
 
   # Parse options
   options <- do.call(RacViewer.options, options)
+  options$show_group_legend <- show_group_legend
 
   # Add a rotating grid to the plotdata if specified
   if (options$grid.display == "rotate") {
@@ -43,7 +47,7 @@ RacViewer <- function(
     mapData  = mapdata,
     plotdata = jsonlite::toJSON(map$plot),
     options  = jsonlite::toJSON(
-      do.call(RacViewer.options, options),
+      options,
       auto_unbox = TRUE,
       null = 'null'
     )
@@ -78,6 +82,8 @@ RacViewer <- function(
 #' @param env The environment in which to evaluate \code{expr}.
 #' @param quoted Is \code{expr} a quoted expression (with \code{quote()})? This
 #'   is useful if you want to save an expression in a variable.
+#'
+#' @family {shiny app functions}
 #'
 #' @name RacViewer-shiny
 #' @export

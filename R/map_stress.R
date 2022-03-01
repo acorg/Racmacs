@@ -28,7 +28,7 @@ tableDistances <- function(
     titer_table = titerTable(map),
     min_col_basis = minColBasis(map, optimization_number),
     fixed_col_bases = fixedColBases(map, optimization_number),
-    ag_reactivity_adjustments = agReactivityAdjustments(map, optimization_number)
+    ag_reactivity_adjustments = agReactivityAdjustments(map)
   )
   numeric_dists[titertypesTable(map) == -1]  <- "."
   numeric_dists[titertypesTable(map) == 0]  <- "*"
@@ -139,11 +139,14 @@ mapDistances <- function(
 #'
 logtiterTable <- function(map) {
 
-  matrix(
+  logtiters <- matrix(
     log_titers(titerTable(map), dilutionStepsize(map)),
     numAntigens(map),
     numSera(map)
   )
+  rownames(logtiters) <- agNames(map)
+  colnames(logtiters) <- srNames(map)
+  logtiters
 
 }
 
@@ -178,7 +181,7 @@ stressTable <- function(
     titer_table = titerTable(map),
     min_colbasis = minColBasis(map, optimization_number),
     fixed_colbases = fixedColBases(map, optimization_number),
-    ag_reactivity_adjustments = agReactivityAdjustments(map, optimization_number),
+    ag_reactivity_adjustments = agReactivityAdjustments(map),
     map_dists = mapDistances(map, optimization_number),
     dilution_stepsize = dilutionStepsize(map)
   )
@@ -219,7 +222,7 @@ mapResiduals <- function(
     titer_table = titerTable(map),
     min_colbasis = minColBasis(map, optimization_number),
     fixed_colbases = fixedColBases(map, optimization_number),
-    ag_reactivity_adjustments = agReactivityAdjustments(map, optimization_number),
+    ag_reactivity_adjustments = agReactivityAdjustments(map),
     map_dists = mapDistances(map, optimization_number),
     dilution_stepsize = dilutionStepsize(map)
   )
@@ -260,7 +263,7 @@ recalculateStress <- function(
     titers = titerTable(map),
     min_colbasis = minColBasis(map, optimization_number),
     fixed_colbases = fixedColBases(map, optimization_number),
-    ag_reactivity_adjustments = agReactivityAdjustments(map, optimization_number),
+    ag_reactivity_adjustments = agReactivityAdjustments(map),
     ag_coords = agBaseCoords(map, optimization_number),
     sr_coords = srBaseCoords(map, optimization_number),
     dilutionStepsize(map)

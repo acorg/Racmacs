@@ -6,7 +6,7 @@ library(testthat)
 context("Test map transformations")
 
 # Setup an expect close function
-expect_close <- function(a, b) expect_equal(round(a, 2), round(b, 2))
+expect_close <- function(a, b) expect_equal(unname(round(a, 2)), unname(round(b, 2)))
 
 # Fetch test charts
 map <- read.acmap(test_path("../testdata/testmap.ace"))

@@ -23,16 +23,19 @@
 #' @return Returns a named list of viewer options
 #' @export
 #'
-RacViewer.options <- function(point.opacity = NA,
-                              viewer.controls = "hidden",
-                              grid.display = "static",
-                              grid.col = "#cfcfcf",
-                              show.names = FALSE,
-                              show.errorlines = FALSE,
-                              show.connectionlines = FALSE,
-                              show.titers = FALSE,
-                              xlim = NULL,
-                              ylim = NULL) {
+RacViewer.options <- function(
+  point.opacity = NA,
+  viewer.controls = "hidden",
+  grid.display = "static",
+  grid.col = "#cfcfcf",
+  show.names = FALSE,
+  show.errorlines = FALSE,
+  show.connectionlines = FALSE,
+  show.titers = FALSE,
+  xlim = NULL,
+  ylim = NULL
+  ) {
+
   # Check input
   check.string(viewer.controls)
   check.string(grid.display)
@@ -52,6 +55,7 @@ RacViewer.options <- function(point.opacity = NA,
     xlim = xlim,
     ylim = ylim
   )
+
 }
 
 

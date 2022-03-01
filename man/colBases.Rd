@@ -6,16 +6,12 @@
 \alias{minColBasis<-}
 \alias{fixedColBases}
 \alias{fixedColBases<-}
-\alias{agReactivityAdjustments}
-\alias{agReactivityAdjustments<-}
 \title{Getting and setting column bases}
 \usage{
 minColBasis(map, optimization_number = 1)
 minColBasis(map, optimization_number = 1) <- value
 fixedColBases(map, optimization_number = 1)
 fixedColBases(map, optimization_number = 1) <- value
-agReactivityAdjustments(map, optimization_number = 1)
-agReactivityAdjustments(map, optimization_number = 1) <- value
 }
 \arguments{
 \item{map}{The acmap data object}
@@ -25,9 +21,9 @@ agReactivityAdjustments(map, optimization_number = 1) <- value
 \item{value}{New value to set}
 }
 \value{
-Returns either the requested attribute when using a getter function or the updated acmap object
+Returns either the requested attribute when using a getter function or
 
-when using the setter function.
+the updated acmap object when using the setter function.
 }
 \description{
 Functions to get and set column bases specified for an optimization run,

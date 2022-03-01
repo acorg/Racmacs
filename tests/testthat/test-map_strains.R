@@ -126,4 +126,34 @@ test_that("Getting and setting clades", {
 
 })
 
+# Getting and setting other attributes
+test_that("Getting and setting other attributes", {
+
+  # Read in the test map
+  map <- read.acmap(filename = test_path("../testdata/testmap.ace"))
+
+  # Test defaults
+  expect_equal(agExtra(map), rep("", numAntigens(map)))
+  expect_equal(srExtra(map), rep("", numSera(map)))
+
+  # Test editing
+  ag_extras <- paste("AG EXTRA", seq_len(numAntigens(map)))
+  sr_extras <- paste("SR EXTRA", seq_len(numSera(map)))
+  agExtra(map) <- ag_extras
+  srExtra(map) <- sr_extras
+
+  # Check changed values
+  expect_equal(agExtra(map), ag_extras)
+  expect_equal(srExtra(map), sr_extras)
+
+  # Check saving and reloading
+  tmp <- tempfile(fileext = ".ace")
+  save.acmap(map, tmp)
+
+  loaded_map <- read.acmap(tmp)
+  expect_equal(agExtra(loaded_map), ag_extras)
+  expect_equal(srExtra(loaded_map), sr_extras)
+
+})
+
 

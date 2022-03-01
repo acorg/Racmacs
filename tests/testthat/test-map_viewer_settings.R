@@ -88,3 +88,19 @@ test_that("Toggle names", {
 
 })
 
+
+test_that("Group legend", {
+
+  map <- read.acmap(test_path("../testdata/testmap_h3subset.ace"))
+  agGroups(map) <- factor(agFill(map))
+  srGroups(map) <- factor(srOutline(map))
+  export.viewer.test(
+    view(
+      map,
+      show_group_legend = TRUE
+    ),
+    "map_group_legend.html"
+  )
+
+})
+

@@ -69,6 +69,23 @@ mergeMaps <- function(
   if (!is.list(maps)) stop("Input must be a list of acmap objects", call. = FALSE)
   lapply(maps, check.acmap)
 
+  # Check for duplicate ids before merging
+  duplicated_ags <- unique(unlist(lapply(maps, function(map) agMatchIDs(map)[duplicated(agMatchIDs(map))])))
+  duplicated_srs <- unique(unlist(lapply(maps, function(map) srMatchIDs(map)[duplicated(srMatchIDs(map))])))
+  if (length(duplicated_ags) > 0) {
+    stop(strain_list_error("Cannot merge, at least one of the maps has the following duplicated antigen ids:", duplicated_ags))
+  }
+  if (length(duplicated_srs) > 0) {
+    stop(strain_list_error("Cannot merge, at least one of the maps has the following duplicated serum ids:", duplicated_srs))
+  }
+
+  # If list has names apply them as map names
+  if (!is.null(names(maps))) {
+    for (n in seq_along(maps)) {
+      mapName(maps[[n]]) <- names(maps)[n]
+    }
+  }
+
   # Set options for any relaxation or optimizations
   optimizer_options <- do.call(RacOptimizer.options, optimizer_options)
   merge_options <- do.call(RacMerge.options, merge_options)
@@ -77,7 +94,7 @@ mergeMaps <- function(
   merge_options$dilution_stepsize <- mean(vapply(maps, dilutionStepsize, numeric(1)))
 
   # Apply the relevant merge method
-  switch(
+  merged_map <- switch(
     method,
     # Table merge
     `table` = {
@@ -134,6 +151,41 @@ mergeMaps <- function(
     stop(sprintf("Merge type '%s' not recognised", method), call. = FALSE)
   )
 
+  # Merge the groups
+  ag_ids    <- unlist(lapply(maps, agMatchIDs))
+  ag_groups <- unlist(lapply(maps, function(map) {
+    if (is.null(agGroups(map))) rep("", numAntigens(map))
+    else                        as.character(agGroups(map))
+  }))
+
+  sr_ids    <- unlist(lapply(maps, srMatchIDs))
+  sr_groups <- unlist(lapply(maps, function(map) {
+    if (is.null(srGroups(map))) rep("", numSera(map))
+    else                        as.character(srGroups(map))
+  }))
+
+  merged_map_ag_groups <- ag_groups[match(agMatchIDs(merged_map), ag_ids)]
+  merged_map_sr_groups <- sr_groups[match(srMatchIDs(merged_map), sr_ids)]
+
+  if (sum(merged_map_ag_groups != "") > 0) {
+    agGroups(merged_map) <- factor(merged_map_ag_groups, unique(merged_map_ag_groups))
+  }
+  if (sum(merged_map_sr_groups != "") > 0) {
+    srGroups(merged_map) <- factor(merged_map_sr_groups, unique(merged_map_sr_groups))
+  }
+
+  # Deal with dilution stepsizes
+  dilution_stepsizes <- vapply(maps, dilutionStepsize, numeric(1))
+  if (length(unique(dilution_stepsizes)) == 1) {
+    dilutionStepsize(merged_map) <- unique(dilution_stepsizes)
+  } else {
+    dilutionStepsize(merged_map) <- 1
+    warning("Merged maps have different 'dilutionStepSize()' settings, a default of 1 has been assigned.")
+  }
+
+  # Return the map
+  merged_map
+
 }
 
 
@@ -172,7 +224,29 @@ RacMerge.options <- function(
 
 
 
+#' Split a map made up from titer layers into a list of separate maps each with a titer table
+#' corresponding to one of the layers
+#'
+#' @param map An acmap object with titer table layers
+#'
+#' @family {map merging functions}
+#'
+splitTiterLayers <- function(
+  map
+  ) {
 
+  maps <- lapply(
+    titerTableLayers(map), function(titertable) {
+      splitmap <- map
+      titerTable(splitmap) <- titertable
+      splitmap
+    }
+  )
+
+  names(maps) <- layerNames(map)
+  maps
+
+}
 
 
 

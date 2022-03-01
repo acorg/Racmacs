@@ -286,6 +286,16 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// ac_ag_get_extra
+std::string ac_ag_get_extra(const AcAntigen& ag);
+RcppExport SEXP _Racmacs_ac_ag_get_extra(SEXP agSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::traits::input_parameter< const AcAntigen& >::type ag(agSEXP);
+    rcpp_result_gen = Rcpp::wrap(ac_ag_get_extra(ag));
+    return rcpp_result_gen;
+END_RCPP
+}
 // ac_ag_get_match_id
 std::string ac_ag_get_match_id(const AcAntigen& ag);
 RcppExport SEXP _Racmacs_ac_ag_get_match_id(SEXP agSEXP) {
@@ -401,6 +411,17 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< AcAntigen >::type ag(agSEXP);
     Rcpp::traits::input_parameter< std::string >::type value(valueSEXP);
     rcpp_result_gen = Rcpp::wrap(ac_ag_set_name_abbreviated(ag, value));
+    return rcpp_result_gen;
+END_RCPP
+}
+// ac_ag_set_extra
+AcAntigen ac_ag_set_extra(AcAntigen ag, std::string value);
+RcppExport SEXP _Racmacs_ac_ag_set_extra(SEXP agSEXP, SEXP valueSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::traits::input_parameter< AcAntigen >::type ag(agSEXP);
+    Rcpp::traits::input_parameter< std::string >::type value(valueSEXP);
+    rcpp_result_gen = Rcpp::wrap(ac_ag_set_extra(ag, value));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -928,6 +949,16 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// ac_sr_get_extra
+std::string ac_sr_get_extra(const AcSerum& sr);
+RcppExport SEXP _Racmacs_ac_sr_get_extra(SEXP srSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::traits::input_parameter< const AcSerum& >::type sr(srSEXP);
+    rcpp_result_gen = Rcpp::wrap(ac_sr_get_extra(sr));
+    return rcpp_result_gen;
+END_RCPP
+}
 // ac_sr_get_match_id
 std::string ac_sr_get_match_id(const AcSerum& sr);
 RcppExport SEXP _Racmacs_ac_sr_get_match_id(SEXP srSEXP) {
@@ -1043,6 +1074,17 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< AcSerum >::type sr(srSEXP);
     Rcpp::traits::input_parameter< std::string >::type value(valueSEXP);
     rcpp_result_gen = Rcpp::wrap(ac_sr_set_name_abbreviated(sr, value));
+    return rcpp_result_gen;
+END_RCPP
+}
+// ac_sr_set_extra
+AcSerum ac_sr_set_extra(AcSerum sr, std::string value);
+RcppExport SEXP _Racmacs_ac_sr_set_extra(SEXP srSEXP, SEXP valueSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::traits::input_parameter< AcSerum >::type sr(srSEXP);
+    Rcpp::traits::input_parameter< std::string >::type value(valueSEXP);
+    rcpp_result_gen = Rcpp::wrap(ac_sr_set_extra(sr, value));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -1572,6 +1614,20 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// interp2d
+arma::vec interp2d(arma::mat x, arma::vec gpoints1, arma::vec gpoints2, arma::mat f);
+RcppExport SEXP _Racmacs_interp2d(SEXP xSEXP, SEXP gpoints1SEXP, SEXP gpoints2SEXP, SEXP fSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< arma::mat >::type x(xSEXP);
+    Rcpp::traits::input_parameter< arma::vec >::type gpoints1(gpoints1SEXP);
+    Rcpp::traits::input_parameter< arma::vec >::type gpoints2(gpoints2SEXP);
+    Rcpp::traits::input_parameter< arma::mat >::type f(fSEXP);
+    rcpp_result_gen = Rcpp::wrap(interp2d(x, gpoints1, gpoints2, f));
+    return rcpp_result_gen;
+END_RCPP
+}
 
 static const R_CallMethodDef CallEntries[] = {
     {"_Racmacs_ac_ag_names", (DL_FUNC) &_Racmacs_ac_ag_names, 1},
@@ -1597,6 +1653,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_Racmacs_ac_ag_get_name", (DL_FUNC) &_Racmacs_ac_ag_get_name, 1},
     {"_Racmacs_ac_ag_get_name_full", (DL_FUNC) &_Racmacs_ac_ag_get_name_full, 1},
     {"_Racmacs_ac_ag_get_name_abbreviated", (DL_FUNC) &_Racmacs_ac_ag_get_name_abbreviated, 1},
+    {"_Racmacs_ac_ag_get_extra", (DL_FUNC) &_Racmacs_ac_ag_get_extra, 1},
     {"_Racmacs_ac_ag_get_match_id", (DL_FUNC) &_Racmacs_ac_ag_get_match_id, 1},
     {"_Racmacs_ac_ag_get_group", (DL_FUNC) &_Racmacs_ac_ag_get_group, 1},
     {"_Racmacs_ac_ag_get_group_levels", (DL_FUNC) &_Racmacs_ac_ag_get_group_levels, 1},
@@ -1608,6 +1665,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_Racmacs_ac_ag_set_name", (DL_FUNC) &_Racmacs_ac_ag_set_name, 2},
     {"_Racmacs_ac_ag_set_name_full", (DL_FUNC) &_Racmacs_ac_ag_set_name_full, 2},
     {"_Racmacs_ac_ag_set_name_abbreviated", (DL_FUNC) &_Racmacs_ac_ag_set_name_abbreviated, 2},
+    {"_Racmacs_ac_ag_set_extra", (DL_FUNC) &_Racmacs_ac_ag_set_extra, 2},
     {"_Racmacs_ac_ag_set_group", (DL_FUNC) &_Racmacs_ac_ag_set_group, 2},
     {"_Racmacs_ac_ag_set_group_levels", (DL_FUNC) &_Racmacs_ac_ag_set_group_levels, 2},
     {"_Racmacs_ac_opt_get_ag_base_coords", (DL_FUNC) &_Racmacs_ac_opt_get_ag_base_coords, 1},
@@ -1658,6 +1716,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_Racmacs_ac_sr_get_name", (DL_FUNC) &_Racmacs_ac_sr_get_name, 1},
     {"_Racmacs_ac_sr_get_name_full", (DL_FUNC) &_Racmacs_ac_sr_get_name_full, 1},
     {"_Racmacs_ac_sr_get_name_abbreviated", (DL_FUNC) &_Racmacs_ac_sr_get_name_abbreviated, 1},
+    {"_Racmacs_ac_sr_get_extra", (DL_FUNC) &_Racmacs_ac_sr_get_extra, 1},
     {"_Racmacs_ac_sr_get_match_id", (DL_FUNC) &_Racmacs_ac_sr_get_match_id, 1},
     {"_Racmacs_ac_sr_get_group", (DL_FUNC) &_Racmacs_ac_sr_get_group, 1},
     {"_Racmacs_ac_sr_get_group_levels", (DL_FUNC) &_Racmacs_ac_sr_get_group_levels, 1},
@@ -1669,6 +1728,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_Racmacs_ac_sr_set_name", (DL_FUNC) &_Racmacs_ac_sr_set_name, 2},
     {"_Racmacs_ac_sr_set_name_full", (DL_FUNC) &_Racmacs_ac_sr_set_name_full, 2},
     {"_Racmacs_ac_sr_set_name_abbreviated", (DL_FUNC) &_Racmacs_ac_sr_set_name_abbreviated, 2},
+    {"_Racmacs_ac_sr_set_extra", (DL_FUNC) &_Racmacs_ac_sr_set_extra, 2},
     {"_Racmacs_ac_sr_set_group", (DL_FUNC) &_Racmacs_ac_sr_set_group, 2},
     {"_Racmacs_ac_sr_set_group_levels", (DL_FUNC) &_Racmacs_ac_sr_set_group_levels, 2},
     {"_Racmacs_ac_bootstrap_map", (DL_FUNC) &_Racmacs_ac_bootstrap_map, 13},
@@ -1706,6 +1766,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_Racmacs_ac_coord_dists", (DL_FUNC) &_Racmacs_ac_coord_dists, 2},
     {"_Racmacs_parallel_mode", (DL_FUNC) &_Racmacs_parallel_mode, 0},
     {"_Racmacs_ac_coordDistMatrix", (DL_FUNC) &_Racmacs_ac_coordDistMatrix, 2},
+    {"_Racmacs_interp2d", (DL_FUNC) &_Racmacs_interp2d, 4},
     {NULL, NULL, 0}
 };
 

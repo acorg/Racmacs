@@ -1,3 +1,4 @@
+
 // #in// #include <cstdio>
 #include <string.h>
 #include <RcppArmadillo.h>
@@ -41,9 +42,7 @@ std::string acmap_to_json(
   int num_points = num_antigens + num_sera;
 
   // == INFO ============================
-  Value name;
-  name.SetString( StringRef(map.name.c_str()), allocator );
-  i.AddMember("N", name, allocator);
+  i.AddMember("N", jsonifya(map.name, allocator), allocator);
 
   // == ANTIGENS ========================
   Value a(kArrayType);
@@ -233,6 +232,10 @@ std::string acmap_to_json(
       ag_extras = true;
       agx.AddMember("i", jsonifya(map.antigens[i].get_id(), allocator), allocator);
     }
+    if (!map.antigens[i].isdefault("extra")) {
+      ag_extras = true;
+      agx.AddMember("x", jsonifya(map.antigens[i].get_extra(), allocator), allocator);
+    }
     xa.PushBack(agx, allocator);
   }
   if (ag_extras) x.AddMember("a", xa, allocator);
@@ -254,6 +257,10 @@ std::string acmap_to_json(
     if (!map.sera[i].isdefault("id")) {
       sr_extras = true;
       srx.AddMember("i", jsonifya(map.sera[i].get_id(), allocator), allocator);
+    }
+    if (!map.sera[i].isdefault("extra")) {
+      sr_extras = true;
+      srx.AddMember("x", jsonifya(map.sera[i].get_extra(), allocator), allocator);
     }
     xs.PushBack(srx, allocator);
   }
@@ -351,7 +358,10 @@ std::string acmap_to_json(
   // = OTHER =
   if (!map.isdefault("ag_group_levels"))   x.AddMember("agv", jsonifya(map.get_ag_group_levels(), allocator), allocator);
   if (!map.isdefault("sr_group_levels"))   x.AddMember("srv", jsonifya(map.get_sr_group_levels(), allocator), allocator);
+  if (!map.isdefault("layer_names"))       x.AddMember("ln",  jsonifya(map.get_layer_names(), allocator), allocator);
   if (!map.isdefault("dilution_stepsize")) x.AddMember("ds",  map.dilution_stepsize, allocator);
+  if (!map.isdefault("description"))       x.AddMember("D",   jsonifya(map.description, allocator), allocator);
+  if (!map.isdefault("ag_reactivity"))     x.AddMember("r",   jsonifya(map.get_ag_reactivity_adjustments(), allocator), allocator);
 
   // == FINISH UP ===============================
   // Assemble the json map data and add it
@@ -371,22 +381,29 @@ std::string acmap_to_json(
   // Setup the writer
   if (pretty) {
 
-    PrettyWriter<StringBuffer> writer(buffer);
+    // PrettyWriter<StringBuffer> writer(buffer);
+    PrettyWriter<
+      StringBuffer, // Output Stream
+      UTF8<>,       // Source Encoding
+      UTF8<>,       // Target Encoding
+      CrtAllocator,
+      kParseFullPrecisionFlag
+    > writer(buffer);
     writer.SetMaxDecimalPlaces(6);
     success = doc.Accept(writer);
 
   } else {
 
-    Writer<StringBuffer> writer(buffer);
+    // Writer<StringBuffer> writer(buffer);
+    Writer<
+      StringBuffer, // Output Stream
+      UTF8<>,       // Source Encoding
+      UTF8<>,       // Target Encoding
+      CrtAllocator,
+      kParseFullPrecisionFlag
+      > writer(buffer);
     writer.SetMaxDecimalPlaces(6);
     success = doc.Accept(writer);
-    // Writer<
-    //   StringBuffer, // Output Stream
-    //   UTF8<>,       // Source Encoding
-    //   UTF8<>,       // Target Encoding
-    //   CrtAllocator,
-    //   kWriteNanAndInfFlag
-    //   > writer(buffer);
 
   }
 

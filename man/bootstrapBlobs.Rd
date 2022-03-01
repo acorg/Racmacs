@@ -4,7 +4,13 @@
 \alias{bootstrapBlobs}
 \title{Calculate bootstrap blob data for an antigenic map}
 \usage{
-bootstrapBlobs(map, conf.level = 0.68, smoothing = 6, gridspacing = 0.25)
+bootstrapBlobs(
+  map,
+  conf.level = 0.68,
+  smoothing = 6,
+  gridspacing = 0.25,
+  method = "ks"
+)
 }
 \arguments{
 \item{map}{The acmap data object}
@@ -17,6 +23,9 @@ kernel density estimate, larger equates to more smoothing}
 \item{gridspacing}{grid spacing to use when calculating blobs, smaller values
 will produce more accurate blobs with smoother edges but will take longer
 to calculate.}
+
+\item{method}{One of "MASS", the default, or "ks", specifying the algorithm to
+use when calculating blobs in 2D. 3D will always use ks::kde.}
 }
 \value{
 Returns an acmap object that will then show the corresponding bootstrap
@@ -43,6 +52,9 @@ Other {map diagnostic functions}:
 \code{\link{map-table-distances}},
 \code{\link{mapBootstrapCoords}},
 \code{\link{mapRelaxed}()},
+\code{\link{ptBootstrapBlob}},
+\code{\link{ptBootstrapCoords}()},
+\code{\link{ptLeverage}},
 \code{\link{ptTriangulationBlobsize}},
 \code{\link{triangulationBlobs}()}
 }

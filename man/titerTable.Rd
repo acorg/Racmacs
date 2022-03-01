@@ -39,11 +39,15 @@ allow you to manipulate the flat version without effecting the titer table
 layers information.
 }
 \seealso{
-adjustedTiterTable
+\code{\link[=adjustedTiterTable]{adjustedTiterTable()}}, \code{\link[=htmlTiterTable]{htmlTiterTable()}}
 
 Other {map attribute functions}: 
 \code{\link{acmapAttributes}},
+\code{\link{adjustedLogTiterTable}()},
+\code{\link{adjustedTiterTable}()},
 \code{\link{dilutionStepsize}()},
+\code{\link{logtiterTableLayers}()},
+\code{\link{mapDescription}()},
 \code{\link{mapName}()},
 \code{\link{titerTableLayers}()}
 }

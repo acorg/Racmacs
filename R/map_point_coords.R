@@ -41,7 +41,9 @@ agCoords <- function(map, optimization_number = 1) {
   check.acmap(map)
   optimization <- map$optimizations[[optimization_number]]
   if (is.null(optimization)) stop("optimization run not found")
-  ac_get_ag_coords(optimization)
+  coords <- ac_get_ag_coords(optimization)
+  rownames(coords) <- agNames(map)
+  coords
 }
 
 # Get the serum coordinates
@@ -51,7 +53,9 @@ srCoords <- function(map, optimization_number = 1) {
   check.acmap(map)
   optimization <- map$optimizations[[optimization_number]]
   if (is.null(optimization)) stop("optimization run not found")
-  ac_get_sr_coords(optimization)
+  coords <- ac_get_sr_coords(optimization)
+  rownames(coords) <- srNames(map)
+  coords
 }
 
 # Get the antigen and serum coordinates

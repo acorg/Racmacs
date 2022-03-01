@@ -14,9 +14,9 @@ mapName(map) <- value
 \item{value}{New value to set}
 }
 \value{
-Returns either the requested attribute when using a getter function or the updated acmap object
+Returns either the requested attribute when using a getter function or
 
-when using the setter function.
+the updated acmap object when using the setter function.
 }
 \description{
 Getting and setting the map name
@@ -24,7 +24,11 @@ Getting and setting the map name
 \seealso{
 Other {map attribute functions}: 
 \code{\link{acmapAttributes}},
+\code{\link{adjustedLogTiterTable}()},
+\code{\link{adjustedTiterTable}()},
 \code{\link{dilutionStepsize}()},
+\code{\link{logtiterTableLayers}()},
+\code{\link{mapDescription}()},
 \code{\link{titerTableLayers}()},
 \code{\link{titerTable}()}
 }

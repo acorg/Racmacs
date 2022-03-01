@@ -4,6 +4,9 @@ library(testthat)
 context("Test procrustes methods")
 set.seed(100)
 
+# Check MCMCpack installed
+package_required("MCMCpack")
+
 # Setup rotation and translation matrices
 rot_mat <- matrix(
   data = c(cos(0.24), sin(0.24), -sin(0.24), cos(0.24)),
@@ -140,6 +143,19 @@ test_that("Procrustes a map to itself", {
   expect_equal(pc1$total_rmsd, 0)
   # expect_equal(pc1$pc_coords$ag, unname(ag_coords1))
   # expect_equal(pc1$pc_coords$sr, unname(sr_coords1))
+
+})
+
+
+test_that("Procrustes a map to with duplicate antigen or sera names", {
+
+  map1a <- map1
+  agNames(map1a)[2] <- agNames(map1a)[1]
+  expect_error(procrustesMap(map1, map1a))
+
+  map1a <- map1
+  srNames(map1a)[2] <- srNames(map1a)[1]
+  expect_error(procrustesMap(map1, map1a))
 
 })
 

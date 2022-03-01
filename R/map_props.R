@@ -19,6 +19,26 @@ mapName <- function(map) {
   map
 }
 
+#' Getting and setting the map description
+#'
+#' @name mapDescription
+#' @family {map attribute functions}
+#' @eval roxygen_tags(
+#'   methods = c("mapDescription", "mapDescription<-"),
+#'   args    = c("map")
+#' )
+#'
+mapDescription <- function(map) {
+  check.acmap(map)
+  map$description
+}
+
+`mapDescription<-` <- function(map, value) {
+  check.acmap(map)
+  map$description <- value
+  map
+}
+
 #' Getting and setting map titers
 #'
 #' Functions to get and set the map titer table. Note that when setting the
@@ -31,7 +51,7 @@ mapName <- function(map) {
 #'
 #' @name titerTable
 #' @family {map attribute functions}
-#' @seealso adjustedTiterTable
+#' @seealso [adjustedTiterTable()], [htmlTiterTable()]
 #'
 
 #' @export
@@ -90,6 +110,7 @@ titerTableFlat <- function(map) {
 #' @rdname titerTable
 `titerTableFlat<-` <- function(map, value) {
   check.acmap(map)
+  check.dimensions(value, map)
   if (is.data.frame(value)) value <- as.matrix(value)
   check.validtiters(value)
   mode(value)          <- "character"
@@ -120,7 +141,9 @@ titerTableFlat <- function(map) {
 #'
 titerTableLayers <- function(map) {
   check.acmap(map)
-  map$titer_table_layers
+  table_layers <- map$titer_table_layers
+  names(table_layers) <- layerNames(map)
+  table_layers
 }
 
 #' @rdname titerTableLayers
@@ -134,6 +157,7 @@ titerTableLayers <- function(map) {
 
   # Update layers
   value <- lapply(value, function(titers) {
+    check.dimensions(titers, map)
     if (is.data.frame(titers)) titers <- as.matrix(titers)
     mode(titers) <- "character"
     check.validtiters(titers)
@@ -150,6 +174,49 @@ titerTableLayers <- function(map) {
 
   # Return the updated map
   map
+
+}
+
+
+#' Return a list of titertypes tables
+#'
+#' @param map An acmap data object
+#'
+#' @noRd
+titertypesTableLayers <- function(map) {
+
+  lapply(
+    titerTableLayers(map),
+    function(titertable) {
+      matrix(
+        titer_types_int(titertable),
+        numAntigens(map),
+        numSera(map)
+      )
+    }
+  )
+
+}
+
+
+#' Return a list of logtiter table layers
+#'
+#' @param map An acmap data object
+#'
+#' @family {map attribute functions}
+#'
+logtiterTableLayers <- function(map) {
+
+  lapply(
+    titerTableLayers(map),
+    function(titertable) {
+      matrix(
+        log_titers(titertable, dilutionStepsize(map)),
+        numAntigens(map),
+        numSera(map)
+      )
+    }
+  )
 
 }
 
@@ -323,6 +390,75 @@ keepBestOptimization <- function(map) {
 }
 
 
+#' Get and set map layer names
+#'
+#' @param map The acmap object
+#' @param value A vector of new layer names to apply to the map
+#'
+#' @family {functions for working with map data}
+#'
+#' @name layerNames
+
+#' @rdname layerNames
+#' @export
+layerNames <- function(map) {
+  check.acmap(map)
+  layer_names <- map$layer_names
+  if (length(layer_names) == 0) layer_names <- NULL
+  layer_names
+}
+
+#' @rdname layerNames
+#' @export
+`layerNames<-` <- function(map, value) {
+  check.acmap(map)
+  if (is.null(value)) {
+    map$layer_names <- rep("", numLayers(map))
+  } else {
+    check.charactervector(value)
+    if (length(value) != numLayers(map)) {
+      stop("Number of layer names does not match the number of layers", call. = F)
+    }
+    map$layer_names <- value
+  }
+  map
+}
+
+
+#' Get and set antigen reactivity adjustments
+#'
+#' @param map The acmap object
+#' @param value A vector of antigen reactivity adjustments to apply
+#'
+#' @family {functions for working with map data}
+#'
+#' @name agReactivityAdjustments
+
+#' @rdname agReactivityAdjustments
+#' @export
+agReactivityAdjustments <- function(map) {
+  check.acmap(map)
+  ag_reactivity_adjustments <- map$ag_reactivity_adjustments
+  if (is.null(ag_reactivity_adjustments)) ag_reactivity_adjustments <- rep(0, numAntigens(map))
+  ag_reactivity_adjustments
+}
+
+#' @rdname agReactivityAdjustments
+#' @export
+`agReactivityAdjustments<-` <- function(map, value) {
+  check.acmap(map)
+  check.numericvector(value)
+  if (length(value) != numAntigens(map)) {
+    stop("Number of reactivity adjustments does not match the number of antigens", call. = F)
+  }
+  map$ag_reactivity_adjustments <- value
+  for (n in seq_len(numOptimizations(map))) {
+    map$optimizations[[n]]$ag_reactivity_adjustments <- value
+  }
+  map
+}
+
+
 #' Get acmap attributes
 #'
 #' Functions to get various attributes about an acmap object.
@@ -349,6 +485,12 @@ numSera <- function(map) {
 
 #' @rdname acmapAttributes
 #' @export
+numSeraGroups <- function(map) {
+  length(unique(srGroups(map)))
+}
+
+#' @rdname acmapAttributes
+#' @export
 numPoints <- function(map) {
   check.acmap(map)
   numAntigens(map) + numSera(map)
@@ -360,3 +502,12 @@ numOptimizations <- function(map) {
   check.acmap(map)
   length(map$optimizations)
 }
+
+#' @rdname acmapAttributes
+#' @export
+numLayers <- function(map) {
+  check.acmap(map)
+  length(titerTableLayers(map))
+}
+
+

@@ -161,7 +161,7 @@ test_that("Merging titers", {
   map13 <- mergeMaps(list(map1, map3))
   # expect_equal(unname(titerTable(map13)), matrix(logtoraw(-1:4+2), 3, 2))
   expect_equal(unname(titerTable(map13)), matrix("*", 3, 2))
-  expect_equal(titerTableLayers(map13), list(
+  expect_equal(unname(titerTableLayers(map13)), list(
     matrix(logtoraw(-1:4 + 1), 3, 2),
     matrix(logtoraw(-1:4 + 3), 3, 2)
   ))
@@ -306,5 +306,182 @@ test_that("Incremental merge", {
       number_of_optimizations = 100
     )
   })
+
+})
+
+# Incremental merge
+test_that("Merging with duplicated serum names", {
+
+  mergemap1a <- mergemap1
+  mergemap2a <- mergemap2
+  srNames(mergemap2a)[1:5] <- paste("SERA", 8:12)
+  expect_error(mergeMaps(list(mergemap1a, mergemap2a)))
+
+})
+
+# Incremental merge
+test_that("Merging maps with different dilution stepsizes", {
+
+  mergemap1a <- mergemap1
+  mergemap2a <- mergemap2
+
+  dilutionStepsize(mergemap1a) <- 0
+  dilutionStepsize(mergemap2a) <- 0
+
+  expect_equal(
+    dilutionStepsize(mergeMaps(list(mergemap1a, mergemap2a))),
+    0
+  )
+
+  dilutionStepsize(mergemap1a) <- 1
+  dilutionStepsize(mergemap2a) <- 1
+
+  expect_equal(
+    dilutionStepsize(mergeMaps(list(mergemap1a, mergemap2a))),
+    1
+  )
+
+  dilutionStepsize(mergemap1a) <- 1
+  dilutionStepsize(mergemap2a) <- 0
+
+  expect_warning({
+    merged_map <- mergeMaps(list(mergemap1a, mergemap2a))
+  })
+
+  expect_equal(
+    dilutionStepsize(merged_map),
+    1
+  )
+
+})
+
+# Incremental merge
+test_that("Merging serum and antigen groups", {
+
+  mergemap1a <- mergemap1
+  mergemap2a <- mergemap2
+  srNames(mergemap2a)[1:5] <- paste("SERA", 11:15)
+
+  ag_names <- unique(c(agNames(mergemap1a), agNames(mergemap2a)))
+  sr_names <- unique(c(srNames(mergemap1a), srNames(mergemap2a)))
+
+  set.seed(10)
+  ag_groups <- paste("GROUP", sample(1:2, length(ag_names), replace = T))
+  sr_groups <- paste("GROUP", sample(1:2, length(sr_names), replace = T))
+
+  agGroups(mergemap1a) <- factor(ag_groups[match(agNames(mergemap1a), ag_names)])
+  agGroups(mergemap2a) <- factor(ag_groups[match(agNames(mergemap2a), ag_names)])
+
+  srGroups(mergemap1a) <- factor(sr_groups[match(srNames(mergemap1a), sr_names)])
+  srGroups(mergemap2a) <- factor(sr_groups[match(srNames(mergemap2a), sr_names)])
+
+  merged_map <- mergeMaps(list(mergemap1a, mergemap2a))
+
+  expect_equal(
+    as.character(agGroups(merged_map)),
+    ag_groups[match(agNames(merged_map), ag_names)]
+  )
+
+  expect_equal(
+    as.character(srGroups(merged_map)),
+    sr_groups[match(srNames(merged_map), sr_names)]
+  )
+
+})
+
+# Merging maps with names
+test_that("Merging maps with names", {
+
+  mergemap1a <- mergemap1
+  mergemap2a <- mergemap2
+
+  mapName(mergemap1a) <- "Merge map 1"
+  mapName(mergemap2a) <- "Merge map 2"
+
+  merged_map_unnamed <- mergeMaps(list(mergemap1, mergemap2))
+  merged_map_named <- mergeMaps(list(mergemap1a, mergemap2a))
+
+  # Check null defaults
+  expect_null(layerNames(mergemap1))
+  expect_null(layerNames(mergemap1a))
+
+  expect_equal(
+    layerNames(merged_map_unnamed),
+    c("", "")
+  )
+  expect_equal(
+    names(titerTableLayers(merged_map_unnamed)),
+    c("", "")
+  )
+
+  # Check merge results
+  expect_equal(
+    names(titerTableLayers(merged_map_named)),
+    c("Merge map 1", "Merge map 2")
+  )
+  expect_equal(
+    layerNames(merged_map_named),
+    c("Merge map 1", "Merge map 2")
+  )
+
+  # Check changing names
+  layerNames(merged_map_unnamed) <- c("Merge map 1a", "Merge map 2a")
+
+  expect_equal(
+    names(titerTableLayers(merged_map_unnamed)),
+    c("Merge map 1a", "Merge map 2a")
+  )
+  expect_equal(
+    layerNames(merged_map_unnamed),
+    c("Merge map 1a", "Merge map 2a")
+  )
+
+  # Check removing names
+  layerNames(merged_map_unnamed) <- NULL
+
+  expect_equal(
+    layerNames(merged_map_unnamed),
+    c("", "")
+  )
+  expect_equal(
+    names(titerTableLayers(merged_map_unnamed)),
+    c("", "")
+  )
+
+  # Check errors
+  expect_error({
+    layerNames(merged_map_unnamed) <- "Merge map 1a"
+  })
+
+  # Check saving and loading
+  tmp <- tempfile(fileext = ".ace")
+  save.acmap(merged_map_named, tmp)
+  merged_map_loaded <- read.acmap(tmp)
+
+  expect_equal(
+    names(titerTableLayers(merged_map_loaded)),
+    c("Merge map 1", "Merge map 2")
+  )
+  expect_equal(
+    layerNames(merged_map_loaded),
+    c("Merge map 1", "Merge map 2")
+  )
+
+  # Take layer names from list names when merging
+  merged_map_listnamed <- mergeMaps(
+    list(
+      map1merge = mergemap1a,
+      map2merge = mergemap2a
+    )
+  )
+
+  expect_equal(
+    names(titerTableLayers(merged_map_listnamed)),
+    c("map1merge", "map2merge")
+  )
+  expect_equal(
+    layerNames(merged_map_listnamed),
+    c("map1merge", "map2merge")
+  )
 
 })

@@ -265,6 +265,8 @@ mapBootstrap_srCoords <- function(map) {
 #' @param gridspacing grid spacing to use when calculating blobs, smaller values
 #'   will produce more accurate blobs with smoother edges but will take longer
 #'   to calculate.
+#' @param method One of "MASS", the default, or "ks", specifying the algorithm to
+#'   use when calculating blobs in 2D. 3D will always use ks::kde.
 #'
 #' @return Returns an acmap object that will then show the corresponding bootstrap
 #'   blobs when viewed or plotted.
@@ -276,7 +278,8 @@ bootstrapBlobs <- function(
   map,
   conf.level = 0.68,
   smoothing = 6,
-  gridspacing = 0.25
+  gridspacing = 0.25,
+  method = "ks"
   ) {
 
   # Get coordinates
@@ -298,7 +301,8 @@ bootstrapBlobs <- function(
       coords = coords,
       conf.level = conf.level,
       smoothing = smoothing,
-      gridspacing = gridspacing
+      gridspacing = gridspacing,
+      method = method
     )
     ac_update_progress(pb, agnum)
 
@@ -342,6 +346,109 @@ hasBootstrapBlobs <- function(map, optimization_number = 1) {
 }
 
 
+transformMapBlob <- function(blobs, map) {
+  lapply(blobs, function(blob) {
+    coords <- applyMapTransform(
+      coords = cbind(blob$x, blob$y),
+      map = map,
+      optimization_number = 1
+    )
+    blob$x <- coords[,1]
+    blob$y <- coords[,2]
+    blob
+  })
+}
+
+
+#' Get antigen or serum bootstrap coordinates information
+#'
+#' @param map An acmap object
+#' @param antigen The antigen to get the bootstrap coords
+#' @param serum The serum from which to get the bootstrap coords
+#' @param point The point from which to get the bootstrap coords (numbered
+#'   antigens then sera)
+#'
+#' @return Returns a matrix of coordinates for the point in each of the
+#'   bootstrap runs
+#' @name ptBootstrapCoords
+#'
+#' @family {map diagnostic functions}
+#'
+#' @export
+ptBootstrapCoords <- function(map, point) {
+  check.acmap(map)
+  if (!hasBootstrapBlobs(map)) stop("Map has no bootstrap blobs calculated yet")
+  points <- do.call(
+    rbind,
+    lapply(map$optimizations[[1]]$bootstrap, function(bs) {
+      bs$coords[point,]
+    })
+  )
+  applyMapTransform(points, map)
+}
+
+#' @rdname ptBootstrapCoords
+#' @export
+agBootstrapCoords <- function(map, antigen) {
+  ptBootstrapCoords(
+    map,
+    get_ag_indices(antigen, map)
+  )
+}
+
+#' @rdname ptBootstrapCoords
+#' @export
+srBootstrapCoords <- function(map, serum) {
+  ptBootstrapCoords(
+    map,
+    numAntigens(map) + get_sr_indices(serum, map)
+  )
+}
+
+
+#' Get antigen or serum blob information
+#'
+#' Get antigen or serum blob information for plotting with the `blob()` function.
+#'
+#' @param map An acmap object
+#' @param antigen The antigen to get the blob for
+#' @param serum The serum to get the blob for
+#'
+#' @return Returns an object of class "blob" that can be plotted using the `blob()` funciton.
+#' @name ptBootstrapBlob
+#'
+#' @family {map diagnostic functions}
+#'
+
+#' @rdname ptBootstrapBlob
+#' @export
+agBootstrapBlob <- function(map, antigen) {
+  check.acmap(map)
+  if (!hasBootstrapBlobs(map)) stop("Map has no bootstrap blobs calculated yet")
+  ag <- get_ag_indices(antigen, map)
+  blobs <- transformMapBlob(agBootstrapBlobs(map)[[ag]], map)
+  attr(blobs, "fill") <- agFill(map)[ag]
+  attr(blobs, "outline") <- agOutline(map)[ag]
+  attr(blobs, "lwd") <- agOutlineWidth(map)[ag]
+  class(blobs) <- "blob"
+  blobs
+}
+
+#' @rdname ptBootstrapBlob
+#' @export
+srBootstrapBlob <- function(map, serum) {
+  check.acmap(map)
+  if (!hasBootstrapBlobs(map)) stop("Map has no bootstrap blobs calculated yet")
+  sr <- get_sr_indices(serum, map)
+  blobs <- transformMapBlob(srBootstrapBlobs(map)[[sr]], map)
+  attr(blobs, "fill") <- agFill(map)[sr]
+  attr(blobs, "outline") <- agOutline(map)[sr]
+  attr(blobs, "lwd") <- agOutlineWidth(map)[sr]
+  class(blobs) <- "blob"
+  blobs
+}
+
+
 #' Calculate a blob geometry representing bootstrap point position variation
 #'
 #' This function is used to create "blob" geometries, with the aim to visualise
@@ -356,7 +463,9 @@ hasBootstrapBlobs <- function(map, optimization_number = 1) {
 #'   kernel density estimate
 #' @param gridspacing grid spacing to use when calculating blobs, smaller values
 #'   will produce more accurate blobs with smoother edges but will take longer
-#'   to calculate.
+#'   to calculate, the default is 0.05 for 2d maps and 0.25 for 2d maps
+#' @param method One of "MASS", the default, or "ks", specifying the algorithm to
+#'   use when calculating blobs in 2D. 3D will always use ks.
 #'
 #' @noRd
 #'
@@ -364,8 +473,9 @@ coordDensityBlob <- function(
   coords,
   conf.level = 0.68,
   smoothing = 1,
-  gridspacing = 0.25
-  ) {
+  gridspacing = NULL,
+  method = "ks"
+) {
 
   # Check dimensions
   ndims <- ncol(coords)
@@ -373,24 +483,68 @@ coordDensityBlob <- function(
     stop("Bootstrap blobs are only supported for 2 or 3 dimensions")
   }
 
+  # Set default grid spacing
+  if (is.null(gridspacing)) {
+    if (ndims == 2) gridspacing <- 0.05
+    else            gridspacing <- 0.25
+  }
+
   # Check confidence level
   if (conf.level != round(conf.level, 2)) {
     stop("conf.level must be to the nearest percent")
   }
 
-  # Perform a kernal density fit
-  kd_fit <- ks::kde(
-    coords,
-    gridsize = apply(coords, 2, function(x) ceiling(diff(range(x)) / gridspacing)),
-    H = ks::Hpi(x = coords, nstage = 2, deriv.order = 0) * smoothing
-  )
+  # Use a quicker algorithm for 2 dimensions, 3d must use the slower ks::kde method
+  if (ndims == 2 && method == "MASS") {
 
-  # Calculate the contour blob
-  # We have to negate things here so that 3d contours are calculated appropriately
+    # Perform a kernel density fit
+    kd_fit <- MASS::kde2d(
+      x = coords[,1],
+      y = coords[,2],
+      n = c(
+        ceiling(diff(range(coords[,1])) / gridspacing),
+        ceiling(diff(range(coords[,2])) / gridspacing)
+      ),
+      h = apply(coords, 2, MASS::bandwidth.nrd)*smoothing,
+      lims = c(
+        grDevices::extendrange(coords[,1], f = 1),
+        grDevices::extendrange(coords[,2], f = 1)
+      )
+    )
+
+    # Calculate the contour level for the appropriate confidence level
+    fhat <- interp2d(x = coords, gpoints1 = kd_fit$x, gpoints2 = kd_fit$y, f = kd_fit$z)
+    contour_level <- stats::quantile(fhat, 1 - conf.level)
+
+    grid_values = -kd_fit$z
+    grid_points = list(kd_fit$x, kd_fit$y)
+    value_lim   = -contour_level
+
+  } else {
+
+    # Perform a kernel density fit
+    kd_fit <- ks::kde(
+      coords,
+      gridsize = apply(coords, 2, function(x) ceiling(diff(range(x)) / gridspacing)),
+      H = ks::Hpi(x = coords, nstage = 2, deriv.order = 0) * smoothing
+    )
+
+    # Calculate the contour level for the appropriate confidence level
+    contour_level <- ks::contourLevels(kd_fit, prob = 1 - conf.level)
+
+    # Calculate the contour blob
+    # We have to negate things here so that 3d contours are calculated appropriately
+    grid_values <- -kd_fit$estimate
+    grid_points <- kd_fit$eval.points
+    value_lim   <- -contour_level
+
+  }
+
+  # Calculate the blob
   contour_blob(
-    grid_values = -kd_fit$estimate,
-    grid_points = kd_fit$eval.points,
-    value_lim   = -ks::contourLevels(kd_fit, prob = 1 - conf.level)
+    grid_values = grid_values,
+    grid_points = grid_points,
+    value_lim   = value_lim
   )
 
 }

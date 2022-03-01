@@ -14,6 +14,7 @@ class AcPoint {
     // Regular details
     std::string type;
     std::string name;
+    std::string extra;
     std::string date;
     bool reference = false;
     std::string name_full;
@@ -32,6 +33,7 @@ class AcPoint {
     // Regular details
     std::string get_type() const { return type; }
     std::string get_name() const { return name; }
+    std::string get_extra() const { return extra; }
     std::string get_date() const { return date; }
     bool get_reference() const { return reference; }
     std::string get_passage() const { return passage; }
@@ -44,6 +46,7 @@ class AcPoint {
 
     void set_type( std::string value ){ type = value; }
     void set_name( std::string value ){ name = value; }
+    void set_extra( std::string value ){ extra = value; }
     void set_date( std::string value ){ date = value; }
     void set_reference( bool value ){ reference = value; }
     void set_passage( std::string value ){ passage = value; }
@@ -77,6 +80,8 @@ class AcPoint {
         return(sequence == "");
       } else if (attribute == "id") {
         return(id == "");
+      } else if (attribute == "extra") {
+        return(extra == "");
       } else {
         return(false);
       }

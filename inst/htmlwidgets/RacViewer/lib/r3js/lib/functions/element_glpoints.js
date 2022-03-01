@@ -138,27 +138,27 @@ R3JS.element.glpoints = class GLPoints {
         // var texture = get_sprite_texture("ball");
 
         var vwidth  = viewport.getWidth();
-        var vheight = viewport.getWidth();
+        var vheight = viewport.getHeight();
         var pixelratio = renderer.getPixelRatio();
         var maxpointsize = renderer.maxPointSize;
 
-        // if(args.properties.dimensions == 3){
-        //     var material = new THREE.ShaderMaterial( { 
-        //         uniforms: { 
-        //             scale:   { value: 2.0*pixelratio }, 
-        //             opacity: { value: 1.0 }, 
-        //             viewportWidth: { value: vwidth }, 
-        //             viewportHeight: { value: vheight },
-        //             viewportPixelRatio: { value: pixelratio },
-        //             circleTexture: { value: texture }
-        //         }, 
-        //         vertexShader:   get_vertex_shader3D(),
-        //         fragmentShader: get_fragment_shader3D(),
-        //         alphaTest: 0.9,
-        //         transparent: true,
-        //         blending: THREE.NormalBlending
-        //     } );
-        // } else {
+        if(args.dimensions == 3){
+            var material = new THREE.ShaderMaterial( { 
+                uniforms: { 
+                    scale:   { value: 2.0*pixelratio }, 
+                    opacity: { value: 1.0 }, 
+                    viewportWidth: { value: vwidth }, 
+                    viewportHeight: { value: vheight },
+                    viewportPixelRatio: { value: pixelratio }
+                    // circleTexture: { value: texture }
+                }, 
+                vertexShader:   renderer.shaders.vertexShader,
+                fragmentShader: renderer.shaders.fragmentShader,
+                alphaTest: 0.9,
+                transparent: true,
+                blending: THREE.NormalBlending
+            } );
+        } else {
             var material = new THREE.ShaderMaterial( { 
                 uniforms: { 
                     scale:   { value: 1.0 }, 
@@ -174,7 +174,7 @@ R3JS.element.glpoints = class GLPoints {
                 transparent: true,
                 blending: THREE.NormalBlending
             } );
-        // }
+        }
 
         // Generate the points
         var points = new THREE.Points( geometry, material );

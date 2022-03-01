@@ -367,6 +367,12 @@ AcMap ac_merge_tables(
     merge_options
   );
 
+  // Set titer table names
+  merged_map.layer_names.resize( maps.size() );
+  for (arma::uword i = 0; i < merged_map.titer_table_layers.size(); i++) {
+    merged_map.layer_names[i] = maps[i].name;
+  }
+
   // Return the merged map
   return merged_map;
 
@@ -612,6 +618,7 @@ AcMap ac_merge_incremental_single(
   // Relax the optimizations
   ac_relaxOptimizations(
     optimizations,
+    optimizations[0].dim(),
     tabledist_matrix,
     titertype_matrix,
     optimizer_options

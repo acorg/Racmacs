@@ -115,7 +115,8 @@ test_that("Making a map and optimizing", {
     titer_table             = testtable,
     number_of_dimensions    = 3,
     number_of_optimizations = 2,
-    minimum_column_basis    = "none"
+    minimum_column_basis    = "none",
+    check_convergence       = FALSE
   )
   expect_equal(numAntigens(map), 6)
   expect_equal(numSera(map), 4)

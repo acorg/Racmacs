@@ -5,6 +5,8 @@
 \alias{srIDs}
 \alias{srNames}
 \alias{srNames<-}
+\alias{srExtra}
+\alias{srExtra<-}
 \alias{srIDs<-}
 \alias{srDates}
 \alias{srDates<-}
@@ -16,6 +18,8 @@
 \usage{
 srNames(map)
 srNames(map) <- value
+srExtra(map)
+srExtra(map) <- value
 srIDs(map)
 srIDs(map) <- value
 srDates(map)
@@ -31,9 +35,9 @@ srPassage(map)
 \item{value}{New value to set}
 }
 \value{
-Returns either the requested attribute when using a getter function or the updated acmap object
+Returns either the requested attribute when using a getter function or
 
-when using the setter function.
+the updated acmap object when using the setter function.
 }
 \description{
 These functions get and set the sera attributes for a map.

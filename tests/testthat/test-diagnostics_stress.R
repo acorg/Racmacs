@@ -70,3 +70,20 @@ test_that("Stress with NA coords", {
   expect_equal(sum(!is.na(stressTable(map)[,4])), 0)
 
 })
+
+test_that("Stress with NA coords", {
+
+  set.seed(850909)
+
+  dat <- matrix(10*2^round(10*runif(100)), ncol=10)
+  dat[4,3:5] <- "*"
+
+  map <- make.acmap(dat)
+
+  expect_equal(
+    round(agStressPerTiter(map, exclude_nd = T)[4], 2),
+    1.67
+  )
+
+})
+

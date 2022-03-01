@@ -122,3 +122,4 @@
 
 # Racmacs 1.1.28
 * `agStress()` and `srStress()` fixed to work with NA coordinates
+* Correct error when calculating `agStressPerTiter()` and `srStressPerTiter()` with missing titers.

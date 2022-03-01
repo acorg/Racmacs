@@ -345,18 +345,22 @@ arma::mat ac_point_stresses(
   );
   arma::imat titer_types = titer_table.get_titer_types();
 
-  // Setup residual table
+  // Setup stress table
   arma::mat stress_table(num_ags, num_sr);
 
-  // Populate residual table
+  // Populate stress table
   for (arma::uword ag = 0; ag < num_ags; ag++) {
     for (arma::uword sr = 0; sr < num_sr; sr++) {
-      stress_table(ag, sr) = ac_ptStress(
-        map_dists(ag, sr),
-        numeric_table_dists(ag, sr),
-        titer_types(ag, sr),
-        dilution_stepsize
-      );
+      if (std::isnan(map_dists(ag, sr))) {
+        stress_table(ag, sr) = arma::datum::nan;
+      } else {
+        stress_table(ag, sr) = ac_ptStress(
+          map_dists(ag, sr),
+          numeric_table_dists(ag, sr),
+          titer_types(ag, sr),
+          dilution_stepsize
+        );
+      }
     }
   }
 
@@ -392,12 +396,16 @@ arma::mat ac_point_residuals(
   // Populate residual table
   for (arma::uword ag = 0; ag < num_ags; ag++) {
     for (arma::uword sr = 0; sr < num_sr; sr++) {
-      residual_table(ag, sr) = ac_ptResidual(
-        map_dists(ag, sr),
-        numeric_table_dists(ag, sr),
-        titer_types(ag, sr),
-        dilution_stepsize
-      );
+      if (std::isnan(map_dists(ag, sr))) {
+        residual_table(ag, sr) = arma::datum::nan;
+      } else {
+        residual_table(ag, sr) = ac_ptResidual(
+          map_dists(ag, sr),
+          numeric_table_dists(ag, sr),
+          titer_types(ag, sr),
+          dilution_stepsize
+        );
+      }
     }
   }
 

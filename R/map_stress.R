@@ -304,7 +304,9 @@ agStress <- function(
 
   # Calculate the stress
   stress_table <- stressTable(map, optimization_number)
-  rowSums(stress_table[antigens, ])
+  stresses <- rowSums(stress_table[antigens, ], na.rm = T)
+  stresses[is.na(agCoords(map))[,1]] <- NA
+  stresses
 
 }
 
@@ -321,7 +323,9 @@ srStress <- function(
 
   # Calculate the stress
   stress_table <- stressTable(map, optimization_number)
-  colSums(stress_table[, sera])
+  stresses <- colSums(stress_table[, sera], na.rm = T)
+  stresses[is.na(srCoords(map))[,1]] <- NA
+  stresses
 
 }
 

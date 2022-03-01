@@ -55,3 +55,18 @@ test_that("point leverage", {
   )
 
 })
+
+test_that("Stress with NA coords", {
+
+  agCoords(map)[2,] <- NA
+  srCoords(map)[2,] <- NA
+  srCoords(map)[4,] <- NA
+
+  expect_equal(sum(is.na(agStress(map))), 1)
+  expect_equal(sum(is.na(srStress(map))), 2)
+
+  expect_equal(sum(!is.na(stressTable(map)[2,])), 0)
+  expect_equal(sum(!is.na(stressTable(map)[,2])), 0)
+  expect_equal(sum(!is.na(stressTable(map)[,4])), 0)
+
+})

@@ -330,6 +330,7 @@ AcMap ac_merge_tables(
   }
 
   // Add titer table layers
+  std::vector<std::string> layer_map_names;
   for(arma::uword i=0; i<maps.size(); i++){
 
     arma::ivec merged_map_ag_matches = ac_match_points(merged_antigens, maps[i].antigens);
@@ -338,6 +339,7 @@ AcMap ac_merge_tables(
     std::vector<AcTiterTable> titer_table_layers = maps[i].get_titer_table_layers();
 
     for(arma::uword layer=0; layer<titer_table_layers.size(); layer++){
+      layer_map_names.push_back(maps[i].name);
       merged_layers.push_back(
         subset_titer_table(
           titer_table_layers[layer],
@@ -368,9 +370,9 @@ AcMap ac_merge_tables(
   );
 
   // Set titer table names
-  merged_map.layer_names.resize( maps.size() );
+  merged_map.layer_names.resize( merged_map.titer_table_layers.size() );
   for (arma::uword i = 0; i < merged_map.titer_table_layers.size(); i++) {
-    merged_map.layer_names[i] = maps[i].name;
+    merged_map.layer_names[i] = layer_map_names[i];
   }
 
   // Return the merged map

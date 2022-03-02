@@ -168,6 +168,14 @@ test_that("Merging titers", {
 
 })
 
+test_that("Sequential merging", {
+
+  merge1 <- mergeMaps(mergemap1, mergemap2, method = "table")
+  merge2 <- mergeMaps(merge1, mergemap3, method = "table")
+  expect_equal(numLayers(merge2), 3)
+
+})
+
 # Generating merge reports
 test_that("Merge reports", {
 

@@ -14,15 +14,20 @@ sera_getter <- function(fn) {
 }
 
 # Function factory for sera setter functions
-sera_setter <- function(fn, check_fn) {
+sera_setter <- function(fn, type) {
   eval(
     substitute(env = list(
-      fn = fn
+      fn = fn,
+      type = type
     ), expr = {
       function(map, value) {
         if (is.null(value)) stop("Cannot set null value")
         check.acmap(map)
-        check_fn(value)
+        switch(
+          type,
+          character = check.charactervector(value),
+          numeric = check.numericvector(value)
+        )
         if (length(value) != numSera(map)) {
           stop("Length of the value must equal the number of sera in the map")
         }
@@ -69,15 +74,15 @@ srPassage           <- sera_getter(ac_sr_get_passage)
 srGroupValues       <- sera_getter(ac_sr_get_group)
 srMatchIDs          <- sera_getter(ac_sr_get_match_id) # Not exported
 
-`srIDs<-`               <- sera_setter(ac_sr_set_id, check.charactervector)
-`srDates<-`             <- sera_setter(ac_sr_set_date, check.charactervector)
-`srReference<-`         <- sera_setter(ac_sr_set_reference, check.charactervector)
-`srNames<-`             <- sera_setter(ac_sr_set_name, check.charactervector)
-`srNamesFull<-`         <- sera_setter(ac_sr_set_name_full, check.charactervector)
-`srNamesAbbreviated<-`  <- sera_setter(ac_sr_set_name_abbreviated, check.charactervector)
-`srExtra<-`             <- sera_setter(ac_sr_set_extra, check.charactervector)
-`srPassage<-`           <- sera_setter(ac_sr_set_passage, check.charactervector)
-`srGroupValues<-`       <- sera_setter(ac_sr_set_group, check.numericvector)
+`srIDs<-`               <- sera_setter(ac_sr_set_id, "character")
+`srDates<-`             <- sera_setter(ac_sr_set_date, "character")
+`srReference<-`         <- sera_setter(ac_sr_set_reference, "character")
+`srNames<-`             <- sera_setter(ac_sr_set_name, "character")
+`srNamesFull<-`         <- sera_setter(ac_sr_set_name_full, "character")
+`srNamesAbbreviated<-`  <- sera_setter(ac_sr_set_name_abbreviated, "character")
+`srExtra<-`             <- sera_setter(ac_sr_set_extra, "character")
+`srPassage<-`           <- sera_setter(ac_sr_set_passage, "character")
+`srGroupValues<-`       <- sera_setter(ac_sr_set_group, "numeric")
 
 
 #' Getting and setting sera groups

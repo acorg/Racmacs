@@ -14,15 +14,20 @@ antigens_getter <- function(fn) {
 }
 
 # Function factory for antigen setter functions
-antigens_setter <- function(fn, check_fn) {
+antigens_setter <- function(fn, type) {
   eval(
     substitute(env = list(
-      fn = fn
+      fn = fn,
+      type = type
     ), expr = {
       function(map, value) {
         if (is.null(value)) stop("Cannot set null value")
         check.acmap(map)
-        check_fn(value)
+        switch(
+          type,
+          character = check.charactervector(value),
+          numeric = check.numericvector(value)
+        )
         if (length(value) != numAntigens(map)) {
           stop("Length of the value must equal the number of antigens in the map")
         }
@@ -72,15 +77,15 @@ agPassage           <- antigens_getter(ac_ag_get_passage)
 agGroupValues       <- antigens_getter(ac_ag_get_group) # Not exported
 agMatchIDs          <- antigens_getter(ac_ag_get_match_id) # Not exported
 
-`agIDs<-`               <- antigens_setter(ac_ag_set_id, check.charactervector)
-`agDates<-`             <- antigens_setter(ac_ag_set_date, check.charactervector)
-`agReference<-`         <- antigens_setter(ac_ag_set_reference, check.charactervector)
-`agNames<-`             <- antigens_setter(ac_ag_set_name, check.charactervector)
-`agNamesFull<-`         <- antigens_setter(ac_ag_set_name_full, check.charactervector)
-`agNamesAbbreviated<-`  <- antigens_setter(ac_ag_set_name_abbreviated, check.charactervector)
-`agExtra<-`             <- antigens_setter(ac_ag_set_extra, check.charactervector)
-`agPassage<-`           <- antigens_setter(ac_ag_set_passage, check.charactervector)
-`agGroupValues<-`       <- antigens_setter(ac_ag_set_group, check.numericvector) # Not exported
+`agIDs<-`               <- antigens_setter(ac_ag_set_id, "character")
+`agDates<-`             <- antigens_setter(ac_ag_set_date, "character")
+`agReference<-`         <- antigens_setter(ac_ag_set_reference, "character")
+`agNames<-`             <- antigens_setter(ac_ag_set_name, "character")
+`agNamesFull<-`         <- antigens_setter(ac_ag_set_name_full, "character")
+`agNamesAbbreviated<-`  <- antigens_setter(ac_ag_set_name_abbreviated, "character")
+`agExtra<-`             <- antigens_setter(ac_ag_set_extra, "character")
+`agPassage<-`           <- antigens_setter(ac_ag_set_passage, "character")
+`agGroupValues<-`       <- antigens_setter(ac_ag_set_group, "numeric") # Not exported
 
 
 #' Getting and setting antigen groups

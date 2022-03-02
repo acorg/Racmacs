@@ -125,3 +125,7 @@
 * Correct error when calculating `agStressPerTiter()` and `srStressPerTiter()` with missing titers.
 * Antigen/Sera sequence and date information now write to json fields in line with acmacs-web.
 * Add attribute getters and setters `agAnnotations()`, `srAnnotations()`, `agLabIDs()`
+
+# Racmacs 1.1.29
+* `mergeMaps()` now accepts maps as either separate arguments `mergeMaps(map1, map2)` or as a list `mergeMaps(list(map1, map2))`
+* Additional checks for antigen and serum attribute inputs

@@ -199,6 +199,16 @@ test_that("Merge error", {
 
 })
 
+# Different types of merging
+test_that("Different types of merging", {
+
+  expect_equal(
+    mergeMaps(mergemap1, mergemap2, method = "table"),
+    mergeMaps(list(mergemap1, mergemap2), method = "table")
+  )
+
+})
+
 # Table merge
 test_that("Merge tables", {
 

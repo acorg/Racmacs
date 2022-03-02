@@ -14,7 +14,7 @@ antigens_getter <- function(fn) {
 }
 
 # Function factory for antigen setter functions
-antigens_setter <- function(fn) {
+antigens_setter <- function(fn, check_fn) {
   eval(
     substitute(env = list(
       fn = fn
@@ -22,6 +22,10 @@ antigens_setter <- function(fn) {
       function(map, value) {
         if (is.null(value)) stop("Cannot set null value")
         check.acmap(map)
+        check_fn(value)
+        if (length(value) != numAntigens(map)) {
+          stop("Length of the value must equal the number of antigens in the map")
+        }
         map$antigens <- lapply(
           seq_along(map$antigens),
           function(x) {
@@ -68,15 +72,15 @@ agPassage           <- antigens_getter(ac_ag_get_passage)
 agGroupValues       <- antigens_getter(ac_ag_get_group) # Not exported
 agMatchIDs          <- antigens_getter(ac_ag_get_match_id) # Not exported
 
-`agIDs<-`               <- antigens_setter(ac_ag_set_id)
-`agDates<-`             <- antigens_setter(ac_ag_set_date)
-`agReference<-`         <- antigens_setter(ac_ag_set_reference)
-`agNames<-`             <- antigens_setter(ac_ag_set_name)
-`agNamesFull<-`         <- antigens_setter(ac_ag_set_name_full)
-`agNamesAbbreviated<-`  <- antigens_setter(ac_ag_set_name_abbreviated)
-`agExtra<-`             <- antigens_setter(ac_ag_set_extra)
-`agPassage<-`           <- antigens_setter(ac_ag_set_passage)
-`agGroupValues<-`       <- antigens_setter(ac_ag_set_group) # Not exported
+`agIDs<-`               <- antigens_setter(ac_ag_set_id, check.charactervector)
+`agDates<-`             <- antigens_setter(ac_ag_set_date, check.charactervector)
+`agReference<-`         <- antigens_setter(ac_ag_set_reference, check.charactervector)
+`agNames<-`             <- antigens_setter(ac_ag_set_name, check.charactervector)
+`agNamesFull<-`         <- antigens_setter(ac_ag_set_name_full, check.charactervector)
+`agNamesAbbreviated<-`  <- antigens_setter(ac_ag_set_name_abbreviated, check.charactervector)
+`agExtra<-`             <- antigens_setter(ac_ag_set_extra, check.charactervector)
+`agPassage<-`           <- antigens_setter(ac_ag_set_passage, check.charactervector)
+`agGroupValues<-`       <- antigens_setter(ac_ag_set_group, check.numericvector) # Not exported
 
 
 #' Getting and setting antigen groups
@@ -110,7 +114,7 @@ agGroups <- function(map) {
 
   check.acmap(map)
   if (is.null(value)) {
-    agGroupValues(map) <- 0
+    agGroupValues(map) <- rep(0, numAntigens(map))
     map$ag_group_levels <- NULL
   } else {
     if (!is.factor(value)) value <- as.factor(value)

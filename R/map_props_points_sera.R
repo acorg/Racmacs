@@ -14,7 +14,7 @@ sera_getter <- function(fn) {
 }
 
 # Function factory for sera setter functions
-sera_setter <- function(fn) {
+sera_setter <- function(fn, check_fn) {
   eval(
     substitute(env = list(
       fn = fn
@@ -22,6 +22,10 @@ sera_setter <- function(fn) {
       function(map, value) {
         if (is.null(value)) stop("Cannot set null value")
         check.acmap(map)
+        check_fn(value)
+        if (length(value) != numSera(map)) {
+          stop("Length of the value must equal the number of sera in the map")
+        }
         map$sera <- lapply(seq_along(map$sera), function(x) {
           fn(map$sera[[x]], value[x])
         })
@@ -65,15 +69,15 @@ srPassage           <- sera_getter(ac_sr_get_passage)
 srGroupValues       <- sera_getter(ac_sr_get_group)
 srMatchIDs          <- sera_getter(ac_sr_get_match_id) # Not exported
 
-`srIDs<-`               <- sera_setter(ac_sr_set_id)
-`srDates<-`             <- sera_setter(ac_sr_set_date)
-`srReference<-`         <- sera_setter(ac_sr_set_reference)
-`srNames<-`             <- sera_setter(ac_sr_set_name)
-`srNamesFull<-`         <- sera_setter(ac_sr_set_name_full)
-`srNamesAbbreviated<-`  <- sera_setter(ac_sr_set_name_abbreviated)
-`srExtra<-`             <- sera_setter(ac_sr_set_extra)
-`srPassage<-`           <- sera_setter(ac_sr_set_passage)
-`srGroupValues<-`       <- sera_setter(ac_sr_set_group)
+`srIDs<-`               <- sera_setter(ac_sr_set_id, check.charactervector)
+`srDates<-`             <- sera_setter(ac_sr_set_date, check.charactervector)
+`srReference<-`         <- sera_setter(ac_sr_set_reference, check.charactervector)
+`srNames<-`             <- sera_setter(ac_sr_set_name, check.charactervector)
+`srNamesFull<-`         <- sera_setter(ac_sr_set_name_full, check.charactervector)
+`srNamesAbbreviated<-`  <- sera_setter(ac_sr_set_name_abbreviated, check.charactervector)
+`srExtra<-`             <- sera_setter(ac_sr_set_extra, check.charactervector)
+`srPassage<-`           <- sera_setter(ac_sr_set_passage, check.charactervector)
+`srGroupValues<-`       <- sera_setter(ac_sr_set_group, check.numericvector)
 
 
 #' Getting and setting sera groups
@@ -106,7 +110,7 @@ srGroups <- function(map) {
 
   check.acmap(map)
   if (is.null(value)) {
-    srGroupValues(map) <- 0
+    srGroupValues(map) <- rep(0, numSera(map))
     map$sr_group_levels <- NULL
   } else {
     if (!is.factor(value)) value <- as.factor(value)

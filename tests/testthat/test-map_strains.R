@@ -219,4 +219,19 @@ test_that("Getting and setting other attributes", {
 
 })
 
+# Input errors
+test_that("Antigen and serum input errors", {
+
+  # Read in the test map
+  map <- read.acmap(filename = test_path("../testdata/testmap.ace"))
+
+  expect_error(agNames(map) <- as.list(agNames(map)))
+  expect_error(agNames(map) <- 1:length(agNames(map)))
+  expect_error(agNames(map) <- agNames(map)[1:2])
+
+  expect_error(srNames(map) <- as.list(srNames(map)))
+  expect_error(srNames(map) <- 1:length(srNames(map)))
+  expect_error(srNames(map) <- srNames(map)[1:2])
+
+})
 

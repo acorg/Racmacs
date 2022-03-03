@@ -112,17 +112,17 @@ AcTiterTable ac_merge_titer_layers(
 
 // Check if point already in points
 template <typename T>
-bool pt_in_points(
+int pt_match(
     const T& pt,
     const std::vector<T>& pts
 ){
 
-  for(auto &ptspt : pts){
-    if(ptspt.get_match_id() == pt.get_match_id()){
-      return true;
+  for (arma::uword i=0; i<pts.size(); i++) {
+    if (pts[i].get_match_id() == pt.get_match_id()) {
+      return i;
     }
   }
-  return false;
+  return -1;
 
 }
 
@@ -312,21 +312,56 @@ AcMap ac_merge_tables(
   std::vector<AcSerum> merged_sera;
   std::vector<AcTiterTable> merged_layers;
 
+  // Record how each antigen and sera maps its index to the merged map
+  std::vector<arma::uvec> mapped_ag_indices(maps.size());
+  std::vector<arma::uvec> mapped_sr_indices(maps.size());
+
   // Add antigens and sera
   for(arma::uword i=0; i<maps.size(); i++){
 
+    mapped_ag_indices[i].set_size(maps[i].antigens.size());
+    mapped_sr_indices[i].set_size(maps[i].sera.size());
+
     for(arma::uword ag=0; ag<maps[i].antigens.size(); ag++){
-      if(!pt_in_points(maps[i].antigens[ag], merged_antigens)){
+      int match = pt_match(maps[i].antigens[ag], merged_antigens);
+      if (match == -1){
         merged_antigens.push_back(maps[i].antigens[ag]);
+        mapped_ag_indices[i][ag] = merged_antigens.size() - 1;
+      } else {
+        mapped_ag_indices[i][ag] = match;
       }
     }
 
     for(arma::uword sr=0; sr<maps[i].sera.size(); sr++){
-      if(!pt_in_points(maps[i].sera[sr], merged_sera)){
+      int match = pt_match(maps[i].sera[sr], merged_sera);
+      if(match == -1){
         merged_sera.push_back(maps[i].sera[sr]);
+        mapped_sr_indices[i][sr] = merged_sera.size() - 1;
+      } else{
+        mapped_sr_indices[i][sr] = match;
       }
     }
 
+  }
+
+  // Remap sera homologous antigens
+  for (auto &serum : merged_sera) {
+    serum.homologous_ags.clear();
+  }
+
+  for (arma::uword i=0; i<maps.size(); i++) {
+    for (arma::uword sr=0; sr<maps[i].sera.size(); sr++) {
+      for (arma::uword j=0; j<maps[i].sera[sr].homologous_ags.n_elem; j++) {
+        uvec_push(
+          merged_sera[mapped_sr_indices[i][sr]].homologous_ags,
+          mapped_ag_indices[i][maps[i].sera[sr].homologous_ags[j]]
+        );
+      }
+    }
+  }
+
+  for (auto &serum : merged_sera) {
+    serum.homologous_ags = arma::unique(serum.homologous_ags);
   }
 
   // Add titer table layers

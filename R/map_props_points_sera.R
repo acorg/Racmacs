@@ -23,16 +23,17 @@ sera_setter <- function(fn, type) {
       function(map, value) {
         if (is.null(value)) stop("Cannot set null value")
         check.acmap(map)
-        switch(
+        value <- switch(
           type,
           character = check.charactervector(value),
-          numeric = check.numericvector(value)
+          numeric = check.numericvector(value),
+          integerlist = check.integerlist(value)
         )
         if (length(value) != numSera(map)) {
           stop("Length of the value must equal the number of sera in the map")
         }
         map$sera <- lapply(seq_along(map$sera), function(x) {
-          fn(map$sera[[x]], value[x])
+          fn(map$sera[[x]], unlist(value[x]))
         })
         map
       }
@@ -51,14 +52,14 @@ sera_setter <- function(fn, type) {
 #' @family {antigen and sera attribute functions}
 #' @eval roxygen_tags(
 #'   methods = c(
-#'   "srNames", "srNames<-",
-#'   "srExtra", "srExtra<-",
-#'   "srIDs",   "srIDs<-",
-#'   "srDates", "srDates<-",
-#'   "srNamesFull",
-#'   "srNamesAbbreviated",
-#'   "srReference",
-#'   "srPassage"
+#'     "srIDs", "srIDs<-",
+#'     "srDates", "srDates<-",
+#'     "srReference", "srReference<-",
+#'     "srNames", "srNames<-",
+#'     "srNamesFull", "srNamesFull<-",
+#'     "srNamesAbbreviated", "srNamesAbbreviated<-",
+#'     "srExtra", "srExtra<-",
+#'     "srPassage", "srPassage<-"
 #'   ),
 #'   args    = c("map")
 #' )
@@ -71,7 +72,7 @@ srNamesFull         <- sera_getter(ac_sr_get_name_full)
 srNamesAbbreviated  <- sera_getter(ac_sr_get_name_abbreviated)
 srExtra             <- sera_getter(ac_sr_get_extra)
 srPassage           <- sera_getter(ac_sr_get_passage)
-srGroupValues       <- sera_getter(ac_sr_get_group)
+srGroupValues       <- sera_getter(ac_sr_get_group) # Not exported
 srMatchIDs          <- sera_getter(ac_sr_get_match_id) # Not exported
 
 `srIDs<-`               <- sera_setter(ac_sr_set_id, "character")
@@ -83,6 +84,38 @@ srMatchIDs          <- sera_getter(ac_sr_get_match_id) # Not exported
 `srExtra<-`             <- sera_setter(ac_sr_set_extra, "character")
 `srPassage<-`           <- sera_setter(ac_sr_set_passage, "character")
 `srGroupValues<-`       <- sera_setter(ac_sr_set_group, "numeric")
+
+
+#' Get and set homologous antigens for sera
+#'
+#' Get and set indices of homologous antigens to sera in an antigenic map
+#'
+#' @param map An acmap object
+#' @param value A list, where each entry is a vector of indices for homologous
+#'   antigens, or a length 0 vector where no homologous antigen is present
+#'
+#' @family {antigen and sera attribute functions}
+#' @export
+srHomologousAgs <- function(map) {
+  lapply(srHomologousAgsReindexed(map), function(x) x + 1)
+}
+
+#' @rdname srHomologousAgs
+#' @export
+`srHomologousAgs<-` <- function(map, value) {
+  srHomologousAgsReindexed(map) <- lapply(value, function(x) x - 1)
+  map
+}
+
+srHomologousAgsReindexed <- function(map) {
+  check.acmap(map)
+  lapply(map$sera, ac_sr_get_homologous_ags)
+}
+
+`srHomologousAgsReindexed<-` <- sera_setter(
+  ac_sr_set_homologous_ags,
+  "integerlist"
+)
 
 
 #' Getting and setting sera groups

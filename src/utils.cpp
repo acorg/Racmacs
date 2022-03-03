@@ -35,6 +35,12 @@ double euc_dist(
 
 }
 
+void uvec_push(arma::uvec &v, arma::uword value) {
+  arma::uvec av(1);
+  av.at(0) = value;
+  v.insert_rows(v.n_rows, av.row(0));
+}
+
 // [[Rcpp::export]]
 arma::vec ac_coord_dists(
   arma::mat coords1,

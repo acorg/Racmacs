@@ -23,7 +23,7 @@ antigens_setter <- function(fn, type) {
       function(map, value) {
         if (is.null(value)) stop("Cannot set null value")
         check.acmap(map)
-        switch(
+        value <- switch(
           type,
           character = check.charactervector(value),
           numeric = check.numericvector(value)
@@ -34,7 +34,7 @@ antigens_setter <- function(fn, type) {
         map$antigens <- lapply(
           seq_along(map$antigens),
           function(x) {
-            fn(map$antigens[[x]], value[x])
+            fn(map$antigens[[x]], unlist(value[x]))
           }
         )
         map
@@ -54,14 +54,14 @@ antigens_setter <- function(fn, type) {
 #' @family {antigen and sera attribute functions}
 #' @eval roxygen_tags(
 #'   methods = c(
-#'   "agNames", "agNames<-",
-#'   "agExtra", "agExtra<-",
-#'   "agIDs",   "agIDs<-",
-#'   "agDates", "agDates<-",
-#'   "agNamesFull",
-#'   "agNamesAbbreviated",
-#'   "agReference",
-#'   "agPassage"
+#'     "agIDs", "agIDs<-",
+#'     "agDates", "agDates<-",
+#'     "agReference", "agReference<-",
+#'     "agNames", "agNames<-",
+#'     "agNamesFull", "agNamesFull<-",
+#'     "agNamesAbbreviated", "agNamesAbbreviated<-",
+#'     "agExtra", "agExtra<-",
+#'     "agPassage", "agPassage<-"
 #'   ),
 #'   args    = c("map")
 #' )

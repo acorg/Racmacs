@@ -503,3 +503,30 @@ test_that("Merging maps with names", {
   )
 
 })
+
+
+# Homologous antigens after merging
+test_that("Sera homologous antigens after merging", {
+
+  srNames(mergemap2)[3] <- "SERA 29"
+  srNames(mergemap2)[5] <- "SERA 13"
+
+  srHomologousAgs(mergemap1) <- as.list(match(
+    gsub("SERA ", "", srNames(mergemap1)),
+    gsub("ANTIGEN ", "", agNames(mergemap1))
+  ))
+
+  mergemap2_matches <- as.list(match(
+    gsub("SERA ", "", srNames(mergemap2)),
+    gsub("ANTIGEN ", "", agNames(mergemap2))
+  ))
+  mergemap2_matches[is.na(unlist(mergemap2_matches))] <- list(integer())
+  srHomologousAgs(mergemap2) <- mergemap2_matches
+
+  merged_map <- mergeMaps(mergemap1, mergemap2, method = "table")
+  expect_equal(
+    agNames(merged_map)[unlist(srHomologousAgs(merged_map))],
+    gsub("SERA", "ANTIGEN", srNames(merged_map))
+  )
+
+})

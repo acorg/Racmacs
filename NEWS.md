@@ -130,3 +130,6 @@
 * `mergeMaps()` now accepts maps as either separate arguments `mergeMaps(map1, map2)` or as a list `mergeMaps(list(map1, map2))`
 * Additional checks for antigen and serum attribute inputs
 * Error corrected where merging maps with multiple titer layers caused session to crash
+
+# Racmacs 1.1.30
+* Added support for setting indices of homologous antigens for sera with `srHomologousAgs()`

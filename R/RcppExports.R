@@ -373,6 +373,10 @@ ac_sr_get_match_id <- function(sr) {
     .Call('_Racmacs_ac_sr_get_match_id', PACKAGE = 'Racmacs', sr)
 }
 
+ac_sr_get_homologous_ags <- function(sr) {
+    .Call('_Racmacs_ac_sr_get_homologous_ags', PACKAGE = 'Racmacs', sr)
+}
+
 ac_sr_get_group <- function(sr) {
     .Call('_Racmacs_ac_sr_get_group', PACKAGE = 'Racmacs', sr)
 }
@@ -419,6 +423,10 @@ ac_sr_set_name_abbreviated <- function(sr, value) {
 
 ac_sr_set_extra <- function(sr, value) {
     .Call('_Racmacs_ac_sr_set_extra', PACKAGE = 'Racmacs', sr, value)
+}
+
+ac_sr_set_homologous_ags <- function(sr, value) {
+    .Call('_Racmacs_ac_sr_set_homologous_ags', PACKAGE = 'Racmacs', sr, value)
 }
 
 ac_sr_set_group <- function(sr, value) {

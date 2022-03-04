@@ -1021,6 +1021,16 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// ac_sr_get_homologous_ags
+arma::uvec ac_sr_get_homologous_ags(const AcSerum& sr);
+RcppExport SEXP _Racmacs_ac_sr_get_homologous_ags(SEXP srSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::traits::input_parameter< const AcSerum& >::type sr(srSEXP);
+    rcpp_result_gen = Rcpp::wrap(ac_sr_get_homologous_ags(sr));
+    return rcpp_result_gen;
+END_RCPP
+}
 // ac_sr_get_group
 int ac_sr_get_group(const AcSerum& sr);
 RcppExport SEXP _Racmacs_ac_sr_get_group(SEXP srSEXP) {
@@ -1148,6 +1158,17 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< AcSerum >::type sr(srSEXP);
     Rcpp::traits::input_parameter< std::string >::type value(valueSEXP);
     rcpp_result_gen = Rcpp::wrap(ac_sr_set_extra(sr, value));
+    return rcpp_result_gen;
+END_RCPP
+}
+// ac_sr_set_homologous_ags
+AcSerum ac_sr_set_homologous_ags(AcSerum sr, arma::uvec value);
+RcppExport SEXP _Racmacs_ac_sr_set_homologous_ags(SEXP srSEXP, SEXP valueSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::traits::input_parameter< AcSerum >::type sr(srSEXP);
+    Rcpp::traits::input_parameter< arma::uvec >::type value(valueSEXP);
+    rcpp_result_gen = Rcpp::wrap(ac_sr_set_homologous_ags(sr, value));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -1786,6 +1807,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_Racmacs_ac_sr_get_name_abbreviated", (DL_FUNC) &_Racmacs_ac_sr_get_name_abbreviated, 1},
     {"_Racmacs_ac_sr_get_extra", (DL_FUNC) &_Racmacs_ac_sr_get_extra, 1},
     {"_Racmacs_ac_sr_get_match_id", (DL_FUNC) &_Racmacs_ac_sr_get_match_id, 1},
+    {"_Racmacs_ac_sr_get_homologous_ags", (DL_FUNC) &_Racmacs_ac_sr_get_homologous_ags, 1},
     {"_Racmacs_ac_sr_get_group", (DL_FUNC) &_Racmacs_ac_sr_get_group, 1},
     {"_Racmacs_ac_sr_get_group_levels", (DL_FUNC) &_Racmacs_ac_sr_get_group_levels, 1},
     {"_Racmacs_ac_sr_set_id", (DL_FUNC) &_Racmacs_ac_sr_set_id, 2},
@@ -1798,6 +1820,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_Racmacs_ac_sr_set_name_full", (DL_FUNC) &_Racmacs_ac_sr_set_name_full, 2},
     {"_Racmacs_ac_sr_set_name_abbreviated", (DL_FUNC) &_Racmacs_ac_sr_set_name_abbreviated, 2},
     {"_Racmacs_ac_sr_set_extra", (DL_FUNC) &_Racmacs_ac_sr_set_extra, 2},
+    {"_Racmacs_ac_sr_set_homologous_ags", (DL_FUNC) &_Racmacs_ac_sr_set_homologous_ags, 2},
     {"_Racmacs_ac_sr_set_group", (DL_FUNC) &_Racmacs_ac_sr_set_group, 2},
     {"_Racmacs_ac_sr_set_group_levels", (DL_FUNC) &_Racmacs_ac_sr_set_group_levels, 2},
     {"_Racmacs_ac_bootstrap_map", (DL_FUNC) &_Racmacs_ac_bootstrap_map, 13},

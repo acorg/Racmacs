@@ -75,12 +75,13 @@ std::string acmap_to_json(
     Value srval(kObjectType);
 
     srval.AddMember("N", jsonifya(sr.get_name(), allocator), allocator);
-    if (!sr.isdefault("passage"))     srval.AddMember("P", jsonifya(sr.get_passage(), allocator), allocator);
-    if (!sr.isdefault("clade"))       srval.AddMember("c", jsonifya(sr.get_clade(), allocator), allocator);
-    if (!sr.isdefault("annotations")) srval.AddMember("a", jsonifya(sr.get_annotations(), allocator), allocator);
-    if (!sr.isdefault("sequence"))    srval.AddMember("A", jsonifya(sr.get_sequence(), allocator), allocator);
-    if (!sr.isdefault("date"))        srval.AddMember("D", jsonifya(sr.get_date(), allocator), allocator);
-    if (!sr.isdefault("id"))          srval.AddMember("I", jsonifya(sr.get_id(), allocator), allocator);
+    if (!sr.isdefault("passage"))           srval.AddMember("P", jsonifya(sr.get_passage(), allocator), allocator);
+    if (!sr.isdefault("clade"))             srval.AddMember("c", jsonifya(sr.get_clade(), allocator), allocator);
+    if (!sr.isdefault("annotations"))       srval.AddMember("a", jsonifya(sr.get_annotations(), allocator), allocator);
+    if (!sr.isdefault("sequence"))          srval.AddMember("A", jsonifya(sr.get_sequence(), allocator), allocator);
+    if (!sr.isdefault("date"))              srval.AddMember("D", jsonifya(sr.get_date(), allocator), allocator);
+    if (!sr.isdefault("id"))                srval.AddMember("I", jsonifya(sr.get_id(), allocator), allocator);
+    if (sr.get_homologous_ags().n_elem > 0) srval.AddMember("h", jsonifya(sr.get_homologous_ags(), allocator), allocator);
     // set_group_values
     // set_reference
     // set_name_full

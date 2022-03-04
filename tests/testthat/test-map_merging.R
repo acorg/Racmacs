@@ -168,6 +168,14 @@ test_that("Merging titers", {
 
 })
 
+test_that("Sequential merging", {
+
+  merge1 <- mergeMaps(mergemap1, mergemap2, method = "table")
+  merge2 <- mergeMaps(merge1, mergemap3, method = "table")
+  expect_equal(numLayers(merge2), 3)
+
+})
+
 # Generating merge reports
 test_that("Merge reports", {
 
@@ -195,6 +203,16 @@ test_that("Merge error", {
     mergeMaps(mergemap1,
               mergemap2,
               method = "merge")
+  )
+
+})
+
+# Different types of merging
+test_that("Different types of merging", {
+
+  expect_equal(
+    mergeMaps(mergemap1, mergemap2, method = "table"),
+    mergeMaps(list(mergemap1, mergemap2), method = "table")
   )
 
 })
@@ -482,6 +500,33 @@ test_that("Merging maps with names", {
   expect_equal(
     layerNames(merged_map_listnamed),
     c("map1merge", "map2merge")
+  )
+
+})
+
+
+# Homologous antigens after merging
+test_that("Sera homologous antigens after merging", {
+
+  srNames(mergemap2)[3] <- "SERA 29"
+  srNames(mergemap2)[5] <- "SERA 13"
+
+  srHomologousAgs(mergemap1) <- as.list(match(
+    gsub("SERA ", "", srNames(mergemap1)),
+    gsub("ANTIGEN ", "", agNames(mergemap1))
+  ))
+
+  mergemap2_matches <- as.list(match(
+    gsub("SERA ", "", srNames(mergemap2)),
+    gsub("ANTIGEN ", "", agNames(mergemap2))
+  ))
+  mergemap2_matches[is.na(unlist(mergemap2_matches))] <- list(integer())
+  srHomologousAgs(mergemap2) <- mergemap2_matches
+
+  merged_map <- mergeMaps(mergemap1, mergemap2, method = "table")
+  expect_equal(
+    agNames(merged_map)[unlist(srHomologousAgs(merged_map))],
+    gsub("SERA", "ANTIGEN", srNames(merged_map))
   )
 
 })

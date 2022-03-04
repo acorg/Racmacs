@@ -110,20 +110,44 @@ void AcMap::set_titer_table_layers(
 
 // Remove antigen(s)
 void AcMap::remove_antigen(int agnum){
-  antigens.erase(antigens.begin()+agnum);
+
+  // Deal with homologous serum records
+  arma::uvec ag_indices = arma::regspace<arma::uvec>(0, antigens.size() - 1);
+  ag_indices.shed_row(agnum);
+  for (auto &serum : sera) {
+    arma::uvec new_indices;
+    for (arma::uword i=0; i<serum.homologous_ags.n_elem; i++) {
+      for (arma::uword j=0; j<ag_indices.n_elem; j++) {
+        if (serum.homologous_ags[i] == ag_indices[j]) {
+          uvec_push(new_indices, j);
+        }
+      }
+    }
+    serum.homologous_ags = new_indices;
+  }
+
+  // Deal with titers
   titer_table_flat.remove_antigen(agnum);
   for(auto &titer_table_layer : titer_table_layers){
     titer_table_layer.remove_antigen(agnum);
   }
+
+  // Deal with optimizations
   for(auto &optimization : optimizations){
     optimization.remove_antigen(agnum);
   }
+
+  // Finally remove the antigen
+  antigens.erase(antigens.begin()+agnum);
+
 }
 
 void AcMap::remove_antigens(arma::uvec agnums){
+
   for(arma::uword i=0; i<agnums.n_elem; i++){
     remove_antigen(agnums[i]);
   }
+
 }
 
 // Remove serum(s)
@@ -156,6 +180,21 @@ void AcMap::subset(
   }
   if(sr.max() >= sera.size()){
     Rcpp::stop("Sera index out of range");
+  }
+
+  // Deal with homologous serum records
+  arma::uvec ag_indices = arma::regspace<arma::uvec>(0, antigens.size() - 1);
+  ag_indices = ag_indices.elem(ags);
+  for (auto &serum : sera) {
+    arma::uvec new_indices;
+    for (arma::uword i=0; i<serum.homologous_ags.n_elem; i++) {
+      for (arma::uword j=0; j<ag_indices.n_elem; j++) {
+        if (serum.homologous_ags[i] == ag_indices[j]) {
+          uvec_push(new_indices, j);
+        }
+      }
+    }
+    serum.homologous_ags = new_indices;
   }
 
   // Define point indices of the subset

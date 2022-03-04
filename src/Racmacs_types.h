@@ -112,8 +112,18 @@ SEXP wrap(const Procrustes& p){
 // FROM: ARMA::VEC
 template <>
 SEXP wrap(const arma::vec& v){
-  NumericVector out(v.size());
-  for(arma::uword i=0; i<v.size(); i++){
+  NumericVector out(v.n_elem);
+  for(arma::uword i=0; i<v.n_elem; i++){
+    out[i] = v[i];
+  }
+  return wrap(out);
+}
+
+// FROM: ARMA::UVEC
+template <>
+SEXP wrap(const arma::uvec& v){
+  NumericVector out(v.n_elem);
+  for(arma::uword i=0; i<v.n_elem; i++){
     out[i] = v[i];
   }
   return wrap(out);
@@ -185,6 +195,7 @@ SEXP wrap(const AcSerum& sr){
       _["id"] = sr.get_id(),
       _["date"] = sr.get_date(),
       _["group"] = sr.get_group(),
+      _["homologous_ags"] = sr.get_homologous_ags(),
       _["sequence"] = sr.get_sequence(),
       _["passage"] = sr.get_passage(),
       _["clade"] = sr.get_clade(),
@@ -516,6 +527,7 @@ AcSerum as(SEXP sxp){
   if(list.containsElementNamed("id")) sr.set_id(list["id"]);
   if(list.containsElementNamed("date")) sr.set_date(list["date"]);
   if(list.containsElementNamed("group")) sr.set_group(list["group"]);
+  if(list.containsElementNamed("homologous_ags")) sr.set_homologous_ags(list["homologous_ags"]);
   if(list.containsElementNamed("sequence")) sr.set_sequence(list["sequence"]);
   if(list.containsElementNamed("passage")) sr.set_passage(list["passage"]);
   if(list.containsElementNamed("clade")) sr.set_clade(list["clade"]);

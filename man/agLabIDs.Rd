@@ -27,6 +27,7 @@ Other {antigen and sera attribute functions}:
 \code{\link{ptClades}},
 \code{\link{srAttributes}},
 \code{\link{srGroups}()},
+\code{\link{srHomologousAgs}()},
 \code{\link{srSequences}()}
 }
 \concept{{antigen and sera attribute functions}}

@@ -37,6 +37,10 @@ std::string ac_sr_get_extra( const AcSerum &sr ){ return sr.get_extra(); }
 
 // [[Rcpp::export(rng = false)]]
 std::string ac_sr_get_match_id( const AcSerum &sr ){ return sr.get_match_id(); }
+
+// [[Rcpp::export(rng = false)]]
+arma::uvec ac_sr_get_homologous_ags( const AcSerum &sr ){ return sr.get_homologous_ags(); }
+
 // [[Rcpp::export(rng = false)]]
 int ac_sr_get_group( const AcSerum &sr ){ return sr.get_group(); }
 // [[Rcpp::export(rng = false)]]
@@ -65,6 +69,9 @@ AcSerum ac_sr_set_name_full( AcSerum sr, std::string value ){  sr.set_name_full(
 AcSerum ac_sr_set_name_abbreviated( AcSerum sr, std::string value ){ sr.set_name_abbreviated(value); return sr; }
 // [[Rcpp::export(rng = false)]]
 AcSerum ac_sr_set_extra( AcSerum sr, std::string value ){ sr.set_extra(value); return sr; }
+
+// [[Rcpp::export(rng = false)]]
+AcSerum ac_sr_set_homologous_ags( AcSerum sr, arma::uvec value ){ sr.set_homologous_ags(value); return sr; }
 
 // [[Rcpp::export(rng = false)]]
 AcSerum ac_sr_set_group( AcSerum sr, int value ){ sr.set_group(value); return sr; }

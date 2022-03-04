@@ -5,7 +5,7 @@
 \title{Merging maps}
 \usage{
 mergeMaps(
-  maps,
+  ...,
   method = "table",
   number_of_dimensions,
   number_of_optimizations,
@@ -15,7 +15,7 @@ mergeMaps(
 )
 }
 \arguments{
-\item{maps}{List of acmaps to merge}
+\item{...}{acmaps to merge provided as either a list, or a series of separate arguments}
 
 \item{method}{The merge method to use, see details.}
 

@@ -3,7 +3,7 @@
 #'
 #' Functions to merge together two tables or maps.
 #'
-#' @param maps List of acmaps to merge
+#' @param ... acmaps to merge provided as either a list, or a series of separate arguments
 #' @param method The merge method to use, see details.
 #' @param number_of_dimensions For merging that generates new optimization runs,
 #'   the number of dimensions.
@@ -56,7 +56,7 @@
 #' @family {map merging functions}
 #' @export
 mergeMaps <- function(
-  maps,
+  ...,
   method = "table",
   number_of_dimensions,
   number_of_optimizations,
@@ -64,6 +64,10 @@ mergeMaps <- function(
   optimizer_options = list(),
   merge_options = list()
   ) {
+
+  # Process input
+  maps <- list(...)
+  if (!inherits(maps[[1]], "acmap")) maps <- unlist(maps, recursive = F)
 
   # Check input
   if (!is.list(maps)) stop("Input must be a list of acmap objects", call. = FALSE)

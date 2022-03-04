@@ -220,3 +220,61 @@ test_that("Getting and setting other attributes", {
 })
 
 
+# Getting and setting other attributes
+test_that("Getting and setting homologous antigens", {
+
+  # Read in the test map
+  map <- read.acmap(filename = test_path("../testdata/testmap.ace"))
+
+  # Test defaults
+  expect_equal(
+    srHomologousAgs(map),
+    lapply(seq_len(numSera(map)), function(x) integer(0))
+  )
+
+  # Check errors
+  expect_error(srHomologousAgs(map) <- c(2, 1, NA, 4, 3))
+  expect_error(srHomologousAgs(map) <- list(2, c("a", 6), NULL, 5, 4))
+  expect_error(srHomologousAgs(map) <- as.list(1:4))
+
+  # Test editing
+  homo_ags <- list(2, c(3, 6), NULL, 5, 3)
+  srHomologousAgs(map) <- homo_ags
+
+  # Check changed values
+  expect_equal(srHomologousAgs(map), check.integerlist(homo_ags))
+
+  # Check saving and reloading
+  tmp <- tempfile(fileext = ".ace")
+  save.acmap(map, tmp)
+
+  loaded_map <- read.acmap(tmp)
+  expect_equal(srHomologousAgs(map), check.integerlist(homo_ags))
+
+  # Check removing antigens
+  map_removed <- removeAntigens(map, 3)
+  expect_equal(srHomologousAgs(map_removed), check.integerlist(list(2, 5, NULL, 4, NULL)))
+
+  # Check reordering antigens
+  map_reordered <- orderAntigens(map, 10:1)
+  expect_equal(srHomologousAgs(map_reordered), check.integerlist(list(9, c(8, 5), NULL, 6, 8)))
+
+})
+
+
+# Input errors
+test_that("Antigen and serum input errors", {
+
+  # Read in the test map
+  map <- read.acmap(filename = test_path("../testdata/testmap.ace"))
+
+  expect_error(agNames(map) <- as.list(agNames(map)))
+  expect_error(agNames(map) <- 1:length(agNames(map)))
+  expect_error(agNames(map) <- agNames(map)[1:2])
+
+  expect_error(srNames(map) <- as.list(srNames(map)))
+  expect_error(srNames(map) <- 1:length(srNames(map)))
+  expect_error(srNames(map) <- srNames(map)[1:2])
+
+})
+

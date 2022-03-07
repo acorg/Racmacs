@@ -133,3 +133,6 @@
 
 # Racmacs 1.1.30
 * Added support for setting indices of homologous antigens for sera with `srHomologousAgs()`
+
+# Racmacs 1.1.31
+* Added checks for disconnected groups of points and functions `mapCohesion()`, `agCohesion()`, `srCohesion()` to diagnose poorly connected groups of points

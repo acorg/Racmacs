@@ -73,6 +73,25 @@ optimizeMap <- function(
   # Perform the optimization runs
   tstart <- Sys.time()
 
+  # Check for disconnected or underconstrained points
+  ag_num_measured <- rowSums(titertypesTable(map) == 1)
+  sr_num_measured <- colSums(titertypesTable(map) == 1)
+
+  ag_disconnected <- ag_num_measured < number_of_dimensions
+  sr_disconnected <- sr_num_measured < number_of_dimensions
+
+  ag_underconstrained <- ag_num_measured == number_of_dimensions
+  sr_underconstrained <- sr_num_measured == number_of_dimensions
+
+  if (sum(ag_disconnected) > 0) warn_disconnected("ANTIGENS", agNames(map)[ag_disconnected], number_of_dimensions)
+  if (sum(sr_disconnected) > 0) warn_disconnected("SERA", srNames(map)[sr_disconnected], number_of_dimensions)
+
+  if (sum(ag_underconstrained) > 0) warn_underconstrained("ANTIGENS", agNames(map)[ag_underconstrained], number_of_dimensions)
+  if (sum(sr_underconstrained) > 0) warn_underconstrained("SERA", srNames(map)[sr_underconstrained], number_of_dimensions)
+
+  # Check for unconnected sets of points
+  if (mapDisconnected(map)) warning(no_cohesion_warning(), call. = F)
+
   map <- ac_optimize_map(
     map = map,
     num_dims = number_of_dimensions,
@@ -83,22 +102,6 @@ optimizeMap <- function(
     titer_weights = titer_weights,
     options = options
   )
-
-  # Check for disconnected or underconstrained points
-  ag_num_measured <- rowSums(titertypesTable(map) == 1)
-  sr_num_measured <- colSums(titertypesTable(map) == 1)
-
-  ag_disconnected <- ag_num_measured < number_of_dimensions
-  sr_disconnected <- sr_num_measured < number_of_dimensions
-
-  ag_underconstrained <- ag_num_measured < number_of_dimensions + 1
-  sr_underconstrained <- sr_num_measured < number_of_dimensions + 1
-
-  if (sum(ag_disconnected) > 0) warn_disconnected("ANTIGENS", agNames(map)[ag_disconnected], number_of_dimensions)
-  if (sum(sr_disconnected) > 0) warn_disconnected("SERA", srNames(map)[sr_disconnected], number_of_dimensions)
-
-  if (sum(ag_underconstrained) > 0) warn_underconstrained("ANTIGENS", agNames(map)[ag_underconstrained], number_of_dimensions)
-  if (sum(sr_underconstrained) > 0) warn_underconstrained("SERA", srNames(map)[sr_underconstrained], number_of_dimensions)
 
   # Set disconnected point coordinates to NaN
   for (n in seq_len(numOptimizations(map))) {
@@ -132,8 +135,8 @@ optimizeMap <- function(
       warning(sprintf(
         singleline("There is some variation (%s AU for one point) in the top runs,
                    this may be an indication that more optimization runs could help
-                   achieve a better optimum. Also consider running it with
-                   options = list(dim_annealing = TRUE).")
+                   achieve a better optimum. If this still fails to help see
+                   ?unstableMaps for further possible causes.")
       , round(max(procrustes_dists, na.rm = T), 2)))
     }
 
@@ -625,3 +628,130 @@ warn_disconnected <- function(type, strains, number_of_dimensions) {
     strains
   )
 }
+
+# Warnings to use
+no_cohesion_warning <- function() {
+  singleline(
+    "Some sets of points are entirely disconnected from each other meaning that the
+    resulting map will consist of disconnected sets of points that are not coordinated
+    relative to each other."
+  )
+}
+
+# Calculate map connectivity
+mapConnectivityGraph <- function(map) {
+
+  ags <- seq_len(numAntigens(map))
+  srs <- seq_len(numSera(map))
+
+  titertypes <- titertypesTable(map)
+  edges <- as.matrix(expand.grid(ags, srs))
+  edge_titertypes <- apply(edges, 1, function(x) titertypes[x[1], x[2]])
+  edges[,2] <- edges[,2] + numAntigens(map)
+
+  edges <- edges[edge_titertypes == 1, , drop = F]
+  igraph::graph_from_edgelist(edges, directed = FALSE)
+
+}
+
+mapConnectivityDistances <- function(map) {
+
+  graph <- mapConnectivityGraph(map)
+  igraph::distances(graph)
+
+}
+
+mapDisconnected <- function(map) {
+
+  max(mapConnectivityDistances(map)) == Inf
+
+}
+
+#' @rdname mapCohesion
+#' @export
+agCohesion <- function(map) {
+
+  graph <- mapConnectivityGraph(map)
+  ag_cohesion <- matrix(NA, numAntigens(map), numAntigens(map))
+  for (ag1 in seq_len(numAntigens(map))) {
+    for (ag2 in seq_len(numAntigens(map))) {
+      if (ag1 != ag2) {
+        ag_cohesion[ag1, ag2] <- igraph::vertex_connectivity(graph, ag1, ag2)
+      }
+    }
+  }
+  ag_cohesion
+
+}
+
+#' @rdname mapCohesion
+#' @export
+srCohesion <- function(map) {
+
+  graph <- mapConnectivityGraph(map)
+  sr_cohesion <- matrix(NA, numSera(map), numSera(map))
+  nags <- numAntigens(map)
+  for (sr1 in seq_len(numSera(map))) {
+    for (sr2 in seq_len(numSera(map))) {
+      if (sr1 != sr2) {
+        sr_cohesion[sr1, sr2] <- igraph::vertex_connectivity(graph, sr1 + nags, sr2 + nags)
+      }
+    }
+  }
+  sr_cohesion
+
+}
+
+
+#' Check map cohesion
+#'
+#' Checks the vertex connectivity of points in a map (the minimum number of
+#' points needed to remove from the map to eliminate all paths from one point to
+#' another point). This is for checking for example if after merging maps you
+#' only have a small number of points in common between separate groups of
+#' points, leading to a situation where groups of points cannot be robustly
+#' positioned relative to each other. If the vertex connectivity is smaller than
+#' the number of map dimensions + 1 then this will certainly be occurring and
+#' will lead to an unstable map solution. `mapCohesion()` returns the minimum
+#' vertex connectivity found between any given points, while `agCohesion()` and
+#' `srCohesion()` return the vertex connectivity between each pair of antigens
+#' and sera as a table helping to diagnose which antigens and sera are forming
+#' separate groups. Note that for these purposes only detectable titers count
+#' as connections and non-detectable titers are ignored.
+#'
+#' @param map An acmap object
+#'
+#' @export
+#'
+mapCohesion <- function(map) {
+
+  graph <- mapConnectivityGraph(map)
+  igraph::vertex_connectivity(graph)
+
+}
+
+
+#' Notes on unstable maps
+#'
+#' Tips for exploring maps that are difficult to find a consistent optimal solution for.
+#'
+#' Maps may be difficult to optimize or unstable for a variety of reasons, a common
+#' one with larger maps being simply that it is difficult to find a global optima
+#' and so many different local optima are found each time.
+#'
+#' One approach that can sometimes
+#' help is to consider running the optimizer with `options = list(dim_annealing = TRUE)`
+#' (see see `vignette("intro-to-antigenic-cartography")` for an explanation of the
+#' dimensional annealing approach). However be wary that in our experience, while applying
+#' dimensional annealing can sometimes significantly speed up finding a better minima, it
+#' can also sometimes be more prone to getting stuck in worse local optima.
+#'
+#' If there are many missing or non-detectable titers it is also
+#' possible that points in map are too poorly connected to find a robust
+#' solution, to check this see `mapCohesion()`.
+#'
+#' @name unstableMaps
+#'
+NULL
+
+

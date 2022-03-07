@@ -140,6 +140,14 @@ Racmacs.utils.InputWell = class InputWell {
 }
 
 
+Racmacs.utils.RemoveColorOpacity = function(col) {
+    if (col.match(/^#([A-Z]|[0-9]|[a-z]){8}$/)) {
+    	col = col.replace(/.{2}$/, "");
+    }
+    return(col);
+}
+
+
 Racmacs.utils.matrixMultiply = function(t1, t2){
 
 	return([

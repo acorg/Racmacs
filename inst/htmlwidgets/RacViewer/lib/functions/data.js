@@ -540,17 +540,33 @@ Racmacs.Data = class Data {
     }
 
     agFill(i){
-        return(this.agPlotspec(i, "F", "green"));
+        return(
+            Racmacs.utils.RemoveColorOpacity(
+                this.agPlotspec(i, "F", "green")
+            )
+        );
     }
     srFill(i){
-        return(this.srPlotspec(i, "F", "transparent"));
+        return(
+            Racmacs.utils.RemoveColorOpacity(
+                this.srPlotspec(i, "F", "transparent")
+            )
+        );
     }
 
     agOutline(i){
-        return(this.agPlotspec(i, "O", "black"));
+        return(
+            Racmacs.utils.RemoveColorOpacity(
+                this.agPlotspec(i, "O", "black")
+            )
+        );
     }
     srOutline(i){
-        return(this.srPlotspec(i, "O", "black"));
+        return(
+            Racmacs.utils.RemoveColorOpacity(
+                this.srPlotspec(i, "O", "black")
+            )
+        );
     }
 
     agOutlineWidth(i){

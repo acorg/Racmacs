@@ -97,6 +97,7 @@ noise you may expect in your data and set these parameters accordingly.
 }
 \seealso{
 Other {map diagnostic functions}: 
+\code{\link{agCohesion}()},
 \code{\link{bootstrapBlobs}()},
 \code{\link{checkHemisphering}()},
 \code{\link{dimensionTestMap}()},
@@ -107,6 +108,7 @@ Other {map diagnostic functions}:
 \code{\link{ptBootstrapCoords}()},
 \code{\link{ptLeverage}},
 \code{\link{ptTriangulationBlobsize}},
-\code{\link{triangulationBlobs}()}
+\code{\link{triangulationBlobs}()},
+\code{\link{unstableMaps}}
 }
 \concept{{map diagnostic functions}}

@@ -59,6 +59,7 @@ lower than the log-titer threshold, the error is set to 0.
 }
 \seealso{
 Other {map diagnostic functions}: 
+\code{\link{agCohesion}()},
 \code{\link{bootstrapBlobs}()},
 \code{\link{bootstrapMap}()},
 \code{\link{checkHemisphering}()},
@@ -69,6 +70,7 @@ Other {map diagnostic functions}:
 \code{\link{ptBootstrapCoords}()},
 \code{\link{ptLeverage}},
 \code{\link{ptTriangulationBlobsize}},
-\code{\link{triangulationBlobs}()}
+\code{\link{triangulationBlobs}()},
+\code{\link{unstableMaps}}
 }
 \concept{{map diagnostic functions}}

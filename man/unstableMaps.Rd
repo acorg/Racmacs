@@ -22,3 +22,20 @@ If there are many missing or non-detectable titers it is also
 possible that points in map are too poorly connected to find a robust
 solution, to check this see \code{mapCohesion()}.
 }
+\seealso{
+Other {map diagnostic functions}: 
+\code{\link{agCohesion}()},
+\code{\link{bootstrapBlobs}()},
+\code{\link{bootstrapMap}()},
+\code{\link{checkHemisphering}()},
+\code{\link{dimensionTestMap}()},
+\code{\link{map-table-distances}},
+\code{\link{mapBootstrapCoords}},
+\code{\link{mapRelaxed}()},
+\code{\link{ptBootstrapBlob}},
+\code{\link{ptBootstrapCoords}()},
+\code{\link{ptLeverage}},
+\code{\link{ptTriangulationBlobsize}},
+\code{\link{triangulationBlobs}()}
+}
+\concept{{map diagnostic functions}}

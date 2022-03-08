@@ -722,6 +722,7 @@ srCohesion <- function(map) {
 #' @param map An acmap object
 #'
 #' @export
+#' @family {map diagnostic functions}
 #'
 mapCohesion <- function(map) {
 
@@ -751,6 +752,7 @@ mapCohesion <- function(map) {
 #' solution, to check this see `mapCohesion()`.
 #'
 #' @name unstableMaps
+#' @family {map diagnostic functions}
 #'
 NULL
 

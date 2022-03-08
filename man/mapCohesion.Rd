@@ -30,3 +30,20 @@ and sera as a table helping to diagnose which antigens and sera are forming
 separate groups. Note that for these purposes only detectable titers count
 as connections and non-detectable titers are ignored.
 }
+\seealso{
+Other {map diagnostic functions}: 
+\code{\link{bootstrapBlobs}()},
+\code{\link{bootstrapMap}()},
+\code{\link{checkHemisphering}()},
+\code{\link{dimensionTestMap}()},
+\code{\link{map-table-distances}},
+\code{\link{mapBootstrapCoords}},
+\code{\link{mapRelaxed}()},
+\code{\link{ptBootstrapBlob}},
+\code{\link{ptBootstrapCoords}()},
+\code{\link{ptLeverage}},
+\code{\link{ptTriangulationBlobsize}},
+\code{\link{triangulationBlobs}()},
+\code{\link{unstableMaps}}
+}
+\concept{{map diagnostic functions}}

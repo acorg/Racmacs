@@ -136,3 +136,4 @@
 
 # Racmacs 1.1.31
 * Added checks for disconnected groups of points and functions `mapCohesion()`, `agCohesion()`, `srCohesion()` to diagnose poorly connected groups of points
+* Add support for point transparency set either through `agOpacity()` and `srOpacity()` or appropriate hex code to the point fill or outline attribute e.g. `"#FF000099"`.

@@ -64,7 +64,9 @@ Racmacs.Data = class Data {
 
     // For updating stress
     updateStress(stress) {
-        this.data.c.P[this.pnum].s = stress;
+        if (this.numProjections() > 0) {
+            this.data.c.P[this.pnum].s = stress;
+        }
     }
 
     // For resetting tranformation and translation information
@@ -252,7 +254,7 @@ Racmacs.Data = class Data {
     // Projection attributes
     stress(i){
         if (i === undefined) i = this.pnum;
-        if(this.data.c.P[i] && this.data.c.P[i].s){
+        if(this.numProjections() > 0 && this.data.c.P[i] && this.data.c.P[i].s){
             return(this.data.c.P[i].s);
         } else {
             return(0);
@@ -564,6 +566,36 @@ Racmacs.Data = class Data {
     srOutline(i){
         return(
             Racmacs.utils.RemoveColorOpacity(
+                this.srPlotspec(i, "O", "black")
+            )
+        );
+    }
+
+    agFillOpacity(i){
+        return(
+            Racmacs.utils.ExtractColorOpacity(
+                this.agPlotspec(i, "F", "green")
+            )
+        );
+    }
+    srFillOpacity(i){
+        return(
+            Racmacs.utils.ExtractColorOpacity(
+                this.srPlotspec(i, "F", "transparent")
+            )
+        );
+    }
+
+    agOutlineOpacity(i){
+        return(
+            Racmacs.utils.ExtractColorOpacity(
+                this.agPlotspec(i, "O", "black")
+            )
+        );
+    }
+    srOutlineOpacity(i){
+        return(
+            Racmacs.utils.ExtractColorOpacity(
                 this.srPlotspec(i, "O", "black")
             )
         );

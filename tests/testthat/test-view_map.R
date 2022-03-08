@@ -264,6 +264,18 @@ test_that("Viewing map transparency", {
     adjustcolor("black", alpha.f = 1)
   )
 
+  srFill(map) <- c(
+    adjustcolor("green", alpha.f = 1),
+    adjustcolor("green", alpha.f = 0.6),
+    adjustcolor("green", alpha.f = 0.2)
+  )
+
+  srOutline(map) <- c(
+    adjustcolor("black", alpha.f = 1),
+    adjustcolor("black", alpha.f = 0.6),
+    adjustcolor("black", alpha.f = 0.2)
+  )
+
   agSize(map) <- 10
   srSize(map) <- 10
   agOutlineWidth(map) <- 3
@@ -275,11 +287,13 @@ test_that("Viewing map transparency", {
   )
 
   export.viewer.test(
-    view(map),
-    "map_transparent_points_inherited.html",
-    options = list(
-      point.opacity = "inherit"
-    )
+    view(
+      map,
+      options = list(
+        point.opacity = "inherit"
+      )
+    ),
+    "map_transparent_points_inherited.html"
   )
 
 })

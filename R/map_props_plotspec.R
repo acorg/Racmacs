@@ -163,6 +163,54 @@ validate_colors <- function(cols) {
 }
 
 
+# Extra functions that either get or set opacity
+get_col_opacity <- function(cols) {
+  grDevices::col2rgb(cols, alpha = T)["alpha",] / 255
+}
+
+set_col_opacity <- function(cols, opacity) {
+  col_rgba <- grDevices::col2rgb(cols, alpha = T)
+  col_rgba["alpha",] <- opacity * 255
+  apply(col_rgba, 2, function(x) grDevices::rgb(x[1], x[2], x[3], x[4], maxColorValue = 255))
+}
+
+
+#' Set point opacity in a map
+#'
+#' These are helper functions to quickly set the opacity of points in a map,
+#' they set both the fill and outline color opacity by modifying the fill
+#' and outline colors to include an alpha channel for opacity. If you need
+#' more control, for example different opacities for the fill and outline
+#' colors, you alter the fill and outline opacities yourself, for example
+#' with the `grDevices::adjustcolor()` function.
+#'
+#' @param map An acmap object
+#' @param value A vector of opacities
+#'
+#' @family {map point style functions}
+#'
+#' @name ptOpacity
+#'
+
+#' @rdname ptOpacity
+#' @export
+`agOpacity<-` <- function(map, value) {
+  check.acmap(map)
+  agFill(map) <- set_col_opacity(agFill(map), value)
+  agOutline(map) <- set_col_opacity(agOutline(map), value)
+  map
+}
+
+#' @rdname ptOpacity
+#' @export
+`srOpacity<-` <- function(map, value) {
+  check.acmap(map)
+  srFill(map) <- set_col_opacity(srFill(map), value)
+  srOutline(map) <- set_col_opacity(srOutline(map), value)
+  map
+}
+
+
 #' Get and set point drawing order in map
 #'
 #' Point drawing order is a vector of indices defining the order in

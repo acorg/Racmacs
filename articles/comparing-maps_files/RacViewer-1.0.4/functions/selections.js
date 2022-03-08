@@ -369,7 +369,7 @@ Racmacs.Point.prototype.updateDisplay = function(){
             this.setOpacity(styles.unhovered.highlighted.opacity);
         } else {
             this.restoreOutlineColor();
-            this.setOpacity(styles.unhovered.unselected.opacity);
+            this.restoreOpacity();
         }
     }
 

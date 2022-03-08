@@ -178,6 +178,9 @@
     <loc>https://acorg.github.io/Racmacs/reference/mapBootstrapCoords.html</loc>
   </url>
   <url>
+    <loc>https://acorg.github.io/Racmacs/reference/mapCohesion.html</loc>
+  </url>
+  <url>
     <loc>https://acorg.github.io/Racmacs/reference/mapComment.html</loc>
   </url>
   <url>
@@ -266,6 +269,9 @@
   </url>
   <url>
     <loc>https://acorg.github.io/Racmacs/reference/ptLeverage.html</loc>
+  </url>
+  <url>
+    <loc>https://acorg.github.io/Racmacs/reference/ptOpacity.html</loc>
   </url>
   <url>
     <loc>https://acorg.github.io/Racmacs/reference/ptStyles.html</loc>
@@ -374,6 +380,9 @@
   </url>
   <url>
     <loc>https://acorg.github.io/Racmacs/reference/triangulationBlobs.html</loc>
+  </url>
+  <url>
+    <loc>https://acorg.github.io/Racmacs/reference/unstableMaps.html</loc>
   </url>
   <url>
     <loc>https://acorg.github.io/Racmacs/reference/update_ferret_seraNames.html</loc>

@@ -101,13 +101,14 @@ Racmacs.Point = class Point {
         this.typeIndex     = args.typeIndex;
         this.pIndex        = args.pIndex;
 
-        this.selected     = false;
-        this.hovered      = false;
-        this.highlighted  = 0;
-        this.rayTraceable = true;
-        this.opacity      = 1;
-        this.scaling      = 1;
-        this.included     = true;
+        this.selected       = false;
+        this.hovered        = false;
+        this.highlighted    = 0;
+        this.rayTraceable   = true;
+        this.fillopacity    = 1;
+        this.outlineopacity = 1;
+        this.scaling        = 1;
+        this.included       = true;
 
         if (args.group_levels != undefined) {
             this.groupvalue = args.group_levels[args.group];
@@ -340,8 +341,6 @@ Racmacs.Point = class Point {
     setOpacity(opacity){
         
         if(this.element && !this.transparency_fixed){
-            
-            this.opacity = opacity;
 
             if(this.fillColor != "transparent"){
                 this.element.setFillOpacity(opacity);
@@ -355,6 +354,15 @@ Racmacs.Point = class Point {
                 this.blobObject.setOpacity(opacity);
             }
 
+        }
+
+    }
+
+    restoreOpacity(opacity){
+
+        if(this.element && !this.transparency_fixed){
+            this.element.setFillOpacity(this.fillopacity);
+            this.element.setOutlineOpacity(this.outlineopacity);
         }
 
     }
@@ -392,7 +400,7 @@ Racmacs.Point = class Point {
         if(this.fillColor == "transparent"){
             rgb.push(0);
         } else {
-            rgb.push(this.opacity);
+            rgb.push(this.fillopacity);
         }
         return(rgb);
     }
@@ -408,7 +416,7 @@ Racmacs.Point = class Point {
         if(this.outlineColor == "transparent"){
             rgb.push(0);
         } else {
-            rgb.push(this.opacity);
+            rgb.push(this.outlineopacity);
         }
         return(rgb);
     }
@@ -425,7 +433,7 @@ Racmacs.Point = class Point {
         if(color == "transparent"){
             rgb.push(0);
         } else {
-            rgb.push(this.opacity);
+            rgb.push(this.fillopacity);
         }
         return(rgb);
     }
@@ -443,6 +451,7 @@ Racmacs.Point = class Point {
                     // If color is transparent
                     this.element.setFillOpacity(0);
                     this.element.setFillColor("#ffffff");
+                    this.fillopacity = 0;
                 } else {
                     // If color is not transparent
                     this.element.setFillOpacity(this.opacity);
@@ -486,9 +495,10 @@ Racmacs.Point = class Point {
                 // If color is transparent
                 this.element.setOutlineOpacity(0);
                 this.element.setOutlineColor("#ffffff");
+                this.outlineopacity = 0;
             } else {
                 // If color is not transparent
-                this.element.setOutlineOpacity(this.opacity);
+                this.element.setOutlineOpacity(this.outlineopacity);
                 this.element.setOutlineColor(col);
             }
 

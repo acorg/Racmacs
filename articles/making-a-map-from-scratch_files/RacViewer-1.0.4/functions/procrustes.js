@@ -94,7 +94,7 @@ Racmacs.Viewer.prototype.addProcrustesToBaseCoords = function(data){
     }
 
     // Convert plot to 3d if procrustes is to 3 dimensions
-    if(this.scene.plotdims.dimensions == 2 && pc_data[0].length == 3){
+    if(this.scene.plotdims.dimensions == 2 && data.dim == 3){
         this.resetDims(3);
     };
 
@@ -149,13 +149,16 @@ Racmacs.Viewer.prototype.addProcrustesToBaseCoords = function(data){
 
     var arrowheadend;
     var arrowheadlength;
+
     if(this.data.dimensions() == 3 && data.dim == 2){
         arrowheadend    = "circle";
         arrowheadlength = 0.15;
-        // var pc_grid = new R3JS.element.grid({
-            
-        // });
-        // this.scene.add(pc_grid);
+
+        // var pt1 = new THREE.Vector3().fromArray(arrow_coords[0][1]);
+        // var pt2 = new THREE.Vector3().fromArray(arrow_coords[1][1]);
+        // var pt3 = new THREE.Vector3().fromArray(arrow_coords[2][1]);
+        // var plane = new THREE.Plane().setFromCoplanarPoints(pt1, pt2, pt3);
+        
     } else {
         arrowheadend    = "arrow";
         arrowheadlength = 0.25;

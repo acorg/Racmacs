@@ -349,9 +349,7 @@ test_that("Realigning map optimizations 2D to 3D", {
   )
 
   export.viewer.test(
-    view(
-      pcBmap
-    ),
+    view(pcBmap),
     "procrustes_3d_to_2d.html"
   )
 
@@ -363,6 +361,7 @@ test_that("Realigning map optimizations 2D to 3D", {
   )
 
 })
+
 
 test_that("Procrustes maps with na coords", {
 

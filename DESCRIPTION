@@ -23,7 +23,8 @@ Imports:
     shape,
     ellipsis,
     MASS,
-    lifecycle
+    lifecycle,
+    igraph
 LazyData: TRUE
 Suggests: 
     testthat,

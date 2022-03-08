@@ -140,6 +140,29 @@ Racmacs.utils.InputWell = class InputWell {
 }
 
 
+Racmacs.utils.RemoveColorOpacity = function(col) {
+
+    if (col.match(/^#([A-Z]|[0-9]|[a-z]){8}$/)) {
+    	col = col.replace(/.{2}$/, "");
+    }
+    return(col);
+
+}
+
+Racmacs.utils.ExtractColorOpacity = function(col) {
+
+    if (col == "transparent") {
+    	return(0);
+    } else if (col.match(/^#([A-Z]|[0-9]|[a-z]){8}$/)) {
+    	opacity = col.match(/.{2}$/)[0];
+    	return(parseInt(opacity, 16) / 255);
+    } else {
+    	return(1);
+    }
+
+}
+
+
 Racmacs.utils.matrixMultiply = function(t1, t2){
 
 	return([

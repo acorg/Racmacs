@@ -569,3 +569,17 @@ test_that("Relaxing a map with NA coords", {
 })
 
 
+# Errors for disconnected maps
+test_that("Error when optimizing a map with disconnected points", {
+
+  dat <- matrix(rep(40, 90), ncol=9)
+  dat[6:10,1:5] <- "*"
+  dat[1:5,6:9] <- "*"
+  map <- acmap(titer_table = dat)
+  expect_warning(
+    optimizeMap(map, 2, 10, "none"),
+    no_cohesion_warning()
+  )
+
+})
+

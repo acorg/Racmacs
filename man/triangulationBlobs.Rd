@@ -61,6 +61,7 @@ you can use other diagnostic functions like \code{bootstrapMap()}.
 }
 \seealso{
 Other {map diagnostic functions}: 
+\code{\link{agCohesion}()},
 \code{\link{bootstrapBlobs}()},
 \code{\link{bootstrapMap}()},
 \code{\link{checkHemisphering}()},
@@ -71,6 +72,7 @@ Other {map diagnostic functions}:
 \code{\link{ptBootstrapBlob}},
 \code{\link{ptBootstrapCoords}()},
 \code{\link{ptLeverage}},
-\code{\link{ptTriangulationBlobsize}}
+\code{\link{ptTriangulationBlobsize}},
+\code{\link{unstableMaps}}
 }
 \concept{{map diagnostic functions}}

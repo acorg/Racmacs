@@ -8,7 +8,7 @@
 # Racmacs
 The Racmacs package provides a toolkit for making antigenic maps from assay data such as HI assays, as described in [Smith et al. 2004](https://doi.org/10.1126/science.1097211).
 
-For a general introduction to using Racmacs to make an antigenic map from titer data see the article [Making an antigenic map from titer data](https://acorg.github.io/Racmacs/articles/making-a-map-from-scratch.html). For documentation of the functions available see the [references](https://acorg.github.io/Racmacs/reference/index.html) section.
+For an introduction to antigenic cartography, see the article [an introduction to antigenic cartography](https://acorg.github.io/Racmacs/articles/intro-to-antigenic-cartography.html). For a general introduction to using Racmacs to make an antigenic map from titer data see the article [making an antigenic map from titer data](https://acorg.github.io/Racmacs/articles/making-a-map-from-scratch.html). For documentation of the functions available see the [references](https://acorg.github.io/Racmacs/reference/index.html) section.
 
 ## Installation instructions
 ### Install the devtools package

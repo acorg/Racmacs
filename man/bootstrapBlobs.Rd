@@ -46,6 +46,7 @@ will depend on the number of bootstrap repeats performed, for example whether
 }
 \seealso{
 Other {map diagnostic functions}: 
+\code{\link{agCohesion}()},
 \code{\link{bootstrapMap}()},
 \code{\link{checkHemisphering}()},
 \code{\link{dimensionTestMap}()},
@@ -56,6 +57,7 @@ Other {map diagnostic functions}:
 \code{\link{ptBootstrapCoords}()},
 \code{\link{ptLeverage}},
 \code{\link{ptTriangulationBlobsize}},
-\code{\link{triangulationBlobs}()}
+\code{\link{triangulationBlobs}()},
+\code{\link{unstableMaps}}
 }
 \concept{{map diagnostic functions}}

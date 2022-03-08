@@ -18,7 +18,8 @@ RacViewer.options(
 )
 }
 \arguments{
-\item{point.opacity}{Default opacity for unselected points}
+\item{point.opacity}{Default opacity for unselected points, or "inherit" to take
+opacity from the color values themselves.}
 
 \item{viewer.controls}{Should viewer controls be shown or hidden by default?}
 

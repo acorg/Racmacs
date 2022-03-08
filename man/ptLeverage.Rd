@@ -31,6 +31,7 @@ bases will be recalculated unless you have specifed them as fixed with
 }
 \seealso{
 Other {map diagnostic functions}: 
+\code{\link{agCohesion}()},
 \code{\link{bootstrapBlobs}()},
 \code{\link{bootstrapMap}()},
 \code{\link{checkHemisphering}()},
@@ -41,6 +42,7 @@ Other {map diagnostic functions}:
 \code{\link{ptBootstrapBlob}},
 \code{\link{ptBootstrapCoords}()},
 \code{\link{ptTriangulationBlobsize}},
-\code{\link{triangulationBlobs}()}
+\code{\link{triangulationBlobs}()},
+\code{\link{unstableMaps}}
 }
 \concept{{map diagnostic functions}}

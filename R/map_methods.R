@@ -96,13 +96,13 @@ view.acmap <- function(
   check.optnum(x, 1)
 
   # Pass on only the selected optimizations
-  x <- keepOptimizations(x, seq_len(min(c(numOptimizations(x), num_optimizations))))
-
-  # Add a procrustes grid if the main map is 3d and the comparator map is 2d
-  if (!is.null(x$procrustes) && !isFALSE(show_procrustes)) {
-    if (mapDimensions(x) == 3 && ncol(x$procrustes$ag_coords) == 2) {
-      x <- add_procrustes_grid(x)
-    }
+  if (optimization_number > 1 && num_optimizations != 1) {
+    stop("Optimization number must be 1 when keeping more than one optimization")
+  } else if (optimization_number > 1) {
+    x <- keepOptimizations(x, optimization_number)
+    optimization_number <- 1
+  } else {
+    x <- keepOptimizations(x, seq_len(min(c(numOptimizations(x), num_optimizations))))
   }
 
   # View the map data in the viewer

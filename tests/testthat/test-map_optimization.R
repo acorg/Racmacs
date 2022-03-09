@@ -576,9 +576,9 @@ test_that("Error when optimizing a map with disconnected points", {
   dat[6:10,1:5] <- "*"
   dat[1:5,6:9] <- "*"
   map <- acmap(titer_table = dat)
-  expect_warning(
+  expect_error(
     optimizeMap(map, 2, 10, "none"),
-    no_cohesion_warning()
+    "Map contains disconnected points.*"
   )
 
 })

@@ -144,4 +144,5 @@
 * Corrected error when coloring maps by stress or showing error lines with disconnected points
 * If a titer table has column or row names but not sera or antigen names provided, names will be taken from the row and column names when creating a map.
 * Add support for reading maps with brotli compression
+* `agSequences()` and `srSequences()` now works when the stored sequences have different lengths or are missing for some points
 

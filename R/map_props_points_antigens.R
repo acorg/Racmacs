@@ -134,6 +134,8 @@ agGroups <- function(map) {
 #' Getting and setting antigen sequence information
 #'
 #' @param map The acmap data object
+#' @param missing_value Character to use to fill in portions of the sequence matrix
+#'   where sequence data is missing.
 #' @param value A character matrix of sequences with rows equal to the number of
 #'   antigens
 #'
@@ -143,13 +145,13 @@ agGroups <- function(map) {
 
 #' @rdname agSequences
 #' @export
-agSequences <- function(map) {
+agSequences <- function(map, missing_value = "-") {
   check.acmap(map)
-  do.call(
-    rbind,
+  rbind_list_to_matrix(
     lapply(map$antigens, function(ag) {
       strsplit(ag$sequence, "")[[1]]
-    })
+    }),
+    missing_value
   )
 }
 

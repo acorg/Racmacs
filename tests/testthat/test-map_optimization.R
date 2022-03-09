@@ -593,7 +593,7 @@ test_that("Optimizing a map with duplicate antigen or serum names", {
   rownames(dat) <- ag_names
   colnames(dat) <- sr_names
 
-  map <- make.acmap(dat, number_of_optimizations = 1)
+  map <- make.acmap(dat, number_of_optimizations = 2)
   expect_equal(agNames(map), ag_names)
   expect_equal(srNames(map), sr_names)
   expect_equal(sum(is.na(agCoords(map))), 0)

@@ -132,10 +132,12 @@ optimizeMap <- function(
   # Check procrustes of the top 2 runs to see if there is much difference between them
   if (check_convergence && numOptimizations(map) > 1) {
 
-    procrustes_dists <- c(
-      procrustesData(map, map, comparison_optimization_number = 2)$ag_dists,
-      procrustesData(map, map, comparison_optimization_number = 2)$sr_dists
-    )
+    pcmap <- map
+    agNames(pcmap) <- paste("AG", seq_len(numAntigens(pcmap)))
+    srNames(pcmap) <- paste("SR", seq_len(numSera(pcmap)))
+
+    procrustes_data <- procrustesData(pcmap, pcmap, comparison_optimization_number = 2)
+    procrustes_dists <- c(procrustes_data$ag_dists, procrustes_data$sr_dists)
 
     if (max(procrustes_dists, na.rm = T) > 0.5) {
       warning(sprintf(

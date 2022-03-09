@@ -24,7 +24,8 @@ Imports:
     ellipsis,
     MASS,
     lifecycle,
-    igraph
+    igraph,
+    brotli
 LazyData: TRUE
 Suggests: 
     testthat,

@@ -30,7 +30,17 @@ read.acmap <- function(
 
   # Read the data from the file
   jsondata <- paste(readLines(filename, warn = FALSE), collapse = "\n")
-  map <- json_to_acmap(jsondata)
+  map <- tryCatch(
+    json_to_acmap(jsondata),
+    error = function(e) {
+      tryCatch(
+        read_brotli(filename),
+        error = function(e) {
+          stop("File '", filename, "' could not be parsed", call. = FALSE)
+        }
+      )
+    }
+  )
 
   # Apply arguments
   if (!is.null(optimization_number)) {
@@ -46,6 +56,13 @@ read.acmap <- function(
   # Return the map
   map
 
+}
+
+# Function to read brotli compressed maps
+read_brotli <- function(filepath) {
+  bin_file <- readBin(filepath, "raw", file.info(filepath)$size)
+  bin_uncompressed <- brotli::brotli_decompress(bin_file)
+  json_to_acmap(rawToChar(bin_uncompressed))
 }
 
 

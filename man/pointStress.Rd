@@ -12,14 +12,9 @@ agStress(map, antigens = TRUE, optimization_number = 1)
 
 srStress(map, sera = TRUE, optimization_number = 1)
 
-srStressPerTiter(map, sera = TRUE, optimization_number = 1, exclude_nd = FALSE)
+srStressPerTiter(map, sera = TRUE, optimization_number = 1)
 
-agStressPerTiter(
-  map,
-  antigens = TRUE,
-  optimization_number = 1,
-  exclude_nd = FALSE
-)
+agStressPerTiter(map, antigens = TRUE, optimization_number = 1)
 }
 \arguments{
 \item{map}{The acmap data object}
@@ -31,9 +26,6 @@ name (defaults to all antigens).}
 
 \item{sera}{Which sera to check stress for, specified by index or name
 (defaults to all sera).}
-
-\item{exclude_nd}{Should non-detectable values (e.g. <10) be excluded when
-calculating point stress?}
 }
 \description{
 Functions to get stress associated with individual points in a map.

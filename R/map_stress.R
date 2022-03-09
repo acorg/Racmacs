@@ -282,8 +282,6 @@ recalculateStress <- function(
 #'   name (defaults to all antigens).
 #' @param sera Which sera to check stress for, specified by index or name
 #'   (defaults to all sera).
-#' @param exclude_nd Should non-detectable values (e.g. <10) be excluded when
-#'   calculating point stress?
 #'
 #' @seealso See `mapStress()` for getting the total map stress directly.
 #' @family {map diagnostic functions}
@@ -334,8 +332,7 @@ srStress <- function(
 srStressPerTiter <- function(
   map,
   sera                = TRUE,
-  optimization_number = 1,
-  exclude_nd          = FALSE
+  optimization_number = 1
 ) {
 
   # Convert to indices
@@ -348,12 +345,21 @@ srStressPerTiter <- function(
   )
 
   # Exclude nd values
-  if (exclude_nd) stress_table[titertypesTable(map) != 1] <- NA
+  stress_table_nd_excluded <- stress_table
+  stress_table_nd_excluded[titertypesTable(map) != 1] <- NA
 
   # Calculate the antigen stress per titer
   stresses <- colMeans(stress_table, na.rm = T)
   stresses[is.na(srCoords(map))[,1]] <- NA
-  stresses[sera]
+
+  stresses_nd_excluded <- colMeans(stress_table_nd_excluded, na.rm = T)
+  stresses_nd_excluded[is.na(srCoords(map))[,1]] <- NA
+
+  # Return a matrix
+  result <- cbind(stresses, stresses_nd_excluded)
+  colnames(result) <- c("nd_included", "nd_excluded")
+  rownames(result) <- srNames(map)
+  result[sera, , drop = F]
 
 }
 
@@ -363,8 +369,7 @@ srStressPerTiter <- function(
 agStressPerTiter <- function(
   map,
   antigens            = TRUE,
-  optimization_number = 1,
-  exclude_nd          = FALSE
+  optimization_number = 1
 ) {
 
   # Convert to indices
@@ -377,12 +382,21 @@ agStressPerTiter <- function(
   )
 
   # Exclude nd values
-  if (exclude_nd) stress_table[titertypesTable(map) != 1] <- NA
+  stress_table_nd_excluded <- stress_table
+  stress_table_nd_excluded[titertypesTable(map) != 1] <- NA
 
   # Calculate the antigen stress per titer
   stresses <- rowMeans(stress_table, na.rm = T)
   stresses[is.na(agCoords(map))[,1]] <- NA
-  stresses[antigens]
+
+  stresses_nd_excluded <- rowMeans(stress_table_nd_excluded, na.rm = T)
+  stresses_nd_excluded[is.na(agCoords(map))[,1]] <- NA
+
+  # Return a matrix
+  result <- cbind(stresses, stresses_nd_excluded)
+  colnames(result) <- c("nd_included", "nd_excluded")
+  rownames(result) <- agNames(map)
+  result[antigens, , drop = F]
 
 }
 

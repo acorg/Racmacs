@@ -140,3 +140,4 @@
 
 # Racmacs 1.1.32
 * Disconnected maps now return an error rather than a warning
+* `agStressPerTiter()` and `srStressPerTiter()` now return a matrix with columns corresponding to stress per titer when nd values are excluded and when they are included

@@ -16,6 +16,9 @@ plotlyfn <- function(fn) {
 # on plotly::ggplotly, but does a few extra bits to improve conversion
 as.plotly <- function(gp, tooltip = "text", scaling = NULL) {
 
+  # Check plotly available
+  package_required("plotly")
+
   if (!is.null(scaling)) {
 
     # Scale axis text

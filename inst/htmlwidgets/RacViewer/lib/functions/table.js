@@ -26,6 +26,39 @@ R3JS.Viewer.prototype.eventListeners.push({
     }
 });
 
+R3JS.Viewer.prototype.eventListeners.push({
+    name : "point-included",
+    fn : function(e){
+        let point  = e.detail.point;
+        let viewer = point.viewer;
+        let titers = point.titers();
+        if (point.titercells) {
+        	point.titercells.map( (cell, i) => cell.innerHTML = titers[i] );
+        }
+        if (viewer.hitable) {
+	        viewer.hitable.logtiters = viewer.data.logtable();
+	        viewer.hitable.colbases  = viewer.data.colbases();
+			viewer.hitable.styleHighestTiters();
+	    }
+    }
+});
+
+R3JS.Viewer.prototype.eventListeners.push({
+    name : "point-excluded",
+    fn : function(e){
+        let point  = e.detail.point;
+        let viewer = point.viewer;
+        if (point.titercells) {
+        	point.titercells.map( cell => cell.innerHTML = "*" );
+        }
+        if (viewer.hitable) {
+	        viewer.hitable.logtiters = viewer.data.logtable();
+		    viewer.hitable.colbases  = viewer.data.colbases();
+			viewer.hitable.styleHighestTiters();
+		}
+    }
+});
+
 Racmacs.App.prototype.showTable = function(){
 
 	if(!this.hitablewindow){
@@ -226,6 +259,7 @@ Racmacs.HItable = class HItable {
 		// Add antigen cell event listeners
 		viewer.antigens.map( (antigen, i) => {
 			var cell = this.getRowLabel(i);
+			antigen.titercells = viewer.sera.map( (serum, j) => this.getCell(i,j));
 			// cell.addEventListener("mouseenter", e => {
 			// 	antigen.hover();
 			// });
@@ -233,7 +267,11 @@ Racmacs.HItable = class HItable {
 			// 	antigen.dehover();
 			// });
 			cell.addEventListener("mouseup", e => {
-				antigen.click(e);
+				if (e.altKey) {
+					antigen.toggleIncluded();
+				} else {
+				    antigen.click(e);
+			    }
 				e.stopPropagation();
 			});
 		});
@@ -248,7 +286,11 @@ Racmacs.HItable = class HItable {
 			// 	sera.dehover();
 			// });
 			cell.parentElement.addEventListener("mouseup", e => {
-				sera.click(e);
+				if (e.altKey) {
+					sera.toggleIncluded();
+				} else {
+				    sera.click(e);
+			    }
 				e.stopPropagation();
 			});
 		});
@@ -280,35 +322,65 @@ Racmacs.HItable = class HItable {
 					// }
 				});
 				cell.addEventListener("mouseup", e => {
-					cell.innerHTML = "";
 
-					var input = document.createElement("input");
-					input.value = viewer.data.titertable[i][j];
-					input.style.width = "100%";
-					input.style.fontSize = "inherit";
-					input.style.fontFamily = "inherit";
-					input.style.fontWeight = "inherit";
-					input.style.borderStyle = "none";
-					input.style.padding = 0;
-					input.style.margin = 0;
-					input.style.outline = "none";
-					input.style.backgroundColor = "transparent";
-					cell.style.outline = "solid 2px red";
-					cell.appendChild(input);
-					input.focus();
-					input.addEventListener("blur", e => {
+					if (e.altKey) {
+
+						if (viewer.data.titertable[i][j] == "*") {
+							viewer.data.restoreTiter(i, j);
+						} else {
+						    viewer.data.setTiter(i, j, "*");
+						}
+
 						cell.innerHTML = viewer.data.titertable[i][j];
-						cell.style.outline = "none";
-					});
-					input.addEventListener("change", e => {
-						viewer.data.setTiter(i, j, input.value);
 						this.logtiters = viewer.data.logtable();
 		                this.colbases  = viewer.data.colbases();
 						this.styleHighestTiters();
-						input.blur();
-						cell.innerHTML = viewer.data.titertable[i][j];
-						cell.style.outline = "none";
-					});
+						viewer.dispatchEvent("titer-changed", { 
+			                agnum  : i,
+			                srnum  : j,
+			                titer  : "*",
+			                viewer : viewer
+			            });
+
+					} else if (e.shiftKey) {
+
+						cell.innerHTML = "";
+
+						var input = document.createElement("input");
+						input.value = viewer.data.titertable[i][j];
+						input.style.width = "100%";
+						input.style.fontSize = "inherit";
+						input.style.fontFamily = "inherit";
+						input.style.fontWeight = "inherit";
+						input.style.borderStyle = "none";
+						input.style.padding = 0;
+						input.style.margin = 0;
+						input.style.outline = "none";
+						input.style.backgroundColor = "transparent";
+						cell.style.outline = "solid 2px red";
+						cell.appendChild(input);
+						input.focus();
+						input.addEventListener("blur", e => {
+							cell.innerHTML = viewer.data.titertable[i][j];
+							cell.style.outline = "none";
+						});
+						input.addEventListener("change", e => {
+							viewer.data.setTiter(i, j, input.value);
+							this.logtiters = viewer.data.logtable();
+			                this.colbases  = viewer.data.colbases();
+							this.styleHighestTiters();
+							input.blur();
+							cell.innerHTML = viewer.data.titertable[i][j];
+							cell.style.outline = "none";
+							viewer.dispatchEvent("titer-changed", { 
+				                agnum  : i,
+				                srnum  : j,
+				                titer  : input.value,
+				                viewer : viewer
+				            });
+						});
+
+					}
 
 				});
 			});

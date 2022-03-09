@@ -97,6 +97,7 @@ test_that("Mix of known and unknown dates", {
 test_that("Getting and setting clades", {
 
   expect_equal(numAntigens(map), length(agClades(map)))
+  expect_equal(numSera(map), length(srClades(map)))
 
   new_ag_clades <- as.character(seq_len(numAntigens(map)))
   new_ag_clades[c(2, 4)] <- "a"
@@ -126,4 +127,154 @@ test_that("Getting and setting clades", {
 
 })
 
+
+# Getting and setting antigen lab ids
+test_that("Getting and setting antigen lab ids", {
+
+  expect_equal(numAntigens(map), length(agLabIDs(map)))
+
+  new_ag_labids <- as.character(seq_len(numAntigens(map)))
+  new_ag_labids[c(2, 4)] <- "a"
+
+  expect_error(agLabIDs(map) <- new_ag_labids)
+
+  new_ag_labids <- as.list(new_ag_labids)
+
+  agLabIDs(map) <- new_ag_labids
+
+  expect_equal(agLabIDs(map), new_ag_labids)
+
+  tmp <- tempfile(fileext = ".ace")
+  save.acmap(map, tmp)
+  map <- read.acmap(tmp)
+  unlink(tmp)
+
+  expect_equal(agLabIDs(map), new_ag_labids)
+
+})
+
+
+# Getting and setting annotations
+test_that("Getting and setting annotations", {
+
+  expect_equal(numAntigens(map), length(agAnnotations(map)))
+  expect_equal(numSera(map), length(srAnnotations(map)))
+
+  new_ag_annotations <- as.character(seq_len(numAntigens(map)))
+  new_ag_annotations[c(2, 4)] <- "a"
+
+  new_sr_annotations <- as.character(seq_len(numSera(map)))
+  new_sr_annotations[c(1, 2)] <- "b"
+
+  expect_error(agAnnotations(map) <- new_ag_annotations)
+  expect_error(srAnnotations(map) <- new_sr_annotations)
+
+  new_ag_annotations <- as.list(new_ag_annotations)
+  new_sr_annotations <- as.list(new_sr_annotations)
+
+  agAnnotations(map) <- new_ag_annotations
+  srAnnotations(map) <- new_sr_annotations
+
+  expect_equal(agAnnotations(map), new_ag_annotations)
+  expect_equal(srAnnotations(map), new_sr_annotations)
+
+  tmp <- tempfile(fileext = ".ace")
+  save.acmap(map, tmp)
+  map <- read.acmap(tmp)
+  unlink(tmp)
+
+  expect_equal(agAnnotations(map), new_ag_annotations)
+  expect_equal(srAnnotations(map), new_sr_annotations)
+
+})
+
+
+# Getting and setting other attributes
+test_that("Getting and setting other attributes", {
+
+  # Read in the test map
+  map <- read.acmap(filename = test_path("../testdata/testmap.ace"))
+
+  # Test defaults
+  expect_equal(agExtra(map), rep("", numAntigens(map)))
+  expect_equal(srExtra(map), rep("", numSera(map)))
+
+  # Test editing
+  ag_extras <- paste("AG EXTRA", seq_len(numAntigens(map)))
+  sr_extras <- paste("SR EXTRA", seq_len(numSera(map)))
+  agExtra(map) <- ag_extras
+  srExtra(map) <- sr_extras
+
+  # Check changed values
+  expect_equal(agExtra(map), ag_extras)
+  expect_equal(srExtra(map), sr_extras)
+
+  # Check saving and reloading
+  tmp <- tempfile(fileext = ".ace")
+  save.acmap(map, tmp)
+
+  loaded_map <- read.acmap(tmp)
+  expect_equal(agExtra(loaded_map), ag_extras)
+  expect_equal(srExtra(loaded_map), sr_extras)
+
+})
+
+
+# Getting and setting other attributes
+test_that("Getting and setting homologous antigens", {
+
+  # Read in the test map
+  map <- read.acmap(filename = test_path("../testdata/testmap.ace"))
+
+  # Test defaults
+  expect_equal(
+    srHomologousAgs(map),
+    lapply(seq_len(numSera(map)), function(x) integer(0))
+  )
+
+  # Check errors
+  expect_error(srHomologousAgs(map) <- c(2, 1, NA, 4, 3))
+  expect_error(srHomologousAgs(map) <- list(2, c("a", 6), NULL, 5, 4))
+  expect_error(srHomologousAgs(map) <- as.list(1:4))
+
+  # Test editing
+  homo_ags <- list(2, c(3, 6), NULL, 5, 3)
+  srHomologousAgs(map) <- homo_ags
+
+  # Check changed values
+  expect_equal(srHomologousAgs(map), check.integerlist(homo_ags))
+
+  # Check saving and reloading
+  tmp <- tempfile(fileext = ".ace")
+  save.acmap(map, tmp)
+
+  loaded_map <- read.acmap(tmp)
+  expect_equal(srHomologousAgs(map), check.integerlist(homo_ags))
+
+  # Check removing antigens
+  map_removed <- removeAntigens(map, 3)
+  expect_equal(srHomologousAgs(map_removed), check.integerlist(list(2, 5, NULL, 4, NULL)))
+
+  # Check reordering antigens
+  map_reordered <- orderAntigens(map, 10:1)
+  expect_equal(srHomologousAgs(map_reordered), check.integerlist(list(9, c(8, 5), NULL, 6, 8)))
+
+})
+
+
+# Input errors
+test_that("Antigen and serum input errors", {
+
+  # Read in the test map
+  map <- read.acmap(filename = test_path("../testdata/testmap.ace"))
+
+  expect_error(agNames(map) <- as.list(agNames(map)))
+  expect_error(agNames(map) <- 1:length(agNames(map)))
+  expect_error(agNames(map) <- agNames(map)[1:2])
+
+  expect_error(srNames(map) <- as.list(srNames(map)))
+  expect_error(srNames(map) <- 1:length(srNames(map)))
+  expect_error(srNames(map) <- srNames(map)[1:2])
+
+})
 

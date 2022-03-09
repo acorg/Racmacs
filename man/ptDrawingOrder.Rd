@@ -26,6 +26,7 @@ sera.
 \seealso{
 Other {map point style functions}: 
 \code{\link{applyPlotspec}()},
+\code{\link{ptOpacity}},
 \code{\link{ptStyles}}
 }
 \concept{{map point style functions}}

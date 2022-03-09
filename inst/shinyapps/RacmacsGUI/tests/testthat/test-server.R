@@ -57,16 +57,17 @@ testServer(
 
   # Optimizing a map
   nopts1 <- numOptimizations(storage$map)
+  set.seed(100)
   session$setInputs(
     runOptimizations = list(
       numdims = 2,
-      numruns = 3,
+      numruns = 100,
       mincolbasis = "none"
     )
   )
   nopts2 <- numOptimizations(storage$map)
   # expect_equal(nopts2, nopts1 + 3)
-  expect_equal(nopts2, 3)
+  expect_equal(nopts2, 100)
 
   # Test loading point styles
   start_fill <- agFill(storage$map)

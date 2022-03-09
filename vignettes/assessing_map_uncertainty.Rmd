@@ -1,0 +1,66 @@
+---
+title: "Assessing map uncertainty"
+output: rmarkdown::html_vignette
+description: |
+  Assuming you are happy that your map is a sufficiently useful 
+  representation of your data, you can use the tools described here to 
+  explore uncertainty in the positions of your antigens and 
+  sera.
+vignette: >
+  %\VignetteIndexEntry{Assessing map uncertainty}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(Racmacs)
+```
+
+# Assessing uncertainty in an antigenic map
+
+Once you have generated an antigenic map there are several methods to try and assess uncertainty, and different potential sources of uncertainty to consider. The different functions in Racmacs relate to these different sources as follows:
+
+Uncertainty | Method 
+:-- | :-- 
+Geometric uncertainty | `triangulationBlobs()` 
+Sample variation | `bootstrapBlobs()` with `method = “resample”` or `method = “bayesian”` 
+Measurement noise and bias | `bootstrapBlobs()` with `method = “noisy”`
+
+This article discusses these sources of error and the corresponding functions to help you decide how best to apply them to your data.
+
+### A note on confidence vs actual goodness of fit
+With all these methods it is important to consider that we are addressing the degree of uncertainty present in the solution to the map, given the map as a model for your data. This is an important distinction since we are not addressing the question of how well a particular map represents the data, which is covered in other articles. This is analogous to fitting e.g. a straight regression line through some data, the line could be a bad fit to the true patterns in the data, yet you could be very confident that if you really insist on fitting a straight line, you have the best parameters for the slope and intercept. It is like that with these methods, here we are addressing the confidence we have in the parameters of best in our model, not whether the best fit is a good representation.
+
+## Geometric uncertainty and triangulation blobs
+A first source of uncertainty to consider is how constrained or not the point positions are in your map given the information you have. In an extreme case, if you had only a single measurement for an antigen against a single serum, you could calculate an expected distance that the antigen should be from that serum, but you would not have sufficient information to triangulate its position in e.g. 2 dimensional space. In reality of course, the situation is rarely as clear cut as that and, indeed in that particular scenario, Racmacs would exclude that point with a warning that there were an insufficient number of titrations to coordinate it. More commonly, titer information is such that an optimal solution place a point at a particular place on the map, but there is a broader region where the solution is almost as good. This is what the `triangulationBlobs()` function tries to represent. In particular it takes each point then performs a grid search to see how stress varies for that point in different regions of the space, before drawing a blob to demarcate the region of space where the total stress increase is below a certain threshold. As you can imagine the stress threshold you choose is an important determinant of how big the bob regions will be. A generally sensible default of 1 unit increase of stress is the default but there is no a prior reason for this value and it is the relative size of the blobs that gives the most useful information of how constrained certain point positions are relative to others.
+
+It is tempting to think of these triangulationBlobs as somehow representing confidence or credibility regions, but this is not the case, for example a point position may be well coordinated geometrically but heavily dependent on a particular titer or set of tiers that may in themselves not be reliable. In our own work these triangulation blobs mostly help inform whether there is enough information to start with to really determine positions of strains well in a given number of dimensions, or are e.g. more titrations against different types of sera required.
+
+## Bootstrapping methods
+### Bootstrapping to assess sample uncertainty
+A key question in statistics is how well parameters fitted against a population sample are likely to represent the parameters of the population as a whole. The standard error of the mean is a classic estimator of this. There is the same issue with antigenic maps, for example how consistent would the map solution be if we imagine a different subset of similar antigens and sera had been titrated? Since there is no clear analytical solution to this, we apply the approach of bootstrapping to estimate these types of uncertainty.
+
+There are several variant bootstrapping methods and the `bootstrapMap()` function performs these types of analyses with the option to choose between three different approaches, `“resample”` and `“bayesian”`, discussed in this section, and `“noisy”`, discussed further below.
+
+Of the methods above, `method = “resample”` is the most vanilla flavour of bootstrapping, taking a standard approach of resampling the original data, with replacement so that in the resulting dataset some entries will be represented multiple times and some not at all, thereby introducing variation into the original sample. `method = “bayesian”` is conceptually similar to “resample” but rather than actually resampling the data it achieves a similar effect through re-weighting the data according to a ?? distribution with each repeat.  A key difference is that no point is ever actually totally excluded in the bayesian method and therefore if your map is particularly dependent on a certain antigen or antigens for overall geometric coordination, the bayesian method will tend to yield more consistent results.  On the flip side, the resample method can help express uncertainty due to precisely this issue of reliance on a small number of particular strains or sera for overall map coordination and is there the more conservative of the two approaches.
+
+The primary option in these bootstrapping approaches is the number of bootstrap resamples to perform, since each of these will be one realisation of a different map under an alternative simulated sample. To get an accurate assessment of how positions seem to vary with each run, at least 1000 is recommended, with more helping better to observe positional uncertainty and variation but becoming more expensive both with regards to computing time and also memory to store the results.
+
+Further options include whether to apply the resampling to both antigens and sera (the default) or just one or the other, for example antigens = FALSE may help explore how sensitive is your particular constellation of antigens to different samples of sera. You can also decide whether to reoptimize the map from scratch with each bootstrap repeat, the default, or simply relax the map from its current configuration. The latter will be considerably faster but isn’t recommended since each repeat will have more of a tendency to become trapped in a local optima that’s similar to the starting configuration and therefore under-represent the true map uncertainty. Relatedly, when reoptimizing from scratch, you can also specify the number of optimizations runs for each sample. For maps that are easy to optimize only a small number of runs would be required, but for larger more complex maps this should ideally be around the number of optimization runs it took to consistently find the lowest stress solution for your original map in the first place. Since the reoptimization from scratch procedure can be so computationally expensive (1000 bootstrap repeats with 200 reoptimizations from scratch each = 200000 optimization runs!) the temptation is to skimp on these numbers, but if too few runs are allowed to give a chance of finding optimal solutions, uncertainty in the end sample may be overrepresented.
+
+### Bootstrapping to assess measurement error uncertainty
+Generally, the resampling based bootstrap methods described above work best where there are a sufficient number of similar antigens and sera such that the sample is meaningfully representative of the distribution of variation in a theoretical wider population, for example multiple antigens and sera from each antigenic cluster in the 2004 H3 map.  In reality this is not always the case but if we have some idea of the expected size of the measurement error associated with the data we can get some idea of how this may be affecting uncertainty in our resulting map by applying imaginary additional noise to our dataset and seeing how much map positions vary as a result. This is not a perfect approach since each sample with then have measurement noise applied twice, once originally and once artificially, but since in a simple system the artificial noise will cancel out measurement noise on average as much as it adds to it, it still works as a reasonable estimator of measurement noise based uncertainty.
+
+In all datasets we have so far studied we find there are two important categories of noise to consider, the first is the expected noise due to general assay variation that tends to lead to unbiased variation in repeat data.  We call this “titer” noise and is generally what most people think about when it comes to experimental noise.  The second and far more pernicious noise is noise in antigen measurements that leads to a consistent bias in any given set of repeats, in this category for influenza are things like slight fluctuation in starting virus concentration after titrating to 4HAUs, different RBCs being used etc. Relatedly there is also bias that may be consistently present for an antigen even between repeats due to inherent but non-antigenically related differences, often referred to as high or low avidity strains, or strains with a tendency to be more easily neutralized etc. Since both these types of error have the same result of biasing all titers against an antigen to be consistently higher or lower, we call this “antigen noise”.
+
+While antigenic cartography typically does a great job of averaging out titer noise, antigen noise is trickier since there is no a priori way to know whether an antigen has low titers because of additional antigenic escape or falsely biased low reactivity in the assay. In the real world we often have clues, for example biased varation between repeats done at different times or low titers against homologous sera, but such information is not built into the cartography software. We can however simulate the effects of such noise in creating uncertainty in the map and that is the idea of the `method = “noisy”` bootstrap approach. As you can perhaps imagine, in addition to options shared with the methods above, key parameters are how much titer and antigen noise to simulate. Based on our influenza work both the titer noise and antigen noise is set at a default of standard deviation = 0.7, but depending on your data these may be wild over- or under-estimates. By default both titer and antigen noise are applied, with tirer noise randomly determined and applied separately to each cell in the titer table for each repeat and antigen noise determined and applied to each row.  In practise, especially given the tricky nature of estimating antigen reactivity bias, it can be useful to look at the effect of titer noise on it’s own first, by setting the `antigen_noise_sd = 0`, then see the effect in combination with some possible per-antigen noise.
+
+### Viewing bootstrap results
+Once you have run your desired bootstrap method you will want to visualise the results.  One way is to open a map that you have run bootstrapping on in the Racmacs viewer.  If bootstrapping data is present then when you select a point, a cloud of points appears representing the relative position of that point in each of the bootstrap runs done, allowing you to visualise variation explicitly.  A second approach is to use the `bootstrapBlobs()` function to calculate an area that encompasses a certain proportion of the positional variation across the repeats. In this case, the conf.level argument sets the proportion of variation to capture, with the default set at 0.68, approximately equivalent to one standard deviation of the normal distribution.

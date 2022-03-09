@@ -55,6 +55,8 @@ realignMap <- function(
 #' @param translation Should translation be allowed
 #' @param scaling Should scaling be allowed (generally not recommended unless
 #'   comparing maps made with different assays)
+#' @param keep_optimizations Should all optimization runs be kept or only the
+#'   one to which the procrustes was applied.
 #'
 #' @return Returns an acmap object with procrustes information added, which will
 #'   be shown when the map is plotted. To avoid ambiguity about which
@@ -71,7 +73,8 @@ procrustesMap <- function(
   antigens    = TRUE,
   sera        = TRUE,
   translation = TRUE,
-  scaling     = FALSE
+  scaling     = FALSE,
+  keep_optimizations = FALSE
   ) {
 
   # Check input
@@ -81,6 +84,16 @@ procrustesMap <- function(
   check.logical(scaling)
   check.optnum(map, optimization_number)
   check.optnum(comparison_map, comparison_optimization_number)
+
+  # Keep only the optimization number specified
+  if (!keep_optimizations) {
+    map <- keepSingleOptimization(map, optimization_number)
+    optimization_number <- 1
+  }
+
+  # Check for duplicate names
+  if (sum(duplicated(agMatchIDs(map))) > 0 || sum(duplicated(agMatchIDs(comparison_map))) > 0) stop("Duplicate antigen names/IDs found.", call. = F)
+  if (sum(duplicated(srMatchIDs(map))) > 0 || sum(duplicated(srMatchIDs(comparison_map))) > 0) stop("Duplicate sera names/IDs found.", call. = F)
 
   # Get selected antigen and sera indices
   antigens_included <- rep(FALSE, numAntigens(map))
@@ -98,7 +111,7 @@ procrustesMap <- function(
   }
 
   # Set unselected point coords to NaN
-  pc_map <- keepSingleOptimization(map, optimization_number)
+  pc_map <- map
   agBaseCoords(pc_map)[!antigens_included, ] <- NaN
   srBaseCoords(pc_map)[!sera_included, ] <- NaN
 
@@ -106,7 +119,7 @@ procrustesMap <- function(
   pc_coords <- ac_procrustes_map_coords(
     base_map = pc_map,
     procrustes_map = comparison_map,
-    base_map_optimization_number = 0,
+    base_map_optimization_number = optimization_number - 1,
     procrustes_map_optimization_number = comparison_optimization_number - 1,
     translation = translation,
     scaling = scaling
@@ -116,6 +129,7 @@ procrustesMap <- function(
   map$optimizations[[optimization_number]]$procrustes <- pc_coords
   map$optimizations[[optimization_number]]$procrustes$ag_coords[!antigens_included, ] <- NaN
   map$optimizations[[optimization_number]]$procrustes$sr_coords[!sera_included, ] <- NaN
+  map$optimizations[[optimization_number]]$procrustes$dim <- mapDimensions(comparison_map, comparison_optimization_number)
 
   # Return the map
   map
@@ -135,6 +149,10 @@ procrustesMap <- function(
 #'   calculation (other optimization runs are discarded)
 #' @param comparison_optimization_number The optimization run int the comparison
 #'   map to compare against
+#' @param antigens Antigens to include (specified by name or index or TRUE/FALSE
+#'   for all/none)
+#' @param sera Sera to include (specified by name or index or TRUE/FALSE for
+#'   all/none)
 #' @param translation Should translation be allowed
 #' @param scaling Should scaling be allowed (generally not recommended unless
 #'   comparing maps made with different assays)
@@ -152,6 +170,8 @@ procrustesData <- function(
   comparison_map,
   optimization_number = 1,
   comparison_optimization_number = 1,
+  antigens    = TRUE,
+  sera        = TRUE,
   translation = TRUE,
   scaling     = FALSE
   ) {
@@ -162,14 +182,16 @@ procrustesData <- function(
     comparison_map = comparison_map,
     optimization_number = optimization_number,
     comparison_optimization_number = comparison_optimization_number,
+    antigens    = antigens,
+    sera        = sera,
     translation = translation,
     scaling = scaling
   )
 
   # Get the procrustes data
   ac_procrustes_map_data(
-    map$optimizations[[optimization_number]],
-    map$optimizations[[optimization_number]]$procrustes
+    map$optimizations[[1]],
+    map$optimizations[[1]]$procrustes
   )
 
 }
@@ -211,34 +233,3 @@ realignOptimizations <- function(
 
 }
 
-
-# This is a function to add a grid to a map indicating the original 2d plane,
-# when comparing a 2d map to a 3d map with procrustes
-add_procrustes_grid <- function(map) {
-
-  # # Get the comparator coordinates
-  # comp_coords <- rbind(
-  #   map$procrustes$comparison_coords$ag,
-  #   map$procrustes$comparison_coords$sr
-  # )
-  #
-  # # Calculate grid limits and the grid points
-  # plims <- plot_lims(comp_coords)
-  # x <- seq(from = plims$xlim[1], to = plims$xlim[2])
-  # y <- seq(from = plims$ylim[1], to = plims$ylim[2])
-  # grid_coords <- as.matrix(expand.grid(x, y))
-  # grid_coords <- cbind(grid_coords, 0)
-  # grid_coords <- apply_procrustes(grid_coords, map$procrustes$pc_transform)
-  #
-  # # Add the surface to the map
-  # r3js::surface3js(
-  #   map,
-  #   x = matrix(grid_coords[,1], length(x), length(y)),
-  #   y = matrix(grid_coords[,2], length(x), length(y)),
-  #   z = matrix(grid_coords[,3], length(x), length(y)),
-  #   wireframe = TRUE,
-  #   col = "#cccccc"
-  # )
-  map
-
-}

@@ -81,6 +81,14 @@ ac_ag_get_clade <- function(ag) {
     .Call('_Racmacs_ac_ag_get_clade', PACKAGE = 'Racmacs', ag)
 }
 
+ac_ag_get_annotations <- function(ag) {
+    .Call('_Racmacs_ac_ag_get_annotations', PACKAGE = 'Racmacs', ag)
+}
+
+ac_ag_get_labids <- function(ag) {
+    .Call('_Racmacs_ac_ag_get_labids', PACKAGE = 'Racmacs', ag)
+}
+
 ac_ag_get_name <- function(ag) {
     .Call('_Racmacs_ac_ag_get_name', PACKAGE = 'Racmacs', ag)
 }
@@ -91,6 +99,10 @@ ac_ag_get_name_full <- function(ag) {
 
 ac_ag_get_name_abbreviated <- function(ag) {
     .Call('_Racmacs_ac_ag_get_name_abbreviated', PACKAGE = 'Racmacs', ag)
+}
+
+ac_ag_get_extra <- function(ag) {
+    .Call('_Racmacs_ac_ag_get_extra', PACKAGE = 'Racmacs', ag)
 }
 
 ac_ag_get_match_id <- function(ag) {
@@ -125,6 +137,14 @@ ac_ag_set_clade <- function(ag, value) {
     .Call('_Racmacs_ac_ag_set_clade', PACKAGE = 'Racmacs', ag, value)
 }
 
+ac_ag_set_annotations <- function(ag, value) {
+    .Call('_Racmacs_ac_ag_set_annotations', PACKAGE = 'Racmacs', ag, value)
+}
+
+ac_ag_set_labids <- function(ag, value) {
+    .Call('_Racmacs_ac_ag_set_labids', PACKAGE = 'Racmacs', ag, value)
+}
+
 ac_ag_set_name <- function(ag, value) {
     .Call('_Racmacs_ac_ag_set_name', PACKAGE = 'Racmacs', ag, value)
 }
@@ -135,6 +155,10 @@ ac_ag_set_name_full <- function(ag, value) {
 
 ac_ag_set_name_abbreviated <- function(ag, value) {
     .Call('_Racmacs_ac_ag_set_name_abbreviated', PACKAGE = 'Racmacs', ag, value)
+}
+
+ac_ag_set_extra <- function(ag, value) {
+    .Call('_Racmacs_ac_ag_set_extra', PACKAGE = 'Racmacs', ag, value)
 }
 
 ac_ag_set_group <- function(ag, value) {
@@ -325,6 +349,10 @@ ac_sr_get_clade <- function(sr) {
     .Call('_Racmacs_ac_sr_get_clade', PACKAGE = 'Racmacs', sr)
 }
 
+ac_sr_get_annotations <- function(sr) {
+    .Call('_Racmacs_ac_sr_get_annotations', PACKAGE = 'Racmacs', sr)
+}
+
 ac_sr_get_name <- function(sr) {
     .Call('_Racmacs_ac_sr_get_name', PACKAGE = 'Racmacs', sr)
 }
@@ -337,8 +365,16 @@ ac_sr_get_name_abbreviated <- function(sr) {
     .Call('_Racmacs_ac_sr_get_name_abbreviated', PACKAGE = 'Racmacs', sr)
 }
 
+ac_sr_get_extra <- function(sr) {
+    .Call('_Racmacs_ac_sr_get_extra', PACKAGE = 'Racmacs', sr)
+}
+
 ac_sr_get_match_id <- function(sr) {
     .Call('_Racmacs_ac_sr_get_match_id', PACKAGE = 'Racmacs', sr)
+}
+
+ac_sr_get_homologous_ags <- function(sr) {
+    .Call('_Racmacs_ac_sr_get_homologous_ags', PACKAGE = 'Racmacs', sr)
 }
 
 ac_sr_get_group <- function(sr) {
@@ -369,6 +405,10 @@ ac_sr_set_clade <- function(sr, value) {
     .Call('_Racmacs_ac_sr_set_clade', PACKAGE = 'Racmacs', sr, value)
 }
 
+ac_sr_set_annotations <- function(sr, value) {
+    .Call('_Racmacs_ac_sr_set_annotations', PACKAGE = 'Racmacs', sr, value)
+}
+
 ac_sr_set_name <- function(sr, value) {
     .Call('_Racmacs_ac_sr_set_name', PACKAGE = 'Racmacs', sr, value)
 }
@@ -379,6 +419,14 @@ ac_sr_set_name_full <- function(sr, value) {
 
 ac_sr_set_name_abbreviated <- function(sr, value) {
     .Call('_Racmacs_ac_sr_set_name_abbreviated', PACKAGE = 'Racmacs', sr, value)
+}
+
+ac_sr_set_extra <- function(sr, value) {
+    .Call('_Racmacs_ac_sr_set_extra', PACKAGE = 'Racmacs', sr, value)
+}
+
+ac_sr_set_homologous_ags <- function(sr, value) {
+    .Call('_Racmacs_ac_sr_set_homologous_ags', PACKAGE = 'Racmacs', sr, value)
 }
 
 ac_sr_set_group <- function(sr, value) {
@@ -527,5 +575,9 @@ parallel_mode <- function() {
 
 ac_coordDistMatrix <- function(coords1, coords2) {
     .Call('_Racmacs_ac_coordDistMatrix', PACKAGE = 'Racmacs', coords1, coords2)
+}
+
+interp2d <- function(x, gpoints1, gpoints2, f) {
+    .Call('_Racmacs_interp2d', PACKAGE = 'Racmacs', x, gpoints1, gpoints2, f)
 }
 

@@ -1,3 +1,4 @@
+url: https://acorg.github.io/Racmacs
 destination: docs
 template:
   params:
@@ -30,6 +31,9 @@ articles:
   contents:
   - intro-to-antigenic-cartography
   - making-a-map-from-scratch
+- title: Map diagnostics
+  contents:
+  - assessing_map_uncertainty
 - title: Further usage
   contents:
   - comparing-maps
@@ -73,10 +77,23 @@ reference:
 - title: Merging maps
   contents:
   - has_concept("map merging functions")
+- title: Additional plotting functions
+  contents:
+  - has_concept("additional plotting functions")
 - title: Using the shiny app
   contents:
   - has_concept("shiny app functions")
+- title: Viewing titers
+  contents:
+  - htmlTiterTable
+  - htmlAdjustedTiterTable
 - title: Utilities
   contents:
   - standardizeStrainNames
+- title: Experimental functions
+  contents:
+  - optimizeAgReactivity
+- title: Deprecated functions
+  contents:
+  - deprecated_fn
 

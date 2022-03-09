@@ -14,6 +14,9 @@ standardizeStrainName <- function(
   default_virus_subtype = "HXNX"
   ) {
 
+  # Check stringr package installed
+  package_required("stringr")
+
   # Save original name
   original_name <- name
   parse_error   <- paste0("Unclear how to parse name : ", original_name)
@@ -218,6 +221,9 @@ standardizeStrainNames <- function(
   default_virus_type = "A",
   default_virus_subtype = "HXNX"
 ) {
+
+  # Check tibble package is installed
+  package_required("tibble")
 
   # Get name attributes
   name_list <- lapply(names, function(x) {

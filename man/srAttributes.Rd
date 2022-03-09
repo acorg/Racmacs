@@ -3,27 +3,39 @@
 \name{srAttributes}
 \alias{srAttributes}
 \alias{srIDs}
-\alias{srNames}
-\alias{srNames<-}
 \alias{srIDs<-}
 \alias{srDates}
 \alias{srDates<-}
-\alias{srNamesFull}
-\alias{srNamesAbbreviated}
 \alias{srReference}
+\alias{srReference<-}
+\alias{srNames}
+\alias{srNames<-}
+\alias{srNamesFull}
+\alias{srNamesFull<-}
+\alias{srNamesAbbreviated}
+\alias{srNamesAbbreviated<-}
+\alias{srExtra}
+\alias{srExtra<-}
 \alias{srPassage}
+\alias{srPassage<-}
 \title{Getting and setting sera attributes}
 \usage{
-srNames(map)
-srNames(map) <- value
 srIDs(map)
 srIDs(map) <- value
 srDates(map)
 srDates(map) <- value
-srNamesFull(map)
-srNamesAbbreviated(map)
 srReference(map)
+srReference(map) <- value
+srNames(map)
+srNames(map) <- value
+srNamesFull(map)
+srNamesFull(map) <- value
+srNamesAbbreviated(map)
+srNamesAbbreviated(map) <- value
+srExtra(map)
+srExtra(map) <- value
 srPassage(map)
+srPassage(map) <- value
 }
 \arguments{
 \item{map}{The acmap data object}
@@ -44,9 +56,12 @@ These functions get and set the sera attributes for a map.
 Other {antigen and sera attribute functions}: 
 \code{\link{agAttributes}},
 \code{\link{agGroups}()},
+\code{\link{agLabIDs}()},
 \code{\link{agSequences}()},
+\code{\link{ptAnnotations}},
 \code{\link{ptClades}},
 \code{\link{srGroups}()},
+\code{\link{srHomologousAgs}()},
 \code{\link{srSequences}()}
 }
 \concept{{antigen and sera attribute functions}}

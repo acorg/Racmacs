@@ -9,6 +9,8 @@ procrustesData(
   comparison_map,
   optimization_number = 1,
   comparison_optimization_number = 1,
+  antigens = TRUE,
+  sera = TRUE,
   translation = TRUE,
   scaling = FALSE
 )
@@ -23,6 +25,12 @@ calculation (other optimization runs are discarded)}
 
 \item{comparison_optimization_number}{The optimization run int the comparison
 map to compare against}
+
+\item{antigens}{Antigens to include (specified by name or index or TRUE/FALSE
+for all/none)}
+
+\item{sera}{Sera to include (specified by name or index or TRUE/FALSE for
+all/none)}
 
 \item{translation}{Should translation be allowed}
 

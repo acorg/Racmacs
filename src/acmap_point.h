@@ -14,6 +14,7 @@ class AcPoint {
     // Regular details
     std::string type;
     std::string name;
+    std::string extra;
     std::string date;
     bool reference = false;
     std::string name_full;
@@ -23,65 +24,53 @@ class AcPoint {
     std::string sequence;
     std::string passage;
     std::vector<std::string> clade;
+    std::vector<std::string> annotations;
+    std::vector<std::string> labids;
 
   public:
 
     // Plotspec details
     AcPlotspec plotspec;
 
-    // Regular details
-    std::string get_type() const { return type; }
-    std::string get_name() const { return name; }
-    std::string get_date() const { return date; }
-    bool get_reference() const { return reference; }
-    std::string get_passage() const { return passage; }
-    std::string get_name_full() const { return name_full; }
-    std::string get_name_abbreviated() const { return name_abbreviated; }
-    std::string get_id() const { return id; }
-    int get_group() const { return group; }
-    std::string get_sequence() const { return sequence; }
-    std::vector<std::string> get_clade() const { return clade; }
+    // Public attributes
+    arma::uvec homologous_ags;
 
-    void set_type( std::string value ){ type = value; }
-    void set_name( std::string value ){ name = value; }
-    void set_date( std::string value ){ date = value; }
-    void set_reference( bool value ){ reference = value; }
-    void set_passage( std::string value ){ passage = value; }
-    void set_name_full( std::string value ){ name_full = value; }
-    void set_name_abbreviated( std::string value ){ name_abbreviated = value; }
-    void set_id( std::string value ){ id = value; }
-    void set_group( int value ){ group = value; }
-    void set_sequence( std::string value ){ sequence = value; }
-    void set_clade( std::vector<std::string> value ){ clade = value; }
+    // Regular details
+    std::string get_type() const;
+    std::string get_name() const;
+    std::string get_extra() const;
+    std::string get_date() const;
+    bool get_reference() const;
+    std::string get_passage() const;
+    std::string get_name_full() const;
+    std::string get_name_abbreviated() const;
+    std::string get_id() const;
+    int get_group() const;
+    std::string get_sequence() const;
+    std::vector<std::string> get_clade() const;
+    std::vector<std::string> get_annotations() const;
+    std::vector<std::string> get_labids() const;
+
+    void set_type( std::string value );
+    void set_name( std::string value );
+    void set_extra( std::string value );
+    void set_date( std::string value );
+    void set_reference( bool value );
+    void set_passage( std::string value );
+    void set_name_full( std::string value );
+    void set_name_abbreviated( std::string value );
+    void set_id( std::string value );
+    void set_group( int value );
+    void set_sequence( std::string value );
+    void set_clade( std::vector<std::string> value );
+    void set_annotations( std::vector<std::string> value );
+    void set_labids( std::vector<std::string> value );
 
     // Get IDs for matching
-    std::string get_match_id() const {
-      if(id == ""){
-        return name;
-      } else {
-        return id;
-      }
-    }
+    std::string get_match_id() const;
 
     // Check if values are defaults
-    bool isdefault(std::string attribute) {
-
-      if (attribute == "passage") {
-        return(passage == "");
-      } else if (attribute == "clade") {
-        return(clade.size() == 0);
-        return(passage == "");
-      } else if (attribute == "group") {
-        return(group == 0);
-      } else if (attribute == "sequence") {
-        return(sequence == "");
-      } else if (attribute == "id") {
-        return(id == "");
-      } else {
-        return(false);
-      }
-
-    }
+    bool isdefault(std::string attribute);
 
 };
 
@@ -89,9 +78,7 @@ class AcPoint {
 class AcAntigen: public AcPoint {
 
   public:
-    AcAntigen(){
-      set_type("ag");
-    }
+    AcAntigen();
 
 };
 
@@ -99,11 +86,10 @@ class AcAntigen: public AcPoint {
 class AcSerum: public AcPoint {
 
   public:
-    AcSerum(){
-      set_type("sr");
-      plotspec.set_shape("BOX");
-      plotspec.set_fill("transparent");
-    }
+    AcSerum();
+
+    arma::uvec get_homologous_ags() const;
+    void set_homologous_ags( arma::uvec value );
 
 };
 

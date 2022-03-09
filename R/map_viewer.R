@@ -5,7 +5,8 @@
 #' This function facilitates setting racviewer options by returning a list of
 #' option settings.
 #'
-#' @param point.opacity Default opacity for unselected points
+#' @param point.opacity Default opacity for unselected points, or "inherit" to take
+#'   opacity from the color values themselves.
 #' @param viewer.controls Should viewer controls be shown or hidden by default?
 #' @param grid.display For 3d maps, should the grid be fixed in the background
 #'   or enclose and rotate along with the map
@@ -23,20 +24,23 @@
 #' @return Returns a named list of viewer options
 #' @export
 #'
-RacViewer.options <- function(point.opacity = NA,
-                              viewer.controls = "hidden",
-                              grid.display = "static",
-                              grid.col = "#cfcfcf",
-                              show.names = FALSE,
-                              show.errorlines = FALSE,
-                              show.connectionlines = FALSE,
-                              show.titers = FALSE,
-                              xlim = NULL,
-                              ylim = NULL) {
+RacViewer.options <- function(
+  point.opacity = NA,
+  viewer.controls = "hidden",
+  grid.display = "static",
+  grid.col = "#cfcfcf",
+  show.names = FALSE,
+  show.errorlines = FALSE,
+  show.connectionlines = FALSE,
+  show.titers = FALSE,
+  xlim = NULL,
+  ylim = NULL
+  ) {
+
   # Check input
   check.string(viewer.controls)
   check.string(grid.display)
-  if (!is.na(point.opacity)) {
+  if (!is.na(point.opacity) && point.opacity != "inherit") {
     check.numeric(point.opacity)
   }
 
@@ -52,6 +56,7 @@ RacViewer.options <- function(point.opacity = NA,
     xlim = xlim,
     ylim = ylim
   )
+
 }
 
 

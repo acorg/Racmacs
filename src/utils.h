@@ -28,8 +28,10 @@ arma::uvec na_row_indices(
 );
 
 arma::mat unique_rows(
-        const arma::mat& m
+        const arma::mat &m
 );
+
+void uvec_push(arma::uvec &v, arma::uword value);
 
 // Template for subsetting a vector
 template<typename T>

@@ -1,3 +1,4 @@
+
 // #in// #include <cstdio>
 #include <string.h>
 #include <RcppArmadillo.h>
@@ -41,9 +42,7 @@ std::string acmap_to_json(
   int num_points = num_antigens + num_sera;
 
   // == INFO ============================
-  Value name;
-  name.SetString( StringRef(map.name.c_str()), allocator );
-  i.AddMember("N", name, allocator);
+  i.AddMember("N", jsonifya(map.name, allocator), allocator);
 
   // == ANTIGENS ========================
   Value a(kArrayType);
@@ -53,16 +52,16 @@ std::string acmap_to_json(
     Value agval(kObjectType);
 
     agval.AddMember("N", jsonifya(ag.get_name(), allocator), allocator);
-    if (!ag.isdefault("passage")) agval.AddMember("P", jsonifya(ag.get_passage(), allocator), allocator);
-    if (!ag.isdefault("clade"))   agval.AddMember("c", jsonifya(ag.get_clade(), allocator), allocator);
+    if (!ag.isdefault("passage"))     agval.AddMember("P", jsonifya(ag.get_passage(), allocator), allocator);
+    if (!ag.isdefault("clade"))       agval.AddMember("c", jsonifya(ag.get_clade(), allocator), allocator);
+    if (!ag.isdefault("annotations")) agval.AddMember("a", jsonifya(ag.get_annotations(), allocator), allocator);
+    if (!ag.isdefault("labids"))      agval.AddMember("l", jsonifya(ag.get_labids(), allocator), allocator);
+    if (!ag.isdefault("sequence"))    agval.AddMember("A", jsonifya(ag.get_sequence(), allocator), allocator);
+    if (!ag.isdefault("date"))        agval.AddMember("D", jsonifya(ag.get_date(), allocator), allocator);
     // set_group_values
-    // set_date
     // set_reference
     // set_name_full
     // set_name_abbreviated
-    // set_id
-    // set_group
-    // set_sequence
     a.PushBack(agval, allocator);
 
   }
@@ -76,16 +75,17 @@ std::string acmap_to_json(
     Value srval(kObjectType);
 
     srval.AddMember("N", jsonifya(sr.get_name(), allocator), allocator);
-    if (!sr.isdefault("passage")) srval.AddMember("P", jsonifya(sr.get_passage(), allocator), allocator);
-    if (!sr.isdefault("clade"))   srval.AddMember("c", jsonifya(sr.get_clade(), allocator), allocator);
+    if (!sr.isdefault("passage"))           srval.AddMember("P", jsonifya(sr.get_passage(), allocator), allocator);
+    if (!sr.isdefault("clade"))             srval.AddMember("c", jsonifya(sr.get_clade(), allocator), allocator);
+    if (!sr.isdefault("annotations"))       srval.AddMember("a", jsonifya(sr.get_annotations(), allocator), allocator);
+    if (!sr.isdefault("sequence"))          srval.AddMember("A", jsonifya(sr.get_sequence(), allocator), allocator);
+    if (!sr.isdefault("date"))              srval.AddMember("D", jsonifya(sr.get_date(), allocator), allocator);
+    if (!sr.isdefault("id"))                srval.AddMember("I", jsonifya(sr.get_id(), allocator), allocator);
+    if (sr.get_homologous_ags().n_elem > 0) srval.AddMember("h", jsonifya(sr.get_homologous_ags(), allocator), allocator);
     // set_group_values
-    // set_date
     // set_reference
     // set_name_full
     // set_name_abbreviated
-    // set_id
-    // set_group
-    // set_sequence
     s.PushBack(srval, allocator);
 
   }
@@ -225,13 +225,13 @@ std::string acmap_to_json(
       ag_extras = true;
       agx.AddMember("g", map.antigens[i].get_group(), allocator);
     }
-    if (!map.antigens[i].isdefault("sequence")) {
-      ag_extras = true;
-      agx.AddMember("q", jsonifya(map.antigens[i].get_sequence(), allocator), allocator);
-    }
     if (!map.antigens[i].isdefault("id")) {
       ag_extras = true;
       agx.AddMember("i", jsonifya(map.antigens[i].get_id(), allocator), allocator);
+    }
+    if (!map.antigens[i].isdefault("extra")) {
+      ag_extras = true;
+      agx.AddMember("x", jsonifya(map.antigens[i].get_extra(), allocator), allocator);
     }
     xa.PushBack(agx, allocator);
   }
@@ -247,13 +247,9 @@ std::string acmap_to_json(
       sr_extras = true;
       srx.AddMember("g", map.sera[i].get_group(), allocator);
     }
-    if (!map.sera[i].isdefault("sequence")) {
+    if (!map.sera[i].isdefault("extra")) {
       sr_extras = true;
-      srx.AddMember("q", jsonifya(map.sera[i].get_sequence(), allocator), allocator);
-    }
-    if (!map.sera[i].isdefault("id")) {
-      sr_extras = true;
-      srx.AddMember("i", jsonifya(map.sera[i].get_id(), allocator), allocator);
+      srx.AddMember("x", jsonifya(map.sera[i].get_extra(), allocator), allocator);
     }
     xs.PushBack(srx, allocator);
   }
@@ -351,7 +347,10 @@ std::string acmap_to_json(
   // = OTHER =
   if (!map.isdefault("ag_group_levels"))   x.AddMember("agv", jsonifya(map.get_ag_group_levels(), allocator), allocator);
   if (!map.isdefault("sr_group_levels"))   x.AddMember("srv", jsonifya(map.get_sr_group_levels(), allocator), allocator);
+  if (!map.isdefault("layer_names"))       x.AddMember("ln",  jsonifya(map.get_layer_names(), allocator), allocator);
   if (!map.isdefault("dilution_stepsize")) x.AddMember("ds",  map.dilution_stepsize, allocator);
+  if (!map.isdefault("description"))       x.AddMember("D",   jsonifya(map.description, allocator), allocator);
+  if (!map.isdefault("ag_reactivity"))     x.AddMember("r",   jsonifya(map.get_ag_reactivity_adjustments(), allocator), allocator);
 
   // == FINISH UP ===============================
   // Assemble the json map data and add it
@@ -371,22 +370,29 @@ std::string acmap_to_json(
   // Setup the writer
   if (pretty) {
 
-    PrettyWriter<StringBuffer> writer(buffer);
+    // PrettyWriter<StringBuffer> writer(buffer);
+    PrettyWriter<
+      StringBuffer, // Output Stream
+      UTF8<>,       // Source Encoding
+      UTF8<>,       // Target Encoding
+      CrtAllocator,
+      kParseFullPrecisionFlag
+    > writer(buffer);
     writer.SetMaxDecimalPlaces(6);
     success = doc.Accept(writer);
 
   } else {
 
-    Writer<StringBuffer> writer(buffer);
+    // Writer<StringBuffer> writer(buffer);
+    Writer<
+      StringBuffer, // Output Stream
+      UTF8<>,       // Source Encoding
+      UTF8<>,       // Target Encoding
+      CrtAllocator,
+      kParseFullPrecisionFlag
+      > writer(buffer);
     writer.SetMaxDecimalPlaces(6);
     success = doc.Accept(writer);
-    // Writer<
-    //   StringBuffer, // Output Stream
-    //   UTF8<>,       // Source Encoding
-    //   UTF8<>,       // Target Encoding
-    //   CrtAllocator,
-    //   kWriteNanAndInfFlag
-    //   > writer(buffer);
 
   }
 

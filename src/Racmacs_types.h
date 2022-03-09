@@ -112,8 +112,18 @@ SEXP wrap(const Procrustes& p){
 // FROM: ARMA::VEC
 template <>
 SEXP wrap(const arma::vec& v){
-  NumericVector out(v.size());
-  for(arma::uword i=0; i<v.size(); i++){
+  NumericVector out(v.n_elem);
+  for(arma::uword i=0; i<v.n_elem; i++){
+    out[i] = v[i];
+  }
+  return wrap(out);
+}
+
+// FROM: ARMA::UVEC
+template <>
+SEXP wrap(const arma::uvec& v){
+  NumericVector out(v.n_elem);
+  for(arma::uword i=0; i<v.n_elem; i++){
     out[i] = v[i];
   }
   return wrap(out);
@@ -147,6 +157,7 @@ SEXP wrap(const AcAntigen& ag){
 
       // Attributes
       _["name"] = ag.get_name(),
+      _["extra"] = ag.get_extra(),
       // _["name_abbreviated"] = ag.get_name_abbreviated(),
       // _["name_full"] = ag.get_name_full(),
       _["id"] = ag.get_id(),
@@ -155,6 +166,8 @@ SEXP wrap(const AcAntigen& ag){
       _["sequence"] = ag.get_sequence(),
       _["passage"] = ag.get_passage(),
       _["clade"] = ag.get_clade(),
+      _["annotations"] = ag.get_annotations(),
+      _["labids"] = ag.get_labids(),
 
       // Plotspec
       _["plotspec"] = as<List>(wrap(ag.plotspec))
@@ -176,14 +189,17 @@ SEXP wrap(const AcSerum& sr){
 
       // Attributes
       _["name"] = sr.get_name(),
+      _["extra"] = sr.get_extra(),
       // _["name_abbreviated"] = sr.get_name_abbreviated(),
       // _["name_full"] = sr.get_name_full(),
       _["id"] = sr.get_id(),
       _["date"] = sr.get_date(),
       _["group"] = sr.get_group(),
+      _["homologous_ags"] = sr.get_homologous_ags(),
       _["sequence"] = sr.get_sequence(),
       _["passage"] = sr.get_passage(),
       _["clade"] = sr.get_clade(),
+      _["annotations"] = sr.get_annotations(),
 
       // Plotspec
       _["plotspec"] = as<List>(wrap(sr.plotspec))
@@ -275,6 +291,7 @@ SEXP wrap(const AcMap& acmap){
   // Assemable list
   List out = List::create(
     _["name"] = acmap.name,
+    _["description"] = acmap.description,
     _["dilution_stepsize"] = acmap.dilution_stepsize,
     _["antigens"] = antigens,
     _["sera"] = sera,
@@ -283,7 +300,9 @@ SEXP wrap(const AcMap& acmap){
     _["titer_table_layers"] = titer_table_layers,
     _["pt_drawing_order"] = pt_drawing_order,
     _["ag_group_levels"] = acmap.get_ag_group_levels(),
-    _["sr_group_levels"] = acmap.get_sr_group_levels()
+    _["sr_group_levels"] = acmap.get_sr_group_levels(),
+    _["ag_reactivity_adjustments"] = acmap.get_ag_reactivity_adjustments(),
+    _["layer_names"] = acmap.get_layer_names()
   );
 
   // Set class attribute and return
@@ -473,6 +492,7 @@ AcAntigen as(SEXP sxp){
 
   // Attributes
   if(list.containsElementNamed("name")) ag.set_name(list["name"]);
+  if(list.containsElementNamed("extra")) ag.set_extra(list["extra"]);
   // if(list.containsElementNamed("name_abbreviated")) ag.set_name_abbreviated(list["name_abbreviated"]);
   // if(list.containsElementNamed("name_full")) ag.set_name_full(list["name_full"]);
   if(list.containsElementNamed("id")) ag.set_id(list["id"]);
@@ -481,6 +501,8 @@ AcAntigen as(SEXP sxp){
   if(list.containsElementNamed("sequence")) ag.set_sequence(list["sequence"]);
   if(list.containsElementNamed("passage")) ag.set_passage(list["passage"]);
   if(list.containsElementNamed("clade")) ag.set_clade(list["clade"]);
+  if(list.containsElementNamed("annotations")) ag.set_annotations(list["annotations"]);
+  if(list.containsElementNamed("labids")) ag.set_labids(list["labids"]);
 
   // Plotspec
   if(list.containsElementNamed("plotspec")) ag.plotspec = as<AcPlotspec>(list["plotspec"]);
@@ -499,14 +521,17 @@ AcSerum as(SEXP sxp){
 
   // Attributes
   if(list.containsElementNamed("name")) sr.set_name(list["name"]);
+  if(list.containsElementNamed("extra")) sr.set_extra(list["extra"]);
   // if(list.containsElementNamed("name_abbreviated")) sr.set_name_abbreviated(list["name_abbreviated"]);
   // if(list.containsElementNamed("name_full")) sr.set_name_full(list["name_full"]);
   if(list.containsElementNamed("id")) sr.set_id(list["id"]);
   if(list.containsElementNamed("date")) sr.set_date(list["date"]);
   if(list.containsElementNamed("group")) sr.set_group(list["group"]);
+  if(list.containsElementNamed("homologous_ags")) sr.set_homologous_ags(list["homologous_ags"]);
   if(list.containsElementNamed("sequence")) sr.set_sequence(list["sequence"]);
   if(list.containsElementNamed("passage")) sr.set_passage(list["passage"]);
   if(list.containsElementNamed("clade")) sr.set_clade(list["clade"]);
+  if(list.containsElementNamed("annotations")) sr.set_annotations(list["annotations"]);
 
   // Plotspec
   if(list.containsElementNamed("plotspec")) sr.plotspec = as<AcPlotspec>(list["plotspec"]);
@@ -618,6 +643,24 @@ AcOptimization as(SEXP sxp){
 
 }
 
+// TO: VECTOR OF ACOPTIMIZATION
+template <>
+std::vector<AcOptimization> as(SEXP sxp){
+
+  // Setup output
+  std::vector<AcOptimization> out;
+
+  // Convert to list
+  List optlist = as<List>(sxp);
+  for (arma::uword i=0; i<optlist.size(); i++) {
+    out.push_back(as<AcOptimization>(wrap(optlist[i])));
+  }
+
+  // Return vector output
+  return(out);
+
+}
+
 // TO: ACMAP
 template <>
 AcMap as(SEXP sxp){
@@ -630,6 +673,7 @@ AcMap as(SEXP sxp){
 
   // Attributes
   if(list.containsElementNamed("name")) acmap.name = as<std::string>(list["name"]);
+  if(list.containsElementNamed("description")) acmap.description = as<std::string>(list["description"]);
   if(list.containsElementNamed("dilution_stepsize")) acmap.dilution_stepsize = as<double>(list["dilution_stepsize"]);
   if(list.containsElementNamed("pt_drawing_order")){
     acmap.set_pt_drawing_order(
@@ -638,6 +682,8 @@ AcMap as(SEXP sxp){
   }
   if(list.containsElementNamed("ag_group_levels")) acmap.set_ag_group_levels( list["ag_group_levels"] );
   if(list.containsElementNamed("sr_group_levels")) acmap.set_sr_group_levels( list["sr_group_levels"] );
+  if(list.containsElementNamed("ag_reactivity_adjustments")) acmap.set_ag_reactivity_adjustments( list["ag_reactivity_adjustments"] );
+  if(list.containsElementNamed("layer_names")) acmap.set_layer_names( list["layer_names"] );
 
   // Antigens
   for(arma::uword i=0; i<acmap.antigens.size(); i++){

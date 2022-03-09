@@ -68,11 +68,11 @@ view.default <- function(x, ...) {
 #'   procrustes lines be shown by default?
 #' @param show_diagnostics If the map contains diagnostics information like
 #'   stress blobs or hemisphering, should it be shown by default?
-#' @param keep_all_optimization_runs Should information on all the optimization
-#'   runs be kept in the viewer, or just view the currently selected
-#'   optimisation run.
+#' @param num_optimizations Number of optimization runs to send to the viewer
+#'   for inclusion in the "optimizations" pane.
 #'
 #' @family {functions to view maps}
+#'   {shiny app functions}
 #'
 #' @return Returns the htmlwidget object
 #'
@@ -88,20 +88,21 @@ view.acmap <- function(
   select_sr  = NULL,
   show_procrustes = NULL,
   show_diagnostics = NULL,
-  keep_all_optimization_runs = FALSE,
+  num_optimizations = 1,
   options = list()
   ) {
 
-  # Pass on only the selected optimization
-  if (!keep_all_optimization_runs) {
-    x <- keepSingleOptimization(x, optimization_number)
-  }
+  # Check input
+  check.optnum(x, 1)
 
-  # Add a procrustes grid if the main map is 3d and the comparator map is 2d
-  if (!is.null(x$procrustes) && !isFALSE(show_procrustes)) {
-    if (mapDimensions(x) == 3 && ncol(x$procrustes$ag_coords) == 2) {
-      x <- add_procrustes_grid(x)
-    }
+  # Pass on only the selected optimizations
+  if (optimization_number > 1 && num_optimizations != 1) {
+    stop("Optimization number must be 1 when keeping more than one optimization")
+  } else if (optimization_number > 1) {
+    x <- keepOptimizations(x, optimization_number)
+    optimization_number <- 1
+  } else {
+    x <- keepOptimizations(x, seq_len(min(c(numOptimizations(x), num_optimizations))))
   }
 
   # View the map data in the viewer

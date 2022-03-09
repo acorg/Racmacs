@@ -14,18 +14,27 @@ antigens_getter <- function(fn) {
 }
 
 # Function factory for antigen setter functions
-antigens_setter <- function(fn) {
+antigens_setter <- function(fn, type) {
   eval(
     substitute(env = list(
-      fn = fn
+      fn = fn,
+      type = type
     ), expr = {
       function(map, value) {
         if (is.null(value)) stop("Cannot set null value")
         check.acmap(map)
+        value <- switch(
+          type,
+          character = check.charactervector(value),
+          numeric = check.numericvector(value)
+        )
+        if (length(value) != numAntigens(map)) {
+          stop("Length of the value must equal the number of antigens in the map")
+        }
         map$antigens <- lapply(
           seq_along(map$antigens),
           function(x) {
-            fn(map$antigens[[x]], value[x])
+            fn(map$antigens[[x]], unlist(value[x]))
           }
         )
         map
@@ -45,13 +54,14 @@ antigens_setter <- function(fn) {
 #' @family {antigen and sera attribute functions}
 #' @eval roxygen_tags(
 #'   methods = c(
-#'   "agNames", "agNames<-",
-#'   "agIDs",   "agIDs<-",
-#'   "agDates", "agDates<-",
-#'   "agNamesFull",
-#'   "agNamesAbbreviated",
-#'   "agReference",
-#'   "agPassage"
+#'     "agIDs", "agIDs<-",
+#'     "agDates", "agDates<-",
+#'     "agReference", "agReference<-",
+#'     "agNames", "agNames<-",
+#'     "agNamesFull", "agNamesFull<-",
+#'     "agNamesAbbreviated", "agNamesAbbreviated<-",
+#'     "agExtra", "agExtra<-",
+#'     "agPassage", "agPassage<-"
 #'   ),
 #'   args    = c("map")
 #' )
@@ -62,18 +72,20 @@ agReference         <- antigens_getter(ac_ag_get_reference)
 agNames             <- antigens_getter(ac_ag_get_name)
 agNamesFull         <- antigens_getter(ac_ag_get_name_full)
 agNamesAbbreviated  <- antigens_getter(ac_ag_get_name_abbreviated)
+agExtra             <- antigens_getter(ac_ag_get_extra)
 agPassage           <- antigens_getter(ac_ag_get_passage)
 agGroupValues       <- antigens_getter(ac_ag_get_group) # Not exported
 agMatchIDs          <- antigens_getter(ac_ag_get_match_id) # Not exported
 
-`agIDs<-`               <- antigens_setter(ac_ag_set_id)
-`agDates<-`             <- antigens_setter(ac_ag_set_date)
-`agReference<-`         <- antigens_setter(ac_ag_set_reference)
-`agNames<-`             <- antigens_setter(ac_ag_set_name)
-`agNamesFull<-`         <- antigens_setter(ac_ag_set_name_full)
-`agNamesAbbreviated<-`  <- antigens_setter(ac_ag_set_name_abbreviated)
-`agPassage<-`           <- antigens_setter(ac_ag_set_passage)
-`agGroupValues<-`       <- antigens_setter(ac_ag_set_group) # Not exported
+`agIDs<-`               <- antigens_setter(ac_ag_set_id, "character")
+`agDates<-`             <- antigens_setter(ac_ag_set_date, "character")
+`agReference<-`         <- antigens_setter(ac_ag_set_reference, "character")
+`agNames<-`             <- antigens_setter(ac_ag_set_name, "character")
+`agNamesFull<-`         <- antigens_setter(ac_ag_set_name_full, "character")
+`agNamesAbbreviated<-`  <- antigens_setter(ac_ag_set_name_abbreviated, "character")
+`agExtra<-`             <- antigens_setter(ac_ag_set_extra, "character")
+`agPassage<-`           <- antigens_setter(ac_ag_set_passage, "character")
+`agGroupValues<-`       <- antigens_setter(ac_ag_set_group, "numeric") # Not exported
 
 
 #' Getting and setting antigen groups
@@ -107,7 +119,7 @@ agGroups <- function(map) {
 
   check.acmap(map)
   if (is.null(value)) {
-    agGroupValues(map) <- 0
+    agGroupValues(map) <- rep(0, numAntigens(map))
     map$ag_group_levels <- NULL
   } else {
     if (!is.factor(value)) value <- as.factor(value)
@@ -216,6 +228,98 @@ srClades <- function(map) {
 }
 
 
+#' Getting and setting point annotation information
+#'
+#' @param map The acmap data object
+#' @param value A list of character vectors with annotations information for each
+#'   point
+#'
+#' @name ptAnnotations
+#' @family {antigen and sera attribute functions}
+#'
+
+#' @rdname ptAnnotations
+#' @export
+agAnnotations <- function(map) {
+  check.acmap(map)
+  lapply(map$antigens, function(ag) {
+    ac_ag_get_annotations(ag)
+  })
+}
+
+#' @rdname ptAnnotations
+#' @export
+srAnnotations <- function(map) {
+  check.acmap(map)
+  lapply(map$sera, function(sr) {
+    ac_sr_get_annotations(sr)
+  })
+}
+
+#' @rdname ptAnnotations
+#' @export
+`agAnnotations<-` <- function(map, value) {
+  check.acmap(map)
+  if (!is.list(value)) {
+    stop("Input must be a list of character vectors")
+  }
+  if (length(value) != numAntigens(map)) {
+    stop("Number of sequences does not match number of antigens")
+  }
+  for (x in seq_len(numAntigens(map))) {
+    map$antigens[[x]] <- ac_ag_set_annotations(map$antigens[[x]], value[[x]])
+  }
+  map
+}
+
+#' @rdname ptAnnotations
+#' @export
+`srAnnotations<-` <- function(map, value) {
+  check.acmap(map)
+  if (!is.list(value)) {
+    stop("Input must be a list of character vectors")
+  }
+  if (length(value) != numSera(map)) {
+    stop("Number of sequences does not match number of sera")
+  }
+  for (x in seq_len(numSera(map))) {
+    map$sera[[x]] <- ac_sr_set_annotations(map$sera[[x]], value[[x]])
+  }
+  map
+}
 
 
+#' Getting and setting antigen lab id information
+#'
+#' @param map The acmap data object
+#' @param value A list of character vectors with lab ids information for each
+#'   point
+#'
+#' @name agLabIDs
+#' @family {antigen and sera attribute functions}
+#'
 
+#' @rdname agLabIDs
+#' @export
+agLabIDs <- function(map) {
+  check.acmap(map)
+  lapply(map$antigens, function(ag) {
+    ac_ag_get_labids(ag)
+  })
+}
+
+#' @rdname agLabIDs
+#' @export
+`agLabIDs<-` <- function(map, value) {
+  check.acmap(map)
+  if (!is.list(value)) {
+    stop("Input must be a list of character vectors")
+  }
+  if (length(value) != numAntigens(map)) {
+    stop("Number of sequences does not match number of antigens")
+  }
+  for (x in seq_len(numAntigens(map))) {
+    map$antigens[[x]] <- ac_ag_set_labids(map$antigens[[x]], value[[x]])
+  }
+  map
+}

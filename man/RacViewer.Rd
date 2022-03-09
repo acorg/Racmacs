@@ -8,6 +8,7 @@ RacViewer(
   map,
   plotdata = NULL,
   show_procrustes = FALSE,
+  show_group_legend = FALSE,
   options = list(),
   width = NULL,
   height = NULL,
@@ -20,6 +21,9 @@ RacViewer(
 \item{plotdata}{r3js plot data}
 
 \item{show_procrustes}{should procrustes lines be shown}
+
+\item{show_group_legend}{Show an interactive legend detailing different
+groups as set by \code{agGroups()} and \code{srGroups()}}
 
 \item{options}{A named list of viewer options supplied to
 \code{racviewer.options()}}
@@ -38,10 +42,10 @@ Other {functions to view maps}:
 \code{\link{RacViewer.options}()},
 \code{\link{export_viewer}()},
 \code{\link{grid.plot.acmap}()},
+\code{\link{mapGadget}()},
 \code{\link{plot.acmap}()},
 \code{\link{setLegend}()},
 \code{\link{snapshotMap}()},
-\code{\link{view.acmap}()},
 \code{\link{view.default}()},
 \code{\link{view}()}
 }

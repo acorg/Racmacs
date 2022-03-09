@@ -25,6 +25,8 @@ reactivity_adjust_titers <- function(titers, adjustment) {
 #' @param optimization_number The optimization number from which
 #'   to take any antigen reactivity adjustments
 #'
+#' @family {map attribute functions}
+#' @seealso [htmlAdjustedTiterTable()]
 #' @export
 adjustedTiterTable <- function(
   map,
@@ -32,7 +34,7 @@ adjustedTiterTable <- function(
   ) {
 
   adjusted_titer_table <- titerTable(map)
-  ag_reactivity_adjusts <- agReactivityAdjustments(map, optimization_number)
+  ag_reactivity_adjusts <- agReactivityAdjustments(map)
 
   for (n in seq_len(numAntigens(map))) {
     adjusted_titer_table[n, ] <- reactivity_adjust_titers(
@@ -54,6 +56,7 @@ adjustedTiterTable <- function(
 #' @param optimization_number The optimization number from which
 #'   to take any antigen reactivity adjustments
 #'
+#' @family {map attribute functions}
 #' @export
 adjustedLogTiterTable <- function(
   map,
@@ -61,7 +64,7 @@ adjustedLogTiterTable <- function(
 ) {
 
   adjusted_titer_table <- logtiterTable(map)
-  ag_reactivity_adjusts <- agReactivityAdjustments(map, optimization_number)
+  ag_reactivity_adjusts <- agReactivityAdjustments(map)
   adjusted_titer_table + matrix(
     ag_reactivity_adjusts,
     nrow = numAntigens(map),

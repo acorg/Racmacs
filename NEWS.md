@@ -70,3 +70,70 @@
 * Fix the map viewer stress calculations to account for the new "dilution stepsize" setting
 * Add option to get and set antigen reactivity in the viewer
 * Fix an error that was causing NAs to appear in transformed coordinates in linux builds
+
+# Racmacs 1.1.19
+* Add option to `procrustesData()` to included only specific antigens or sera, as can already be done for `procrustesMap()`
+* Add methods to calculate point leverage, the effect of removing different strains and sera from the map, `agLeverage()`, `srLeverage()`, `titerLeverage()`
+* Change the `view.acmap()` method to allow for an option `num_optimizations` to specify how many optimizations to send to the viewer.
+* Add an option for and basic check by default for convergence of solutions when running map optimizations.
+
+# Racmacs 1.1.20
+* Slight re-implementation of dimensional annealing to not report progress bar multiple times.
+* Added ability to include and exclude antigens and sera when optimizing in the javascript viewer by alt clicking the name in the browser or the titer in the interactive titer table.
+* Added ability in the javascript viewer to change the antigen reactivity adjustment by selecting the antigen and editing the value as it appears in the `diagnostics` tab.
+* Use quicker algorithm for calculating 2d density blobs
+* Dimension testing now calculates proportion of titers to exclude as test set as proportion of measured titers, not proportion of detectable titers.
+* Fixes an error when only one blob would be displayed in the viewer in cases where more than one blob was associated with a point
+* Speed improvements to the calculation of contour blobs from point densities in 2-dimensions
+* Added the option to set a description field for the map with the `mapDescription()` function
+
+# Racmacs 1.1.21
+* Full precision used in rapidjson when parsing doubles to load and save maps
+* Added `numSeraGroups()` function
+* Added "extra" field for antigens and sera, and corresponding `agExtra()` and `srExtra()` functions
+* Antigen and serum groups will now be maintained and merged when running `mergeMaps()`
+* Where maps have shared `dilutionStepsize()` settings, this will be applied to the merged map. Alternatively a warning will be issued and a default setting of 1 applied where they have different `dilutionStepsize()` settings.
+* Add attribute getter `numLayers()` for returning the number of titer table layers in a map.
+* `titerTable()<-` will now throw an error if the titer table applied does not have the same dimensions as the map in terms of number of antigens and sera
+* When maps are merged the `mapName` will be used to name the titer table layers, layer names can also be get and set directly using the new `layerNames()` function
+
+# Racmacs 1.1.22
+* `agReactivityAdjustments` now becomes a property of the base acmap object rather than individual optimization runs
+
+# Racmacs 1.1.23
+* Fix `subsetMap()` to also subset ag reactivity adjustments!
+
+# Racmacs 1.1.24
+* Regions outside of plot border will now be masked when running `plot()` on a map
+
+# Racmacs 1.1.25
+* Throw an error instead of crashing when trying to do procrustes on maps with duplicate antigen/sera names/ids
+* Add option to extend density blobs for e.g. bootstrapBlobs to extend beyond the range of the actual coordinates.
+
+# Racmacs 1.1.26
+* Add option to select the algorithm MASS::kde2d or ks::kde for calculating 2D density blobs.
+* Add functions to help plot and inspect bootstrap blobs, `agBootstrapBlob()`, `srBootstrapBlob()`, `agBootstrapCoords()`, `srBootstrapCoords()`, `blob()`
+
+# Racmacs 1.1.27
+* `logtiterTable()` nows returns a table with named columns and rows
+* Fix issue showing individual bootstrap points in 3D
+* Add option `show_group_legend` to `view()` to show interactive legend based on `agGroups()` and `srGroups()` point groupings
+* Add ability in viewer to filter and color antigens and sera by group
+
+# Racmacs 1.1.28
+* `agStress()` and `srStress()` fixed to work with NA coordinates
+* Correct error when calculating `agStressPerTiter()` and `srStressPerTiter()` with missing titers.
+* Antigen/Sera sequence and date information now write to json fields in line with acmacs-web.
+* Add attribute getters and setters `agAnnotations()`, `srAnnotations()`, `agLabIDs()`
+
+# Racmacs 1.1.29
+* `mergeMaps()` now accepts maps as either separate arguments `mergeMaps(map1, map2)` or as a list `mergeMaps(list(map1, map2))`
+* Additional checks for antigen and serum attribute inputs
+* Error corrected where merging maps with multiple titer layers caused session to crash
+
+# Racmacs 1.1.30
+* Added support for setting indices of homologous antigens for sera with `srHomologousAgs()`
+
+# Racmacs 1.1.31
+* Added checks for disconnected groups of points and functions `mapCohesion()`, `agCohesion()`, `srCohesion()` to diagnose poorly connected groups of points
+* Add support for point transparency set either through `agOpacity()` and `srOpacity()` or appropriate hex code to the point fill or outline attribute e.g. `"#FF000099"`.

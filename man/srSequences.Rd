@@ -22,9 +22,12 @@ Getting and setting sera sequence information
 Other {antigen and sera attribute functions}: 
 \code{\link{agAttributes}},
 \code{\link{agGroups}()},
+\code{\link{agLabIDs}()},
 \code{\link{agSequences}()},
+\code{\link{ptAnnotations}},
 \code{\link{ptClades}},
 \code{\link{srAttributes}},
-\code{\link{srGroups}()}
+\code{\link{srGroups}()},
+\code{\link{srHomologousAgs}()}
 }
 \concept{{antigen and sera attribute functions}}

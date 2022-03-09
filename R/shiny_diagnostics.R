@@ -166,7 +166,8 @@ server_procrustesMap <- function(env) {
     map            = env$storage$map,
     comparison_map = pcmap,
     optimization_number = env$storage$opt_selected,
-    comparison_optimization_number = 1
+    comparison_optimization_number = 1,
+    keep_optimizations = TRUE
   )
 
   # Reload the map data

@@ -21,10 +21,13 @@ These functions get and set the antigen groupings for a map.
 \seealso{
 Other {antigen and sera attribute functions}: 
 \code{\link{agAttributes}},
+\code{\link{agLabIDs}()},
 \code{\link{agSequences}()},
+\code{\link{ptAnnotations}},
 \code{\link{ptClades}},
 \code{\link{srAttributes}},
 \code{\link{srGroups}()},
+\code{\link{srHomologousAgs}()},
 \code{\link{srSequences}()}
 }
 \concept{{antigen and sera attribute functions}}

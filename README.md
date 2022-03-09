@@ -1,6 +1,5 @@
 
 <!-- badges: start -->
-[![Lifecycle:maturing](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/#maturing)
 [![R-CMD-check](https://github.com/acorg/Racmacs/workflows/R-CMD-check/badge.svg)](https://github.com/acorg/Racmacs/actions)
 <!-- badges: end -->
 
@@ -9,7 +8,7 @@
 # Racmacs
 The Racmacs package provides a toolkit for making antigenic maps from assay data such as HI assays, as described in [Smith et al. 2004](https://doi.org/10.1126/science.1097211).
 
-For a general introduction to using Racmacs to make an antigenic map from titer data see the article [Making an antigenic map from titer data](https://acorg.github.io/Racmacs/articles/making-a-map-from-scratch.html). For documentation of the functions available see the [references](https://acorg.github.io/Racmacs/reference/index.html) section.
+For an introduction to antigenic cartography, see the article [an introduction to antigenic cartography](https://acorg.github.io/Racmacs/articles/intro-to-antigenic-cartography.html). For a general introduction to using Racmacs to make an antigenic map from titer data see the article [making an antigenic map from titer data](https://acorg.github.io/Racmacs/articles/making-a-map-from-scratch.html). For documentation of the functions available see the [references](https://acorg.github.io/Racmacs/reference/index.html) section.
 
 ## Installation instructions
 ### Install the devtools package
@@ -65,4 +64,6 @@ SHLIB_OPENMP_FFLAGS=-fopenmp
 ```
 
 Now when you try and install and build the package from source things should be setup to use g++, with support for OpenMP parallization now included.
+
+Finally, to check whether your version of Racmacs has been compiled to work in parallel or not you can run the command `Racmacs:::parallel_mode()`, which should return `TRUE`. It's not a problem if it returns `FALSE`, optimization code just won't run in parallel so will take a bit longer.
 

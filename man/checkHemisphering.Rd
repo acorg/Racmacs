@@ -34,13 +34,18 @@ Check for hemisphering or trapped points
 }
 \seealso{
 Other {map diagnostic functions}: 
+\code{\link{agCohesion}()},
 \code{\link{bootstrapBlobs}()},
 \code{\link{bootstrapMap}()},
 \code{\link{dimensionTestMap}()},
 \code{\link{map-table-distances}},
 \code{\link{mapBootstrapCoords}},
 \code{\link{mapRelaxed}()},
+\code{\link{ptBootstrapBlob}},
+\code{\link{ptBootstrapCoords}()},
+\code{\link{ptLeverage}},
 \code{\link{ptTriangulationBlobsize}},
-\code{\link{triangulationBlobs}()}
+\code{\link{triangulationBlobs}()},
+\code{\link{unstableMaps}}
 }
 \concept{{map diagnostic functions}}

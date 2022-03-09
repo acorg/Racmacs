@@ -3,6 +3,10 @@
 # underlying C++ functions, they will stop with an error and the bomb in an
 # Rstudio session if the wrong types are supplied so these checks are especially
 # important in those cases
+is.wholenumber <- function(x, tol = .Machine$double.eps^0.5) {
+  sum(!abs(x - round(x)) < tol) == 0
+}
+
 check.acmap <- function(x) {
   if (!inherits(x, "acmap")) {
     stop("Input must be an acmap object", call. = FALSE)
@@ -13,18 +17,21 @@ check.string  <- function(x) {
   if (length(x) > 1 || !is.character(x)) {
     stop("Input must be a single string", call. = FALSE)
   }
+  x
 }
 
 check.numeric <- function(x) {
   if (length(x) > 1 || !is.numeric(x)) {
     stop("Input must be a single number", call. = FALSE)
   }
+  x
 }
 
 check.numericmatrix <- function(x) {
   if (!is.matrix(x) || !is.numeric(x)) {
     stop("Input must be a numeric matrix", call. = FALSE)
   }
+  x
 }
 
 check.numericvector <- function(x) {
@@ -35,27 +42,57 @@ check.numericvector <- function(x) {
   x
 }
 
+check.integerlist <- function(x) {
+  if (!is.list(x)) {
+    stop("Input must be a list of numeric vectors", call. = FALSE)
+  }
+  for (n in seq_along(x)) {
+    if (length(x[[n]]) == 0) x[[n]] <- integer(0)
+    if (!is.vector(x[[n]]) || !is.wholenumber(x[[n]])) {
+      stop("Input must be a list of numeric vectors", call. = FALSE)
+    }
+    x[[n]] <- as.integer(x[[n]])
+  }
+  x
+}
+
 check.logical <- function(x) {
   if (length(x) > 1 || !is.logical(x)) {
     stop("Input must be a logical vector of length one", call. = FALSE)
   }
+  x
 }
 
 check.logicalvector <- function(x) {
   if (!is.vector(x) || !is.logical(x)) {
     stop("Input must be a logical vector", call. = FALSE)
   }
+  x
 }
 
 check.charactervector <- function(x) {
   if (!is.vector(x) || !is.character(x)) {
     stop("Input must be a character vector", call. = FALSE)
   }
+  x
 }
 
 check.charactermatrix <- function(x) {
   if (!is.matrix(x) || !is.character(x)) {
     stop("Input must be a numeric matrix", call. = FALSE)
+  }
+  x
+}
+
+check.dimensions <- function(x, map) {
+  if (nrow(x) != numAntigens(map) || ncol(x) != numSera(map)) {
+    stop(
+      sprintf(
+        "Dimensions of input [%s,%s] does not match dimensions of the map in terms of number of antigens and sera [%s,%s]",
+        nrow(x), ncol(x), numAntigens(map), numSera(map)
+      ),
+      call. = FALSE
+    )
   }
 }
 
@@ -119,5 +156,17 @@ table_arg_deprecated <- function(titer_table, table, ...){
     }
   }
   titer_table
+
+}
+
+# Helper function for specifying that a "suggested" package is required to run a function
+package_required <- function(pkg) {
+
+  if (!requireNamespace(pkg, quietly = TRUE)) {
+    stop(
+      sprintf("Please install package '%s' in order to use this function.", pkg),
+      call. = FALSE
+    )
+  }
 
 }

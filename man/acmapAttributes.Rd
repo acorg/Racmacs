@@ -4,17 +4,23 @@
 \alias{acmapAttributes}
 \alias{numAntigens}
 \alias{numSera}
+\alias{numSeraGroups}
 \alias{numPoints}
 \alias{numOptimizations}
+\alias{numLayers}
 \title{Get acmap attributes}
 \usage{
 numAntigens(map)
 
 numSera(map)
 
+numSeraGroups(map)
+
 numPoints(map)
 
 numOptimizations(map)
+
+numLayers(map)
 }
 \arguments{
 \item{map}{The acmap data object}
@@ -24,7 +30,11 @@ Functions to get various attributes about an acmap object.
 }
 \seealso{
 Other {map attribute functions}: 
+\code{\link{adjustedLogTiterTable}()},
+\code{\link{adjustedTiterTable}()},
 \code{\link{dilutionStepsize}()},
+\code{\link{logtiterTableLayers}()},
+\code{\link{mapDescription}()},
 \code{\link{mapName}()},
 \code{\link{titerTableLayers}()},
 \code{\link{titerTable}()}

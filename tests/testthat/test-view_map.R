@@ -244,6 +244,61 @@ test_that("Viewing map rotation", {
 })
 
 
+# Point opacity
+test_that("Viewing map transparency", {
+
+  map <- acmap(
+    ag_coords = cbind(0, 1:3),
+    sr_coords = cbind(1:3, 0)
+  )
+
+  agFill(map) <- c(
+    adjustcolor("red", alpha.f = 1),
+    adjustcolor("red", alpha.f = 0.6),
+    adjustcolor("red", alpha.f = 0.2)
+  )
+
+  agOutline(map) <- c(
+    adjustcolor("black", alpha.f = 0.2),
+    adjustcolor("black", alpha.f = 0.6),
+    adjustcolor("black", alpha.f = 1)
+  )
+
+  srFill(map) <- c(
+    adjustcolor("green", alpha.f = 1),
+    adjustcolor("green", alpha.f = 0.6),
+    adjustcolor("green", alpha.f = 0.2)
+  )
+
+  srOutline(map) <- c(
+    adjustcolor("black", alpha.f = 1),
+    adjustcolor("black", alpha.f = 0.6),
+    adjustcolor("black", alpha.f = 0.2)
+  )
+
+  agSize(map) <- 10
+  srSize(map) <- 10
+  agOutlineWidth(map) <- 3
+  srOutlineWidth(map) <- 3
+
+  export.viewer.test(
+    view(map),
+    "map_transparent_points_uninherited.html"
+  )
+
+  export.viewer.test(
+    view(
+      map,
+      options = list(
+        point.opacity = "inherit"
+      )
+    ),
+    "map_transparent_points_inherited.html"
+  )
+
+})
+
+
 # # Snapshot map
 # test_that("Map snapshot", {
 #

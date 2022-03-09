@@ -15,7 +15,7 @@ DimTestOutput ac_dimension_test_map(
   arma::vec ag_reactivity_adjustments,
   int num_optimizations,
   AcOptimizerOptions options
-){
+) {
 
   // Silence normal optimization progress reporting
   options.report_progress = false;

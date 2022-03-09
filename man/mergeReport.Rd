@@ -16,6 +16,7 @@ Prints a raw text merge report from merging two map tables.
 Other {map merging functions}: 
 \code{\link{RacMerge.options}()},
 \code{\link{htmlMergeReport}()},
-\code{\link{mergeMaps}()}
+\code{\link{mergeMaps}()},
+\code{\link{splitTiterLayers}()}
 }
 \concept{{map merging functions}}

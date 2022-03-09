@@ -21,6 +21,8 @@ Racmacs.Data = class Data {
         this.data = data;
         this.titertable = this.getTable();
         this.logtitertable = Racmacs.utils.logTiters(this.titertable);
+        this.origtitertable = this.getTable();
+        this.origlogtitertable = Racmacs.utils.logTiters(this.titertable);
         this.pnum = 0;
         this.dilutionstepsize_cache = this.dilutionStepsize();
     }
@@ -62,7 +64,9 @@ Racmacs.Data = class Data {
 
     // For updating stress
     updateStress(stress) {
-        this.data.c.P[this.pnum].s = stress;
+        if (this.numProjections() > 0) {
+            this.data.c.P[this.pnum].s = stress;
+        }
     }
 
     // For resetting tranformation and translation information
@@ -173,7 +177,7 @@ Racmacs.Data = class Data {
 
     }
 
-    setTiter(ag, sr, value){
+    setTiter(ag, sr, value, update_cbases = true){
 
         // Set titer table record
         if (this.titertable) this.titertable[ag][sr] = value;
@@ -186,7 +190,33 @@ Racmacs.Data = class Data {
         }
 
         // Update the column bases cache
-        this.update_colbases();
+        if (update_cbases) this.update_colbases();
+
+        // Update the logtiter cache
+        this.logtitertable = Racmacs.utils.logTiters(this.titertable);
+
+        // Log the change in the console
+        console.log("Titer data updated");
+
+
+    }
+
+    restoreTiter(ag, sr, update_cbases = true){
+
+        var value = this.origtitertable[ag][sr];
+
+        // Set titer table record
+        if (this.titertable) this.titertable[ag][sr] = value;
+
+        // If table data provided as a list of objects
+        if(this.data.c.t.d) {
+            this.data.c.t.d[ag][sr.toString()] = value;
+        } else {
+            this.data.c.t.l[ag][sr] = value;
+        }
+
+        // Update the column bases cache
+        if (update_cbases) this.update_colbases();
 
         // Update the logtiter cache
         this.logtitertable = Racmacs.utils.logTiters(this.titertable);
@@ -222,9 +252,10 @@ Racmacs.Data = class Data {
     }
 
     // Projection attributes
-    stress(){
-        if(this.data.c.P[this.pnum] && this.data.c.P[this.pnum].s){
-            return(this.data.c.P[this.pnum].s);
+    stress(i){
+        if (i === undefined) i = this.pnum;
+        if(this.numProjections() > 0 && this.data.c.P[i] && this.data.c.P[i].s){
+            return(this.data.c.P[i].s);
         } else {
             return(0);
         }
@@ -273,6 +304,82 @@ Racmacs.Data = class Data {
                 )
             )
         )
+    }
+
+    agGroupValues(i){
+        if (i === undefined) {
+            if (this.data.c.x && this.data.c.x.a) {
+                return(this.data.c.x.a.map( a => a.g ));
+            } else {
+                return(this.data.c.a.map( a => undefined ));
+            }
+        } else {
+            if (this.data.c.x && this.data.c.x.a) {
+                return(this.data.c.x.a[i].g);
+            } else {
+                return(undefined);
+            }
+        }
+    }
+
+    srGroupValues(i){
+        if (i === undefined) {
+            if (this.data.c.x && this.data.c.x.s) {
+                return(this.data.c.x.s.map( s => s.g ));
+            } else {
+                return(this.data.c.s.map( a => undefined ));
+            }
+        } else {
+            if (this.data.c.x && this.data.c.x.s) {
+                return(this.data.c.x.s[i].g);
+            } else {
+                return(undefined);
+            }
+        }
+    }
+
+    agGroupLevelFill(){
+        var ag_group_levels = this.agGroupLevels();
+        var ag_group_values = this.agGroupValues();
+        var vals = ag_group_levels.map((level, i) => this.agFill(ag_group_values.indexOf(i)));
+        return(vals);
+    }
+
+    agGroupLevelOutline(){
+        var ag_group_levels = this.agGroupLevels();
+        var ag_group_values = this.agGroupValues();
+        var vals = ag_group_levels.map((level, i) => this.agOutline(ag_group_values.indexOf(i)));
+        return(vals);
+    }
+
+    srGroupLevelFill(){
+        var sr_group_levels = this.srGroupLevels();
+        var sr_group_values = this.srGroupValues();
+        var vals = sr_group_levels.map((level, i) => this.srFill(sr_group_values.indexOf(i)));
+        return(vals);
+    }
+
+    srGroupLevelOutline(){
+        var sr_group_levels = this.srGroupLevels();
+        var sr_group_values = this.srGroupValues();
+        var vals = sr_group_levels.map((level, i) => this.srOutline(sr_group_values.indexOf(i)));
+        return(vals);
+    }
+
+    agGroupLevels(){
+        if (this.data.c.x) {
+            return(this.data.c.x.agv);
+        } else {
+            return(undefined);
+        }
+    }
+
+    srGroupLevels(){
+        if (this.data.c.x) {
+            return(this.data.c.x.srv);
+        } else {
+            return(undefined);
+        }
     }
 
     agReactivityAdjustment(i){
@@ -331,7 +438,10 @@ Racmacs.Data = class Data {
     srCoords(i){ return(this.ptCoords(i + this.numAntigens())); }
 
     agSequences(i){
-        if(this.data.c.x && this.data.c.x.a && this.data.c.x.a[0].q){
+        if(this.data.c.a[0].A) {
+            if(i === undefined) return(this.data.c.a.map( p => p.A.split("") ));
+            else                return(this.data.c.a[i].A.split(""));
+        } else if(this.data.c.x && this.data.c.x.a && this.data.c.x.a[0].q){
             if(i === undefined) return(this.data.c.x.a.map( p => p.q.split("") ));
             else                return(this.data.c.x.a[i].q.split(""));
         } else {
@@ -340,7 +450,10 @@ Racmacs.Data = class Data {
     }
 
     srSequences(i){
-        if(this.data.c.x && this.data.c.x.s && this.data.c.x.s[0].q){
+        if(this.data.c.s[0].A) {
+            if(i === undefined) return(this.data.c.s.map( p => p.A.split("") ));
+            else                return(this.data.c.s[i].A.split(""));
+        } else if(this.data.c.x && this.data.c.x.s && this.data.c.x.s[0].q){
             if(i === undefined) return(this.data.c.x.s.map( p => p.q.split("") ));
             else                return(this.data.c.x.s[i].q.split(""));
         } else {
@@ -429,17 +542,63 @@ Racmacs.Data = class Data {
     }
 
     agFill(i){
-        return(this.agPlotspec(i, "F", "green"));
+        return(
+            Racmacs.utils.RemoveColorOpacity(
+                this.agPlotspec(i, "F", "green")
+            )
+        );
     }
     srFill(i){
-        return(this.srPlotspec(i, "F", "transparent"));
+        return(
+            Racmacs.utils.RemoveColorOpacity(
+                this.srPlotspec(i, "F", "transparent")
+            )
+        );
     }
 
     agOutline(i){
-        return(this.agPlotspec(i, "O", "black"));
+        return(
+            Racmacs.utils.RemoveColorOpacity(
+                this.agPlotspec(i, "O", "black")
+            )
+        );
     }
     srOutline(i){
-        return(this.srPlotspec(i, "O", "black"));
+        return(
+            Racmacs.utils.RemoveColorOpacity(
+                this.srPlotspec(i, "O", "black")
+            )
+        );
+    }
+
+    agFillOpacity(i){
+        return(
+            Racmacs.utils.ExtractColorOpacity(
+                this.agPlotspec(i, "F", "green")
+            )
+        );
+    }
+    srFillOpacity(i){
+        return(
+            Racmacs.utils.ExtractColorOpacity(
+                this.srPlotspec(i, "F", "transparent")
+            )
+        );
+    }
+
+    agOutlineOpacity(i){
+        return(
+            Racmacs.utils.ExtractColorOpacity(
+                this.agPlotspec(i, "O", "black")
+            )
+        );
+    }
+    srOutlineOpacity(i){
+        return(
+            Racmacs.utils.ExtractColorOpacity(
+                this.srPlotspec(i, "O", "black")
+            )
+        );
     }
 
     agOutlineWidth(i){
@@ -552,6 +711,33 @@ Racmacs.Data = class Data {
         } else {
             return(1);
         }
+    }
+
+    // Excluding and including points
+    includePoint(type, i) {
+        if (type == "ag") {
+            for (var j=0; j<this.numSera(); j++) {
+                this.restoreTiter(i, j, false);
+            }
+        } else {
+            for (var j=0; j<this.numAntigens(); j++) {
+                this.restoreTiter(j, i, false);
+            }
+        }
+        this.update_colbases();
+    }
+
+    excludePoint(type, i) {
+        if (type == "ag") {
+            for (var j=0; j<this.numSera(); j++) {
+                this.setTiter(i, j, "*", false);
+            }
+        } else {
+            for (var j=0; j<this.numAntigens(); j++) {
+                this.setTiter(j, i, "*", false);
+            }
+        }
+        this.update_colbases();
     }
 
 }

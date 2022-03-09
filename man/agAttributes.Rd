@@ -3,27 +3,39 @@
 \name{agAttributes}
 \alias{agAttributes}
 \alias{agIDs}
-\alias{agNames}
-\alias{agNames<-}
 \alias{agIDs<-}
 \alias{agDates}
 \alias{agDates<-}
-\alias{agNamesFull}
-\alias{agNamesAbbreviated}
 \alias{agReference}
+\alias{agReference<-}
+\alias{agNames}
+\alias{agNames<-}
+\alias{agNamesFull}
+\alias{agNamesFull<-}
+\alias{agNamesAbbreviated}
+\alias{agNamesAbbreviated<-}
+\alias{agExtra}
+\alias{agExtra<-}
 \alias{agPassage}
+\alias{agPassage<-}
 \title{Getting and setting antigen attributes}
 \usage{
-agNames(map)
-agNames(map) <- value
 agIDs(map)
 agIDs(map) <- value
 agDates(map)
 agDates(map) <- value
-agNamesFull(map)
-agNamesAbbreviated(map)
 agReference(map)
+agReference(map) <- value
+agNames(map)
+agNames(map) <- value
+agNamesFull(map)
+agNamesFull(map) <- value
+agNamesAbbreviated(map)
+agNamesAbbreviated(map) <- value
+agExtra(map)
+agExtra(map) <- value
 agPassage(map)
+agPassage(map) <- value
 }
 \arguments{
 \item{map}{The acmap data object}
@@ -43,10 +55,13 @@ These functions get and set the antigen attributes for a map.
 
 Other {antigen and sera attribute functions}: 
 \code{\link{agGroups}()},
+\code{\link{agLabIDs}()},
 \code{\link{agSequences}()},
+\code{\link{ptAnnotations}},
 \code{\link{ptClades}},
 \code{\link{srAttributes}},
 \code{\link{srGroups}()},
+\code{\link{srHomologousAgs}()},
 \code{\link{srSequences}()}
 }
 \concept{{antigen and sera attribute functions}}

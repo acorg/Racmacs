@@ -232,6 +232,9 @@ calcBlobSize <- function(blob) {
 
 calcBlobArea <- function(blob) {
 
+  # Check geometry package installed
+  package_required("geometry")
+
   sum(
     vapply(blob, function(b) {
       geometry::polyarea(

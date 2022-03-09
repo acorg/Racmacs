@@ -44,10 +44,10 @@ runs should be performed each time.}
 \code{RacOptimizer.options()}}
 }
 \value{
-The axmap object is returned with antigen reactivity adjustments
+The acmap object is returned with antigen reactivity adjustments
 set to the value calculated in the optimizer. This can be queried with
 \code{agReactivityAdjustments()}.
 }
 \description{
-Optimize antigen reactivity adjustments
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}
 }

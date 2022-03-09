@@ -25,11 +25,17 @@ std::string ac_ag_get_passage( const AcAntigen &ag ){ return ag.get_passage(); }
 // [[Rcpp::export(rng = false)]]
 std::vector<std::string> ac_ag_get_clade( const AcAntigen &ag ){ return ag.get_clade(); }
 // [[Rcpp::export(rng = false)]]
+std::vector<std::string> ac_ag_get_annotations( const AcAntigen &ag ){ return ag.get_annotations(); }
+// [[Rcpp::export(rng = false)]]
+std::vector<std::string> ac_ag_get_labids( const AcAntigen &ag ){ return ag.get_labids(); }
+// [[Rcpp::export(rng = false)]]
 std::string ac_ag_get_name( const AcAntigen &ag ){ return ag.get_name(); }
 // [[Rcpp::export(rng = false)]]
 std::string ac_ag_get_name_full( const AcAntigen &ag ){ return ag.get_name_full(); }
 // [[Rcpp::export(rng = false)]]
 std::string ac_ag_get_name_abbreviated( const AcAntigen &ag ){ return ag.get_name_abbreviated(); }
+// [[Rcpp::export(rng = false)]]
+std::string ac_ag_get_extra( const AcAntigen &ag ){ return ag.get_extra(); }
 
 // [[Rcpp::export(rng = false)]]
 std::string ac_ag_get_match_id( const AcAntigen &ag ){ return ag.get_match_id(); }
@@ -52,11 +58,17 @@ AcAntigen ac_ag_set_passage( AcAntigen ag, std::string value ){ ag.set_passage(v
 // [[Rcpp::export(rng = false)]]
 AcAntigen ac_ag_set_clade( AcAntigen ag, std::vector<std::string> value ){ ag.set_clade(value); return ag; }
 // [[Rcpp::export(rng = false)]]
+AcAntigen ac_ag_set_annotations( AcAntigen ag, std::vector<std::string> value ){ ag.set_annotations(value); return ag; }
+// [[Rcpp::export(rng = false)]]
+AcAntigen ac_ag_set_labids( AcAntigen ag, std::vector<std::string> value ){ ag.set_labids(value); return ag; }
+// [[Rcpp::export(rng = false)]]
 AcAntigen ac_ag_set_name( AcAntigen ag, std::string value ){ ag.set_name(value); return ag; }
 // [[Rcpp::export(rng = false)]]
 AcAntigen ac_ag_set_name_full( AcAntigen ag, std::string value ){  ag.set_name_full(value); return ag; }
 // [[Rcpp::export(rng = false)]]
 AcAntigen ac_ag_set_name_abbreviated( AcAntigen ag, std::string value ){ ag.set_name_abbreviated(value); return ag; }
+// [[Rcpp::export(rng = false)]]
+AcAntigen ac_ag_set_extra( AcAntigen ag, std::string value ){ ag.set_extra(value); return ag; }
 
 // [[Rcpp::export(rng = false)]]
 AcAntigen ac_ag_set_group( AcAntigen ag, int value ){ ag.set_group(value); return ag; }

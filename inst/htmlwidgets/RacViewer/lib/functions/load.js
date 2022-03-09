@@ -8,6 +8,9 @@ Racmacs.Viewer.prototype.load = function(
 
     // Set default options    
     if (options["grid.col"] === undefined) options["grid.col"] = "#cfcfcf";
+    if (options["point.opacity"] === undefined || options["point.opacity"] === null) {
+        options["point.opacity"] = this.styleset.noselections.unhovered.unselected.opacity;
+    };
 
     if(options.maintain_viewpoint){ 
         var selected_points = this.getSelectedPointIndices(); 
@@ -63,20 +66,25 @@ Racmacs.Viewer.prototype.load = function(
         // Generate the antigen and sera objects
         this.addAntigensAndSera();
 
-        // Get plot limits
-        if (!options.xlim) var xlim = this.data.xlim();
-        else               var xlim = options.xlim;
-        if (!options.ylim) var ylim = this.data.ylim();
-        else               var ylim = options.ylim;
-        var zlim = this.data.zlim();
+        // Set viewpoint
+        if (this.data.numProjections() > 0) {
 
-        // Set dims from map data
-        if(!options.maintain_viewpoint){
-            this.setDims({
-                xlim : xlim,
-                ylim : ylim,
-                zlim : zlim
-            });
+            // Get plot limits
+            if (!options.xlim) var xlim = this.data.xlim();
+            else               var xlim = options.xlim;
+            if (!options.ylim) var ylim = this.data.ylim();
+            else               var ylim = options.ylim;
+            var zlim = this.data.zlim();
+
+            // Set dims from map data
+            if(!options.maintain_viewpoint){
+                this.setDims({
+                    xlim : xlim,
+                    ylim : ylim,
+                    zlim : zlim
+                });
+            }
+
         }
 
         // Load the hi table
@@ -178,8 +186,46 @@ Racmacs.Viewer.prototype.load = function(
             this.btns["viewSequences"].style.display = "none";
         }
 
+        // Allow for group data
+        if (this.data.agGroupLevels() !== undefined || this.data.srGroupLevels() !== undefined) {
+
+            // Show legend
+            if (options.show_group_legend) {
+                this.showLegend();
+            } else {
+                this.clearLegend();
+            };
+
+            this.colorpanel.showColorByGroup();
+
+        } else {
+            
+            this.colorpanel.hideColorByGroup();
+
+        }
+
         // Deal with viewer options
-        if(options["point.opacity"] !== undefined && options["point.opacity"] !== null)  this.styleset.noselections.unhovered.unselected.opacity = options["point.opacity"];
+        if (options["point.opacity"] == "inherit") {
+            this.antigens.map((ag, i) => ag.fillopacity = this.data.agFillOpacity(i));
+            this.antigens.map((ag, i) => ag.outlineopacity = this.data.agOutlineOpacity(i));
+            this.sera.map((sr, i) => sr.fillopacity = this.data.srFillOpacity(i));
+            this.sera.map((sr, i) => sr.outlineopacity = this.data.srOutlineOpacity(i));
+        } else {
+            this.points.map(pt => {
+                if (pt.fillColor != "transparent") {
+                    pt.fillopacity = options["point.opacity"]
+                } else {
+                    pt.fillopacity = 0;
+                }
+            });
+            this.points.map(pt => {
+                if (pt.outlineColor != "transparent") {
+                    pt.outlineopacity = options["point.opacity"]
+                } else {
+                    pt.outlineopacity = 0;
+                }
+            });
+        }
         this.updatePointStyles();
 
         // Reselect any points

@@ -12,7 +12,8 @@ procrustesMap(
   antigens = TRUE,
   sera = TRUE,
   translation = TRUE,
-  scaling = FALSE
+  scaling = FALSE,
+  keep_optimizations = FALSE
 )
 }
 \arguments{
@@ -36,6 +37,9 @@ all/none)}
 
 \item{scaling}{Should scaling be allowed (generally not recommended unless
 comparing maps made with different assays)}
+
+\item{keep_optimizations}{Should all optimization runs be kept or only the
+one to which the procrustes was applied.}
 }
 \value{
 Returns an acmap object with procrustes information added, which will

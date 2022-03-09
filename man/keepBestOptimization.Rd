@@ -16,10 +16,12 @@ Keep only the lowest stress map optimization
 Other {functions for working with map data}: 
 \code{\link{acmap}()},
 \code{\link{addOptimization}()},
+\code{\link{agReactivityAdjustments}()},
 \code{\link{as.json}()},
 \code{\link{edit_agNames}()},
 \code{\link{edit_srNames}()},
 \code{\link{keepSingleOptimization}()},
+\code{\link{layerNames}()},
 \code{\link{orderPoints}},
 \code{\link{read.acmap}()},
 \code{\link{read.titerTable}()},
@@ -27,6 +29,7 @@ Other {functions for working with map data}:
 \code{\link{save.acmap}()},
 \code{\link{save.coords}()},
 \code{\link{save.titerTable}()},
+\code{\link{subsetCommonPoints}},
 \code{\link{subsetMap}()}
 }
 \concept{{functions for working with map data}}

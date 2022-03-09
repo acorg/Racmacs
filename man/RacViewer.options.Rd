@@ -18,7 +18,8 @@ RacViewer.options(
 )
 }
 \arguments{
-\item{point.opacity}{Default opacity for unselected points}
+\item{point.opacity}{Default opacity for unselected points, or "inherit" to take
+opacity from the color values themselves.}
 
 \item{viewer.controls}{Should viewer controls be shown or hidden by default?}
 
@@ -52,10 +53,10 @@ Other {functions to view maps}:
 \code{\link{RacViewer}()},
 \code{\link{export_viewer}()},
 \code{\link{grid.plot.acmap}()},
+\code{\link{mapGadget}()},
 \code{\link{plot.acmap}()},
 \code{\link{setLegend}()},
 \code{\link{snapshotMap}()},
-\code{\link{view.acmap}()},
 \code{\link{view.default}()},
 \code{\link{view}()}
 }

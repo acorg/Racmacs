@@ -28,6 +28,9 @@ read.titerTable <- function(filepath) {
 
   } else if (grepl("\\.xls$", filepath) | grepl("\\.xlsx$", filepath)) {
 
+    # Check gdata package installed
+    package_required("gdata")
+
     # Read from xls
     titer_table <- gdata::read.xls(
       xls              = filepath,

@@ -5,12 +5,15 @@
 \alias{srSequences<-}
 \title{Getting and setting sera sequence information}
 \usage{
-srSequences(map)
+srSequences(map, missing_value = "-")
 
 srSequences(map) <- value
 }
 \arguments{
 \item{map}{The acmap data object}
+
+\item{missing_value}{Character to use to fill in portions of the sequence matrix
+where sequence data is missing.}
 
 \item{value}{A character matrix of sequences with rows equal to the number of
 sera}

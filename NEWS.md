@@ -137,3 +137,13 @@
 # Racmacs 1.1.31
 * Added checks for disconnected groups of points and functions `mapCohesion()`, `agCohesion()`, `srCohesion()` to diagnose poorly connected groups of points
 * Add support for point transparency set either through `agOpacity()` and `srOpacity()` or appropriate hex code to the point fill or outline attribute e.g. `"#FF000099"`.
+
+# Racmacs 1.1.32
+* Disconnected maps now return an error rather than a warning
+* `agStressPerTiter()` and `srStressPerTiter()` now return a matrix with columns corresponding to stress per titer when nd values are excluded and when they are included
+* Corrected error when coloring maps by stress or showing error lines with disconnected points
+* If a titer table has column or row names but not sera or antigen names provided, names will be taken from the row and column names when creating a map.
+* Add support for reading maps with brotli compression
+* `agSequences()` and `srSequences()` now works when the stored sequences have different lengths or are missing for some points
+* Correct error where maps with duplicate antigen or serum names would not optimize
+

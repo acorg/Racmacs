@@ -20,7 +20,7 @@ test_that("Warn of undercontrained positions", {
     ),
     paste(
       "The following ANTIGENS have do not have enough titrations to position in 2 dimensions.",
-      "Coordinates were still optimized but positions will be unreliable\n\n'ANTIGEN 4'"
+      "Coordinates were still optimized but positions will be unreliable\n\n'A4'"
     )
   )
 
@@ -44,7 +44,7 @@ test_that("Error for underconstrained points with infinite positions", {
     ),
     paste(
       "The following ANTIGENS are too underconstrained to position in 2 dimensions",
-      "and coordinates have been set to NaN:\n\n'ANTIGEN 4'"
+      "and coordinates have been set to NaN:\n\n'A4'"
     )
   )
 

@@ -576,10 +576,29 @@ test_that("Error when optimizing a map with disconnected points", {
   dat[6:10,1:5] <- "*"
   dat[1:5,6:9] <- "*"
   map <- acmap(titer_table = dat)
-  expect_warning(
+  expect_error(
     optimizeMap(map, 2, 10, "none"),
-    no_cohesion_warning()
+    "Map contains disconnected points.*"
   )
 
 })
+
+
+# Errors for disconnected maps
+test_that("Optimizing a map with duplicate antigen or serum names", {
+
+  dat <- matrix(rep(40, 90), ncol=9)
+  ag_names <- rep("AG", nrow(dat))
+  sr_names <- rep("SR", ncol(dat))
+  rownames(dat) <- ag_names
+  colnames(dat) <- sr_names
+
+  map <- make.acmap(dat, number_of_optimizations = 2)
+  expect_equal(agNames(map), ag_names)
+  expect_equal(srNames(map), sr_names)
+  expect_equal(sum(is.na(agCoords(map))), 0)
+  expect_equal(sum(is.na(srCoords(map))), 0)
+
+})
+
 

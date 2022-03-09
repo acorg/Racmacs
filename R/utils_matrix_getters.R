@@ -68,3 +68,12 @@ srGroupOutline <- function(map) {
   names(sr_group_outlines) <- sr_groups
   sr_group_outlines
 }
+
+rbind_list_to_matrix <- function(x, missing_value = "-") {
+  maxlen <- max(vapply(x, length, numeric(1)))
+  x <- lapply(x, function(xi) {
+    missing_length <- maxlen - length(xi)
+    c(xi, rep(missing_value, missing_length))
+  })
+  do.call(rbind, x)
+}

@@ -220,20 +220,34 @@ plotly_sr_titers <- function(
 }
 
 
-agMeanResiduals <- function(map, exclude_nd = TRUE) {
+agMeanResiduals <- function(map) {
 
   residuals <- mapResiduals(map)
-  if (exclude_nd) residuals[titertypesTable(map) != 1] <- NA
-  rowMeans(residuals, na.rm = T)
+  residuals_nd_excluded <- residuals
+  residuals_nd_excluded[titertypesTable(map) != 1] <- NA
+  result <- cbind(
+    rowMeans(residuals, na.rm = T),
+    rowMeans(residuals_nd_excluded, na.rm = T)
+  )
+  rownames(result) <- agNames(map)
+  colnames(result) <- c("nd_included", "nd_excluded")
+  result
 
 }
 
 
-srMeanResiduals <- function(map, exclude_nd = TRUE) {
+srMeanResiduals <- function(map) {
 
   residuals <- mapResiduals(map)
-  if (exclude_nd) residuals[titertypesTable(map) != 1] <- NA
-  colMeans(residuals, na.rm = T)
+  residuals_nd_excluded <- residuals
+  residuals_nd_excluded[titertypesTable(map) != 1] <- NA
+  result <- cbind(
+    colMeans(residuals, na.rm = T),
+    colMeans(residuals_nd_excluded, na.rm = T)
+  )
+  rownames(result) <- srNames(map)
+  colnames(result) <- c("nd_included", "nd_excluded")
+  result
 
 }
 
@@ -241,13 +255,9 @@ srMeanResiduals <- function(map, exclude_nd = TRUE) {
 plot_agMeanResiduals <- function(map, exclude_nd = TRUE, .plot = TRUE) {
   hist_ggplot(
     names  = agNames(map),
-    values = agMeanResiduals(map, exclude_nd),
+    values = agMeanResiduals(map)[,ifelse(exclude_nd, "nd_excluded", "nd_included")],
     title  = "Antigen mean residual error",
-    subtitle = switch(
-      exclude_nd,
-      "TRUE"  = "(nd excluded)",
-      "FALSE" = "(nd excluded)"
-    ),
+    subtitle = ifelse(exclude_nd, "(nd excluded)", "(nd excluded)"),
     vline = 0,
     .plot = .plot
   )
@@ -257,13 +267,9 @@ plot_agMeanResiduals <- function(map, exclude_nd = TRUE, .plot = TRUE) {
 plot_srMeanResiduals <- function(map, exclude_nd = TRUE, .plot = TRUE) {
   hist_ggplot(
     names  = srNames(map),
-    values = srMeanResiduals(map, exclude_nd),
+    values = srMeanResiduals(map)[,ifelse(exclude_nd, "nd_excluded", "nd_included")],
     title  = "Serum mean residual error",
-    subtitle = switch(
-      exclude_nd,
-      "TRUE"  = "(nd excluded)",
-      "FALSE" = "(nd excluded)"
-    ),
+    subtitle = ifelse(exclude_nd, "(nd excluded)", "(nd excluded)"),
     vline = 0,
     .plot = .plot
   )
@@ -283,7 +289,7 @@ plot_agStressPerTiter <- function(
 
   hist_ggplot(
     names  = agNames(map),
-    values = agStressPerTiter(map, exclude_nd = exclude_nd),
+    values = agStressPerTiter(map)[,ifelse(exclude_nd, "nd_excluded", "nd_included")],
     title  = "Antigen stress per titer",
     subtitle = switch(
       exclude_nd,
@@ -309,7 +315,7 @@ plot_srStressPerTiter <- function(
 
   hist_ggplot(
     names  = srNames(map),
-    values = srStressPerTiter(map, exclude_nd = exclude_nd),
+    values = srStressPerTiter(map)[,ifelse(exclude_nd, "nd_excluded", "nd_included")],
     title  = "Serum stress per titer",
     subtitle = switch(
       exclude_nd,

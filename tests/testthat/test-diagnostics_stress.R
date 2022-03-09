@@ -28,8 +28,8 @@ test_that("point stress per titer", {
   ag_stress_per_titer <- agStressPerTiter(map)
   sr_stress_per_titer <- srStressPerTiter(map)
 
-  expect_equal(length(ag_stress_per_titer), numAntigens(map))
-  expect_equal(length(sr_stress_per_titer), numSera(map))
+  expect_equal(nrow(ag_stress_per_titer), numAntigens(map))
+  expect_equal(nrow(sr_stress_per_titer), numSera(map))
 
 })
 
@@ -81,7 +81,7 @@ test_that("Stress with NA coords", {
   map <- make.acmap(dat)
 
   expect_equal(
-    round(agStressPerTiter(map, exclude_nd = T)[4], 2),
+    round(agStressPerTiter(map)[4, "nd_excluded"], 2),
     1.67
   )
 

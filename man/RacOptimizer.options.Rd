@@ -10,6 +10,7 @@ RacOptimizer.options(
   maxit = 1000,
   num_cores = parallel::detectCores(),
   report_progress = NULL,
+  ignore_disconnected = FALSE,
   progress_bar_length = options()$width
 )
 }
@@ -23,6 +24,8 @@ RacOptimizer.options(
 \item{num_cores}{The number of cores to run in parallel}
 
 \item{report_progress}{Should progress be reported}
+
+\item{ignore_disconnected}{Should the check for disconnected points be skipped}
 
 \item{progress_bar_length}{Progress bar length when progress is reported}
 }

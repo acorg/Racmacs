@@ -90,7 +90,13 @@ optimizeMap <- function(
   if (sum(sr_underconstrained) > 0) warn_underconstrained("SERA", srNames(map)[sr_underconstrained], number_of_dimensions)
 
   # Check for unconnected sets of points
-  if (mapDisconnected(map)) warning(no_cohesion_warning(), call. = F)
+  if (!options$ignore_disconnected && mapDisconnected(map)) {
+    stop(singleline(
+    "Map contains disconnected points (points that are not connected through
+     any path of detectable titers so cannot be coordinated relative to each other).
+     To optimize anyway, rerun with 'options = list(ignore_disconnected = TRUE)'."
+    ), call. = F)
+  }
 
   map <- ac_optimize_map(
     map = map,
@@ -126,10 +132,12 @@ optimizeMap <- function(
   # Check procrustes of the top 2 runs to see if there is much difference between them
   if (check_convergence && numOptimizations(map) > 1) {
 
-    procrustes_dists <- c(
-      procrustesData(map, map, comparison_optimization_number = 2)$ag_dists,
-      procrustesData(map, map, comparison_optimization_number = 2)$sr_dists
-    )
+    pcmap <- map
+    agNames(pcmap) <- paste("AG", seq_len(numAntigens(pcmap)))
+    srNames(pcmap) <- paste("SR", seq_len(numSera(pcmap)))
+
+    procrustes_data <- procrustesData(pcmap, pcmap, comparison_optimization_number = 2)
+    procrustes_dists <- c(procrustes_data$ag_dists, procrustes_data$sr_dists)
 
     if (max(procrustes_dists, na.rm = T) > 0.5) {
       warning(sprintf(
@@ -228,6 +236,7 @@ make.acmap <- function(
 #' @param maxit The maximum number of iterations to use in the optimizer
 #' @param num_cores The number of cores to run in parallel
 #' @param report_progress Should progress be reported
+#' @param ignore_disconnected Should the check for disconnected points be skipped
 #' @param progress_bar_length Progress bar length when progress is reported
 #'
 #' @details For more details, for example on "dimensional annealing" see
@@ -246,11 +255,13 @@ RacOptimizer.options <- function(
   maxit = 1000,
   num_cores = parallel::detectCores(),
   report_progress = NULL,
+  ignore_disconnected = FALSE,
   progress_bar_length = options()$width
 ) {
 
   # Check input
   check.logical(dim_annealing)
+  check.logical(ignore_disconnected)
   check.string(method)
   check.numeric(maxit)
   check.numeric(num_cores)
@@ -269,6 +280,7 @@ RacOptimizer.options <- function(
     method = method,
     maxit = maxit,
     num_cores = num_cores,
+    ignore_disconnected = ignore_disconnected,
     report_progress = report_progress,
     progress_bar_length = progress_bar_length
   )
@@ -626,15 +638,6 @@ warn_disconnected <- function(type, strains, number_of_dimensions) {
       number_of_dimensions
     ),
     strains
-  )
-}
-
-# Warnings to use
-no_cohesion_warning <- function() {
-  singleline(
-    "Some sets of points are entirely disconnected from each other meaning that the
-    resulting map will consist of disconnected sets of points that are not coordinated
-    relative to each other."
   )
 }
 

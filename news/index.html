@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">Racmacs</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.1.30</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.1.31</span>
       </span>
     </div>
 
@@ -225,6 +225,18 @@
 <h2 class="page-header" data-toc-text="1.1.31" id="racmacs-1131">Racmacs 1.1.31<a class="anchor" aria-label="anchor" href="#racmacs-1131"></a></h2>
 <ul><li>Added checks for disconnected groups of points and functions <code><a href="../reference/mapCohesion.html">mapCohesion()</a></code>, <code><a href="../reference/mapCohesion.html">agCohesion()</a></code>, <code><a href="../reference/mapCohesion.html">srCohesion()</a></code> to diagnose poorly connected groups of points</li>
 <li>Add support for point transparency set either through <code>agOpacity()</code> and <code>srOpacity()</code> or appropriate hex code to the point fill or outline attribute e.g. <code>"#FF000099"</code>.</li>
+</ul></div>
+    <div class="section level2">
+<h2 class="page-header" data-toc-text="1.1.32" id="racmacs-1132">Racmacs 1.1.32<a class="anchor" aria-label="anchor" href="#racmacs-1132"></a></h2>
+<ul><li>Disconnected maps now return an error rather than a warning</li>
+<li>
+<code><a href="../reference/pointStress.html">agStressPerTiter()</a></code> and <code><a href="../reference/pointStress.html">srStressPerTiter()</a></code> now return a matrix with columns corresponding to stress per titer when nd values are excluded and when they are included</li>
+<li>Corrected error when coloring maps by stress or showing error lines with disconnected points</li>
+<li>If a titer table has column or row names but not sera or antigen names provided, names will be taken from the row and column names when creating a map.</li>
+<li>Add support for reading maps with brotli compression</li>
+<li>
+<code><a href="../reference/agSequences.html">agSequences()</a></code> and <code><a href="../reference/srSequences.html">srSequences()</a></code> now works when the stored sequences have different lengths or are missing for some points</li>
+<li>Correct error where maps with duplicate antigen or serum names would not optimize</li>
 </ul></div>
   </div>
 

@@ -18,7 +18,7 @@ returning a list of option settings."><meta property="og:image" content="https:/
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">Racmacs</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.1.30</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.1.31</span>
       </span>
     </div>
 
@@ -70,6 +70,7 @@ returning a list of option settings.</p>
   maxit <span class="op">=</span> <span class="fl">1000</span>,
   num_cores <span class="op">=</span> <span class="fu">parallel</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/parallel/detectCores.html" class="external-link">detectCores</a></span><span class="op">(</span><span class="op">)</span>,
   report_progress <span class="op">=</span> <span class="cn">NULL</span>,
+  ignore_disconnected <span class="op">=</span> <span class="cn">FALSE</span>,
   progress_bar_length <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span><span class="op">)</span><span class="op">$</span><span class="va">width</span>
 <span class="op">)</span></code></pre></div>
     </div>
@@ -86,6 +87,8 @@ returning a list of option settings.</p>
 <dd><p>The number of cores to run in parallel</p></dd>
 <dt>report_progress</dt>
 <dd><p>Should progress be reported</p></dd>
+<dt>ignore_disconnected</dt>
+<dd><p>Should the check for disconnected points be skipped</p></dd>
 <dt>progress_bar_length</dt>
 <dd><p>Progress bar length when progress is reported</p></dd>
 </dl></div>

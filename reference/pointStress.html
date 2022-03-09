@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">Racmacs</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.1.30</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.1.31</span>
       </span>
     </div>
 
@@ -66,14 +66,9 @@
 
 <span class="fu">srStress</span><span class="op">(</span><span class="va">map</span>, sera <span class="op">=</span> <span class="cn">TRUE</span>, optimization_number <span class="op">=</span> <span class="fl">1</span><span class="op">)</span>
 
-<span class="fu">srStressPerTiter</span><span class="op">(</span><span class="va">map</span>, sera <span class="op">=</span> <span class="cn">TRUE</span>, optimization_number <span class="op">=</span> <span class="fl">1</span>, exclude_nd <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
+<span class="fu">srStressPerTiter</span><span class="op">(</span><span class="va">map</span>, sera <span class="op">=</span> <span class="cn">TRUE</span>, optimization_number <span class="op">=</span> <span class="fl">1</span><span class="op">)</span>
 
-<span class="fu">agStressPerTiter</span><span class="op">(</span>
-  <span class="va">map</span>,
-  antigens <span class="op">=</span> <span class="cn">TRUE</span>,
-  optimization_number <span class="op">=</span> <span class="fl">1</span>,
-  exclude_nd <span class="op">=</span> <span class="cn">FALSE</span>
-<span class="op">)</span></code></pre></div>
+<span class="fu">agStressPerTiter</span><span class="op">(</span><span class="va">map</span>, antigens <span class="op">=</span> <span class="cn">TRUE</span>, optimization_number <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -88,9 +83,6 @@ name (defaults to all antigens).</p></dd>
 <dt>sera</dt>
 <dd><p>Which sera to check stress for, specified by index or name
 (defaults to all sera).</p></dd>
-<dt>exclude_nd</dt>
-<dd><p>Should non-detectable values (e.g. &lt;10) be excluded when
-calculating point stress?</p></dd>
 </dl></div>
     <div id="see-also">
     <h2>See also</h2>

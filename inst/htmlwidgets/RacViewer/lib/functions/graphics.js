@@ -57,8 +57,10 @@ Racmacs.Viewer.prototype.colorPointsByStress = function(){
 
         for(var i=0; i<points.length; i++){
             var stress = points[i].calcMeanStress();
-            if(stress > max_stress || i==0){ max_stress = stress }
-            if(stress < min_stress || i==0){ min_stress = stress }
+            if (points[i].shown) {
+                if(stress > max_stress || max_stress === undefined){ max_stress = stress }
+                if(stress < min_stress || min_stress === undefined){ min_stress = stress }
+            }
         }
 
         for(var i=0; i<points.length; i++){

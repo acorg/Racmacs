@@ -298,6 +298,37 @@ test_that("Viewing map transparency", {
 
 })
 
+# Point opacity
+test_that("Viewing map with underconstrained points", {
+
+  set.seed(850909)
+  dat <- matrix(10*2^round(10*runif(100)), ncol=10)
+  for (i in 1:10){
+    dat[i,i:10] <- "*"
+  }
+  map <- expect_warning(make.acmap(dat, options = list(ignore_disconnected = TRUE)))
+  map2 <- expect_warning(make.acmap(dat[2:10,]))
+
+  widget1 <- view(map)
+  widget2 <- view(map2)
+
+  widget1 <- htmlwidgets::onRender(
+    x      = widget1,
+    jsCode = "function(el, x, data) { el.viewer.colorPointsByStress(); }",
+    data   = NULL
+  )
+
+  widget2 <- htmlwidgets::onRender(
+    x      = widget2,
+    jsCode = "function(el, x, data) { el.viewer.colorPointsByStress(); el.viewer.showErrorLines(); }",
+    data   = NULL
+  )
+
+  export.viewer.test(widget1, "map_ag_no_titers.html")
+  export.viewer.test(widget2, "map_ag_underconstrained.html")
+
+})
+
 
 # # Snapshot map
 # test_that("Map snapshot", {

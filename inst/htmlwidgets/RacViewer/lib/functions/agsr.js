@@ -118,6 +118,7 @@ Racmacs.Point = class Point {
         this.coords_na = args.coords === null || isNaN(args.coords[0]) || args.coords[0] === null;
         if(this.coords_na){
             this.coords3 = [0,0,0];
+            this.shown = false;
         } else {
             this.coords3 = args.coords.slice();
             while(this.coords3.length < 3){ this.coords3.push(0) }
@@ -177,15 +178,17 @@ Racmacs.Point = class Point {
     // Show point information
     showInfo(){
         
-        this.infoDiv = document.createElement("div");
-        this.infoDiv.innerHTML = this.name;
+        if (this.shown) {
+            this.infoDiv = document.createElement("div");
+            this.infoDiv.innerHTML = this.name;
 
-        if(this.viewer.coloring == "stress"){
-            this.infoDiv.innerHTML += ", Stress : "+this.stress.toFixed(2);
-            this.infoDiv.innerHTML += ", Mean stress : "+this.meanstress.toFixed(2);
+            if(this.viewer.coloring == "stress"){
+                this.infoDiv.innerHTML += ", Stress : "+this.stressval.toFixed(2);
+                this.infoDiv.innerHTML += ", Mean stress : "+this.meanstress.toFixed(2);
+            }
+            
+            this.viewer.addHoverInfo(this.infoDiv);
         }
-        
-        this.viewer.addHoverInfo(this.infoDiv);
 
     }
 
@@ -296,6 +299,7 @@ Racmacs.Point = class Point {
         
         if(isNaN(to[0]) || isNaN(to[1]) || isNaN(to[2])){
             this.coords_na = true;
+            this.shown = false;
             to[0] = 0;
             to[1] = 0;
             to[2] = 0;
@@ -454,7 +458,8 @@ Racmacs.Point = class Point {
                     this.fillopacity = 0;
                 } else {
                     // If color is not transparent
-                    this.element.setFillOpacity(this.opacity);
+                    if (this.fillopacity == 0) this.fillopacity = this.viewer.styleset.noselections.unhovered.unselected.opacity;
+                    this.element.setFillOpacity(this.fillopacity);
                     this.element.setFillColor(col);
                 }
             }
@@ -528,17 +533,19 @@ Racmacs.Point = class Point {
     // Calculate the mean stress for this point
     calcMeanStress(){
 
+        if (this.coords_na) return(NaN);
         var num_detectable = 0;
         var stress = 0;
         for(var i=0; i<this.partners.length; i++){
             if(this.titerTo(this.partners[i]).charAt(0) != "<"
                && this.titerTo(this.partners[i]).charAt(0) != "*"
-               && this.titerTo(this.partners[i]).charAt(0) != "."){
+               && this.titerTo(this.partners[i]).charAt(0) != "."
+               && !this.partners[i].coords_na){
                 num_detectable++;
                 stress += this.stressTo(this.partners[i]);
             }
         }
-        this.stress = stress;
+        this.stressval = stress;
         this.meanstress = stress / num_detectable;
         return(this.meanstress);
 

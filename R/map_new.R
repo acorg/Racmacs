@@ -60,8 +60,18 @@ acmap <- function(
   )
 
   # Populate the map
-  if (!is.null(ag_names))    agNames(map)    <- ag_names
-  if (!is.null(sr_names))    srNames(map)    <- sr_names
+  if (!is.null(ag_names)) {
+    agNames(map) <- ag_names
+  } else if (!is.null(rownames(titer_table))) {
+    agNames(map) <- rownames(titer_table)
+  }
+
+  if (!is.null(sr_names)) {
+    srNames(map) <- sr_names
+  } else if (!is.null(colnames(titer_table))) {
+    srNames(map) <- colnames(titer_table)
+  }
+
   if (!is.null(titer_table)) titerTable(map) <- titer_table
 
   if (!is.null(ag_coords) || !is.null(sr_coords)) {

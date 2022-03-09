@@ -142,3 +142,5 @@
 * Disconnected maps now return an error rather than a warning
 * `agStressPerTiter()` and `srStressPerTiter()` now return a matrix with columns corresponding to stress per titer when nd values are excluded and when they are included
 * Corrected error when coloring maps by stress or showing error lines with disconnected points
+* If a titer table has column or row names but not sera or antigen names provided, names will be taken from the row and column names when creating a map.
+

@@ -10,7 +10,7 @@ Racmacs.Viewer.prototype.setPlotDims = function(plotdims){
     );
     // this.scene.plotPoints.scale.set(1,1,1);
 
-    if(plotdims.dimensions == 2){
+    if(plotdims.dimensions <= 2){
 
         // Rebind navigation
         this.mouseMove = this.panScene;
@@ -84,7 +84,7 @@ Racmacs.Viewer.prototype.setDims = function(
     if (mapdims.zlim) this.mapdims.lims[2] = mapdims.zlim;
 
     // Work out map lims and aspect
-    if(this.mapdims.dimensions == 2) {
+    if(this.mapdims.dimensions <= 2) {
 
         // Set map limits
         this.mapdims.lims[2] = [-1, 1];

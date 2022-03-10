@@ -296,7 +296,7 @@ Racmacs.Point = class Point {
         if(this.blob){
             this.removeBlob();
         }
-        
+
         if(isNaN(to[0]) || isNaN(to[1]) || isNaN(to[2])){
             this.coords_na = true;
             this.shown = false;

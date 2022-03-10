@@ -145,7 +145,7 @@ agGroups <- function(map) {
 
 #' @rdname agSequences
 #' @export
-agSequences <- function(map, missing_value = "-") {
+agSequences <- function(map, missing_value = ".") {
   check.acmap(map)
   rbind_list_to_matrix(
     lapply(map$antigens, function(ag) {

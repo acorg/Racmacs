@@ -174,7 +174,7 @@ srGroups <- function(map) {
 
 #' @rdname srSequences
 #' @export
-srSequences <- function(map, missing_value = "-") {
+srSequences <- function(map, missing_value = ".") {
   check.acmap(map)
   rbind_list_to_matrix(
     lapply(map$sera, function(sr) {

@@ -29,6 +29,7 @@ test_that("Setting and getting sequences", {
 test_that("H3 map with sequences", {
 
   map <- read.acmap(test_path("../testdata/testmap_h3subset.ace"))
+
   agSequences(map) <- read.csv(
     file        = test_path("../testdata/testmap_h3subset_sequences.csv"),
     row.names   = 1,
@@ -47,6 +48,12 @@ test_that("H3 map with sequences", {
     colClasses  = "character",
     check.names = FALSE
   )
+
+  map$antigens[[2]]$sequence <- substr(map$antigens[[2]]$sequence, 1, 40)
+  map$antigens[[3]]$sequence <- NULL
+
+  map$sera[[4]]$sequence <- substr(map$sera[[4]]$sequence, 1, 40)
+  map$sera[[6]]$sequence <- NULL
 
   export.viewer.test(
     view(map),

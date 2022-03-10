@@ -357,7 +357,7 @@ Racmacs.SequenceTable = class SequenceTable {
 					} else {
 					    var unique_seq = [];
 						sequences.map( s => { 
-							if(unique_seq.indexOf(s[i]) === -1){
+							if(s[i] != "." && unique_seq.indexOf(s[i]) === -1){
 								unique_seq.push(s[i]);
 							}
 						});
@@ -495,6 +495,7 @@ Racmacs.Viewer.prototype.colorPointsBySequence = function(pos){
 
     // Make missing aas grey
     aa_cols[unique_aas.indexOf("-")] = new THREE.Color("#cccccc");
+    aa_cols[unique_aas.indexOf(".")] = new THREE.Color("#cccccc");
 
     // Color points by aa
     aas.map((aa, i) => { 

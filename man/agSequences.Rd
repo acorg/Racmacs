@@ -5,7 +5,7 @@
 \alias{agSequences<-}
 \title{Getting and setting antigen sequence information}
 \usage{
-agSequences(map, missing_value = "-")
+agSequences(map, missing_value = ".")
 
 agSequences(map) <- value
 }

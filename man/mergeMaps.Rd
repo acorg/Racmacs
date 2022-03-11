@@ -11,7 +11,8 @@ mergeMaps(
   number_of_optimizations,
   minimum_column_basis = "none",
   optimizer_options = list(),
-  merge_options = list()
+  merge_options = list(),
+  verbose = TRUE
 )
 }
 \arguments{
@@ -32,6 +33,8 @@ the minimum column basis to use.}
 settings (see \code{RacOptimizer.options()}).}
 
 \item{merge_options}{Options to use when merging titers (see \code{RacMerge.options()}).}
+
+\item{verbose}{Should progress messages be output?}
 }
 \value{
 Returns the merged map object

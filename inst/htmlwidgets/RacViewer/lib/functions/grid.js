@@ -129,7 +129,7 @@ Racmacs.Grid.generate = function(args){
     bbox.max[2] = max_val;
 
     // Set variables based on number of dimensions
-	if(dimensions == 2){
+	if(dimensions <= 2){
 		
 		var num_grids = 1;
 

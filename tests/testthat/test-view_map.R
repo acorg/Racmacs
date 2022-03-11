@@ -5,6 +5,14 @@ context("Viewing a map")
 map <- read.acmap(test_path("../testdata/testmap.ace"))
 
 # Viewing a null map
+test_that("Viewing a 1D map", {
+
+  map <- optimizeMap(map, 1, 2, "none", check_convergence = F)
+  export.viewer.test(view(map), "map_1D.html")
+
+})
+
+# Viewing a null map
 test_that("Viewing a null map", {
 
   export.viewer.test(

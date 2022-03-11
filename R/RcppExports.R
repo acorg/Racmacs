@@ -469,8 +469,8 @@ ac_merge_tables <- function(maps, merge_options) {
     .Call('_Racmacs_ac_merge_tables', PACKAGE = 'Racmacs', maps, merge_options)
 }
 
-ac_merge_reoptimized <- function(maps, num_dims, num_optimizations, optimizer_options, merge_options) {
-    .Call('_Racmacs_ac_merge_reoptimized', PACKAGE = 'Racmacs', maps, num_dims, num_optimizations, optimizer_options, merge_options)
+ac_merge_reoptimized <- function(maps, num_dims, num_optimizations, min_col_basis, optimizer_options, merge_options) {
+    .Call('_Racmacs_ac_merge_reoptimized', PACKAGE = 'Racmacs', maps, num_dims, num_optimizations, min_col_basis, optimizer_options, merge_options)
 }
 
 ac_merge_frozen_overlay <- function(maps, merge_options) {

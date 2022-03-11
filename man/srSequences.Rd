@@ -5,7 +5,7 @@
 \alias{srSequences<-}
 \title{Getting and setting sera sequence information}
 \usage{
-srSequences(map, missing_value = "-")
+srSequences(map, missing_value = ".")
 
 srSequences(map) <- value
 }

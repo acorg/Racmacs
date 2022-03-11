@@ -69,7 +69,7 @@ srGroupOutline <- function(map) {
   sr_group_outlines
 }
 
-rbind_list_to_matrix <- function(x, missing_value = "-") {
+rbind_list_to_matrix <- function(x, missing_value = ".") {
   maxlen <- max(vapply(x, length, numeric(1)))
   x <- lapply(x, function(xi) {
     missing_length <- maxlen - length(xi)

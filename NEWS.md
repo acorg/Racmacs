@@ -1,3 +1,4 @@
+
 # Racmacs 1.1.11
 * Added a `NEWS.md` file to track changes to the package.
 * Added test and correction for error where coordinates of under-constrained points were set to NaN for the first optimization run only, not all.
@@ -147,3 +148,10 @@
 * `agSequences()` and `srSequences()` now works when the stored sequences have different lengths or are missing for some points
 * Correct error where maps with duplicate antigen or serum names would not optimize
 
+# Racmacs 1.1.33
+* Add some basic support for viewing 1D maps
+* Fix an issue viewing sequence data where sequence data is not present for all antigens / sera
+* Fix an error reoptimize merging maps with no optimizations
+* Add verbosity argument to `mergeMaps()`
+* Verbosity argument also suppresses optimization progress messages
+* Issue a warning if duplicate antigen or serum names are found when creating a map

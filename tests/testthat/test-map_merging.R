@@ -58,6 +58,20 @@ map2 <- acmap(
 titerTable(map2) <- titers2
 
 
+test_that("Merging maps with few optimizations", {
+
+  set.seed(850909)
+  many_dat <- replicate(3, acmap(
+    ag_names = paste0("A",1:10),
+    sr_names = paste0("S", 1:10),
+    titer_table = matrix(10*2^round(10*runif(100)), ncol=10)
+  ), simplify=F)
+
+  mmap <- mergeMaps(many_dat, method="reoptimized-merge", number_of_dimensions = 2, number_of_optimizations = 10)
+  expect_equal(numOptimizations(mmap), 10)
+
+})
+
 
 test_that("Antigens and sera match properly", {
 

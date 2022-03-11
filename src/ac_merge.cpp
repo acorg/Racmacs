@@ -277,9 +277,9 @@ arma::vec merge_ag_reactivity_adjustments(
     for(arma::uword j=0; j<matches.n_elem; j++){
 
       double merged_ag_reactivity_adjustment = merged_ag_reactivity_adjustments( matches(j) );
-      double map_ag_reactivity_adjustment = maps[i].optimizations[0].get_ag_reactivity_adjustments(j);
+      double map_ag_reactivity_adjustment = maps[i].get_ag_reactivity_adjustments(j);
 
-      if(std::isfinite(merged_ag_reactivity_adjustment) && merged_ag_reactivity_adjustment != map_ag_reactivity_adjustment){
+      if(std::isfinite(merged_ag_reactivity_adjustment) && merged_ag_reactivity_adjustment != map_ag_reactivity_adjustment) {
         // Warn if different ag reactivity adjustments used
         Rcpp::Rcerr << "\nAntigen reactivity adjustments of merged maps do not match, they will be taken from the first map";
       } else {
@@ -423,16 +423,13 @@ AcMap ac_merge_reoptimized(
   std::vector<AcMap> maps,
   int num_dims,
   int num_optimizations,
+  std::string min_col_basis,
   AcOptimizerOptions optimizer_options,
   AcMergeOptions merge_options
 ){
 
   // Merge the map tables
   AcMap merged_map = ac_merge_tables(maps, merge_options);
-
-  // Merge column bases
-  std::string min_col_basis = merge_min_column_basis( maps );
-  arma::vec fixed_col_bases = merge_fixed_column_bases( maps, merged_map.sera );
 
   // Merge antigen reactivity adjustments
   arma::vec ag_reactivity_adjustments = merge_ag_reactivity_adjustments( maps, merged_map.antigens );
@@ -442,7 +439,7 @@ AcMap ac_merge_reoptimized(
     num_dims,
     num_optimizations,
     min_col_basis,
-    fixed_col_bases,
+    arma::vec(merged_map.antigens.size(), arma::fill::value(arma::datum::nan)),
     ag_reactivity_adjustments,
     optimizer_options
   );

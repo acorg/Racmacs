@@ -27,6 +27,13 @@ check.numeric <- function(x) {
   x
 }
 
+check.integer <- function(x) {
+  if (length(x) > 1 || !is.wholenumber(x)) {
+    stop("Input must be a single integer", call. = FALSE)
+  }
+  x
+}
+
 check.numericmatrix <- function(x) {
   if (!is.matrix(x) || !is.numeric(x)) {
     stop("Input must be a numeric matrix", call. = FALSE)

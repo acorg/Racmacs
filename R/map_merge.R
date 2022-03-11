@@ -14,6 +14,7 @@
 #' @param merge_options Options to use when merging titers (see `RacMerge.options()`).
 #' @param optimizer_options For merging that generates new optimization runs, optimizer
 #'   settings (see `RacOptimizer.options()`).
+#' @param verbose Should progress messages be output?
 #'
 #' @details Maps can be merged in a number of ways depending upon the desired
 #'   result.
@@ -62,7 +63,8 @@ mergeMaps <- function(
   number_of_optimizations,
   minimum_column_basis = "none",
   optimizer_options = list(),
-  merge_options = list()
+  merge_options = list(),
+  verbose = TRUE
   ) {
 
   # Process input
@@ -93,6 +95,7 @@ mergeMaps <- function(
   # Set options for any relaxation or optimizations
   optimizer_options <- do.call(RacOptimizer.options, optimizer_options)
   merge_options <- do.call(RacMerge.options, merge_options)
+  if (!verbose) optimizer_options$report_progress <- FALSE
 
   # Set the dilution stepsize for merging
   merge_options$dilution_stepsize <- mean(vapply(maps, dilutionStepsize, numeric(1)))
@@ -113,6 +116,7 @@ mergeMaps <- function(
         maps = maps,
         num_dims = number_of_dimensions,
         num_optimizations = number_of_optimizations,
+        min_col_basis = minimum_column_basis,
         optimizer_options = optimizer_options,
         merge_options = merge_options
       )

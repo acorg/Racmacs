@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">Racmacs</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.1.32</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.1.33</span>
       </span>
     </div>
 
@@ -237,6 +237,16 @@
 <li>
 <code><a href="../reference/agSequences.html">agSequences()</a></code> and <code><a href="../reference/srSequences.html">srSequences()</a></code> now works when the stored sequences have different lengths or are missing for some points</li>
 <li>Correct error where maps with duplicate antigen or serum names would not optimize</li>
+</ul></div>
+    <div class="section level2">
+<h2 class="page-header" data-toc-text="1.1.33" id="racmacs-1133">Racmacs 1.1.33<a class="anchor" aria-label="anchor" href="#racmacs-1133"></a></h2>
+<ul><li>Add some basic support for viewing 1D maps</li>
+<li>Fix an issue viewing sequence data where sequence data is not present for all antigens / sera</li>
+<li>Fix an error reoptimize merging maps with no optimizations</li>
+<li>Add verbosity argument to <code><a href="../reference/mergeMaps.html">mergeMaps()</a></code>
+</li>
+<li>Verbosity argument also suppresses optimization progress messages</li>
+<li>Issue a warning if duplicate antigen or serum names are found when creating a map</li>
 </ul></div>
   </div>
 

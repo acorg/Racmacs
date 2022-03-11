@@ -52,7 +52,7 @@ Racmacs.Viewer.prototype.addAgSrPoints = function(){
     this.scene.empty();
 
     // For 2D maps
-    if(this.mapdims.dimensions == 2){
+    if(this.mapdims.dimensions <= 2){
 
         // For highly performant graphics
         if(this.performance_mode){
@@ -107,7 +107,7 @@ Racmacs.Viewer.prototype.addAgSrPoints = function(){
                 size : size,
                 shape : shape,
                 visible : visible,
-                dimensions : this.mapdims.dimensions,
+                dimensions : 2,
                 properties : properties,
                 viewer : this.scene.viewer,
                 order : order

@@ -49,7 +49,7 @@ R3JS.element.Line = class Line extends R3JS.element.base {
       } else {
         
         if(args.lwd > 0){
-          if(args.dimensions == 2){
+          if(args.dimensions <= 2){
             var geo = R3JS.Geometries.line2d({
               from: args.from,
               to: args.to,

@@ -437,28 +437,48 @@ Racmacs.Data = class Data {
     agCoords(i){ return(this.ptCoords(i)); }
     srCoords(i){ return(this.ptCoords(i + this.numAntigens())); }
 
-    agSequences(i){
-        if(this.data.c.a[0].A) {
-            if(i === undefined) return(this.data.c.a.map( p => p.A.split("") ));
-            else                return(this.data.c.a[i].A.split(""));
-        } else if(this.data.c.x && this.data.c.x.a && this.data.c.x.a[0].q){
-            if(i === undefined) return(this.data.c.x.a.map( p => p.q.split("") ));
-            else                return(this.data.c.x.a[i].q.split(""));
-        } else {
-            return(null);
-        }
+    agSequences(){
+
+        let seqs = this.data.c.a.map((p, i) => {
+            if (p.A) {
+                return(p.A.split(""));
+            } else if (this.data.c.x && this.data.c.x.a && this.data.c.x.a[i].q) {
+                return(this.data.c.x.a[i].q.split(""));
+            } else {
+                return([]);
+            }
+        });
+        let maxlen = Math.max(...seqs.map(s => s.length));
+        seqs = seqs.map(s => {
+            while(s.length < maxlen) {
+                s.push(".");
+            }
+            return(s);
+        });
+        return(seqs);
+
     }
 
-    srSequences(i){
-        if(this.data.c.s[0].A) {
-            if(i === undefined) return(this.data.c.s.map( p => p.A.split("") ));
-            else                return(this.data.c.s[i].A.split(""));
-        } else if(this.data.c.x && this.data.c.x.s && this.data.c.x.s[0].q){
-            if(i === undefined) return(this.data.c.x.s.map( p => p.q.split("") ));
-            else                return(this.data.c.x.s[i].q.split(""));
-        } else {
-            return(null);
-        }
+    srSequences(){
+        
+        let seqs = this.data.c.s.map((p, i) => {
+            if (p.A) {
+                return(p.A.split(""));
+            } else if (this.data.c.x && this.data.c.x.s && this.data.c.x.s[i].q) {
+                return(this.data.c.x.s[i].q.split(""));
+            } else {
+                return([]);
+            }
+        });
+        let maxlen = Math.max(...seqs.map(s => s.length));
+        seqs = seqs.map(s => {
+            while(s.length < maxlen) {
+                s.push(".");
+            }
+            return(s);
+        });
+        return(seqs);
+
     }
 
     colbases(i=null){

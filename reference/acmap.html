@@ -18,7 +18,7 @@ data in the Racmacs package."><meta property="og:image" content="https://acorg.g
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">Racmacs</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.1.32</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.1.33</span>
       </span>
     </div>
 
@@ -70,6 +70,7 @@ data in the Racmacs package.</p>
   titer_table <span class="op">=</span> <span class="cn">NULL</span>,
   ag_coords <span class="op">=</span> <span class="cn">NULL</span>,
   sr_coords <span class="op">=</span> <span class="cn">NULL</span>,
+  check_duplicates <span class="op">=</span> <span class="cn">TRUE</span>,
   <span class="va">...</span>
 <span class="op">)</span></code></pre></div>
     </div>
@@ -87,6 +88,9 @@ data in the Racmacs package.</p>
 (optional)</p></dd>
 <dt>sr_coords</dt>
 <dd><p>Sera coordinates for an optimization run record (optional)</p></dd>
+<dt>check_duplicates</dt>
+<dd><p>Issue a warning if duplicate antigen or sera names
+are found</p></dd>
 <dt>...</dt>
 <dd><p>Further arguments passed to <code><a href="addOptimization.html">addOptimization()</a></code></p></dd>
 </dl></div>

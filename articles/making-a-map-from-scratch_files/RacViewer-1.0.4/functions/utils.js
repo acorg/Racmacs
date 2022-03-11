@@ -183,7 +183,11 @@ Racmacs.utils.transformCoords = function(
 
 	if(coords[0] === null) return(coords);
 
-    if(coords.length == 2){
+    if(coords.length == 1){
+
+    	return(coords[0]*transformation[0]);
+
+    } else if(coords.length == 2){
     	
  		if(transformation.length == 4){
 	    	// Standard 2D transform
@@ -200,7 +204,7 @@ Racmacs.utils.transformCoords = function(
 	    	]);
 	    }
 
-    } else {
+    } else if(coords.length == 3) {
 
     	if(transformation.length == 9){
 	    	// Standard 3D transform
@@ -218,6 +222,10 @@ Racmacs.utils.transformCoords = function(
 	        ]);
 	    }
 
+    } else {
+
+    	throw("Cannot view more than 3 dimensions.");
+
     }
 
 }
@@ -229,8 +237,12 @@ Racmacs.utils.translateCoords = function(
 ){
 
 	if(coords[0] === null) return(coords);
-	
-    if(coords.length == 2){
+
+    if(coords.length == 1){
+
+    	return(coords[0]+translation[0]);
+
+    } else if(coords.length == 2){
     	
     	if(translation.length == 2){
 	    	// Standard 2D translation
@@ -247,7 +259,7 @@ Racmacs.utils.translateCoords = function(
 	        ]);
     	}
 
-    } else {
+    } else if(coords.length == 3) {
 
     	if(translation.length == 3){
 	    	// Standard 3D translation
@@ -265,6 +277,10 @@ Racmacs.utils.translateCoords = function(
 	        ]);
 	    }
 
+    } else {
+
+    	throw("Cannot view more than 3 dimensions.");
+    	
     }
 
 }

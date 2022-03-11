@@ -951,6 +951,16 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// ac_sr_get_species
+std::string ac_sr_get_species(const AcSerum& sr);
+RcppExport SEXP _Racmacs_ac_sr_get_species(SEXP srSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::traits::input_parameter< const AcSerum& >::type sr(srSEXP);
+    rcpp_result_gen = Rcpp::wrap(ac_sr_get_species(sr));
+    return rcpp_result_gen;
+END_RCPP
+}
 // ac_sr_get_clade
 std::vector<std::string> ac_sr_get_clade(const AcSerum& sr);
 RcppExport SEXP _Racmacs_ac_sr_get_clade(SEXP srSEXP) {
@@ -1092,6 +1102,17 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< AcSerum >::type sr(srSEXP);
     Rcpp::traits::input_parameter< std::string >::type value(valueSEXP);
     rcpp_result_gen = Rcpp::wrap(ac_sr_set_passage(sr, value));
+    return rcpp_result_gen;
+END_RCPP
+}
+// ac_sr_set_species
+AcSerum ac_sr_set_species(AcSerum sr, std::string value);
+RcppExport SEXP _Racmacs_ac_sr_set_species(SEXP srSEXP, SEXP valueSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::traits::input_parameter< AcSerum >::type sr(srSEXP);
+    Rcpp::traits::input_parameter< std::string >::type value(valueSEXP);
+    rcpp_result_gen = Rcpp::wrap(ac_sr_set_species(sr, value));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -1801,6 +1822,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_Racmacs_ac_sr_get_date", (DL_FUNC) &_Racmacs_ac_sr_get_date, 1},
     {"_Racmacs_ac_sr_get_reference", (DL_FUNC) &_Racmacs_ac_sr_get_reference, 1},
     {"_Racmacs_ac_sr_get_passage", (DL_FUNC) &_Racmacs_ac_sr_get_passage, 1},
+    {"_Racmacs_ac_sr_get_species", (DL_FUNC) &_Racmacs_ac_sr_get_species, 1},
     {"_Racmacs_ac_sr_get_clade", (DL_FUNC) &_Racmacs_ac_sr_get_clade, 1},
     {"_Racmacs_ac_sr_get_annotations", (DL_FUNC) &_Racmacs_ac_sr_get_annotations, 1},
     {"_Racmacs_ac_sr_get_name", (DL_FUNC) &_Racmacs_ac_sr_get_name, 1},
@@ -1815,6 +1837,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_Racmacs_ac_sr_set_date", (DL_FUNC) &_Racmacs_ac_sr_set_date, 2},
     {"_Racmacs_ac_sr_set_reference", (DL_FUNC) &_Racmacs_ac_sr_set_reference, 2},
     {"_Racmacs_ac_sr_set_passage", (DL_FUNC) &_Racmacs_ac_sr_set_passage, 2},
+    {"_Racmacs_ac_sr_set_species", (DL_FUNC) &_Racmacs_ac_sr_set_species, 2},
     {"_Racmacs_ac_sr_set_clade", (DL_FUNC) &_Racmacs_ac_sr_set_clade, 2},
     {"_Racmacs_ac_sr_set_annotations", (DL_FUNC) &_Racmacs_ac_sr_set_annotations, 2},
     {"_Racmacs_ac_sr_set_name", (DL_FUNC) &_Racmacs_ac_sr_set_name, 2},

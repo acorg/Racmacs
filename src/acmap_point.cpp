@@ -14,6 +14,7 @@ std::string AcPoint::get_passage() const { return passage; }
 std::string AcPoint::get_name_full() const { return name_full; }
 std::string AcPoint::get_name_abbreviated() const { return name_abbreviated; }
 std::string AcPoint::get_id() const { return id; }
+std::string AcPoint::get_species() const { return species; }
 int AcPoint::get_group() const { return group; }
 std::string AcPoint::get_sequence() const { return sequence; }
 std::vector<std::string> AcPoint::get_clade() const { return clade; }
@@ -29,6 +30,7 @@ void AcPoint::set_passage( std::string value ){ passage = value; }
 void AcPoint::set_name_full( std::string value ){ name_full = value; }
 void AcPoint::set_name_abbreviated( std::string value ){ name_abbreviated = value; }
 void AcPoint::set_id( std::string value ){ id = value; }
+void AcPoint::set_species( std::string value ){ species = value; }
 void AcPoint::set_group( int value ){ group = value; }
 void AcPoint::set_sequence( std::string value ){ sequence = value; }
 void AcPoint::set_clade( std::vector<std::string> value ){ clade = value; }
@@ -63,6 +65,8 @@ bool AcPoint::isdefault(std::string attribute) {
     return(id == "");
   } else if (attribute == "extra") {
     return(extra == "");
+  } else if (attribute == "species") {
+    return(species == "");
   } else if (attribute == "date") {
     return(date == "");
   } else {

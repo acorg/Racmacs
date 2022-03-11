@@ -23,6 +23,7 @@ class AcPoint {
     int group = 0;
     std::string sequence;
     std::string passage;
+    std::string species;
     std::vector<std::string> clade;
     std::vector<std::string> annotations;
     std::vector<std::string> labids;
@@ -45,6 +46,7 @@ class AcPoint {
     std::string get_name_full() const;
     std::string get_name_abbreviated() const;
     std::string get_id() const;
+    std::string get_species() const;
     int get_group() const;
     std::string get_sequence() const;
     std::vector<std::string> get_clade() const;
@@ -60,6 +62,7 @@ class AcPoint {
     void set_name_full( std::string value );
     void set_name_abbreviated( std::string value );
     void set_id( std::string value );
+    void set_species( std::string value );
     void set_group( int value );
     void set_sequence( std::string value );
     void set_clade( std::vector<std::string> value );

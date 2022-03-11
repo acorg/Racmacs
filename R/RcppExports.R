@@ -345,6 +345,10 @@ ac_sr_get_passage <- function(sr) {
     .Call('_Racmacs_ac_sr_get_passage', PACKAGE = 'Racmacs', sr)
 }
 
+ac_sr_get_species <- function(sr) {
+    .Call('_Racmacs_ac_sr_get_species', PACKAGE = 'Racmacs', sr)
+}
+
 ac_sr_get_clade <- function(sr) {
     .Call('_Racmacs_ac_sr_get_clade', PACKAGE = 'Racmacs', sr)
 }
@@ -399,6 +403,10 @@ ac_sr_set_reference <- function(sr, value) {
 
 ac_sr_set_passage <- function(sr, value) {
     .Call('_Racmacs_ac_sr_set_passage', PACKAGE = 'Racmacs', sr, value)
+}
+
+ac_sr_set_species <- function(sr, value) {
+    .Call('_Racmacs_ac_sr_set_species', PACKAGE = 'Racmacs', sr, value)
 }
 
 ac_sr_set_clade <- function(sr, value) {

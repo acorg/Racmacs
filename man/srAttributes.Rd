@@ -18,6 +18,8 @@
 \alias{srExtra<-}
 \alias{srPassage}
 \alias{srPassage<-}
+\alias{srSpecies}
+\alias{srSpecies<-}
 \title{Getting and setting sera attributes}
 \usage{
 srIDs(map)
@@ -36,6 +38,8 @@ srExtra(map)
 srExtra(map) <- value
 srPassage(map)
 srPassage(map) <- value
+srSpecies(map)
+srSpecies(map) <- value
 }
 \arguments{
 \item{map}{The acmap data object}

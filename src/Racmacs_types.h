@@ -198,6 +198,7 @@ SEXP wrap(const AcSerum& sr){
       _["homologous_ags"] = sr.get_homologous_ags(),
       _["sequence"] = sr.get_sequence(),
       _["passage"] = sr.get_passage(),
+      _["species"] = sr.get_species(),
       _["clade"] = sr.get_clade(),
       _["annotations"] = sr.get_annotations(),
 
@@ -530,6 +531,7 @@ AcSerum as(SEXP sxp){
   if(list.containsElementNamed("homologous_ags")) sr.set_homologous_ags(list["homologous_ags"]);
   if(list.containsElementNamed("sequence")) sr.set_sequence(list["sequence"]);
   if(list.containsElementNamed("passage")) sr.set_passage(list["passage"]);
+  if(list.containsElementNamed("species")) sr.set_species(list["species"]);
   if(list.containsElementNamed("clade")) sr.set_clade(list["clade"]);
   if(list.containsElementNamed("annotations")) sr.set_annotations(list["annotations"]);
 

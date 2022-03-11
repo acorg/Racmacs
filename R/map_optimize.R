@@ -69,6 +69,7 @@ optimizeMap <- function(
 
   # Get optimizer options
   options <- do.call(RacOptimizer.options, options)
+  if (!verbose) options$report_progress <- FALSE
 
   # Perform the optimization runs
   tstart <- Sys.time()

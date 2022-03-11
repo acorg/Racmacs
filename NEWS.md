@@ -152,3 +152,6 @@
 * Add some basic support for viewing 1D maps
 * Fix an issue viewing sequence data where sequence data is not present for all antigens / sera
 * Fix an error reoptimize merging maps with no optimizations
+* Add verbosity argument to `mergeMaps()`
+* Verbosity argument also suppresses optimization progress messages
+* Issue a warning if duplicate antigen or serum names are found when creating a map

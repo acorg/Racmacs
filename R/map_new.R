@@ -10,6 +10,8 @@
 #' @param ag_coords Antigenic coordinates for an optimization run record
 #'   (optional)
 #' @param sr_coords Sera coordinates for an optimization run record (optional)
+#' @param check_duplicates Issue a warning if duplicate antigen or sera names
+#'   are found
 #' @param ... Further arguments passed to `addOptimization()`
 #'
 #' @return Returns the new acmap object
@@ -32,6 +34,7 @@ acmap <- function(
   titer_table = NULL,
   ag_coords = NULL,
   sr_coords = NULL,
+  check_duplicates = TRUE,
   ...
 ) {
 
@@ -85,6 +88,12 @@ acmap <- function(
         ...
       )
     }
+  }
+
+  # Check for duplicate names
+  if (check_duplicates) {
+    if (sum(duplicated(agNames(map))) > 0) warning("Map contains duplicate antigen names")
+    if (sum(duplicated(srNames(map))) > 0) warning("Map contains duplicate sera names")
   }
 
   # Return the new map

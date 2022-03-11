@@ -10,6 +10,7 @@ acmap(
   titer_table = NULL,
   ag_coords = NULL,
   sr_coords = NULL,
+  check_duplicates = TRUE,
   ...
 )
 }
@@ -24,6 +25,9 @@ acmap(
 (optional)}
 
 \item{sr_coords}{Sera coordinates for an optimization run record (optional)}
+
+\item{check_duplicates}{Issue a warning if duplicate antigen or sera names
+are found}
 
 \item{...}{Further arguments passed to \code{addOptimization()}}
 }

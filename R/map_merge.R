@@ -113,6 +113,7 @@ mergeMaps <- function(
         maps = maps,
         num_dims = number_of_dimensions,
         num_optimizations = number_of_optimizations,
+        min_col_basis = minimum_column_basis,
         optimizer_options = optimizer_options,
         merge_options = merge_options
       )

@@ -21,6 +21,17 @@ test_that("Plotting a bare bones", {
 
 })
 
+# test_that("Plotting a 1D map", {
+#
+#   map <- optimizeMap(map, 1, 2, "none", check_convergence = F)
+#   export.plot.test(
+#     plot(map),
+#     "1dmap.pdf",
+#     8, 4
+#   )
+#
+# })
+
 test_that("Plotting a map with error lines", {
 
   map <- read.acmap(test_path("../testdata/testmap.ace"))

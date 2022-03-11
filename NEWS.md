@@ -151,3 +151,4 @@
 # Racmacs 1.1.33
 * Add some basic support for viewing 1D maps
 * Fix an issue viewing sequence data where sequence data is not present for all antigens / sera
+* Fix an error reoptimize merging maps with no optimizations

@@ -1312,17 +1312,18 @@ BEGIN_RCPP
 END_RCPP
 }
 // ac_merge_reoptimized
-AcMap ac_merge_reoptimized(std::vector<AcMap> maps, int num_dims, int num_optimizations, AcOptimizerOptions optimizer_options, AcMergeOptions merge_options);
-RcppExport SEXP _Racmacs_ac_merge_reoptimized(SEXP mapsSEXP, SEXP num_dimsSEXP, SEXP num_optimizationsSEXP, SEXP optimizer_optionsSEXP, SEXP merge_optionsSEXP) {
+AcMap ac_merge_reoptimized(std::vector<AcMap> maps, int num_dims, int num_optimizations, std::string min_col_basis, AcOptimizerOptions optimizer_options, AcMergeOptions merge_options);
+RcppExport SEXP _Racmacs_ac_merge_reoptimized(SEXP mapsSEXP, SEXP num_dimsSEXP, SEXP num_optimizationsSEXP, SEXP min_col_basisSEXP, SEXP optimizer_optionsSEXP, SEXP merge_optionsSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< std::vector<AcMap> >::type maps(mapsSEXP);
     Rcpp::traits::input_parameter< int >::type num_dims(num_dimsSEXP);
     Rcpp::traits::input_parameter< int >::type num_optimizations(num_optimizationsSEXP);
+    Rcpp::traits::input_parameter< std::string >::type min_col_basis(min_col_basisSEXP);
     Rcpp::traits::input_parameter< AcOptimizerOptions >::type optimizer_options(optimizer_optionsSEXP);
     Rcpp::traits::input_parameter< AcMergeOptions >::type merge_options(merge_optionsSEXP);
-    rcpp_result_gen = Rcpp::wrap(ac_merge_reoptimized(maps, num_dims, num_optimizations, optimizer_options, merge_options));
+    rcpp_result_gen = Rcpp::wrap(ac_merge_reoptimized(maps, num_dims, num_optimizations, min_col_basis, optimizer_options, merge_options));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -1831,7 +1832,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_Racmacs_ac_merge_titers", (DL_FUNC) &_Racmacs_ac_merge_titers, 2},
     {"_Racmacs_ac_merge_titer_layers", (DL_FUNC) &_Racmacs_ac_merge_titer_layers, 2},
     {"_Racmacs_ac_merge_tables", (DL_FUNC) &_Racmacs_ac_merge_tables, 2},
-    {"_Racmacs_ac_merge_reoptimized", (DL_FUNC) &_Racmacs_ac_merge_reoptimized, 5},
+    {"_Racmacs_ac_merge_reoptimized", (DL_FUNC) &_Racmacs_ac_merge_reoptimized, 6},
     {"_Racmacs_ac_merge_frozen_overlay", (DL_FUNC) &_Racmacs_ac_merge_frozen_overlay, 2},
     {"_Racmacs_ac_merge_relaxed_overlay", (DL_FUNC) &_Racmacs_ac_merge_relaxed_overlay, 3},
     {"_Racmacs_ac_merge_frozen_merge", (DL_FUNC) &_Racmacs_ac_merge_frozen_merge, 3},

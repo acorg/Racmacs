@@ -11,8 +11,6 @@ std::string AcPoint::get_extra() const { return extra; }
 std::string AcPoint::get_date() const { return date; }
 bool AcPoint::get_reference() const { return reference; }
 std::string AcPoint::get_passage() const { return passage; }
-std::string AcPoint::get_name_full() const { return name_full; }
-std::string AcPoint::get_name_abbreviated() const { return name_abbreviated; }
 std::string AcPoint::get_id() const { return id; }
 std::string AcPoint::get_species() const { return species; }
 int AcPoint::get_group() const { return group; }
@@ -27,8 +25,6 @@ void AcPoint::set_extra( std::string value ){ extra = value; }
 void AcPoint::set_date( std::string value ){ date = value; }
 void AcPoint::set_reference( bool value ){ reference = value; }
 void AcPoint::set_passage( std::string value ){ passage = value; }
-void AcPoint::set_name_full( std::string value ){ name_full = value; }
-void AcPoint::set_name_abbreviated( std::string value ){ name_abbreviated = value; }
 void AcPoint::set_id( std::string value ){ id = value; }
 void AcPoint::set_species( std::string value ){ species = value; }
 void AcPoint::set_group( int value ){ group = value; }

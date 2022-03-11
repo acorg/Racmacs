@@ -17,8 +17,6 @@ class AcPoint {
     std::string extra;
     std::string date;
     bool reference = false;
-    std::string name_full;
-    std::string name_abbreviated;
     std::string id = "";
     int group = 0;
     std::string sequence;
@@ -43,8 +41,6 @@ class AcPoint {
     std::string get_date() const;
     bool get_reference() const;
     std::string get_passage() const;
-    std::string get_name_full() const;
-    std::string get_name_abbreviated() const;
     std::string get_id() const;
     std::string get_species() const;
     int get_group() const;
@@ -59,8 +55,6 @@ class AcPoint {
     void set_date( std::string value );
     void set_reference( bool value );
     void set_passage( std::string value );
-    void set_name_full( std::string value );
-    void set_name_abbreviated( std::string value );
     void set_id( std::string value );
     void set_species( std::string value );
     void set_group( int value );

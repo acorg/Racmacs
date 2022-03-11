@@ -158,3 +158,4 @@
 
 # Racmacs 1.1.34
 * Add support for getting and setting serum species with `srSpecies()`.
+* Redundant attributes `agNamesAbbreviated`, `agNamesFull`, `srNamesAbbreviated`, `srNamesFull` removed

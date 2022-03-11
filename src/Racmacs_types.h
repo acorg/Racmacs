@@ -190,8 +190,6 @@ SEXP wrap(const AcSerum& sr){
       // Attributes
       _["name"] = sr.get_name(),
       _["extra"] = sr.get_extra(),
-      // _["name_abbreviated"] = sr.get_name_abbreviated(),
-      // _["name_full"] = sr.get_name_full(),
       _["id"] = sr.get_id(),
       _["date"] = sr.get_date(),
       _["group"] = sr.get_group(),
@@ -494,8 +492,6 @@ AcAntigen as(SEXP sxp){
   // Attributes
   if(list.containsElementNamed("name")) ag.set_name(list["name"]);
   if(list.containsElementNamed("extra")) ag.set_extra(list["extra"]);
-  // if(list.containsElementNamed("name_abbreviated")) ag.set_name_abbreviated(list["name_abbreviated"]);
-  // if(list.containsElementNamed("name_full")) ag.set_name_full(list["name_full"]);
   if(list.containsElementNamed("id")) ag.set_id(list["id"]);
   if(list.containsElementNamed("date")) ag.set_date(list["date"]);
   if(list.containsElementNamed("group")) ag.set_group(list["group"]);

@@ -10,10 +10,6 @@
 \alias{srReference<-}
 \alias{srNames}
 \alias{srNames<-}
-\alias{srNamesFull}
-\alias{srNamesFull<-}
-\alias{srNamesAbbreviated}
-\alias{srNamesAbbreviated<-}
 \alias{srExtra}
 \alias{srExtra<-}
 \alias{srPassage}
@@ -30,10 +26,6 @@ srReference(map)
 srReference(map) <- value
 srNames(map)
 srNames(map) <- value
-srNamesFull(map)
-srNamesFull(map) <- value
-srNamesAbbreviated(map)
-srNamesAbbreviated(map) <- value
 srExtra(map)
 srExtra(map) <- value
 srPassage(map)

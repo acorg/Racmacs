@@ -168,6 +168,11 @@ SEXP wrap(const AcAntigen& ag){
       _["clade"] = ag.get_clade(),
       _["annotations"] = ag.get_annotations(),
       _["labids"] = ag.get_labids(),
+      _["lineage"] = ag.get_lineage(),
+      _["reassortant"] = ag.get_reassortant(),
+      _["strings"] = ag.get_strings(),
+      _["continent"] = ag.get_continent(),
+      _["nucleotidesequence"] = ag.get_nucleotidesequence(),
 
       // Plotspec
       _["plotspec"] = as<List>(wrap(ag.plotspec))
@@ -199,6 +204,11 @@ SEXP wrap(const AcSerum& sr){
       _["species"] = sr.get_species(),
       _["clade"] = sr.get_clade(),
       _["annotations"] = sr.get_annotations(),
+      _["lineage"] = sr.get_lineage(),
+      _["reassortant"] = sr.get_reassortant(),
+      _["strings"] = sr.get_strings(),
+      _["continent"] = sr.get_continent(),
+      _["nucleotidesequence"] = sr.get_nucleotidesequence(),
 
       // Plotspec
       _["plotspec"] = as<List>(wrap(sr.plotspec))
@@ -500,6 +510,11 @@ AcAntigen as(SEXP sxp){
   if(list.containsElementNamed("clade")) ag.set_clade(list["clade"]);
   if(list.containsElementNamed("annotations")) ag.set_annotations(list["annotations"]);
   if(list.containsElementNamed("labids")) ag.set_labids(list["labids"]);
+  if(list.containsElementNamed("lineage")) ag.set_lineage(list["lineage"]);
+  if(list.containsElementNamed("reassortant")) ag.set_reassortant(list["reassortant"]);
+  if(list.containsElementNamed("strings")) ag.set_strings(list["strings"]);
+  if(list.containsElementNamed("continent")) ag.set_continent(list["continent"]);
+  if(list.containsElementNamed("nucleotidesequence")) ag.set_nucleotidesequence(list["nucleotidesequence"]);
 
   // Plotspec
   if(list.containsElementNamed("plotspec")) ag.plotspec = as<AcPlotspec>(list["plotspec"]);
@@ -530,6 +545,11 @@ AcSerum as(SEXP sxp){
   if(list.containsElementNamed("species")) sr.set_species(list["species"]);
   if(list.containsElementNamed("clade")) sr.set_clade(list["clade"]);
   if(list.containsElementNamed("annotations")) sr.set_annotations(list["annotations"]);
+  if(list.containsElementNamed("lineage")) sr.set_lineage(list["lineage"]);
+  if(list.containsElementNamed("reassortant")) sr.set_reassortant(list["reassortant"]);
+  if(list.containsElementNamed("strings")) sr.set_strings(list["strings"]);
+  if(list.containsElementNamed("continent")) sr.set_continent(list["continent"]);
+  if(list.containsElementNamed("nucleotidesequence")) sr.set_nucleotidesequence(list["nucleotidesequence"]);
 
   // Plotspec
   if(list.containsElementNamed("plotspec")) sr.plotspec = as<AcPlotspec>(list["plotspec"]);

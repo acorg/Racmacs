@@ -32,6 +32,14 @@ std::vector<std::string> ac_sr_get_annotations( const AcSerum &sr ){ return sr.g
 std::string ac_sr_get_name( const AcSerum &sr ){ return sr.get_name(); }
 // [[Rcpp::export(rng = false)]]
 std::string ac_sr_get_extra( const AcSerum &sr ){ return sr.get_extra(); }
+// [[Rcpp::export(rng = false)]]
+std::string ac_sr_get_lineage( const AcSerum &sr ){ return sr.get_lineage(); }
+// [[Rcpp::export(rng = false)]]
+std::string ac_sr_get_reassortant( const AcSerum &sr ){ return sr.get_reassortant(); }
+// [[Rcpp::export(rng = false)]]
+std::string ac_sr_get_strings( const AcSerum &sr ){ return sr.get_strings(); }
+// [[Rcpp::export(rng = false)]]
+std::string ac_sr_get_continent( const AcSerum &sr ){ return sr.get_continent(); }
 
 // [[Rcpp::export(rng = false)]]
 std::string ac_sr_get_match_id( const AcSerum &sr ){ return sr.get_match_id(); }
@@ -65,6 +73,15 @@ AcSerum ac_sr_set_annotations( AcSerum sr, std::vector<std::string> value ){ sr.
 AcSerum ac_sr_set_name( AcSerum sr, std::string value ){ sr.set_name(value); return sr; }
 // [[Rcpp::export(rng = false)]]
 AcSerum ac_sr_set_extra( AcSerum sr, std::string value ){ sr.set_extra(value); return sr; }
+// [[Rcpp::export(rng = false)]]
+AcSerum ac_sr_set_lineage( AcSerum sr, std::string value ){ sr.set_lineage(value); return sr; }
+// [[Rcpp::export(rng = false)]]
+AcSerum ac_sr_set_reassortant( AcSerum sr, std::string value ){ sr.set_reassortant(value); return sr; }
+// [[Rcpp::export(rng = false)]]
+AcSerum ac_sr_set_strings( AcSerum sr, std::string value ){ sr.set_strings(value); return sr; }
+// [[Rcpp::export(rng = false)]]
+AcSerum ac_sr_set_continent( AcSerum sr, std::string value ){ sr.set_continent(value); return sr; }
+
 
 // [[Rcpp::export(rng = false)]]
 AcSerum ac_sr_set_homologous_ags( AcSerum sr, arma::uvec value ){ sr.set_homologous_ags(value); return sr; }

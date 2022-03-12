@@ -230,22 +230,22 @@ test_that("Getting and setting B lineage", {
   expect_equal(srLineage(map), rep("", numSera(map)))
 
   # Test editing
-  ag_lineages <- rep("V", numAntigens(map))
-  sr_lineages <- rep("Y", numSera(map))
-  agLineage(map) <- ag_lineages
-  srLineage(map) <- sr_lineages
+  ag_lineage <- rep("V", numAntigens(map))
+  sr_lineage <- rep("Y", numSera(map))
+  agLineage(map) <- ag_lineage
+  srLineage(map) <- sr_lineage
 
   # Check changed values
-  expect_equal(ag_lineages(map), ag_lineages)
-  expect_equal(srLineage(map), sr_lineages)
+  expect_equal(agLineage(map), ag_lineage)
+  expect_equal(srLineage(map), sr_lineage)
 
   # Check saving and reloading
   tmp <- tempfile(fileext = ".ace")
   save.acmap(map, tmp)
 
   loaded_map <- read.acmap(tmp)
-  expect_equal(agLineages(loaded_map), ag_lineages)
-  expect_equal(srLineage(loaded_map), sr_lineages)
+  expect_equal(agLineage(loaded_map), ag_lineage)
+  expect_equal(srLineage(loaded_map), sr_lineage)
 
 })
 
@@ -263,7 +263,7 @@ test_that("Getting and setting reassortant status", {
   ag_reassortant <- rep("R", numAntigens(map))
   ag_reassortant <- rep("R", numSera(map))
   agReassortant(map) <- ag_reassortant
-  srReassortant(map) <- ag_reassortant
+  srReassortant(map) <- sr_reassortant
 
   # Check changed values
   expect_equal(agReassortant(map), ag_reassortant)
@@ -331,36 +331,6 @@ test_that("Getting and setting continent", {
 
   loaded_map <- read.acmap(tmp)
   expect_equal(agContinent(loaded_map), ag_continent)
-
-})
-
-# Getting and setting nucleotide sequence
-test_that("Getting and setting nucleotide sequence", {
-
-  # Read in the test map
-  map <- read.acmap(filename = test_path("../testdata/testmap.ace"))
-
-  # Test defaults
-  expect_equal(agNucleotideSequences(map), rep("", numAntigens(map)))
-  expect_equal(srNucleotidesequences(map), rep("", numSera(map)))
-
-  # Test editing
-  ag_nucleotidesequence <- rep("SEQUENCE", numAntigens(map))
-  sr_nucleotidesequence <- rep("SEQUENCE", numSera(map))
-  agNucleotideSequences(map) <- ag_nucleotidesequence
-  srNucleotidesequences(map) <- sr_nucleotidesequence
-
-  # Check changed values
-  expect_equal(agNucleotideSequencse(map), ag_nucleotidesequence)
-  expect_equal(srNucleotidesequences(map), sr_nucleotidesequence)
-
-  # Check saving and reloading
-  tmp <- tempfile(fileext = ".ace")
-  save.acmap(map, tmp)
-
-  loaded_map <- read.acmap(tmp)
-  expect_equal(agNucleotideSequences(loaded_map), ag_nucleotidesequence)
-  expect_equal(srNucleotidesequences(loaded_map), sr_nucleotidesequence)
 
 })
 

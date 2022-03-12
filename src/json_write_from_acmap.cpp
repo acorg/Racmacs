@@ -52,12 +52,17 @@ std::string acmap_to_json(
     Value agval(kObjectType);
 
     agval.AddMember("N", jsonifya(ag.get_name(), allocator), allocator);
-    if (!ag.isdefault("passage"))     agval.AddMember("P", jsonifya(ag.get_passage(), allocator), allocator);
-    if (!ag.isdefault("clade"))       agval.AddMember("c", jsonifya(ag.get_clade(), allocator), allocator);
-    if (!ag.isdefault("annotations")) agval.AddMember("a", jsonifya(ag.get_annotations(), allocator), allocator);
-    if (!ag.isdefault("labids"))      agval.AddMember("l", jsonifya(ag.get_labids(), allocator), allocator);
-    if (!ag.isdefault("sequence"))    agval.AddMember("A", jsonifya(ag.get_sequence(), allocator), allocator);
-    if (!ag.isdefault("date"))        agval.AddMember("D", jsonifya(ag.get_date(), allocator), allocator);
+    if (!ag.isdefault("passage"))            agval.AddMember("P", jsonifya(ag.get_passage(), allocator), allocator);
+    if (!ag.isdefault("clade"))              agval.AddMember("c", jsonifya(ag.get_clade(), allocator), allocator);
+    if (!ag.isdefault("annotations"))        agval.AddMember("a", jsonifya(ag.get_annotations(), allocator), allocator);
+    if (!ag.isdefault("labids"))             agval.AddMember("l", jsonifya(ag.get_labids(), allocator), allocator);
+    if (!ag.isdefault("sequence"))           agval.AddMember("A", jsonifya(ag.get_sequence(), allocator), allocator);
+    if (!ag.isdefault("date"))               agval.AddMember("D", jsonifya(ag.get_date(), allocator), allocator);
+    if (!ag.isdefault("lineage"))            agval.AddMember("L", jsonifya(ag.get_lineage(), allocator), allocator);
+    if (!ag.isdefault("reassortant"))        agval.AddMember("R", jsonifya(ag.get_reassortant(), allocator), allocator);
+    if (!ag.isdefault("strings"))            agval.AddMember("S", jsonifya(ag.get_strings(), allocator), allocator);
+    if (!ag.isdefault("continent"))          agval.AddMember("C", jsonifya(ag.get_continent(), allocator), allocator);
+    if (!ag.isdefault("nucleotidesequence")) agval.AddMember("B", jsonifya(ag.get_nucleotidesequence(), allocator), allocator);
     // set_group_values
     // set_reference
     // set_name_full
@@ -75,14 +80,20 @@ std::string acmap_to_json(
     Value srval(kObjectType);
 
     srval.AddMember("N", jsonifya(sr.get_name(), allocator), allocator);
-    if (!sr.isdefault("passage"))           srval.AddMember("P", jsonifya(sr.get_passage(), allocator), allocator);
-    if (!sr.isdefault("clade"))             srval.AddMember("c", jsonifya(sr.get_clade(), allocator), allocator);
-    if (!sr.isdefault("annotations"))       srval.AddMember("a", jsonifya(sr.get_annotations(), allocator), allocator);
-    if (!sr.isdefault("sequence"))          srval.AddMember("A", jsonifya(sr.get_sequence(), allocator), allocator);
-    if (!sr.isdefault("date"))              srval.AddMember("D", jsonifya(sr.get_date(), allocator), allocator);
-    if (!sr.isdefault("id"))                srval.AddMember("I", jsonifya(sr.get_id(), allocator), allocator);
+    if (!sr.isdefault("passage"))            srval.AddMember("P", jsonifya(sr.get_passage(), allocator), allocator);
+    if (!sr.isdefault("clade"))              srval.AddMember("c", jsonifya(sr.get_clade(), allocator), allocator);
+    if (!sr.isdefault("annotations"))        srval.AddMember("a", jsonifya(sr.get_annotations(), allocator), allocator);
+    if (!sr.isdefault("sequence"))           srval.AddMember("A", jsonifya(sr.get_sequence(), allocator), allocator);
+    if (!sr.isdefault("date"))               srval.AddMember("D", jsonifya(sr.get_date(), allocator), allocator);
+    if (!sr.isdefault("id"))                 srval.AddMember("I", jsonifya(sr.get_id(), allocator), allocator);
     if (!sr.isdefault("species"))           srval.AddMember("s", jsonifya(sr.get_species(), allocator), allocator);
-    if (sr.get_homologous_ags().n_elem > 0) srval.AddMember("h", jsonifya(sr.get_homologous_ags(), allocator), allocator);
+    if (sr.get_homologous_ags().n_elem > 0)  srval.AddMember("h", jsonifya(sr.get_homologous_ags(), allocator), allocator);
+    if (!sr.isdefault("lineage"))            srval.AddMember("L", jsonifya(sr.get_lineage(), allocator), allocator);
+    if (!sr.isdefault("reassortant"))        srval.AddMember("R", jsonifya(sr.get_reassortant(), allocator), allocator);
+    if (!sr.isdefault("strings"))            srval.AddMember("S", jsonifya(sr.get_strings(), allocator), allocator);
+    if (!sr.isdefault("continent"))          srval.AddMember("C", jsonifya(sr.get_continent(), allocator), allocator);
+    if (!sr.isdefault("nucleotidesequence")) srval.AddMember("B", jsonifya(sr.get_nucleotidesequence(), allocator), allocator);
+
     // set_group_values
     // set_reference
     // set_name_full

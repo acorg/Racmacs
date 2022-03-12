@@ -219,6 +219,151 @@ test_that("Getting and setting other attributes", {
 
 })
 
+# Getting and setting B lineage
+test_that("Getting and setting B lineage", {
+
+  # Read in the test map
+  map <- read.acmap(filename = test_path("../testdata/testmap.ace"))
+
+  # Test defaults
+  expect_equal(agLineage(map), rep("", numAntigens(map)))
+  expect_equal(srLineage(map), rep("", numSera(map)))
+
+  # Test editing
+  ag_lineages <- rep("V", numAntigens(map))
+  sr_lineages <- rep("Y", numSera(map))
+  agLineage(map) <- ag_lineages
+  srLineage(map) <- sr_lineages
+
+  # Check changed values
+  expect_equal(ag_lineages(map), ag_lineages)
+  expect_equal(srLineage(map), sr_lineages)
+
+  # Check saving and reloading
+  tmp <- tempfile(fileext = ".ace")
+  save.acmap(map, tmp)
+
+  loaded_map <- read.acmap(tmp)
+  expect_equal(agLineages(loaded_map), ag_lineages)
+  expect_equal(srLineage(loaded_map), sr_lineages)
+
+})
+
+# Getting and setting reassortant status
+test_that("Getting and setting reassortant status", {
+
+  # Read in the test map
+  map <- read.acmap(filename = test_path("../testdata/testmap.ace"))
+
+  # Test defaults
+  expect_equal(agReassortant(map), rep("", numAntigens(map)))
+  expect_equal(srReassortant(map), rep("", numSera(map)))
+
+  # Test editing
+  ag_reassortant <- rep("R", numAntigens(map))
+  ag_reassortant <- rep("R", numSera(map))
+  agReassortant(map) <- ag_reassortant
+  srReassortant(map) <- ag_reassortant
+
+  # Check changed values
+  expect_equal(agReassortant(map), ag_reassortant)
+  expect_equal(srReassortant(map), ag_reassortant)
+
+  # Check saving and reloading
+  tmp <- tempfile(fileext = ".ace")
+  save.acmap(map, tmp)
+
+  loaded_map <- read.acmap(tmp)
+  expect_equal(agReassortant(loaded_map), ag_reassortant)
+  expect_equal(srReassortant(loaded_map), sr_reassortant)
+
+})
+
+# Getting and setting boolean string
+test_that("Getting and setting string", {
+
+  # Read in the test map
+  map <- read.acmap(filename = test_path("../testdata/testmap.ace"))
+
+  # Test defaults
+  expect_equal(agString(map), rep("", numAntigens(map)))
+  expect_equal(srString(map), rep("", numSera(map)))
+
+  # Test editing
+  ag_string <- rep("E", numAntigens(map))
+  sr_string <- rep("C", numSera(map))
+  agString(map) <- ag_string
+  srString(map) <- sr_string
+
+  # Check changed values
+  expect_equal(agString(map), ag_string)
+  expect_equal(srString(map), sr_string)
+
+  # Check saving and reloading
+  tmp <- tempfile(fileext = ".ace")
+  save.acmap(map, tmp)
+
+  loaded_map <- read.acmap(tmp)
+  expect_equal(agString(loaded_map), ag_string)
+  expect_equal(srString(loaded_map), sr_string)
+
+})
+
+# Getting and setting ag continent
+test_that("Getting and setting continent", {
+
+  # Read in the test map
+  map <- read.acmap(filename = test_path("../testdata/testmap.ace"))
+
+  # Test defaults
+  expect_equal(agContinent(map), rep("", numAntigens(map)))
+
+  # Test editing
+  ag_continent <- rep("NORTH-AMERICA", numAntigens(map))
+  agContinent(map) <- ag_continent
+
+  # Check changed values
+  expect_equal(agContinent(map), ag_continent)
+
+  # Check saving and reloading
+  tmp <- tempfile(fileext = ".ace")
+  save.acmap(map, tmp)
+
+  loaded_map <- read.acmap(tmp)
+  expect_equal(agContinent(loaded_map), ag_continent)
+
+})
+
+# Getting and setting nucleotide sequence
+test_that("Getting and setting nucleotide sequence", {
+
+  # Read in the test map
+  map <- read.acmap(filename = test_path("../testdata/testmap.ace"))
+
+  # Test defaults
+  expect_equal(agNucleotideSequence(map), rep("", numAntigens(map)))
+  expect_equal(srNucleotidesequence(map), rep("", numSera(map)))
+
+  # Test editing
+  ag_nucleotidesequence <- rep("SEQUENCE", numAntigens(map))
+  sr_nucleotidesequence <- rep("SEQUENCE", numSera(map))
+  agNucleotideSequence(map) <- ag_nucleotidesequence
+  srNucleotidesequence(map) <- sr_nucleotidesequence
+
+  # Check changed values
+  expect_equal(agNucleotideSequence(map), ag_nucleotidesequence)
+  expect_equal(srNucsequence(map), sr_nucleotidesequence)
+
+  # Check saving and reloading
+  tmp <- tempfile(fileext = ".ace")
+  save.acmap(map, tmp)
+
+  loaded_map <- read.acmap(tmp)
+  expect_equal(agNucleotideSequence(loaded_map), ag_nucleotidesequence)
+  expect_equal(srNucleotidesequence(loaded_map), sr_nucleotidesequence)
+
+})
+
 
 # Getting and setting other attributes
 test_that("Getting and setting homologous antigens", {

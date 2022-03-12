@@ -32,14 +32,6 @@ std::vector<std::string> ac_ag_get_labids( const AcAntigen &ag ){ return ag.get_
 std::string ac_ag_get_name( const AcAntigen &ag ){ return ag.get_name(); }
 // [[Rcpp::export(rng = false)]]
 std::string ac_ag_get_extra( const AcAntigen &ag ){ return ag.get_extra(); }
-// [[Rcpp::export(rng = false)]]
-std::string ac_ag_get_lineage( const AcAntigen &ag ){ return ag.get_lineage(); }
-// [[Rcpp::export(rng = false)]]
-std::string ac_ag_get_reassortant( const AcAntigen &ag ){ return ag.get_reassortant(); }
-// [[Rcpp::export(rng = false)]]
-std::string ac_ag_get_strings( const AcAntigen &ag ){ return ag.get_strings(); }
-// [[Rcpp::export(rng = false)]]
-std::string ac_ag_get_continent( const AcAntigen &ag ){ return ag.get_continent(); }
 
 // [[Rcpp::export(rng = false)]]
 std::string ac_ag_get_match_id( const AcAntigen &ag ){ return ag.get_match_id(); }
@@ -69,14 +61,6 @@ AcAntigen ac_ag_set_labids( AcAntigen ag, std::vector<std::string> value ){ ag.s
 AcAntigen ac_ag_set_name( AcAntigen ag, std::string value ){ ag.set_name(value); return ag; }
 // [[Rcpp::export(rng = false)]]
 AcAntigen ac_ag_set_extra( AcAntigen ag, std::string value ){ ag.set_extra(value); return ag; }
-// [[Rcpp::export(rng = false)]]
-AcAntigen ac_ag_set_lineage( AcAntigen ag, std::string value ){ ag.set_lineage(value); return ag; }
-// [[Rcpp::export(rng = false)]]
-AcAntigen ac_ag_set_reassortant( AcAntigen ag, std::string value ){ ag.set_reassortant(value); return ag; }
-// [[Rcpp::export(rng = false)]]
-AcAntigen ac_ag_set_strings( AcAntigen ag, std::string value ){ ag.set_strings(value); return ag; }
-// [[Rcpp::export(rng = false)]]
-AcAntigen ac_ag_set_continent( AcAntigen ag, std::string value ){ ag.set_continent(value); return ag; }
 
 // [[Rcpp::export(rng = false)]]
 AcAntigen ac_ag_set_group( AcAntigen ag, int value ){ ag.set_group(value); return ag; }

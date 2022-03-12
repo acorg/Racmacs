@@ -58,9 +58,6 @@ sera_setter <- function(fn, type) {
 #'     "srNames", "srNames<-",
 #'     "srExtra", "srExtra<-",
 #'     "srPassage", "srPassage<-",
-#'     "srLineage", "srLineage<-",
-#'     "srReassortant", "srReassortant<-",
-#'     "srStrings", "srStrings<-"
 #'     "srSpecies", "srSpecies<-"
 #'   ),
 #'   args    = c("map")
@@ -72,9 +69,6 @@ srReference         <- sera_getter(ac_sr_get_reference)
 srNames             <- sera_getter(ac_sr_get_name)
 srExtra             <- sera_getter(ac_sr_get_extra)
 srPassage           <- sera_getter(ac_sr_get_passage)
-srLineage           <- sera_getter(ac_sr_get_lineage)
-srReassortant       <- sera_getter(ac_sr_get_reassortant)
-srStrings           <- sera_getter(ac_sr_get_strings)
 srSpecies           <- sera_getter(ac_sr_get_species)
 srGroupValues       <- sera_getter(ac_sr_get_group) # Not exported
 srMatchIDs          <- sera_getter(ac_sr_get_match_id) # Not exported
@@ -85,9 +79,6 @@ srMatchIDs          <- sera_getter(ac_sr_get_match_id) # Not exported
 `srNames<-`             <- sera_setter(ac_sr_set_name, "character")
 `srExtra<-`             <- sera_setter(ac_sr_set_extra, "character")
 `srPassage<-`           <- sera_setter(ac_sr_set_passage, "character")
-`srLineage<-`           <- sera_setter(ac_sr_set_lineage, "character")
-`srReassortant<-`       <- sera_setter(ac_sr_set_reassortant, "character")
-`srStrings<-`           <- sera_setter(ac_sr_set_strings, "character")
 `srSpecies<-`           <- sera_setter(ac_sr_set_species, "character")
 `srGroupValues<-`       <- sera_setter(ac_sr_set_group, "numeric")
 
@@ -199,31 +190,6 @@ srSequences <- function(map, missing_value = ".") {
   }
   for (x in seq_len(numSera(map))) {
     map$sera[[x]]$sequence <- paste0(value[x, ], collapse = "")
-  }
-  map
-}
-
-#' @rdname srSequences
-#' @export
-srNucleotideSequences <- function(map, missing_value = ".") {
-  check.acmap(map)
-  rbind_list_to_matrix(
-    lapply(map$sera, function(sr) {
-      strsplit(sr$nucleotidesequence, "")[[1]]
-    }),
-    missing_value
-  )
-}
-
-#' @rdname srSequences
-#' @export
-`srNucleotideSequences<-` <- function(map, value) {
-  check.acmap(map)
-  if (nrow(value) != numSera(map)) {
-    stop("Number of sequences does not match number of sera")
-  }
-  for (x in seq_len(numSera(map))) {
-    map$sera[[x]]$nucleotidesequence <- paste0(value[x, ], collapse = "")
   }
   map
 }

@@ -59,11 +59,7 @@ antigens_setter <- function(fn, type) {
 #'     "agReference", "agReference<-",
 #'     "agNames", "agNames<-",
 #'     "agExtra", "agExtra<-",
-#'     "agPassage", "agPassage<-",
-#'     "agLineage", "agLineage<-",
-#'     "agReassortant", "agReassortant<-",
-#'     "agStrings", "agStrings<-",
-#'     "agContinent", "agContinent<-"
+#'     "agPassage", "agPassage<-"
 #'   ),
 #'   args    = c("map")
 #' )
@@ -74,10 +70,6 @@ agReference         <- antigens_getter(ac_ag_get_reference)
 agNames             <- antigens_getter(ac_ag_get_name)
 agExtra             <- antigens_getter(ac_ag_get_extra)
 agPassage           <- antigens_getter(ac_ag_get_passage)
-agLineage           <- antigens_getter(ac_ag_get_lineage)
-agReassortant       <- antigens_getter(ac_ag_get_reassortant)
-agStrings           <- antigens_getter(ac_ag_get_strings)
-agContinent         <- antigens_getter(ac_ag_get_continent)
 agGroupValues       <- antigens_getter(ac_ag_get_group) # Not exported
 agMatchIDs          <- antigens_getter(ac_ag_get_match_id) # Not exported
 
@@ -87,10 +79,6 @@ agMatchIDs          <- antigens_getter(ac_ag_get_match_id) # Not exported
 `agNames<-`             <- antigens_setter(ac_ag_set_name, "character")
 `agExtra<-`             <- antigens_setter(ac_ag_set_extra, "character")
 `agPassage<-`           <- antigens_setter(ac_ag_set_passage, "character")
-`agLineage<-`           <- antigens_setter(ac_ag_set_lineage, "character")
-`agReassortant<-`       <- antigens_setter(ac_ag_set_reassortant, "character")
-`agStrings<-`           <- antigens_setter(ac_ag_set_strings, "character")
-`agContinent<-`         <- antigens_setter(ac_ag_set_continent, "character")
 `agGroupValues<-`       <- antigens_setter(ac_ag_set_group, "numeric") # Not exported
 
 
@@ -173,31 +161,6 @@ agSequences <- function(map, missing_value = ".") {
   }
   map
 }
-
-#' @rdname agSequences
-#' @export
-`agNucelotideSequences<-` <- function(map, value) {
-  check.acmap(map)
-  if (nrow(value) != numAntigens(map)) {
-    stop("Number of sequences does not match number of antigens")
-  }
-  for (x in seq_len(numAntigens(map))) {
-    map$antigens[[x]]$nucleotidesequence <- paste0(value[x, ], collapse = "")
-  }
-  map
-}
-
-agNucelotideSequences <- function(map, missing_value = ".") {
-  check.acmap(map)
-  rbind_list_to_matrix(
-    lapply(map$antigens, function(ag) {
-      strsplit(ag$nucleotidesequence, "")[[1]]
-    }),
-    missing_value
-  )
-}
-
-
 
 
 #' Getting and setting point clade information

@@ -10,10 +10,6 @@
 \alias{agReference<-}
 \alias{agNames}
 \alias{agNames<-}
-\alias{agNamesFull}
-\alias{agNamesFull<-}
-\alias{agNamesAbbreviated}
-\alias{agNamesAbbreviated<-}
 \alias{agExtra}
 \alias{agExtra<-}
 \alias{agPassage}
@@ -28,10 +24,6 @@ agReference(map)
 agReference(map) <- value
 agNames(map)
 agNames(map) <- value
-agNamesFull(map)
-agNamesFull(map) <- value
-agNamesAbbreviated(map)
-agNamesAbbreviated(map) <- value
 agExtra(map)
 agExtra(map) <- value
 agPassage(map)

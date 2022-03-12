@@ -190,14 +190,13 @@ SEXP wrap(const AcSerum& sr){
       // Attributes
       _["name"] = sr.get_name(),
       _["extra"] = sr.get_extra(),
-      // _["name_abbreviated"] = sr.get_name_abbreviated(),
-      // _["name_full"] = sr.get_name_full(),
       _["id"] = sr.get_id(),
       _["date"] = sr.get_date(),
       _["group"] = sr.get_group(),
       _["homologous_ags"] = sr.get_homologous_ags(),
       _["sequence"] = sr.get_sequence(),
       _["passage"] = sr.get_passage(),
+      _["species"] = sr.get_species(),
       _["clade"] = sr.get_clade(),
       _["annotations"] = sr.get_annotations(),
 
@@ -493,8 +492,6 @@ AcAntigen as(SEXP sxp){
   // Attributes
   if(list.containsElementNamed("name")) ag.set_name(list["name"]);
   if(list.containsElementNamed("extra")) ag.set_extra(list["extra"]);
-  // if(list.containsElementNamed("name_abbreviated")) ag.set_name_abbreviated(list["name_abbreviated"]);
-  // if(list.containsElementNamed("name_full")) ag.set_name_full(list["name_full"]);
   if(list.containsElementNamed("id")) ag.set_id(list["id"]);
   if(list.containsElementNamed("date")) ag.set_date(list["date"]);
   if(list.containsElementNamed("group")) ag.set_group(list["group"]);
@@ -530,6 +527,7 @@ AcSerum as(SEXP sxp){
   if(list.containsElementNamed("homologous_ags")) sr.set_homologous_ags(list["homologous_ags"]);
   if(list.containsElementNamed("sequence")) sr.set_sequence(list["sequence"]);
   if(list.containsElementNamed("passage")) sr.set_passage(list["passage"]);
+  if(list.containsElementNamed("species")) sr.set_species(list["species"]);
   if(list.containsElementNamed("clade")) sr.set_clade(list["clade"]);
   if(list.containsElementNamed("annotations")) sr.set_annotations(list["annotations"]);
 

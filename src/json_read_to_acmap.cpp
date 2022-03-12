@@ -112,6 +112,7 @@ AcMap json_to_acmap(
     if(sr.HasMember("A")) map.sera[i].set_sequence( sr["A"].GetString() );
     if(sr.HasMember("D")) map.sera[i].set_date( sr["D"].GetString() );
     if(sr.HasMember("I")) map.sera[i].set_id( sr["I"].GetString() );
+    if(sr.HasMember("s")) map.sera[i].set_species( sr["s"].GetString() );
     if(sr.HasMember("h")) map.sera[i].set_homologous_ags( parse<arma::uvec>(sr["h"]) );
     // set_reference
     // set_name_full

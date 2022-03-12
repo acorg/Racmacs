@@ -23,15 +23,13 @@ bool ac_sr_get_reference( const AcSerum &sr ){ return sr.get_reference(); }
 // [[Rcpp::export(rng = false)]]
 std::string ac_sr_get_passage( const AcSerum &sr ){ return sr.get_passage(); }
 // [[Rcpp::export(rng = false)]]
+std::string ac_sr_get_species( const AcSerum &sr ){ return sr.get_species(); }
+// [[Rcpp::export(rng = false)]]
 std::vector<std::string> ac_sr_get_clade( const AcSerum &sr ){ return sr.get_clade(); }
 // [[Rcpp::export(rng = false)]]
 std::vector<std::string> ac_sr_get_annotations( const AcSerum &sr ){ return sr.get_annotations(); }
 // [[Rcpp::export(rng = false)]]
 std::string ac_sr_get_name( const AcSerum &sr ){ return sr.get_name(); }
-// [[Rcpp::export(rng = false)]]
-std::string ac_sr_get_name_full( const AcSerum &sr ){ return sr.get_name_full(); }
-// [[Rcpp::export(rng = false)]]
-std::string ac_sr_get_name_abbreviated( const AcSerum &sr ){ return sr.get_name_abbreviated(); }
 // [[Rcpp::export(rng = false)]]
 std::string ac_sr_get_extra( const AcSerum &sr ){ return sr.get_extra(); }
 
@@ -58,15 +56,13 @@ AcSerum ac_sr_set_reference( AcSerum sr, bool value ){  sr.set_reference(value);
 // [[Rcpp::export(rng = false)]]
 AcSerum ac_sr_set_passage( AcSerum sr, std::string value ){ sr.set_passage(value); return sr; }
 // [[Rcpp::export(rng = false)]]
+AcSerum ac_sr_set_species( AcSerum sr, std::string value ){ sr.set_species(value); return sr; }
+// [[Rcpp::export(rng = false)]]
 AcSerum ac_sr_set_clade( AcSerum sr, std::vector<std::string> value ){ sr.set_clade(value); return sr; }
 // [[Rcpp::export(rng = false)]]
 AcSerum ac_sr_set_annotations( AcSerum sr, std::vector<std::string> value ){ sr.set_annotations(value); return sr; }
 // [[Rcpp::export(rng = false)]]
 AcSerum ac_sr_set_name( AcSerum sr, std::string value ){ sr.set_name(value); return sr; }
-// [[Rcpp::export(rng = false)]]
-AcSerum ac_sr_set_name_full( AcSerum sr, std::string value ){  sr.set_name_full(value); return sr; }
-// [[Rcpp::export(rng = false)]]
-AcSerum ac_sr_set_name_abbreviated( AcSerum sr, std::string value ){ sr.set_name_abbreviated(value); return sr; }
 // [[Rcpp::export(rng = false)]]
 AcSerum ac_sr_set_extra( AcSerum sr, std::string value ){ sr.set_extra(value); return sr; }
 

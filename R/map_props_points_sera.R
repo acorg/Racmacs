@@ -56,10 +56,9 @@ sera_setter <- function(fn, type) {
 #'     "srDates", "srDates<-",
 #'     "srReference", "srReference<-",
 #'     "srNames", "srNames<-",
-#'     "srNamesFull", "srNamesFull<-",
-#'     "srNamesAbbreviated", "srNamesAbbreviated<-",
 #'     "srExtra", "srExtra<-",
-#'     "srPassage", "srPassage<-"
+#'     "srPassage", "srPassage<-",
+#'     "srSpecies", "srSpecies<-"
 #'   ),
 #'   args    = c("map")
 #' )
@@ -68,10 +67,9 @@ srIDs               <- sera_getter(ac_sr_get_id)
 srDates             <- sera_getter(ac_sr_get_date)
 srReference         <- sera_getter(ac_sr_get_reference)
 srNames             <- sera_getter(ac_sr_get_name)
-srNamesFull         <- sera_getter(ac_sr_get_name_full)
-srNamesAbbreviated  <- sera_getter(ac_sr_get_name_abbreviated)
 srExtra             <- sera_getter(ac_sr_get_extra)
 srPassage           <- sera_getter(ac_sr_get_passage)
+srSpecies           <- sera_getter(ac_sr_get_species)
 srGroupValues       <- sera_getter(ac_sr_get_group) # Not exported
 srMatchIDs          <- sera_getter(ac_sr_get_match_id) # Not exported
 
@@ -79,10 +77,9 @@ srMatchIDs          <- sera_getter(ac_sr_get_match_id) # Not exported
 `srDates<-`             <- sera_setter(ac_sr_set_date, "character")
 `srReference<-`         <- sera_setter(ac_sr_set_reference, "character")
 `srNames<-`             <- sera_setter(ac_sr_set_name, "character")
-`srNamesFull<-`         <- sera_setter(ac_sr_set_name_full, "character")
-`srNamesAbbreviated<-`  <- sera_setter(ac_sr_set_name_abbreviated, "character")
 `srExtra<-`             <- sera_setter(ac_sr_set_extra, "character")
 `srPassage<-`           <- sera_setter(ac_sr_set_passage, "character")
+`srSpecies<-`           <- sera_setter(ac_sr_set_species, "character")
 `srGroupValues<-`       <- sera_setter(ac_sr_set_group, "numeric")
 
 

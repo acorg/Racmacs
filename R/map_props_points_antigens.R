@@ -58,8 +58,6 @@ antigens_setter <- function(fn, type) {
 #'     "agDates", "agDates<-",
 #'     "agReference", "agReference<-",
 #'     "agNames", "agNames<-",
-#'     "agNamesFull", "agNamesFull<-",
-#'     "agNamesAbbreviated", "agNamesAbbreviated<-",
 #'     "agExtra", "agExtra<-",
 #'     "agPassage", "agPassage<-"
 #'   ),
@@ -70,8 +68,6 @@ agIDs               <- antigens_getter(ac_ag_get_id)
 agDates             <- antigens_getter(ac_ag_get_date)
 agReference         <- antigens_getter(ac_ag_get_reference)
 agNames             <- antigens_getter(ac_ag_get_name)
-agNamesFull         <- antigens_getter(ac_ag_get_name_full)
-agNamesAbbreviated  <- antigens_getter(ac_ag_get_name_abbreviated)
 agExtra             <- antigens_getter(ac_ag_get_extra)
 agPassage           <- antigens_getter(ac_ag_get_passage)
 agGroupValues       <- antigens_getter(ac_ag_get_group) # Not exported
@@ -81,8 +77,6 @@ agMatchIDs          <- antigens_getter(ac_ag_get_match_id) # Not exported
 `agDates<-`             <- antigens_setter(ac_ag_set_date, "character")
 `agReference<-`         <- antigens_setter(ac_ag_set_reference, "character")
 `agNames<-`             <- antigens_setter(ac_ag_set_name, "character")
-`agNamesFull<-`         <- antigens_setter(ac_ag_set_name_full, "character")
-`agNamesAbbreviated<-`  <- antigens_setter(ac_ag_set_name_abbreviated, "character")
 `agExtra<-`             <- antigens_setter(ac_ag_set_extra, "character")
 `agPassage<-`           <- antigens_setter(ac_ag_set_passage, "character")
 `agGroupValues<-`       <- antigens_setter(ac_ag_set_group, "numeric") # Not exported

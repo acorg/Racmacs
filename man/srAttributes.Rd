@@ -10,14 +10,12 @@
 \alias{srReference<-}
 \alias{srNames}
 \alias{srNames<-}
-\alias{srNamesFull}
-\alias{srNamesFull<-}
-\alias{srNamesAbbreviated}
-\alias{srNamesAbbreviated<-}
 \alias{srExtra}
 \alias{srExtra<-}
 \alias{srPassage}
 \alias{srPassage<-}
+\alias{srSpecies}
+\alias{srSpecies<-}
 \title{Getting and setting sera attributes}
 \usage{
 srIDs(map)
@@ -28,14 +26,12 @@ srReference(map)
 srReference(map) <- value
 srNames(map)
 srNames(map) <- value
-srNamesFull(map)
-srNamesFull(map) <- value
-srNamesAbbreviated(map)
-srNamesAbbreviated(map) <- value
 srExtra(map)
 srExtra(map) <- value
 srPassage(map)
 srPassage(map) <- value
+srSpecies(map)
+srSpecies(map) <- value
 }
 \arguments{
 \item{map}{The acmap data object}

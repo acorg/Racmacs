@@ -31,10 +31,6 @@ std::vector<std::string> ac_ag_get_labids( const AcAntigen &ag ){ return ag.get_
 // [[Rcpp::export(rng = false)]]
 std::string ac_ag_get_name( const AcAntigen &ag ){ return ag.get_name(); }
 // [[Rcpp::export(rng = false)]]
-std::string ac_ag_get_name_full( const AcAntigen &ag ){ return ag.get_name_full(); }
-// [[Rcpp::export(rng = false)]]
-std::string ac_ag_get_name_abbreviated( const AcAntigen &ag ){ return ag.get_name_abbreviated(); }
-// [[Rcpp::export(rng = false)]]
 std::string ac_ag_get_extra( const AcAntigen &ag ){ return ag.get_extra(); }
 
 // [[Rcpp::export(rng = false)]]
@@ -63,10 +59,6 @@ AcAntigen ac_ag_set_annotations( AcAntigen ag, std::vector<std::string> value ){
 AcAntigen ac_ag_set_labids( AcAntigen ag, std::vector<std::string> value ){ ag.set_labids(value); return ag; }
 // [[Rcpp::export(rng = false)]]
 AcAntigen ac_ag_set_name( AcAntigen ag, std::string value ){ ag.set_name(value); return ag; }
-// [[Rcpp::export(rng = false)]]
-AcAntigen ac_ag_set_name_full( AcAntigen ag, std::string value ){  ag.set_name_full(value); return ag; }
-// [[Rcpp::export(rng = false)]]
-AcAntigen ac_ag_set_name_abbreviated( AcAntigen ag, std::string value ){ ag.set_name_abbreviated(value); return ag; }
 // [[Rcpp::export(rng = false)]]
 AcAntigen ac_ag_set_extra( AcAntigen ag, std::string value ){ ag.set_extra(value); return ag; }
 

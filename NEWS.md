@@ -155,3 +155,7 @@
 * Add verbosity argument to `mergeMaps()`
 * Verbosity argument also suppresses optimization progress messages
 * Issue a warning if duplicate antigen or serum names are found when creating a map
+
+# Racmacs 1.1.34
+* Add support for getting and setting serum species with `srSpecies()`.
+* Redundant attributes `agNamesAbbreviated`, `agNamesFull`, `srNamesAbbreviated`, `srNamesFull` removed

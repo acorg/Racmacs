@@ -279,33 +279,33 @@ test_that("Getting and setting reassortant status", {
 
 })
 
-# Getting and setting boolean string
-test_that("Getting and setting string", {
+# Getting and setting boolean strings
+test_that("Getting and setting strings", {
 
   # Read in the test map
   map <- read.acmap(filename = test_path("../testdata/testmap.ace"))
 
   # Test defaults
-  expect_equal(agString(map), rep("", numAntigens(map)))
-  expect_equal(srString(map), rep("", numSera(map)))
+  expect_equal(agStrings(map), rep("", numAntigens(map)))
+  expect_equal(srStrings(map), rep("", numSera(map)))
 
   # Test editing
-  ag_string <- rep("E", numAntigens(map))
-  sr_string <- rep("C", numSera(map))
-  agString(map) <- ag_string
-  srString(map) <- sr_string
+  ag_strings <- rep("E", numAntigens(map))
+  sr_strings <- rep("C", numSera(map))
+  agStrings(map) <- ag_strings
+  srStrings(map) <- sr_strings
 
   # Check changed values
-  expect_equal(agString(map), ag_string)
-  expect_equal(srString(map), sr_string)
+  expect_equal(agStrings(map), ag_strings)
+  expect_equal(srStrings(map), sr_strings)
 
   # Check saving and reloading
   tmp <- tempfile(fileext = ".ace")
   save.acmap(map, tmp)
 
   loaded_map <- read.acmap(tmp)
-  expect_equal(agString(loaded_map), ag_string)
-  expect_equal(srString(loaded_map), sr_string)
+  expect_equal(agStrings(loaded_map), ag_strings)
+  expect_equal(srStrings(loaded_map), sr_strings)
 
 })
 

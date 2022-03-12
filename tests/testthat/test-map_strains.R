@@ -261,13 +261,13 @@ test_that("Getting and setting reassortant status", {
 
   # Test editing
   ag_reassortant <- rep("R", numAntigens(map))
-  ag_reassortant <- rep("R", numSera(map))
+  sr_reassortant <- rep("R", numSera(map))
   agReassortant(map) <- ag_reassortant
   srReassortant(map) <- sr_reassortant
 
   # Check changed values
   expect_equal(agReassortant(map), ag_reassortant)
-  expect_equal(srReassortant(map), ag_reassortant)
+  expect_equal(srReassortant(map), sr_reassortant)
 
   # Check saving and reloading
   tmp <- tempfile(fileext = ".ace")

@@ -341,26 +341,26 @@ test_that("Getting and setting nucleotide sequence", {
   map <- read.acmap(filename = test_path("../testdata/testmap.ace"))
 
   # Test defaults
-  expect_equal(agNucleotideSequence(map), rep("", numAntigens(map)))
-  expect_equal(srNucleotidesequence(map), rep("", numSera(map)))
+  expect_equal(agNucleotideSequences(map), rep("", numAntigens(map)))
+  expect_equal(srNucleotidesequences(map), rep("", numSera(map)))
 
   # Test editing
   ag_nucleotidesequence <- rep("SEQUENCE", numAntigens(map))
   sr_nucleotidesequence <- rep("SEQUENCE", numSera(map))
-  agNucleotideSequence(map) <- ag_nucleotidesequence
-  srNucleotidesequence(map) <- sr_nucleotidesequence
+  agNucleotideSequences(map) <- ag_nucleotidesequence
+  srNucleotidesequences(map) <- sr_nucleotidesequence
 
   # Check changed values
-  expect_equal(agNucleotideSequence(map), ag_nucleotidesequence)
-  expect_equal(srNucsequence(map), sr_nucleotidesequence)
+  expect_equal(agNucleotideSequencse(map), ag_nucleotidesequence)
+  expect_equal(srNucleotidesequences(map), sr_nucleotidesequence)
 
   # Check saving and reloading
   tmp <- tempfile(fileext = ".ace")
   save.acmap(map, tmp)
 
   loaded_map <- read.acmap(tmp)
-  expect_equal(agNucleotideSequence(loaded_map), ag_nucleotidesequence)
-  expect_equal(srNucleotidesequence(loaded_map), sr_nucleotidesequence)
+  expect_equal(agNucleotideSequences(loaded_map), ag_nucleotidesequence)
+  expect_equal(srNucleotidesequences(loaded_map), sr_nucleotidesequence)
 
 })
 

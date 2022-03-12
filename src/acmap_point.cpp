@@ -19,6 +19,11 @@ std::string AcPoint::get_sequence() const { return sequence; }
 std::vector<std::string> AcPoint::get_clade() const { return clade; }
 std::vector<std::string> AcPoint::get_annotations() const { return annotations; }
 std::vector<std::string> AcPoint::get_labids() const { return labids; }
+std::string AcPoint::get_lineage() const { return lineage; }
+std::string AcPoint::get_reassortant() const { return reassortant; }
+std::string AcPoint::get_strings() const { return strings; }
+std::string AcPoint::get_continent() const { return continent; }
+std::string AcPoint::get_nucleotidesequence() const { return nucleotidesequence; }
 
 void AcPoint::set_type( std::string value ){ type = value; }
 void AcPoint::set_name( std::string value ){ name = value; }
@@ -34,6 +39,11 @@ void AcPoint::set_sequence( std::string value ){ sequence = value; }
 void AcPoint::set_clade( std::vector<std::string> value ){ clade = value; }
 void AcPoint::set_annotations( std::vector<std::string> value ){ annotations = value; }
 void AcPoint::set_labids( std::vector<std::string> value ){ labids = value; }
+void AcPoint::set_lineage( std::string value ){ lineage = value; }
+void AcPoint::set_reassortant( std::string value ){ reassortant = value; }
+void AcPoint::set_strings( std::string value ){ strings = value; }
+void AcPoint::set_continent( std::string value ){ continent = value; }
+void AcPoint::set_nucleotidesequence( std::string value ){ nucleotidesequence = value; }
 
 // Get IDs for matching
 std::string AcPoint::get_match_id() const {
@@ -65,6 +75,16 @@ bool AcPoint::isdefault(std::string attribute) {
     return(extra == "");
   } else if (attribute == "date") {
     return(date == "");
+  } else if (attribute == "lineage") {
+    return(lineage == "");
+  } else if (attribute == "reassortant") {
+    return(reassortant == "");
+  } else if (attribute == "strings") {
+    return(strings == "");
+  } else if (attribute == "continent") {
+    return(continent == "");
+  } else if (attribute == "nucleotidesequence") {
+    return(nucleotidesequence == "");
   } else {
     return(false);
   }

@@ -26,6 +26,11 @@ class AcPoint {
     std::vector<std::string> clade;
     std::vector<std::string> annotations;
     std::vector<std::string> labids;
+    std::string lineage;
+    std::string reassortant;
+    std::string strings;
+    std::string continent;
+    std::string nucleotidesequence;
 
   public:
 
@@ -50,6 +55,11 @@ class AcPoint {
     std::vector<std::string> get_clade() const;
     std::vector<std::string> get_annotations() const;
     std::vector<std::string> get_labids() const;
+    std::string get_lineage() const;
+    std::string get_reassortant() const;
+    std::string get_strings() const;
+    std::string get_continent() const;
+    std::string get_nucleotidesequence() const;
 
     void set_type( std::string value );
     void set_name( std::string value );
@@ -65,6 +75,11 @@ class AcPoint {
     void set_clade( std::vector<std::string> value );
     void set_annotations( std::vector<std::string> value );
     void set_labids( std::vector<std::string> value );
+    void set_lineage( std::string value );
+    void set_reassortant( std::string value );
+    void set_strings( std::string value );
+    void set_continent( std::string value );
+    void set_nucleotidesequence( std::string value );
 
     // Get IDs for matching
     std::string get_match_id() const;

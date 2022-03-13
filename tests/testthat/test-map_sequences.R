@@ -26,6 +26,24 @@ test_that("Setting and getting sequences", {
 
 })
 
+test_that("Setting and getting nucleotide sequences", {
+
+  nucsequence <- matrix("a", nrow = numAntigens(map), ncol = 10)
+  agNucleotideSequences(map) <- nucsequence
+  expect_equal(nucsequence, agNucleotideSequences(map))
+
+  nucsequence_sr <- matrix("a", nrow = numSera(map), ncol = 6)
+  srNucleotideSequences(map) <- nucsequence_sr
+  expect_equal(nucsequence_sr, srNucleotideSequences(map))
+
+  tmp <- tempfile(fileext = ".ace")
+  save.acmap(map, tmp)
+  map_loaded <- read.acmap(tmp)
+  expect_equal(nucsequence,    agNucleotideSequences(map_loaded))
+  expect_equal(nucsequence_sr, srNucleotideSequences(map_loaded))
+
+})
+
 test_that("H3 map with sequences", {
 
   map <- read.acmap(test_path("../testdata/testmap_h3subset.ace"))

@@ -3,11 +3,17 @@
 \name{srSequences}
 \alias{srSequences}
 \alias{srSequences<-}
+\alias{srNucleotideSequences}
+\alias{srNucleotideSequences<-}
 \title{Getting and setting sera sequence information}
 \usage{
 srSequences(map, missing_value = ".")
 
 srSequences(map) <- value
+
+srNucleotideSequences(map, missing_value = ".")
+
+srNucleotideSequences(map) <- value
 }
 \arguments{
 \item{map}{The acmap data object}

@@ -3,11 +3,17 @@
 \name{agSequences}
 \alias{agSequences}
 \alias{agSequences<-}
+\alias{agNucleotideSequences}
+\alias{agNucleotideSequences<-}
 \title{Getting and setting antigen sequence information}
 \usage{
 agSequences(map, missing_value = ".")
 
 agSequences(map) <- value
+
+agNucleotideSequences(map, missing_value = ".")
+
+agNucleotideSequences(map) <- value
 }
 \arguments{
 \item{map}{The acmap data object}

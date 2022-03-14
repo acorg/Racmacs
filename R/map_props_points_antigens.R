@@ -176,6 +176,18 @@ agSequences <- function(map, missing_value = ".") {
 
 #' @rdname agSequences
 #' @export
+agNucleotideSequences <- function(map, missing_value = ".") {
+  check.acmap(map)
+  rbind_list_to_matrix(
+    lapply(map$antigens, function(ag) {
+      strsplit(ag$nucleotidesequence, "")[[1]]
+    }),
+    missing_value
+  )
+}
+
+#' @rdname agSequences
+#' @export
 `agNucleotideSequences<-` <- function(map, value) {
   check.acmap(map)
   if (nrow(value) != numAntigens(map)) {
@@ -187,15 +199,7 @@ agSequences <- function(map, missing_value = ".") {
   map
 }
 
-agNucleotideSequences <- function(map, missing_value = ".") {
-  check.acmap(map)
-  rbind_list_to_matrix(
-    lapply(map$antigens, function(ag) {
-      strsplit(ag$nucleotidesequence, "")[[1]]
-    }),
-    missing_value
-  )
-}
+
 
 
 

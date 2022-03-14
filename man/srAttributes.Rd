@@ -14,6 +14,12 @@
 \alias{srExtra<-}
 \alias{srPassage}
 \alias{srPassage<-}
+\alias{srLineage}
+\alias{srLineage<-}
+\alias{srReassortant}
+\alias{srReassortant<-}
+\alias{srStrings}
+\alias{srStrings<-}
 \alias{srSpecies}
 \alias{srSpecies<-}
 \title{Getting and setting sera attributes}
@@ -30,6 +36,12 @@ srExtra(map)
 srExtra(map) <- value
 srPassage(map)
 srPassage(map) <- value
+srLineage(map)
+srLineage(map) <- value
+srReassortant(map)
+srReassortant(map) <- value
+srStrings(map)
+srStrings(map) <- value
 srSpecies(map)
 srSpecies(map) <- value
 }

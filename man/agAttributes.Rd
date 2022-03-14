@@ -14,6 +14,14 @@
 \alias{agExtra<-}
 \alias{agPassage}
 \alias{agPassage<-}
+\alias{agLineage}
+\alias{agLineage<-}
+\alias{agReassortant}
+\alias{agReassortant<-}
+\alias{agStrings}
+\alias{agStrings<-}
+\alias{agContinent}
+\alias{agContinent<-}
 \title{Getting and setting antigen attributes}
 \usage{
 agIDs(map)
@@ -28,6 +36,14 @@ agExtra(map)
 agExtra(map) <- value
 agPassage(map)
 agPassage(map) <- value
+agLineage(map)
+agLineage(map) <- value
+agReassortant(map)
+agReassortant(map) <- value
+agStrings(map)
+agStrings(map) <- value
+agContinent(map)
+agContinent(map) <- value
 }
 \arguments{
 \item{map}{The acmap data object}

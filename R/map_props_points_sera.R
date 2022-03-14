@@ -60,7 +60,7 @@ sera_setter <- function(fn, type) {
 #'     "srPassage", "srPassage<-",
 #'     "srLineage", "srLineage<-",
 #'     "srReassortant", "srReassortant<-",
-#'     "srStrings", "srStrings<-"
+#'     "srStrings", "srStrings<-",
 #'     "srSpecies", "srSpecies<-"
 #'   ),
 #'   args    = c("map")

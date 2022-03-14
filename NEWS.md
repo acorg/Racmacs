@@ -159,3 +159,6 @@
 # Racmacs 1.1.34
 * Add support for getting and setting serum species with `srSpecies()`.
 * Redundant attributes `agNamesAbbreviated`, `agNamesFull`, `srNamesAbbreviated`, `srNamesFull` removed
+
+# Racmacs 1.1.35
+* Add antigen and sera attributes: `agLineage()`, `srLineage()`, `agReassortant()`, `srReassortant()`, `agStrings()`, `srStrings()`, `agContinent()`, `agNucleotideSequences()`, `srNucleotideSequences()` 

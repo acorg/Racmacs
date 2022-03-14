@@ -97,6 +97,22 @@ ac_ag_get_extra <- function(ag) {
     .Call('_Racmacs_ac_ag_get_extra', PACKAGE = 'Racmacs', ag)
 }
 
+ac_ag_get_lineage <- function(ag) {
+    .Call('_Racmacs_ac_ag_get_lineage', PACKAGE = 'Racmacs', ag)
+}
+
+ac_ag_get_reassortant <- function(ag) {
+    .Call('_Racmacs_ac_ag_get_reassortant', PACKAGE = 'Racmacs', ag)
+}
+
+ac_ag_get_strings <- function(ag) {
+    .Call('_Racmacs_ac_ag_get_strings', PACKAGE = 'Racmacs', ag)
+}
+
+ac_ag_get_continent <- function(ag) {
+    .Call('_Racmacs_ac_ag_get_continent', PACKAGE = 'Racmacs', ag)
+}
+
 ac_ag_get_match_id <- function(ag) {
     .Call('_Racmacs_ac_ag_get_match_id', PACKAGE = 'Racmacs', ag)
 }
@@ -143,6 +159,22 @@ ac_ag_set_name <- function(ag, value) {
 
 ac_ag_set_extra <- function(ag, value) {
     .Call('_Racmacs_ac_ag_set_extra', PACKAGE = 'Racmacs', ag, value)
+}
+
+ac_ag_set_lineage <- function(ag, value) {
+    .Call('_Racmacs_ac_ag_set_lineage', PACKAGE = 'Racmacs', ag, value)
+}
+
+ac_ag_set_reassortant <- function(ag, value) {
+    .Call('_Racmacs_ac_ag_set_reassortant', PACKAGE = 'Racmacs', ag, value)
+}
+
+ac_ag_set_strings <- function(ag, value) {
+    .Call('_Racmacs_ac_ag_set_strings', PACKAGE = 'Racmacs', ag, value)
+}
+
+ac_ag_set_continent <- function(ag, value) {
+    .Call('_Racmacs_ac_ag_set_continent', PACKAGE = 'Racmacs', ag, value)
 }
 
 ac_ag_set_group <- function(ag, value) {
@@ -349,6 +381,22 @@ ac_sr_get_extra <- function(sr) {
     .Call('_Racmacs_ac_sr_get_extra', PACKAGE = 'Racmacs', sr)
 }
 
+ac_sr_get_lineage <- function(sr) {
+    .Call('_Racmacs_ac_sr_get_lineage', PACKAGE = 'Racmacs', sr)
+}
+
+ac_sr_get_reassortant <- function(sr) {
+    .Call('_Racmacs_ac_sr_get_reassortant', PACKAGE = 'Racmacs', sr)
+}
+
+ac_sr_get_strings <- function(sr) {
+    .Call('_Racmacs_ac_sr_get_strings', PACKAGE = 'Racmacs', sr)
+}
+
+ac_sr_get_continent <- function(sr) {
+    .Call('_Racmacs_ac_sr_get_continent', PACKAGE = 'Racmacs', sr)
+}
+
 ac_sr_get_match_id <- function(sr) {
     .Call('_Racmacs_ac_sr_get_match_id', PACKAGE = 'Racmacs', sr)
 }
@@ -399,6 +447,22 @@ ac_sr_set_name <- function(sr, value) {
 
 ac_sr_set_extra <- function(sr, value) {
     .Call('_Racmacs_ac_sr_set_extra', PACKAGE = 'Racmacs', sr, value)
+}
+
+ac_sr_set_lineage <- function(sr, value) {
+    .Call('_Racmacs_ac_sr_set_lineage', PACKAGE = 'Racmacs', sr, value)
+}
+
+ac_sr_set_reassortant <- function(sr, value) {
+    .Call('_Racmacs_ac_sr_set_reassortant', PACKAGE = 'Racmacs', sr, value)
+}
+
+ac_sr_set_strings <- function(sr, value) {
+    .Call('_Racmacs_ac_sr_set_strings', PACKAGE = 'Racmacs', sr, value)
+}
+
+ac_sr_set_continent <- function(sr, value) {
+    .Call('_Racmacs_ac_sr_set_continent', PACKAGE = 'Racmacs', sr, value)
 }
 
 ac_sr_set_homologous_ags <- function(sr, value) {

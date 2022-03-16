@@ -165,3 +165,4 @@
 
 # Racmacs 1.1.36
 * Fix error in reoptimized-merge
+* `logtiterTableLayers()` function exported

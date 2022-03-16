@@ -146,12 +146,16 @@ contour_blob <- function(
 
     ## 2D
     ndims <- 2
-    blob <- grDevices::contourLines(
-      x = grid_points[[1]],
-      y = grid_points[[2]],
-      z = grid_values,
-      levels = value_lim
-    )
+    if (length(grid_points[[1]]) == 0 || length(grid_points[[2]]) == 0) {
+      blob <- list()
+    } else {
+      blob <- grDevices::contourLines(
+        x = grid_points[[1]],
+        y = grid_points[[2]],
+        z = grid_values,
+        levels = value_lim
+      )
+    }
 
   } else {
 

@@ -166,3 +166,4 @@
 # Racmacs 1.1.36
 * Fix error in reoptimized-merge
 * `logtiterTableLayers()` function exported
+* Fix error when blobs are smaller than grid-spacing used to calculate them

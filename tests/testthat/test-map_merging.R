@@ -72,6 +72,26 @@ test_that("Merging maps with few optimizations", {
 
 })
 
+test_that("Reoptimized merge with different numbers of antigens and sera", {
+
+  set.seed(100)
+  dat <- matrix(10*2^round(10*runif(200)), ncol=10)
+  map <- expect_warning(make.acmap(dat, number_of_optimizations = 2))
+  dat2 <- matrix(10*2^round(10*runif(200)), ncol=10)
+  map2 <- expect_warning(make.acmap(dat2, number_of_optimizations = 2))
+  merged_map <- mergeMaps(
+    list(map, map2),
+    method="reoptimized-merge",
+    number_of_dimensions = 2,
+    number_of_optimizations = 2
+  )
+  expect_equal(
+    numSera(merged_map),
+    10
+  )
+
+})
+
 
 test_that("Antigens and sera match properly", {
 

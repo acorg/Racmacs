@@ -439,7 +439,7 @@ AcMap ac_merge_reoptimized(
     num_dims,
     num_optimizations,
     min_col_basis,
-    arma::vec(merged_map.antigens.size(), arma::fill::value(arma::datum::nan)),
+    arma::vec(merged_map.sera.size(), arma::fill::value(arma::datum::nan)),
     ag_reactivity_adjustments,
     optimizer_options
   );

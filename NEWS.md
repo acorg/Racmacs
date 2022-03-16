@@ -162,3 +162,6 @@
 
 # Racmacs 1.1.35
 * Add antigen and sera attributes: `agLineage()`, `srLineage()`, `agReassortant()`, `srReassortant()`, `agStrings()`, `srStrings()`, `agContinent()`, `agNucleotideSequences()`, `srNucleotideSequences()` 
+
+# Racmacs 1.1.36
+* Fix error in reoptimized-merge

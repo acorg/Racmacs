@@ -124,9 +124,12 @@ Racmacs.Point.prototype.addBlob = function(blob){
     } else {
 
         // Get vertices and faces
-        let vertices = blob.vertices;
-        let faces    = blob.faces;
-        let normals  = blob.normals;
+        let vertices = blob[0].vertices;
+        let normals  = blob[0].normals;
+        let faces = [];
+        for (var i=0; i<blob.length; i++) {
+            faces = faces.concat(blob[i].faces);
+        }
 
         // Get transformation and translation
         let transformation = this.viewer.data.transformation();

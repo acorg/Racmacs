@@ -1804,6 +1804,30 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// mesh_volume
+double mesh_volume(const arma::umat& faces, const arma::mat& vertices);
+RcppExport SEXP _Racmacs_mesh_volume(SEXP facesSEXP, SEXP verticesSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const arma::umat& >::type faces(facesSEXP);
+    Rcpp::traits::input_parameter< const arma::mat& >::type vertices(verticesSEXP);
+    rcpp_result_gen = Rcpp::wrap(mesh_volume(faces, vertices));
+    return rcpp_result_gen;
+END_RCPP
+}
+// polygon_area
+double polygon_area(const arma::vec& x, const arma::vec& y);
+RcppExport SEXP _Racmacs_polygon_area(SEXP xSEXP, SEXP ySEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const arma::vec& >::type x(xSEXP);
+    Rcpp::traits::input_parameter< const arma::vec& >::type y(ySEXP);
+    rcpp_result_gen = Rcpp::wrap(polygon_area(x, y));
+    return rcpp_result_gen;
+END_RCPP
+}
 // interp2d
 arma::vec interp2d(arma::mat x, arma::vec gpoints1, arma::vec gpoints2, arma::mat f);
 RcppExport SEXP _Racmacs_interp2d(SEXP xSEXP, SEXP gpoints1SEXP, SEXP gpoints2SEXP, SEXP fSEXP) {
@@ -1974,6 +1998,8 @@ static const R_CallMethodDef CallEntries[] = {
     {"_Racmacs_ac_coord_dists", (DL_FUNC) &_Racmacs_ac_coord_dists, 2},
     {"_Racmacs_parallel_mode", (DL_FUNC) &_Racmacs_parallel_mode, 0},
     {"_Racmacs_ac_coordDistMatrix", (DL_FUNC) &_Racmacs_ac_coordDistMatrix, 2},
+    {"_Racmacs_mesh_volume", (DL_FUNC) &_Racmacs_mesh_volume, 2},
+    {"_Racmacs_polygon_area", (DL_FUNC) &_Racmacs_polygon_area, 2},
     {"_Racmacs_interp2d", (DL_FUNC) &_Racmacs_interp2d, 4},
     {NULL, NULL, 0}
 };

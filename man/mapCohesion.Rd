@@ -42,7 +42,7 @@ Other {map diagnostic functions}:
 \code{\link{ptBootstrapBlob}},
 \code{\link{ptBootstrapCoords}()},
 \code{\link{ptLeverage}},
-\code{\link{ptTriangulationBlobsize}},
+\code{\link{ptTriangulationBlob}},
 \code{\link{triangulationBlobs}()},
 \code{\link{unstableMaps}}
 }

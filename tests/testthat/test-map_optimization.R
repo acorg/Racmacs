@@ -35,6 +35,23 @@ perfect_map <- acmap(
   sr_coords = sr_coords
 )
 
+# Generate some 3D toy data
+ag_coords3d <- cbind(runif(9, -4, 4), runif(9, -4, 4), runif(9, -4, 4))
+sr_coords3d <- cbind(runif(9, -4, 4), runif(9, -4, 4), runif(9, -4, 4))
+colbases3d  <- round(runif(9, 3, 6))
+colbasesmat3d <- matrix(colbases3d, 9, 9, byrow = T)
+distmat3d <- as.matrix(dist(rbind(ag_coords3d, sr_coords3d)))[seq_len(9), -seq_len(9)]
+logtiters3d <- colbasesmat3d - distmat3d
+titers3d <- 2 ^ logtiters3d * 10
+mode(titers3d) <- "character"
+
+# Create a perfect representation of the toy data
+perfect_map3d <- acmap(
+  titer_table = titers3d,
+  ag_coords = ag_coords3d,
+  sr_coords = sr_coords3d
+)
+
 # Setup a perfect optimization to test
 test_that("Optimizing a perfect map", {
 
@@ -144,6 +161,24 @@ test_that("Optimizing a perfect map with dimensional annealing", {
 
   # Check stresses are calculated correctly
   expect_lt(optStress(perfect_map_opt, 1), 0.001)
+
+})
+
+# Multi-point blobs
+test_that("Calculating number of blobs", {
+
+  hemi_map_ag <- perfect_map3d
+  titerTable(hemi_map_ag)[3, -c(4, 5, 8)] <- "*"
+
+  hemi_map_ag <- expect_warning(optimizeMap(
+    map = hemi_map_ag,
+    number_of_dimensions = 3,
+    number_of_optimizations = 1,
+    fixed_column_bases = colbases
+  ))
+
+  hemi_map_ag <- triangulationBlobs(hemi_map_ag, stress_lim = 0.25, grid_spacing = 0.25)
+  expect_equal(length(agTriangulationBlobs(hemi_map_ag)[[3]]), 2)
 
 })
 

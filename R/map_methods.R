@@ -152,7 +152,7 @@ view.acmap <- function(
     widget <- htmlwidgets::onRender(
       x      = widget,
       jsCode = "function(el, x, data) { el.viewer.addTriangulationBlobs(data) }",
-      data   = I(ptTriangulationBlobs(x, optimization_number))
+      data   = I(ptBaseTriangulationBlobs(x, optimization_number))
     )
 
   }
@@ -180,7 +180,7 @@ view.acmap <- function(
     widget <- htmlwidgets::onRender(
       x      = widget,
       jsCode = "function(el, x, data) { el.viewer.addTriangulationBlobs(data) }",
-      data   = I(ptBootstrapBlobs(x, optimization_number))
+      data   = I(ptBaseBootstrapBlobs(x, optimization_number))
     )
 
   }

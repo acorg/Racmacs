@@ -172,23 +172,10 @@ plot.acmap <- function(
   if (!plot_sr  || missing(sr_coords)) pts$shown[pts$pt_type == "sr"] <- FALSE
 
   ## Get point blobs
-  pt_blobs <- ptTriangulationBlobs(x)
+  pt_blobs <- lapply(seq_len(numPoints(x)), function(x) NULL)
+  if (hasTriangulationBlobs(x)) pt_blobs <- ptTriangulationBlobs(x)
   if (hasBootstrapBlobs(x)) pt_blobs <- ptBootstrapBlobs(x, optimization_number)
   pts$blob <- !sapply(pt_blobs, is.null)
-
-  ## Transform blobs to match map transform
-  pt_blobs <- lapply(pt_blobs, function(blobs) {
-    lapply(blobs, function(blob) {
-      coords <- applyMapTransform(
-        coords = cbind(blob$x, blob$y),
-        map = x,
-        optimization_number = optimization_number
-      )
-      blob$x <- coords[,1]
-      blob$y <- coords[,2]
-      blob
-    })
-  })
 
   ## Adjust alpha
   if (!is.null(fill.alpha)) {
@@ -236,15 +223,14 @@ plot.acmap <- function(
   ## Plot blobs
   if (plot_blobs) {
     lapply(pt_order, function(x) {
-      lapply(pt_blobs[[x]], function(blob) {
-        graphics::polygon(
-          x = blob$x,
-          y = blob$y,
-          border = pts$outline[x],
+      if (!is.null(pt_blobs[[x]])) {
+        blob(
+          x = pt_blobs[[x]],
           col = pts$fill[x],
+          border = pts$outline[x],
           lwd = pts$outline_width[x]
         )
-      })
+      }
     })
   }
 
@@ -586,7 +572,7 @@ plot_lims <- function(coords, padding = 1, round_even = TRUE) {
 #'
 #' @family {additional plotting functions}
 #' @export
-blob <- function(x, col, border, lwd, alpha, ...) {
+blob <- function(x, col, border, lwd, alpha = 1, ...) {
   if (!inherits(x, "blob")) stop("Must be an object of class 'blob'")
   blobs <- x
   if (missing(border)) border <- attr(blobs, "outline")

@@ -40,3 +40,26 @@ strain_list_warning <- function(warning, strains) {
 vmessage <- function(verbose, ...) {
   if (verbose) message(...)
 }
+
+
+#' Deprecated functions
+#'
+#' These functions still work but have been deprecated in favour of another function. Arguments will be passed onto the new function with a warning.
+#'
+#' @param ... Arguments to pass to the new function
+#'
+#' @name deprecated_fn
+#'
+
+# Indicate a function is deprecated
+deprecated_fn <- function(fn) {
+  fn_name <- as.character(match.call())[2]
+  function(...) {
+    warning(sprintf("This function has been deprecated in favor of %s()", fn_name))
+    fn(...)
+  }
+}
+
+#' @rdname deprecated_functions
+#' @export
+stressBlobs <- deprecated_fn(triangulationBlobs)

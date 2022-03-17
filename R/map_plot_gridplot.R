@@ -175,7 +175,9 @@ grid.plot.acmap <- function(
   if (!plot_sr  || missing(sr_coords)) pts$shown[pts$pt_type == "sr"] <- FALSE
 
   ## Get point blobs
-  pt_blobs <- ptTriangulationBlobs(map, optimization_number)
+  pt_blobs <- lapply(seq_len(numPoints(map)), function(x) NULL)
+  if (hasTriangulationBlobs(map)) pt_blobs <- ptTriangulationBlobs(map)
+  if (hasBootstrapBlobs(map)) pt_blobs <- ptBootstrapBlobs(map, optimization_number)
   pts$blob <- !sapply(pt_blobs, is.null)
 
   ## Adjust alpha

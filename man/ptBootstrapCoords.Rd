@@ -41,7 +41,7 @@ Other {map diagnostic functions}:
 \code{\link{mapRelaxed}()},
 \code{\link{ptBootstrapBlob}},
 \code{\link{ptLeverage}},
-\code{\link{ptTriangulationBlobsize}},
+\code{\link{ptTriangulationBlob}},
 \code{\link{triangulationBlobs}()},
 \code{\link{unstableMaps}}
 }

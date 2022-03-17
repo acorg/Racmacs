@@ -168,5 +168,5 @@
 * `logtiterTableLayers()` function exported
 * Fix error when blobs are smaller than grid-spacing used to calculate them
 * Add the `blobsize()` function for calculating the area/volume of uncertainty blobs
-* Removed function `triangulationBlobSize()` - now use e.g. `sapply(triangulationBlobs(map), blobsize)`
-* 3D blob meshes are now separated into a list of contiguous meshes so that number of blobs can be retrieved from the length, i.e. `sapply(triangulationBlobs(map), length)`
+* Removed function `triangulationBlobSize()` - now use e.g. `sapply(agTriangulationBlobs(map), blobsize)`
+* 3D blob meshes are now separated into a list of contiguous meshes so that number of blobs can be retrieved from the length, i.e. `sapply(agTriangulationBlobs(map), length)`

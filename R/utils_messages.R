@@ -48,8 +48,9 @@ vmessage <- function(verbose, ...) {
 #'
 #' @param ... Arguments to pass to the new function
 #'
-#' @name deprecated_fn
+#' @name deprecated_functions
 #'
+NULL
 
 # Indicate a function is deprecated
 deprecated_fn <- function(fn) {

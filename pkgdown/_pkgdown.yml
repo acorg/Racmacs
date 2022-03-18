@@ -95,5 +95,5 @@ reference:
   - optimizeAgReactivity
 - title: Deprecated functions
   contents:
-  - deprecated_fn
+  - deprecated_functions
 

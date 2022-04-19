@@ -170,3 +170,6 @@
 * Add the `blobsize()` function for calculating the area/volume of uncertainty blobs
 * Removed function `triangulationBlobSize()` - now use e.g. `sapply(agTriangulationBlobs(map), blobsize)`
 * 3D blob meshes are now separated into a list of contiguous meshes so that number of blobs can be retrieved from the length, i.e. `sapply(agTriangulationBlobs(map), length)`
+
+# Racmacs 1.1.37
+* Fix error where serum column base label would remain after turning titer labels off

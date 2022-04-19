@@ -633,6 +633,7 @@ Racmacs.Point.prototype.showTiters = function(){
 	        element.from = this;
 	        element.to   = this;
 	        this.viewer.scene.add(element.object);
+	        this.titerlabels.push(element);
 		}
 
 		// Show titers to connected points
@@ -666,7 +667,7 @@ Racmacs.Point.prototype.hideTiters = function(){
 	if(this.titersShown){
 
 		this.titersShown = false;
-		this.titerlabels.map( label => {
+		this.titerlabels.map(label => {
 			this.viewer.scene.remove(label.object);
 		});
 		this.titerlabels = null;

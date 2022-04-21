@@ -29,6 +29,7 @@
 #' @param padding padding at limits of the antigenic map, ignored if xlim or
 #'   ylim set explicitly
 #' @param cex point size expansion factor
+#' @param margins margins in inches for the plot, use `NULL` for default margins from `par("mar")`
 #' @param ... additional arguments, not used
 #'
 #' @family {functions to view maps}
@@ -55,6 +56,7 @@ plot.acmap <- function(
   label.offset = 0,
   padding = 1,
   cex = 1,
+  margins = rep(0.5, 4),
   ...
   ) {
 
@@ -88,6 +90,10 @@ plot.acmap <- function(
   }
 
   # Setup plot
+  if (!is.null(margins)) {
+    mar_orig <- graphics::par("mar")
+    graphics::par(mar = margins)
+  }
   graphics::plot.new()
   graphics::plot.window(
     xlim = xlim,
@@ -420,6 +426,11 @@ plot.acmap <- function(
       cex = 0.75,
       col = "grey40"
     )
+  }
+
+  ## Restore margins
+  if (!is.null(margins)) {
+    graphics::par(mar = mar_orig)
   }
 
   ## Return the map invisibly

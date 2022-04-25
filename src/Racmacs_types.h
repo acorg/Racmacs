@@ -164,6 +164,7 @@ SEXP wrap(const AcAntigen& ag){
       _["date"] = ag.get_date(),
       _["group"] = ag.get_group(),
       _["sequence"] = ag.get_sequence(),
+      _["sequence_insertions"] = ag.get_sequence_insertions(),
       _["passage"] = ag.get_passage(),
       _["clade"] = ag.get_clade(),
       _["annotations"] = ag.get_annotations(),
@@ -200,6 +201,7 @@ SEXP wrap(const AcSerum& sr){
       _["group"] = sr.get_group(),
       _["homologous_ags"] = sr.get_homologous_ags(),
       _["sequence"] = sr.get_sequence(),
+      _["sequence_insertions"] = sr.get_sequence_insertions(),
       _["passage"] = sr.get_passage(),
       _["species"] = sr.get_species(),
       _["clade"] = sr.get_clade(),
@@ -235,6 +237,15 @@ template <>
 SEXP wrap(const AcDiagnostics& acdiag){
   return List::create(
     _["hemi"] = acdiag.hemi
+  );
+}
+
+// FROM: SEQINSERTION
+template <>
+SEXP wrap(const SeqInsertion& s){
+  return List::create(
+    s.position,
+    s.insertion
   );
 }
 
@@ -506,6 +517,7 @@ AcAntigen as(SEXP sxp){
   if(list.containsElementNamed("date")) ag.set_date(list["date"]);
   if(list.containsElementNamed("group")) ag.set_group(list["group"]);
   if(list.containsElementNamed("sequence")) ag.set_sequence(list["sequence"]);
+  if(list.containsElementNamed("sequence_insertions")) ag.set_sequence_insertions(list["sequence_insertions"]);
   if(list.containsElementNamed("passage")) ag.set_passage(list["passage"]);
   if(list.containsElementNamed("clade")) ag.set_clade(list["clade"]);
   if(list.containsElementNamed("annotations")) ag.set_annotations(list["annotations"]);
@@ -541,6 +553,7 @@ AcSerum as(SEXP sxp){
   if(list.containsElementNamed("group")) sr.set_group(list["group"]);
   if(list.containsElementNamed("homologous_ags")) sr.set_homologous_ags(list["homologous_ags"]);
   if(list.containsElementNamed("sequence")) sr.set_sequence(list["sequence"]);
+  if(list.containsElementNamed("sequence_insertions")) sr.set_sequence_insertions(list["sequence_insertions"]);
   if(list.containsElementNamed("passage")) sr.set_passage(list["passage"]);
   if(list.containsElementNamed("species")) sr.set_species(list["species"]);
   if(list.containsElementNamed("clade")) sr.set_clade(list["clade"]);
@@ -591,6 +604,18 @@ AcDiagnostics as(SEXP sxp){
     }
   }
 
+  return out;
+
+}
+
+// TO: SEQINSERTION
+template <>
+SeqInsertion as(SEXP sxp){
+
+  List list = as<List>(sxp);
+  SeqInsertion out;
+  out.position = list[0];
+  out.insertion = as<std::string>(list[1]);
   return out;
 
 }

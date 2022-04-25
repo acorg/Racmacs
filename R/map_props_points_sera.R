@@ -181,13 +181,10 @@ srGroups <- function(map) {
 #' @rdname srSequences
 #' @export
 srSequences <- function(map, missing_value = ".") {
+
   check.acmap(map)
-  rbind_list_to_matrix(
-    lapply(map$sera, function(sr) {
-      strsplit(sr$sequence, "")[[1]]
-    }),
-    missing_value
-  )
+  get_pts_sequence_matrix(map$sera, missing_value)
+
 }
 
 #' @rdname srSequences
@@ -197,9 +194,7 @@ srSequences <- function(map, missing_value = ".") {
   if (nrow(value) != numSera(map)) {
     stop("Number of sequences does not match number of sera")
   }
-  for (x in seq_len(numSera(map))) {
-    map$sera[[x]]$sequence <- paste0(value[x, ], collapse = "")
-  }
+  map$sera <- set_pts_sequence_matrix(map$sera, value)
   map
 }
 

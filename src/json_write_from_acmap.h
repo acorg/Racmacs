@@ -1,4 +1,5 @@
 
+#include "acmap_point.h"
 #include "acmap_titers.h"
 #include "acmap_diagnostics.h"
 
@@ -160,7 +161,7 @@ Value jsonifya(
 
 }
 
-// From arma::mat
+// From BootstrapOutput
 template <>
 Value jsonifya(
     const std::vector<BootstrapOutput>& bootstraps,
@@ -179,6 +180,24 @@ Value jsonifya(
   bs.AddMember("coords", coords, allocator);
   bs.AddMember("sampling", sampling, allocator);
   return bs;
+
+}
+
+// To sequence insertions
+template <>
+Value jsonifya(
+    const std::vector<SeqInsertion>& insertions,
+    Document::AllocatorType& allocator
+){
+
+  Value out(kArrayType);
+  for(SizeType i=0; i<insertions.size(); i++){
+    Value insertion(kArrayType);
+    insertion.PushBack(insertions[i].position, allocator);
+    insertion.PushBack(jsonifya(insertions[i].insertion, allocator), allocator);
+    out.PushBack(insertion, allocator);
+  }
+  return out;
 
 }
 

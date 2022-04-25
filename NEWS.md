@@ -174,3 +174,4 @@
 # Racmacs 1.1.37
 * Fix error where serum column base label would remain after turning titer labels off
 * Set default margins of 0.5 inches when plotting a map
+* Add support for insertions in amino acids sequences

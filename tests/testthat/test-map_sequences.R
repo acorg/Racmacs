@@ -79,3 +79,52 @@ test_that("H3 map with sequences", {
   )
 
 })
+
+
+test_that("Setting and getting sequences with insertions", {
+
+  map <- acmap(
+    titer_table = matrix("*", 3, 2)
+  )
+
+  expect_equal(agSequences(map), matrix(character(1), 3, 0, dimnames = list(NULL, NULL)))
+  expect_equal(srSequences(map), matrix(character(1), 2, 0, dimnames = list(NULL, NULL)))
+
+  test_ag_sequences <- matrix(LETTERS[1:12], 3, 4)
+  test_sr_sequences <- matrix(LETTERS[1:10], 2, 5)
+
+  test_ag_sequences[1, 2] <- "ABC"
+  test_ag_sequences[2, 3] <- "-"
+  test_ag_sequences[3, 1] <- "CD"
+
+  test_sr_sequences[2, 3] <- "ML"
+  test_sr_sequences[2, 5] <- "PLYN"
+
+  agSequences(map) <- test_ag_sequences
+  srSequences(map) <- test_sr_sequences
+
+  expect_equal(agSequences(map), test_ag_sequences)
+  expect_equal(srSequences(map), test_sr_sequences)
+
+  tmp <- tempfile(fileext = ".ace")
+  save.acmap(map, tmp)
+  save.acmap(map, "~/Desktop/testmap.ace")
+  map_loaded <- read.acmap(tmp)
+
+  expect_equal(agSequences(map_loaded), test_ag_sequences)
+  expect_equal(srSequences(map_loaded), test_sr_sequences)
+
+  new_ag_sequences <- test_ag_sequences
+  new_sr_sequences <- test_sr_sequences
+
+  new_ag_sequences[] <- "A"
+  new_sr_sequences[] <- "S"
+
+  agSequences(map) <- new_ag_sequences
+  srSequences(map) <- new_sr_sequences
+
+  expect_equal(agSequences(map), new_ag_sequences)
+  expect_equal(srSequences(map), new_sr_sequences)
+
+})
+

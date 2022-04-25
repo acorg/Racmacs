@@ -92,12 +92,14 @@ AcMap json_to_acmap(
     if(ag.HasMember("a")) map.antigens[i].set_annotations( parse<std::vector<std::string>>(ag["a"]) );
     if(ag.HasMember("l")) map.antigens[i].set_labids( parse<std::vector<std::string>>(ag["l"]) );
     if(ag.HasMember("A")) map.antigens[i].set_sequence( ag["A"].GetString() );
+    if(ag.HasMember("Ai")) map.antigens[i].set_sequence_insertions(parse<std::vector<SeqInsertion>>(ag["Ai"]));
     if(ag.HasMember("D")) map.antigens[i].set_date( ag["D"].GetString() );
     if(ag.HasMember("L")) map.antigens[i].set_lineage( ag["L"].GetString() );
     if(ag.HasMember("R")) map.antigens[i].set_reassortant( ag["R"].GetString() );
     if(ag.HasMember("S")) map.antigens[i].set_strings( ag["S"].GetString() );
     if(ag.HasMember("C")) map.antigens[i].set_continent( ag["C"].GetString() );
     if(ag.HasMember("B")) map.antigens[i].set_nucleotidesequence( ag["B"].GetString() );
+
     // set_reference
     // set_name_full
     // set_name_abbreviated
@@ -115,6 +117,7 @@ AcMap json_to_acmap(
     if(sr.HasMember("c")) map.sera[i].set_clade( parse<std::vector<std::string>>(sr["c"]) );
     if(sr.HasMember("a")) map.sera[i].set_annotations( parse<std::vector<std::string>>(sr["a"]) );
     if(sr.HasMember("A")) map.sera[i].set_sequence( sr["A"].GetString() );
+    if(sr.HasMember("Ai")) map.sera[i].set_sequence_insertions(parse<std::vector<SeqInsertion>>(sr["Ai"]));
     if(sr.HasMember("D")) map.sera[i].set_date( sr["D"].GetString() );
     if(sr.HasMember("I")) map.sera[i].set_id( sr["I"].GetString() );
     if(sr.HasMember("s")) map.sera[i].set_species( sr["s"].GetString() );
@@ -124,6 +127,7 @@ AcMap json_to_acmap(
     if(sr.HasMember("S")) map.sera[i].set_strings( sr["S"].GetString() );
     if(sr.HasMember("C")) map.sera[i].set_continent( sr["C"].GetString() );
     if(sr.HasMember("B")) map.sera[i].set_nucleotidesequence( sr["B"].GetString() );
+
     // set_reference
     // set_name_full
     // set_name_abbreviated

@@ -152,13 +152,10 @@ agGroups <- function(map) {
 #' @rdname agSequences
 #' @export
 agSequences <- function(map, missing_value = ".") {
+
   check.acmap(map)
-  rbind_list_to_matrix(
-    lapply(map$antigens, function(ag) {
-      strsplit(ag$sequence, "")[[1]]
-    }),
-    missing_value
-  )
+  get_pts_sequence_matrix(map$antigens, missing_value)
+
 }
 
 #' @rdname agSequences
@@ -168,9 +165,7 @@ agSequences <- function(map, missing_value = ".") {
   if (nrow(value) != numAntigens(map)) {
     stop("Number of sequences does not match number of antigens")
   }
-  for (x in seq_len(numAntigens(map))) {
-    map$antigens[[x]]$sequence <- paste0(value[x, ], collapse = "")
-  }
+  map$antigens <- set_pts_sequence_matrix(map$antigens, value)
   map
 }
 

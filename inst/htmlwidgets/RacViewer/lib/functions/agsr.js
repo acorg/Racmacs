@@ -268,15 +268,31 @@ Racmacs.Point = class Point {
     }
 
     // Hide and show
-    hide(){
-        if(this.element){
-            this.element.hide();
+    hide(fire_handler){
+        if(!this.coords_na && this.shown){
+            this.hideElement();
+            this.shown = false
         }
     }
 
-    show(){
+    show(fire_handler){
+        if(!this.coords_na && !this.shown){
+            this.showElement();
+            this.shown = true
+        }
+    }
+
+    hideElement(){
+        if(this.element){
+            this.element.hide();
+            this.viewer.sceneChange = true;
+        }
+    }
+
+    showElement(){
         if(this.element){
             this.element.show();
+            this.viewer.sceneChange = true;
         }
     }
 

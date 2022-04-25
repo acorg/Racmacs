@@ -248,7 +248,7 @@ Racmacs.Point.prototype.toggleSelection = function(){
     }
 }
 
-Racmacs.Point.prototype.select = function(){
+Racmacs.Point.prototype.select = function(fire_handler = true){
 
     if(this.shown && !this.selected){
 
@@ -279,11 +279,13 @@ Racmacs.Point.prototype.select = function(){
     }
 
     // Fire the on select handler
-    this.viewer.onSelectPoint();
+    if (fire_handler) {
+        this.viewer.onSelectPoint();
+    }
 
 }
 
-Racmacs.Point.prototype.deselect = function(){
+Racmacs.Point.prototype.deselect = function(fire_handler = true){
 
     if(this.selected){
 
@@ -317,7 +319,9 @@ Racmacs.Point.prototype.deselect = function(){
     }
 
     // Fire the on select handler
-    this.viewer.onDeselectPoint();
+    if (fire_handler) {
+        this.viewer.onDeselectPoint();
+    }
 
 }
 

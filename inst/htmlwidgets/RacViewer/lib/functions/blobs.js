@@ -158,8 +158,10 @@ Racmacs.Point.prototype.addBlob = function(blob){
     }
 
     // Show the blob
-    this.bindElement(this.blob);
-    this.showBlob();
+    if (this.blob) {
+        this.bindElement(this.blob);
+        this.showBlob();
+    }
 
 }
 

@@ -20,6 +20,8 @@
 #' @param gridspacing grid spacing to use when calculating blobs, smaller values
 #'   will produce more accurate blobs with smoother edges but will take longer
 #'   to calculate.
+#' @param antigens Should blobs be calculated for antigens
+#' @param sera Should blobs be calculated for sera
 #' @param method One of "MASS", the default, or "ks", specifying the algorithm to
 #'   use when calculating blobs in 2D. 3D will always use ks::kde.
 #'
@@ -34,8 +36,14 @@ bootstrapBlobs <- function(
   conf.level = 0.68,
   smoothing = 6,
   gridspacing = 0.25,
+  antigens = TRUE,
+  sera = TRUE,
   method = "ks"
 ) {
+
+  # Set antigens and sera
+  antigens <- get_ag_indices(antigens, map)
+  sera <- get_sr_indices(sera, map)
 
   # Get coordinates
   bootstrap_ag_coords <- mapBootstrap_agBaseCoords(map)
@@ -43,10 +51,10 @@ bootstrapBlobs <- function(
 
   # Set progress bar
   message("Calculating bootstrap blobs")
-  pb <- ac_progress_bar(numPoints(map))
+  pb <- ac_progress_bar(length(c(antigens, sera)))
 
   # Calculate for antigens
-  for (agnum in seq_along(map$antigens)) {
+  for (agnum in antigens) {
 
     # Fetch coords, removing nas found in the resample method
     coords <- t(sapply(bootstrap_ag_coords, function(x) x[agnum, ]))
@@ -64,7 +72,7 @@ bootstrapBlobs <- function(
   }
 
   # Calculate for sera
-  for (srnum in seq_along(map$sera)) {
+  for (srnum in sera) {
 
     # Fetch coords, removing nas found in the resample method
     coords <- t(sapply(bootstrap_sr_coords, function(x) x[srnum, ]))

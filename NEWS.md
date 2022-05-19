@@ -175,3 +175,6 @@
 * Fix error where serum column base label would remain after turning titer labels off
 * Set default margins of 0.5 inches when plotting a map
 * Add support for insertions in amino acids sequences
+
+# Racmacs 1.1.38
+* Add option to specify a subset of antigens and sera for which to calculate blobs in the `bootstrapBlobs()` function

@@ -16,7 +16,8 @@ test_that("Test map noisy bootstrapping", {
     bootstrap_repeats        = num_bs_repeats,
     optimizations_per_repeat = 10,
     ag_noise_sd              = 0.7,
-    titer_noise_sd           = 0.7
+    titer_noise_sd           = 0.7,
+    reoptimize               = TRUE
   )
 
   bsmap <- rotateMap(bsmap, 30)
@@ -63,6 +64,25 @@ test_that("Test map noisy bootstrapping", {
     view(bsmap3d),
     "map3d_with_bootstrap_blobs.html"
   )
+
+})
+
+test_that("Bootstrap without reoptimization", {
+
+  # Bayesian bootstrap
+  bsmap <- bootstrapMap(
+    map = map,
+    method = "bayesian",
+    reoptimize               = FALSE,
+    bootstrap_repeats        = num_bs_repeats,
+    optimizations_per_repeat = 10
+  )
+
+
+  sample1 <- bsmap$optimizations[[1]]$bootstrap[[1]]$sampling
+  expect_equal(length(mapBootstrap_agCoords(bsmap)), num_bs_repeats)
+  expect_equal(length(mapBootstrap_srCoords(bsmap)), num_bs_repeats)
+  expect_equal(sum(sample1), 2)
 
 })
 

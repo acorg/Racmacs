@@ -205,7 +205,7 @@ test_that("Finding hemisphering points", {
 
   expect_false(is.null(agHemisphering(hemi_map_ag)[[1]]))
   export.plot.test(
-    grid.plot.acmap(hemi_map_ag),
+    ggplot(hemi_map_ag),
     "hemisphering_ags.pdf"
   )
 
@@ -232,7 +232,7 @@ test_that("Finding hemisphering points", {
   expect_false(is.null(srHemisphering(hemi_map_sr)[[6]]))
 
   export.plot.test(
-    grid.plot.acmap(hemi_map_sr),
+    ggplot(hemi_map_sr),
     "hemisphering_sr.pdf"
   )
 

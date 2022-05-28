@@ -129,6 +129,19 @@ test_that("Realign a map to itself", {
 
 })
 
+# Realign a map with NA coordinates
+test_that("Realign a map with NA coordinates", {
+
+  omap1 <- map1
+  omap2 <- map1
+  agCoords(omap1)[1,] <- NA
+  agCoords(omap2)[5,] <- NA
+  srCoords(omap1)[2,] <- NA
+  srCoords(omap2)[4,] <- NA
+  omap1 <- realignMap(omap1, omap2)
+  expect_equal(numAntigens(omap1), numAntigens(omap2))
+
+})
 
 test_that("Procrustes a map to itself", {
 

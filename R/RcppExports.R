@@ -485,6 +485,10 @@ ac_dimension_test_map <- function(titer_table, dimensions_to_test, test_proporti
     .Call('_Racmacs_ac_dimension_test_map', PACKAGE = 'Racmacs', titer_table, dimensions_to_test, test_proportion, minimum_column_basis, fixed_column_bases, ag_reactivity_adjustments, num_optimizations, options)
 }
 
+ac_errorline_data <- function(map) {
+    .Call('_Racmacs_ac_errorline_data', PACKAGE = 'Racmacs', map)
+}
+
 ac_hemi_test <- function(optimization, titertable, grid_spacing, stress_lim, options, dilution_stepsize) {
     .Call('_Racmacs_ac_hemi_test', PACKAGE = 'Racmacs', optimization, titertable, grid_spacing, stress_lim, options, dilution_stepsize)
 }
@@ -541,8 +545,8 @@ ac_point_stresses <- function(titer_table, min_colbasis, fixed_colbases, ag_reac
     .Call('_Racmacs_ac_point_stresses', PACKAGE = 'Racmacs', titer_table, min_colbasis, fixed_colbases, ag_reactivity_adjustments, map_dists, dilution_stepsize)
 }
 
-ac_point_residuals <- function(titer_table, min_colbasis, fixed_colbases, ag_reactivity_adjustments, map_dists, dilution_stepsize) {
-    .Call('_Racmacs_ac_point_residuals', PACKAGE = 'Racmacs', titer_table, min_colbasis, fixed_colbases, ag_reactivity_adjustments, map_dists, dilution_stepsize)
+ac_point_residuals <- function(map, optimization_number) {
+    .Call('_Racmacs_ac_point_residuals', PACKAGE = 'Racmacs', map, optimization_number)
 }
 
 ac_relax_coords <- function(tabledist_matrix, titertype_matrix, ag_coords, sr_coords, options, fixed_antigens, fixed_sera, titer_weights, dilution_stepsize) {

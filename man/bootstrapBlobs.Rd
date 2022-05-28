@@ -9,6 +9,8 @@ bootstrapBlobs(
   conf.level = 0.68,
   smoothing = 6,
   gridspacing = 0.25,
+  antigens = TRUE,
+  sera = TRUE,
   method = "ks"
 )
 }
@@ -23,6 +25,10 @@ kernel density estimate, larger equates to more smoothing}
 \item{gridspacing}{grid spacing to use when calculating blobs, smaller values
 will produce more accurate blobs with smoother edges but will take longer
 to calculate.}
+
+\item{antigens}{Should blobs be calculated for antigens}
+
+\item{sera}{Should blobs be calculated for sera}
 
 \item{method}{One of "MASS", the default, or "ks", specifying the algorithm to
 use when calculating blobs in 2D. 3D will always use ks::kde.}

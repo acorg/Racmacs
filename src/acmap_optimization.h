@@ -194,8 +194,8 @@ class AcOptimization {
 
     // Get table distances
     arma::mat numeric_table_distances(
-        AcTiterTable titers
-    );
+      const AcTiterTable &titers
+    ) const;
 
     // Relax the optimization
     void relax_from_raw_matrices(

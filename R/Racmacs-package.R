@@ -1,3 +1,4 @@
+
 #' @description
 #' \subsection{The acmap data object}{
 #' The fundamental unit of the Racmacs package is the [acmap]
@@ -55,4 +56,15 @@
 #' @keywords internal
 #' @useDynLib Racmacs
 #' @importFrom Rcpp sourceCpp
+#' @importFrom ggplot2 ggplot
+#' @importFrom grid drawDetails
+#' @importFrom grid preDrawDetails
+#' @importFrom grid postDrawDetails
 "_PACKAGE"
+
+.onLoad <- function(...) {
+  vctrs::s3_register("grid::drawDetails", "acpoint")
+  vctrs::s3_register("grid::preDrawDetails", "acpoint")
+  vctrs::s3_register("grid::postDrawDetails", "acpoint")
+  vctrs::s3_register("ggplot2::ggplot", "acmap")
+}

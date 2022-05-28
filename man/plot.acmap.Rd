@@ -25,6 +25,7 @@
   label.offset = 0,
   padding = 1,
   cex = 1,
+  margins = rep(0.5, 4),
   ...
 )
 }
@@ -75,6 +76,8 @@ ylim set explicitly}
 
 \item{cex}{point size expansion factor}
 
+\item{margins}{margins in inches for the plot, use \code{NULL} for default margins from \code{par("mar")}}
+
 \item{...}{additional arguments, not used}
 }
 \description{
@@ -85,7 +88,7 @@ Other {functions to view maps}:
 \code{\link{RacViewer.options}()},
 \code{\link{RacViewer}()},
 \code{\link{export_viewer}()},
-\code{\link{grid.plot.acmap}()},
+\code{\link{ggplot.acmap}()},
 \code{\link{mapGadget}()},
 \code{\link{setLegend}()},
 \code{\link{snapshotMap}()},

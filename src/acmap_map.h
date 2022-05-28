@@ -4,7 +4,6 @@
 #include "acmap_point.h"
 #include "ac_merge.h"
 #include "ac_matching.h"
-#include "ac_optim_map_stress.h"
 #include "utils.h"
 
 #ifndef Racmacs__acmap_map__h

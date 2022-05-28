@@ -17,7 +17,7 @@ arma::vec rdirichilet(
 
 // [[Rcpp::export]]
 BootstrapOutput ac_bootstrap_map(
-    AcMap map,
+    const AcMap map,
     std::string method,
     bool bootstrap_ags,
     bool bootstrap_sr,
@@ -128,10 +128,13 @@ BootstrapOutput ac_bootstrap_map(
 
     // Sort by stress and keep lowest stress coords
     sort_optimizations_by_stress(optimizations);
-    ag_coords = optimizations[0].agCoords();
-    sr_coords = optimizations[0].srCoords();
+    ag_coords = optimizations.at(0).agCoords();
+    sr_coords = optimizations.at(0).srCoords();
 
   } else { // If simply relaxing the map
+
+    ag_coords = map.optimizations.at(0).agCoords();
+    sr_coords = map.optimizations.at(0).srCoords();
 
     ac_relax_coords(
       titer_table.numeric_table_distances(

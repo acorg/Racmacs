@@ -41,7 +41,7 @@ This creates an html widget for viewing antigenic maps.
 Other {functions to view maps}: 
 \code{\link{RacViewer.options}()},
 \code{\link{export_viewer}()},
-\code{\link{grid.plot.acmap}()},
+\code{\link{ggplot.acmap}()},
 \code{\link{mapGadget}()},
 \code{\link{plot.acmap}()},
 \code{\link{setLegend}()},

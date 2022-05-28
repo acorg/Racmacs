@@ -1,7 +1,6 @@
 
 # include <RcppArmadillo.h>
-# include "acmap_map.h"
-# include "acmap_titers.h"
+# include "ac_optim_map_stress.h"
 # include "ac_merge.h"
 # include "ac_titers.h"
 # include "ac_matching.h"
@@ -212,9 +211,9 @@ std::string merge_min_column_basis(
     const std::vector<AcMap>& maps
 ){
 
-  std::string min_col_basis = maps[0].optimizations[0].get_min_column_basis();
+  std::string min_col_basis = maps[0].optimizations.at(0).get_min_column_basis();
   for(arma::uword i=1; i<maps.size(); i++){
-    if(min_col_basis != maps[i].optimizations[0].get_min_column_basis()){
+    if(min_col_basis != maps[i].optimizations.at(0).get_min_column_basis()){
       Rcpp::Rcerr << "\nMinimum column basis of merged maps do not match, they will be taken from the first map";
     }
   }
@@ -240,7 +239,7 @@ arma::vec merge_fixed_column_bases(
     for(arma::uword j=0; j<matches.n_elem; j++){
 
       double merged_colbase = merged_fixed_colbases( matches(j) );
-      double map_colbase = maps[i].optimizations[0].get_fixed_column_bases(j);
+      double map_colbase = maps[i].optimizations.at(0).get_fixed_column_bases(j);
 
       if(std::isfinite(merged_colbase) && merged_colbase != map_colbase){
         // Warn if different fixed column bases used
@@ -476,7 +475,7 @@ AcMap ac_merge_frozen_overlay(
 
   // Create a fresh optimization
   AcOptimization opt(
-    maps[0].optimizations[0].dim(),
+    maps[0].optimizations.at(0).dim(),
     merged_map.antigens.size(),
     merged_map.sera.size()
   );
@@ -487,8 +486,8 @@ AcMap ac_merge_frozen_overlay(
       merged_map.antigens,
       maps[0].antigens,
       maps[1].antigens,
-      maps[0].optimizations[0].agCoords(),
-      maps[1].optimizations[0].agCoords()
+      maps[0].optimizations.at(0).agCoords(),
+      maps[1].optimizations.at(0).agCoords()
     )
   );
 
@@ -497,8 +496,8 @@ AcMap ac_merge_frozen_overlay(
       merged_map.sera,
       maps[0].sera,
       maps[1].sera,
-      maps[0].optimizations[0].srCoords(),
-      maps[1].optimizations[0].srCoords()
+      maps[0].optimizations.at(0).srCoords(),
+      maps[1].optimizations.at(0).srCoords()
     )
   );
 
@@ -541,7 +540,7 @@ AcMap ac_merge_relaxed_overlay(
   );
 
   // Relax the optimization
-  merged_map.optimizations[0].relax_from_titer_table(
+  merged_map.optimizations.at(0).relax_from_titer_table(
     merged_map.titer_table_flat,
     optimizer_options
   );
@@ -573,11 +572,11 @@ AcMap ac_merge_frozen_merge(
 
   // Move the matching points back to their position in map 1, undoing any averaging
   // done by ac_merge_frozen_overlay
-  merged_map.optimizations[0].set_ag_base_coords( map1_ag_matches, maps[0].optimizations[0].get_ag_base_coords() );
-  merged_map.optimizations[0].set_sr_base_coords( map1_sr_matches, maps[0].optimizations[0].get_sr_base_coords() );
+  merged_map.optimizations.at(0).set_ag_base_coords( map1_ag_matches, maps[0].optimizations.at(0).get_ag_base_coords() );
+  merged_map.optimizations.at(0).set_sr_base_coords( map1_sr_matches, maps[0].optimizations.at(0).get_sr_base_coords() );
 
   // Now relax the map while fixing points in map 1
-  merged_map.optimizations[0].relax_from_titer_table(
+  merged_map.optimizations.at(0).relax_from_titer_table(
       merged_map.titer_table_flat,
       optimizer_options,
       map1_ag_matches, // Fixed antigens
@@ -643,8 +642,8 @@ AcMap ac_merge_incremental_single(
   for(auto &optimization : optimizations){
     arma::mat ag_base_coords = optimization.get_ag_base_coords();
     arma::mat sr_base_coords = optimization.get_sr_base_coords();
-    ag_base_coords.rows( map1_ag_matches ) = maps[0].optimizations[0].get_ag_base_coords();
-    sr_base_coords.rows( map1_sr_matches ) = maps[0].optimizations[0].get_sr_base_coords();
+    ag_base_coords.rows( map1_ag_matches ) = maps[0].optimizations.at(0).get_ag_base_coords();
+    sr_base_coords.rows( map1_sr_matches ) = maps[0].optimizations.at(0).get_sr_base_coords();
     optimization.set_ag_base_coords( ag_base_coords );
     optimization.set_sr_base_coords( sr_base_coords );
   }
@@ -652,7 +651,7 @@ AcMap ac_merge_incremental_single(
   // Relax the optimizations
   ac_relaxOptimizations(
     optimizations,
-    optimizations[0].dim(),
+    optimizations.at(0).dim(),
     tabledist_matrix,
     titertype_matrix,
     optimizer_options

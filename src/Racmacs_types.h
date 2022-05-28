@@ -7,6 +7,7 @@
 #include "procrustes.h"
 #include "ac_dimension_test.h"
 #include "ac_bootstrap.h"
+#include "ac_errorlines.h"
 #include "ac_stress_blobs.h"
 #include "ac_optim_map_stress.h"
 #include "ac_hemi_test.h"
@@ -364,6 +365,22 @@ SEXP wrap(const BootstrapOutput& bootstrapout){
     List::create(
       _["sampling"] = bootstrapout.sampling,
       _["coords"] = bootstrapout.coords
+    )
+  );
+
+}
+
+// Error line results
+template <>
+SEXP wrap(const ErrorLineData &errorlines){
+
+  return wrap(
+    DataFrame::create(
+      _["x"] = errorlines.x,
+      _["xend"] = errorlines.xend,
+      _["y"] = errorlines.y,
+      _["yend"] = errorlines.yend,
+      _["color"] = errorlines.color
     )
   );
 
@@ -742,7 +759,7 @@ AcMap as(SEXP sxp){
   if(list.containsElementNamed("optimizations")){
     List optimizations = list["optimizations"];
     for(int i=0; i<optimizations.size(); i++){
-      acmap.optimizations.push_back(as<AcOptimization>(wrap(optimizations[i])));
+      acmap.optimizations.push_back(as<AcOptimization>(wrap(optimizations.at(i))));
     }
   }
 

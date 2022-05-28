@@ -218,14 +218,7 @@ mapResiduals <- function(
     ))
   }
 
-  residual_matrix <- ac_point_residuals(
-    titer_table = titerTable(map),
-    min_colbasis = minColBasis(map, optimization_number),
-    fixed_colbases = fixedColBases(map, optimization_number),
-    ag_reactivity_adjustments = agReactivityAdjustments(map),
-    map_dists = mapDistances(map, optimization_number),
-    dilution_stepsize = dilutionStepsize(map)
-  )
+  residual_matrix <- ac_point_residuals(map, optimization_number)
 
   if (exclude_nd) {
     titertypes <- titertypesTable(map)

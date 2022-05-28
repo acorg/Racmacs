@@ -36,7 +36,7 @@ void align_optimizations(
 
   if(optimizations.size() > 1){
     for(arma::uword i=1; i<optimizations.size(); i++){
-      optimizations[i].alignToOptimization(optimizations[0]);
+      optimizations.at(i).alignToOptimization(optimizations.at(0));
     }
   }
 

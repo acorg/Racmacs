@@ -435,8 +435,8 @@ void AcOptimization::randomizeCoords(
 
 // Get table distances
 arma::mat AcOptimization::numeric_table_distances(
-    AcTiterTable titers
-) {
+    const AcTiterTable &titers
+) const {
 
   return(
     titers.numeric_table_distances(

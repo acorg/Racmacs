@@ -11,13 +11,13 @@
 
 #include "utils.h"
 #include "utils_progress.h"
+#include "acmap_map.h"
 #include "ac_stress.h"
 #include "ac_optim_map_stress.h"
 #include "ac_optimization.h"
 #include "ac_optimizer_options.h"
 #include "acmap_optimization.h"
 #include "acmap_titers.h"
-#include "acmap_optimization.h"
 
 
 // SETUP THE MAP OPTIMIZER CLASS
@@ -372,23 +372,19 @@ arma::mat ac_point_stresses(
 
 // [[Rcpp::export]]
 arma::mat ac_point_residuals(
-    AcTiterTable titer_table,
-    std::string min_colbasis,
-    arma::vec fixed_colbases,
-    arma::vec ag_reactivity_adjustments,
-    arma::mat map_dists,
-    double dilution_stepsize
+    const AcMap &map,
+    const arma::uword &optimization_number
   ){
 
-  // Fetch variables
-  arma::uword num_ags = map_dists.n_rows;
-  arma::uword num_sr  = map_dists.n_cols;
-  arma::mat numeric_table_dists = titer_table.numeric_table_distances(
-    min_colbasis,
-    fixed_colbases,
-    ag_reactivity_adjustments
+  // Get parameters
+  arma::uword num_ags = map.antigens.size();
+  arma::uword num_sr  = map.sera.size();
+  arma::mat numeric_table_dists = map.optimizations.at(optimization_number).numeric_table_distances(
+    map.titer_table_flat
   );
-  arma::imat titer_types = titer_table.get_titer_types();
+  arma::imat titer_types = map.titer_table_flat.get_titer_types();
+  arma::mat map_dists = map.optimizations.at(optimization_number).distance_matrix();
+  double dilution_stepsize = map.dilution_stepsize;
 
   // Setup residual table
   arma::mat residual_table(num_ags, num_sr);
@@ -575,7 +571,7 @@ void ac_relaxOptimizations(
       for (arma::uword j=0; j<dim_set.n_elem; j++) {
 
         // Relax the optimizations
-        optimizations[i].relax_from_raw_matrices(
+        optimizations.at(i).relax_from_raw_matrices(
             tabledist_matrix,
             titertype_matrix,
             options,
@@ -587,7 +583,7 @@ void ac_relaxOptimizations(
 
         // Reduce dimensions to next step if doing dimensional annealing
         if (dim_set(j) != num_dims) {
-          optimizations[i].reduceDimensions(dim_set(j + 1));
+          optimizations.at(i).reduceDimensions(dim_set(j + 1));
         }
 
       }

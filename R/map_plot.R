@@ -163,7 +163,7 @@ plot.acmap <- function(
   ) {
     warning(strwrap(
       "Changes to point rotation or aspect ratio and special shapes like 'EGG'
-      are ignored when using 'plot.acmap', consider using 'grid.plot.acmap'"
+      are ignored when using 'plot.acmap', consider using 'ggplot.acmap'"
     ))
   }
 

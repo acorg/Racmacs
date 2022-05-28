@@ -179,3 +179,4 @@
 # Racmacs 1.1.38
 * Add option to specify a subset of antigens and sera for which to calculate blobs in the `bootstrapBlobs()` function
 * Add method for plotting a map using ggplot i.e. `ggplot(map)`.
+* When coloring by sequence a more distinct color pallette is used

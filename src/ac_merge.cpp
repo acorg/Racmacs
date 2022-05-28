@@ -78,8 +78,8 @@ AcTiterTable ac_merge_titer_layers(
     const AcMergeOptions& options
 ){
 
-  int num_ags = titer_layers[0].nags();
-  int num_sr  = titer_layers[0].nsr();
+  int num_ags = titer_layers.at(0).nags();
+  int num_sr  = titer_layers.at(0).nsr();
   int num_layers = titer_layers.size();
 
   AcTiterTable merged_table = AcTiterTable(
@@ -92,7 +92,7 @@ AcTiterTable ac_merge_titer_layers(
   for(int ag=0; ag<num_ags; ag++){
     for(int sr=0; sr<num_sr; sr++){
       for(int i=0; i<num_layers; i++){
-        titers[i] = titer_layers[i].get_titer(ag,sr);
+        titers[i] = titer_layers.at(i).get_titer(ag,sr);
       }
       merged_table.set_titer(
         ag, sr,

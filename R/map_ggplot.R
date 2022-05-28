@@ -90,7 +90,8 @@ ggplot.acmap <- function(
     size = c(agSize(map), srSize(map)),
     rotation = c(agRotation(map), srRotation(map)),
     aspect = c(agAspect(map), srAspect(map)),
-    shown = c(agShown(map), srShown(map))
+    shown = c(agShown(map), srShown(map)),
+    text = c(agNames(map), srNames(map))
   )
 
   # Add blob data
@@ -115,7 +116,8 @@ ggplot.acmap <- function(
         size = size,
         rotation = rotation,
         aspect = aspect,
-        blob = blob
+        blob = blob,
+        text = text
       )
     ) +
     geom_acpoint(

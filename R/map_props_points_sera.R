@@ -183,7 +183,10 @@ srGroups <- function(map) {
 srSequences <- function(map, missing_value = ".") {
 
   check.acmap(map)
-  get_pts_sequence_matrix(map$sera, missing_value)
+  seqs <- get_pts_sequence_matrix(map$sera, missing_value)
+  rownames(seqs) <- srNames(map)
+  colnames(seqs) <- seq_len(ncol(seqs))
+  seqs
 
 }
 

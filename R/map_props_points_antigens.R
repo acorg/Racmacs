@@ -154,7 +154,10 @@ agGroups <- function(map) {
 agSequences <- function(map, missing_value = ".") {
 
   check.acmap(map)
-  get_pts_sequence_matrix(map$antigens, missing_value)
+  seqs <- get_pts_sequence_matrix(map$antigens, missing_value)
+  rownames(seqs) <- agNames(map)
+  colnames(seqs) <- seq_len(ncol(seqs))
+  seqs
 
 }
 

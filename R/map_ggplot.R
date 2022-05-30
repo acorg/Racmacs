@@ -3,7 +3,7 @@
 #'
 #' Method for plotting an antigenic map as a ggplot object
 #'
-#' @param x The acmap to plot
+#' @param data The acmap to plot
 #' @param optimization_number The optimization number to plot
 #' @param xlim optional x axis limits
 #' @param ylim optional y axis limits

@@ -26,6 +26,8 @@
 )
 }
 \arguments{
+\item{data}{The acmap to plot}
+
 \item{optimization_number}{The optimization number to plot}
 
 \item{xlim}{optional x axis limits}
@@ -63,8 +65,6 @@ ylim set explicitly}
 \item{margins}{margins in inches for the plot}
 
 \item{...}{additional arguments, not used}
-
-\item{x}{The acmap to plot}
 
 \item{outlier.arrow.col}{outlier arrow color}
 }

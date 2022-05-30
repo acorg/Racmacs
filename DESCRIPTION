@@ -25,6 +25,8 @@ Imports:
     MASS,
     lifecycle,
     igraph,
+    dplyr,
+    vctrs,
     brotli
 LazyData: TRUE
 Suggests: 

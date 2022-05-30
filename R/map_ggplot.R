@@ -22,7 +22,7 @@
 #'   like in the viewer.
 #' @param grid.col grid line color
 #' @param grid.margin.col grid margin color
-#' @param outlier.arrow.col outlier arrow color
+# #' @param outlier.arrow.col outlier arrow color
 #' @param fill.alpha alpha for point fill
 #' @param outline.alpha alpha for point outline
 # #' @param label.offset amount by which any point labels should be offset from

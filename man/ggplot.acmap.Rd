@@ -65,8 +65,6 @@ ylim set explicitly}
 \item{margins}{margins in inches for the plot}
 
 \item{...}{additional arguments, not used}
-
-\item{outlier.arrow.col}{outlier arrow color}
 }
 \description{
 Method for plotting an antigenic map as a ggplot object

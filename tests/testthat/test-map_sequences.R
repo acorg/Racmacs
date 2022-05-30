@@ -114,7 +114,6 @@ test_that("Setting and getting sequences with insertions", {
 
   tmp <- tempfile(fileext = ".ace")
   save.acmap(map, tmp)
-  save.acmap(map, "~/Desktop/testmap.ace")
   map_loaded <- read.acmap(tmp)
 
   expect_equal(unname(agSequences(map_loaded)), test_ag_sequences)

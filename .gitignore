@@ -9,6 +9,7 @@
 *.sublime-workspace
 *.o
 *.o.tmp
+*.code-workspace
 src/.vscode/*
 doc
 inst/doc

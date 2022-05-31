@@ -1,4 +1,5 @@
 ^.*\.Rproj$
+^.*\.code-workspace$
 ^\.Rproj\.user$
 ^doc$
 ^Meta$

@@ -8,6 +8,7 @@ struct BootstrapOutput
 {
   arma::vec sampling;
   arma::mat coords;
+  double stress;
 };
 
 #endif

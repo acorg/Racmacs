@@ -364,7 +364,8 @@ SEXP wrap(const BootstrapOutput& bootstrapout){
   return wrap(
     List::create(
       _["sampling"] = bootstrapout.sampling,
-      _["coords"] = bootstrapout.coords
+      _["coords"] = bootstrapout.coords,
+      _["stress"] = bootstrapout.stress
     )
   );
 

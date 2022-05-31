@@ -84,8 +84,9 @@ ggplot.acmap <- function(
   plotdata <- tibble::tibble(
     x = c(agCoords(map, optimization_number)[,1], srCoords(map, optimization_number)[,1]),
     y = c(agCoords(map, optimization_number)[,2], srCoords(map, optimization_number)[,2]),
-    fill = grDevices::adjustcolor(c(agFill(map), srFill(map)), alpha.f = fill.alpha),
-    outline = grDevices::adjustcolor(c(agOutline(map), srOutline(map)), alpha.f = outline.alpha),
+    fill = c(agFill(map), srFill(map)),
+    outline = c(agOutline(map), srOutline(map)),
+    outline_width = c(agOutlineWidth(map), srOutlineWidth(map)),
     shape = c(agShape(map), srShape(map)),
     size = c(agSize(map), srSize(map)),
     rotation = c(agRotation(map), srRotation(map)),
@@ -93,6 +94,10 @@ ggplot.acmap <- function(
     shown = c(agShown(map), srShown(map)),
     text = c(agNames(map), srNames(map))
   )
+
+  ## Adjust alpha
+  if (!is.null(fill.alpha)) plotdata$fill <- grDevices::adjustcolor(plotdata$fill, alpha.f = fill.alpha)
+  if (!is.null(outline.alpha)) plotdata$outline <- grDevices::adjustcolor(plotdata$outline, alpha.f = outline.alpha)
 
   # Add blob data
   plotdata$blob <- lapply(seq_len(numPoints(map)), \(x) NULL)
@@ -117,6 +122,7 @@ ggplot.acmap <- function(
         rotation = rotation,
         aspect = aspect,
         blob = blob,
+        linewidth = outline_width,
         text = text
       )
     ) +

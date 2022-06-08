@@ -14,7 +14,7 @@
 #' @param plot_blobs logical, should stress blobs be plotted if present
 #' @param plot_hemisphering logical, should hemisphering points be indicated, if
 #'   tested for already with `checkHemisphering()` (and if present)
-# #' @param show_procrustes logical, should procrustes lines be shown, if present
+#' @param show_procrustes logical, should procrustes lines be shown, if present
 #' @param show_error_lines logical, should error lines be drawn
 #' @param plot_stress logical, should map stress be plotted in lower left corner
 #' @param indicate_outliers how should points outside the plotting region be
@@ -45,7 +45,7 @@ ggplot.acmap <- function(
   # plot_labels = FALSE,
   plot_blobs = TRUE,
   plot_hemisphering = TRUE,
-  # show_procrustes = TRUE,
+  show_procrustes = TRUE,
   show_error_lines = FALSE,
   plot_stress = FALSE,
   indicate_outliers = "arrowheads",
@@ -84,6 +84,7 @@ ggplot.acmap <- function(
   plotdata <- tibble::tibble(
     x = c(agCoords(map, optimization_number)[,1], srCoords(map, optimization_number)[,1]),
     y = c(agCoords(map, optimization_number)[,2], srCoords(map, optimization_number)[,2]),
+    type = c(rep("AG", numAntigens(map)), rep("SR", numSera(map))),
     fill = c(agFill(map), srFill(map)),
     outline = c(agOutline(map), srOutline(map)),
     outline_width = c(agOutlineWidth(map), srOutlineWidth(map)),
@@ -104,6 +105,22 @@ ggplot.acmap <- function(
   if (plot_blobs && hasTriangulationBlobs(map)) plotdata$blob <- ptTriangulationBlobs(map, optimization_number)
   if (plot_blobs && hasBootstrapBlobs(map)) plotdata$blob <- ptBootstrapBlobs(map, optimization_number)
 
+  ## Fade out points not included in procrustes
+  if (hasProcrustes(map, optimization_number) && !isFALSE(show_procrustes)) {
+
+    pc_data <- ptProcrustes(map, optimization_number)
+    pc_coords <- rbind(pc_data$ag_coords, pc_data$sr_coords)
+    pc_coords_na <- is.na(pc_coords[,1])
+
+    # Fade out points with NA procrustes coords
+    if (sum(pc_coords_na) > 0) {
+      plotdata$fill[pc_coords_na] <- grDevices::adjustcolor(plotdata$fill[pc_coords_na], alpha.f = 0.2)
+      plotdata$outline[pc_coords_na] <- grDevices::adjustcolor(plotdata$outline[pc_coords_na], alpha.f = 0.2)
+    }
+
+  }
+
+  # Do the ggplot
   gp <- plotdata %>%
     dplyr::slice(
       ptDrawingOrder(map)
@@ -111,8 +128,9 @@ ggplot.acmap <- function(
     dplyr::filter(
       shown
     ) %>%
-    ggplot2::ggplot(
-      ggplot2::aes(
+    ggplot2::ggplot() +
+    geom_acpoint(
+      mapping = ggplot2::aes(
         x = x,
         y = y,
         color = outline,
@@ -124,9 +142,7 @@ ggplot.acmap <- function(
         blob = blob,
         linewidth = outline_width,
         text = text
-      )
-    ) +
-    geom_acpoint(
+      ),
       indicate_outliers = indicate_outliers
     ) +
     ggplot2::scale_fill_identity() +
@@ -235,12 +251,51 @@ ggplot.acmap <- function(
     }
   }
 
+  # Add procrustes
+  if (hasProcrustes(map, optimization_number) && !isFALSE(show_procrustes)) {
+
+    pc_data <- ptProcrustes(map, optimization_number)
+    pc_coords <- rbind(pc_data$ag_coords, pc_data$sr_coords)
+    pc_coords <- applyMapTransform(pc_coords, map, optimization_number)
+    pt_coords <- ptCoords(map, optimization_number)
+
+    arrowdata <- do.call(
+      dplyr::bind_rows,
+      lapply(seq_len(numPoints(map)), function(i){
+        tibble::tibble(
+          x0 = pt_coords[i, 1],
+          y0 = pt_coords[i, 2],
+          x1 = pc_coords[i, 1],
+          y1 = pc_coords[i, 2]
+        )
+      })
+    )
+    arrowdata <- dplyr::filter(arrowdata, !is.na(x1))
+
+    gp <- gp + ggplot2::annotate(
+      "segment",
+      x = arrowdata$x0,
+      y = arrowdata$y0,
+      xend = arrowdata$x1,
+      yend = arrowdata$y1,
+      arrow = ggplot2::arrow(
+        type = "closed",
+        angle = 25,
+        length = grid::unit(0.2, "cm")
+      ),
+      lineend = "butt",
+      linejoin = "mitre",
+      size = 1
+    )
+
+  }
+
   # Annotate stress
   if (plot_stress) {
     gp <- gp + ggplot2::annotate(
       "text",
       x = xlim[1] + diff(range(xlim))*0.01,
-      y = ylim[1] + diff(range(ylim))*0.01,
+      y = ylim[1] + diff(range(ylim))*0.02,
       label = round(mapStress(map, optimization_number), 2),
       vjust = "inward",
       hjust = "inward",
@@ -368,7 +423,10 @@ GeomAcPoint <- ggplot2::ggproto(
     linewidth = 1,
     rotation = 0,
     aspect = 1,
-    indicate_outliers = FALSE
+    indicate_outliers = FALSE,
+    size = 1,
+    blob = list(),
+    text = ""
   ),
   draw_key = draw_key_acpoint,
   draw_panel = function(data, panel_params, coord) {

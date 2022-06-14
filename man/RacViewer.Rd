@@ -38,7 +38,7 @@ groups as set by \code{agGroups()} and \code{srGroups()}}
 This creates an html widget for viewing antigenic maps.
 }
 \seealso{
-Other {functions to view maps}: 
+Other functions to view maps: 
 \code{\link{RacViewer.options}()},
 \code{\link{export_viewer}()},
 \code{\link{ggplot.acmap}()},
@@ -46,7 +46,8 @@ Other {functions to view maps}:
 \code{\link{plot.acmap}()},
 \code{\link{setLegend}()},
 \code{\link{snapshotMap}()},
+\code{\link{view.acmap}()},
 \code{\link{view.default}()},
 \code{\link{view}()}
 }
-\concept{{functions to view maps}}
+\concept{functions to view maps}

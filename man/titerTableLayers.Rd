@@ -28,7 +28,7 @@ different maps, these functions can be useful to check for example,
 variation in titer seen between a single antigen and serum pair.
 }
 \seealso{
-Other {map attribute functions}: 
+Other map attribute functions: 
 \code{\link{acmapAttributes}},
 \code{\link{adjustedLogTiterTable}()},
 \code{\link{adjustedTiterTable}()},
@@ -38,4 +38,4 @@ Other {map attribute functions}:
 \code{\link{mapName}()},
 \code{\link{titerTable}()}
 }
-\concept{{map attribute functions}}
+\concept{map attribute functions}

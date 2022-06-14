@@ -38,7 +38,7 @@ srBlob <- function(map, srnum, optimization_number, blobname) {
 #' @return Returns an object of class "blob" that can be plotted using the `blob()` funciton.
 #' @name ptBootstrapBlob
 #'
-#' @family {map diagnostic functions}
+#' @family map diagnostic functions
 #'
 
 #' @rdname ptBootstrapBlob
@@ -107,7 +107,7 @@ srBaseBootstrapBlobs <- function(map, optimization_number = 1) {
 #' @return Returns an object of class "blob" that can be plotted using the `blob()` funciton.
 #' @name ptTriangulationBlob
 #'
-#' @family {map diagnostic functions}
+#' @family map diagnostic functions
 #'
 
 #' @rdname ptTriangulationBlob

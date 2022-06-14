@@ -51,7 +51,7 @@ antigens_setter <- function(fn, type) {
 #' @name agAttributes
 #' @seealso
 #' `srAttributes()`
-#' @family {antigen and sera attribute functions}
+#' @family antigen and sera attribute functions
 #' @eval roxygen_tags(
 #'   methods = c(
 #'     "agIDs", "agIDs<-",
@@ -103,7 +103,7 @@ agMatchIDs          <- antigens_getter(ac_ag_get_match_id) # Not exported
 #'   antigens
 #'
 #' @name agGroups
-#' @family {antigen and sera attribute functions}
+#' @family antigen and sera attribute functions
 
 #' @rdname agGroups
 #' @export
@@ -146,7 +146,7 @@ agGroups <- function(map) {
 #'   antigens
 #'
 #' @name agSequences
-#' @family {antigen and sera attribute functions}
+#' @family antigen and sera attribute functions
 #'
 
 #' @rdname agSequences
@@ -209,7 +209,7 @@ agNucleotideSequences <- function(map, missing_value = ".") {
 #'   point
 #'
 #' @name ptClades
-#' @family {antigen and sera attribute functions}
+#' @family antigen and sera attribute functions
 #'
 
 #' @rdname ptClades
@@ -270,7 +270,7 @@ srClades <- function(map) {
 #'   point
 #'
 #' @name ptAnnotations
-#' @family {antigen and sera attribute functions}
+#' @family antigen and sera attribute functions
 #'
 
 #' @rdname ptAnnotations
@@ -331,7 +331,7 @@ srAnnotations <- function(map) {
 #'   point
 #'
 #' @name agLabIDs
-#' @family {antigen and sera attribute functions}
+#' @family antigen and sera attribute functions
 #'
 
 #' @rdname agLabIDs

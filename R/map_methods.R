@@ -29,7 +29,7 @@ print.acmap <- function(x, ...) {
 #' @param x The object to view
 #' @param ... Additional arguments, not used.
 #'
-#' @family {functions to view maps}
+#' @family functions to view maps
 #'
 #' @export
 view <- function(x, ...) {
@@ -42,7 +42,7 @@ view <- function(x, ...) {
 #' @param x The object to view
 #' @param ... Additional arguments, passed to print.
 #'
-#' @family {functions to view maps}
+#' @family functions to view maps
 #'
 #' @export
 view.default <- function(x, ...) {
@@ -71,8 +71,8 @@ view.default <- function(x, ...) {
 #' @param num_optimizations Number of optimization runs to send to the viewer
 #'   for inclusion in the "optimizations" pane.
 #'
-#' @family {functions to view maps}
-#'   {shiny app functions}
+#' @family functions to view maps
+#' @family shiny app functions
 #'
 #' @return Returns the htmlwidget object
 #'

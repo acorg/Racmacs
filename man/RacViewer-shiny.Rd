@@ -29,7 +29,8 @@ Output and render functions for using RacViewer within Shiny
 applications and interactive Rmd documents.
 }
 \seealso{
-Other {shiny app functions}: 
-\code{\link{runGUI}()}
+Other shiny app functions: 
+\code{\link{runGUI}()},
+\code{\link{view.acmap}()}
 }
-\concept{{shiny app functions}}
+\concept{shiny app functions}

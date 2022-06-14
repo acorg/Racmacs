@@ -24,7 +24,7 @@ Plot a blob object such as that return from \code{agBootstrapBlob()} using the
 \code{polygon()} function.
 }
 \seealso{
-Other {additional plotting functions}: 
+Other additional plotting functions: 
 \code{\link{blobsize}()}
 }
-\concept{{additional plotting functions}}
+\concept{additional plotting functions}

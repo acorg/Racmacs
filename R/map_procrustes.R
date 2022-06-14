@@ -14,7 +14,7 @@
 #'   comparing maps made with different assays)
 #'
 #' @return Returns the map aligned to the target map
-#' @family {functions to compare maps}
+#' @family functions to compare maps
 #' @export
 #'
 realignMap <- function(
@@ -62,7 +62,7 @@ realignMap <- function(
 #'   be shown when the map is plotted. To avoid ambiguity about which
 #'   optimization run the procrustes was applied to, only the optimization run
 #'   specified by `optimization_number` is kept in the map returned.
-#' @family {functions to compare maps}
+#' @family functions to compare maps
 #' @export
 #'
 procrustesMap <- function(
@@ -163,7 +163,7 @@ procrustesMap <- function(
 #'   matching the number of points in the main map, with NA in the position of
 #'   any points not found in the comparison map.
 #'
-#' @family {functions to compare maps}
+#' @family functions to compare maps
 #' @export
 procrustesData <- function(
   map,
@@ -216,7 +216,7 @@ hasProcrustes <- function(map, optimization_number = 1) {
 #' @param map The acmap data object
 #'
 #' @return Returns the map with realigned optimizations
-#' @family {functions to compare maps}
+#' @family functions to compare maps
 #' @export
 #'
 realignOptimizations <- function(

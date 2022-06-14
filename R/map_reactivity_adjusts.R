@@ -25,7 +25,7 @@ reactivity_adjust_titers <- function(titers, adjustment) {
 #' @param optimization_number The optimization number from which
 #'   to take any antigen reactivity adjustments
 #'
-#' @family {map attribute functions}
+#' @family map attribute functions
 #' @seealso [htmlAdjustedTiterTable()]
 #' @export
 adjustedTiterTable <- function(
@@ -56,7 +56,7 @@ adjustedTiterTable <- function(
 #' @param optimization_number The optimization number from which
 #'   to take any antigen reactivity adjustments
 #'
-#' @family {map attribute functions}
+#' @family map attribute functions
 #' @export
 adjustedLogTiterTable <- function(
   map,

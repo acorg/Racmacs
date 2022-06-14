@@ -41,7 +41,7 @@
 #' @seealso See `relaxMap()` for optimizing a given optimization starting from
 #'   its current coordinates.
 #'
-#' @family {map optimization functions}
+#' @family map optimization functions
 #' @export
 #'
 optimizeMap <- function(
@@ -182,7 +182,7 @@ optimizeMap <- function(
 #'
 #' @return Returns an acmap object that has optimization run results.
 #'
-#' @family {map optimization functions}
+#' @family map optimization functions
 #' @export
 #'
 make.acmap <- function(
@@ -245,7 +245,7 @@ make.acmap <- function(
 #'   settings like `maxit` see the underlying optimizer documentation at
 #'   [ensmallen.org](http://ensmallen.org).
 #'
-#' @family {map optimization functions}
+#' @family map optimization functions
 #'
 #' @return Returns a named list of optimizer options
 #' @export
@@ -306,7 +306,7 @@ RacOptimizer.options <- function(
 #' @seealso See `optimizeMap()` for performing new optimization runs from random
 #'   starting coordinates.
 #'
-#' @family {map optimization functions}
+#' @family map optimization functions
 #' @export
 #'
 relaxMap <- function(
@@ -356,7 +356,7 @@ relaxMap <- function(
 #'
 #' @return Returns an updated map object
 #'
-#' @family {map optimization functions}
+#' @family map optimization functions
 #' @export
 #'
 relaxMapOneStep <- function(
@@ -403,7 +403,7 @@ relaxMapOneStep <- function(
 #'
 #' @return Returns an updated map object
 #'
-#' @family {map optimization functions}
+#' @family map optimization functions
 #' @export
 #'
 randomizeCoords <- function(
@@ -452,7 +452,7 @@ randomizeCoords <- function(
 #'
 #' @return Returns TRUE or FALSE
 #' @export
-#' @family {map diagnostic functions}
+#' @family map diagnostic functions
 #'
 mapRelaxed <- function(
   map,
@@ -490,7 +490,7 @@ mapRelaxed <- function(
 #' @return Returns a data frame with information on any points that were found
 #'   to be hemisphering or trapped.
 #' @export
-#' @family {map diagnostic functions}
+#' @family map diagnostic functions
 #'
 checkHemisphering <- function(
   map,
@@ -571,7 +571,7 @@ checkHemisphering <- function(
 #'
 #' @return Returns the acmap object with updated coordinates (if any trapped
 #'   points found)
-#' @family {map optimization functions}
+#' @family map optimization functions
 #' @export
 #'
 moveTrappedPoints <- function(
@@ -726,7 +726,7 @@ srCohesion <- function(map) {
 #' @param map An acmap object
 #'
 #' @export
-#' @family {map diagnostic functions}
+#' @family map diagnostic functions
 #'
 mapCohesion <- function(map) {
 
@@ -756,7 +756,7 @@ mapCohesion <- function(map) {
 #' solution, to check this see `mapCohesion()`.
 #'
 #' @name unstableMaps
-#' @family {map diagnostic functions}
+#' @family map diagnostic functions
 #'
 NULL
 

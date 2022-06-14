@@ -22,7 +22,7 @@
 #'   a file with the function `read.acmap()` and create a new acmap object
 #'   within an R session using the `acmap()` function.
 #'
-#' @family {functions for working with map data}
+#' @family functions for working with map data
 #' @seealso See `optimizeMap()` for generating new optimizations estimating
 #'   antigen similarity from the acmap titer data.
 #'

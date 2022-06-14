@@ -199,7 +199,7 @@ transformMapBlob <- function(blob, map, optimization_number) {
 #'
 #' @param blob The blob object
 #'
-#' @family {additional plotting functions}
+#' @family additional plotting functions
 #' @export
 #'
 blobsize <- function(blob) {

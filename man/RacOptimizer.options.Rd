@@ -43,7 +43,7 @@ settings like \code{maxit} see the underlying optimizer documentation at
 \href{http://ensmallen.org}{ensmallen.org}.
 }
 \seealso{
-Other {map optimization functions}: 
+Other map optimization functions: 
 \code{\link{make.acmap}()},
 \code{\link{moveTrappedPoints}()},
 \code{\link{optimizeMap}()},
@@ -51,4 +51,4 @@ Other {map optimization functions}:
 \code{\link{relaxMapOneStep}()},
 \code{\link{relaxMap}()}
 }
-\concept{{map optimization functions}}
+\concept{map optimization functions}

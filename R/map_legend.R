@@ -13,7 +13,7 @@
 #'   right of the viewport the bottom of the legend is spaced.
 #'
 #' @return Returns the updated acmap object
-#' @family {functions to view maps}
+#' @family functions to view maps
 #' @export
 #'
 setLegend <- function(

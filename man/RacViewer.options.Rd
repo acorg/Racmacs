@@ -49,7 +49,7 @@ This function facilitates setting racviewer options by returning a list of
 option settings.
 }
 \seealso{
-Other {functions to view maps}: 
+Other functions to view maps: 
 \code{\link{RacViewer}()},
 \code{\link{export_viewer}()},
 \code{\link{ggplot.acmap}()},
@@ -57,7 +57,8 @@ Other {functions to view maps}:
 \code{\link{plot.acmap}()},
 \code{\link{setLegend}()},
 \code{\link{snapshotMap}()},
+\code{\link{view.acmap}()},
 \code{\link{view.default}()},
 \code{\link{view}()}
 }
-\concept{{functions to view maps}}
+\concept{functions to view maps}

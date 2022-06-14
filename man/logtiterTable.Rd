@@ -18,8 +18,30 @@ $log2(x/10)$, lessthan values are reduced by 1 on the log scale and greater
 than values are increased by 1, hence <10 => -1 and >1280 => 8
 }
 \seealso{
-Other {map diagnostic functions}
-{functions relating to map stress calculation}: 
+Other map diagnostic functions: 
+\code{\link{agCohesion}()},
+\code{\link{bootstrapBlobs}()},
+\code{\link{bootstrapMap}()},
+\code{\link{checkHemisphering}()},
+\code{\link{dimensionTestMap}()},
+\code{\link{map-table-distances}},
+\code{\link{mapBootstrapCoords}},
+\code{\link{mapDistances}()},
+\code{\link{mapRelaxed}()},
+\code{\link{mapResiduals}()},
+\code{\link{pointStress}},
+\code{\link{ptBootstrapBlob}},
+\code{\link{ptBootstrapCoords}()},
+\code{\link{ptLeverage}},
+\code{\link{ptTriangulationBlob}},
+\code{\link{recalculateStress}()},
+\code{\link{stressTable}()},
+\code{\link{tableColbases}()},
+\code{\link{tableDistances}()},
+\code{\link{triangulationBlobs}()},
+\code{\link{unstableMaps}}
+
+Other functions relating to map stress calculation: 
 \code{\link{mapDistances}()},
 \code{\link{mapResiduals}()},
 \code{\link{pointStress}},
@@ -28,5 +50,5 @@ Other {map diagnostic functions}
 \code{\link{tableColbases}()},
 \code{\link{tableDistances}()}
 }
-\concept{{map diagnostic functions}
-{functions relating to map stress calculation}}
+\concept{functions relating to map stress calculation}
+\concept{map diagnostic functions}

@@ -32,7 +32,7 @@
 #' @param margins margins in inches for the plot, use `NULL` for default margins from `par("mar")`
 #' @param ... additional arguments, not used
 #'
-#' @family {functions to view maps}
+#' @family functions to view maps
 #' @export
 #'
 plot.acmap <- function(
@@ -543,7 +543,7 @@ plot_lims <- function(coords, padding = 1, round_even = TRUE) {
 #' @param alpha Blob opacity
 #' @param ... Additional arguments to pass to `polygon()`
 #'
-#' @family {additional plotting functions}
+#' @family additional plotting functions
 #' @export
 blob <- function(x, col, border, lwd, alpha = 1, ...) {
   if (!inherits(x, "blob")) stop("Must be an object of class 'blob'")

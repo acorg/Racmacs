@@ -13,8 +13,8 @@
 #' @return Returns a matrix of numeric table distances
 #' @export
 #'
-#' @family {map diagnostic functions}
-#'   {functions relating to map stress calculation}
+#' @family map diagnostic functions
+#' @family functions relating to map stress calculation
 #'
 tableDistances <- function(
   map,
@@ -65,8 +65,8 @@ numeric_min_tabledists <- function(tabledists) {
 #' @return Returns a numeric vector of the log-converted column bases for the
 #'   table
 #'
-#' @family {map diagnostic functions}
-#'   {functions relating to map stress calculation}
+#' @family map diagnostic functions
+#' @family functions relating to map stress calculation
 #' @export
 #'
 tableColbases <- function(
@@ -103,8 +103,8 @@ tableColbases <- function(
 #'   columns.
 #' @export
 #'
-#' @family {map diagnostic functions}
-#'   {functions relating to map stress calculation}
+#' @family map diagnostic functions
+#' @family functions relating to map stress calculation
 #'
 mapDistances <- function(
   map,
@@ -134,8 +134,8 @@ mapDistances <- function(
 #' @return Returns a matrix of titers converted to the log scale
 #' @export
 #'
-#' @family {map diagnostic functions}
-#'   {functions relating to map stress calculation}
+#' @family map diagnostic functions
+#' @family functions relating to map stress calculation
 #'
 logtiterTable <- function(map) {
 
@@ -162,8 +162,8 @@ logtiterTable <- function(map) {
 #'   optimization.
 #' @export
 #'
-#' @family {map diagnostic functions}
-#'   {functions relating to map stress calculation}
+#' @family map diagnostic functions
+#' @family functions relating to map stress calculation
 #'
 stressTable <- function(
   map,
@@ -202,8 +202,8 @@ stressTable <- function(
 #'   map distance and table distance for each antigen-sera pair.
 #' @export
 #'
-#' @family {map diagnostic functions}
-#'   {functions relating to map stress calculation}
+#' @family map diagnostic functions
+#' @family functions relating to map stress calculation
 #'
 mapResiduals <- function(
   map,
@@ -240,8 +240,8 @@ mapResiduals <- function(
 #'
 #' @return Returns the recalculated map stress for a given optimization
 #'
-#' @family {map diagnostic functions}
-#'   {functions relating to map stress calculation}
+#' @family map diagnostic functions
+#' @family functions relating to map stress calculation
 #' @seealso See `pointStress()` for getting the stress of individual points.
 #' @export
 recalculateStress <- function(
@@ -277,8 +277,8 @@ recalculateStress <- function(
 #'   (defaults to all sera).
 #'
 #' @seealso See `mapStress()` for getting the total map stress directly.
-#' @family {map diagnostic functions}
-#'   {functions relating to map stress calculation}
+#' @family map diagnostic functions
+#' @family functions relating to map stress calculation
 #' @name pointStress
 #'
 

@@ -14,7 +14,7 @@
 #' @param height Height of the widget
 #' @param elementId DOM element ID
 #'
-#' @family {functions to view maps}
+#' @family functions to view maps
 #'
 #' @import htmlwidgets
 #' @export
@@ -83,7 +83,7 @@ RacViewer <- function(
 #' @param quoted Is \code{expr} a quoted expression (with \code{quote()})? This
 #'   is useful if you want to save an expression in a variable.
 #'
-#' @family {shiny app functions}
+#' @family shiny app functions
 #'
 #' @name RacViewer-shiny
 #' @export
@@ -113,7 +113,7 @@ renderRacViewer <- function(expr, env = parent.frame(), quoted = FALSE) {
 #' @param filename File to save image to
 #' @param ... Further parameters to pass to view
 #'
-#' @family {functions to view maps}
+#' @family functions to view maps
 #' @export
 #'
 snapshotMap <- function(

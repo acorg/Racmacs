@@ -15,10 +15,10 @@ Split a map made up from titer layers into a list of separate maps each with a t
 corresponding to one of the layers
 }
 \seealso{
-Other {map merging functions}: 
+Other map merging functions: 
 \code{\link{RacMerge.options}()},
 \code{\link{htmlMergeReport}()},
 \code{\link{mergeMaps}()},
 \code{\link{mergeReport}()}
 }
-\concept{{map merging functions}}
+\concept{map merging functions}

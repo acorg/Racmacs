@@ -84,7 +84,7 @@ ylim set explicitly}
 Method for plotting an antigenic map in two dimensions
 }
 \seealso{
-Other {functions to view maps}: 
+Other functions to view maps: 
 \code{\link{RacViewer.options}()},
 \code{\link{RacViewer}()},
 \code{\link{export_viewer}()},
@@ -92,7 +92,8 @@ Other {functions to view maps}:
 \code{\link{mapGadget}()},
 \code{\link{setLegend}()},
 \code{\link{snapshotMap}()},
+\code{\link{view.acmap}()},
 \code{\link{view.default}()},
 \code{\link{view}()}
 }
-\concept{{functions to view maps}}
+\concept{functions to view maps}

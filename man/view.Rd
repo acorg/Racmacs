@@ -15,7 +15,7 @@ view(x, ...)
 S3 method for viewing objects
 }
 \seealso{
-Other {functions to view maps}: 
+Other functions to view maps: 
 \code{\link{RacViewer.options}()},
 \code{\link{RacViewer}()},
 \code{\link{export_viewer}()},
@@ -24,6 +24,7 @@ Other {functions to view maps}:
 \code{\link{plot.acmap}()},
 \code{\link{setLegend}()},
 \code{\link{snapshotMap}()},
+\code{\link{view.acmap}()},
 \code{\link{view.default}()}
 }
-\concept{{functions to view maps}}
+\concept{functions to view maps}

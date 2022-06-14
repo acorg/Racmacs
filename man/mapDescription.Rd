@@ -14,15 +14,15 @@ mapDescription(map) <- value
 \item{value}{New value to set}
 }
 \value{
-Returns either the requested attribute when using a getter function or the updated acmap object
+Returns either the requested attribute when using a getter function or
 
-when using the setter function.
+the updated acmap object when using the setter function.
 }
 \description{
 Getting and setting the map description
 }
 \seealso{
-Other {map attribute functions}: 
+Other map attribute functions: 
 \code{\link{acmapAttributes}},
 \code{\link{adjustedLogTiterTable}()},
 \code{\link{adjustedTiterTable}()},
@@ -32,4 +32,4 @@ Other {map attribute functions}:
 \code{\link{titerTableLayers}()},
 \code{\link{titerTable}()}
 }
-\concept{{map attribute functions}}
+\concept{map attribute functions}

@@ -23,10 +23,10 @@ position of strains not found.
 Find matching antigens or sera between 2 maps
 }
 \seealso{
-Other {functions to compare maps}: 
+Other functions to compare maps: 
 \code{\link{procrustesData}()},
 \code{\link{procrustesMap}()},
 \code{\link{realignMap}()},
 \code{\link{realignOptimizations}()}
 }
-\concept{{functions to compare maps}}
+\concept{functions to compare maps}

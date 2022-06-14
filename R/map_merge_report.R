@@ -5,7 +5,7 @@
 #'
 #' @param map An acmap object that was the result of merging several maps
 #'
-#' @family {map merging functions}
+#' @family map merging functions
 #' @export
 mergeReport <- function(map) {
 
@@ -79,7 +79,7 @@ mergeReport <- function(map) {
 #'
 #' @param map An acmap object that was the result of merging several maps
 #'
-#' @family {map merging functions}
+#' @family map merging functions
 #' @export
 htmlMergeReport <- function(map) {
 

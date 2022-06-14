@@ -42,7 +42,7 @@ trapped before relaxing the map and searching again, stopping either when no
 more trapped points are found or \code{max_iterations} is reached.
 }
 \seealso{
-Other {map optimization functions}: 
+Other map optimization functions: 
 \code{\link{RacOptimizer.options}()},
 \code{\link{make.acmap}()},
 \code{\link{optimizeMap}()},
@@ -50,4 +50,4 @@ Other {map optimization functions}:
 \code{\link{relaxMapOneStep}()},
 \code{\link{relaxMap}()}
 }
-\concept{{map optimization functions}}
+\concept{map optimization functions}

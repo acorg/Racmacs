@@ -3,7 +3,7 @@
 #'
 #' This function opens the Racmacs GUI in a new window
 #'
-#' @family {shiny app functions}
+#' @family shiny app functions
 #' @export
 #'
 runGUI <- function() {

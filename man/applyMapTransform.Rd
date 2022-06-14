@@ -18,9 +18,9 @@ Applies the map transformation associated with a selected optimization run to
 a set of coordinates.
 }
 \seealso{
-Other {functions relating to map transformation}: 
+Other functions relating to map transformation: 
 \code{\link{reflectMap}()},
 \code{\link{rotateMap}()},
 \code{\link{translateMap}()}
 }
-\concept{{functions relating to map transformation}}
+\concept{functions relating to map transformation}

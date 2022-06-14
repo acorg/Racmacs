@@ -49,7 +49,7 @@ sera_setter <- function(fn, type) {
 #' @name srAttributes
 #' @seealso
 #' `agAttributes()`
-#' @family {antigen and sera attribute functions}
+#' @family antigen and sera attribute functions
 #' @eval roxygen_tags(
 #'   methods = c(
 #'     "srIDs", "srIDs<-",
@@ -100,7 +100,7 @@ srMatchIDs          <- sera_getter(ac_sr_get_match_id) # Not exported
 #' @param value A list, where each entry is a vector of indices for homologous
 #'   antigens, or a length 0 vector where no homologous antigen is present
 #'
-#' @family {antigen and sera attribute functions}
+#' @family antigen and sera attribute functions
 #' @export
 srHomologousAgs <- function(map) {
   lapply(srHomologousAgsReindexed(map), function(x) x + 1)
@@ -132,7 +132,7 @@ srHomologousAgsReindexed <- function(map) {
 #' @param value A character or factor vector of groupings to apply to the sera
 #'
 #' @name srGroups
-#' @family {antigen and sera attribute functions}
+#' @family antigen and sera attribute functions
 
 #' @rdname srGroups
 #' @export
@@ -175,7 +175,7 @@ srGroups <- function(map) {
 #'   sera
 #'
 #' @name srSequences
-#' @family {antigen and sera attribute functions}
+#' @family antigen and sera attribute functions
 #'
 
 #' @rdname srSequences

@@ -41,7 +41,7 @@ layers information.
 \seealso{
 \code{\link[=adjustedTiterTable]{adjustedTiterTable()}}, \code{\link[=htmlTiterTable]{htmlTiterTable()}}
 
-Other {map attribute functions}: 
+Other map attribute functions: 
 \code{\link{acmapAttributes}},
 \code{\link{adjustedLogTiterTable}()},
 \code{\link{adjustedTiterTable}()},
@@ -51,4 +51,4 @@ Other {map attribute functions}:
 \code{\link{mapName}()},
 \code{\link{titerTableLayers}()}
 }
-\concept{{map attribute functions}}
+\concept{map attribute functions}

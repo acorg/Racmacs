@@ -30,19 +30,27 @@ bootstrap runs
 Get antigen or serum bootstrap coordinates information
 }
 \seealso{
-Other {map diagnostic functions}: 
+Other map diagnostic functions: 
 \code{\link{agCohesion}()},
 \code{\link{bootstrapBlobs}()},
 \code{\link{bootstrapMap}()},
 \code{\link{checkHemisphering}()},
 \code{\link{dimensionTestMap}()},
+\code{\link{logtiterTable}()},
 \code{\link{map-table-distances}},
 \code{\link{mapBootstrapCoords}},
+\code{\link{mapDistances}()},
 \code{\link{mapRelaxed}()},
+\code{\link{mapResiduals}()},
+\code{\link{pointStress}},
 \code{\link{ptBootstrapBlob}},
 \code{\link{ptLeverage}},
 \code{\link{ptTriangulationBlob}},
+\code{\link{recalculateStress}()},
+\code{\link{stressTable}()},
+\code{\link{tableColbases}()},
+\code{\link{tableDistances}()},
 \code{\link{triangulationBlobs}()},
 \code{\link{unstableMaps}}
 }
-\concept{{map diagnostic functions}}
+\concept{map diagnostic functions}

@@ -22,10 +22,10 @@ This function facilitates setting options for the acmap titer merging process by
 returning a list of option settings.
 }
 \seealso{
-Other {map merging functions}: 
+Other map merging functions: 
 \code{\link{htmlMergeReport}()},
 \code{\link{mergeMaps}()},
 \code{\link{mergeReport}()},
 \code{\link{splitTiterLayers}()}
 }
-\concept{{map merging functions}}
+\concept{map merging functions}

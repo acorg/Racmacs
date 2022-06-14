@@ -28,7 +28,7 @@
 #' @return Returns an acmap object that will then show the corresponding bootstrap
 #'   blobs when viewed or plotted.
 #'
-#' @family {map diagnostic functions}
+#' @family map diagnostic functions
 #' @export
 #'
 bootstrapBlobs <- function(

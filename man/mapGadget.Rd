@@ -14,7 +14,7 @@ This function is equivalent to running \code{runGUI()} and loading a map file, b
 takes the acmap object to open as an input argument.
 }
 \seealso{
-Other {functions to view maps}: 
+Other functions to view maps: 
 \code{\link{RacViewer.options}()},
 \code{\link{RacViewer}()},
 \code{\link{export_viewer}()},
@@ -22,7 +22,8 @@ Other {functions to view maps}:
 \code{\link{plot.acmap}()},
 \code{\link{setLegend}()},
 \code{\link{snapshotMap}()},
+\code{\link{view.acmap}()},
 \code{\link{view.default}()},
 \code{\link{view}()}
 }
-\concept{{functions to view maps}}
+\concept{functions to view maps}

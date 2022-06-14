@@ -83,7 +83,7 @@ plotspec_setter <- function(pttype, fn, checker_fn = NULL) {
 #' These functions get and set the styles to use for each point when plotting.
 #'
 #' @name ptStyles
-#' @family {map point style functions}
+#' @family map point style functions
 #' @eval roxygen_tags(
 #'   methods = c(
 #'   "agShown", "srShown", "agShown<-", "srShown<-",
@@ -187,7 +187,7 @@ set_col_opacity <- function(cols, opacity) {
 #' @param map An acmap object
 #' @param value A vector of opacities
 #'
-#' @family {map point style functions}
+#' @family map point style functions
 #'
 #' @name ptOpacity
 #'
@@ -223,7 +223,7 @@ set_col_opacity <- function(cols, opacity) {
 #'
 #' @return Returns the map object with point drawing order information updated
 #'
-#' @family {map point style functions}
+#' @family map point style functions
 #'
 #' @name ptDrawingOrder
 #'

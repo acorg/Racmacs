@@ -15,9 +15,9 @@ keepOptimizations(map, optimization_numbers)
 Keep only data from specified optimization runs.
 }
 \seealso{
-Other {functions to work with map optimizations}: 
+Other functions to work with map optimizations: 
 \code{\link{optimizationProperties}},
 \code{\link{removeOptimizations}()},
 \code{\link{sortOptimizations}()}
 }
-\concept{{functions to work with map optimizations}}
+\concept{functions to work with map optimizations}

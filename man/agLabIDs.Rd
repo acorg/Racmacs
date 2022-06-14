@@ -19,7 +19,7 @@ point}
 Getting and setting antigen lab id information
 }
 \seealso{
-Other {antigen and sera attribute functions}: 
+Other antigen and sera attribute functions: 
 \code{\link{agAttributes}},
 \code{\link{agGroups}()},
 \code{\link{agSequences}()},
@@ -30,4 +30,4 @@ Other {antigen and sera attribute functions}:
 \code{\link{srHomologousAgs}()},
 \code{\link{srSequences}()}
 }
-\concept{{antigen and sera attribute functions}}
+\concept{antigen and sera attribute functions}

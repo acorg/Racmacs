@@ -18,9 +18,9 @@ optimizations)}
 Reflects map coordinates
 }
 \seealso{
-Other {functions relating to map transformation}: 
+Other functions relating to map transformation: 
 \code{\link{applyMapTransform}()},
 \code{\link{rotateMap}()},
 \code{\link{translateMap}()}
 }
-\concept{{functions relating to map transformation}}
+\concept{functions relating to map transformation}

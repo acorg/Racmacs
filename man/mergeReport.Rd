@@ -13,10 +13,10 @@ mergeReport(map)
 Prints a raw text merge report from merging two map tables.
 }
 \seealso{
-Other {map merging functions}: 
+Other map merging functions: 
 \code{\link{RacMerge.options}()},
 \code{\link{htmlMergeReport}()},
 \code{\link{mergeMaps}()},
 \code{\link{splitTiterLayers}()}
 }
-\concept{{map merging functions}}
+\concept{map merging functions}

@@ -21,7 +21,7 @@ snapshotMap(map, width = 800, height = 800, filename = NULL, ...)
 Create a map snapshot
 }
 \seealso{
-Other {functions to view maps}: 
+Other functions to view maps: 
 \code{\link{RacViewer.options}()},
 \code{\link{RacViewer}()},
 \code{\link{export_viewer}()},
@@ -29,7 +29,8 @@ Other {functions to view maps}:
 \code{\link{mapGadget}()},
 \code{\link{plot.acmap}()},
 \code{\link{setLegend}()},
+\code{\link{view.acmap}()},
 \code{\link{view.default}()},
 \code{\link{view}()}
 }
-\concept{{functions to view maps}}
+\concept{functions to view maps}

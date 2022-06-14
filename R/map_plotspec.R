@@ -9,7 +9,7 @@
 #' @return Returns the acmap object with updated point styles (unmatched point
 #'   styles unchanged)
 #' @export
-#' @family {map point style functions}
+#' @family map point style functions
 #'
 applyPlotspec <- function(
   map,

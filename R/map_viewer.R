@@ -19,7 +19,7 @@
 #' @param xlim x limits to zoom the plot to
 #' @param ylim y limits to zoom the plot to
 #'
-#' @family {functions to view maps}
+#' @family functions to view maps
 #'
 #' @return Returns a named list of viewer options
 #' @export
@@ -71,7 +71,7 @@ RacViewer.options <- function(
 #'   placed in an adjacent directory.
 #' @param ... Further parameters to `view()`
 #'
-#' @family {functions to view maps}
+#' @family functions to view maps
 #'
 #' @export
 #'

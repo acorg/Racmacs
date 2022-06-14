@@ -21,9 +21,9 @@ fixedColBases(map, optimization_number = 1) <- value
 \item{value}{New value to set}
 }
 \value{
-Returns either the requested attribute when using a getter function or the updated acmap object
+Returns either the requested attribute when using a getter function or
 
-when using the setter function.
+the updated acmap object when using the setter function.
 }
 \description{
 Functions to get and set column bases specified for an optimization run,
@@ -49,7 +49,7 @@ column bases case, column bases will remain fixed at their values
 independently of measured titers.
 }
 \seealso{
-Other {map optimization attribute functions}: 
+Other map optimization attribute functions: 
 \code{\link{mapComment}()},
 \code{\link{mapDimensions}()},
 \code{\link{mapStress}()},
@@ -57,4 +57,4 @@ Other {map optimization attribute functions}:
 \code{\link{ptBaseCoords}()},
 \code{\link{ptCoords}()}
 }
-\concept{{map optimization attribute functions}}
+\concept{map optimization attribute functions}

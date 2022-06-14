@@ -58,19 +58,27 @@ separately for detectable titers (e.g. 40) and non-detectable titers (e.g.
 lower than the log-titer threshold, the error is set to 0.
 }
 \seealso{
-Other {map diagnostic functions}: 
+Other map diagnostic functions: 
 \code{\link{agCohesion}()},
 \code{\link{bootstrapBlobs}()},
 \code{\link{bootstrapMap}()},
 \code{\link{checkHemisphering}()},
+\code{\link{logtiterTable}()},
 \code{\link{map-table-distances}},
 \code{\link{mapBootstrapCoords}},
+\code{\link{mapDistances}()},
 \code{\link{mapRelaxed}()},
+\code{\link{mapResiduals}()},
+\code{\link{pointStress}},
 \code{\link{ptBootstrapBlob}},
 \code{\link{ptBootstrapCoords}()},
 \code{\link{ptLeverage}},
 \code{\link{ptTriangulationBlob}},
+\code{\link{recalculateStress}()},
+\code{\link{stressTable}()},
+\code{\link{tableColbases}()},
+\code{\link{tableDistances}()},
 \code{\link{triangulationBlobs}()},
 \code{\link{unstableMaps}}
 }
-\concept{{map diagnostic functions}}
+\concept{map diagnostic functions}

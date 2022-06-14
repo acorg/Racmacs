@@ -6,7 +6,7 @@
 #'
 #' @param map The acmap object to open in the GUI
 #'
-#' @family {functions to view maps}
+#' @family functions to view maps
 #' @export
 #'
 mapGadget <- function(map) {

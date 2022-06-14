@@ -56,7 +56,7 @@ transformation directly, as is done by functions like \code{rotateMap()} and
 \code{mapTransformation()}
 \code{mapTranslation()}
 
-Other {map optimization attribute functions}: 
+Other map optimization attribute functions: 
 \code{\link{colBases}()},
 \code{\link{mapComment}()},
 \code{\link{mapDimensions}()},
@@ -64,4 +64,4 @@ Other {map optimization attribute functions}:
 \code{\link{mapTransformation}()},
 \code{\link{ptBaseCoords}()}
 }
-\concept{{map optimization attribute functions}}
+\concept{map optimization attribute functions}

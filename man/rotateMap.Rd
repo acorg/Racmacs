@@ -20,9 +20,9 @@ optimizations)}
 Apply a rotation to an antigenic map
 }
 \seealso{
-Other {functions relating to map transformation}: 
+Other functions relating to map transformation: 
 \code{\link{applyMapTransform}()},
 \code{\link{reflectMap}()},
 \code{\link{translateMap}()}
 }
-\concept{{functions relating to map transformation}}
+\concept{functions relating to map transformation}

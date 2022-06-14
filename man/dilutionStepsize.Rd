@@ -35,7 +35,7 @@ the dilution stepsize as 0. Equally, if the dilution regime followed a
 different pattern, you can also set that here.
 }
 \seealso{
-Other {map attribute functions}: 
+Other map attribute functions: 
 \code{\link{acmapAttributes}},
 \code{\link{adjustedLogTiterTable}()},
 \code{\link{adjustedTiterTable}()},
@@ -45,4 +45,4 @@ Other {map attribute functions}:
 \code{\link{titerTableLayers}()},
 \code{\link{titerTable}()}
 }
-\concept{{map attribute functions}}
+\concept{map attribute functions}

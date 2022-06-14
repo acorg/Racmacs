@@ -64,7 +64,7 @@
 #'  noise you may expect in your data and set these parameters accordingly.
 #'
 #' @return Returns the map object updated with bootstrap information
-#' @family {map diagnostic functions}
+#' @family map diagnostic functions
 #' @export
 #'
 bootstrapMap <- function(
@@ -163,7 +163,7 @@ hasBootstrapData <- function(map, optimization_number) {
 #' @param map The map object
 #'
 #' @name mapBootstrapCoords
-#' @family {map diagnostic functions}
+#' @family map diagnostic functions
 #'
 
 # Underlying function to get base bootstrap coordinates
@@ -256,7 +256,7 @@ mapBootstrap_srCoords <- function(map) {
 #'   bootstrap runs
 #' @name ptBootstrapCoords
 #'
-#' @family {map diagnostic functions}
+#' @family map diagnostic functions
 #'
 #' @export
 ptBootstrapCoords <- function(map, point) {

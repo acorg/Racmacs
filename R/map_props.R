@@ -2,7 +2,7 @@
 #' Getting and setting the map name
 #'
 #' @name mapName
-#' @family {map attribute functions}
+#' @family map attribute functions
 #' @eval roxygen_tags(
 #'   methods = c("mapName", "mapName<-"),
 #'   args    = c("map")
@@ -22,7 +22,7 @@ mapName <- function(map) {
 #' Getting and setting the map description
 #'
 #' @name mapDescription
-#' @family {map attribute functions}
+#' @family map attribute functions
 #' @eval roxygen_tags(
 #'   methods = c("mapDescription", "mapDescription<-"),
 #'   args    = c("map")
@@ -50,7 +50,7 @@ mapDescription <- function(map) {
 #' @param value A character matrix of titers to set
 #'
 #' @name titerTable
-#' @family {map attribute functions}
+#' @family map attribute functions
 #' @seealso [adjustedTiterTable()], [htmlTiterTable()]
 #'
 
@@ -136,7 +136,7 @@ titerTableFlat <- function(map) {
 #'   variation in titer seen between a single antigen and serum pair.
 #'
 #' @name titerTableLayers
-#' @family {map attribute functions}
+#' @family map attribute functions
 #' @export
 #'
 titerTableLayers <- function(map) {
@@ -203,7 +203,7 @@ titertypesTableLayers <- function(map) {
 #'
 #' @param map An acmap data object
 #'
-#' @family {map attribute functions}
+#' @family map attribute functions
 #' @export
 logtiterTableLayers <- function(map) {
 
@@ -245,7 +245,7 @@ logtiterTableLayers <- function(map) {
 #'   different pattern, you can also set that here.
 #'
 #' @name dilutionStepsize
-#' @family {map attribute functions}
+#' @family map attribute functions
 #' @export
 #'
 dilutionStepsize <- function(map) {
@@ -278,7 +278,7 @@ dilutionStepsize <- function(map) {
 #'
 #' @param map The acmap object
 #'
-#' @family {functions to work with map optimizations}
+#' @family functions to work with map optimizations
 #' @export
 sortOptimizations <- function(map) {
   check.acmap(map)
@@ -310,7 +310,7 @@ allMapProperties <- function(map, getter) {
 #'
 #' @param map The acmap object
 #'
-#' @family {functions to work with map optimizations}
+#' @family functions to work with map optimizations
 #' @name optimizationProperties
 
 #' @rdname optimizationProperties
@@ -334,7 +334,7 @@ allMapDimensions <- function(map) {
 #'
 #' @param map The acmap object
 #'
-#' @family {functions to work with map optimizations}
+#' @family functions to work with map optimizations
 #' @export
 #'
 removeOptimizations <- function(map) {
@@ -351,7 +351,7 @@ removeOptimizations <- function(map) {
 #' @param map The acmap object
 #' @param optimization_numbers Optimizations to keep
 #'
-#' @family {functions to work with map optimizations}
+#' @family functions to work with map optimizations
 #'
 #' @export
 #'
@@ -368,7 +368,7 @@ keepOptimizations <- function(map, optimization_numbers) {
 #' @param map The acmap object
 #' @param optimization_number The optimization run to keep
 #'
-#' @family {functions for working with map data}
+#' @family functions for working with map data
 #'
 #' @export
 #'
@@ -380,7 +380,7 @@ keepSingleOptimization <- function(map, optimization_number = 1) {
 #'
 #' @param map The acmap object
 #'
-#' @family {functions for working with map data}
+#' @family functions for working with map data
 #'
 #' @export
 #'
@@ -395,7 +395,7 @@ keepBestOptimization <- function(map) {
 #' @param map The acmap object
 #' @param value A vector of new layer names to apply to the map
 #'
-#' @family {functions for working with map data}
+#' @family functions for working with map data
 #'
 #' @name layerNames
 
@@ -430,7 +430,7 @@ layerNames <- function(map) {
 #' @param map The acmap object
 #' @param value A vector of antigen reactivity adjustments to apply
 #'
-#' @family {functions for working with map data}
+#' @family functions for working with map data
 #'
 #' @name agReactivityAdjustments
 
@@ -466,7 +466,7 @@ agReactivityAdjustments <- function(map) {
 #' @param map The acmap data object
 #'
 #' @name acmapAttributes
-#' @family {map attribute functions}
+#' @family map attribute functions
 #'
 
 #' @rdname acmapAttributes

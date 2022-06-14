@@ -51,9 +51,9 @@ agContinent(map) <- value
 \item{value}{New value to set}
 }
 \value{
-Returns either the requested attribute when using a getter function or the updated acmap object
+Returns either the requested attribute when using a getter function or
 
-when using the setter function.
+the updated acmap object when using the setter function.
 }
 \description{
 These functions get and set the antigen attributes for a map.
@@ -61,7 +61,7 @@ These functions get and set the antigen attributes for a map.
 \seealso{
 \code{srAttributes()}
 
-Other {antigen and sera attribute functions}: 
+Other antigen and sera attribute functions: 
 \code{\link{agGroups}()},
 \code{\link{agLabIDs}()},
 \code{\link{agSequences}()},
@@ -72,4 +72,4 @@ Other {antigen and sera attribute functions}:
 \code{\link{srHomologousAgs}()},
 \code{\link{srSequences}()}
 }
-\concept{{antigen and sera attribute functions}}
+\concept{antigen and sera attribute functions}

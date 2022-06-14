@@ -17,7 +17,7 @@
 #'   apply to each antigen. Corresponding antigen titers will be adjusted by these
 #'   amounts when calculating column bases and table distances.
 #'
-#' @family {functions for working with map data}
+#' @family functions for working with map data
 #'
 #' @return Returns the acmap data object with new optimization added (but not
 #'   selected).

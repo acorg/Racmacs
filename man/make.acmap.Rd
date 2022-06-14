@@ -57,7 +57,7 @@ running optimizations to make the map otherwise done with \code{acmap()}
 followed by \code{optimizeMap()}.
 }
 \seealso{
-Other {map optimization functions}: 
+Other map optimization functions: 
 \code{\link{RacOptimizer.options}()},
 \code{\link{moveTrappedPoints}()},
 \code{\link{optimizeMap}()},
@@ -65,4 +65,4 @@ Other {map optimization functions}:
 \code{\link{relaxMapOneStep}()},
 \code{\link{relaxMap}()}
 }
-\concept{{map optimization functions}}
+\concept{map optimization functions}

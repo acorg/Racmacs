@@ -13,7 +13,7 @@ blobsize(blob)
 Returns either the area (for 2D blobs) or volume (for 3D blobs)
 }
 \seealso{
-Other {additional plotting functions}: 
+Other additional plotting functions: 
 \code{\link{blob}()}
 }
-\concept{{additional plotting functions}}
+\concept{additional plotting functions}

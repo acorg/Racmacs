@@ -22,9 +22,9 @@ srBaseCoords(map, optimization_number = 1) <- value
 \item{value}{New value to set}
 }
 \value{
-Returns either the requested attribute when using a getter function or the updated acmap object
+Returns either the requested attribute when using a getter function or
 
-when using the setter function.
+the updated acmap object when using the setter function.
 }
 \description{
 These functions get and set the base coordinates for a given optimization
@@ -34,7 +34,7 @@ run.
 \code{agCoords()}
 \code{srCoords()}
 
-Other {map optimization attribute functions}: 
+Other map optimization attribute functions: 
 \code{\link{colBases}()},
 \code{\link{mapComment}()},
 \code{\link{mapDimensions}()},
@@ -42,4 +42,4 @@ Other {map optimization attribute functions}:
 \code{\link{mapTransformation}()},
 \code{\link{ptCoords}()}
 }
-\concept{{map optimization attribute functions}}
+\concept{map optimization attribute functions}

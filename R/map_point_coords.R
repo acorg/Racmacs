@@ -31,7 +31,7 @@
 #' `mapTransformation()`
 #' `mapTranslation()`
 #'
-#' @family {map optimization attribute functions}
+#' @family map optimization attribute functions
 #' @name ptCoords
 
 # Get the antigen coordinates

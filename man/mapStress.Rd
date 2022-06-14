@@ -15,7 +15,7 @@ mapStress(map, optimization_number = 1)
 Calculate the current map stress
 }
 \seealso{
-Other {map optimization attribute functions}: 
+Other map optimization attribute functions: 
 \code{\link{colBases}()},
 \code{\link{mapComment}()},
 \code{\link{mapDimensions}()},
@@ -23,4 +23,4 @@ Other {map optimization attribute functions}:
 \code{\link{ptBaseCoords}()},
 \code{\link{ptCoords}()}
 }
-\concept{{map optimization attribute functions}}
+\concept{map optimization attribute functions}

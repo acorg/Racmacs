@@ -14,10 +14,10 @@ Prints an html formatted table merge report of a set of merged maps, visualising
 with colors how different titers have been merged together.
 }
 \seealso{
-Other {map merging functions}: 
+Other map merging functions: 
 \code{\link{RacMerge.options}()},
 \code{\link{mergeMaps}()},
 \code{\link{mergeReport}()},
 \code{\link{splitTiterLayers}()}
 }
-\concept{{map merging functions}}
+\concept{map merging functions}

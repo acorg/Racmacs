@@ -64,8 +64,8 @@ plotted, the main ones include:
 \seealso{
 Useful links:
 \itemize{
-  \item \url{https://acorg.github.io/Racmacs}
-  \item \url{https://github.com/acorg/Racmacs}
+  \item \url{https://acorg.github.io/Racmacs/}
+  \item \url{https://github.com/acorg/Racmacs/}
   \item Report bugs at \url{https://github.com/acorg/Racmacs/issues}
 }
 

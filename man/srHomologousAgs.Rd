@@ -19,7 +19,7 @@ antigens, or a length 0 vector where no homologous antigen is present}
 Get and set indices of homologous antigens to sera in an antigenic map
 }
 \seealso{
-Other {antigen and sera attribute functions}: 
+Other antigen and sera attribute functions: 
 \code{\link{agAttributes}},
 \code{\link{agGroups}()},
 \code{\link{agLabIDs}()},
@@ -30,4 +30,4 @@ Other {antigen and sera attribute functions}:
 \code{\link{srGroups}()},
 \code{\link{srSequences}()}
 }
-\concept{{antigen and sera attribute functions}}
+\concept{antigen and sera attribute functions}

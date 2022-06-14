@@ -75,17 +75,17 @@ srShape(map) <- value
 \item{value}{New value to set}
 }
 \value{
-Returns either the requested attribute when using a getter function or the updated acmap object
+Returns either the requested attribute when using a getter function or
 
-when using the setter function.
+the updated acmap object when using the setter function.
 }
 \description{
 These functions get and set the styles to use for each point when plotting.
 }
 \seealso{
-Other {map point style functions}: 
+Other map point style functions: 
 \code{\link{applyPlotspec}()},
 \code{\link{ptDrawingOrder}()},
 \code{\link{ptOpacity}}
 }
-\concept{{map point style functions}}
+\concept{map point style functions}

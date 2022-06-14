@@ -18,7 +18,7 @@ layerNames(map) <- value
 Get and set map layer names
 }
 \seealso{
-Other {functions for working with map data}: 
+Other functions for working with map data: 
 \code{\link{acmap}()},
 \code{\link{addOptimization}()},
 \code{\link{agReactivityAdjustments}()},
@@ -37,4 +37,4 @@ Other {functions for working with map data}:
 \code{\link{subsetCommonPoints}},
 \code{\link{subsetMap}()}
 }
-\concept{{functions for working with map data}}
+\concept{functions for working with map data}

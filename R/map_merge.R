@@ -54,7 +54,7 @@
 #'
 #' @return Returns the merged map object
 #'
-#' @family {map merging functions}
+#' @family map merging functions
 #' @export
 mergeMaps <- function(
   ...,
@@ -208,7 +208,7 @@ mergeMaps <- function(
 #' @param dilution_stepsize The dilution stepsize to assume when merging titers (see
 #'   `dilutionStepsize()`)
 #'
-#' @family {map merging functions}
+#' @family map merging functions
 #'
 #' @return Returns a named list of merging options
 #' @export
@@ -237,7 +237,7 @@ RacMerge.options <- function(
 #'
 #' @param map An acmap object with titer table layers
 #'
-#' @family {map merging functions}
+#' @family map merging functions
 #'
 splitTiterLayers <- function(
   map

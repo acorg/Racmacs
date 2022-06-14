@@ -22,8 +22,30 @@ map distance and table distance for each antigen-sera pair.
 This is the difference between the table distance and the map distance
 }
 \seealso{
-Other {map diagnostic functions}
-{functions relating to map stress calculation}: 
+Other map diagnostic functions: 
+\code{\link{agCohesion}()},
+\code{\link{bootstrapBlobs}()},
+\code{\link{bootstrapMap}()},
+\code{\link{checkHemisphering}()},
+\code{\link{dimensionTestMap}()},
+\code{\link{logtiterTable}()},
+\code{\link{map-table-distances}},
+\code{\link{mapBootstrapCoords}},
+\code{\link{mapDistances}()},
+\code{\link{mapRelaxed}()},
+\code{\link{pointStress}},
+\code{\link{ptBootstrapBlob}},
+\code{\link{ptBootstrapCoords}()},
+\code{\link{ptLeverage}},
+\code{\link{ptTriangulationBlob}},
+\code{\link{recalculateStress}()},
+\code{\link{stressTable}()},
+\code{\link{tableColbases}()},
+\code{\link{tableDistances}()},
+\code{\link{triangulationBlobs}()},
+\code{\link{unstableMaps}}
+
+Other functions relating to map stress calculation: 
 \code{\link{logtiterTable}()},
 \code{\link{mapDistances}()},
 \code{\link{pointStress}},
@@ -32,5 +54,5 @@ Other {map diagnostic functions}
 \code{\link{tableColbases}()},
 \code{\link{tableDistances}()}
 }
-\concept{{map diagnostic functions}
-{functions relating to map stress calculation}}
+\concept{functions relating to map stress calculation}
+\concept{map diagnostic functions}

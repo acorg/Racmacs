@@ -49,7 +49,7 @@ within an R session using the \code{acmap()} function.
 See \code{optimizeMap()} for generating new optimizations estimating
 antigen similarity from the acmap titer data.
 
-Other {functions for working with map data}: 
+Other functions for working with map data: 
 \code{\link{addOptimization}()},
 \code{\link{agReactivityAdjustments}()},
 \code{\link{as.json}()},
@@ -68,4 +68,4 @@ Other {functions for working with map data}:
 \code{\link{subsetCommonPoints}},
 \code{\link{subsetMap}()}
 }
-\concept{{functions for working with map data}}
+\concept{functions for working with map data}

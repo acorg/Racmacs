@@ -35,19 +35,27 @@ Returns an object of class "blob" that can be plotted using the \code{blob()} fu
 Get antigen or serum triangulation blob information for plotting with the \code{blob()} function.
 }
 \seealso{
-Other {map diagnostic functions}: 
+Other map diagnostic functions: 
 \code{\link{agCohesion}()},
 \code{\link{bootstrapBlobs}()},
 \code{\link{bootstrapMap}()},
 \code{\link{checkHemisphering}()},
 \code{\link{dimensionTestMap}()},
+\code{\link{logtiterTable}()},
 \code{\link{map-table-distances}},
 \code{\link{mapBootstrapCoords}},
+\code{\link{mapDistances}()},
 \code{\link{mapRelaxed}()},
+\code{\link{mapResiduals}()},
+\code{\link{pointStress}},
 \code{\link{ptBootstrapBlob}},
 \code{\link{ptBootstrapCoords}()},
 \code{\link{ptLeverage}},
+\code{\link{recalculateStress}()},
+\code{\link{stressTable}()},
+\code{\link{tableColbases}()},
+\code{\link{tableDistances}()},
 \code{\link{triangulationBlobs}()},
 \code{\link{unstableMaps}}
 }
-\concept{{map diagnostic functions}}
+\concept{map diagnostic functions}

@@ -18,7 +18,7 @@ Return the titer table plus any antigen reactivity adjustments.
 \seealso{
 \code{\link[=htmlAdjustedTiterTable]{htmlAdjustedTiterTable()}}
 
-Other {map attribute functions}: 
+Other map attribute functions: 
 \code{\link{acmapAttributes}},
 \code{\link{adjustedLogTiterTable}()},
 \code{\link{dilutionStepsize}()},
@@ -28,4 +28,4 @@ Other {map attribute functions}:
 \code{\link{titerTableLayers}()},
 \code{\link{titerTable}()}
 }
-\concept{{map attribute functions}}
+\concept{map attribute functions}

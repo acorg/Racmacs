@@ -34,7 +34,7 @@
 #'
 #' @export
 #'
-#' @family {map diagnostic functions}
+#' @family map diagnostic functions
 #'
 dimensionTestMap <- function(
   map,

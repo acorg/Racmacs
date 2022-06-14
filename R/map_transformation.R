@@ -8,7 +8,7 @@
 #' @param map The acmap object
 #' @param optimization_number The optimization number
 #'
-#' @family {functions relating to map transformation}
+#' @family functions relating to map transformation
 #' @export
 #'
 applyMapTransform <- function(
@@ -40,7 +40,7 @@ applyMapTransform <- function(
 #' @param optimization_number The optimization number (or NULL to apply to all
 #'   optimizations)
 #'
-#' @family {functions relating to map transformation}
+#' @family functions relating to map transformation
 #' @export
 #'
 translateMap <- function(
@@ -78,7 +78,7 @@ translateMap <- function(
 #' @param optimization_number The optimization number (or NULL to apply to all
 #'   optimizations)
 #'
-#' @family {functions relating to map transformation}
+#' @family functions relating to map transformation
 #' @export
 #'
 reflectMap <- function(
@@ -123,7 +123,7 @@ reflectMap <- function(
 #' @param optimization_number The optimization number (or NULL to apply to all
 #'   optimizations)
 #'
-#' @family {functions relating to map transformation}
+#' @family functions relating to map transformation
 #' @export
 #'
 rotateMap <- function(

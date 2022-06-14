@@ -13,7 +13,7 @@
 #'
 #' @return Returns the acmap data object.
 #'
-#' @family {functions for working with map data}
+#' @family functions for working with map data
 #' @export
 #'
 read.acmap <- function(
@@ -81,7 +81,7 @@ read_brotli <- function(filepath) {
 #'
 #' @export
 #'
-#' @family {functions for working with map data}
+#' @family functions for working with map data
 #'
 save.acmap <- function(
   map,
@@ -114,7 +114,7 @@ save.acmap <- function(
 #' @param round_titers Should titers be rounded to the nearest integer before outputting
 #'
 #' @return Returns map data as .ace json format
-#' @family {functions for working with map data}
+#' @family functions for working with map data
 #' @export
 #'
 as.json <- function(map, pretty = FALSE, round_titers = FALSE) {
@@ -145,7 +145,7 @@ as.json <- function(map, pretty = FALSE, round_titers = FALSE) {
 #'
 #' @export
 #'
-#' @family {functions for working with map data}
+#' @family functions for working with map data
 #'
 save.coords <- function(
   map,
@@ -193,7 +193,7 @@ save.coords <- function(
 #'
 #' @export
 #'
-#' @family {functions for working with map data}
+#' @family functions for working with map data
 #'
 save.titerTable <- function(
   map,

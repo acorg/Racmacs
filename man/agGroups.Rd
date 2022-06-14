@@ -19,7 +19,7 @@ antigens}
 These functions get and set the antigen groupings for a map.
 }
 \seealso{
-Other {antigen and sera attribute functions}: 
+Other antigen and sera attribute functions: 
 \code{\link{agAttributes}},
 \code{\link{agLabIDs}()},
 \code{\link{agSequences}()},
@@ -30,4 +30,4 @@ Other {antigen and sera attribute functions}:
 \code{\link{srHomologousAgs}()},
 \code{\link{srSequences}()}
 }
-\concept{{antigen and sera attribute functions}}
+\concept{antigen and sera attribute functions}

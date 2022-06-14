@@ -34,7 +34,7 @@
 #'   which is itself uncertain. For something more akin to confidence intervals
 #'   you can use other diagnostic functions like `bootstrapMap()`.
 #'
-#' @family {map diagnostic functions}
+#' @family map diagnostic functions
 #' @export
 #'
 triangulationBlobs <- function(

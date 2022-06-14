@@ -34,7 +34,7 @@
 #' @param margins margins in inches for the plot
 #' @param ... additional arguments, not used
 #'
-#' @family {functions to view maps}
+#' @family functions to view maps
 #' @export
 #'
 ggplot.acmap <- function(

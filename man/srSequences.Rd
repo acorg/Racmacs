@@ -28,7 +28,7 @@ sera}
 Getting and setting sera sequence information
 }
 \seealso{
-Other {antigen and sera attribute functions}: 
+Other antigen and sera attribute functions: 
 \code{\link{agAttributes}},
 \code{\link{agGroups}()},
 \code{\link{agLabIDs}()},
@@ -39,4 +39,4 @@ Other {antigen and sera attribute functions}:
 \code{\link{srGroups}()},
 \code{\link{srHomologousAgs}()}
 }
-\concept{{antigen and sera attribute functions}}
+\concept{antigen and sera attribute functions}

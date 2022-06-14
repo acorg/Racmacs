@@ -79,7 +79,7 @@ plot.acmap <- function(
   if (plot_ags) plot_coords <- rbind(plot_coords, ag_coords)
   if (plot_sr)  plot_coords <- rbind(plot_coords, sr_coords)
 
-  lims <- Racmacs:::mapPlotLims(map, optimization_num = optimization_number, padding = padding)
+  lims <- mapPlotLims(map, optimization_num = optimization_number, padding = padding)
   if (is.null(xlim)) xlim <- lims$xlim
   if (is.null(ylim)) ylim <- lims$ylim
 

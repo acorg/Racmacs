@@ -55,11 +55,13 @@
 #'
 #' @keywords internal
 #' @useDynLib Racmacs
-#' @importFrom Rcpp sourceCpp
-#' @importFrom ggplot2 ggplot
-#' @importFrom grid drawDetails
-#' @importFrom grid preDrawDetails
-#' @importFrom grid postDrawDetails
+#' @importFrom Rcpp `sourceCpp`
+#' @importFrom ggplot2 `ggplot`
+#' @importFrom grid `drawDetails`
+#' @importFrom grid `preDrawDetails`
+#' @importFrom grid `postDrawDetails`
+#' @importFrom rlang `.data`
+#' @importFrom magrittr `%>%`
 "_PACKAGE"
 
 .onLoad <- function(...) {

@@ -29,6 +29,8 @@
 # #'   point coordinates in fractions of a character width
 #' @param padding padding at limits of the antigenic map, ignored if xlim or
 #'   ylim set explicitly
+#' @param arrow_angle angle of arrow heads drawn for procrustes lines
+#' @param arrow_length length of arrow heads drawn for procrustes lines in cm
 #' @param margins margins in inches for the plot
 #' @param ... additional arguments, not used
 #'
@@ -74,7 +76,7 @@ ggplot.acmap <- function(
   }
 
   # Set plot lims
-  lims <- Racmacs:::mapPlotLims(map, optimization_num = optimization_number, padding = padding)
+  lims <- mapPlotLims(map, optimization_num = optimization_number, padding = padding)
   if (is.null(xlim)) xlim <- lims$xlim
   if (is.null(ylim)) ylim <- lims$ylim
 
@@ -128,22 +130,22 @@ ggplot.acmap <- function(
       ptDrawingOrder(map)
     ) %>%
     dplyr::filter(
-      shown
+      .data$shown
     ) %>%
     ggplot2::ggplot() +
     geom_acpoint(
-      mapping = ggplot2::aes(
-        x = x,
-        y = y,
-        color = outline,
-        fill = fill,
-        shape = shape,
-        size = size,
-        rotation = rotation,
-        aspect = aspect,
-        blob = blob,
-        linewidth = outline_width,
-        text = text
+      mapping = ggplot2::aes_string(
+        x = "x",
+        y = "y",
+        color = "outline",
+        fill = "fill",
+        shape = "shape",
+        size = "size",
+        rotation = "rotation",
+        aspect = "aspect",
+        blob = "blob",
+        linewidth = "outline_width",
+        text = "text"
       ),
       indicate_outliers = indicate_outliers
     ) +
@@ -272,7 +274,7 @@ ggplot.acmap <- function(
         )
       })
     )
-    arrowdata <- dplyr::filter(arrowdata, !is.na(x1))
+    arrowdata <- dplyr::filter(arrowdata, !is.na(.data$x1))
 
     gp <- gp + ggplot2::annotate(
       "segment",
@@ -395,17 +397,11 @@ acpoint_grob <- function(x=0.5, y=0.5, gp, ...){
 }
 
 draw_key_acpoint <- function (data, params, size) {
-
-  if (is.null(data$shape)) {
-    data$shape <- 19
-  }
-  else if (is.character(data$shape)) {
-    data$shape <- translate_shape_string(data$shape)
-  }
-  pointsGrob(
+  data$shape <- 19
+  grid::pointsGrob(
     0.5, 0.5,
     pch = data$shape,
-    gp = gpar(
+    gp = grid::gpar(
       col = data$colour,
       fill = data$fill,
       fontsize = 10,

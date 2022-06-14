@@ -5,7 +5,7 @@ Version: 1.1.38
 Date: 2022-06-14
 Author: Sam Wilks
 Maintainer: Sam Wilks <sw463@cam.ac.uk>
-Description: A toolkit for making antigenic maps from assay data such as HI assays.
+Description: A Toolkit for Making Antigenic Maps from Assay Data such as HI Assays.
 Depends: R (>= 4.0)
 Imports: 
     Rcpp,

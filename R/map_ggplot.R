@@ -56,6 +56,8 @@ ggplot.acmap <- function(
   outline.alpha = 0.8,
   # label.offset = 0,
   padding = 1,
+  arrow_angle = 25,
+  arrow_length = 0.2,
   margins = rep(0.5, 4),
   ...
   ) {
@@ -280,8 +282,8 @@ ggplot.acmap <- function(
       yend = arrowdata$y1,
       arrow = ggplot2::arrow(
         type = "closed",
-        angle = 25,
-        length = grid::unit(0.2, "cm")
+        angle = arrow_angle,
+        length = grid::unit(arrow_length, "cm")
       ),
       lineend = "butt",
       linejoin = "mitre",

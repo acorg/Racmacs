@@ -13,6 +13,7 @@
   plot_sr = TRUE,
   plot_blobs = TRUE,
   plot_hemisphering = TRUE,
+  show_procrustes = TRUE,
   show_error_lines = FALSE,
   plot_stress = FALSE,
   indicate_outliers = "arrowheads",
@@ -21,6 +22,8 @@
   fill.alpha = 0.8,
   outline.alpha = 0.8,
   padding = 1,
+  arrow_angle = 25,
+  arrow_length = 0.2,
   margins = rep(0.5, 4),
   ...
 )
@@ -43,6 +46,8 @@
 \item{plot_hemisphering}{logical, should hemisphering points be indicated, if
 tested for already with \code{checkHemisphering()} (and if present)}
 
+\item{show_procrustes}{logical, should procrustes lines be shown, if present}
+
 \item{show_error_lines}{logical, should error lines be drawn}
 
 \item{plot_stress}{logical, should map stress be plotted in lower left corner}
@@ -61,6 +66,10 @@ like in the viewer.}
 
 \item{padding}{padding at limits of the antigenic map, ignored if xlim or
 ylim set explicitly}
+
+\item{arrow_angle}{angle of arrow heads drawn for procrustes lines}
+
+\item{arrow_length}{length of arrow heads drawn for procrustes lines in cm}
 
 \item{margins}{margins in inches for the plot}
 

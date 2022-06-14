@@ -21,9 +21,9 @@ fixedColBases(map, optimization_number = 1) <- value
 \item{value}{New value to set}
 }
 \value{
-Returns either the requested attribute when using a getter function or
+Returns either the requested attribute when using a getter function or the updated acmap object
 
-the updated acmap object when using the setter function.
+when using the setter function.
 }
 \description{
 Functions to get and set column bases specified for an optimization run,

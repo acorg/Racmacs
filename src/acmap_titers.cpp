@@ -53,7 +53,7 @@ AcTiter::AcTiter(
   default:
     // Measurable titer
     type = 1;
-  numeric = std::stod(titer);
+    numeric = std::stod(titer);
   }
 
 }

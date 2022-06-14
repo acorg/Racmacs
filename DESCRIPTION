@@ -20,6 +20,7 @@ Imports:
     ggplot2,
     htmltools,
     rmarchingcubes,
+    r3js,
     shape,
     ellipsis,
     MASS,
@@ -50,8 +51,6 @@ LinkingTo:
     RcppProgress, 
     RcppEnsmallen, 
     rapidjsonr
-Remotes: 
-    shwilks/r3js
 VignetteBuilder: knitr
 URL: https://acorg.github.io/Racmacs, https://github.com/acorg/Racmacs
 BugReports: https://github.com/acorg/Racmacs/issues

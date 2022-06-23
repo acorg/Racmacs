@@ -105,7 +105,7 @@ ggplot.acmap <- function(
   if (!is.null(outline.alpha)) plotdata$outline <- grDevices::adjustcolor(plotdata$outline, alpha.f = outline.alpha)
 
   # Add blob data
-  plotdata$blob <- lapply(seq_len(numPoints(map)), \(x) NULL)
+  plotdata$blob <- lapply(seq_len(numPoints(map)), function(x) NULL)
   if (plot_blobs && hasTriangulationBlobs(map)) plotdata$blob <- ptTriangulationBlobs(map, optimization_number)
   if (plot_blobs && hasBootstrapBlobs(map)) plotdata$blob <- ptBootstrapBlobs(map, optimization_number)
 

@@ -39,14 +39,14 @@ tableDistances <- function(
 }
 
 # Backend function to get numeric form of table distances
-numeric_min_tabledists <- function(tabledists) {
+numeric_min_tabledists <- function(tabledists, dilution_stepsize) {
 
   thresholded <- substr(tabledists, 1, 1) == ">"
   tabledists[thresholded] <- substr(tabledists[thresholded], 2, nchar(tabledists[thresholded]))
   tabledists[tabledists == "*"] <- NA
   tabledists[tabledists == "."] <- NA
   mode(tabledists) <- "numeric"
-  tabledists[thresholded] <- tabledists[thresholded] + 1
+  tabledists[thresholded] <- tabledists[thresholded] + dilution_stepsize
   tabledists
 
 }

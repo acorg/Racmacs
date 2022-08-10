@@ -184,3 +184,4 @@
 # Racmacs 1.1.39
 * Correct error when plotting cases where blobs were calculated for only 1 antigen / serum
 * Only show plot outlier arrowheads if point is marked as shown
+* Numeric table distances account for dilution stepsize setting of map

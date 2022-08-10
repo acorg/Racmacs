@@ -161,6 +161,7 @@ coordDensityBlob <- function(
 
 transformMapBlob <- function(blob, map, optimization_number) {
 
+  if (is.null(blob)) return(NULL)
   transformed_blob <- lapply(blob, function(b) {
 
     if (attr(blob, "dim") == 2) {

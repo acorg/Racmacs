@@ -1,6 +1,7 @@
 
 agBaseBlob <- function(map, agnum, optimization_number, blobname) {
   blob <- agDiagnostics(map, optimization_number)[[agnum]][[blobname]]
+  if (is.null(blob)) return(blob)
   attr(blob, "fill") <- agFill(map)[agnum]
   attr(blob, "outline") <- agOutline(map)[agnum]
   attr(blob, "lwd") <- agOutlineWidth(map)[agnum]
@@ -10,6 +11,7 @@ agBaseBlob <- function(map, agnum, optimization_number, blobname) {
 
 srBaseBlob <- function(map, srnum, optimization_number, blobname) {
   blob <- srDiagnostics(map, optimization_number)[[srnum]][[blobname]]
+  if (is.null(blob)) return(blob)
   attr(blob, "fill") <- srFill(map)[srnum]
   attr(blob, "outline") <- srOutline(map)[srnum]
   attr(blob, "lwd") <- srOutlineWidth(map)[srnum]

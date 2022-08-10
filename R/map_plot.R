@@ -285,52 +285,58 @@ plot.acmap <- function(
   ## Plot arrows for points outside bounds
   if (indicate_outliers == "arrows") {
     for (n in which(pts_outside_bounds)) {
+      if (pts$shown[n]) {
 
-      from <- pts$coords[n,]
-      oto  <- pts_orig_coords[n,]
-      tovec <- oto - from
-      tovec <- tovec / sqrt(sum(tovec^2))
-      to <- from + tovec*diff(range(ylim))*0.05
+        from <- pts$coords[n,]
+        oto  <- pts_orig_coords[n,]
+        tovec <- oto - from
+        tovec <- tovec / sqrt(sum(tovec^2))
+        to <- from + tovec*diff(range(ylim))*0.05
 
-      shape::Arrows(
-        x0 = from[1],
-        y0 = from[2],
-        x1 = to[1],
-        y1 = to[2],
-        arr.type = "triangle",
-        arr.width = 0.15,
-        arr.length = 0.2,
-        col = outlier.arrow.col,
-        xpd = TRUE
-      )
+        shape::Arrows(
+          x0 = from[1],
+          y0 = from[2],
+          x1 = to[1],
+          y1 = to[2],
+          arr.type = "triangle",
+          arr.width = 0.15,
+          arr.length = 0.2,
+          col = outlier.arrow.col,
+          xpd = TRUE
+        )
+
+      }
     }
   }
 
   if (indicate_outliers == "arrowheads") {
     for (n in which(pts_outside_bounds)) {
+      if (pts$shown[n]) {
 
-      to <- pts$coords[n,]
-      oto  <- pts_orig_coords[n,]
+        to <- pts$coords[n,]
+        oto  <- pts_orig_coords[n,]
 
-      xval <- to[1]-oto[1]
-      yval <- to[2]-oto[2]
-      radians <- atan(yval / xval)
-      degrees <- 180*radians / pi + 180
-      if (xval < 0) degrees <- degrees + 180
+        xval <- to[1]-oto[1]
+        yval <- to[2]-oto[2]
+        radians <- atan(yval / xval)
+        degrees <- 180*radians / pi + 180
+        if (xval < 0) degrees <- degrees + 180
 
-      shape::Arrowhead(
-        x0 = to[1],
-        y0 = to[2],
-        angle = degrees,
-        arr.type = "triangle",
-        arr.adj = 1,
-        arr.width = 0.20,
-        arr.length = 0.25,
-        lcol = pts$outline[n],
-        arr.col = pts$fill[n],,
-        arr.lwd = 1,
-        xpd = FALSE
-      )
+        shape::Arrowhead(
+          x0 = to[1],
+          y0 = to[2],
+          angle = degrees,
+          arr.type = "triangle",
+          arr.adj = 1,
+          arr.width = 0.20,
+          arr.length = 0.25,
+          lcol = pts$outline[n],
+          arr.col = pts$fill[n],,
+          arr.lwd = 1,
+          xpd = FALSE
+        )
+
+      }
     }
   }
 

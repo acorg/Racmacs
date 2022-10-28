@@ -109,6 +109,7 @@ srHomologousAgs <- function(map) {
 #' @rdname srHomologousAgs
 #' @export
 `srHomologousAgs<-` <- function(map, value) {
+  if (sum(is.na(unlist(value))) > 0) stop("Homologous sera indices cannot contain NA values", call. = FALSE)
   srHomologousAgsReindexed(map) <- lapply(value, function(x) x - 1)
   map
 }

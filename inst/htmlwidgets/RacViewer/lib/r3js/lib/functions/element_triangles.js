@@ -21,12 +21,10 @@ R3JS.element.Triangles = class Triangles extends R3JS.element.base {
     // Object constructor
     constructor(args){
 
-        // Set defaults
-        if(args.properties === undefined)         args.properties           = {};
-        if(args.properties.color === undefined)   args.properties.color     = {r:0,g:0,b:0,a:1};
-        if(args.properties.opacity !== undefined) args.properties.color.a   = args.properties.opacity;
-
         super();
+
+        // Set defaults
+        args.properties = R3JS.DefaultProperties(args.properties, args.vertices.length);
 
         // Make geometry
         var positions = new Float32Array( args.vertices.length * 3 );
@@ -39,9 +37,9 @@ R3JS.element.Triangles = class Triangles extends R3JS.element.base {
             positions[i*3 + 1] = args.vertices[i][1]; // - object.position.y,
             positions[i*3 + 2] = args.vertices[i][2]; // - object.position.z
 
-            colors[i*3 + 0] = args.properties.color.r[i*3];
-            colors[i*3 + 1] = args.properties.color.r[i*3];
-            colors[i*3 + 2] = args.properties.color.r[i*3];
+            colors[i*3 + 0] = args.properties.color.r[i];
+            colors[i*3 + 1] = args.properties.color.g[i];
+            colors[i*3 + 2] = args.properties.color.b[i];
 
         }
 

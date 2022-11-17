@@ -5,15 +5,21 @@ R3JS.element.constructors.glpoints = function(
     viewer
     ){
 
+    // Set outline width to line widths
+    plotobj.properties.outlinewidth = plotobj.properties.lwd;
+    plotobj.properties.bgcolor = plotobj.fill;
+
     // Generate the point object
-    var glpoints = new R3JS.element.glpoints({
-        coords : plotobj.position,
-        size : plotobj.size,
-        shape : plotobj.shape,
-        properties : plotobj.properties,
-        dimensions : plotobj.properties.dimensions,
-        viewer : viewer
-    });
+    if (plotobj.shape != "sphere") {
+        var glpoints = new R3JS.element.glpoints({
+            coords : plotobj.position,
+            size : plotobj.size,
+            shape : plotobj.shape,
+            properties : plotobj.properties,
+            dimensions : plotobj.properties.dimensions,
+            viewer : viewer
+        });
+    }
 
     return(glpoints);
 
@@ -34,9 +40,11 @@ R3JS.element.glpoints = class GLPoints {
         if(!args.order){ args.order = new Array(coords.length).fill(0).map((x,i) => i) }
 
         // Set default properties
-        args.properties         = R3JS.DefaultProperties(args.properties, coords.length);
-        args.properties.visible = R3JS.DefaultArray(args.properties.visible, 1, coords.length);
-        args.properties.aspect  = R3JS.DefaultArray(args.properties.aspect, 1, coords.length);
+        args.properties              = R3JS.DefaultProperties(args.properties, coords.length);
+        args.properties.bgcolor      = R3JS.DefaultColor(args.properties.bgcolor, coords.length);
+        args.properties.visible      = R3JS.DefaultArray(args.properties.visible, 1, coords.length);
+        args.properties.aspect       = R3JS.DefaultArray(args.properties.aspect, 1, coords.length);
+        args.properties.outlinewidth = R3JS.DefaultArray(args.properties.outlinewidth, 1, coords.length);
 
         // Set variables
         var positions    = new Float32Array( coords.length * 3 );
@@ -63,7 +71,7 @@ R3JS.element.glpoints = class GLPoints {
 
 
             // Set color
-            if(args.shape[n].charAt(0) == "b"){ 
+            if(args.shape[n].substring(args.shape[n].length - 6) == "filled"){ 
 
                 fillColor[i*4]   = args.properties.bgcolor.r[n];
                 fillColor[i*4+1] = args.properties.bgcolor.g[n];
@@ -77,14 +85,18 @@ R3JS.element.glpoints = class GLPoints {
 
                 outlineWidth[i] = args.properties.outlinewidth[n];
 
-            } else if(args.shape[n].charAt(0) == "o"){ 
+            } else if(args.shape[n].substring(args.shape[n].length - 4) == "open"){ 
 
+                fillColor[i*4]   = args.properties.color.r[n];
+                fillColor[i*4+1] = args.properties.color.g[n];
+                fillColor[i*4+2] = args.properties.color.b[n];
+                fillColor[i*4+3] = args.properties.color.a[n];
                 fillColor[i*4+3] = 0;
                 
                 outlineColor[i*4]   = args.properties.color.r[n];
                 outlineColor[i*4+1] = args.properties.color.g[n];
                 outlineColor[i*4+2] = args.properties.color.b[n];
-                outlineColor[i*4+3] = 1;
+                outlineColor[i*4+3] = args.properties.color.a[n];
 
                 outlineWidth[i] = args.properties.outlinewidth[n];
 
@@ -95,28 +107,34 @@ R3JS.element.glpoints = class GLPoints {
                 fillColor[i*4+2] = args.properties.color.b[n];
                 fillColor[i*4+3] = args.properties.color.a[n];
 
+                outlineColor[i*4]   = args.properties.color.r[n];
+                outlineColor[i*4+1] = args.properties.color.g[n];
+                outlineColor[i*4+2] = args.properties.color.b[n];
+                outlineColor[i*4+3] = args.properties.color.a[n];
+
                 outlineWidth[i] = 0;
 
             }
             
             // Set shape
-            if(args.shape[n] == "circle")    { shape[i] = 0 }
-            if(args.shape[n] == "ocircle")   { shape[i] = 0 }
-            if(args.shape[n] == "bcircle")   { shape[i] = 0 }
-            if(args.shape[n] == "square")    { shape[i] = 1 }
-            if(args.shape[n] == "osquare")   { shape[i] = 1 }
-            if(args.shape[n] == "bsquare")   { shape[i] = 1 }
-            if(args.shape[n] == "triangle")  { shape[i] = 2 }
-            if(args.shape[n] == "otriangle") { shape[i] = 2 }
-            if(args.shape[n] == "btriangle") { shape[i] = 2 }
-            if(args.shape[n] == "egg")       { shape[i] = 3 }
-            if(args.shape[n] == "oegg")      { shape[i] = 3 }
-            if(args.shape[n] == "begg")      { shape[i] = 3 }
-            if(args.shape[n] == "uglyegg")   { shape[i] = 4 }
-            if(args.shape[n] == "ouglyegg")  { shape[i] = 4 }
-            if(args.shape[n] == "buglyegg")  { shape[i] = 4 }
+            if(args.shape[n] == "circle")          { shape[i] = 0 }
+            if(args.shape[n] == "circle open")     { shape[i] = 0 }
+            if(args.shape[n] == "circle filled")   { shape[i] = 0 }
+            if(args.shape[n] == "square")          { shape[i] = 1 }
+            if(args.shape[n] == "square open")     { shape[i] = 1 }
+            if(args.shape[n] == "square filled")   { shape[i] = 1 }
+            if(args.shape[n] == "triangle")        { shape[i] = 2 }
+            if(args.shape[n] == "triangle open")   { shape[i] = 2 }
+            if(args.shape[n] == "triangle filled") { shape[i] = 2 }
+            if(args.shape[n] == "egg")             { shape[i] = 3 }
+            if(args.shape[n] == "egg open")        { shape[i] = 3 }
+            if(args.shape[n] == "egg filled")      { shape[i] = 3 }
+            if(args.shape[n] == "uglyegg")         { shape[i] = 4 }
+            if(args.shape[n] == "uglyegg open")    { shape[i] = 4 }
+            if(args.shape[n] == "uglyegg filled")  { shape[i] = 4 }
+            if(args.shape[n] == "sphere")          { shape[i] = 6; args.size[n] = args.size[n]*1.3 }
 
-            sizes[i]    = args.size[n];
+            sizes[i]    = args.size[n]*0.2;
             visible[i]  = args.properties.visible[n];
             aspect[i]   = args.properties.aspect[n];
             rotation[i] = 0;
@@ -135,30 +153,13 @@ R3JS.element.glpoints = class GLPoints {
         geometry.setAttribute( 'shape',        new THREE.BufferAttribute( shape,        1 ) );
         geometry.setAttribute( 'visible',      new THREE.BufferAttribute( visible,      1 ) );
 
-        // var texture = get_sprite_texture("ball");
-
         var vwidth  = viewport.getWidth();
         var vheight = viewport.getHeight();
         var pixelratio = renderer.getPixelRatio();
         var maxpointsize = renderer.maxPointSize;
 
-        if(args.dimensions == 3){
-            var material = new THREE.ShaderMaterial( { 
-                uniforms: { 
-                    scale:   { value: 2.0*pixelratio }, 
-                    opacity: { value: 1.0 }, 
-                    viewportWidth: { value: vwidth }, 
-                    viewportHeight: { value: vheight },
-                    viewportPixelRatio: { value: pixelratio }
-                    // circleTexture: { value: texture }
-                }, 
-                vertexShader:   renderer.shaders.vertexShader,
-                fragmentShader: renderer.shaders.fragmentShader,
-                alphaTest: 0.9,
-                transparent: true,
-                blending: THREE.NormalBlending
-            } );
-        } else {
+        if (args.dimensions == 2) {
+
             var material = new THREE.ShaderMaterial( { 
                 uniforms: { 
                     scale:   { value: 1.0 }, 
@@ -174,6 +175,25 @@ R3JS.element.glpoints = class GLPoints {
                 transparent: true,
                 blending: THREE.NormalBlending
             } );
+
+        } else {
+
+            var material = new THREE.ShaderMaterial( { 
+                uniforms: { 
+                    scale:   { value: 2.0*pixelratio }, 
+                    opacity: { value: 1.0 }, 
+                    viewportWidth: { value: vwidth }, 
+                    viewportHeight: { value: vheight },
+                    viewportPixelRatio: { value: pixelratio },
+                    circleTexture: { value: R3JS.Sprites("ball", viewport.viewer) }
+                }, 
+                vertexShader:   renderer.shaders.vertexShader,
+                fragmentShader: R3JS.Shaders.FragmentShader2D,
+                alphaTest: 0.9,
+                transparent: true,
+                blending: THREE.NormalBlending
+            } );
+
         }
 
         // Generate the points
@@ -188,12 +208,6 @@ R3JS.element.glpoints = class GLPoints {
                 points.material.uniforms.viewportPixelRatio.value = renderer.getPixelRatio();
             }
         );
-
-        // args.camera.zoom_events.push(
-        //     function(){
-        //         points.material.uniforms.scale.value = 1 / args.camera.distance;
-        //     }
-        // );
 
         // Make individual elements
         this.ielements = [];

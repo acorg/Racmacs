@@ -10,12 +10,14 @@ R3JS.element.constructors.glline = function(
         var element = new R3JS.element.gllines_fat({
             coords : plotobj.position,
             properties : plotobj.properties,
+            segments : plotobj.segments,
             viewer : viewer
         });
     } else {
         var element = new R3JS.element.gllines_thin({
             coords : plotobj.position,
-            properties : plotobj.properties
+            properties : plotobj.properties,
+            segments : plotobj.segments
         });
     }
     return(element);
@@ -76,7 +78,7 @@ R3JS.element.gllines_thin = class GLLines_thin extends R3JS.element.base {
         material.linewidth = args.properties.lwd;
 
         // Make the actual line object
-        if(args.properties.segments){
+        if(args.segments){
             this.object = new THREE.LineSegments( geometry, material );
         } else {
             this.object = new THREE.Line( geometry, material );
@@ -111,7 +113,7 @@ R3JS.element.gllines_fat = class GLLines_fat extends R3JS.element.base {
         };
         
         // Make geometry
-        if(args.properties.segments){
+        if(args.segments){
             var geometry = new THREE.LineSegmentsGeometry();
         } else {
             var geometry = new THREE.LineGeometry();

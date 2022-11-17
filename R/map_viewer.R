@@ -34,7 +34,10 @@ RacViewer.options <- function(
   show.connectionlines = FALSE,
   show.titers = FALSE,
   xlim = NULL,
-  ylim = NULL
+  ylim = NULL,
+  translation = c(0, 0, 0),
+  rotation = c(0, 0, 0),
+  zoom = NULL
   ) {
 
   # Check input
@@ -54,7 +57,10 @@ RacViewer.options <- function(
     show.connectionlines = show.connectionlines,
     show.titers = show.titers,
     xlim = xlim,
-    ylim = ylim
+    ylim = ylim,
+    translation = translation,
+    rotation = rotation,
+    zoom = zoom
   )
 
 }

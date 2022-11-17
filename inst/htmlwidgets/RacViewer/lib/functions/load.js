@@ -262,6 +262,9 @@ Racmacs.Viewer.prototype.load = function(
         // Note that content is now loaded
         this.contentLoaded = true;
 
+        // Hack to resize points
+        this.resizePoints(1.0);
+
     }
 
     // Dispatch the map loaded event

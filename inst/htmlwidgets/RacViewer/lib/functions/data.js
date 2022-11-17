@@ -341,28 +341,40 @@ Racmacs.Data = class Data {
     agGroupLevelFill(){
         var ag_group_levels = this.agGroupLevels();
         var ag_group_values = this.agGroupValues();
-        var vals = ag_group_levels.map((level, i) => this.agFill(ag_group_values.indexOf(i)));
+        var vals = ag_group_levels.map((level, i) => {
+            if (ag_group_values.indexOf(i) == -1) return("black");
+            else return(this.agFill(ag_group_values.indexOf(i)));
+        });
         return(vals);
     }
 
     agGroupLevelOutline(){
         var ag_group_levels = this.agGroupLevels();
         var ag_group_values = this.agGroupValues();
-        var vals = ag_group_levels.map((level, i) => this.agOutline(ag_group_values.indexOf(i)));
+        var vals = ag_group_levels.map((level, i) => {
+            if (ag_group_values.indexOf(i) == -1) return("black");
+            else return(this.agOutline(ag_group_values.indexOf(i)));
+        });
         return(vals);
     }
 
     srGroupLevelFill(){
         var sr_group_levels = this.srGroupLevels();
         var sr_group_values = this.srGroupValues();
-        var vals = sr_group_levels.map((level, i) => this.srFill(sr_group_values.indexOf(i)));
+        var vals = sr_group_levels.map((level, i) => {
+            if (sr_group_values.indexOf(i) == -1) return("black");
+            else return(this.srFill(sr_group_values.indexOf(i)));
+        });
         return(vals);
     }
 
     srGroupLevelOutline(){
         var sr_group_levels = this.srGroupLevels();
         var sr_group_values = this.srGroupValues();
-        var vals = sr_group_levels.map((level, i) => this.srOutline(sr_group_values.indexOf(i)));
+        var vals = sr_group_levels.map((level, i) => {
+            if (sr_group_values.indexOf(i) == -1) return("black");
+            else return(this.srOutline(sr_group_values.indexOf(i)));
+        });
         return(vals);
     }
 

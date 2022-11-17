@@ -412,7 +412,10 @@ randomizeCoords <- function(
   table_dist_factor = 2
   ) {
 
-  table_dists <- numeric_min_tabledists(tableDistances(map, optimization_number = optimization_number))
+  table_dists <- numeric_min_tabledists(
+    tabledists = tableDistances(map, optimization_number = optimization_number),
+    dilution_stepsize = dilutionStepsize(map)
+  )
   max_table_dist <- max(table_dists, na.rm = TRUE)
 
   random_coords <- function(nrow, ndim, min, max) {

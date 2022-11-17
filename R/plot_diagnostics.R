@@ -23,7 +23,10 @@ plot_map_table_distance <- function(
 
   # Calculate distances and types
   map_distances <- mapDistances(map, optimization_number)
-  table_distances <- numeric_min_tabledists(tableDistances(map, optimization_number))
+  table_distances <- numeric_min_tabledists(
+    tabledists = tableDistances(map, optimization_number),
+    dilution_stepsize = dilutionStepsize(map)
+  )
   titer_types <- titertypesTable(map)
 
   # Format data

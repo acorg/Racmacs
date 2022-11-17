@@ -141,11 +141,17 @@ R3JS.element.Point = class Point extends R3JS.element.base {
     }
 
     setFillColor(color){
-      this.fill.material.color.set(color);
+      if (this.fill) {
+        this.fill.material.color.set(color);
+      }
     }
 
     setFillOpacity(opacity){
-      this.fill.material.opacity = opacity;
+      if (opacity === 0) this.fill.visible = false;
+      else               this.fill.visible = true;
+      if (this.fill) {
+        this.fill.material.opacity = opacity;
+      }
     }
 
     setOutlineOpacity(opacity){

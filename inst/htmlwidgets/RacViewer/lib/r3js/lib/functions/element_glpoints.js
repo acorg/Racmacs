@@ -167,7 +167,7 @@ R3JS.element.glpoints = class GLPoints {
                     viewportWidth: { value: vwidth }, 
                     viewportHeight: { value: vheight },
                     viewportPixelRatio: { value: pixelratio },
-                    maxpointsize: { value: maxpointsize }
+                    maxpointsize: { value: maxpointsize / pixelratio }
                 }, 
                 vertexShader:   renderer.shaders.vertexShader,
                 fragmentShader: renderer.shaders.fragmentShader,

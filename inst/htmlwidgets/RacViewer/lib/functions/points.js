@@ -65,11 +65,11 @@ Racmacs.Viewer.prototype.addAgSrPoints = function(){
             var size   = points.map( p => p.size*p.scaling );
             var shape  = points.map( function(p){
                 var shape = p.shape.toLowerCase();
-                if(shape == "circle")   return("bcircle")
-                if(shape == "triangle") return("btriangle")
-                if(shape == "box")      return("bsquare")
-                if(shape == "egg")      return("begg")
-                if(shape == "uglyegg")  return("buglyegg")
+                if(shape == "circle")   return("circle filled")
+                if(shape == "triangle") return("triangle filled")
+                if(shape == "box")      return("square filled")
+                if(shape == "egg")      return("egg filled")
+                if(shape == "uglyegg")  return("uglyegg filled")
             });
             var fillcols    = points.map( p => p.getFillColorRGBA()    );
             var outlinecols = points.map( p => p.getOutlineColorRGBA() );
@@ -153,32 +153,35 @@ Racmacs.Viewer.prototype.addAgSrPoints = function(){
         var shape;
         for(var i=0; i<points.length; i++){
 
-            if(points[i].shape.toLowerCase() == "circle"){ shape = "circle3d" }
-            if(points[i].shape.toLowerCase() == "box")   { shape = "square3d" }
+            if(points[i].shape.toLowerCase() == "circle"){ shape = "sphere" }
+            if(points[i].shape.toLowerCase() == "box")   { shape = "cube" }
             var fillcolor    = points[i].getFillColorRGBA();
             var outlinecolor = points[i].getOutlineColorRGBA();
+
+            // Set point properties
+            var properties = {
+                mat : "lambert",
+                fillcolor : {
+                    r : fillcolor[0],
+                    g : fillcolor[1],
+                    b : fillcolor[2]
+                },
+                outlinecolor : {
+                    r : outlinecolor[0],
+                    g : outlinecolor[1],
+                    b : outlinecolor[2]
+                },
+                transparent : true,
+                lwd : points[i].outlineWidth*0.2,
+                visible: points[i].shown
+            };
 
             var element = new R3JS.element.Point({
                 coords : points[i].coords3,
                 size : points[i].size,
                 shape : shape,
                 viewer: this,
-                properties : {
-                    mat : "lambert",
-                    fillcolor : {
-                        r : fillcolor[0],
-                        g : fillcolor[1],
-                        b : fillcolor[2]
-                    },
-                    outlinecolor : {
-                        r : outlinecolor[0],
-                        g : outlinecolor[1],
-                        b : outlinecolor[2]
-                    },
-                    transparent : true,
-                    lwd : points[i].outlineWidth,
-                    visible: points[i].shown
-                }
+                properties : properties
             });
 
             element.setFillOpacity(fillcolor[3]);

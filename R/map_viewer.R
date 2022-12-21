@@ -18,6 +18,9 @@
 #' @param show.titers Toggle titer labels on
 #' @param xlim x limits to zoom the plot to
 #' @param ylim y limits to zoom the plot to
+#' @param translation Plot starting translation
+#' @param rotation Plot starting rotation as an XYZ Euler rotation
+#' @param zoom Plot starting zoom factor
 #'
 #' @family functions to view maps
 #'

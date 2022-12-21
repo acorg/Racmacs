@@ -14,7 +14,10 @@ RacViewer.options(
   show.connectionlines = FALSE,
   show.titers = FALSE,
   xlim = NULL,
-  ylim = NULL
+  ylim = NULL,
+  translation = c(0, 0, 0),
+  rotation = c(0, 0, 0),
+  zoom = NULL
 )
 }
 \arguments{
@@ -40,6 +43,12 @@ or "sera"}
 \item{xlim}{x limits to zoom the plot to}
 
 \item{ylim}{y limits to zoom the plot to}
+
+\item{translation}{Plot starting translation}
+
+\item{rotation}{Plot starting rotation as an XYZ Euler rotation}
+
+\item{zoom}{Plot starting zoom factor}
 }
 \value{
 Returns a named list of viewer options

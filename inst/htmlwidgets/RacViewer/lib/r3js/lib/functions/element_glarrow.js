@@ -45,10 +45,10 @@ R3JS.element.glarrow = class GLArrow extends R3JS.element.base {
         var line_coords = [].concat(...args.coords);
         this.line = new R3JS.element.gllines_fat({
             coords     : line_coords,
+            segments : true,
             properties : { 
                 lwd   : args.properties.lwd,
-                color : args.properties.color,
-                segments : true
+                color : args.properties.color
             },
             viewer : args.viewer
         });

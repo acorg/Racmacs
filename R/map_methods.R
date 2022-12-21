@@ -12,7 +12,7 @@
 print.acmap <- function(x, ...) {
 
   # Print short descriptor
-  cat(crayon::green("<acmap>\n"))
+  cat("<acmap>\n")
   mapname <- mapName(x)
   if (is.null(mapname)) mapname <- "[unnamed]"
   cat(sprintf("%s\n", mapname))

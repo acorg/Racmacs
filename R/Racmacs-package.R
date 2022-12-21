@@ -60,7 +60,6 @@
 #' @importFrom grid `drawDetails`
 #' @importFrom grid `preDrawDetails`
 #' @importFrom grid `postDrawDetails`
-#' @importFrom rlang `.data`
 #' @importFrom magrittr `%>%`
 "_PACKAGE"
 

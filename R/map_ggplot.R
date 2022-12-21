@@ -125,13 +125,10 @@ ggplot.acmap <- function(
   }
 
   # Do the ggplot
-  gp <- plotdata %>%
-    dplyr::slice(
-      ptDrawingOrder(map)
-    ) %>%
-    dplyr::filter(
-      .data$shown
-    ) %>%
+  plotdata_sliced <- plotdata %>% dplyr::slice(ptDrawingOrder(map))
+  plotdata_sliced <- plotdata_sliced[plotdata_sliced$shown, , drop = FALSE]
+
+  gp <- plotdata_sliced %>%
     ggplot2::ggplot() +
     geom_acpoint(
       mapping = ggplot2::aes_string(
@@ -274,7 +271,7 @@ ggplot.acmap <- function(
         )
       })
     )
-    arrowdata <- dplyr::filter(arrowdata, !is.na(.data$x1))
+    arrowdata <- arrowdata[!is.na(arrowdata$x1), , drop = FALSE]
 
     gp <- gp + ggplot2::annotate(
       "segment",

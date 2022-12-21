@@ -9,14 +9,13 @@ Description: A Toolkit for Making Antigenic Maps from Assay Data such as HI Assa
 Depends: R (>= 4.0)
 Imports: 
     Rcpp,
-    parallel,
     jsonlite,
     ks,
+    brotli,
     shiny,
     shinyFiles,
     shinyjs,
     htmlwidgets,
-    crayon,
     ggplot2,
     htmltools,
     rmarchingcubes,
@@ -24,12 +23,9 @@ Imports:
     ellipsis,
     MASS,
     magrittr,
-    rlang,
-    lifecycle,
     igraph,
     dplyr,
-    vctrs,
-    brotli
+    vctrs
 LazyData: TRUE
 Suggests: 
     testthat,
@@ -43,15 +39,17 @@ Suggests:
     stringr,
     tibble,
     base64enc,
+    lifecycle,
     MCMCpack
-RoxygenNote: 7.1.2.9000
-Roxygen: list(markdown = TRUE)
 LinkingTo: 
     Rcpp, 
     RcppArmadillo, 
     RcppProgress, 
     RcppEnsmallen, 
     rapidjsonr
+Encoding: UTF-8
+RoxygenNote: 7.2.1
+Roxygen: list(markdown = TRUE)
 VignetteBuilder: knitr
 URL: https://acorg.github.io/Racmacs/, https://github.com/acorg/Racmacs/
 BugReports: https://github.com/acorg/Racmacs/issues

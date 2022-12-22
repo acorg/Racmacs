@@ -1,6 +1,6 @@
 
 <!-- badges: start -->
-[![R-CMD-check](https://github.com/acorg/Racmacs/workflows/R-CMD-check/badge.svg)](https://github.com/acorg/Racmacs/actions)
+[![R-CMD-check](https://github.com/acorg/Racmacs/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/acorg/Racmacs/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
 <img src="man/figures/logo.png" align="right" style="width:200px; margin-top:40px">

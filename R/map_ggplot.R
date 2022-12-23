@@ -131,18 +131,18 @@ ggplot.acmap <- function(
   gp <- plotdata_sliced %>%
     ggplot2::ggplot() +
     geom_acpoint(
-      mapping = ggplot2::aes_string(
-        x = "x",
-        y = "y",
-        color = "outline",
-        fill = "fill",
-        shape = "shape",
-        size = "size",
-        rotation = "rotation",
-        aspect = "aspect",
-        blob = "blob",
-        linewidth = "outline_width",
-        text = "text"
+      mapping = ggplot2::aes(
+        x = x,
+        y = y,
+        color = outline,
+        fill = fill,
+        shape = shape,
+        size = size,
+        rotation = rotation,
+        aspect = aspect,
+        blob = blob,
+        linewidth = outline_width,
+        text = text
       ),
       indicate_outliers = indicate_outliers
     ) +
@@ -244,7 +244,7 @@ ggplot.acmap <- function(
             angle = 18,
             length = grid::unit(0.3, "cm")
           ),
-          size = 1,
+          linewidth = 1,
           color = arrowcol
         )
 
@@ -286,7 +286,7 @@ ggplot.acmap <- function(
       ),
       lineend = "butt",
       linejoin = "mitre",
-      size = 1
+      linewidth = 1
     )
 
   }

@@ -125,24 +125,23 @@ ggplot.acmap <- function(
   }
 
   # Do the ggplot
-  plotdata_sliced <- plotdata %>% dplyr::slice(ptDrawingOrder(map))
-  plotdata_sliced <- plotdata_sliced[plotdata_sliced$shown, , drop = FALSE]
-
-  gp <- plotdata_sliced %>%
+  plotdata %>%
+    dplyr::slice(ptDrawingOrder(map)) %>%
+    dplyr::filter(.data$shown) %>%
     ggplot2::ggplot() +
     geom_acpoint(
       mapping = ggplot2::aes(
-        x = x,
-        y = y,
-        color = outline,
-        fill = fill,
-        shape = shape,
-        size = size,
-        rotation = rotation,
-        aspect = aspect,
-        blob = blob,
-        linewidth = outline_width,
-        text = text
+        x = .data$x,
+        y = .data$y,
+        color = .data$outline,
+        fill = .data$fill,
+        shape = .data$shape,
+        size = .data$size,
+        rotation = .data$rotation,
+        aspect = .data$aspect,
+        blob = .data$blob,
+        linewidth = .data$outline_width,
+        text = .data$text
       ),
       indicate_outliers = indicate_outliers
     ) +

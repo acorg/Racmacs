@@ -57,6 +57,7 @@
 #' @useDynLib Racmacs
 #' @importFrom Rcpp `sourceCpp`
 #' @importFrom ggplot2 `ggplot`
+#' @importFrom ggplot2 `.data`
 #' @importFrom grid `drawDetails`
 #' @importFrom grid `preDrawDetails`
 #' @importFrom grid `postDrawDetails`

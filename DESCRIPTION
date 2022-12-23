@@ -16,7 +16,7 @@ Imports:
     shinyFiles,
     shinyjs,
     htmlwidgets,
-    ggplot2,
+    ggplot2 (>= 3.0.0),
     htmltools,
     rmarchingcubes,
     shape,

@@ -125,7 +125,7 @@ ggplot.acmap <- function(
   }
 
   # Do the ggplot
-  plotdata %>%
+  gp <- plotdata %>%
     dplyr::slice(ptDrawingOrder(map)) %>%
     dplyr::filter(.data$shown) %>%
     ggplot2::ggplot() +
@@ -269,8 +269,10 @@ ggplot.acmap <- function(
           y1 = pc_coords[i, 2]
         )
       })
+    ) %>%
+    dplyr::filter(
+      !is.na(.data$x1)
     )
-    arrowdata <- arrowdata[!is.na(arrowdata$x1), , drop = FALSE]
 
     gp <- gp + ggplot2::annotate(
       "segment",

@@ -24,7 +24,7 @@ void check_class(
 ){
   if(!Rf_inherits(sxp, classname.c_str())){
     std::string msg = "Object must be of class '" + classname + "'\n";
-    ac_error(msg.c_str());
+    ac_error(msg);
   }
 }
 

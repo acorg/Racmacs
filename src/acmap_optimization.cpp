@@ -153,7 +153,10 @@ arma::vec AcOptimization::get_sr_base_coords( arma::uword& sr ) const {
 void AcOptimization::set_ag_base_coords( arma::mat ag_base_coords_in ) {
   // Check input
   if (ag_base_coords_in.n_rows != ag_base_coords.n_rows) {
-    ac_error("ag_base_coords rows (%i) does not match input rows (%i)", ag_base_coords.n_rows, ag_base_coords_in.n_rows);
+    ac_error(
+      "ag_base_coords rows (" + std::to_string(ag_base_coords.n_rows) + ")" +
+      "does not match input rows (" + std::to_string(ag_base_coords_in.n_rows) + ")"
+    );
   }
   // Update coords
   ag_base_coords = ag_base_coords_in;
@@ -165,7 +168,10 @@ void AcOptimization::set_ag_base_coords( arma::mat ag_base_coords_in ) {
 void AcOptimization::set_sr_base_coords( arma::mat sr_base_coords_in ) {
   // Check input
   if (sr_base_coords_in.n_rows != sr_base_coords.n_rows) {
-    ac_error("sr_base_coords rows (%i) does not match input rows (%i)", sr_base_coords.n_rows, sr_base_coords_in.n_rows);
+    ac_error(
+      "sr_base_coords rows (" + std::to_string(sr_base_coords.n_rows) + ")" +
+      "does not match input rows (" + std::to_string(sr_base_coords_in.n_rows) + ")"
+    );
   }
   // Update coords
   sr_base_coords = sr_base_coords_in;
@@ -180,7 +186,10 @@ void AcOptimization::set_ag_base_coords(
 ) {
   // Check input
   if (ag_base_coords_in.n_elem != ag_base_coords.n_cols) {
-    ac_error("antigen coords length (%i) exceeds antigen coords dimensions (%i)", ag_base_coords_in.n_elem, ag_base_coords.n_cols);
+    ac_error(
+      "antigen coords length (" + std::to_string(ag_base_coords_in.n_elem) + ")" +
+      "exceeds antigen coords dimensions (" + std::to_string(ag_base_coords.n_cols) + ")"
+    );
   }
   // Update coords
   for(arma::uword i=0; i<ag_base_coords.n_cols; i++) {
@@ -197,7 +206,10 @@ void AcOptimization::set_sr_base_coords(
 ) {
   // Check input
   if (sr_base_coords_in.n_elem != sr_base_coords.n_cols) {
-    ac_error("sera coords length (%i) exceeds sera coords dimensions (%i)", sr_base_coords_in.n_elem, sr_base_coords.n_cols);
+    ac_error(
+      "sera coords length (" + std::to_string(sr_base_coords_in.n_elem) + ")" +
+      "exceeds sera coords dimensions (" + std::to_string(sr_base_coords.n_cols) + ")"
+    );
   }
   // Update coords
   for(arma::uword i=0; i<sr_base_coords.n_cols; i++) {
@@ -214,10 +226,16 @@ void AcOptimization::set_ag_base_coords(
 ) {
   // Check input
   if (ag_base_coords_in.n_rows != ag_indices.n_elem) {
-    ac_error("ag_indices length (%i) does not match input rows (%i)", ag_indices.n_elem, ag_base_coords_in.n_rows);
+    ac_error(
+      "ag_indices length (" + std::to_string(ag_indices.n_elem) + ")" +
+      "does not match input rows (" + std::to_string(ag_base_coords_in.n_rows) + ")"
+    );
   }
   if (ag_indices.max() > ag_base_coords.n_rows - 1) {
-    ac_error("ag_indices max (%i) exceeds max antigen index (%i)", ag_indices.max(), ag_base_coords.n_rows - 1);
+    ac_error(
+      "ag_indices max (" + std::to_string(ag_indices.max()) + ")" +
+      "exceeds max antigen index (" + std::to_string(ag_base_coords.n_rows - 1) + ")"
+    );
   }
   // Update coords
   ag_base_coords.rows( ag_indices ) = ag_base_coords_in;
@@ -232,10 +250,16 @@ void AcOptimization::set_sr_base_coords(
 ) {
   // Check input
   if (sr_base_coords_in.n_rows != sr_indices.n_elem) {
-    ac_error("sr_indices length (%i) does not match input rows (%i)", sr_indices.n_elem, sr_base_coords_in.n_rows);
+    ac_error(
+      "sr_indices length (" + std::to_string(sr_indices.n_elem) + ")" +
+      "does not match input rows (" + std::to_string(sr_base_coords_in.n_rows) + ")"
+    );
   }
   if (sr_indices.max() > sr_base_coords.n_rows - 1) {
-    ac_error("sr_indices max (%i) exceeds max antigen index (%i)", sr_indices.max(), sr_base_coords.n_rows - 1);
+    ac_error(
+      "sr_indices max (" + std::to_string(sr_indices.max()) + ")" +
+      "exceeds max serum index (" + std::to_string(sr_base_coords.n_rows - 1) + ")"
+    );
   }
   // Update coords
   sr_base_coords.rows( sr_indices ) = sr_base_coords_in;

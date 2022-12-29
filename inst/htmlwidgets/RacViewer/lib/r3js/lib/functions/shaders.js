@@ -508,90 +508,7 @@ R3JS.Shaders.FragmentShader2D = `
 
 
 
-// Arrowhead ------------
-
-R3JS.Shaders.VertexShaderArrowHead = `
-
-    attribute float size;
-	attribute vec4 fillColor;
-	attribute vec4 outlineColor;
-	attribute float outlineWidth;
-	attribute float fillAlpha;
-	//attribute float outlineAlpha;
-	attribute float aspect;
-	attribute float rotation;
-	attribute float visible;
-	
-	varying vec4 pFillColor;
-	varying vec4 pOutlineColor;
-	//varying float pOutlineAlpha;
-	varying float pOutlineWidth;
-	varying float pSize;
-	varying float pAspect;
-	varying float pScale;
-	varying float pVisible;
-	varying float pPixelRatio;
-	varying float pSceneRotation;
-	varying float pRotation;
-	varying float exceeds_maxpointsize;
-	varying vec2 screenpos;
-	
-	uniform float scale;
-	uniform float viewportHeight;
-	uniform float viewportWidth;
-	uniform float viewportPixelRatio;
-	uniform float sceneRotation;
-	uniform float maxpointsize;
-
-	void main() {
-		
-		pFillColor      = fillColor;
-		pOutlineColor   = outlineColor;
-		//pOutlineAlpha = outlineAlpha;
-	    pVisible        = visible;
-		pAspect         = aspect;
-	    pSize           = size;
-	    pOutlineWidth   = outlineWidth;
-	    pPixelRatio     = viewportPixelRatio;
-	    pSceneRotation  = sceneRotation;
-	    pRotation       = rotation;
-
-		vec4 mvPosition = modelViewMatrix * vec4( position, 1.0 );
-		gl_Position = projectionMatrix * mvPosition;
-		screenpos     = vec2(gl_Position[0], gl_Position[1]);
-
-		pScale       = pSize*scale*(viewportHeight/20.0)*pPixelRatio;
-		if (pScale > maxpointsize) { 
-
-			exceeds_maxpointsize = 1.0;
-			pScale = pScale*0.5;
-			gl_PointSize = pScale;
-			
-		} else {
-
-			gl_PointSize = pScale;
-			exceeds_maxpointsize = 0.0;
-			
-	        if(gl_Position[0] < 0.0){
-			    gl_Position[0] = gl_Position[0] + gl_PointSize*0.5/(viewportWidth*viewportPixelRatio)*gl_Position[3];
-		    } else {
-		    	gl_Position[0] = gl_Position[0] - gl_PointSize*0.5/(viewportWidth*viewportPixelRatio)*gl_Position[3];
-		    }
-
-		    if(gl_Position[1] < 0.0){
-			    gl_Position[1] = gl_Position[1] + gl_PointSize*0.5/(viewportHeight*viewportPixelRatio)*gl_Position[3];
-			} else {
-				gl_Position[1] = gl_Position[1] - gl_PointSize*0.5/(viewportHeight*viewportPixelRatio)*gl_Position[3];
-			}
-
-		}
-
-
-	}
-
-`;
-
-
+// Arrow stem ------------
 R3JS.Shaders.VertexShaderArrowStem = `
 		
 		#include <common>
@@ -840,13 +757,7 @@ R3JS.Shaders.FragmentShaderArrowStem = `
 `;
 
 
-
-
-
-
-
-
-
+// Arrow head ------------
 R3JS.Shaders.VertexShaderArrowHead = `
 
     attribute float size;
@@ -959,7 +870,7 @@ R3JS.Shaders.FragmentShaderArrowHead = `
         
         // Tranform point coordinate
 		vec2 p = gl_PointCoord;
-        if (exceeds_maxpointsize == 0.0) {
+		if (exceeds_maxpointsize == 0.0) {
 	        if(screenpos[0] < 0.0){
 	        	p[0] = (gl_PointCoord[0] - 0.25)*2.0;
 	        } else {

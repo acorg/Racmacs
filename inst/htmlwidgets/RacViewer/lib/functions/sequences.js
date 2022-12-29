@@ -83,7 +83,7 @@ Racmacs.App.prototype.showSequences = function(){
 	    sequenceswindow.document.body.style.overflow = "hidden";
 	    sequenceswindow.document.body.style.backgroundColor = "#fff";
 
-	 //    var style = document.createElement("style");
+	    // var style = document.createElement("style");
 		// sequenceswindow.document.head.appendChild(style);
 		// style.sheet.insertRule(".sequences-div div div:nth-child(2n) { background-color: #f6f8fa }", 0);
 
@@ -105,8 +105,9 @@ Racmacs.App.prototype.showSequences = function(){
 Racmacs.App.prototype.hideSequences = function(){
 
 	if(this.sequenceswindow){
-		this.sequenceswindow.close();
+		let sequenceswindow = this.sequenceswindow;
     	this.sequenceswindow = null;
+		sequenceswindow.close();
 	}
 
 	this.sequences = null;
@@ -162,11 +163,11 @@ Racmacs.SequenceTable = class SequenceTable {
 		var plusSelected_deselected_opacity = this.viewer.styleset.noselections.unhovered.unselected.opacity;
 
 		this.tablediv.addEventListener("mouseenter", function(){
-            viewer.graphics.noneSelected.deselected.opacity = plusSelected_deselected_opacity;
+			viewer.styleset.noselections.unhovered.unselected.opacity = plusSelected_deselected_opacity;
             viewer.updatePointStyles();
         });
         this.tablediv.addEventListener("mouseleave", function(){
-            viewer.graphics.noneSelected.deselected.opacity = noneSelected_deselected_opacity;
+        	viewer.styleset.noselections.unhovered.unselected.opacity = noneSelected_deselected_opacity;
             viewer.updatePointStyles();
         });
 

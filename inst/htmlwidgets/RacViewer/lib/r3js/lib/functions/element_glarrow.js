@@ -263,7 +263,7 @@ R3JS.element.glarrowhead = class GLArrowhead extends R3JS.element.base {
                 viewportHeight: { value: vheight },
                 viewportPixelRatio: { value: pixelratio },
                 sceneRotation: { value: scene.getRotation()[2] },
-                maxpointsize: { value: maxpointsize }
+                maxpointsize: { value: maxpointsize / pixelratio }
             }, 
             vertexShader:   R3JS.Shaders.VertexShaderArrowHead,
             fragmentShader: R3JS.Shaders.FragmentShaderArrowHead,

@@ -16,3 +16,5 @@ inst/doc
 Meta
 tests/testoutput/*
 docs
+/doc/
+/Meta/

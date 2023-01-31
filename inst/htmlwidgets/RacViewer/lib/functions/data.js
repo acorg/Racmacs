@@ -92,7 +92,7 @@ Racmacs.Data = class Data {
         let ndims = this.dimensions();
         let coords = this.viewer.points.map( p => {
             if (p.coords_na) {
-                return([]);
+                return(Array(ndims).fill(null));
             } else {
                 return(p.getPosition().slice(0, ndims));
             }

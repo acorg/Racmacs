@@ -105,7 +105,7 @@ Racmacs.Point.prototype.addBootstrapPoints = function(data){
     } else {
         this.bootstrapPoints = new R3JS.element.glpoints({
             coords : coords,
-            size : Array(coords.length).fill(0.4),
+            size : Array(coords.length).fill(1),
             properties : {
                 color : {
                     r:Array(coords.length).fill(0),

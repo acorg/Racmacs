@@ -69,7 +69,7 @@ std::vector<HemiData> ac_hemi_test_points(
       hemi_ag_improved_coords(0) = grid_results.xcoords( sub(0) );
       hemi_ag_improved_coords(1) = grid_results.ycoords( sub(1) );
       if(dim == 3){
-        hemi_ag_improved_coords(3) = grid_results.zcoords( sub(2) );
+        hemi_ag_improved_coords(2) = grid_results.zcoords( sub(2) );
       }
 
       // Move the antigen to the test position

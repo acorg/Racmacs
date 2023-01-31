@@ -243,6 +243,35 @@ test_that("Finding hemisphering points", {
 
 })
 
+
+# Finding trapped points
+test_that("Finding hemisphering points 3d", {
+
+  # Create an antigen hemisphering point
+  hemi_map_ag3d <- perfect_map3d
+  titerTable(hemi_map_ag3d)[1, -c(2, 7)] <- "*"
+
+  hemi_map_ag3d <- expect_warning(
+    optimizeMap(
+      map = hemi_map_ag3d,
+      number_of_dimensions = 3,
+      number_of_optimizations = 1,
+      fixed_column_bases = colbases3d
+    )
+  )
+
+  hemi_map_ag3d <- checkHemisphering(hemi_map_ag3d, stress_lim = 0.1)
+  expect_false(is.null(agHemisphering(hemi_map_ag3d)[[1]]))
+
+  export.viewer.test(
+    view(hemi_map_ag3d),
+    "hemisphering_ags3d.html"
+  )
+
+})
+
+
+
 # Read testmap
 map <- read.acmap(test_path("../testdata/testmap.ace"))
 titerTable(map)[1, 3:4] <- "*"

@@ -86,7 +86,7 @@ Racmacs.Point.prototype.addBootstrapPoints = function(data){
             var element = new R3JS.element.Point({
                 coords : coord,
                 size : 0.5,
-                shape : "circle3d",
+                shape : "sphere",
                 properties : {
                     lwd : 1,
                     fillcolor : {

@@ -140,7 +140,7 @@ ggplot.acmap <- function(
         rotation = .data$rotation,
         aspect = .data$aspect,
         blob = .data$blob,
-        linewidth = .data$outline_width,
+        stroke = .data$outline_width,
         text = .data$text
       ),
       indicate_outliers = indicate_outliers
@@ -416,7 +416,7 @@ GeomAcPoint <- ggplot2::ggproto(
     shape = "circle",
     colour = "black",
     fill = "black",
-    linewidth = 1,
+    stroke = 1,
     rotation = 0,
     aspect = 1,
     indicate_outliers = FALSE,
@@ -467,7 +467,7 @@ GeomAcPoint <- ggplot2::ggproto(
         gp = grid::gpar(
           col = row$colour,
           fill = row$fill,
-          lwd = row$linewidth
+          lwd = row$stroke
         ),
         size = row$size,
         rotation = rotation,

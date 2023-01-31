@@ -58,6 +58,7 @@ Racmacs.Point.prototype.addBlob = function(blob){
 
     // Remove any current blobs
     this.removeBlob();
+    if (blob === null) return;
     
     // Hide the normal element
     this.pointElement.hide();

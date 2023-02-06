@@ -36,7 +36,6 @@ Racmacs uses [OpenMP](https://www.openmp.org) instructions to specify when code 
 
 The default compiler on mac systems for example is `clang` which does not support OpenMP and will fail anyway by default because it does not include a fortran compiler by default.
 
-<br/>
 __Installing gcc and a fortran compiler__  
 The solution for both OpenMP support and provision of a fortran compiler on a mac system is to follow the guidance from the [R project page for mac](https://mac.r-project.org/tools/) and install the official GNU Fortran binaries from F.X.Coudert found [here](https://github.com/fxcoudert/gfortran-for-macOS/releases).
 
@@ -44,13 +43,11 @@ Note that you have to install the correct version according to your hardware e.g
 
 The easiest method of installation is through finding the appropriate .dmg file which will contain an automatic installer for you rather than the .tar.xz source versions where you will have to deal with installation yourself.
 
-<br/>
 __Changing the default compiler in R__  
 Once you have installed your fortran compiler and the packaged gcc compiler you need to change the default compiler in R. To do this you specify it in your local `Makevars` file. This exists in the `.R` folder in your home folder, i.e. `~/.R/Makevars`. It is possible you will have to create the `.R` folder and the `Makevars` text file.
 
 Once done, add the following lines to the `Makevars` file and update the paths to the appropriate path for each of the respective executables, for example:
 
-<br/>
 ```
 CC=/usr/local/gfortran/bin/gcc
 CXX=/usr/local/gfortran/bin/g++
@@ -67,7 +64,6 @@ SHLIB_OPENMP_FCFLAGS=-fopenmp
 SHLIB_OPENMP_FFLAGS=-fopenmp
 ```
 
-<br/>
 Now when you try and install and build the package from source things should be setup to use g++, with support for OpenMP parallization now included.
 
 Finally, to check whether your version of Racmacs has been compiled to work in parallel or not you can run the command `Racmacs:::parallel_mode()`, which should return `TRUE`. It's not a problem if it returns `FALSE`, optimization code just won't run in parallel so will take a bit longer.

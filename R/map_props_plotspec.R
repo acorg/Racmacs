@@ -9,16 +9,20 @@ plotspec_getter <- function(pttype, fn) {
       if (pttype == "ag") {
         function(map) {
           check.acmap(map)
-          sapply(map$antigens, function(ag) {
+          output <- sapply(map$antigens, function(ag) {
             fn(ag$plotspec)
           })
+          names(output) <- agNames(map)
+          output
         }
       } else {
         function(map) {
           check.acmap(map)
-          sapply(map$sera, function(sr) {
+          output <- sapply(map$sera, function(sr) {
             fn(sr$plotspec)
           })
+          names(output) <- srNames(map)
+          output
         }
       }
     })

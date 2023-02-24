@@ -188,3 +188,4 @@
 
 # Racmacs 1.1.40
 * Add some options to view.acmap to set the starting viewer translation, rotation and zoom
+* Add `grid.lwd` option to control grid linewidth in `ggplot(map)`

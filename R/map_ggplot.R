@@ -21,6 +21,7 @@
 #'   indicated, either FALSE, for not shown, or "arrowheads" for small arrowheads
 #'   like in the viewer.
 #' @param grid.col grid line color
+#' @param grid.lwd grid line width
 #' @param grid.margin.col grid margin color
 # #' @param outlier.arrow.col outlier arrow color
 #' @param fill.alpha alpha for point fill
@@ -52,6 +53,7 @@ ggplot.acmap <- function(
   plot_stress = FALSE,
   indicate_outliers = "arrowheads",
   grid.col = "grey90",
+  grid.lwd = 0.5,
   grid.margin.col = "grey50",
   # outlier.arrow.col = grid.col,
   fill.alpha    = 0.8,
@@ -170,7 +172,8 @@ ggplot.acmap <- function(
       ),
       panel.grid.minor = ggplot2::element_blank(),
       panel.grid.major = ggplot2::element_line(
-        color = grid.col
+        color = grid.col,
+        size = grid.lwd
       ),
       axis.text = ggplot2::element_blank(),
       axis.ticks = ggplot2::element_blank(),

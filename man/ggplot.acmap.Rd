@@ -18,6 +18,7 @@
   plot_stress = FALSE,
   indicate_outliers = "arrowheads",
   grid.col = "grey90",
+  grid.lwd = 0.5,
   grid.margin.col = "grey50",
   fill.alpha = 0.8,
   outline.alpha = 0.8,
@@ -57,6 +58,8 @@ indicated, either FALSE, for not shown, or "arrowheads" for small arrowheads
 like in the viewer.}
 
 \item{grid.col}{grid line color}
+
+\item{grid.lwd}{grid line width}
 
 \item{grid.margin.col}{grid margin color}
 

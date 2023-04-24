@@ -29,14 +29,15 @@ returning a list of option settings.
 \details{
 When merging measured titers, the general approach is to take the geometric
 mean and use that as the merged titer, however in particular when < values
-are present there are different options that can be employed. In older versions
-of Racmacs, < values were converted to maximum possible numeric titer after
-accounting for the dilution_stepsize factor, then the geometric mean was taken.
-This approach is used by specifying the method as "likelihood" since this is
-a very rough approximation of the most likely mean value. In contrast, the
-"conservative" method and current default returns the highest < value that
-satisfies all the values that were measured. As an example merging <10 and 20,
-(assuming dilution_stepsize = 1) would return a value of 10 with the "likelihood"
+are present there are different options that can be employed. In older
+versions of Racmacs, < values were converted to maximum possible numeric
+titer after accounting for the dilution_stepsize factor, then the geometric
+mean was taken. This approach can be used by specifying the method as
+"likelihood" since, this approach gives a very rough approximation of the
+most likely mean numeric value. In contrast, the "conservative" method and
+current default returns the highest < value that satisfies all the values
+that were measured. As an example merging <10 and 20, (assuming
+dilution_stepsize = 1) would return a value of 10 with the "likelihood"
 method and <40 with the "conservative" method.
 }
 \seealso{

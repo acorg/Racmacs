@@ -250,3 +250,34 @@ ptDrawingOrder <- function(map) {
   map$pt_drawing_order <- value
   map
 }
+
+
+# Function to lower the drawing order of certain points
+lowerDrawingOrder <- function(
+    map,
+    antigens = FALSE,
+    sera = FALSE
+) {
+
+  # Fetch initial drawing order
+  drawing_order <- ptDrawingOrder(map)
+
+  # Get matched antigen and sera indices
+  antigen_indices <- Racmacs:::get_ag_indices(antigens, map)
+  sera_indices <- Racmacs:::get_sr_indices(sera, map) + numAntigens(map)
+
+  # Rearrange point drawing order
+  drawing_order <- c(
+    drawing_order[!drawing_order %in% c(antigen_indices, sera_indices)],
+    antigen_indices,
+    sera_indices
+  )
+
+  # Update and return the map
+  ptDrawingOrder(map) <- drawing_order
+  map
+
+}
+
+
+

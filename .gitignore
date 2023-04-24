@@ -10,7 +10,7 @@
 *.o
 *.o.tmp
 *.code-workspace
-*.vscode/*
+.vscode*
 doc
 inst/doc
 Meta

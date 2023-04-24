@@ -7,6 +7,15 @@ context("Bootstrapping maps")
 num_bs_repeats <- 200
 map <- read.acmap(test_path("../testdata/testmap_h3subset.ace"))
 
+test_that("Test error on bootstrap blobs for map that was not bootstrapped", {
+
+  expect_error(
+    bootstrapBlobs(map),
+    "First run bootstrap repeats on this map object using the bootstrapMap\\(\\) function"
+  )
+
+})
+
 test_that("Test map noisy bootstrapping", {
 
   # Noisy bootstrap

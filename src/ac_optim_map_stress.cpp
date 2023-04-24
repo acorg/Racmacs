@@ -7,9 +7,11 @@
 #include <omp.h>
 #endif
 // [[Rcpp::plugins(openmp)]]
+// [[Rcpp::depends(RcppProgress)]]
 // #include <Rcpp/Benchmark/Timer.h>
 
 #include "utils.h"
+#include "utils_error.h"
 #include "utils_progress.h"
 #include "acmap_map.h"
 #include "ac_stress.h"
@@ -561,10 +563,10 @@ void ac_relaxOptimizations(
 
   // Run and return optimization results
   #pragma omp parallel for schedule(dynamic)
-  for(int i=0; i<num_optimizations; i++){
+  for (int i=0; i<num_optimizations; i++) {
 
     // Run the optimization
-    if( !p.check_abort() ){
+    if (!p.check_abort()) {
       p.increment();
 
       // Now cycle "anneal" through the dimensions
@@ -593,8 +595,8 @@ void ac_relaxOptimizations(
   }
 
   // Report finished
-  if( p.is_aborted() ){
-    pb.complete("Optimization runs interrupted", false);
+  if (p.is_aborted()) {
+    ac_error("Optimization runs interrupted");
   } else {
     pb.complete("Optimization runs complete");
   }

@@ -9,6 +9,8 @@
 struct AcMergeOptions {
   double sd_limit;
   double dilution_stepsize;
+  Rcpp::Function merge_function;
+  std::string method;
 };
 
 

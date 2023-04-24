@@ -25,7 +25,8 @@ Imports:
     magrittr,
     igraph,
     dplyr,
-    vctrs
+    vctrs,
+    rlang
 LazyData: TRUE
 Suggests: 
     testthat,

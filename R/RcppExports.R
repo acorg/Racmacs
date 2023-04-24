@@ -533,6 +533,18 @@ ac_merge_incremental <- function(maps, num_dims, num_optimizations, min_colbasis
     .Call('_Racmacs_ac_merge_incremental', PACKAGE = 'Racmacs', maps, num_dims, num_optimizations, min_colbasis, optimizer_options, merge_options)
 }
 
+ac_titer_merge_type <- function(titers) {
+    .Call('_Racmacs_ac_titer_merge_type', PACKAGE = 'Racmacs', titers)
+}
+
+ac_titer_layer_merge_types <- function(titer_layers) {
+    .Call('_Racmacs_ac_titer_layer_merge_types', PACKAGE = 'Racmacs', titer_layers)
+}
+
+ac_titer_layer_sd <- function(titer_layers, dilution_stepsize) {
+    .Call('_Racmacs_ac_titer_layer_sd', PACKAGE = 'Racmacs', titer_layers, dilution_stepsize)
+}
+
 ac_move_trapped_points <- function(optimization, titertable, grid_spacing, options, max_iterations = 10L, dilution_stepsize = 1.0) {
     .Call('_Racmacs_ac_move_trapped_points', PACKAGE = 'Racmacs', optimization, titertable, grid_spacing, options, max_iterations, dilution_stepsize)
 }

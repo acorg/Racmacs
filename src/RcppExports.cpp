@@ -1497,6 +1497,40 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// ac_titer_merge_type
+int ac_titer_merge_type(const std::vector<AcTiter>& titers);
+RcppExport SEXP _Racmacs_ac_titer_merge_type(SEXP titersSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const std::vector<AcTiter>& >::type titers(titersSEXP);
+    rcpp_result_gen = Rcpp::wrap(ac_titer_merge_type(titers));
+    return rcpp_result_gen;
+END_RCPP
+}
+// ac_titer_layer_merge_types
+arma::imat ac_titer_layer_merge_types(const std::vector<AcTiterTable>& titer_layers);
+RcppExport SEXP _Racmacs_ac_titer_layer_merge_types(SEXP titer_layersSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const std::vector<AcTiterTable>& >::type titer_layers(titer_layersSEXP);
+    rcpp_result_gen = Rcpp::wrap(ac_titer_layer_merge_types(titer_layers));
+    return rcpp_result_gen;
+END_RCPP
+}
+// ac_titer_layer_sd
+arma::mat ac_titer_layer_sd(const std::vector<AcTiterTable>& titer_layers, const double dilution_stepsize);
+RcppExport SEXP _Racmacs_ac_titer_layer_sd(SEXP titer_layersSEXP, SEXP dilution_stepsizeSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const std::vector<AcTiterTable>& >::type titer_layers(titer_layersSEXP);
+    Rcpp::traits::input_parameter< const double >::type dilution_stepsize(dilution_stepsizeSEXP);
+    rcpp_result_gen = Rcpp::wrap(ac_titer_layer_sd(titer_layers, dilution_stepsize));
+    return rcpp_result_gen;
+END_RCPP
+}
 // ac_move_trapped_points
 AcOptimization ac_move_trapped_points(AcOptimization optimization, AcTiterTable titertable, double grid_spacing, AcOptimizerOptions options, int max_iterations, double dilution_stepsize);
 RcppExport SEXP _Racmacs_ac_move_trapped_points(SEXP optimizationSEXP, SEXP titertableSEXP, SEXP grid_spacingSEXP, SEXP optionsSEXP, SEXP max_iterationsSEXP, SEXP dilution_stepsizeSEXP) {
@@ -1984,6 +2018,9 @@ static const R_CallMethodDef CallEntries[] = {
     {"_Racmacs_ac_merge_relaxed_overlay", (DL_FUNC) &_Racmacs_ac_merge_relaxed_overlay, 3},
     {"_Racmacs_ac_merge_frozen_merge", (DL_FUNC) &_Racmacs_ac_merge_frozen_merge, 3},
     {"_Racmacs_ac_merge_incremental", (DL_FUNC) &_Racmacs_ac_merge_incremental, 6},
+    {"_Racmacs_ac_titer_merge_type", (DL_FUNC) &_Racmacs_ac_titer_merge_type, 1},
+    {"_Racmacs_ac_titer_layer_merge_types", (DL_FUNC) &_Racmacs_ac_titer_layer_merge_types, 1},
+    {"_Racmacs_ac_titer_layer_sd", (DL_FUNC) &_Racmacs_ac_titer_layer_sd, 2},
     {"_Racmacs_ac_move_trapped_points", (DL_FUNC) &_Racmacs_ac_move_trapped_points, 6},
     {"_Racmacs_ac_coords_stress", (DL_FUNC) &_Racmacs_ac_coords_stress, 7},
     {"_Racmacs_ac_point_stresses", (DL_FUNC) &_Racmacs_ac_point_stresses, 6},

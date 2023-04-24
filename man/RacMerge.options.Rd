@@ -4,15 +4,20 @@
 \alias{RacMerge.options}
 \title{Set acmap merge options}
 \usage{
-RacMerge.options(sd_limit = 1, dilution_stepsize = 1)
+RacMerge.options(sd_limit = NULL, dilution_stepsize = 1, method = NULL)
 }
 \arguments{
 \item{sd_limit}{When merging titers, titers that have a standard deviation of
-this amount or greater on the log2 scale will be set to "*" and excluded,
-set to NA to always simply take the GMT regardless of log titer standard deviation}
+this amount or greater on the log2 scale will be set to "*" and excluded.
+Setting this to NA removes any limit. The default value will be NA, unless
+the titer merge method is specified as "lispmds" in which case the default
+is 1 and standard deviation is calculated by division by n, instead of n-1,
+in order to maintain backwards compatibility with previous approaches.}
 
 \item{dilution_stepsize}{The dilution stepsize to assume when merging titers (see
 \code{dilutionStepsize()})}
+
+\item{method}{The titer merging method to use, either a string of "conservative" or "likelihood", or a user defined function. See details.}
 }
 \value{
 Returns a named list of merging options
@@ -20,6 +25,19 @@ Returns a named list of merging options
 \description{
 This function facilitates setting options for the acmap titer merging process by
 returning a list of option settings.
+}
+\details{
+When merging measured titers, the general approach is to take the geometric
+mean and use that as the merged titer, however in particular when < values
+are present there are different options that can be employed. In older versions
+of Racmacs, < values were converted to maximum possible numeric titer after
+accounting for the dilution_stepsize factor, then the geometric mean was taken.
+This approach is used by specifying the method as "likelihood" since this is
+a very rough approximation of the most likely mean value. In contrast, the
+"conservative" method and current default returns the highest < value that
+satisfies all the values that were measured. As an example merging <10 and 20,
+(assuming dilution_stepsize = 1) would return a value of 10 with the "likelihood"
+method and <40 with the "conservative" method.
 }
 \seealso{
 Other map merging functions: 

@@ -419,7 +419,9 @@ AcMergeOptions as(SEXP sxp){
   List opt = as<List>(sxp);
   return AcMergeOptions{
     opt["sd_limit"],
-    opt["dilution_stepsize"]
+    opt["dilution_stepsize"],
+    opt["merge_function"],
+    opt["method"]
   };
 
 }

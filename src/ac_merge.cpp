@@ -13,8 +13,27 @@ AcTiter ac_merge_titers(
     const AcMergeOptions& options
 ){
 
+  // Use the user specified merge function if applicable
+  if (options.method == "function") {
+
+    // Convert AcTiter vector to Rcpp Character vector
+    Rcpp::CharacterVector character_titers(titers.size());
+    for (arma::uword i=0; i<titers.size(); i++) { character_titers[i] = titers[i].toString(); }
+
+    // Pass to the function and recast output as AcTiter
+    try {
+      return(AcTiter(Rcpp::as<std::string>(options.merge_function(character_titers))));
+    } catch(std::exception &ex) {
+      std::string exstr = ex.what();
+      ac_error("Could not parse results from user-defined titer merge function, error was '" + exstr + "'");
+    } catch(...) {
+      ac_error("Could not parse results from user-defined titer merge function");
+    }
+
+  }
+
   // Return the titer if size 1
-  if(titers.size() == 1){
+  if (titers.size() == 1) {
     return titers[0];
   }
 
@@ -24,50 +43,74 @@ AcTiter ac_merge_titers(
   arma::uvec nona = arma::find(ttypes > 0);
 
   // 1. If there are > and < titers, result is "*"
-  if(arma::any(ttypes == 2) && arma::any(ttypes == 3)){
+  if (arma::any(ttypes == 2) && arma::any(ttypes == 3)) {
+
     return AcTiter();
+
   } else
-    // 2a. If there are just ".", result is "."
-    if(arma::all(ttypes == -1)){
-      return AcTiter(0, -1);
-    } else
-    // 2. If there are just "*" or ".", result is "*"
-    if(arma::all(ttypes <= 0)){
+  // 2a. If there are just ".", result is "."
+  if (arma::all(ttypes == -1)) {
+
+    return AcTiter(0, -1);
+
+  } else
+  // 2. If there are just "*" or ".", result is "*"
+  if (arma::all(ttypes <= 0)) {
+
+    return AcTiter();
+
+  } else
+  // 3. If there are just lessthan titers, result is min of them, keeping lessthan
+  if (arma::all(ttypes.elem(nona) == 2)) {
+
+    return AcTiter(
+      arma::min(numtiters),
+      2 // Less than type
+    );
+
+  } else
+  // 4. If there are just morethan titers, result is max of them, keeping morethan
+  if (arma::all(ttypes.elem(nona) == 3)) {
+
+    return AcTiter(
+      arma::max(numtiters),
+      3 // More than type
+    );
+
+  } else {
+
+    // 5. Convert > and < titers to their next values, i.e. <40 to 20, >10240 to 20480, etc. and take the log
+    arma::vec logtiters = log_titers(titers, options.dilution_stepsize);
+
+    // Special case for conservative / lispmds method
+    // If there is a mix of < values and others then return convert to log and return the largest less than
+    if (options.method != "likelihood" && arma::any(ttypes == 2)) {
+
+      return AcTiter(
+        std::pow(2.0, arma::max(logtiters.elem(nona)) + options.dilution_stepsize)*10,
+        2 // Set lessthan type
+      );
+
+    }
+
+    // 6. Compute SD, if SD > options.sd_limit, result is *, otherwise return the mean
+    if (
+      options.sd_limit == options.sd_limit && // Check sd_limit not set to NA
+      arma::stddev(logtiters.elem(nona), options.method == "lispmds") > options.sd_limit
+    ) {
+
       return AcTiter();
-    } else
-      // 3. If there are just lessthan titers, result is min of them, keeping lessthan
-      if(arma::all(ttypes.elem(nona) == 2)){
-        return AcTiter(
-          arma::min(numtiters),
-          2 // Less than type
-        );
-      } else
-        // 4. If there are just morethan titers, result is max of them, keeping morethan
-        if(arma::all(ttypes.elem(nona) == 3)){
-          return AcTiter(
-            arma::max(numtiters),
-            3 // More than type
-          );
-        } else {
 
-          // 5. Convert > and < titers to their next values, i.e. <40 to 20, >10240 to 20480, etc. and take the log
-          arma::vec logtiters = log_titers(titers, options.dilution_stepsize);
+    } else {
 
-          // 6. Compute SD, if SD > options.sd_limit, result is *
-          if(
-            options.sd_limit == options.sd_limit && // Check sd_limit not set to NA
-              arma::stddev(logtiters.elem(nona)) > options.sd_limit
-            ){
-            return AcTiter();
-          }
-          // 7. Otherwise return the mean (ignoring nas)
-          else{
-            return AcTiter(
-              std::pow(2.0, arma::mean(logtiters.elem(nona)))*10,
-              1 // Set measurable type
-            );
-          }
-        }
+      return AcTiter(
+        std::pow(2.0, arma::mean(logtiters.elem(nona)))*10,
+        1 // Set measurable type
+      );
+
+    }
+
+  }
 
 }
 
@@ -732,3 +775,93 @@ AcMap ac_merge_incremental(
 
 }
 
+
+// [[Rcpp::export]]
+int ac_titer_merge_type(
+    const std::vector<AcTiter>& titers
+) {
+
+  // Determine titer types
+  arma::ivec ttypes = titer_types_int(titers);
+
+  // Case -1: All .
+  if (arma::all(ttypes == -1)) {
+    return(-1);
+  } else
+  // Case 0: Nothing measured
+  if (arma::all(ttypes <= 0)) {
+    return(0);
+  } else
+  // Case 1: Only detectable
+  if (arma::all(ttypes == 1)) {
+    return(1);
+  } else
+  // Case 2: Only <
+  if (arma::all(ttypes == 2)) {
+    return(2);
+  } else
+  // Case 3: Only >
+  if (arma::all(ttypes == 3)) {
+    return(3);
+  } else
+  // Case 4: Contains some mixture of <, > and detectable values
+  {
+    return(4);
+  }
+
+}
+
+
+// Determing the type of titer merge happening in tables
+// [[Rcpp::export]]
+arma::imat ac_titer_layer_merge_types(
+    const std::vector<AcTiterTable>& titer_layers
+){
+
+  int num_ags = titer_layers.at(0).nags();
+  int num_sr  = titer_layers.at(0).nsr();
+  int num_layers = titer_layers.size();
+
+  arma::imat merge_types(num_ags, num_sr);
+  std::vector<AcTiter> titers(num_layers, AcTiter());
+
+  for (int ag=0; ag<num_ags; ag++) {
+    for (int sr=0; sr<num_sr; sr++) {
+      for (int i=0; i<num_layers; i++) {
+        titers[i] = titer_layers.at(i).get_titer(ag,sr);
+      }
+      merge_types(ag, sr) = ac_titer_merge_type(titers);
+    }
+  }
+
+  return merge_types;
+
+}
+
+
+// Determing the type of titer merge happening in tables
+// [[Rcpp::export]]
+arma::mat ac_titer_layer_sd(
+    const std::vector<AcTiterTable>& titer_layers,
+    const double dilution_stepsize
+){
+
+  int num_ags = titer_layers.at(0).nags();
+  int num_sr  = titer_layers.at(0).nsr();
+  int num_layers = titer_layers.size();
+
+  arma::mat merge_sd(num_ags, num_sr);
+  std::vector<AcTiter> titers(num_layers, AcTiter());
+
+  for (int ag=0; ag<num_ags; ag++) {
+    for (int sr=0; sr<num_sr; sr++) {
+      for (int i=0; i<num_layers; i++) {
+        titers[i] = titer_layers.at(i).get_titer(ag,sr);
+      }
+      merge_sd(ag, sr) = arma::stddev(log_titers(titers, dilution_stepsize));
+    }
+  }
+
+  return merge_sd;
+
+}

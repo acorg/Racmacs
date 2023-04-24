@@ -41,7 +41,7 @@ test_that("Test titer merging", {
 
     # Default "conservative" result
     expect_equal(
-      ac_merge_titers(titer_merge_tests$titers[[x]], options = RacMerge.options()),
+      suppressWarnings(ac_merge_titers(titer_merge_tests$titers[[x]], options = RacMerge.options())),
       titer_merge_tests$conservative[x]
     )
 

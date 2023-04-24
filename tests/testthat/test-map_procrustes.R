@@ -75,6 +75,11 @@ rownames(sr_coords2) <- sr_names2
 
 # Create the test maps
 map1 <- acmap(
+  titer_table = matrix(
+    as.character(2^round(runif(nrow(ag_coords1)*nrow(sr_coords1), -1, 10))*10),
+    nrow(ag_coords1),
+    nrow(sr_coords1)
+  ),
   ag_coords = ag_coords1,
   sr_coords = sr_coords1,
   ag_names  = ag_names1,
@@ -83,6 +88,11 @@ map1 <- acmap(
 )
 
 map2 <- acmap(
+  titer_table = matrix(
+    as.character(2^round(runif(nrow(ag_coords2)*nrow(sr_coords2), -1, 10))*10),
+    nrow(ag_coords2),
+    nrow(sr_coords2)
+  ),
   ag_coords = ag_coords2,
   sr_coords = sr_coords2,
   ag_names  = ag_names2,

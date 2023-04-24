@@ -20,6 +20,7 @@
   grid.col = "grey90",
   grid.lwd = 0.5,
   grid.margin.col = "grey50",
+  grid.margin.lwd = grid.lwd,
   fill.alpha = 0.8,
   outline.alpha = 0.8,
   padding = 1,
@@ -62,6 +63,8 @@ like in the viewer.}
 \item{grid.lwd}{grid line width}
 
 \item{grid.margin.col}{grid margin color}
+
+\item{grid.margin.lwd}{grid margin line width}
 
 \item{fill.alpha}{alpha for point fill}
 

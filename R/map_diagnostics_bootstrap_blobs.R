@@ -41,6 +41,11 @@ bootstrapBlobs <- function(
   method = "ks"
 ) {
 
+  # Check the map has bootstrap data
+  if (!hasBootstrapData(map, 1)) {
+    stop("First run bootstrap repeats on this map object using the bootstrapMap() function", call. = FALSE)
+  }
+
   # Set antigens and sera
   antigens <- get_ag_indices(antigens, map)
   sera <- get_sr_indices(sera, map)

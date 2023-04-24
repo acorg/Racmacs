@@ -194,4 +194,4 @@
 ## Racmacs 1.2
 ### Racmacs 1.2.0
 * Add new options and default methods to use when merging titers as described for `RacMerge.options()`
-
+* Return a more useful error if `bootstrapBlobs()` is run on a map where `bootstrapMap()` has not yet been performed.

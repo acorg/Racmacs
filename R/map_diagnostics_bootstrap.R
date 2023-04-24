@@ -143,14 +143,14 @@ bootstrapMap <- function(
 # Utility function to get bootstrap data
 bootstrapData <- function(map, optimization_number) {
 
-  map$optimization[[optimization_number]]$bootstrap
+  map$optimizations[[optimization_number]]$bootstrap
 
 }
 
 # Utility function to check if map has bootstrap data
 hasBootstrapData <- function(map, optimization_number) {
 
-  !is.null(bootstrapData(map, optimization_number))
+  length(bootstrapData(map, optimization_number)) > 0
 
 }
 

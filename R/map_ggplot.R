@@ -23,6 +23,7 @@
 #' @param grid.col grid line color
 #' @param grid.lwd grid line width
 #' @param grid.margin.col grid margin color
+#' @param grid.margin.lwd grid margin line width
 # #' @param outlier.arrow.col outlier arrow color
 #' @param fill.alpha alpha for point fill
 #' @param outline.alpha alpha for point outline
@@ -55,6 +56,7 @@ ggplot.acmap <- function(
   grid.col = "grey90",
   grid.lwd = 0.5,
   grid.margin.col = "grey50",
+  grid.margin.lwd = grid.lwd,
   # outlier.arrow.col = grid.col,
   fill.alpha    = 0.8,
   outline.alpha = 0.8,
@@ -165,6 +167,7 @@ ggplot.acmap <- function(
     ggplot2::theme(
       panel.border = ggplot2::element_rect(
         colour = grid.margin.col,
+        linewidth = grid.margin.lwd,
         fill = NA
       ),
       panel.background = ggplot2::element_rect(

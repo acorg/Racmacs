@@ -263,8 +263,8 @@ lowerDrawingOrder <- function(
   drawing_order <- ptDrawingOrder(map)
 
   # Get matched antigen and sera indices
-  antigen_indices <- Racmacs:::get_ag_indices(antigens, map)
-  sera_indices <- Racmacs:::get_sr_indices(sera, map) + numAntigens(map)
+  antigen_indices <- get_ag_indices(antigens, map)
+  sera_indices <- get_sr_indices(sera, map) + numAntigens(map)
 
   # Rearrange point drawing order
   drawing_order <- c(

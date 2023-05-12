@@ -40,6 +40,7 @@ dependencies:
       - r3js/lib/functions/element.js
       - r3js/lib/functions/element_points.js
       - r3js/lib/functions/element_lines.js
+      - r3js/lib/functions/element_light.js
       - r3js/lib/functions/element_gllines.js
       - r3js/lib/functions/element_arrow.js
       - r3js/lib/functions/element_glarrow.js

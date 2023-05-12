@@ -6,7 +6,6 @@
 \usage{
 RacViewer(
   map,
-  plotdata = NULL,
   show_procrustes = FALSE,
   show_group_legend = FALSE,
   options = list(),
@@ -17,8 +16,6 @@ RacViewer(
 }
 \arguments{
 \item{map}{The map data object}
-
-\item{plotdata}{r3js plot data}
 
 \item{show_procrustes}{should procrustes lines be shown}
 
@@ -33,6 +30,8 @@ groups as set by \code{agGroups()} and \code{srGroups()}}
 \item{height}{Height of the widget}
 
 \item{elementId}{DOM element ID}
+
+\item{plotdata}{r3js plot data}
 }
 \description{
 This creates an html widget for viewing antigenic maps.

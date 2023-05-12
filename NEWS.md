@@ -200,3 +200,4 @@
 # Racmacs 1.2.1
 * Titer merge method changed so that sd limit is implemented before any merging to < values
 * Expose further optimization options as user controllable options
+* Add the option to set lighting using the r3js::light3js() function

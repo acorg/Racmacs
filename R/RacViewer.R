@@ -20,7 +20,6 @@
 #' @export
 RacViewer <- function(
   map,
-  plotdata  = NULL,
   show_procrustes = FALSE,
   show_group_legend = FALSE,
   options   = list(),
@@ -46,6 +45,7 @@ RacViewer <- function(
   x <- list(
     mapData  = mapdata,
     plotdata = jsonlite::toJSON(map$plot),
+    light = jsonlite::toJSON(map$light),
     options  = jsonlite::toJSON(
       options,
       auto_unbox = TRUE,

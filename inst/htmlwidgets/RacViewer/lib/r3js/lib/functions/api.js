@@ -6,3 +6,8 @@ R3JS.Viewer.prototype.rotateSceneEuclidean = function(rotation){
     this.render();
 }
 
+R3JS.Viewer.prototype.setBackground = function(color){
+
+    this.scene.scene.background = new THREE.Color(color);
+
+}

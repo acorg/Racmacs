@@ -9,6 +9,7 @@ RacViewer.options(
   viewer.controls = "hidden",
   grid.display = "static",
   grid.col = "#cfcfcf",
+  background.col = "#ffffff",
   show.names = FALSE,
   show.errorlines = FALSE,
   show.connectionlines = FALSE,

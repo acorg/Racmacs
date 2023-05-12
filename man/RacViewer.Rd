@@ -30,8 +30,6 @@ groups as set by \code{agGroups()} and \code{srGroups()}}
 \item{height}{Height of the widget}
 
 \item{elementId}{DOM element ID}
-
-\item{plotdata}{r3js plot data}
 }
 \description{
 This creates an html widget for viewing antigenic maps.

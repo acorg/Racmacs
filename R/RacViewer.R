@@ -4,7 +4,6 @@
 #' This creates an html widget for viewing antigenic maps.
 #'
 #' @param map The map data object
-#' @param plotdata r3js plot data
 #' @param show_procrustes should procrustes lines be shown
 #' @param show_group_legend Show an interactive legend detailing different
 #'   groups as set by `agGroups()` and `srGroups()`

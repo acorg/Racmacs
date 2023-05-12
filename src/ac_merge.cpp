@@ -82,17 +82,6 @@ AcTiter ac_merge_titers(
     // 5. Convert > and < titers to their next values, i.e. <40 to 20, >10240 to 20480, etc. and take the log
     arma::vec logtiters = log_titers(titers, options.dilution_stepsize);
 
-    // Special case for conservative / lispmds method
-    // If there is a mix of < values and others then return convert to log and return the largest less than
-    if (options.method != "likelihood" && arma::any(ttypes == 2)) {
-
-      return AcTiter(
-        std::pow(2.0, arma::max(logtiters.elem(nona)) + options.dilution_stepsize)*10,
-        2 // Set lessthan type
-      );
-
-    }
-
     // 6. Compute SD, if SD > options.sd_limit, result is *, otherwise return the mean
     if (
       options.sd_limit == options.sd_limit && // Check sd_limit not set to NA
@@ -102,6 +91,17 @@ AcTiter ac_merge_titers(
       return AcTiter();
 
     } else {
+
+      // Special case for conservative / lispmds method
+      // If there is a mix of < values and others then return convert to log and return the largest less than
+      if (options.method != "likelihood" && arma::any(ttypes == 2)) {
+
+        return AcTiter(
+          std::pow(2.0, arma::max(logtiters.elem(nona)) + options.dilution_stepsize)*10,
+          2 // Set lessthan type
+        );
+
+      }
 
       return AcTiter(
         std::pow(2.0, arma::mean(logtiters.elem(nona)))*10,

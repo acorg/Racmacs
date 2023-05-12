@@ -315,17 +315,3 @@ splitTiterLayers <- function(
 
 }
 
-
-# Titer merge function as defined in legacy lispmds software
-lispmds_merge_function <- function(titers) {
-
-  # Simply return titer if length 1
-  if (length(titers) == 1) return(titers)
-
-  # Convert to titer types and logtiters
-  titertypes <- titer_types_int(titers)
-  logtiters <- log_titers(titers, 1)
-
-  # 1. If all less thans,
-
-}

@@ -453,9 +453,20 @@ double ac_relax_coords(
     sr_coords.rows(arma::find(sr_fixed == 0))
   );
 
+  // Setup the optimizer
+  ens::L_BFGS lbfgs(
+    options.num_basis,
+    options.maxit,
+    options.armijo_constant,
+    options.wolfe,
+    options.min_gradient_norm,
+    options.factr,
+    options.max_line_search_trials,
+    options.min_step,
+    options.max_step
+  );
+
   // Perform the optimization
-  ens::L_BFGS lbfgs;
-  lbfgs.MaxIterations() = options.maxit;
   lbfgs.Optimize(map, pars);
 
   // Return the result

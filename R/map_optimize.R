@@ -235,6 +235,14 @@ make.acmap <- function(
 #' @param dim_annealing Should dimensional annealing be performed
 #' @param method The optimization method to use
 #' @param maxit The maximum number of iterations to use in the optimizer
+#' @param num_basis Number of memory points to be stored (default 10).
+#' @param armijo_constant Controls the accuracy of the line search routine for determining the Armijo condition.
+#' @param wolfe Parameter for detecting the Wolfe condition.
+#' @param min_gradient_norm Minimum gradient norm required to continue the optimization.
+#' @param factr Minimum relative function value decrease to continue the optimization.
+#' @param max_line_search_trials The maximum number of trials for the line search (before giving up).
+#' @param min_step The minimum step of the line search.
+#' @param max_step The maximum step of the line search.
 #' @param num_cores The number of cores to run in parallel
 #' @param report_progress Should progress be reported
 #' @param ignore_disconnected Should the check for disconnected points be skipped
@@ -254,6 +262,14 @@ RacOptimizer.options <- function(
   dim_annealing = FALSE,
   method = "L-BFGS",
   maxit = 1000,
+  num_basis = 10,
+  armijo_constant = 1e-4,
+  wolfe = 0.9,
+  min_gradient_norm = 1e-6,
+  factr = 1e-15,
+  max_line_search_trials = 50,
+  min_step = 1e-20,
+  max_step = 1e20,
   num_cores = parallel::detectCores(),
   report_progress = NULL,
   ignore_disconnected = FALSE,
@@ -280,6 +296,14 @@ RacOptimizer.options <- function(
     dim_annealing = dim_annealing,
     method = method,
     maxit = maxit,
+    num_basis = num_basis,
+    armijo_constant = armijo_constant,
+    wolfe = wolfe,
+    min_gradient_norm = min_gradient_norm,
+    factr = factr,
+    max_line_search_trials = max_line_search_trials,
+    min_step = min_step,
+    max_step = max_step,
     num_cores = num_cores,
     ignore_disconnected = ignore_disconnected,
     report_progress = report_progress,

@@ -4,6 +4,7 @@
 #' Method for plotting an antigenic map as a ggplot object
 #'
 #' @param data The acmap to plot
+#' @param mapping Default list of aesthetic mappings to use for plot, not currently used
 #' @param optimization_number The optimization number to plot
 #' @param xlim optional x axis limits
 #' @param ylim optional y axis limits
@@ -35,12 +36,14 @@
 #' @param arrow_length length of arrow heads drawn for procrustes lines in cm
 #' @param margins margins in inches for the plot
 #' @param ... additional arguments, not used
+#' @param environment not used
 #'
 #' @family functions to view maps
 #' @export
 #'
 ggplot.acmap <- function(
   data = NULL,
+  mapping = NULL,
   optimization_number = 1,
   xlim = NULL,
   ylim = NULL,
@@ -65,7 +68,8 @@ ggplot.acmap <- function(
   arrow_angle = 25,
   arrow_length = 0.2,
   margins = rep(0.5, 4),
-  ...
+  ...,
+  environment = NULL
   ) {
 
   # Set parameters

@@ -202,3 +202,6 @@
 * Expose further optimization options as user controllable options
 * Add the option to set lighting using the r3js::light3js() function
 * Add the option to set the viewer background color
+
+# Racmacs 1.2.2
+* Add argument in view.acmap to control set viewer background color

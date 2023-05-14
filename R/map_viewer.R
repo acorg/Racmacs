@@ -11,6 +11,7 @@
 #' @param grid.display For 3d maps, should the grid be fixed in the background
 #'   or enclose and rotate along with the map
 #' @param grid.col Color to use for the grid shown behind the map
+#' @param background.col Color for the viewer background
 #' @param show.names Toggle name labels on, can be true or false or "antigens"
 #'   or "sera"
 #' @param show.errorlines Toggle error lines on

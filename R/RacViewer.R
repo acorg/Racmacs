@@ -127,7 +127,7 @@ snapshotMap <- function(
   check.acmap(map)
 
   # Generate the widget
-  widget   <- view(map, ...)
+  widget <- view(map, ...)
 
   # Save the widget to a temporary file
   tmpdir  <- tempdir()

@@ -6,6 +6,7 @@
 \usage{
 \method{ggplot}{acmap}(
   data = NULL,
+  mapping = NULL,
   optimization_number = 1,
   xlim = NULL,
   ylim = NULL,
@@ -27,11 +28,14 @@
   arrow_angle = 25,
   arrow_length = 0.2,
   margins = rep(0.5, 4),
-  ...
+  ...,
+  environment = NULL
 )
 }
 \arguments{
 \item{data}{The acmap to plot}
+
+\item{mapping}{Default list of aesthetic mappings to use for plot, not currently used}
 
 \item{optimization_number}{The optimization number to plot}
 
@@ -80,6 +84,8 @@ ylim set explicitly}
 \item{margins}{margins in inches for the plot}
 
 \item{...}{additional arguments, not used}
+
+\item{environment}{not used}
 }
 \description{
 Method for plotting an antigenic map as a ggplot object

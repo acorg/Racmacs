@@ -205,3 +205,6 @@
 
 # Racmacs 1.2.2
 * Add argument in view.acmap to control set viewer background color
+
+# Racmacs 1.2.3
+* Fix error where light was not being added to the viewer properly

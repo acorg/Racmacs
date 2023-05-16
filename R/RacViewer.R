@@ -43,12 +43,17 @@ RacViewer <- function(
   # Forward data using x
   x <- list(
     mapData  = mapdata,
-    plotdata = jsonlite::toJSON(map$plot),
-    light = jsonlite::toJSON(map$light),
+    plotdata = jsonlite::toJSON(
+      map$plot
+    ),
+    light = jsonlite::toJSON(
+      map$light,
+      null = "null"
+    ),
     options  = jsonlite::toJSON(
       options,
       auto_unbox = TRUE,
-      null = 'null'
+      null = "null"
     )
   )
 

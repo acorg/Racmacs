@@ -135,7 +135,7 @@ Racmacs.Viewer.prototype.load = function(
         // Lights
         this.scene.clearLights();
 
-        if (light === undefined) {
+        if (!light || light.length === 0) {
 
             // Default lighting
             this.scene.addLight({

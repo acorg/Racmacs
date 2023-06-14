@@ -13,6 +13,7 @@
   plot_sr = TRUE,
   plot_labels = FALSE,
   plot_blobs = TRUE,
+  point_opacity = "automatic",
   show_procrustes = TRUE,
   show_error_lines = FALSE,
   plot_stress = FALSE,
@@ -22,6 +23,11 @@
   outlier.arrow.col = grid.col,
   fill.alpha = 0.8,
   outline.alpha = 0.8,
+  procrustes.lwd = 2,
+  procrustes.col = "black",
+  procrustes.arr.type = "triangle",
+  procrustes.arr.length = 0.2,
+  procrustes.arr.width = 0.15,
   label.offset = 0,
   padding = 1,
   cex = 1,
@@ -47,6 +53,11 @@
 
 \item{plot_blobs}{logical, should stress blobs be plotted if present}
 
+\item{point_opacity}{Either "automatic" or "fixed". "fixed" fixes point
+opacity to match those in \code{ptFill()} and \code{ptOutline()} and will not be
+altered in procrustes plots or by the fill.alpha and outline.alpha
+parameters.}
+
 \item{show_procrustes}{logical, should procrustes lines be shown, if present}
 
 \item{show_error_lines}{logical, should error lines be drawn}
@@ -67,6 +78,16 @@ plot margin, default is "arrowheads".}
 \item{fill.alpha}{alpha for point fill}
 
 \item{outline.alpha}{alpha for point outline}
+
+\item{procrustes.lwd}{procrustes arrow line width}
+
+\item{procrustes.col}{procrustes arrow color}
+
+\item{procrustes.arr.type}{procrustes arrow type (see \code{shape::Arrows()})}
+
+\item{procrustes.arr.length}{procrustes arrow length (see \code{shape::Arrows()})}
+
+\item{procrustes.arr.width}{procrustes arrow width (see \code{shape::Arrows()})}
 
 \item{label.offset}{amount by which any point labels should be offset from
 point coordinates in fractions of a character width}

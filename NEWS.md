@@ -208,3 +208,6 @@
 
 # Racmacs 1.2.3
 * Fix error where light was not being added to the viewer properly
+
+# Racmacs 1.2.4
+* Add arguments to control procrustes arrow appearance in `plot.acmap()`

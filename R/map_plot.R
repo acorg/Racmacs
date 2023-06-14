@@ -12,6 +12,10 @@
 #' @param plot_labels should point labels be plotted, can be true, false or
 #'   "antigens" or "sera"
 #' @param plot_blobs logical, should stress blobs be plotted if present
+#' @param point_opacity Either "automatic" or "fixed". "fixed" fixes point
+#'   opacity to match those in `ptFill()` and `ptOutline()` and will not be
+#'   altered in procrustes plots or by the fill.alpha and outline.alpha
+#'   parameters.
 #' @param show_procrustes logical, should procrustes lines be shown, if present
 #' @param show_error_lines logical, should error lines be drawn
 #' @param plot_stress logical, should map stress be plotted in lower left corner
@@ -24,6 +28,11 @@
 #' @param outlier.arrow.col outlier arrow color
 #' @param fill.alpha alpha for point fill
 #' @param outline.alpha alpha for point outline
+#' @param procrustes.lwd procrustes arrow line width
+#' @param procrustes.col procrustes arrow color
+#' @param procrustes.arr.type procrustes arrow type (see `shape::Arrows()`)
+#' @param procrustes.arr.length procrustes arrow length (see `shape::Arrows()`)
+#' @param procrustes.arr.width procrustes arrow width (see `shape::Arrows()`)
 #' @param label.offset amount by which any point labels should be offset from
 #'   point coordinates in fractions of a character width
 #' @param padding padding at limits of the antigenic map, ignored if xlim or
@@ -44,6 +53,7 @@ plot.acmap <- function(
   plot_sr  = TRUE,
   plot_labels = FALSE,
   plot_blobs = TRUE,
+  point_opacity = "automatic",
   show_procrustes = TRUE,
   show_error_lines = FALSE,
   plot_stress = FALSE,
@@ -53,6 +63,11 @@ plot.acmap <- function(
   outlier.arrow.col = grid.col,
   fill.alpha    = 0.8,
   outline.alpha = 0.8,
+  procrustes.lwd = 2,
+  procrustes.col = "black",
+  procrustes.arr.type = "triangle",
+  procrustes.arr.length = 0.2,
+  procrustes.arr.width = 0.15,
   label.offset = 0,
   padding = 1,
   cex = 1,
@@ -178,17 +193,20 @@ plot.acmap <- function(
   pts$blob <- !sapply(pt_blobs, is.null)
 
   ## Adjust alpha
-  if (!is.null(fill.alpha)) {
-    pts$fill    <- grDevices::adjustcolor(pts$fill,    alpha.f = fill.alpha)
-  }
-  if (!is.null(outline.alpha)) {
-    pts$outline <- grDevices::adjustcolor(pts$outline, alpha.f = outline.alpha)
+  if (point_opacity == "automatic") {
+    if (!is.null(fill.alpha)) {
+      pts$fill    <- grDevices::adjustcolor(pts$fill,    alpha.f = fill.alpha)
+    }
+    if (!is.null(outline.alpha)) {
+      pts$outline <- grDevices::adjustcolor(pts$outline, alpha.f = outline.alpha)
+    }
   }
 
   ## Fade out points not included in procrustes
   if (
-    hasProcrustes(map, optimization_number)
-    && !isFALSE(show_procrustes)
+    point_opacity == "automatic" &&
+    hasProcrustes(map, optimization_number) &&
+    !isFALSE(show_procrustes)
   ) {
 
     pc_data <- ptProcrustes(map, optimization_number)
@@ -261,10 +279,18 @@ plot.acmap <- function(
     && !isFALSE(show_procrustes)
   ) {
 
+    # Get procrustes data
     pc_data <- ptProcrustes(map, optimization_number)
     pc_coords <- rbind(pc_data$ag_coords, pc_data$sr_coords)
     pc_coords <- applyMapTransform(pc_coords, map, optimization_number)
     pt_coords <- ptCoords(map, optimization_number)
+
+    # Get procrustes graphical options
+    procrustes.lwd <- rep_len(procrustes.lwd, numPoints(map))
+    procrustes.col <- rep_len(procrustes.col, numPoints(map))
+    procrustes.arr.type <- rep_len(procrustes.arr.type, numPoints(map))
+    procrustes.arr.length <- rep_len(procrustes.arr.length, numPoints(map))
+    procrustes.arr.width <- rep_len(procrustes.arr.width, numPoints(map))
 
     lapply(seq_len(numPoints(map)), function(i){
       shape::Arrows(
@@ -272,11 +298,12 @@ plot.acmap <- function(
         y0 = pt_coords[i, 2],
         x1 = pc_coords[i, 1],
         y1 = pc_coords[i, 2],
-        arr.type = "triangle",
+        arr.type = procrustes.arr.type[i],
         arr.adj = 1,
-        arr.length = 0.2,
-        arr.width = 0.15,
-        lwd = 2
+        arr.length = procrustes.arr.length[i],
+        arr.width = procrustes.arr.width[i],
+        lwd = procrustes.lwd[i],
+        col = procrustes.col[i]
       )
     })
 

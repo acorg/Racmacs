@@ -39,6 +39,7 @@ Suggests:
     gdata,
     stringr,
     tibble,
+    tidyr,
     base64enc,
     lifecycle,
     MCMCpack

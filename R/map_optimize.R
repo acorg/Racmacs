@@ -251,7 +251,7 @@ make.acmap <- function(
 #' @details For more details, for example on "dimensional annealing" see
 #'   `vignette("intro-to-antigenic-cartography")`. For details on optimizer
 #'   settings like `maxit` see the underlying optimizer documentation at
-#'   [ensmallen.org](http://ensmallen.org).
+#'   [ensmallen.org](https://ensmallen.org/).
 #'
 #' @family map optimization functions
 #'

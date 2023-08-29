@@ -64,7 +64,7 @@ returning a list of option settings.
 For more details, for example on "dimensional annealing" see
 \code{vignette("intro-to-antigenic-cartography")}. For details on optimizer
 settings like \code{maxit} see the underlying optimizer documentation at
-\href{http://ensmallen.org}{ensmallen.org}.
+\href{https://ensmallen.org/}{ensmallen.org}.
 }
 \seealso{
 Other map optimization functions: 

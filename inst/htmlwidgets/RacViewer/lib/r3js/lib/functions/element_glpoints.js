@@ -45,6 +45,7 @@ R3JS.element.glpoints = class GLPoints {
         args.properties.visible      = R3JS.DefaultArray(args.properties.visible, 1, coords.length);
         args.properties.aspect       = R3JS.DefaultArray(args.properties.aspect, 1, coords.length);
         args.properties.outlinewidth = R3JS.DefaultArray(args.properties.outlinewidth, 1, coords.length);
+        args.properties.rotation     = R3JS.DefaultArray(args.properties.rotation, 0, coords.length);
 
         // Set variables
         var positions    = new Float32Array( coords.length * 3 );
@@ -133,11 +134,11 @@ R3JS.element.glpoints = class GLPoints {
             if(args.shape[n] == "uglyegg open")    { shape[i] = 4 }
             if(args.shape[n] == "uglyegg filled")  { shape[i] = 4 }
             if(args.shape[n] == "sphere")          { shape[i] = 6; args.size[n] = args.size[n]*1.3 }
-
+            
             sizes[i]    = args.size[n]*0.2;
             visible[i]  = args.properties.visible[n];
             aspect[i]   = args.properties.aspect[n];
-            rotation[i] = 0;
+            rotation[i] = args.properties.rotation[n];
 
         }
 
@@ -302,6 +303,7 @@ R3JS.element.glpoint = class GLPoint extends R3JS.element.base {
     // Method to set color
     setColor(color){
 
+        color = R3JS.Viewer.prototype.map_color(color);
         color = new THREE.Color(color);    
         var fillCols = this.object.geometry.attributes.fillColor.array;
         this.object.geometry.attributes.fillColor.needsUpdate = true;
@@ -335,6 +337,7 @@ R3JS.element.glpoint = class GLPoint extends R3JS.element.base {
     // Method to set outline color
     setOutlineColor(color){
 
+        color = R3JS.Viewer.prototype.map_color(color);
         color = new THREE.Color(color);
         var outlineCols = this.object.geometry.attributes.outlineColor.array;
         this.object.geometry.attributes.outlineColor.needsUpdate = true;

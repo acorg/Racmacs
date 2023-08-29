@@ -221,9 +221,7 @@ Racmacs.Point = class Point {
     getPrimaryColorHex(){
 
         var col = this.getPrimaryColor();
-        if(col == "green"){
-            col = "#00ff00";
-        }
+        col = this.viewer.map_color(col);
         return new THREE.Color(col).getHexString();
 
     }
@@ -418,10 +416,8 @@ Racmacs.Point = class Point {
     getFillColorRGBA(){
         if(this.fillColor == "transparent"){
             var col = "#ffffff";
-        } else if(this.fillColor == "green"){
-            var col = "#00ff00";
         } else {
-            var col = this.fillColor;
+            var col = this.viewer.map_color(this.fillColor);
         }
         var rgb = new THREE.Color(col).toArray();
         if(this.fillColor == "transparent"){
@@ -437,7 +433,7 @@ Racmacs.Point = class Point {
         if(this.outlineColor == "transparent"){
             var col = "#ffffff";
         } else {
-            var col = this.outlineColor;
+            var col = this.viewer.map_color(this.outlineColor);
         }
         var rgb = new THREE.Color(col).toArray();
         if(this.outlineColor == "transparent"){
@@ -454,7 +450,7 @@ Racmacs.Point = class Point {
         if(color == "transparent"){
             var col = "#ffffff";
         } else {
-            var col = color;
+            var col = this.viewer.map_color(color);
         }
         var rgb = new THREE.Color(col).toArray();
         if(color == "transparent"){
@@ -468,7 +464,6 @@ Racmacs.Point = class Point {
     // Set point fill color
     setFillColor(col){
 
-        if(col == "green") col = "#00ff00";
         if(!this.coloring_fixed){
             
             this.fillColor = col;
@@ -514,7 +509,6 @@ Racmacs.Point = class Point {
     // Set the point outline color
     setOutlineColor(col){
         
-        if(col == "green") col = "#00ff00";
         if(!this.coloring_fixed && this.element){
             
             this.outlineColor = col;

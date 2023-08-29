@@ -1,7 +1,7 @@
 Package: Racmacs
 Type: Package
 Title: R Antigenic Cartography Macros
-Version: 1.2.4
+Version: 1.2.5
 Date: 2022-12-21
 Author: S. H. Wilks
 Maintainer: S. H. Wilks <sw463@cam.ac.uk>

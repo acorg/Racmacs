@@ -62,6 +62,7 @@
 #' @importFrom grid `preDrawDetails`
 #' @importFrom grid `postDrawDetails`
 #' @importFrom magrittr `%>%`
+#' @importFrom rlang `.data`
 "_PACKAGE"
 
 .onLoad <- function(...) {

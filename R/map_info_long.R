@@ -12,8 +12,8 @@ group_cols <- function(map, groups, fill, outline) {
   vapply(
     groups,
     function(group) {
-      group_cols <- col2rgb(cols[groups == group])
-      rgb(
+      group_cols <- grDevices::col2rgb(cols[groups == group])
+      grDevices::rgb(
         red   = mean(group_cols["red", ]),
         green = mean(group_cols["green", ]),
         blue  = mean(group_cols["blue", ]),
@@ -108,15 +108,15 @@ longTiterData <- function(map) {
       rownames = "ag_num"
     ) %>%
     tidyr::pivot_longer(
-      cols = -ag_num,
+      cols = -.data$ag_num,
       names_to = "sr_num",
       values_to = "titer"
     ) %>%
     dplyr::mutate(
-      logtiter = log_titers(titer, dilutionStepsize(map)),
-      titertype = factor(as.vector(titer_types_int(titer)), levels = -1:3),
-      ag_num = as.factor(as.numeric(ag_num)),
-      sr_num = as.factor(as.numeric(sr_num))
+      logtiter = log_titers(.data$titer, dilutionStepsize(map)),
+      titertype = factor(as.vector(titer_types_int(.data$titer)), levels = -1:3),
+      ag_num = as.factor(as.numeric(.data$ag_num)),
+      sr_num = as.factor(as.numeric(.data$sr_num))
     )
 
 }
@@ -136,12 +136,9 @@ longMapData <- function(map) {
     dplyr::left_join(ag_info, by = "ag_num") %>%
     dplyr::left_join(sr_info, by = "sr_num") %>%
     dplyr::mutate(
-      titer_adjusted = Racmacs:::reactivity_adjust_titers(titer, ag_reactivity_adjustment),
-      logtiter_adjusted = logtiter + ag_reactivity_adjustment,
+      titer_adjusted = reactivity_adjust_titers(.data$titer, .data$ag_reactivity_adjustment),
+      logtiter_adjusted = .data$logtiter + .data$ag_reactivity_adjustment,
       dilution_stepsize = dilutionStepsize(map)
     )
 
 }
-
-
-# longMapLayerData <- function()

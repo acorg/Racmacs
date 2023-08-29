@@ -44,6 +44,24 @@ srNameMatrix <- function(map, optimization_number = 1) {
   )
 }
 
+agExtraMatrix <- function(map, optimization_number = 1) {
+  matrix(
+    agExtra(map),
+    nrow = numAntigens(map),
+    ncol = numSera(map),
+    byrow = F
+  )
+}
+
+srExtraMatrix <- function(map, optimization_number = 1) {
+  matrix(
+    srExtra(map),
+    nrow = numAntigens(map),
+    ncol = numSera(map),
+    byrow = T
+  )
+}
+
 agNumMatrix <- function(map) {
   matrix(
     seq_len(numAntigens(map)),

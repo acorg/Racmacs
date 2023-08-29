@@ -211,3 +211,6 @@
 
 # Racmacs 1.2.4
 * Add arguments to control procrustes arrow appearance in `plot.acmap()`
+
+# Racmacs 1.2.5
+* Allow for shorthand description of shapes e.g. "C" for "CIRCLE" in map .ace files.

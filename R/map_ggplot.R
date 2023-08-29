@@ -439,6 +439,12 @@ GeomAcPoint <- ggplot2::ggproto(
 
     coords <- coord$transform(data, panel_params)
     coords$shape <- tolower(coords$shape)
+    coords$shape[coords$shape == "e"] <- "egg"
+    coords$shape[coords$shape == "u"] <- "uglyegg"
+    coords$shape[coords$shape == "b"] <- "box"
+    coords$shape[coords$shape == "c"] <- "circle"
+    coords$shape[coords$shape == "t"] <- "triangle"
+
     polys <- lapply(split(coords, seq_len(nrow(coords))), function(row) {
 
       # Set parameters

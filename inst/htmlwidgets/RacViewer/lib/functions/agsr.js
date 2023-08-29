@@ -110,6 +110,13 @@ Racmacs.Point = class Point {
         this.scaling        = 1;
         this.included       = true;
 
+        // Expand short shape descriptions
+        if (this.shape == "C") this.shape = "CIRCLE";
+        if (this.shape == "B") this.shape = "BOX";
+        if (this.shape == "T") this.shape = "TRIANGLE";
+        if (this.shape == "E") this.shape = "EGG";
+        if (this.shape == "U") this.shape = "UGLYEGG";
+
         if (args.group_levels != undefined) {
             this.groupvalue = args.group_levels[args.group];
         }

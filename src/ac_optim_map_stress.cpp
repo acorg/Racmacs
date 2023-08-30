@@ -573,7 +573,7 @@ void ac_relaxOptimizations(
   }
 
   // Run and return optimization results
-  #pragma omp parallel for schedule(dynamic)
+  #pragma omp parallel for schedule(dynamic) num_threads(options.num_cores)
   for (int i=0; i<num_optimizations; i++) {
 
     // Run the optimization

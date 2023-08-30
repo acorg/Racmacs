@@ -214,3 +214,6 @@
 
 # Racmacs 1.2.5
 * Allow for shorthand description of shapes e.g. "C" for "CIRCLE" in map .ace files.
+
+# Racmacs 1.2.6
+* Set the default number of cores to use as 2 unless otherwise specified in either RacOptimizer.options, or by setting the global option 'RacOptimizer.num_cores' with e.g. `options(RacOptimizer.num_cores = parallel::detectCores())`.

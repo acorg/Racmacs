@@ -16,7 +16,7 @@ RacOptimizer.options(
   max_line_search_trials = 50,
   min_step = 1e-20,
   max_step = 1e+20,
-  num_cores = parallel::detectCores(),
+  num_cores = getOption("RacOptimizer.num_cores"),
   report_progress = NULL,
   ignore_disconnected = FALSE,
   progress_bar_length = options()$width
@@ -45,7 +45,7 @@ RacOptimizer.options(
 
 \item{max_step}{The maximum step of the line search.}
 
-\item{num_cores}{The number of cores to run in parallel}
+\item{num_cores}{The number of cores to run in parallel when running optimizations}
 
 \item{report_progress}{Should progress be reported}
 

@@ -4,6 +4,7 @@ library(testthat)
 context("Bootstrapping maps")
 
 # Set variables
+options(RacOptimizer.num_cores = 2)
 num_bs_repeats <- 200
 map <- read.acmap(test_path("../testdata/testmap_h3subset.ace"))
 

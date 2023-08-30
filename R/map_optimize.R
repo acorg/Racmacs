@@ -243,7 +243,7 @@ make.acmap <- function(
 #' @param max_line_search_trials The maximum number of trials for the line search (before giving up).
 #' @param min_step The minimum step of the line search.
 #' @param max_step The maximum step of the line search.
-#' @param num_cores The number of cores to run in parallel
+#' @param num_cores The number of cores to run in parallel when running optimizations
 #' @param report_progress Should progress be reported
 #' @param ignore_disconnected Should the check for disconnected points be skipped
 #' @param progress_bar_length Progress bar length when progress is reported
@@ -270,7 +270,7 @@ RacOptimizer.options <- function(
   max_line_search_trials = 50,
   min_step = 1e-20,
   max_step = 1e20,
-  num_cores = parallel::detectCores(),
+  num_cores = getOption("RacOptimizer.num_cores"),
   report_progress = NULL,
   ignore_disconnected = FALSE,
   progress_bar_length = options()$width
@@ -281,9 +281,19 @@ RacOptimizer.options <- function(
   check.logical(ignore_disconnected)
   check.string(method)
   check.numeric(maxit)
-  check.numeric(num_cores)
   check.numeric(progress_bar_length)
   if (!is.null(report_progress)) check.logical(report_progress)
+  if (!is.null(num_cores)) check.integer(num_cores)
+
+  # Set default number of cores to 2
+  if (is.null(num_cores)) {
+    rlang::warn(
+      message = "Number of parallel cores to use for optimization was not specified, so using default of 2. You can set the number of cores to use explicitly by passing it as an argument to the optimizer function, or globally by setting the option 'RacOptimizer.num_cores', e.g. by adding the line `options(RacOptimizer.num_cores = parallel::detectCores())` to the top of your script.",
+      .frequency = "regularly",
+      .frequency_id = "RacOptimizer_num_cores_check"
+    )
+    num_cores <- 2
+  }
 
   # This is a hack to attempt to see if messages are currently suppressed
   if (is.null(report_progress)) {

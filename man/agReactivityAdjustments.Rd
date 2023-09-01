@@ -14,6 +14,9 @@ agReactivityAdjustments(map) <- value
 
 \item{value}{A vector of antigen reactivity adjustments to apply}
 }
+\value{
+A numeric vector of antigen reactivity adjustments
+}
 \description{
 Get and set antigen reactivity adjustments
 }

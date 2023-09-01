@@ -13,6 +13,9 @@
 #' @param sera Sera to include when calculating the rmsd of the procrustes
 #'   (specified by name or index or TRUE/FALSE for all/none)
 #'
+#' @returns Returns a numeric vector of the leverage calculated for each of the
+#'   points.
+#'
 #' @family map diagnostic functions
 #' @name ptLeverage
 NULL

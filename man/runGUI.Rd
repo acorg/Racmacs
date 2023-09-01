@@ -6,6 +6,9 @@
 \usage{
 runGUI()
 }
+\value{
+Nothing returned, called only for the side effect of starting the viewer.
+}
 \description{
 This function opens the Racmacs GUI in a new window
 }

@@ -15,12 +15,16 @@ agGroups(map) <- value
 \item{value}{A character or factor vector of groupings to apply to the
 antigens}
 }
+\value{
+A factor vector of groupings.
+}
 \description{
 These functions get and set the antigen groupings for a map.
 }
 \seealso{
 Other antigen and sera attribute functions: 
 \code{\link{agAttributes}},
+\code{\link{agHomologousSr}()},
 \code{\link{agLabIDs}()},
 \code{\link{agSequences}()},
 \code{\link{ptAnnotations}},

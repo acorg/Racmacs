@@ -14,6 +14,9 @@ titerTableLayers(map) <- value
 
 \item{value}{A list of titer table character vectors to set}
 }
+\value{
+A list of character matrices of titers.
+}
 \description{
 Functions to get and set the underlying titer table layers of a map (see
 details).

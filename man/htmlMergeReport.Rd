@@ -9,6 +9,11 @@ htmlMergeReport(map)
 \arguments{
 \item{map}{An acmap object that was the result of merging several maps}
 }
+\value{
+A list() with a Rac_html_merge_report and shiny.tag class that can
+be converted into an HTML string via as.character() and saved to a file
+with save_html().
+}
 \description{
 Prints an html formatted table merge report of a set of merged maps, visualising
 with colors how different titers have been merged together.

@@ -5,6 +5,8 @@
 #'
 #' @param map An acmap object that was the result of merging several maps
 #'
+#' @returns Returns a character matrix of information on merged titers.
+#'
 #' @family map merging functions
 #' @export
 mergeReport <- function(map) {
@@ -78,6 +80,10 @@ mergeReport <- function(map) {
 #' with colors how different titers have been merged together.
 #'
 #' @param map An acmap object that was the result of merging several maps
+#'
+#' @returns A list() with a Rac_html_merge_report and shiny.tag class that can
+#'   be converted into an HTML string via as.character() and saved to a file
+#'   with save_html().
 #'
 #' @family map merging functions
 #' @export
@@ -227,6 +233,11 @@ htmlMergeReport <- function(map) {
 #' with colors things like which titers are the maximum for each sera.
 #'
 #' @param map An acmap object
+#'
+#' @returns A list() with a Rac_html_merge_report and shiny.tag class that can
+#'   be converted into an HTML string via as.character() and saved to a file
+#'   with save_html().
+#'
 #' @seealso htmlAdjustedTiterTable
 #' @export
 htmlTiterTable <- function(map) {
@@ -245,7 +256,12 @@ htmlTiterTable <- function(map) {
 #' with colors things like which titers are the maximum for each sera.
 #'
 #' @param map An acmap object
-#' @param optimization_number The optimization number from which to take the antigen reactivity adjustments
+#' @param optimization_number The optimization number from which to take the
+#'   antigen reactivity adjustments.
+#'
+#' @returns A list() with a Rac_html_merge_report and shiny.tag class that can
+#'   be converted into an HTML string via as.character() and saved to a file
+#'   with save_html().
 #'
 #' @export
 htmlAdjustedTiterTable <- function(map, optimization_number = 1) {

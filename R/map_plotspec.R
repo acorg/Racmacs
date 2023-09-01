@@ -6,7 +6,7 @@
 #' @param map The acmap object
 #' @param source_map An acmap object from which to copy point styles
 #'
-#' @return Returns the acmap object with updated point styles (unmatched point
+#' @returns Returns the acmap object with updated point styles (unmatched point
 #'   styles unchanged)
 #' @export
 #' @family map point style functions

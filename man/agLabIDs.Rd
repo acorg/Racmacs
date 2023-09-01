@@ -15,6 +15,9 @@ agLabIDs(map) <- value
 \item{value}{A list of character vectors with lab ids information for each
 point}
 }
+\value{
+A character vector of antigen laboratory IDs
+}
 \description{
 Getting and setting antigen lab id information
 }
@@ -22,6 +25,7 @@ Getting and setting antigen lab id information
 Other antigen and sera attribute functions: 
 \code{\link{agAttributes}},
 \code{\link{agGroups}()},
+\code{\link{agHomologousSr}()},
 \code{\link{agSequences}()},
 \code{\link{ptAnnotations}},
 \code{\link{ptClades}},

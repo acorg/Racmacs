@@ -17,6 +17,10 @@ placed in an adjacent directory.}
 
 \item{...}{Further parameters to \code{view()}}
 }
+\value{
+Called for the side effect of saving the viewer to an html file but
+invisibly returns the map viewer htmlwidget.
+}
 \description{
 Export a map in a standalone html viewer
 }
@@ -28,7 +32,6 @@ Other functions to view maps:
 \code{\link{mapGadget}()},
 \code{\link{plot.acmap}()},
 \code{\link{setLegend}()},
-\code{\link{snapshotMap}()},
 \code{\link{view.acmap}()},
 \code{\link{view.default}()},
 \code{\link{view}()}

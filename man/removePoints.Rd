@@ -17,6 +17,9 @@ removeSera(map, sera)
 
 \item{sera}{Sera to remove (specified by name or index)}
 }
+\value{
+An acmap object with points removed
+}
 \description{
 Functions to remove antigens and sera from a map
 }

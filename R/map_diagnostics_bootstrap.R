@@ -63,7 +63,7 @@
 #'  that in order to use this most effectively it is best to have an idea of the amount and type of measurement
 #'  noise you may expect in your data and set these parameters accordingly.
 #'
-#' @return Returns the map object updated with bootstrap information
+#' @returns Returns the map object updated with bootstrap information
 #' @family map diagnostic functions
 #' @export
 #'
@@ -162,6 +162,9 @@ hasBootstrapData <- function(map, optimization_number) {
 #'
 #' @param map The map object
 #'
+#' @returns Returns a list of coordinate matrices for the points in each of
+#'   the bootstrap runs
+#'
 #' @name mapBootstrapCoords
 #' @family map diagnostic functions
 #'
@@ -252,7 +255,7 @@ mapBootstrap_srCoords <- function(map) {
 #' @param point The point from which to get the bootstrap coords (numbered
 #'   antigens then sera)
 #'
-#' @return Returns a matrix of coordinates for the point in each of the
+#' @returns Returns a matrix of coordinates for the point in each of the
 #'   bootstrap runs
 #' @name ptBootstrapCoords
 #'

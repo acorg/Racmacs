@@ -9,6 +9,9 @@ logtiterTableLayers(map)
 \arguments{
 \item{map}{An acmap data object}
 }
+\value{
+A list of numeric matrices with logtiter values
+}
 \description{
 Return a list of logtiter table layers
 }

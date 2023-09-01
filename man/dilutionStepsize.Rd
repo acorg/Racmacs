@@ -14,6 +14,9 @@ dilutionStepsize(map) <- value
 
 \item{value}{The dilution stepsize value to set}
 }
+\value{
+A number giving the current dilution stepsize setting for a map.
+}
 \description{
 This defaults to 1 but can be changed using this function with knock-on
 effects for how < values are treated when maps are optimized or relaxed and

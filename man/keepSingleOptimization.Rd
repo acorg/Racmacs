@@ -11,6 +11,9 @@ keepSingleOptimization(map, optimization_number = 1)
 
 \item{optimization_number}{The optimization run to keep}
 }
+\value{
+An acmap object with only one optimization kept
+}
 \description{
 Keep only a single optimization run
 }

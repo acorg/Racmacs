@@ -10,6 +10,9 @@ stressBlobs(...)
 \arguments{
 \item{...}{Arguments to pass to the new function}
 }
+\value{
+Values from the new function
+}
 \description{
 These functions still work but have been deprecated in favour of another function. Arguments will be passed onto the new function with a warning.
 }

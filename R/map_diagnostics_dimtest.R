@@ -25,7 +25,7 @@
 #'   <10). For non-detectable titers, if the predicted titer is the same or
 #'   lower than the log-titer threshold, the error is set to 0.
 #'
-#' @return Returns a data frame with the following columns. "dimensions" : the
+#' @returns Returns a data frame with the following columns. "dimensions" : the
 #'   dimension tested, "mean_rmse_detectable" : mean prediction rmse for
 #'   detectable titers across all runs. "var_rmse_detectable" the variance of
 #'   the prediction rmse for detectable titers across all runs, useful for

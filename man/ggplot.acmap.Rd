@@ -87,6 +87,9 @@ ylim set explicitly}
 
 \item{environment}{not used}
 }
+\value{
+Returns the ggplot plot
+}
 \description{
 Method for plotting an antigenic map as a ggplot object
 }
@@ -98,7 +101,6 @@ Other functions to view maps:
 \code{\link{mapGadget}()},
 \code{\link{plot.acmap}()},
 \code{\link{setLegend}()},
-\code{\link{snapshotMap}()},
 \code{\link{view.acmap}()},
 \code{\link{view.default}()},
 \code{\link{view}()}

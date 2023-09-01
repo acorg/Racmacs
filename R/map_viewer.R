@@ -83,6 +83,9 @@ RacViewer.options <- function(
 #'   placed in an adjacent directory.
 #' @param ... Further parameters to `view()`
 #'
+#' @returns Called for the side effect of saving the viewer to an html file but
+#'   invisibly returns the map viewer htmlwidget.
+#'
 #' @family functions to view maps
 #'
 #' @export

@@ -63,6 +63,7 @@ These functions get and set the antigen attributes for a map.
 
 Other antigen and sera attribute functions: 
 \code{\link{agGroups}()},
+\code{\link{agHomologousSr}()},
 \code{\link{agLabIDs}()},
 \code{\link{agSequences}()},
 \code{\link{ptAnnotations}},

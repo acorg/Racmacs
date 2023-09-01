@@ -15,6 +15,10 @@ srHomologousAgs(map) <- value
 \item{value}{A list, where each entry is a vector of indices for homologous
 antigens, or a length 0 vector where no homologous antigen is present}
 }
+\value{
+A list, where each entry is a vector of indices for homologous
+antigens, or a length 0 vector where no homologous antigen is present.
+}
 \description{
 Get and set indices of homologous antigens to sera in an antigenic map
 }
@@ -22,6 +26,7 @@ Get and set indices of homologous antigens to sera in an antigenic map
 Other antigen and sera attribute functions: 
 \code{\link{agAttributes}},
 \code{\link{agGroups}()},
+\code{\link{agHomologousSr}()},
 \code{\link{agLabIDs}()},
 \code{\link{agSequences}()},
 \code{\link{ptAnnotations}},

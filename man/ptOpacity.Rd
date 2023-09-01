@@ -15,6 +15,9 @@ srOpacity(map) <- value
 
 \item{value}{A vector of opacities}
 }
+\value{
+A numeric vector of point opacities.
+}
 \description{
 These are helper functions to quickly set the opacity of points in a map,
 they set both the fill and outline color opacity by modifying the fill

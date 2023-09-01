@@ -27,6 +27,9 @@ name (defaults to all antigens).}
 \item{sera}{Which sera to check stress for, specified by index or name
 (defaults to all sera).}
 }
+\value{
+A numeric vector of point stresses
+}
 \description{
 Functions to get stress associated with individual points in a map.
 }

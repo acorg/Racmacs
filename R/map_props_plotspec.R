@@ -191,6 +191,8 @@ set_col_opacity <- function(cols, opacity) {
 #' @param map An acmap object
 #' @param value A vector of opacities
 #'
+#' @returns A numeric vector of point opacities.
+#'
 #' @family map point style functions
 #'
 #' @name ptOpacity
@@ -225,7 +227,7 @@ set_col_opacity <- function(cols, opacity) {
 #' @param map An acmap object
 #' @param value The point drawing order
 #'
-#' @return Returns the map object with point drawing order information updated
+#' @returns A numeric vector of point drawing order information
 #'
 #' @family map point style functions
 #'

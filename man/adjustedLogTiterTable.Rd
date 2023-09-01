@@ -12,6 +12,9 @@ adjustedLogTiterTable(map, optimization_number = 1)
 \item{optimization_number}{The optimization number from which
 to take any antigen reactivity adjustments}
 }
+\value{
+A numeric matrix of adjusted log titers.
+}
 \description{
 Return the log titer table plus any antigen reactivity adjustments.
 }

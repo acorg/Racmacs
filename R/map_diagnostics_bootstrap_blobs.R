@@ -25,7 +25,7 @@
 #' @param method One of "MASS", the default, or "ks", specifying the algorithm to
 #'   use when calculating blobs in 2D. 3D will always use ks::kde.
 #'
-#' @return Returns an acmap object that will then show the corresponding bootstrap
+#' @returns Returns an acmap object that will then show the corresponding bootstrap
 #'   blobs when viewed or plotted.
 #'
 #' @family map diagnostic functions

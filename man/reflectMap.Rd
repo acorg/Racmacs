@@ -14,6 +14,9 @@ reflectMap(map, axis = "x", optimization_number = NULL)
 \item{optimization_number}{The optimization number (or NULL to apply to all
 optimizations)}
 }
+\value{
+An acmap object with reflection applied
+}
 \description{
 Reflects map coordinates
 }

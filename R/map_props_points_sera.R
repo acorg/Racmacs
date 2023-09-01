@@ -100,6 +100,9 @@ srMatchIDs          <- sera_getter(ac_sr_get_match_id) # Not exported
 #' @param value A list, where each entry is a vector of indices for homologous
 #'   antigens, or a length 0 vector where no homologous antigen is present
 #'
+#' @returns A list, where each entry is a vector of indices for homologous
+#'   antigens, or a length 0 vector where no homologous antigen is present.
+#'
 #' @family antigen and sera attribute functions
 #' @export
 srHomologousAgs <- function(map) {
@@ -125,12 +128,44 @@ srHomologousAgsReindexed <- function(map) {
 )
 
 
+#' Get homologous sera for each antigen
+#'
+#' Gets the indices of homologous sera for each antigen in an antigenic map.
+#' See also the function `srHomologousAgs()` for getting and setting the
+#' homologous antigens reciprocally.
+#'
+#' @param map An acmap object
+#'
+#' @returns A list, where each entry is a vector of indices for homologous
+#'   sera, or a length 0 vector where no homologous serum is present
+#'
+#' @family antigen and sera attribute functions
+#' @export
+agHomologousSr <- function(map) {
+
+  # Get homologous serum information
+  homologous_sr <- srHomologousAgs(map)
+
+  # Cycle through each antigen and collect which sera are listed as homologous to it
+  lapply(seq_len(numAntigens(map)), function(ag_num) {
+
+    which(vapply(homologous_sr, function(ag_nums) {
+      ag_num %in% ag_nums
+    }, logical(1)))
+
+  })
+
+}
+
+
 #' Getting and setting sera groups
 #'
 #' These functions get and set the sera groupings for a map.
 #'
 #' @param map The acmap object
 #' @param value A character or factor vector of groupings to apply to the sera
+#'
+#' @returns A factor vector of serum groups
 #'
 #' @name srGroups
 #' @family antigen and sera attribute functions
@@ -174,6 +209,9 @@ srGroups <- function(map) {
 #'   where sequence data is missing.
 #' @param value A character matrix of sequences with rows equal to the number of
 #'   sera
+#'
+#' @returns A character matrix of sequences with rows equal to the number of
+#'   sera.
 #'
 #' @name srSequences
 #' @family antigen and sera attribute functions

@@ -29,6 +29,9 @@ the coordinates}
 
 \item{value}{A matrix of new coordinates to set}
 }
+\value{
+Returns a matrix of point coordinates.
+}
 \description{
 Getting and setting of antigen and serum coordinates in a map optimization
 run (by default the currently selected one).

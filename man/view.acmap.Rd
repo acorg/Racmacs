@@ -47,7 +47,7 @@ for inclusion in the "optimizations" pane.}
 \code{RacViewer.options()}}
 }
 \value{
-Returns the htmlwidget object
+Returns an htmlwidget object
 }
 \description{
 View a racmap object in the interactive viewer.
@@ -61,7 +61,6 @@ Other functions to view maps:
 \code{\link{mapGadget}()},
 \code{\link{plot.acmap}()},
 \code{\link{setLegend}()},
-\code{\link{snapshotMap}()},
 \code{\link{view.default}()},
 \code{\link{view}()}
 

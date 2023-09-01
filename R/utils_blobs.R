@@ -200,6 +200,8 @@ transformMapBlob <- function(blob, map, optimization_number) {
 #'
 #' @param blob The blob object
 #'
+#' @returns A numeric vector
+#'
 #' @family additional plotting functions
 #' @export
 #'

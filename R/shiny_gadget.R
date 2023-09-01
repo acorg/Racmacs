@@ -6,6 +6,8 @@
 #'
 #' @param map The acmap object to open in the GUI
 #'
+#' @returns No value returned, called for the side effect of starting the gadget.
+#'
 #' @family functions to view maps
 #' @export
 #'

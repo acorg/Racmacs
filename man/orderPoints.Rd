@@ -15,6 +15,9 @@ orderSera(map, order)
 
 \item{order}{The new order of points}
 }
+\value{
+An acmap object with points reordered
+}
 \description{
 Functions to change the order of antigens and sera in a map
 }

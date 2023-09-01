@@ -20,6 +20,9 @@ titerTableFlat(map) <- value
 
 \item{value}{A character matrix of titers to set}
 }
+\value{
+Returns a character matrix of titers.
+}
 \description{
 Functions to get and set the map titer table. Note that when setting the
 titer table like this any titer table layer information is lost, this is

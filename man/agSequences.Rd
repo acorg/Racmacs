@@ -24,6 +24,9 @@ where sequence data is missing.}
 \item{value}{A character matrix of sequences with rows equal to the number of
 antigens}
 }
+\value{
+A character matrix of sequences, where each row represents an antigen.
+}
 \description{
 Getting and setting antigen sequence information
 }
@@ -31,6 +34,7 @@ Getting and setting antigen sequence information
 Other antigen and sera attribute functions: 
 \code{\link{agAttributes}},
 \code{\link{agGroups}()},
+\code{\link{agHomologousSr}()},
 \code{\link{agLabIDs}()},
 \code{\link{ptAnnotations}},
 \code{\link{ptClades}},

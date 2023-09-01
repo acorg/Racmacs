@@ -44,6 +44,8 @@ view <- function(x, ...) {
 #'
 #' @family functions to view maps
 #'
+#' @returns No value returned, simply calls the print method on the object
+#'
 #' @export
 view.default <- function(x, ...) {
   print(x)
@@ -74,7 +76,7 @@ view.default <- function(x, ...) {
 #' @family functions to view maps
 #' @family shiny app functions
 #'
-#' @return Returns the htmlwidget object
+#' @returns Returns an htmlwidget object
 #'
 #' @export
 #'

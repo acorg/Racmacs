@@ -25,6 +25,8 @@ reactivity_adjust_titers <- function(titers, adjustment) {
 #' @param optimization_number The optimization number from which
 #'   to take any antigen reactivity adjustments
 #'
+#' @returns A character matrix of titers.
+#'
 #' @family map attribute functions
 #' @seealso [htmlAdjustedTiterTable()]
 #' @export
@@ -55,6 +57,8 @@ adjustedTiterTable <- function(
 #' @param map An acmap object
 #' @param optimization_number The optimization number from which
 #'   to take any antigen reactivity adjustments
+#'
+#' @returns A numeric matrix of adjusted log titers.
 #'
 #' @family map attribute functions
 #' @export

@@ -15,7 +15,7 @@ ptDrawingOrder(map) <- value
 \item{value}{The point drawing order}
 }
 \value{
-Returns the map object with point drawing order information updated
+A numeric vector of point drawing order information
 }
 \description{
 Point drawing order is a vector of indices defining the order in

@@ -41,6 +41,9 @@
 #' @param margins margins in inches for the plot, use `NULL` for default margins from `par("mar")`
 #' @param ... additional arguments, not used
 #'
+#' @returns Called for the side effect of plotting the map but invisibly
+#'  returns the map object.
+#'
 #' @family functions to view maps
 #' @export
 #'
@@ -571,6 +574,8 @@ plot_lims <- function(coords, padding = 1, round_even = TRUE) {
 #' @param lwd Line width for the blob outline
 #' @param alpha Blob opacity
 #' @param ... Additional arguments to pass to `polygon()`
+#'
+#' @returns No return value, called for the side effect of plotting the blobs.
 #'
 #' @family additional plotting functions
 #' @export

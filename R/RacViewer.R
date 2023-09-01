@@ -13,6 +13,10 @@
 #' @param height Height of the widget
 #' @param elementId DOM element ID
 #'
+#' @returns An object of class htmlwidget that will intelligently print itself
+#'   into HTML in a variety of contexts including the R console, within R
+#'   Markdown documents, and within Shiny output bindings.
+#'
 #' @family functions to view maps
 #'
 #' @import htmlwidgets
@@ -86,6 +90,9 @@ RacViewer <- function(
 #' @param env The environment in which to evaluate \code{expr}.
 #' @param quoted Is \code{expr} a quoted expression (with \code{quote()})? This
 #'   is useful if you want to save an expression in a variable.
+#'
+#' @returns An output or render function that enables the use of the widget
+#'   within Shiny applications.
 #'
 #' @family shiny app functions
 #'

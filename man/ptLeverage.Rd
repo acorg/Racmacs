@@ -22,6 +22,10 @@ procrustes (specified by name or index or TRUE/FALSE for all/none)}
 \item{sera}{Sera to include when calculating the rmsd of the procrustes
 (specified by name or index or TRUE/FALSE for all/none)}
 }
+\value{
+Returns a numeric vector of the leverage calculated for each of the
+points.
+}
 \description{
 These functions attempt to estimate leverage of each antigen, sera or titer
 by removing it from the data, relaxing the map, then calculating the rmsd of

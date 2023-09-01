@@ -14,6 +14,9 @@ layerNames(map) <- value
 
 \item{value}{A vector of new layer names to apply to the map}
 }
+\value{
+A character vector of layer names
+}
 \description{
 Get and set map layer names
 }

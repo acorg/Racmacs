@@ -52,7 +52,7 @@
 #'   antigens and sera into a map without affecting the first one at all (and
 #'   was first implemented in lisp). }
 #'
-#' @return Returns the merged map object
+#' @returns Returns the merged map object
 #'
 #' @family map merging functions
 #' @export
@@ -229,7 +229,7 @@ mergeMaps <- function(
 #'
 #' @family map merging functions
 #'
-#' @return Returns a named list of merging options
+#' @returns Returns a named list of merging options
 #' @export
 #'
 RacMerge.options <- function(

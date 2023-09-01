@@ -16,6 +16,10 @@ mapBootstrap_srCoords(map)
 \arguments{
 \item{map}{The map object}
 }
+\value{
+Returns a list of coordinate matrices for the points in each of
+the bootstrap runs
+}
 \description{
 This can be used to get information about the bootstrap run results
 after \code{boostrapMap()} has been run.

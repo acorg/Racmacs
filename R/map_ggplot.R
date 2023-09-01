@@ -38,6 +38,8 @@
 #' @param ... additional arguments, not used
 #' @param environment not used
 #'
+#' @returns Returns the ggplot plot
+#'
 #' @family functions to view maps
 #' @export
 #'
@@ -338,6 +340,7 @@ shapes <- list(
 )
 
 #' @export
+#' @noRd
 preDrawDetails.acpoint <- function(x){
   if (x$shape != "blob") {
     grid::pushViewport(
@@ -354,6 +357,7 @@ preDrawDetails.acpoint <- function(x){
 }
 
 #' @export
+#' @noRd
 postDrawDetails.acpoint <- function(x){
   if (x$shape != "blob") {
     grid::upViewport()
@@ -361,6 +365,7 @@ postDrawDetails.acpoint <- function(x){
 }
 
 #' @export
+#' @noRd
 drawDetails.acpoint <- function(x, recording=FALSE, ...){
   switch(
     x$shape,

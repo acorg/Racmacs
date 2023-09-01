@@ -14,6 +14,9 @@ translateMap(map, translation, optimization_number = NULL)
 \item{optimization_number}{The optimization number (or NULL to apply to all
 optimizations)}
 }
+\value{
+An acmap object with transformation applied
+}
 \description{
 Translates map coordinates
 }

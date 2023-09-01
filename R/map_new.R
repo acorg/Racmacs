@@ -14,7 +14,7 @@
 #'   are found
 #' @param ... Further arguments passed to `addOptimization()`
 #'
-#' @return Returns the new acmap object
+#' @returns Returns the new acmap object
 #'
 #' @details The fundamental unit of the Racmacs package is the `acmap` object,
 #'   short for Antigenic Cartography MAP. This object contains all the

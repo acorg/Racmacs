@@ -9,7 +9,13 @@ htmlAdjustedTiterTable(map, optimization_number = 1)
 \arguments{
 \item{map}{An acmap object}
 
-\item{optimization_number}{The optimization number from which to take the antigen reactivity adjustments}
+\item{optimization_number}{The optimization number from which to take the
+antigen reactivity adjustments.}
+}
+\value{
+A list() with a Rac_html_merge_report and shiny.tag class that can
+be converted into an HTML string via as.character() and saved to a file
+with save_html().
 }
 \description{
 Prints an html formatted titer table, visualising

@@ -102,6 +102,8 @@ agMatchIDs          <- antigens_getter(ac_ag_get_match_id) # Not exported
 #' @param value A character or factor vector of groupings to apply to the
 #'   antigens
 #'
+#' @returns A factor vector of groupings.
+#'
 #' @name agGroups
 #' @family antigen and sera attribute functions
 
@@ -144,6 +146,8 @@ agGroups <- function(map) {
 #'   where sequence data is missing.
 #' @param value A character matrix of sequences with rows equal to the number of
 #'   antigens
+#'
+#' @returns A character matrix of sequences, where each row represents an antigen.
 #'
 #' @name agSequences
 #' @family antigen and sera attribute functions
@@ -208,6 +212,8 @@ agNucleotideSequences <- function(map, missing_value = ".") {
 #' @param value A list of character vectors with clade information for each
 #'   point
 #'
+#' @returns A character vector of clade information.
+#'
 #' @name ptClades
 #' @family antigen and sera attribute functions
 #'
@@ -269,6 +275,8 @@ srClades <- function(map) {
 #' @param value A list of character vectors with annotations information for each
 #'   point
 #'
+#' @returns A character vector of point annotations.
+#'
 #' @name ptAnnotations
 #' @family antigen and sera attribute functions
 #'
@@ -329,6 +337,8 @@ srAnnotations <- function(map) {
 #' @param map The acmap data object
 #' @param value A list of character vectors with lab ids information for each
 #'   point
+#'
+#' @returns A character vector of antigen laboratory IDs
 #'
 #' @name agLabIDs
 #' @family antigen and sera attribute functions

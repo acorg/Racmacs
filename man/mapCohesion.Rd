@@ -15,6 +15,9 @@ mapCohesion(map)
 \arguments{
 \item{map}{An acmap object}
 }
+\value{
+A scalar real value.
+}
 \description{
 Checks the vertex connectivity of points in a map (the minimum number of
 points needed to remove from the map to eliminate all paths from one point to

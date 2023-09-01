@@ -19,6 +19,9 @@ blob(x, col, border, lwd, alpha = 1, ...)
 
 \item{...}{Additional arguments to pass to \code{polygon()}}
 }
+\value{
+No return value, called for the side effect of plotting the blobs.
+}
 \description{
 Plot a blob object such as that return from \code{agBootstrapBlob()} using the
 \code{polygon()} function.

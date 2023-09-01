@@ -9,6 +9,9 @@ keepBestOptimization(map)
 \arguments{
 \item{map}{The acmap object}
 }
+\value{
+An acmap object with only the lowest stress optimization kept
+}
 \description{
 Keep only the lowest stress map optimization
 }

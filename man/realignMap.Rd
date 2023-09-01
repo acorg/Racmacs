@@ -17,7 +17,7 @@ realignMap(map, target_map, translation = TRUE, scaling = FALSE)
 comparing maps made with different assays)}
 }
 \value{
-Returns the map aligned to the target map
+Returns a map object aligned to the target map
 }
 \description{
 Realigns the coordinates of a map to match a target map as closely as

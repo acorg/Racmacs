@@ -11,6 +11,9 @@
 
 \item{...}{Additional arguments, passed to print.}
 }
+\value{
+No value returned, simply calls the print method on the object
+}
 \description{
 Default method for viewing objects
 }
@@ -23,7 +26,6 @@ Other functions to view maps:
 \code{\link{mapGadget}()},
 \code{\link{plot.acmap}()},
 \code{\link{setLegend}()},
-\code{\link{snapshotMap}()},
 \code{\link{view.acmap}()},
 \code{\link{view}()}
 }

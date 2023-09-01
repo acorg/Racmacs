@@ -8,7 +8,7 @@
 #' @param ylim The y limits of the plot
 #' @param line_of_equality Should the line x=y be added
 #'
-#' @return Returns the ggplot2 object
+#' @returns Returns the ggplot2 object
 #' @name map-table-distances
 #' @family map diagnostic functions
 

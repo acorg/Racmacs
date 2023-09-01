@@ -221,6 +221,8 @@ subsetSera <- function(
 #' @param map The map data object
 #' @param order The new order of points
 #'
+#' @returns An acmap object with points reordered
+#'
 #' @name orderPoints
 #' @family functions for working with map data
 #'
@@ -245,6 +247,8 @@ orderSera <- function(map, order) {
 #' @param map The map data object
 #' @param antigens Antigens to remove (specified by name or index)
 #' @param sera Sera to remove (specified by name or index)
+#'
+#' @returns An acmap object with points removed
 #'
 #' @name removePoints
 #' @family functions for working with map data

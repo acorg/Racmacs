@@ -13,6 +13,9 @@ applyMapTransform(coords, map, optimization_number = 1)
 
 \item{optimization_number}{The optimization number}
 }
+\value{
+An acmap object with transformation applied
+}
 \description{
 Applies the map transformation associated with a selected optimization run to
 a set of coordinates.

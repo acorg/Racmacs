@@ -25,6 +25,8 @@
 #'   transformation directly, as is done by functions like `rotateMap()` and
 #'   `translateMap()`.
 #'
+#' @returns Returns a matrix of point coordinates.
+#'
 #' @seealso
 #' `agBaseCoords()`
 #' `srBaseCoords()`

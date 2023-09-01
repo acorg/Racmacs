@@ -13,7 +13,7 @@
 #' @param scaling Should scaling be allowed (generally not recommended unless
 #'   comparing maps made with different assays)
 #'
-#' @return Returns the map aligned to the target map
+#' @returns Returns a map object aligned to the target map
 #' @family functions to compare maps
 #' @export
 #'
@@ -58,7 +58,7 @@ realignMap <- function(
 #' @param keep_optimizations Should all optimization runs be kept or only the
 #'   one to which the procrustes was applied.
 #'
-#' @return Returns an acmap object with procrustes information added, which will
+#' @returns Returns an acmap object with procrustes information added, which will
 #'   be shown when the map is plotted. To avoid ambiguity about which
 #'   optimization run the procrustes was applied to, only the optimization run
 #'   specified by `optimization_number` is kept in the map returned.
@@ -157,7 +157,7 @@ procrustesMap <- function(
 #' @param scaling Should scaling be allowed (generally not recommended unless
 #'   comparing maps made with different assays)
 #'
-#' @return Returns a list with information on antigenic distances between the
+#' @returns Returns a list with information on antigenic distances between the
 #'   aligned maps, and the rmsd of the point differences split by antigen
 #'   points, serum points and total, or all points. The distances are a vector
 #'   matching the number of points in the main map, with NA in the position of
@@ -215,7 +215,7 @@ hasProcrustes <- function(map, optimization_number = 1) {
 #'
 #' @param map The acmap data object
 #'
-#' @return Returns the map with realigned optimizations
+#' @returns Returns the map with realigned optimizations
 #' @family functions to compare maps
 #' @export
 #'

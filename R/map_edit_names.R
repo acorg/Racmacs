@@ -5,7 +5,7 @@
 #' @param old_names Old names to be replaced
 #' @param new_names Replacement for old names
 #'
-#' @return Returns the acmap object with antigen names updated.
+#' @returns Returns the acmap object with antigen names updated.
 #'
 #' @family functions for working with map data
 #' @export
@@ -39,7 +39,7 @@ edit_agNames <- function(
 #' @param old_names Old names to be replaced
 #' @param new_names Replacement for old names
 #'
-#' @return Returns the acmap object with sera names updated.
+#' @returns Returns the acmap object with sera names updated.
 #'
 #' @family functions for working with map data
 #' @export
@@ -74,7 +74,7 @@ edit_srNames <- function(
 #'   (should be .csv). If not supplied then the default dictionary that comes
 #'   with Racmacs will be used.
 #'
-#' @return Returns the updated map data object
+#' @returns Returns the updated map data object
 #' @export
 #' @keywords internal
 #'

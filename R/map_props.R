@@ -49,6 +49,8 @@ mapDescription <- function(map) {
 #' @param map The acmap object
 #' @param value A character matrix of titers to set
 #'
+#' @returns Returns a character matrix of titers.
+#'
 #' @name titerTable
 #' @family map attribute functions
 #' @seealso [adjustedTiterTable()], [htmlTiterTable()]
@@ -135,6 +137,8 @@ titerTableFlat <- function(map) {
 #'   different maps, these functions can be useful to check for example,
 #'   variation in titer seen between a single antigen and serum pair.
 #'
+#' @returns A list of character matrices of titers.
+#'
 #' @name titerTableLayers
 #' @family map attribute functions
 #' @export
@@ -203,6 +207,8 @@ titertypesTableLayers <- function(map) {
 #'
 #' @param map An acmap data object
 #'
+#' @returns A list of numeric matrices with logtiter values
+#'
 #' @family map attribute functions
 #' @export
 logtiterTableLayers <- function(map) {
@@ -229,6 +235,8 @@ logtiterTableLayers <- function(map) {
 #'
 #' @param map The acmap object from which to get or set the dilution stepsize
 #' @param value The dilution stepsize value to set
+#'
+#' @returns A number giving the current dilution stepsize setting for a map.
 #'
 #' @details Antigenic cartography was originally developed for HI titers which
 #'   typically follow a 2-fold dilution series starting from 1/10, then 1/20,
@@ -278,6 +286,8 @@ dilutionStepsize <- function(map) {
 #'
 #' @param map The acmap object
 #'
+#' @returns An acmap object with optimizations sorted by stress.
+#'
 #' @family functions to work with map optimizations
 #' @export
 sortOptimizations <- function(map) {
@@ -310,6 +320,8 @@ allMapProperties <- function(map, getter) {
 #'
 #' @param map The acmap object
 #'
+#' @returns A numeric vector of values
+#'
 #' @family functions to work with map optimizations
 #' @name optimizationProperties
 
@@ -333,6 +345,8 @@ allMapDimensions <- function(map) {
 #' Remove all optimization run data from a map object
 #'
 #' @param map The acmap object
+#'
+#' @returns An acmap object with all optimizations removed
 #'
 #' @family functions to work with map optimizations
 #' @export
@@ -368,6 +382,8 @@ keepOptimizations <- function(map, optimization_numbers) {
 #' @param map The acmap object
 #' @param optimization_number The optimization run to keep
 #'
+#' @returns An acmap object with only one optimization kept
+#'
 #' @family functions for working with map data
 #'
 #' @export
@@ -379,6 +395,8 @@ keepSingleOptimization <- function(map, optimization_number = 1) {
 #' Keep only the lowest stress map optimization
 #'
 #' @param map The acmap object
+#'
+#' @returns An acmap object with only the lowest stress optimization kept
 #'
 #' @family functions for working with map data
 #'
@@ -394,6 +412,8 @@ keepBestOptimization <- function(map) {
 #'
 #' @param map The acmap object
 #' @param value A vector of new layer names to apply to the map
+#'
+#' @returns A character vector of layer names
 #'
 #' @family functions for working with map data
 #'
@@ -432,6 +452,8 @@ layerNames <- function(map) {
 #'
 #' @family functions for working with map data
 #'
+#' @returns A numeric vector of antigen reactivity adjustments
+#'
 #' @name agReactivityAdjustments
 
 #' @rdname agReactivityAdjustments
@@ -464,6 +486,8 @@ agReactivityAdjustments <- function(map) {
 #' Functions to get various attributes about an acmap object.
 #'
 #' @param map The acmap data object
+#'
+#' @returns A number relating to the attribute
 #'
 #' @name acmapAttributes
 #' @family map attribute functions

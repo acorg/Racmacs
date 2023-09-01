@@ -25,6 +25,10 @@ character vector of names.}
 \item{sera}{Sera to include, either as a numeric vector of indices or
 character vector of names.}
 }
+\value{
+No return value, called for the side effect of saving the
+coordinate data.
+}
 \description{
 Saves acmap coordinate data of all or specified antigens and sera to a .csv
 file.

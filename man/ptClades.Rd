@@ -22,6 +22,9 @@ srClades(map) <- value
 \item{value}{A list of character vectors with clade information for each
 point}
 }
+\value{
+A character vector of clade information.
+}
 \description{
 Getting and setting point clade information
 }
@@ -29,6 +32,7 @@ Getting and setting point clade information
 Other antigen and sera attribute functions: 
 \code{\link{agAttributes}},
 \code{\link{agGroups}()},
+\code{\link{agHomologousSr}()},
 \code{\link{agLabIDs}()},
 \code{\link{agSequences}()},
 \code{\link{ptAnnotations}},

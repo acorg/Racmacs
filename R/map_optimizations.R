@@ -19,7 +19,7 @@
 #'
 #' @family functions for working with map data
 #'
-#' @return Returns the acmap data object with new optimization added (but not
+#' @returns Returns the acmap data object with new optimization added (but not
 #'   selected).
 #'
 #' @export
@@ -90,7 +90,7 @@ addOptimization <- function(
 #'
 #' @param map The acmap data object
 #'
-#' @return Returns a list of lists with information about the optimizations
+#' @returns Returns a list of lists with information about the optimizations
 #'
 #' @seealso See `getOptimization()` for getting information about a single
 #'   optimization.
@@ -113,7 +113,7 @@ listOptimizations <- function(map) {
 #' @param map The acmap data object
 #' @param optimization_number The optimization data to access
 #'
-#' @return Returns a list with information about the optimization
+#' @returns Returns a list with information about the optimization
 #'
 #' @seealso See `listOptimizations()` for getting information about all
 #'   optimizations.

@@ -9,6 +9,9 @@ mapGadget(map)
 \arguments{
 \item{map}{The acmap object to open in the GUI}
 }
+\value{
+No value returned, called for the side effect of starting the gadget.
+}
 \description{
 This function is equivalent to running \code{runGUI()} and loading a map file, but this
 takes the acmap object to open as an input argument.
@@ -21,7 +24,6 @@ Other functions to view maps:
 \code{\link{ggplot.acmap}()},
 \code{\link{plot.acmap}()},
 \code{\link{setLegend}()},
-\code{\link{snapshotMap}()},
 \code{\link{view.acmap}()},
 \code{\link{view.default}()},
 \code{\link{view}()}

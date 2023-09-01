@@ -37,7 +37,7 @@ srBlob <- function(map, srnum, optimization_number, blobname) {
 #' @param serum The serum to get the blob for
 #' @param optimization_number Optimization number from which to get blob information
 #'
-#' @return Returns an object of class "blob" that can be plotted using the `blob()` funciton.
+#' @returns Returns an object of class "blob" that can be plotted using the `blob()` function.
 #' @name ptBootstrapBlob
 #'
 #' @family map diagnostic functions
@@ -106,7 +106,7 @@ srBaseBootstrapBlobs <- function(map, optimization_number = 1) {
 #' @param serum The serum to get the blob for
 #' @param optimization_number Optimization number from which to get blob information
 #'
-#' @return Returns an object of class "blob" that can be plotted using the `blob()` funciton.
+#' @returns Returns an object of class "blob" that can be plotted using the `blob()` funciton.
 #' @name ptTriangulationBlob
 #'
 #' @family map diagnostic functions

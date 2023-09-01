@@ -101,6 +101,10 @@ ylim set explicitly}
 
 \item{...}{additional arguments, not used}
 }
+\value{
+Called for the side effect of plotting the map but invisibly
+returns the map object.
+}
 \description{
 Method for plotting an antigenic map in two dimensions
 }
@@ -112,7 +116,6 @@ Other functions to view maps:
 \code{\link{ggplot.acmap}()},
 \code{\link{mapGadget}()},
 \code{\link{setLegend}()},
-\code{\link{snapshotMap}()},
 \code{\link{view.acmap}()},
 \code{\link{view.default}()},
 \code{\link{view}()}

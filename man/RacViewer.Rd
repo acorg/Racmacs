@@ -31,6 +31,11 @@ groups as set by \code{agGroups()} and \code{srGroups()}}
 
 \item{elementId}{DOM element ID}
 }
+\value{
+An object of class htmlwidget that will intelligently print itself
+into HTML in a variety of contexts including the R console, within R
+Markdown documents, and within Shiny output bindings.
+}
 \description{
 This creates an html widget for viewing antigenic maps.
 }
@@ -42,7 +47,6 @@ Other functions to view maps:
 \code{\link{mapGadget}()},
 \code{\link{plot.acmap}()},
 \code{\link{setLegend}()},
-\code{\link{snapshotMap}()},
 \code{\link{view.acmap}()},
 \code{\link{view.default}()},
 \code{\link{view}()}

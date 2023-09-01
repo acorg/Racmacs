@@ -18,7 +18,7 @@
 #' @param .options List of named optimizer options to use when checking map
 #'   relaxation, see `RacOptimizer.options()`
 #'
-#' @return Returns the acmap data object with triangulation blob information added,
+#' @returns Returns the acmap data object with triangulation blob information added,
 #'   which will be shown when the map is plotted
 #'
 #' @details The region or regions of the plot where total map stress is not

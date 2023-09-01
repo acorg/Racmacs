@@ -9,6 +9,9 @@ blobsize(blob)
 \arguments{
 \item{blob}{The blob object}
 }
+\value{
+A numeric vector
+}
 \description{
 Returns either the area (for 2D blobs) or volume (for 3D blobs)
 }

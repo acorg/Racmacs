@@ -212,7 +212,7 @@ standardizeStrainName <- function(
 #' @param default_virus_subtype Default virus subtype to be used (if no subtype
 #'   found in name)
 #'
-#' @return Returns a tibble of standardised names and extracted information
+#' @returns Returns a tibble of standardised names and extracted information
 #' @export
 #'
 standardizeStrainNames <- function(

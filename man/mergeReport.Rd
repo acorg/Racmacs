@@ -9,6 +9,9 @@ mergeReport(map)
 \arguments{
 \item{map}{An acmap object that was the result of merging several maps}
 }
+\value{
+Returns a character matrix of information on merged titers.
+}
 \description{
 Prints a raw text merge report from merging two map tables.
 }

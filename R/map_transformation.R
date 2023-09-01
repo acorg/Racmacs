@@ -8,6 +8,8 @@
 #' @param map The acmap object
 #' @param optimization_number The optimization number
 #'
+#' @returns An acmap object with transformation applied
+#'
 #' @family functions relating to map transformation
 #' @export
 #'
@@ -39,6 +41,8 @@ applyMapTransform <- function(
 #' @param translation Translation to apply (as vector or n x 1 matrix)
 #' @param optimization_number The optimization number (or NULL to apply to all
 #'   optimizations)
+#'
+#' @returns An acmap object with transformation applied
 #'
 #' @family functions relating to map transformation
 #' @export
@@ -77,6 +81,8 @@ translateMap <- function(
 #' @param axis Axis of reflection
 #' @param optimization_number The optimization number (or NULL to apply to all
 #'   optimizations)
+#'
+#' @returns An acmap object with reflection applied
 #'
 #' @family functions relating to map transformation
 #' @export
@@ -122,6 +128,8 @@ reflectMap <- function(
 #' @param axis Axis of rotation (if 3D), specified as "x", "y", or "z"
 #' @param optimization_number The optimization number (or NULL to apply to all
 #'   optimizations)
+#'
+#' @returns An acmap object with rotation applied
 #'
 #' @family functions relating to map transformation
 #' @export

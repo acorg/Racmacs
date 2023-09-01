@@ -11,6 +11,9 @@ mapStress(map, optimization_number = 1)
 
 \item{optimization_number}{The optimization number for which to calculate stress}
 }
+\value{
+A number giving the map stress
+}
 \description{
 Calculate the current map stress
 }

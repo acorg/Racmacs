@@ -169,6 +169,7 @@ colBases <- function(map, optimization_number = 1) {
 #'
 #' @name mapStress
 #' @family map optimization attribute functions
+#' @returns A number giving the map stress
 #' @export
 #'
 mapStress <- function(

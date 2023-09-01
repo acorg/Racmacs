@@ -13,6 +13,9 @@ allMapDimensions(map)
 \arguments{
 \item{map}{The acmap object}
 }
+\value{
+A numeric vector of values
+}
 \description{
 Utility functions to get a vector of all the map optimization
 properties.

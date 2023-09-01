@@ -5,7 +5,7 @@
 #'
 #' @family shiny app functions
 #' @export
-#'
+#' @returns Nothing returned, called only for the side effect of starting the viewer.
 runGUI <- function() {
   shiny::runApp(system.file("shinyapps/RacmacsGUI", package = "Racmacs"))
 }

@@ -11,7 +11,7 @@
 #' @param align_optimizations Should optimizations be rotated and translated to
 #'   match the orientation of the first optimization as closely as possible?
 #'
-#' @return Returns the acmap data object.
+#' @returns Returns the acmap data object.
 #'
 #' @family functions for working with map data
 #' @export
@@ -79,6 +79,9 @@ read_brotli <- function(filepath) {
 #' @param round_titers Should titers be rounded when outputted (this is needed
 #'   for acmacs web and lispmds compatibility)
 #'
+#' @returns No return value, called for the side effect of saving the map data
+#'   to the file.
+#'
 #' @export
 #'
 #' @family functions for working with map data
@@ -113,7 +116,7 @@ save.acmap <- function(
 #' @param pretty Should json be output prettily with new lines and indentation?
 #' @param round_titers Should titers be rounded to the nearest integer before outputting
 #'
-#' @return Returns map data as .ace json format
+#' @returns Returns map data as .ace json format
 #' @family functions for working with map data
 #' @export
 #'
@@ -142,6 +145,9 @@ as.json <- function(map, pretty = FALSE, round_titers = FALSE) {
 #'   character vector of names.
 #' @param sera Sera to include, either as a numeric vector of indices or
 #'   character vector of names.
+#'
+#' @returns No return value, called for the side effect of saving the
+#'   coordinate data.
 #'
 #' @export
 #'
@@ -190,6 +196,9 @@ save.coords <- function(
 #'   character vector of names.
 #' @param sera Sera to include, either as a numeric vector of indices or
 #'   character vector of names.
+#'
+#' @returns No return value, called for the side effect of saving the titer
+#'   data to the file.
 #'
 #' @export
 #'

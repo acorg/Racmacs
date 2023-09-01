@@ -25,6 +25,9 @@ numLayers(map)
 \arguments{
 \item{map}{The acmap data object}
 }
+\value{
+A number relating to the attribute
+}
 \description{
 Functions to get various attributes about an acmap object.
 }

@@ -34,7 +34,6 @@ Other functions to view maps:
 \code{\link{ggplot.acmap}()},
 \code{\link{mapGadget}()},
 \code{\link{plot.acmap}()},
-\code{\link{snapshotMap}()},
 \code{\link{view.acmap}()},
 \code{\link{view.default}()},
 \code{\link{view}()}

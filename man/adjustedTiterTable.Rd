@@ -12,6 +12,9 @@ adjustedTiterTable(map, optimization_number = 1)
 \item{optimization_number}{The optimization number from which
 to take any antigen reactivity adjustments}
 }
+\value{
+A character matrix of titers.
+}
 \description{
 Return the titer table plus any antigen reactivity adjustments.
 }

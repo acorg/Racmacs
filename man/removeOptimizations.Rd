@@ -9,6 +9,9 @@ removeOptimizations(map)
 \arguments{
 \item{map}{The acmap object}
 }
+\value{
+An acmap object with all optimizations removed
+}
 \description{
 Remove all optimization run data from a map object
 }

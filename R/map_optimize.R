@@ -36,7 +36,7 @@
 #'   the `minimum_column_basis` setting. Again for a full explanation of column
 #'   bases and what they mean see `vignette("intro-to-antigenic-cartography")`.
 #'
-#' @return Returns the acmap object updated with new optimizations.
+#' @returns Returns the acmap object updated with new optimizations.
 #'
 #' @seealso See `relaxMap()` for optimizing a given optimization starting from
 #'   its current coordinates.
@@ -180,7 +180,7 @@ optimizeMap <- function(
 #' @param options List of named optimizer options, see `RacOptimizer.options()`
 #' @param ... Further arguments to pass to `acmap()`
 #'
-#' @return Returns an acmap object that has optimization run results.
+#' @returns Returns an acmap object that has optimization run results.
 #'
 #' @family map optimization functions
 #' @export
@@ -255,7 +255,7 @@ make.acmap <- function(
 #'
 #' @family map optimization functions
 #'
-#' @return Returns a named list of optimizer options
+#' @returns Returns a named list of optimizer options
 #' @export
 #'
 RacOptimizer.options <- function(
@@ -335,7 +335,7 @@ RacOptimizer.options <- function(
 #' @param titer_weights An optional matrix of weights to assign each titer when optimizing
 #' @param options List of named optimizer options, see `RacOptimizer.options()`
 #'
-#' @return Returns an acmap object with the optimization relaxed.
+#' @returns Returns an acmap object with the optimization relaxed.
 #'
 #' @seealso See `optimizeMap()` for performing new optimization runs from random
 #'   starting coordinates.
@@ -388,7 +388,7 @@ relaxMap <- function(
 #' @param fixed_sera Sera to set fixed positions for when relaxing
 #' @param options List of named optimizer options, see `RacOptimizer.options()`
 #'
-#' @return Returns an updated map object
+#' @returns Returns an updated map object
 #'
 #' @family map optimization functions
 #' @export
@@ -435,7 +435,7 @@ relaxMapOneStep <- function(
 #' @param table_dist_factor The expansion factor for the box size in which
 #'   points are randomized.
 #'
-#' @return Returns an updated map object
+#' @returns Returns an updated map object
 #'
 #' @family map optimization functions
 #' @export
@@ -487,7 +487,7 @@ randomizeCoords <- function(
 #' @param optimization_number The map optimization number
 #' @param options List of named optimizer options, see `RacOptimizer.options()`
 #'
-#' @return Returns TRUE or FALSE
+#' @returns Returns TRUE or FALSE
 #' @export
 #' @family map diagnostic functions
 #'
@@ -524,7 +524,7 @@ mapRelaxed <- function(
 #'   "hemisphering" or not
 #' @param options A named list of options to pass to `RacOptimizer.options()`
 #'
-#' @return Returns a data frame with information on any points that were found
+#' @returns Returns a data frame with information on any points that were found
 #'   to be hemisphering or trapped.
 #' @export
 #' @family map diagnostic functions
@@ -606,7 +606,7 @@ checkHemisphering <- function(
 #'   trapped points then relaxing the map to be performed
 #' @param options List of named optimizer options, see `RacOptimizer.options()`
 #'
-#' @return Returns the acmap object with updated coordinates (if any trapped
+#' @returns Returns the acmap object with updated coordinates (if any trapped
 #'   points found)
 #' @family map optimization functions
 #' @export
@@ -761,6 +761,8 @@ srCohesion <- function(map) {
 #' as connections and non-detectable titers are ignored.
 #'
 #' @param map An acmap object
+#'
+#' @returns A scalar real value.
 #'
 #' @export
 #' @family map diagnostic functions

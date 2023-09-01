@@ -48,6 +48,8 @@ vmessage <- function(verbose, ...) {
 #'
 #' @param ... Arguments to pass to the new function
 #'
+#' @returns Values from the new function
+#'
 #' @name deprecated_functions
 #'
 NULL

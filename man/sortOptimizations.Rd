@@ -9,6 +9,9 @@ sortOptimizations(map)
 \arguments{
 \item{map}{The acmap object}
 }
+\value{
+An acmap object with optimizations sorted by stress.
+}
 \description{
 Sorts all the optimization runs for a given map object by stress
 (lowest to highest). Note that this is done by default when running

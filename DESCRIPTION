@@ -1,11 +1,24 @@
 Package: Racmacs
 Type: Package
-Title: R Antigenic Cartography Macros
-Version: 1.2.6
-Date: 2023-08-30
+Title: Antigenic Cartography Macros
+Version: 1.2.7
+Date: 2023-09-01
+Authors@R: 
+  c(person(given = "Sam",
+           family = "Wilks",
+           role = c("aut", "cre"),
+           email = "sw463@cam.ac.uk"))
 Author: S. H. Wilks
 Maintainer: S. H. Wilks <sw463@cam.ac.uk>
-Description: A Toolkit for Making Antigenic Maps from Assay Data such as HI Assays.
+Description: A toolkit for making antigenic maps from immunological assay data, 
+    in order to quantify and visualize antigenic differences between different 
+    pathogen strains as described in 
+    Smith et al. (2004) <doi:10.1126/science.1097211> and used in the World 
+    Health Organization influenza vaccine strain selection process. Additional 
+    functions allow for the diagnostic evaluation of antigenic maps and an 
+    interactive viewer is provided to explore antigenic relationships amongst 
+    several strains and incorporate the visualization of associated genetic 
+    information.
 Depends: R (>= 4.0)
 Imports: 
     Rcpp,

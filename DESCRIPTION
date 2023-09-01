@@ -8,8 +8,6 @@ Authors@R:
            family = "Wilks",
            role = c("aut", "cre"),
            email = "sw463@cam.ac.uk"))
-Author: S. H. Wilks
-Maintainer: S. H. Wilks <sw463@cam.ac.uk>
 Description: A toolkit for making antigenic maps from immunological assay data, 
     in order to quantify and visualize antigenic differences between different 
     pathogen strains as described in 

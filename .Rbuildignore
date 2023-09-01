@@ -16,3 +16,5 @@
 ^builds$
 ^CRAN-SUBMISSION$
 ^cran-comments\.md$
+^vignettes/figures$
+^vignettes/intro-to-antigenic-cartography\.Rmd$

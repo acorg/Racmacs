@@ -103,8 +103,8 @@ plot.acmap <- function(
 
   # Setup plot
   if (!is.null(margins)) {
-    oldpar <- par(no.readonly = TRUE)
-    on.exit(par(oldpar)) # Restore original parameters on exit
+    oldpar <- graphics::par(no.readonly = TRUE)
+    on.exit(graphics::par(oldpar)) # Restore original parameters on exit
     graphics::par(mar = margins) # Set user defined margins
   }
   graphics::plot.new()
@@ -467,7 +467,9 @@ setup_acmap <- function(
 
   # Set up plot
   if (newplot) graphics::plot.new()
-  graphics::par(mar = mar)
+  oldpar <- graphics::par(no.readonly = TRUE)
+  on.exit(graphics::par(oldpar)) # Restore original parameters on exit
+  graphics::par(mar = mar) # Set user defined margins
   graphics::plot.window(
     xlim = x_range,
     ylim = y_range,

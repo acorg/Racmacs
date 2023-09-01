@@ -100,8 +100,9 @@ plot.acmap <- function(
 
   # Setup plot
   if (!is.null(margins)) {
-    mar_orig <- graphics::par("mar")
-    graphics::par(mar = margins)
+    oldpar <- par(no.readonly = TRUE)
+    on.exit(par(oldpar)) # Restore original parameters on exit
+    graphics::par(mar = margins) # Set user defined margins
   }
   graphics::plot.new()
   graphics::plot.window(
@@ -421,11 +422,6 @@ plot.acmap <- function(
       cex = 0.75,
       col = "grey40"
     )
-  }
-
-  ## Restore margins
-  if (!is.null(margins)) {
-    graphics::par(mar = mar_orig)
   }
 
   ## Return the map invisibly

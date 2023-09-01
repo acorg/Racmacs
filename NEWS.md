@@ -217,3 +217,6 @@
 
 # Racmacs 1.2.6
 * Set the default number of cores to use as 2 unless otherwise specified in either RacOptimizer.options, or by setting the global option 'RacOptimizer.num_cores' with e.g. `options(RacOptimizer.num_cores = parallel::detectCores())`.
+
+# Racmacs 1.2.7
+* `on.exit()` calls added to code in `R/map_plot.R` and `inst/shinyapps/RacmacsGUI/app.R` where changes to graphical parameters and user options are made.

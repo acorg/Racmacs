@@ -24,3 +24,11 @@ violations of this policy were found would be greatly appreciated. Many thanks!
 `on.exit()` calls added to code in `R/map_plot.R` and 
 `inst/shinyapps/RacmacsGUI/app.R` where changes to graphical parameters and 
 user options are made.
+
+## Alterations upon resubmission 2
+
+Unnecessary additional spaces remove from the "Description" field of the package 
+DESCRIPTION file.
+
+Documentation added for the return value for the `view()` and 
+`keepOptimizations()` functions

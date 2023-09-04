@@ -11,6 +11,12 @@ view(x, ...)
 
 \item{...}{Additional arguments, not used.}
 }
+\value{
+When called on an acmap object, returns an htmlwidget object that
+can be used to interactively view the map. Otherwise by default it
+simply calls the print method of the respective object with no return
+value.
+}
 \description{
 S3 method for viewing objects
 }

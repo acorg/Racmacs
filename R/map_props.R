@@ -365,6 +365,8 @@ removeOptimizations <- function(map) {
 #' @param map The acmap object
 #' @param optimization_numbers Optimizations to keep
 #'
+#' @returns Returns the updated acmap object
+#'
 #' @family functions to work with map optimizations
 #'
 #' @export

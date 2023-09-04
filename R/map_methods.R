@@ -31,6 +31,11 @@ print.acmap <- function(x, ...) {
 #'
 #' @family functions to view maps
 #'
+#' @returns When called on an acmap object, returns an htmlwidget object that
+#'   can be used to interactively view the map. Otherwise by default it
+#'   simply calls the print method of the respective object with no return
+#'   value.
+#'
 #' @export
 view <- function(x, ...) {
   UseMethod("view", x)

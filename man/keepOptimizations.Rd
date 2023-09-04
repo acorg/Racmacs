@@ -11,6 +11,9 @@ keepOptimizations(map, optimization_numbers)
 
 \item{optimization_numbers}{Optimizations to keep}
 }
+\value{
+Returns the updated acmap object
+}
 \description{
 Keep only data from specified optimization runs.
 }

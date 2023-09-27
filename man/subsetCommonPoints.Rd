@@ -18,7 +18,7 @@ Functions to subset a list of maps to include only antigens, antigen groups, ser
 or serum groups that are in common between them.
 }
 \seealso{
-Other {functions for working with map data}: 
+Other functions for working with map data: 
 \code{\link{acmap}()},
 \code{\link{addOptimization}()},
 \code{\link{agReactivityAdjustments}()},
@@ -37,4 +37,4 @@ Other {functions for working with map data}:
 \code{\link{save.titerTable}()},
 \code{\link{subsetMap}()}
 }
-\concept{{functions for working with map data}}
+\concept{functions for working with map data}

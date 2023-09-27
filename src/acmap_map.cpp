@@ -248,19 +248,19 @@ int AcMap::num_optimizations(){
 arma::mat AcMap::agCoords(
     int opt_num
 ) const {
-  return optimizations[opt_num].agCoords();
+  return optimizations.at(opt_num).agCoords();
 }
 
 arma::mat AcMap::srCoords(
     int opt_num
 ) const {
-  return optimizations[opt_num].srCoords();
+  return optimizations.at(opt_num).srCoords();
 }
 
 arma::mat AcMap::ptCoords(
     int opt_num
 ) const {
-  return optimizations[opt_num].ptCoords();
+  return optimizations.at(opt_num).ptCoords();
 }
 
 // Antigen characteristics
@@ -303,7 +303,7 @@ void AcMap::optimize(
 void AcMap::keepSingleOptimization(
     int i
 ){
-  AcOptimization opt = optimizations[i];
+  AcOptimization opt = optimizations.at(i);
   optimizations.clear();
   optimizations.push_back(opt);
 }
@@ -324,7 +324,7 @@ void AcMap::realign_to_map(
   // Get the target map coords
   arma::mat target_ag_coords;
   arma::mat target_sr_coords;
-  AcOptimization targetopt = targetmap.optimizations[targetmap_optnum];
+  AcOptimization targetopt = targetmap.optimizations.at(targetmap_optnum);
 
   if(align_to_base_coords){
     target_ag_coords = subset_rows(targetopt.get_ag_base_coords(), matched_ags);

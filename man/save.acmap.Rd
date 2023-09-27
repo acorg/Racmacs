@@ -24,13 +24,17 @@ save.acmap(
 \item{round_titers}{Should titers be rounded when outputted (this is needed
 for acmacs web and lispmds compatibility)}
 }
+\value{
+No return value, called for the side effect of saving the map data
+to the file.
+}
 \description{
 Save acmap data to a file. The preferred extension is ".ace", although
 the format of the file will be a json file of map data compressed using
 'xz' compression.
 }
 \seealso{
-Other {functions for working with map data}: 
+Other functions for working with map data: 
 \code{\link{acmap}()},
 \code{\link{addOptimization}()},
 \code{\link{agReactivityAdjustments}()},
@@ -49,4 +53,4 @@ Other {functions for working with map data}:
 \code{\link{subsetCommonPoints}},
 \code{\link{subsetMap}()}
 }
-\concept{{functions for working with map data}}
+\concept{functions for working with map data}

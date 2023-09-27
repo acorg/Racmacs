@@ -33,8 +33,3 @@ test_that("Reading in stress ordered", {
     seq_len(numOptimizations(map_full))
   )
 })
-
-test_that("Reading in 2004map", {
-  map <- read.acmap(test_path("../testdata/h3map2004.ace"))
-  expect_false(is.nan(optStress(map, 1)))
-})

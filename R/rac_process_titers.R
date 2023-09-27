@@ -8,9 +8,9 @@
 #'
 #' @param filepath Path to the table of titer data
 #'
-#' @return Returns a matrix of titers.
+#' @returns Returns a matrix of titers.
 #' @details Currently supported file formats are .csv and .xls and .txt
-#' @family {functions for working with map data}
+#' @family functions for working with map data
 #' @export
 #'
 read.titerTable <- function(filepath) {

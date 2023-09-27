@@ -6,11 +6,15 @@
 \usage{
 runGUI()
 }
+\value{
+Nothing returned, called only for the side effect of starting the viewer.
+}
 \description{
 This function opens the Racmacs GUI in a new window
 }
 \seealso{
-Other {shiny app functions}: 
-\code{\link{RacViewer-shiny}}
+Other shiny app functions: 
+\code{\link{RacViewer-shiny}},
+\code{\link{view.acmap}()}
 }
-\concept{{shiny app functions}}
+\concept{shiny app functions}

@@ -16,13 +16,16 @@ rotateMap(map, degrees, axis = NULL, optimization_number = NULL)
 \item{optimization_number}{The optimization number (or NULL to apply to all
 optimizations)}
 }
+\value{
+An acmap object with rotation applied
+}
 \description{
 Apply a rotation to an antigenic map
 }
 \seealso{
-Other {functions relating to map transformation}: 
+Other functions relating to map transformation: 
 \code{\link{applyMapTransform}()},
 \code{\link{reflectMap}()},
 \code{\link{translateMap}()}
 }
-\concept{{functions relating to map transformation}}
+\concept{functions relating to map transformation}

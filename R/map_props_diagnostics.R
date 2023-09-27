@@ -42,3 +42,9 @@ srDiagnostics <- function(
   map
 
 }
+
+ptDiagnostics <- function(map, optimization_number = 1) {
+  c(agDiagnostics(map, optimization_number), srDiagnostics(map, optimization_number))
+}
+
+

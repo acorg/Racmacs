@@ -6,6 +6,8 @@ testServer(
   app = system.file(package = "Racmacs", "shinyapps/RacmacsGUI"),
   expr = {
 
+  testdata_path <- test_path("tests/testdata/")
+
   # Loading a null map
   session$setInputs(mapDataLoaded = NULL)
   expect_null(storage$map)
@@ -13,7 +15,7 @@ testServer(
   # Loading an example map
   session$setInputs(
     mapDataLoaded = list(
-      datapath = test_path("tests/testdata/testmap.ace")
+      datapath = file.path(testdata_path, "testmap.ace")
     )
   )
   expect_equal(numAntigens(storage$map), 10)
@@ -76,7 +78,7 @@ testServer(
 
   session$setInputs(
     pointStyleDataLoaded = list(
-      datapath = test_path("tests/testdata/testmap.ace")
+      datapath = file.path(testdata_path, "testmap.ace")
     )
   )
   expect_equal(agFill(storage$map), start_fill)
@@ -111,7 +113,7 @@ testServer(
       optimization = 1
     ),
     procrustesDataLoaded = list(
-      datapath = test_path("tests/testdata/testmap.ace")
+      datapath = file.path(testdata_path, "testmap.ace")
     )
   )
   expect_equal(

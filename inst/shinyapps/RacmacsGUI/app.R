@@ -1,5 +1,7 @@
 
 # Racmacs shiny web application
+old <- options()
+on.exit(options(old))
 options(shiny.maxRequestSize = 30*1024^2)
 
 # This is the user interface function which controls user interface setup

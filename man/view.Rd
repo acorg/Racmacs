@@ -11,19 +11,25 @@ view(x, ...)
 
 \item{...}{Additional arguments, not used.}
 }
+\value{
+When called on an acmap object, returns an htmlwidget object that
+can be used to interactively view the map. Otherwise by default it
+simply calls the print method of the respective object with no return
+value.
+}
 \description{
 S3 method for viewing objects
 }
 \seealso{
-Other {functions to view maps}: 
+Other functions to view maps: 
 \code{\link{RacViewer.options}()},
 \code{\link{RacViewer}()},
 \code{\link{export_viewer}()},
-\code{\link{grid.plot.acmap}()},
+\code{\link{ggplot.acmap}()},
 \code{\link{mapGadget}()},
 \code{\link{plot.acmap}()},
 \code{\link{setLegend}()},
-\code{\link{snapshotMap}()},
+\code{\link{view.acmap}()},
 \code{\link{view.default}()}
 }
-\concept{{functions to view maps}}
+\concept{functions to view maps}

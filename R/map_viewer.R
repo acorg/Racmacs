@@ -11,6 +11,7 @@
 #' @param grid.display For 3d maps, should the grid be fixed in the background
 #'   or enclose and rotate along with the map
 #' @param grid.col Color to use for the grid shown behind the map
+#' @param background.col Color for the viewer background
 #' @param show.names Toggle name labels on, can be true or false or "antigens"
 #'   or "sera"
 #' @param show.errorlines Toggle error lines on
@@ -18,8 +19,11 @@
 #' @param show.titers Toggle titer labels on
 #' @param xlim x limits to zoom the plot to
 #' @param ylim y limits to zoom the plot to
+#' @param translation Plot starting translation
+#' @param rotation Plot starting rotation as an XYZ Euler rotation
+#' @param zoom Plot starting zoom factor
 #'
-#' @family {functions to view maps}
+#' @family functions to view maps
 #'
 #' @return Returns a named list of viewer options
 #' @export
@@ -29,12 +33,16 @@ RacViewer.options <- function(
   viewer.controls = "hidden",
   grid.display = "static",
   grid.col = "#cfcfcf",
+  background.col = "#ffffff",
   show.names = FALSE,
   show.errorlines = FALSE,
   show.connectionlines = FALSE,
   show.titers = FALSE,
   xlim = NULL,
-  ylim = NULL
+  ylim = NULL,
+  translation = c(0, 0, 0),
+  rotation = c(0, 0, 0),
+  zoom = NULL
   ) {
 
   # Check input
@@ -49,12 +57,16 @@ RacViewer.options <- function(
     point.opacity = point.opacity,
     grid.display = grid.display,
     grid.col = grid.col,
+    background.col = background.col,
     show.names = show.names,
     show.errorlines = show.errorlines,
     show.connectionlines = show.connectionlines,
     show.titers = show.titers,
     xlim = xlim,
-    ylim = ylim
+    ylim = ylim,
+    translation = translation,
+    rotation = rotation,
+    zoom = zoom
   )
 
 }
@@ -71,7 +83,10 @@ RacViewer.options <- function(
 #'   placed in an adjacent directory.
 #' @param ... Further parameters to `view()`
 #'
-#' @family {functions to view maps}
+#' @returns Called for the side effect of saving the viewer to an html file but
+#'   invisibly returns the map viewer htmlwidget.
+#'
+#' @family functions to view maps
 #'
 #' @export
 #'

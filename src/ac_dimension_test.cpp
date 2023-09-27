@@ -71,7 +71,7 @@ DimTestOutput ac_dimension_test_map(
 
     // Work out predicted titers for each of the test cases
     for(arma::uword j=0; j<predicted_titers.n_elem; j++){
-      double dist = optimizations[0].ptDist(
+      double dist = optimizations.at(0).ptDist(
         indices_test_mat(0,j),
         indices_test_mat(1,j)
       );
@@ -80,7 +80,7 @@ DimTestOutput ac_dimension_test_map(
     }
 
     // Store results
-    arma::mat ptcoords = optimizations[0].ptCoords();
+    arma::mat ptcoords = optimizations.at(0).ptCoords();
     results.coords.at(i) = ptcoords;
     results.predictions.at(i) = predicted_titers;
 

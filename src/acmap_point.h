@@ -2,6 +2,7 @@
 #include "acmap_optimization.h"
 #include "acmap_titers.h"
 #include "acmap_plotspec.h"
+#include "acmap_sequences.h"
 
 #ifndef Racmacs__acmap_point__h
 #define Racmacs__acmap_point__h
@@ -20,6 +21,7 @@ class AcPoint {
     std::string id = "";
     int group = 0;
     std::string sequence;
+    std::vector<SeqInsertion> sequence_insertions;
     std::string passage;
     std::string species;
     std::vector<std::string> clade;
@@ -50,6 +52,7 @@ class AcPoint {
     std::string get_species() const;
     int get_group() const;
     std::string get_sequence() const;
+    std::vector<SeqInsertion> get_sequence_insertions() const;
     std::vector<std::string> get_clade() const;
     std::vector<std::string> get_annotations() const;
     std::vector<std::string> get_labids() const;
@@ -69,6 +72,7 @@ class AcPoint {
     void set_species( std::string value );
     void set_group( int value );
     void set_sequence( std::string value );
+    void set_sequence_insertions( std::vector<SeqInsertion> );
     void set_clade( std::vector<std::string> value );
     void set_annotations( std::vector<std::string> value );
     void set_labids( std::vector<std::string> value );

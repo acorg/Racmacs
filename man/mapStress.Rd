@@ -11,11 +11,14 @@ mapStress(map, optimization_number = 1)
 
 \item{optimization_number}{The optimization number for which to calculate stress}
 }
+\value{
+A number giving the map stress
+}
 \description{
 Calculate the current map stress
 }
 \seealso{
-Other {map optimization attribute functions}: 
+Other map optimization attribute functions: 
 \code{\link{colBases}()},
 \code{\link{mapComment}()},
 \code{\link{mapDimensions}()},
@@ -23,4 +26,4 @@ Other {map optimization attribute functions}:
 \code{\link{ptBaseCoords}()},
 \code{\link{ptCoords}()}
 }
-\concept{{map optimization attribute functions}}
+\concept{map optimization attribute functions}

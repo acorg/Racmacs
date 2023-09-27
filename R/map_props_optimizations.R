@@ -44,7 +44,7 @@ optimization_setter <- function(fn, checker_fn = NULL) {
 #' @seealso
 #' `agCoords()`
 #' `srCoords()`
-#' @family {map optimization attribute functions}
+#' @family map optimization attribute functions
 #' @eval roxygen_tags(
 #'   methods = c(
 #'   "ptBaseCoords",
@@ -79,7 +79,7 @@ ptBaseCoords <- function(map, optimization_number = 1) {
 #' transformation and map translation attributes for a given optimization run.
 #'
 #' @name mapTransformation
-#' @family {map optimization attribute functions}
+#' @family map optimization attribute functions
 #' @eval roxygen_tags(
 #'   methods    = c(
 #'   "mapTransformation", "mapTransformation<-",
@@ -124,7 +124,7 @@ mapTranslation        <- optimization_getter(ac_opt_get_translation)
 #'   independently of measured titers.
 #'
 #' @name colBases
-#' @family {map optimization attribute functions}
+#' @family map optimization attribute functions
 #' @eval roxygen_tags(
 #'   methods    = c(
 #'   "minColBasis", "minColBasis<-",
@@ -168,7 +168,8 @@ colBases <- function(map, optimization_number = 1) {
 #' @param optimization_number The optimization number for which to calculate stress
 #'
 #' @name mapStress
-#' @family {map optimization attribute functions}
+#' @family map optimization attribute functions
+#' @returns A number giving the map stress
 #' @export
 #'
 mapStress <- function(
@@ -197,7 +198,7 @@ optStress     <- optimization_getter(ac_opt_get_stress)
 #' Get the current map dimensions
 #'
 #' @name mapDimensions
-#' @family {map optimization attribute functions}
+#' @family map optimization attribute functions
 #' @eval roxygen_tags(
 #'   methods    = c("mapDimensions"),
 #'   args       = c("map", "optimization_number = 1"),
@@ -209,7 +210,7 @@ mapDimensions <- optimization_getter(ac_opt_get_dimensions)
 
 #' Get or set an optimization run comment
 #' @name mapComment
-#' @family {map optimization attribute functions}
+#' @family map optimization attribute functions
 #' @eval roxygen_tags(
 #'   methods    = c("mapComment", "mapComment<-"),
 #'   args       = c("map", "optimization_number = 1"),

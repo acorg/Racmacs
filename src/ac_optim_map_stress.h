@@ -1,7 +1,6 @@
 
 # include <RcppArmadillo.h>
-# include "acmap_optimization.h"
-# include "acmap_titers.h"
+# include "acmap_map.h"
 # include "ac_optimizer_options.h"
 
 #ifndef Racmacs__ac_optim_map_stress__h
@@ -47,6 +46,12 @@ std::vector<AcOptimization> ac_runOptimizations(
 // Sorting optimizations by stress
 void sort_optimizations_by_stress(
     std::vector<AcOptimization> &optimizations
+);
+
+// Calculating residual error
+arma::mat ac_point_residuals(
+    const AcMap &map,
+    const arma::uword &optimization_number
 );
 
 #endif

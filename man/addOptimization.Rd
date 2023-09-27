@@ -43,7 +43,7 @@ selected).
 Function to add a new optimization to an acmap object, with specified values.
 }
 \seealso{
-Other {functions for working with map data}: 
+Other functions for working with map data: 
 \code{\link{acmap}()},
 \code{\link{agReactivityAdjustments}()},
 \code{\link{as.json}()},
@@ -62,4 +62,4 @@ Other {functions for working with map data}:
 \code{\link{subsetCommonPoints}},
 \code{\link{subsetMap}()}
 }
-\concept{{functions for working with map data}}
+\concept{functions for working with map data}

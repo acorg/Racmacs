@@ -52,17 +52,19 @@ std::string acmap_to_json(
     Value agval(kObjectType);
 
     agval.AddMember("N", jsonifya(ag.get_name(), allocator), allocator);
-    if (!ag.isdefault("passage"))            agval.AddMember("P", jsonifya(ag.get_passage(), allocator), allocator);
-    if (!ag.isdefault("clade"))              agval.AddMember("c", jsonifya(ag.get_clade(), allocator), allocator);
-    if (!ag.isdefault("annotations"))        agval.AddMember("a", jsonifya(ag.get_annotations(), allocator), allocator);
-    if (!ag.isdefault("labids"))             agval.AddMember("l", jsonifya(ag.get_labids(), allocator), allocator);
-    if (!ag.isdefault("sequence"))           agval.AddMember("A", jsonifya(ag.get_sequence(), allocator), allocator);
-    if (!ag.isdefault("date"))               agval.AddMember("D", jsonifya(ag.get_date(), allocator), allocator);
-    if (!ag.isdefault("lineage"))            agval.AddMember("L", jsonifya(ag.get_lineage(), allocator), allocator);
-    if (!ag.isdefault("reassortant"))        agval.AddMember("R", jsonifya(ag.get_reassortant(), allocator), allocator);
-    if (!ag.isdefault("strings"))            agval.AddMember("S", jsonifya(ag.get_strings(), allocator), allocator);
-    if (!ag.isdefault("continent"))          agval.AddMember("C", jsonifya(ag.get_continent(), allocator), allocator);
-    if (!ag.isdefault("nucleotidesequence")) agval.AddMember("B", jsonifya(ag.get_nucleotidesequence(), allocator), allocator);
+    if (!ag.isdefault("passage"))             agval.AddMember("P", jsonifya(ag.get_passage(), allocator), allocator);
+    if (!ag.isdefault("clade"))               agval.AddMember("c", jsonifya(ag.get_clade(), allocator), allocator);
+    if (!ag.isdefault("annotations"))         agval.AddMember("a", jsonifya(ag.get_annotations(), allocator), allocator);
+    if (!ag.isdefault("labids"))              agval.AddMember("l", jsonifya(ag.get_labids(), allocator), allocator);
+    if (!ag.isdefault("sequence"))            agval.AddMember("A", jsonifya(ag.get_sequence(), allocator), allocator);
+    if (!ag.isdefault("sequence_insertions")) agval.AddMember("Ai", jsonifya(ag.get_sequence_insertions(), allocator), allocator);
+    if (!ag.isdefault("date"))                agval.AddMember("D", jsonifya(ag.get_date(), allocator), allocator);
+    if (!ag.isdefault("lineage"))             agval.AddMember("L", jsonifya(ag.get_lineage(), allocator), allocator);
+    if (!ag.isdefault("reassortant"))         agval.AddMember("R", jsonifya(ag.get_reassortant(), allocator), allocator);
+    if (!ag.isdefault("strings"))             agval.AddMember("S", jsonifya(ag.get_strings(), allocator), allocator);
+    if (!ag.isdefault("continent"))           agval.AddMember("C", jsonifya(ag.get_continent(), allocator), allocator);
+    if (!ag.isdefault("nucleotidesequence"))  agval.AddMember("B", jsonifya(ag.get_nucleotidesequence(), allocator), allocator);
+
     // set_group_values
     // set_reference
     // set_name_full
@@ -80,19 +82,20 @@ std::string acmap_to_json(
     Value srval(kObjectType);
 
     srval.AddMember("N", jsonifya(sr.get_name(), allocator), allocator);
-    if (!sr.isdefault("passage"))            srval.AddMember("P", jsonifya(sr.get_passage(), allocator), allocator);
-    if (!sr.isdefault("clade"))              srval.AddMember("c", jsonifya(sr.get_clade(), allocator), allocator);
-    if (!sr.isdefault("annotations"))        srval.AddMember("a", jsonifya(sr.get_annotations(), allocator), allocator);
-    if (!sr.isdefault("sequence"))           srval.AddMember("A", jsonifya(sr.get_sequence(), allocator), allocator);
-    if (!sr.isdefault("date"))               srval.AddMember("D", jsonifya(sr.get_date(), allocator), allocator);
-    if (!sr.isdefault("id"))                 srval.AddMember("I", jsonifya(sr.get_id(), allocator), allocator);
-    if (!sr.isdefault("species"))           srval.AddMember("s", jsonifya(sr.get_species(), allocator), allocator);
-    if (sr.get_homologous_ags().n_elem > 0)  srval.AddMember("h", jsonifya(sr.get_homologous_ags(), allocator), allocator);
-    if (!sr.isdefault("lineage"))            srval.AddMember("L", jsonifya(sr.get_lineage(), allocator), allocator);
-    if (!sr.isdefault("reassortant"))        srval.AddMember("R", jsonifya(sr.get_reassortant(), allocator), allocator);
-    if (!sr.isdefault("strings"))            srval.AddMember("S", jsonifya(sr.get_strings(), allocator), allocator);
-    if (!sr.isdefault("continent"))          srval.AddMember("C", jsonifya(sr.get_continent(), allocator), allocator);
-    if (!sr.isdefault("nucleotidesequence")) srval.AddMember("B", jsonifya(sr.get_nucleotidesequence(), allocator), allocator);
+    if (!sr.isdefault("passage"))             srval.AddMember("P", jsonifya(sr.get_passage(), allocator), allocator);
+    if (!sr.isdefault("clade"))               srval.AddMember("c", jsonifya(sr.get_clade(), allocator), allocator);
+    if (!sr.isdefault("annotations"))         srval.AddMember("a", jsonifya(sr.get_annotations(), allocator), allocator);
+    if (!sr.isdefault("sequence"))            srval.AddMember("A", jsonifya(sr.get_sequence(), allocator), allocator);
+    if (!sr.isdefault("sequence_insertions")) srval.AddMember("Ai", jsonifya(sr.get_sequence_insertions(), allocator), allocator);
+    if (!sr.isdefault("date"))                srval.AddMember("D", jsonifya(sr.get_date(), allocator), allocator);
+    if (!sr.isdefault("id"))                  srval.AddMember("I", jsonifya(sr.get_id(), allocator), allocator);
+    if (!sr.isdefault("species"))             srval.AddMember("s", jsonifya(sr.get_species(), allocator), allocator);
+    if (sr.get_homologous_ags().n_elem > 0)   srval.AddMember("h", jsonifya(sr.get_homologous_ags(), allocator), allocator);
+    if (!sr.isdefault("lineage"))             srval.AddMember("L", jsonifya(sr.get_lineage(), allocator), allocator);
+    if (!sr.isdefault("reassortant"))         srval.AddMember("R", jsonifya(sr.get_reassortant(), allocator), allocator);
+    if (!sr.isdefault("strings"))             srval.AddMember("S", jsonifya(sr.get_strings(), allocator), allocator);
+    if (!sr.isdefault("continent"))           srval.AddMember("C", jsonifya(sr.get_continent(), allocator), allocator);
+    if (!sr.isdefault("nucleotidesequence"))  srval.AddMember("B", jsonifya(sr.get_nucleotidesequence(), allocator), allocator);
 
     // set_group_values
     // set_reference
@@ -191,31 +194,31 @@ std::string acmap_to_json(
     Value optjson(kObjectType);
 
     // Comment
-    if (!map.optimizations[i].isdefault("comment")) {
-      optjson.AddMember("c", jsonifya(map.optimizations[i].get_comment(), allocator), allocator);
+    if (!map.optimizations.at(i).isdefault("comment")) {
+      optjson.AddMember("c", jsonifya(map.optimizations.at(i).get_comment(), allocator), allocator);
     }
 
     // Stress
-    optjson.AddMember("s", jsonify(map.optimizations[i].stress), allocator);
+    optjson.AddMember("s", jsonify(map.optimizations.at(i).stress), allocator);
 
     // Minimum column basis
-    if (!map.optimizations[i].isdefault("minimum_column_basis")) {
-      optjson.AddMember("m", jsonifya(map.optimizations[i].get_min_column_basis(), allocator), allocator);
+    if (!map.optimizations.at(i).isdefault("minimum_column_basis")) {
+      optjson.AddMember("m", jsonifya(map.optimizations.at(i).get_min_column_basis(), allocator), allocator);
     }
 
     // Fixed column bases
-    if (!map.optimizations[i].isdefault("fixed_column_bases")) {
-      optjson.AddMember("C", jsonifya( map.optimizations[i].get_fixed_column_bases(), allocator), allocator);
+    if (!map.optimizations.at(i).isdefault("fixed_column_bases")) {
+      optjson.AddMember("C", jsonifya( map.optimizations.at(i).get_fixed_column_bases(), allocator), allocator);
     }
 
     // Transformation
-    if (!map.optimizations[i].isdefault("transformation")) {
-      arma::vec transformation_vec = arma::vectorise( map.optimizations[i].get_transformation() );
+    if (!map.optimizations.at(i).isdefault("transformation")) {
+      arma::vec transformation_vec = arma::vectorise( map.optimizations.at(i).get_transformation() );
       optjson.AddMember("t", jsonifya( transformation_vec , allocator ), allocator);
     }
 
     // Coords
-    arma::mat coords = arma::join_cols( map.optimizations[i].get_ag_base_coords(), map.optimizations[i].get_sr_base_coords() );
+    arma::mat coords = arma::join_cols( map.optimizations.at(i).get_ag_base_coords(), map.optimizations.at(i).get_sr_base_coords() );
     optjson.AddMember("l", jsonifya( coords, allocator ), allocator);
 
     // Add to array
@@ -275,12 +278,12 @@ std::string acmap_to_json(
     Value optx(kObjectType);
 
     // Translation
-    if (!map.optimizations[i].isdefault("translation")) {
+    if (!map.optimizations.at(i).isdefault("translation")) {
       opt_extras = true;
       optx.AddMember(
         "t",
         jsonifya(
-          arma::conv_to<arma::vec>::from(map.optimizations[i].get_translation()),
+          arma::conv_to<arma::vec>::from(map.optimizations.at(i).get_translation()),
           allocator
         ),
         allocator
@@ -288,12 +291,12 @@ std::string acmap_to_json(
     }
 
     // Ag reactivity adjustments
-    if (!map.optimizations[i].isdefault("ag_reactivity")) {
+    if (!map.optimizations.at(i).isdefault("ag_reactivity")) {
       opt_extras = true;
       optx.AddMember(
         "r",
         jsonifya(
-          map.optimizations[i].get_ag_reactivity_adjustments(),
+          map.optimizations.at(i).get_ag_reactivity_adjustments(),
           allocator
         ),
         allocator
@@ -301,20 +304,20 @@ std::string acmap_to_json(
     }
 
     // Bootstrapping
-    if (!map.optimizations[i].isdefault("bootstrap")) {
+    if (!map.optimizations.at(i).isdefault("bootstrap")) {
       opt_extras = true;
-      if (map.optimizations[i].bootstrap.size() > 0) {
+      if (map.optimizations.at(i).bootstrap.size() > 0) {
         optx.AddMember(
           "b",
-          jsonifya(map.optimizations[i].bootstrap, allocator),
+          jsonifya(map.optimizations.at(i).bootstrap, allocator),
           allocator
         );
       }
     }
 
     // // Hemisphering
-    // for(arma::uword ag=0; ag<map.optimizations[i].ag_diagnostics.size(); ag++){
-    //   if (map.optimizations[i].ag_diagnostics[ag].hemi.size() > 0) {
+    // for(arma::uword ag=0; ag<map.optimizations.at(i).ag_diagnostics.size(); ag++){
+    //   if (map.optimizations.at(i).ag_diagnostics[ag].hemi.size() > 0) {
     //     Value key(
     //         std::to_string(ag).c_str(),
     //         allocator
@@ -322,7 +325,7 @@ std::string acmap_to_json(
     //     optxh.AddMember(
     //       key,
     //       jsonifya(
-    //         map.optimizations[i].ag_diagnostics[ag].hemi,
+    //         map.optimizations.at(i).ag_diagnostics[ag].hemi,
     //         allocator
     //       ),
     //       allocator
@@ -330,8 +333,8 @@ std::string acmap_to_json(
     //   }
     // }
     //
-    // for(arma::uword sr=0; sr<map.optimizations[i].sr_diagnostics.size(); sr++){
-    //   if (map.optimizations[i].sr_diagnostics[sr].hemi.size() > 0) {
+    // for(arma::uword sr=0; sr<map.optimizations.at(i).sr_diagnostics.size(); sr++){
+    //   if (map.optimizations.at(i).sr_diagnostics[sr].hemi.size() > 0) {
     //     Value key(
     //         std::to_string(sr + num_antigens).c_str(),
     //         allocator
@@ -339,7 +342,7 @@ std::string acmap_to_json(
     //     optxh.AddMember(
     //       key,
     //       jsonifya(
-    //         map.optimizations[i].sr_diagnostics[sr].hemi,
+    //         map.optimizations.at(i).sr_diagnostics[sr].hemi,
     //         allocator
     //       ),
     //       allocator

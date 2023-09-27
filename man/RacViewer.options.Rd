@@ -9,12 +9,16 @@ RacViewer.options(
   viewer.controls = "hidden",
   grid.display = "static",
   grid.col = "#cfcfcf",
+  background.col = "#ffffff",
   show.names = FALSE,
   show.errorlines = FALSE,
   show.connectionlines = FALSE,
   show.titers = FALSE,
   xlim = NULL,
-  ylim = NULL
+  ylim = NULL,
+  translation = c(0, 0, 0),
+  rotation = c(0, 0, 0),
+  zoom = NULL
 )
 }
 \arguments{
@@ -28,6 +32,8 @@ or enclose and rotate along with the map}
 
 \item{grid.col}{Color to use for the grid shown behind the map}
 
+\item{background.col}{Color for the viewer background}
+
 \item{show.names}{Toggle name labels on, can be true or false or "antigens"
 or "sera"}
 
@@ -40,6 +46,12 @@ or "sera"}
 \item{xlim}{x limits to zoom the plot to}
 
 \item{ylim}{y limits to zoom the plot to}
+
+\item{translation}{Plot starting translation}
+
+\item{rotation}{Plot starting rotation as an XYZ Euler rotation}
+
+\item{zoom}{Plot starting zoom factor}
 }
 \value{
 Returns a named list of viewer options
@@ -49,15 +61,15 @@ This function facilitates setting racviewer options by returning a list of
 option settings.
 }
 \seealso{
-Other {functions to view maps}: 
+Other functions to view maps: 
 \code{\link{RacViewer}()},
 \code{\link{export_viewer}()},
-\code{\link{grid.plot.acmap}()},
+\code{\link{ggplot.acmap}()},
 \code{\link{mapGadget}()},
 \code{\link{plot.acmap}()},
 \code{\link{setLegend}()},
-\code{\link{snapshotMap}()},
+\code{\link{view.acmap}()},
 \code{\link{view.default}()},
 \code{\link{view}()}
 }
-\concept{{functions to view maps}}
+\concept{functions to view maps}

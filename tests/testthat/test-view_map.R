@@ -54,7 +54,9 @@ test_that("Viewing a map then reload with no optimizations", {
 # Viewing a aligned optimizations
 test_that("Viewing aligned optimizations", {
 
-  map <- read.acmap(test_path("../testdata/h3map2004.ace"))
+  map <- read.acmap(test_path("../testdata/testmap_large.ace"))
+  set.seed(10)
+  map <- expect_warning(optimizeMap(map, 2, 100, "none"))
   map <- realignOptimizations(map)
   export.viewer.test(
     RacViewer(

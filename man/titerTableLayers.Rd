@@ -14,6 +14,9 @@ titerTableLayers(map) <- value
 
 \item{value}{A list of titer table character vectors to set}
 }
+\value{
+A list of character matrices of titers.
+}
 \description{
 Functions to get and set the underlying titer table layers of a map (see
 details).
@@ -28,7 +31,7 @@ different maps, these functions can be useful to check for example,
 variation in titer seen between a single antigen and serum pair.
 }
 \seealso{
-Other {map attribute functions}: 
+Other map attribute functions: 
 \code{\link{acmapAttributes}},
 \code{\link{adjustedLogTiterTable}()},
 \code{\link{adjustedTiterTable}()},
@@ -38,4 +41,4 @@ Other {map attribute functions}:
 \code{\link{mapName}()},
 \code{\link{titerTable}()}
 }
-\concept{{map attribute functions}}
+\concept{map attribute functions}

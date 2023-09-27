@@ -9,14 +9,7 @@ void ac_error(
 );
 
 void ac_error(
-  const char* format,
-  int arg1
-);
-
-void ac_error(
-    const char* format,
-    int arg1,
-    int arg2
+    const std::string msg
 );
 
 #endif

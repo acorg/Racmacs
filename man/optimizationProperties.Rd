@@ -13,14 +13,17 @@ allMapDimensions(map)
 \arguments{
 \item{map}{The acmap object}
 }
+\value{
+A numeric vector of values
+}
 \description{
 Utility functions to get a vector of all the map optimization
 properties.
 }
 \seealso{
-Other {functions to work with map optimizations}: 
+Other functions to work with map optimizations: 
 \code{\link{keepOptimizations}()},
 \code{\link{removeOptimizations}()},
 \code{\link{sortOptimizations}()}
 }
-\concept{{functions to work with map optimizations}}
+\concept{functions to work with map optimizations}

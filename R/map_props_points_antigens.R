@@ -51,7 +51,7 @@ antigens_setter <- function(fn, type) {
 #' @name agAttributes
 #' @seealso
 #' `srAttributes()`
-#' @family {antigen and sera attribute functions}
+#' @family antigen and sera attribute functions
 #' @eval roxygen_tags(
 #'   methods = c(
 #'     "agIDs", "agIDs<-",
@@ -102,8 +102,10 @@ agMatchIDs          <- antigens_getter(ac_ag_get_match_id) # Not exported
 #' @param value A character or factor vector of groupings to apply to the
 #'   antigens
 #'
+#' @returns A factor vector of groupings.
+#'
 #' @name agGroups
-#' @family {antigen and sera attribute functions}
+#' @family antigen and sera attribute functions
 
 #' @rdname agGroups
 #' @export
@@ -145,20 +147,22 @@ agGroups <- function(map) {
 #' @param value A character matrix of sequences with rows equal to the number of
 #'   antigens
 #'
+#' @returns A character matrix of sequences, where each row represents an antigen.
+#'
 #' @name agSequences
-#' @family {antigen and sera attribute functions}
+#' @family antigen and sera attribute functions
 #'
 
 #' @rdname agSequences
 #' @export
 agSequences <- function(map, missing_value = ".") {
+
   check.acmap(map)
-  rbind_list_to_matrix(
-    lapply(map$antigens, function(ag) {
-      strsplit(ag$sequence, "")[[1]]
-    }),
-    missing_value
-  )
+  seqs <- get_pts_sequence_matrix(map$antigens, missing_value)
+  rownames(seqs) <- agNames(map)
+  colnames(seqs) <- seq_len(ncol(seqs))
+  seqs
+
 }
 
 #' @rdname agSequences
@@ -168,9 +172,7 @@ agSequences <- function(map, missing_value = ".") {
   if (nrow(value) != numAntigens(map)) {
     stop("Number of sequences does not match number of antigens")
   }
-  for (x in seq_len(numAntigens(map))) {
-    map$antigens[[x]]$sequence <- paste0(value[x, ], collapse = "")
-  }
+  map$antigens <- set_pts_sequence_matrix(map$antigens, value)
   map
 }
 
@@ -210,8 +212,10 @@ agNucleotideSequences <- function(map, missing_value = ".") {
 #' @param value A list of character vectors with clade information for each
 #'   point
 #'
+#' @returns A character vector of clade information.
+#'
 #' @name ptClades
-#' @family {antigen and sera attribute functions}
+#' @family antigen and sera attribute functions
 #'
 
 #' @rdname ptClades
@@ -271,8 +275,10 @@ srClades <- function(map) {
 #' @param value A list of character vectors with annotations information for each
 #'   point
 #'
+#' @returns A character vector of point annotations.
+#'
 #' @name ptAnnotations
-#' @family {antigen and sera attribute functions}
+#' @family antigen and sera attribute functions
 #'
 
 #' @rdname ptAnnotations
@@ -332,8 +338,10 @@ srAnnotations <- function(map) {
 #' @param value A list of character vectors with lab ids information for each
 #'   point
 #'
+#' @returns A character vector of antigen laboratory IDs
+#'
 #' @name agLabIDs
-#' @family {antigen and sera attribute functions}
+#' @family antigen and sera attribute functions
 #'
 
 #' @rdname agLabIDs

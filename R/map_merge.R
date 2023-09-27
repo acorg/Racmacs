@@ -52,9 +52,9 @@
 #'   antigens and sera into a map without affecting the first one at all (and
 #'   was first implemented in lisp). }
 #'
-#' @return Returns the merged map object
+#' @returns Returns the merged map object
 #'
-#' @family {map merging functions}
+#' @family map merging functions
 #' @export
 mergeMaps <- function(
   ...,
@@ -203,29 +203,88 @@ mergeMaps <- function(
 #' returning a list of option settings.
 #'
 #' @param sd_limit When merging titers, titers that have a standard deviation of
-#'   this amount or greater on the log2 scale will be set to "*" and excluded,
-#'   set to NA to always simply take the GMT regardless of log titer standard deviation
+#'   this amount or greater on the log2 scale will be set to "*" and excluded.
+#'   Setting this to NA removes any limit. The default value will be NA, unless
+#'   the titer merge method is specified as "lispmds" in which case the default
+#'   is 1 and standard deviation is calculated by division by n, instead of n-1,
+#'   in order to maintain backwards compatibility with previous approaches.
 #' @param dilution_stepsize The dilution stepsize to assume when merging titers (see
 #'   `dilutionStepsize()`)
+#' @param method The titer merging method to use, either a string of "conservative" or "likelihood", or a user defined function. See details.
 #'
-#' @family {map merging functions}
+#' @details
+#' When merging measured titers, the general approach is to take the geometric
+#' mean and use that as the merged titer, however in particular when < values
+#' are present there are different options that can be employed. In older
+#' versions of Racmacs, < values were converted to maximum possible numeric
+#' titer after accounting for the dilution_stepsize factor, then the geometric
+#' mean was taken. This approach can be used by specifying the method as
+#' "likelihood" since, this approach gives a very rough approximation of the
+#' most likely mean numeric value. In contrast, the "conservative" method and
+#' current default returns the highest < value that satisfies all the values
+#' that were measured. As an example merging <10 and 20, (assuming
+#' dilution_stepsize = 1) would return a value of 10 with the "likelihood"
+#' method and <40 with the "conservative" method.
 #'
-#' @return Returns a named list of merging options
+#'
+#' @family map merging functions
+#'
+#' @returns Returns a named list of merging options
 #' @export
 #'
 RacMerge.options <- function(
-  sd_limit = 1,
-  dilution_stepsize = 1
+  sd_limit = NULL,
+  dilution_stepsize = 1,
+  method = NULL
 ) {
 
   # Check input
-  if (is.na(sd_limit)) sd_limit <- NA_real_
-  check.numeric(sd_limit)
   check.numeric(dilution_stepsize)
+  if (!is.null(sd_limit)) {
+    if (is.na(sd_limit)) sd_limit <- NA_real_
+    check.numeric(sd_limit)
+  }
 
+  # Set default merge method with a warning
+  if (is.null(method)) {
+    method <- "conservative"
+    rlang::warn(
+      message = "The 'conservative' titer merge method was used when merging titers, which differs to the 'likelihood' method employed in older Racmacs versions. You can suppress this warning by setting the merge method explicitly with \"merge_options = list(method = 'conservative')\")",
+      .frequency = "regularly",
+      .frequency_id = "conservative_titer_merge_default"
+    )
+  }
+
+  # Deal with method defaults
+  if (is.character(method) && method %in% c("conservative", "likelihood", "lispmds")) {
+
+    merge_function <- function(){}
+
+  } else if (is.function(method)) {
+
+    merge_function <- method
+    method <- "function"
+
+  } else {
+
+    stop("'merge_method' must be one of 'conservative', 'likelihood', 'lispmds', or a user defined function.", call. = FALSE)
+
+  }
+
+  # Set default sd limit
+  if (is.null(sd_limit)) {
+    sd_limit <- ifelse(
+      method == "lispmds",
+      1, NA_real_
+    )
+  }
+
+  # Return list of merge options
   list(
     sd_limit = sd_limit,
-    dilution_stepsize = dilution_stepsize
+    dilution_stepsize = dilution_stepsize,
+    merge_function = merge_function,
+    method = method
   )
 
 }
@@ -237,7 +296,7 @@ RacMerge.options <- function(
 #'
 #' @param map An acmap object with titer table layers
 #'
-#' @family {map merging functions}
+#' @family map merging functions
 #'
 splitTiterLayers <- function(
   map
@@ -255,6 +314,4 @@ splitTiterLayers <- function(
   maps
 
 }
-
-
 

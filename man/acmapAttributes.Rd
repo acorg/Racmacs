@@ -25,11 +25,14 @@ numLayers(map)
 \arguments{
 \item{map}{The acmap data object}
 }
+\value{
+A number relating to the attribute
+}
 \description{
 Functions to get various attributes about an acmap object.
 }
 \seealso{
-Other {map attribute functions}: 
+Other map attribute functions: 
 \code{\link{adjustedLogTiterTable}()},
 \code{\link{adjustedTiterTable}()},
 \code{\link{dilutionStepsize}()},
@@ -39,4 +42,4 @@ Other {map attribute functions}:
 \code{\link{titerTableLayers}()},
 \code{\link{titerTable}()}
 }
-\concept{{map attribute functions}}
+\concept{map attribute functions}

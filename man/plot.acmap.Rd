@@ -13,6 +13,7 @@
   plot_sr = TRUE,
   plot_labels = FALSE,
   plot_blobs = TRUE,
+  point_opacity = "automatic",
   show_procrustes = TRUE,
   show_error_lines = FALSE,
   plot_stress = FALSE,
@@ -22,9 +23,15 @@
   outlier.arrow.col = grid.col,
   fill.alpha = 0.8,
   outline.alpha = 0.8,
+  procrustes.lwd = 2,
+  procrustes.col = "black",
+  procrustes.arr.type = "triangle",
+  procrustes.arr.length = 0.2,
+  procrustes.arr.width = 0.15,
   label.offset = 0,
   padding = 1,
   cex = 1,
+  margins = rep(0.5, 4),
   ...
 )
 }
@@ -45,6 +52,11 @@
 "antigens" or "sera"}
 
 \item{plot_blobs}{logical, should stress blobs be plotted if present}
+
+\item{point_opacity}{Either "automatic" or "fixed". "fixed" fixes point
+opacity to match those in \code{ptFill()} and \code{ptOutline()} and will not be
+altered in procrustes plots or by the fill.alpha and outline.alpha
+parameters.}
 
 \item{show_procrustes}{logical, should procrustes lines be shown, if present}
 
@@ -67,6 +79,16 @@ plot margin, default is "arrowheads".}
 
 \item{outline.alpha}{alpha for point outline}
 
+\item{procrustes.lwd}{procrustes arrow line width}
+
+\item{procrustes.col}{procrustes arrow color}
+
+\item{procrustes.arr.type}{procrustes arrow type (see \code{shape::Arrows()})}
+
+\item{procrustes.arr.length}{procrustes arrow length (see \code{shape::Arrows()})}
+
+\item{procrustes.arr.width}{procrustes arrow width (see \code{shape::Arrows()})}
+
 \item{label.offset}{amount by which any point labels should be offset from
 point coordinates in fractions of a character width}
 
@@ -75,21 +97,27 @@ ylim set explicitly}
 
 \item{cex}{point size expansion factor}
 
+\item{margins}{margins in inches for the plot, use \code{NULL} for default margins from \code{par("mar")}}
+
 \item{...}{additional arguments, not used}
+}
+\value{
+Called for the side effect of plotting the map but invisibly
+returns the map object.
 }
 \description{
 Method for plotting an antigenic map in two dimensions
 }
 \seealso{
-Other {functions to view maps}: 
+Other functions to view maps: 
 \code{\link{RacViewer.options}()},
 \code{\link{RacViewer}()},
 \code{\link{export_viewer}()},
-\code{\link{grid.plot.acmap}()},
+\code{\link{ggplot.acmap}()},
 \code{\link{mapGadget}()},
 \code{\link{setLegend}()},
-\code{\link{snapshotMap}()},
+\code{\link{view.acmap}()},
 \code{\link{view.default}()},
 \code{\link{view}()}
 }
-\concept{{functions to view maps}}
+\concept{functions to view maps}

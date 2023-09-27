@@ -22,13 +22,13 @@ blobmap <- triangulationBlobs(
 # Check data can be queried
 test_that("General stress blob calculation", {
 
-  expect_equal(agTriangulationBlobSize(map_unrelaxed), rep(NA_real_, numAntigens(map_unrelaxed)))
-  expect_equal(srTriangulationBlobSize(map_unrelaxed), rep(NA_real_, numSera(map_unrelaxed)))
-  expect_equal(length(agTriangulationBlobSize(blobmap)), numAntigens(blobmap))
-  expect_equal(length(srTriangulationBlobSize(blobmap)), numSera(blobmap))
+  expect_error(agTriangulationBlobs(map_unrelaxed), "Map has no bootstrap blobs calculated yet")
+  expect_error(srTriangulationBlobs(map_unrelaxed), "Map has no bootstrap blobs calculated yet")
+  expect_equal(length(agTriangulationBlobs(blobmap)), numAntigens(blobmap))
+  expect_equal(length(srTriangulationBlobs(blobmap)), numSera(blobmap))
 
-  expect_lt(agTriangulationBlobSize(blobmap)[5], 2)
-  expect_gt(agTriangulationBlobSize(blobmap)[5], 1)
+  expect_lt(blobsize(agTriangulationBlobs(blobmap)[[5]]), 2)
+  expect_gt(blobsize(agTriangulationBlobs(blobmap)[[5]]), 1)
 
 })
 
@@ -43,8 +43,8 @@ blobmap3d <- triangulationBlobs(
 # Stress blobs in 3d
 test_that("3D stress blob calculation", {
 
-  agblobsize <- agTriangulationBlobSize(blobmap3d)
-  srblobsize <- srTriangulationBlobSize(blobmap3d)
+  agblobsize <- sapply(agTriangulationBlobs(blobmap3d), blobsize)
+  srblobsize <- sapply(srTriangulationBlobs(blobmap3d), blobsize)
 
   expect_equal(length(agblobsize), numAntigens(blobmap3d))
   expect_equal(length(srblobsize), numSera(blobmap3d))

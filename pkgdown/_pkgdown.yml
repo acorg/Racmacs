@@ -39,6 +39,7 @@ articles:
   - comparing-maps
   - merging-maps
   - adding-sequences
+  - customising-map-appearance
 reference:
 - title: Working with map data
   contents:
@@ -95,5 +96,4 @@ reference:
   - optimizeAgReactivity
 - title: Deprecated functions
   contents:
-  - deprecated_fn
-
+  - deprecated_functions

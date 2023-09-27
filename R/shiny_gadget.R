@@ -6,7 +6,9 @@
 #'
 #' @param map The acmap object to open in the GUI
 #'
-#' @family {functions to view maps}
+#' @returns No value returned, called for the side effect of starting the gadget.
+#'
+#' @family functions to view maps
 #' @export
 #'
 mapGadget <- function(map) {

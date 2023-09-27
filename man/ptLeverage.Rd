@@ -22,6 +22,10 @@ procrustes (specified by name or index or TRUE/FALSE for all/none)}
 \item{sera}{Sera to include when calculating the rmsd of the procrustes
 (specified by name or index or TRUE/FALSE for all/none)}
 }
+\value{
+Returns a numeric vector of the leverage calculated for each of the
+points.
+}
 \description{
 These functions attempt to estimate leverage of each antigen, sera or titer
 by removing it from the data, relaxing the map, then calculating the rmsd of
@@ -30,19 +34,27 @@ bases will be recalculated unless you have specifed them as fixed with
 \code{fixedColBases()}.
 }
 \seealso{
-Other {map diagnostic functions}: 
+Other map diagnostic functions: 
 \code{\link{agCohesion}()},
 \code{\link{bootstrapBlobs}()},
 \code{\link{bootstrapMap}()},
 \code{\link{checkHemisphering}()},
 \code{\link{dimensionTestMap}()},
+\code{\link{logtiterTable}()},
 \code{\link{map-table-distances}},
 \code{\link{mapBootstrapCoords}},
+\code{\link{mapDistances}()},
 \code{\link{mapRelaxed}()},
+\code{\link{mapResiduals}()},
+\code{\link{pointStress}},
 \code{\link{ptBootstrapBlob}},
 \code{\link{ptBootstrapCoords}()},
-\code{\link{ptTriangulationBlobsize}},
+\code{\link{ptTriangulationBlob}},
+\code{\link{recalculateStress}()},
+\code{\link{stressTable}()},
+\code{\link{tableColbases}()},
+\code{\link{tableDistances}()},
 \code{\link{triangulationBlobs}()},
 \code{\link{unstableMaps}}
 }
-\concept{{map diagnostic functions}}
+\concept{map diagnostic functions}

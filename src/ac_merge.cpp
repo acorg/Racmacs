@@ -1,7 +1,6 @@
 
 # include <RcppArmadillo.h>
-# include "acmap_map.h"
-# include "acmap_titers.h"
+# include "ac_optim_map_stress.h"
 # include "ac_merge.h"
 # include "ac_titers.h"
 # include "ac_matching.h"
@@ -14,8 +13,27 @@ AcTiter ac_merge_titers(
     const AcMergeOptions& options
 ){
 
+  // Use the user specified merge function if applicable
+  if (options.method == "function") {
+
+    // Convert AcTiter vector to Rcpp Character vector
+    Rcpp::CharacterVector character_titers(titers.size());
+    for (arma::uword i=0; i<titers.size(); i++) { character_titers[i] = titers[i].toString(); }
+
+    // Pass to the function and recast output as AcTiter
+    try {
+      return(AcTiter(Rcpp::as<std::string>(options.merge_function(character_titers))));
+    } catch(std::exception &ex) {
+      std::string exstr = ex.what();
+      ac_error("Could not parse results from user-defined titer merge function, error was '" + exstr + "'");
+    } catch(...) {
+      ac_error("Could not parse results from user-defined titer merge function");
+    }
+
+  }
+
   // Return the titer if size 1
-  if(titers.size() == 1){
+  if (titers.size() == 1) {
     return titers[0];
   }
 
@@ -25,50 +43,74 @@ AcTiter ac_merge_titers(
   arma::uvec nona = arma::find(ttypes > 0);
 
   // 1. If there are > and < titers, result is "*"
-  if(arma::any(ttypes == 2) && arma::any(ttypes == 3)){
+  if (arma::any(ttypes == 2) && arma::any(ttypes == 3)) {
+
     return AcTiter();
+
   } else
-    // 2a. If there are just ".", result is "."
-    if(arma::all(ttypes == -1)){
-      return AcTiter(0, -1);
-    } else
-    // 2. If there are just "*" or ".", result is "*"
-    if(arma::all(ttypes <= 0)){
+  // 2a. If there are just ".", result is "."
+  if (arma::all(ttypes == -1)) {
+
+    return AcTiter(0, -1);
+
+  } else
+  // 2. If there are just "*" or ".", result is "*"
+  if (arma::all(ttypes <= 0)) {
+
+    return AcTiter();
+
+  } else
+  // 3. If there are just lessthan titers, result is min of them, keeping lessthan
+  if (arma::all(ttypes.elem(nona) == 2)) {
+
+    return AcTiter(
+      arma::min(numtiters),
+      2 // Less than type
+    );
+
+  } else
+  // 4. If there are just morethan titers, result is max of them, keeping morethan
+  if (arma::all(ttypes.elem(nona) == 3)) {
+
+    return AcTiter(
+      arma::max(numtiters),
+      3 // More than type
+    );
+
+  } else {
+
+    // 5. Convert > and < titers to their next values, i.e. <40 to 20, >10240 to 20480, etc. and take the log
+    arma::vec logtiters = log_titers(titers, options.dilution_stepsize);
+
+    // 6. Compute SD, if SD > options.sd_limit, result is *, otherwise return the mean
+    if (
+      options.sd_limit == options.sd_limit && // Check sd_limit not set to NA
+      arma::stddev(logtiters.elem(nona), options.method == "lispmds") > options.sd_limit
+    ) {
+
       return AcTiter();
-    } else
-      // 3. If there are just lessthan titers, result is min of them, keeping lessthan
-      if(arma::all(ttypes.elem(nona) == 2)){
+
+    } else {
+
+      // Special case for conservative / lispmds method
+      // If there is a mix of < values and others then return convert to log and return the largest less than
+      if (options.method != "likelihood" && arma::any(ttypes == 2)) {
+
         return AcTiter(
-          arma::min(numtiters),
-          2 // Less than type
+          std::pow(2.0, arma::max(logtiters.elem(nona)) + options.dilution_stepsize)*10,
+          2 // Set lessthan type
         );
-      } else
-        // 4. If there are just morethan titers, result is max of them, keeping morethan
-        if(arma::all(ttypes.elem(nona) == 3)){
-          return AcTiter(
-            arma::max(numtiters),
-            3 // More than type
-          );
-        } else {
 
-          // 5. Convert > and < titers to their next values, i.e. <40 to 20, >10240 to 20480, etc. and take the log
-          arma::vec logtiters = log_titers(titers, options.dilution_stepsize);
+      }
 
-          // 6. Compute SD, if SD > options.sd_limit, result is *
-          if(
-            options.sd_limit == options.sd_limit && // Check sd_limit not set to NA
-              arma::stddev(logtiters.elem(nona)) > options.sd_limit
-            ){
-            return AcTiter();
-          }
-          // 7. Otherwise return the mean (ignoring nas)
-          else{
-            return AcTiter(
-              std::pow(2.0, arma::mean(logtiters.elem(nona)))*10,
-              1 // Set measurable type
-            );
-          }
-        }
+      return AcTiter(
+        std::pow(2.0, arma::mean(logtiters.elem(nona)))*10,
+        1 // Set measurable type
+      );
+
+    }
+
+  }
 
 }
 
@@ -79,8 +121,8 @@ AcTiterTable ac_merge_titer_layers(
     const AcMergeOptions& options
 ){
 
-  int num_ags = titer_layers[0].nags();
-  int num_sr  = titer_layers[0].nsr();
+  int num_ags = titer_layers.at(0).nags();
+  int num_sr  = titer_layers.at(0).nsr();
   int num_layers = titer_layers.size();
 
   AcTiterTable merged_table = AcTiterTable(
@@ -93,7 +135,7 @@ AcTiterTable ac_merge_titer_layers(
   for(int ag=0; ag<num_ags; ag++){
     for(int sr=0; sr<num_sr; sr++){
       for(int i=0; i<num_layers; i++){
-        titers[i] = titer_layers[i].get_titer(ag,sr);
+        titers[i] = titer_layers.at(i).get_titer(ag,sr);
       }
       merged_table.set_titer(
         ag, sr,
@@ -212,9 +254,9 @@ std::string merge_min_column_basis(
     const std::vector<AcMap>& maps
 ){
 
-  std::string min_col_basis = maps[0].optimizations[0].get_min_column_basis();
+  std::string min_col_basis = maps[0].optimizations.at(0).get_min_column_basis();
   for(arma::uword i=1; i<maps.size(); i++){
-    if(min_col_basis != maps[i].optimizations[0].get_min_column_basis()){
+    if(min_col_basis != maps[i].optimizations.at(0).get_min_column_basis()){
       Rcpp::Rcerr << "\nMinimum column basis of merged maps do not match, they will be taken from the first map";
     }
   }
@@ -240,7 +282,7 @@ arma::vec merge_fixed_column_bases(
     for(arma::uword j=0; j<matches.n_elem; j++){
 
       double merged_colbase = merged_fixed_colbases( matches(j) );
-      double map_colbase = maps[i].optimizations[0].get_fixed_column_bases(j);
+      double map_colbase = maps[i].optimizations.at(0).get_fixed_column_bases(j);
 
       if(std::isfinite(merged_colbase) && merged_colbase != map_colbase){
         // Warn if different fixed column bases used
@@ -439,7 +481,7 @@ AcMap ac_merge_reoptimized(
     num_dims,
     num_optimizations,
     min_col_basis,
-    arma::vec(merged_map.antigens.size(), arma::fill::value(arma::datum::nan)),
+    arma::vec(merged_map.sera.size(), arma::fill::value(arma::datum::nan)),
     ag_reactivity_adjustments,
     optimizer_options
   );
@@ -476,7 +518,7 @@ AcMap ac_merge_frozen_overlay(
 
   // Create a fresh optimization
   AcOptimization opt(
-    maps[0].optimizations[0].dim(),
+    maps[0].optimizations.at(0).dim(),
     merged_map.antigens.size(),
     merged_map.sera.size()
   );
@@ -487,8 +529,8 @@ AcMap ac_merge_frozen_overlay(
       merged_map.antigens,
       maps[0].antigens,
       maps[1].antigens,
-      maps[0].optimizations[0].agCoords(),
-      maps[1].optimizations[0].agCoords()
+      maps[0].optimizations.at(0).agCoords(),
+      maps[1].optimizations.at(0).agCoords()
     )
   );
 
@@ -497,8 +539,8 @@ AcMap ac_merge_frozen_overlay(
       merged_map.sera,
       maps[0].sera,
       maps[1].sera,
-      maps[0].optimizations[0].srCoords(),
-      maps[1].optimizations[0].srCoords()
+      maps[0].optimizations.at(0).srCoords(),
+      maps[1].optimizations.at(0).srCoords()
     )
   );
 
@@ -541,7 +583,7 @@ AcMap ac_merge_relaxed_overlay(
   );
 
   // Relax the optimization
-  merged_map.optimizations[0].relax_from_titer_table(
+  merged_map.optimizations.at(0).relax_from_titer_table(
     merged_map.titer_table_flat,
     optimizer_options
   );
@@ -573,11 +615,11 @@ AcMap ac_merge_frozen_merge(
 
   // Move the matching points back to their position in map 1, undoing any averaging
   // done by ac_merge_frozen_overlay
-  merged_map.optimizations[0].set_ag_base_coords( map1_ag_matches, maps[0].optimizations[0].get_ag_base_coords() );
-  merged_map.optimizations[0].set_sr_base_coords( map1_sr_matches, maps[0].optimizations[0].get_sr_base_coords() );
+  merged_map.optimizations.at(0).set_ag_base_coords( map1_ag_matches, maps[0].optimizations.at(0).get_ag_base_coords() );
+  merged_map.optimizations.at(0).set_sr_base_coords( map1_sr_matches, maps[0].optimizations.at(0).get_sr_base_coords() );
 
   // Now relax the map while fixing points in map 1
-  merged_map.optimizations[0].relax_from_titer_table(
+  merged_map.optimizations.at(0).relax_from_titer_table(
       merged_map.titer_table_flat,
       optimizer_options,
       map1_ag_matches, // Fixed antigens
@@ -643,8 +685,8 @@ AcMap ac_merge_incremental_single(
   for(auto &optimization : optimizations){
     arma::mat ag_base_coords = optimization.get_ag_base_coords();
     arma::mat sr_base_coords = optimization.get_sr_base_coords();
-    ag_base_coords.rows( map1_ag_matches ) = maps[0].optimizations[0].get_ag_base_coords();
-    sr_base_coords.rows( map1_sr_matches ) = maps[0].optimizations[0].get_sr_base_coords();
+    ag_base_coords.rows( map1_ag_matches ) = maps[0].optimizations.at(0).get_ag_base_coords();
+    sr_base_coords.rows( map1_sr_matches ) = maps[0].optimizations.at(0).get_sr_base_coords();
     optimization.set_ag_base_coords( ag_base_coords );
     optimization.set_sr_base_coords( sr_base_coords );
   }
@@ -652,7 +694,7 @@ AcMap ac_merge_incremental_single(
   // Relax the optimizations
   ac_relaxOptimizations(
     optimizations,
-    optimizations[0].dim(),
+    optimizations.at(0).dim(),
     tabledist_matrix,
     titertype_matrix,
     optimizer_options
@@ -733,3 +775,93 @@ AcMap ac_merge_incremental(
 
 }
 
+
+// [[Rcpp::export]]
+int ac_titer_merge_type(
+    const std::vector<AcTiter>& titers
+) {
+
+  // Determine titer types
+  arma::ivec ttypes = titer_types_int(titers);
+
+  // Case -1: All .
+  if (arma::all(ttypes == -1)) {
+    return(-1);
+  } else
+  // Case 0: Nothing measured
+  if (arma::all(ttypes <= 0)) {
+    return(0);
+  } else
+  // Case 1: Only detectable
+  if (arma::all(ttypes == 1)) {
+    return(1);
+  } else
+  // Case 2: Only <
+  if (arma::all(ttypes == 2)) {
+    return(2);
+  } else
+  // Case 3: Only >
+  if (arma::all(ttypes == 3)) {
+    return(3);
+  } else
+  // Case 4: Contains some mixture of <, > and detectable values
+  {
+    return(4);
+  }
+
+}
+
+
+// Determing the type of titer merge happening in tables
+// [[Rcpp::export]]
+arma::imat ac_titer_layer_merge_types(
+    const std::vector<AcTiterTable>& titer_layers
+){
+
+  int num_ags = titer_layers.at(0).nags();
+  int num_sr  = titer_layers.at(0).nsr();
+  int num_layers = titer_layers.size();
+
+  arma::imat merge_types(num_ags, num_sr);
+  std::vector<AcTiter> titers(num_layers, AcTiter());
+
+  for (int ag=0; ag<num_ags; ag++) {
+    for (int sr=0; sr<num_sr; sr++) {
+      for (int i=0; i<num_layers; i++) {
+        titers[i] = titer_layers.at(i).get_titer(ag,sr);
+      }
+      merge_types(ag, sr) = ac_titer_merge_type(titers);
+    }
+  }
+
+  return merge_types;
+
+}
+
+
+// Determing the type of titer merge happening in tables
+// [[Rcpp::export]]
+arma::mat ac_titer_layer_sd(
+    const std::vector<AcTiterTable>& titer_layers,
+    const double dilution_stepsize
+){
+
+  int num_ags = titer_layers.at(0).nags();
+  int num_sr  = titer_layers.at(0).nsr();
+  int num_layers = titer_layers.size();
+
+  arma::mat merge_sd(num_ags, num_sr);
+  std::vector<AcTiter> titers(num_layers, AcTiter());
+
+  for (int ag=0; ag<num_ags; ag++) {
+    for (int sr=0; sr<num_sr; sr++) {
+      for (int i=0; i<num_layers; i++) {
+        titers[i] = titer_layers.at(i).get_titer(ag,sr);
+      }
+      merge_sd(ag, sr) = arma::stddev(log_titers(titers, dilution_stepsize));
+    }
+  }
+
+  return merge_sd;
+
+}

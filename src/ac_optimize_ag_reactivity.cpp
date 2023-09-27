@@ -51,7 +51,7 @@ double ac_reactivity_adjustment_stress(
 
     // Sort by stress and keep lowest stress
     sort_optimizations_by_stress(optimizations);
-    stress = optimizations[0].stress;
+    stress = optimizations.at(0).stress;
 
   } else {
 

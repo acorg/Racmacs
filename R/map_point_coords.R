@@ -25,13 +25,15 @@
 #'   transformation directly, as is done by functions like `rotateMap()` and
 #'   `translateMap()`.
 #'
+#' @returns Returns a matrix of point coordinates.
+#'
 #' @seealso
 #' `agBaseCoords()`
 #' `srBaseCoords()`
 #' `mapTransformation()`
 #' `mapTranslation()`
 #'
-#' @family {map optimization attribute functions}
+#' @family map optimization attribute functions
 #' @name ptCoords
 
 # Get the antigen coordinates

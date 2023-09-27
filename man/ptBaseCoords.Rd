@@ -34,7 +34,7 @@ run.
 \code{agCoords()}
 \code{srCoords()}
 
-Other {map optimization attribute functions}: 
+Other map optimization attribute functions: 
 \code{\link{colBases}()},
 \code{\link{mapComment}()},
 \code{\link{mapDimensions}()},
@@ -42,4 +42,4 @@ Other {map optimization attribute functions}:
 \code{\link{mapTransformation}()},
 \code{\link{ptCoords}()}
 }
-\concept{{map optimization attribute functions}}
+\concept{map optimization attribute functions}

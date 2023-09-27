@@ -6,7 +6,6 @@
 \usage{
 RacViewer(
   map,
-  plotdata = NULL,
   show_procrustes = FALSE,
   show_group_legend = FALSE,
   options = list(),
@@ -17,8 +16,6 @@ RacViewer(
 }
 \arguments{
 \item{map}{The map data object}
-
-\item{plotdata}{r3js plot data}
 
 \item{show_procrustes}{should procrustes lines be shown}
 
@@ -34,19 +31,24 @@ groups as set by \code{agGroups()} and \code{srGroups()}}
 
 \item{elementId}{DOM element ID}
 }
+\value{
+An object of class htmlwidget that will intelligently print itself
+into HTML in a variety of contexts including the R console, within R
+Markdown documents, and within Shiny output bindings.
+}
 \description{
 This creates an html widget for viewing antigenic maps.
 }
 \seealso{
-Other {functions to view maps}: 
+Other functions to view maps: 
 \code{\link{RacViewer.options}()},
 \code{\link{export_viewer}()},
-\code{\link{grid.plot.acmap}()},
+\code{\link{ggplot.acmap}()},
 \code{\link{mapGadget}()},
 \code{\link{plot.acmap}()},
 \code{\link{setLegend}()},
-\code{\link{snapshotMap}()},
+\code{\link{view.acmap}()},
 \code{\link{view.default}()},
 \code{\link{view}()}
 }
-\concept{{functions to view maps}}
+\concept{functions to view maps}

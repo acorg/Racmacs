@@ -4,20 +4,6 @@ library(testthat)
 context("Optimizing maps")
 set.seed(100)
 
-# Rough benchmarking ~4.5 secs
-if (1==2) {
-  map <- read.acmap(test_path("../../inst/extdata/h3map2004.ace"))
-  start <- Sys.time()
-  map <- optimizeMap(
-    map = map,
-    number_of_dimensions = 2,
-    number_of_optimizations = 100,
-    minimum_column_basis = "none"
-  )
-  end <- Sys.time()
-  print(end - start)
-}
-
 # Generate some toy data
 ag_coords <- cbind(-4:4, runif(9, -1, 1))
 sr_coords <- cbind(runif(9, -1, 1), -4:4)
@@ -33,6 +19,23 @@ perfect_map <- acmap(
   titer_table = titers,
   ag_coords = ag_coords,
   sr_coords = sr_coords
+)
+
+# Generate some 3D toy data
+ag_coords3d <- cbind(runif(9, -4, 4), runif(9, -4, 4), runif(9, -4, 4))
+sr_coords3d <- cbind(runif(9, -4, 4), runif(9, -4, 4), runif(9, -4, 4))
+colbases3d  <- round(runif(9, 3, 6))
+colbasesmat3d <- matrix(colbases3d, 9, 9, byrow = T)
+distmat3d <- as.matrix(dist(rbind(ag_coords3d, sr_coords3d)))[seq_len(9), -seq_len(9)]
+logtiters3d <- colbasesmat3d - distmat3d
+titers3d <- 2 ^ logtiters3d * 10
+mode(titers3d) <- "character"
+
+# Create a perfect representation of the toy data
+perfect_map3d <- acmap(
+  titer_table = titers3d,
+  ag_coords = ag_coords3d,
+  sr_coords = sr_coords3d
 )
 
 # Setup a perfect optimization to test
@@ -147,6 +150,24 @@ test_that("Optimizing a perfect map with dimensional annealing", {
 
 })
 
+# Multi-point blobs
+test_that("Calculating number of blobs", {
+
+  hemi_map_ag <- perfect_map3d
+  titerTable(hemi_map_ag)[3, -c(4, 5, 8)] <- "*"
+
+  hemi_map_ag <- expect_warning(optimizeMap(
+    map = hemi_map_ag,
+    number_of_dimensions = 3,
+    number_of_optimizations = 1,
+    fixed_column_bases = colbases
+  ))
+
+  hemi_map_ag <- triangulationBlobs(hemi_map_ag, stress_lim = 0.25, grid_spacing = 0.25)
+  expect_equal(length(agTriangulationBlobs(hemi_map_ag)[[3]]), 2)
+
+})
+
 # Finding trapped points
 test_that("Finding hemisphering points", {
 
@@ -170,7 +191,7 @@ test_that("Finding hemisphering points", {
 
   expect_false(is.null(agHemisphering(hemi_map_ag)[[1]]))
   export.plot.test(
-    grid.plot.acmap(hemi_map_ag),
+    ggplot(hemi_map_ag),
     "hemisphering_ags.pdf"
   )
 
@@ -197,7 +218,7 @@ test_that("Finding hemisphering points", {
   expect_false(is.null(srHemisphering(hemi_map_sr)[[6]]))
 
   export.plot.test(
-    grid.plot.acmap(hemi_map_sr),
+    ggplot(hemi_map_sr),
     "hemisphering_sr.pdf"
   )
 
@@ -207,6 +228,35 @@ test_that("Finding hemisphering points", {
   )
 
 })
+
+
+# Finding trapped points
+test_that("Finding hemisphering points 3d", {
+
+  # Create an antigen hemisphering point
+  hemi_map_ag3d <- perfect_map3d
+  titerTable(hemi_map_ag3d)[1, -c(2, 7)] <- "*"
+
+  hemi_map_ag3d <- expect_warning(
+    optimizeMap(
+      map = hemi_map_ag3d,
+      number_of_dimensions = 3,
+      number_of_optimizations = 1,
+      fixed_column_bases = colbases3d
+    )
+  )
+
+  hemi_map_ag3d <- checkHemisphering(hemi_map_ag3d, stress_lim = 0.1)
+  expect_false(is.null(agHemisphering(hemi_map_ag3d)[[1]]))
+
+  export.viewer.test(
+    view(hemi_map_ag3d),
+    "hemisphering_ags3d.html"
+  )
+
+})
+
+
 
 # Read testmap
 map <- read.acmap(test_path("../testdata/testmap.ace"))

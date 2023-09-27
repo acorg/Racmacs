@@ -19,10 +19,10 @@ is done by default when optimizing a map and makes comparing point positions
 in each optimization run much easier to do by eye.
 }
 \seealso{
-Other {functions to compare maps}: 
+Other functions to compare maps: 
 \code{\link{matchStrains}},
 \code{\link{procrustesData}()},
 \code{\link{procrustesMap}()},
 \code{\link{realignMap}()}
 }
-\concept{{functions to compare maps}}
+\concept{functions to compare maps}

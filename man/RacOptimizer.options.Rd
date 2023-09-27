@@ -8,7 +8,15 @@ RacOptimizer.options(
   dim_annealing = FALSE,
   method = "L-BFGS",
   maxit = 1000,
-  num_cores = parallel::detectCores(),
+  num_basis = 10,
+  armijo_constant = 1e-04,
+  wolfe = 0.9,
+  min_gradient_norm = 1e-06,
+  factr = 1e-15,
+  max_line_search_trials = 50,
+  min_step = 1e-20,
+  max_step = 1e+20,
+  num_cores = getOption("RacOptimizer.num_cores"),
   report_progress = NULL,
   ignore_disconnected = FALSE,
   progress_bar_length = options()$width
@@ -21,7 +29,23 @@ RacOptimizer.options(
 
 \item{maxit}{The maximum number of iterations to use in the optimizer}
 
-\item{num_cores}{The number of cores to run in parallel}
+\item{num_basis}{Number of memory points to be stored (default 10).}
+
+\item{armijo_constant}{Controls the accuracy of the line search routine for determining the Armijo condition.}
+
+\item{wolfe}{Parameter for detecting the Wolfe condition.}
+
+\item{min_gradient_norm}{Minimum gradient norm required to continue the optimization.}
+
+\item{factr}{Minimum relative function value decrease to continue the optimization.}
+
+\item{max_line_search_trials}{The maximum number of trials for the line search (before giving up).}
+
+\item{min_step}{The minimum step of the line search.}
+
+\item{max_step}{The maximum step of the line search.}
+
+\item{num_cores}{The number of cores to run in parallel when running optimizations}
 
 \item{report_progress}{Should progress be reported}
 
@@ -40,10 +64,10 @@ returning a list of option settings.
 For more details, for example on "dimensional annealing" see
 \code{vignette("intro-to-antigenic-cartography")}. For details on optimizer
 settings like \code{maxit} see the underlying optimizer documentation at
-\href{http://ensmallen.org}{ensmallen.org}.
+\href{https://ensmallen.org/}{ensmallen.org}.
 }
 \seealso{
-Other {map optimization functions}: 
+Other map optimization functions: 
 \code{\link{make.acmap}()},
 \code{\link{moveTrappedPoints}()},
 \code{\link{optimizeMap}()},
@@ -51,4 +75,4 @@ Other {map optimization functions}:
 \code{\link{relaxMapOneStep}()},
 \code{\link{relaxMap}()}
 }
-\concept{{map optimization functions}}
+\concept{map optimization functions}

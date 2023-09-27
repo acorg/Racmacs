@@ -50,10 +50,10 @@ to get an idea of how similar antigenic positions are in for example
 maps made from two different datasets.
 }
 \seealso{
-Other {functions to compare maps}: 
+Other functions to compare maps: 
 \code{\link{matchStrains}},
 \code{\link{procrustesMap}()},
 \code{\link{realignMap}()},
 \code{\link{realignOptimizations}()}
 }
-\concept{{functions to compare maps}}
+\concept{functions to compare maps}

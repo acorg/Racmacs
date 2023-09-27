@@ -12,7 +12,7 @@
 print.acmap <- function(x, ...) {
 
   # Print short descriptor
-  cat(crayon::green("<acmap>\n"))
+  cat("<acmap>\n")
   mapname <- mapName(x)
   if (is.null(mapname)) mapname <- "[unnamed]"
   cat(sprintf("%s\n", mapname))
@@ -29,7 +29,12 @@ print.acmap <- function(x, ...) {
 #' @param x The object to view
 #' @param ... Additional arguments, not used.
 #'
-#' @family {functions to view maps}
+#' @family functions to view maps
+#'
+#' @returns When called on an acmap object, returns an htmlwidget object that
+#'   can be used to interactively view the map. Otherwise by default it
+#'   simply calls the print method of the respective object with no return
+#'   value.
 #'
 #' @export
 view <- function(x, ...) {
@@ -42,7 +47,9 @@ view <- function(x, ...) {
 #' @param x The object to view
 #' @param ... Additional arguments, passed to print.
 #'
-#' @family {functions to view maps}
+#' @family functions to view maps
+#'
+#' @returns No value returned, simply calls the print method on the object
 #'
 #' @export
 view.default <- function(x, ...) {
@@ -71,10 +78,10 @@ view.default <- function(x, ...) {
 #' @param num_optimizations Number of optimization runs to send to the viewer
 #'   for inclusion in the "optimizations" pane.
 #'
-#' @family {functions to view maps}
-#'   {shiny app functions}
+#' @family functions to view maps
+#' @family shiny app functions
 #'
-#' @return Returns the htmlwidget object
+#' @returns Returns an htmlwidget object
 #'
 #' @export
 #'
@@ -152,7 +159,7 @@ view.acmap <- function(
     widget <- htmlwidgets::onRender(
       x      = widget,
       jsCode = "function(el, x, data) { el.viewer.addTriangulationBlobs(data) }",
-      data   = I(ptTriangulationBlobs(x, optimization_number))
+      data   = I(ptBaseTriangulationBlobs(x, optimization_number))
     )
 
   }
@@ -180,7 +187,7 @@ view.acmap <- function(
     widget <- htmlwidgets::onRender(
       x      = widget,
       jsCode = "function(el, x, data) { el.viewer.addTriangulationBlobs(data) }",
-      data   = I(ptBootstrapBlobs(x, optimization_number))
+      data   = I(ptBaseBootstrapBlobs(x, optimization_number))
     )
 
   }

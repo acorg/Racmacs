@@ -12,8 +12,8 @@
 #' @param style.right "right" style of the div, specifying how far from the
 #'   right of the viewport the bottom of the legend is spaced.
 #'
-#' @return Returns the updated acmap object
-#' @family {functions to view maps}
+#' @returns Returns the updated acmap object
+#' @family functions to view maps
 #' @export
 #'
 setLegend <- function(

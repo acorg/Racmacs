@@ -24,7 +24,7 @@
 #' @param options A named list of additional options to pass to
 #'   `RacOptimizer.options()`
 #'
-#' @return The acmap object is returned with antigen reactivity adjustments
+#' @returns The acmap object is returned with antigen reactivity adjustments
 #'   set to the value calculated in the optimizer. This can be queried with
 #'   `agReactivityAdjustments()`.
 #'

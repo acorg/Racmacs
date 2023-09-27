@@ -19,7 +19,8 @@ HTMLWidgets.widget({
         viewer.load(
           mapdata,
           x.options,
-          x.plotdata
+          x.plotdata,
+          x.light
         );
 
       },

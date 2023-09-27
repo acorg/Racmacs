@@ -4,7 +4,7 @@
 \alias{blob}
 \title{Plot a blob object}
 \usage{
-blob(x, col, border, lwd, alpha, ...)
+blob(x, col, border, lwd, alpha = 1, ...)
 }
 \arguments{
 \item{x}{The blob object to plot}
@@ -19,8 +19,15 @@ blob(x, col, border, lwd, alpha, ...)
 
 \item{...}{Additional arguments to pass to \code{polygon()}}
 }
+\value{
+No return value, called for the side effect of plotting the blobs.
+}
 \description{
 Plot a blob object such as that return from \code{agBootstrapBlob()} using the
 \code{polygon()} function.
 }
-\concept{{additional plotting functions}}
+\seealso{
+Other additional plotting functions: 
+\code{\link{blobsize}()}
+}
+\concept{additional plotting functions}

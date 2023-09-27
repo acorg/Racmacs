@@ -71,7 +71,7 @@ bases and what they mean see \code{vignette("intro-to-antigenic-cartography")}.
 See \code{relaxMap()} for optimizing a given optimization starting from
 its current coordinates.
 
-Other {map optimization functions}: 
+Other map optimization functions: 
 \code{\link{RacOptimizer.options}()},
 \code{\link{make.acmap}()},
 \code{\link{moveTrappedPoints}()},
@@ -79,4 +79,4 @@ Other {map optimization functions}:
 \code{\link{relaxMapOneStep}()},
 \code{\link{relaxMap}()}
 }
-\concept{{map optimization functions}}
+\concept{map optimization functions}

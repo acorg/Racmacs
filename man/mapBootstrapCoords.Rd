@@ -16,24 +16,36 @@ mapBootstrap_srCoords(map)
 \arguments{
 \item{map}{The map object}
 }
+\value{
+Returns a list of coordinate matrices for the points in each of
+the bootstrap runs
+}
 \description{
 This can be used to get information about the bootstrap run results
 after \code{boostrapMap()} has been run.
 }
 \seealso{
-Other {map diagnostic functions}: 
+Other map diagnostic functions: 
 \code{\link{agCohesion}()},
 \code{\link{bootstrapBlobs}()},
 \code{\link{bootstrapMap}()},
 \code{\link{checkHemisphering}()},
 \code{\link{dimensionTestMap}()},
+\code{\link{logtiterTable}()},
 \code{\link{map-table-distances}},
+\code{\link{mapDistances}()},
 \code{\link{mapRelaxed}()},
+\code{\link{mapResiduals}()},
+\code{\link{pointStress}},
 \code{\link{ptBootstrapBlob}},
 \code{\link{ptBootstrapCoords}()},
 \code{\link{ptLeverage}},
-\code{\link{ptTriangulationBlobsize}},
+\code{\link{ptTriangulationBlob}},
+\code{\link{recalculateStress}()},
+\code{\link{stressTable}()},
+\code{\link{tableColbases}()},
+\code{\link{tableDistances}()},
 \code{\link{triangulationBlobs}()},
 \code{\link{unstableMaps}}
 }
-\concept{{map diagnostic functions}}
+\concept{map diagnostic functions}

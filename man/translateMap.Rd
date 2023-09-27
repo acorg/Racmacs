@@ -14,13 +14,16 @@ translateMap(map, translation, optimization_number = NULL)
 \item{optimization_number}{The optimization number (or NULL to apply to all
 optimizations)}
 }
+\value{
+An acmap object with transformation applied
+}
 \description{
 Translates map coordinates
 }
 \seealso{
-Other {functions relating to map transformation}: 
+Other functions relating to map transformation: 
 \code{\link{applyMapTransform}()},
 \code{\link{reflectMap}()},
 \code{\link{rotateMap}()}
 }
-\concept{{functions relating to map transformation}}
+\concept{functions relating to map transformation}

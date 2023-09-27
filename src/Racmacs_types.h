@@ -7,6 +7,7 @@
 #include "procrustes.h"
 #include "ac_dimension_test.h"
 #include "ac_bootstrap.h"
+#include "ac_errorlines.h"
 #include "ac_stress_blobs.h"
 #include "ac_optim_map_stress.h"
 #include "ac_hemi_test.h"
@@ -23,7 +24,7 @@ void check_class(
 ){
   if(!Rf_inherits(sxp, classname.c_str())){
     std::string msg = "Object must be of class '" + classname + "'\n";
-    ac_error(msg.c_str());
+    ac_error(msg);
   }
 }
 
@@ -164,6 +165,7 @@ SEXP wrap(const AcAntigen& ag){
       _["date"] = ag.get_date(),
       _["group"] = ag.get_group(),
       _["sequence"] = ag.get_sequence(),
+      _["sequence_insertions"] = ag.get_sequence_insertions(),
       _["passage"] = ag.get_passage(),
       _["clade"] = ag.get_clade(),
       _["annotations"] = ag.get_annotations(),
@@ -200,6 +202,7 @@ SEXP wrap(const AcSerum& sr){
       _["group"] = sr.get_group(),
       _["homologous_ags"] = sr.get_homologous_ags(),
       _["sequence"] = sr.get_sequence(),
+      _["sequence_insertions"] = sr.get_sequence_insertions(),
       _["passage"] = sr.get_passage(),
       _["species"] = sr.get_species(),
       _["clade"] = sr.get_clade(),
@@ -235,6 +238,15 @@ template <>
 SEXP wrap(const AcDiagnostics& acdiag){
   return List::create(
     _["hemi"] = acdiag.hemi
+  );
+}
+
+// FROM: SEQINSERTION
+template <>
+SEXP wrap(const SeqInsertion& s){
+  return List::create(
+    s.position,
+    s.insertion
   );
 }
 
@@ -352,7 +364,24 @@ SEXP wrap(const BootstrapOutput& bootstrapout){
   return wrap(
     List::create(
       _["sampling"] = bootstrapout.sampling,
-      _["coords"] = bootstrapout.coords
+      _["coords"] = bootstrapout.coords,
+      _["stress"] = bootstrapout.stress
+    )
+  );
+
+}
+
+// Error line results
+template <>
+SEXP wrap(const ErrorLineData &errorlines){
+
+  return wrap(
+    DataFrame::create(
+      _["x"] = errorlines.x,
+      _["xend"] = errorlines.xend,
+      _["y"] = errorlines.y,
+      _["yend"] = errorlines.yend,
+      _["color"] = errorlines.color
     )
   );
 
@@ -390,7 +419,9 @@ AcMergeOptions as(SEXP sxp){
   List opt = as<List>(sxp);
   return AcMergeOptions{
     opt["sd_limit"],
-    opt["dilution_stepsize"]
+    opt["dilution_stepsize"],
+    opt["merge_function"],
+    opt["method"]
   };
 
 }
@@ -404,6 +435,14 @@ AcOptimizerOptions as(SEXP sxp){
     opt["dim_annealing"],
     opt["method"],
     opt["maxit"],
+    opt["num_basis"],
+    opt["armijo_constant"],
+    opt["wolfe"],
+    opt["min_gradient_norm"],
+    opt["factr"],
+    opt["max_line_search_trials"],
+    opt["min_step"],
+    opt["max_step"],
     opt["num_cores"],
     opt["report_progress"],
     opt["progress_bar_length"]
@@ -506,6 +545,7 @@ AcAntigen as(SEXP sxp){
   if(list.containsElementNamed("date")) ag.set_date(list["date"]);
   if(list.containsElementNamed("group")) ag.set_group(list["group"]);
   if(list.containsElementNamed("sequence")) ag.set_sequence(list["sequence"]);
+  if(list.containsElementNamed("sequence_insertions")) ag.set_sequence_insertions(list["sequence_insertions"]);
   if(list.containsElementNamed("passage")) ag.set_passage(list["passage"]);
   if(list.containsElementNamed("clade")) ag.set_clade(list["clade"]);
   if(list.containsElementNamed("annotations")) ag.set_annotations(list["annotations"]);
@@ -541,6 +581,7 @@ AcSerum as(SEXP sxp){
   if(list.containsElementNamed("group")) sr.set_group(list["group"]);
   if(list.containsElementNamed("homologous_ags")) sr.set_homologous_ags(list["homologous_ags"]);
   if(list.containsElementNamed("sequence")) sr.set_sequence(list["sequence"]);
+  if(list.containsElementNamed("sequence_insertions")) sr.set_sequence_insertions(list["sequence_insertions"]);
   if(list.containsElementNamed("passage")) sr.set_passage(list["passage"]);
   if(list.containsElementNamed("species")) sr.set_species(list["species"]);
   if(list.containsElementNamed("clade")) sr.set_clade(list["clade"]);
@@ -591,6 +632,18 @@ AcDiagnostics as(SEXP sxp){
     }
   }
 
+  return out;
+
+}
+
+// TO: SEQINSERTION
+template <>
+SeqInsertion as(SEXP sxp){
+
+  List list = as<List>(sxp);
+  SeqInsertion out;
+  out.position = list[0];
+  out.insertion = as<std::string>(list[1]);
   return out;
 
 }
@@ -717,7 +770,7 @@ AcMap as(SEXP sxp){
   if(list.containsElementNamed("optimizations")){
     List optimizations = list["optimizations"];
     for(int i=0; i<optimizations.size(); i++){
-      acmap.optimizations.push_back(as<AcOptimization>(wrap(optimizations[i])));
+      acmap.optimizations.push_back(as<AcOptimization>(wrap(optimizations.at(i))));
     }
   }
 

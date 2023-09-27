@@ -58,6 +58,7 @@ Racmacs.Point.prototype.addBlob = function(blob){
 
     // Remove any current blobs
     this.removeBlob();
+    if (blob === null) return;
     
     // Hide the normal element
     this.pointElement.hide();
@@ -124,9 +125,12 @@ Racmacs.Point.prototype.addBlob = function(blob){
     } else {
 
         // Get vertices and faces
-        let vertices = blob.vertices;
-        let faces    = blob.faces;
-        let normals  = blob.normals;
+        let vertices = blob[0].vertices;
+        let normals  = blob[0].normals;
+        let faces = [];
+        for (var i=0; i<blob.length; i++) {
+            faces = faces.concat(blob[i].faces);
+        }
 
         // Get transformation and translation
         let transformation = this.viewer.data.transformation();
@@ -155,8 +159,10 @@ Racmacs.Point.prototype.addBlob = function(blob){
     }
 
     // Show the blob
-    this.bindElement(this.blob);
-    this.showBlob();
+    if (this.blob) {
+        this.bindElement(this.blob);
+        this.showBlob();
+    }
 
 }
 

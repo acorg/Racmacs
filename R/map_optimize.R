@@ -36,12 +36,12 @@
 #'   the `minimum_column_basis` setting. Again for a full explanation of column
 #'   bases and what they mean see `vignette("intro-to-antigenic-cartography")`.
 #'
-#' @return Returns the acmap object updated with new optimizations.
+#' @returns Returns the acmap object updated with new optimizations.
 #'
 #' @seealso See `relaxMap()` for optimizing a given optimization starting from
 #'   its current coordinates.
 #'
-#' @family {map optimization functions}
+#' @family map optimization functions
 #' @export
 #'
 optimizeMap <- function(
@@ -180,9 +180,9 @@ optimizeMap <- function(
 #' @param options List of named optimizer options, see `RacOptimizer.options()`
 #' @param ... Further arguments to pass to `acmap()`
 #'
-#' @return Returns an acmap object that has optimization run results.
+#' @returns Returns an acmap object that has optimization run results.
 #'
-#' @family {map optimization functions}
+#' @family map optimization functions
 #' @export
 #'
 make.acmap <- function(
@@ -235,7 +235,15 @@ make.acmap <- function(
 #' @param dim_annealing Should dimensional annealing be performed
 #' @param method The optimization method to use
 #' @param maxit The maximum number of iterations to use in the optimizer
-#' @param num_cores The number of cores to run in parallel
+#' @param num_basis Number of memory points to be stored (default 10).
+#' @param armijo_constant Controls the accuracy of the line search routine for determining the Armijo condition.
+#' @param wolfe Parameter for detecting the Wolfe condition.
+#' @param min_gradient_norm Minimum gradient norm required to continue the optimization.
+#' @param factr Minimum relative function value decrease to continue the optimization.
+#' @param max_line_search_trials The maximum number of trials for the line search (before giving up).
+#' @param min_step The minimum step of the line search.
+#' @param max_step The maximum step of the line search.
+#' @param num_cores The number of cores to run in parallel when running optimizations
 #' @param report_progress Should progress be reported
 #' @param ignore_disconnected Should the check for disconnected points be skipped
 #' @param progress_bar_length Progress bar length when progress is reported
@@ -243,18 +251,26 @@ make.acmap <- function(
 #' @details For more details, for example on "dimensional annealing" see
 #'   `vignette("intro-to-antigenic-cartography")`. For details on optimizer
 #'   settings like `maxit` see the underlying optimizer documentation at
-#'   [ensmallen.org](http://ensmallen.org).
+#'   [ensmallen.org](https://ensmallen.org/).
 #'
-#' @family {map optimization functions}
+#' @family map optimization functions
 #'
-#' @return Returns a named list of optimizer options
+#' @returns Returns a named list of optimizer options
 #' @export
 #'
 RacOptimizer.options <- function(
   dim_annealing = FALSE,
   method = "L-BFGS",
   maxit = 1000,
-  num_cores = parallel::detectCores(),
+  num_basis = 10,
+  armijo_constant = 1e-4,
+  wolfe = 0.9,
+  min_gradient_norm = 1e-6,
+  factr = 1e-15,
+  max_line_search_trials = 50,
+  min_step = 1e-20,
+  max_step = 1e20,
+  num_cores = getOption("RacOptimizer.num_cores"),
   report_progress = NULL,
   ignore_disconnected = FALSE,
   progress_bar_length = options()$width
@@ -265,9 +281,19 @@ RacOptimizer.options <- function(
   check.logical(ignore_disconnected)
   check.string(method)
   check.numeric(maxit)
-  check.numeric(num_cores)
   check.numeric(progress_bar_length)
   if (!is.null(report_progress)) check.logical(report_progress)
+  if (!is.null(num_cores)) check.integer(num_cores)
+
+  # Set default number of cores to 2
+  if (is.null(num_cores)) {
+    rlang::warn(
+      message = "Number of parallel cores to use for optimization was not specified, so using default of 2. You can set the number of cores to use explicitly by passing it as an argument to the optimizer function, or globally by setting the option 'RacOptimizer.num_cores', e.g. by adding the line `options(RacOptimizer.num_cores = parallel::detectCores())` to the top of your script.",
+      .frequency = "regularly",
+      .frequency_id = "RacOptimizer_num_cores_check"
+    )
+    num_cores <- 2
+  }
 
   # This is a hack to attempt to see if messages are currently suppressed
   if (is.null(report_progress)) {
@@ -280,6 +306,14 @@ RacOptimizer.options <- function(
     dim_annealing = dim_annealing,
     method = method,
     maxit = maxit,
+    num_basis = num_basis,
+    armijo_constant = armijo_constant,
+    wolfe = wolfe,
+    min_gradient_norm = min_gradient_norm,
+    factr = factr,
+    max_line_search_trials = max_line_search_trials,
+    min_step = min_step,
+    max_step = max_step,
     num_cores = num_cores,
     ignore_disconnected = ignore_disconnected,
     report_progress = report_progress,
@@ -301,12 +335,12 @@ RacOptimizer.options <- function(
 #' @param titer_weights An optional matrix of weights to assign each titer when optimizing
 #' @param options List of named optimizer options, see `RacOptimizer.options()`
 #'
-#' @return Returns an acmap object with the optimization relaxed.
+#' @returns Returns an acmap object with the optimization relaxed.
 #'
 #' @seealso See `optimizeMap()` for performing new optimization runs from random
 #'   starting coordinates.
 #'
-#' @family {map optimization functions}
+#' @family map optimization functions
 #' @export
 #'
 relaxMap <- function(
@@ -354,9 +388,9 @@ relaxMap <- function(
 #' @param fixed_sera Sera to set fixed positions for when relaxing
 #' @param options List of named optimizer options, see `RacOptimizer.options()`
 #'
-#' @return Returns an updated map object
+#' @returns Returns an updated map object
 #'
-#' @family {map optimization functions}
+#' @family map optimization functions
 #' @export
 #'
 relaxMapOneStep <- function(
@@ -401,9 +435,9 @@ relaxMapOneStep <- function(
 #' @param table_dist_factor The expansion factor for the box size in which
 #'   points are randomized.
 #'
-#' @return Returns an updated map object
+#' @returns Returns an updated map object
 #'
-#' @family {map optimization functions}
+#' @family map optimization functions
 #' @export
 #'
 randomizeCoords <- function(
@@ -412,7 +446,10 @@ randomizeCoords <- function(
   table_dist_factor = 2
   ) {
 
-  table_dists <- numeric_min_tabledists(tableDistances(map, optimization_number = optimization_number))
+  table_dists <- numeric_min_tabledists(
+    tabledists = tableDistances(map, optimization_number = optimization_number),
+    dilution_stepsize = dilutionStepsize(map)
+  )
   max_table_dist <- max(table_dists, na.rm = TRUE)
 
   random_coords <- function(nrow, ndim, min, max) {
@@ -450,9 +487,9 @@ randomizeCoords <- function(
 #' @param optimization_number The map optimization number
 #' @param options List of named optimizer options, see `RacOptimizer.options()`
 #'
-#' @return Returns TRUE or FALSE
+#' @returns Returns TRUE or FALSE
 #' @export
-#' @family {map diagnostic functions}
+#' @family map diagnostic functions
 #'
 mapRelaxed <- function(
   map,
@@ -487,10 +524,10 @@ mapRelaxed <- function(
 #'   "hemisphering" or not
 #' @param options A named list of options to pass to `RacOptimizer.options()`
 #'
-#' @return Returns a data frame with information on any points that were found
+#' @returns Returns a data frame with information on any points that were found
 #'   to be hemisphering or trapped.
 #' @export
-#' @family {map diagnostic functions}
+#' @family map diagnostic functions
 #'
 checkHemisphering <- function(
   map,
@@ -569,9 +606,9 @@ checkHemisphering <- function(
 #'   trapped points then relaxing the map to be performed
 #' @param options List of named optimizer options, see `RacOptimizer.options()`
 #'
-#' @return Returns the acmap object with updated coordinates (if any trapped
+#' @returns Returns the acmap object with updated coordinates (if any trapped
 #'   points found)
-#' @family {map optimization functions}
+#' @family map optimization functions
 #' @export
 #'
 moveTrappedPoints <- function(
@@ -725,8 +762,10 @@ srCohesion <- function(map) {
 #'
 #' @param map An acmap object
 #'
+#' @returns A scalar real value.
+#'
 #' @export
-#' @family {map diagnostic functions}
+#' @family map diagnostic functions
 #'
 mapCohesion <- function(map) {
 
@@ -756,7 +795,7 @@ mapCohesion <- function(map) {
 #' solution, to check this see `mapCohesion()`.
 #'
 #' @name unstableMaps
-#' @family {map diagnostic functions}
+#' @family map diagnostic functions
 #'
 NULL
 

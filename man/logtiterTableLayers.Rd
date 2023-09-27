@@ -9,11 +9,14 @@ logtiterTableLayers(map)
 \arguments{
 \item{map}{An acmap data object}
 }
+\value{
+A list of numeric matrices with logtiter values
+}
 \description{
 Return a list of logtiter table layers
 }
 \seealso{
-Other {map attribute functions}: 
+Other map attribute functions: 
 \code{\link{acmapAttributes}},
 \code{\link{adjustedLogTiterTable}()},
 \code{\link{adjustedTiterTable}()},
@@ -23,4 +26,4 @@ Other {map attribute functions}:
 \code{\link{titerTableLayers}()},
 \code{\link{titerTable}()}
 }
-\concept{{map attribute functions}}
+\concept{map attribute functions}

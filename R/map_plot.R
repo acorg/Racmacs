@@ -12,6 +12,10 @@
 #' @param plot_labels should point labels be plotted, can be true, false or
 #'   "antigens" or "sera"
 #' @param plot_blobs logical, should stress blobs be plotted if present
+#' @param point_opacity Either "automatic" or "fixed". "fixed" fixes point
+#'   opacity to match those in `ptFill()` and `ptOutline()` and will not be
+#'   altered in procrustes plots or by the fill.alpha and outline.alpha
+#'   parameters.
 #' @param show_procrustes logical, should procrustes lines be shown, if present
 #' @param show_error_lines logical, should error lines be drawn
 #' @param plot_stress logical, should map stress be plotted in lower left corner
@@ -24,14 +28,23 @@
 #' @param outlier.arrow.col outlier arrow color
 #' @param fill.alpha alpha for point fill
 #' @param outline.alpha alpha for point outline
+#' @param procrustes.lwd procrustes arrow line width
+#' @param procrustes.col procrustes arrow color
+#' @param procrustes.arr.type procrustes arrow type (see `shape::Arrows()`)
+#' @param procrustes.arr.length procrustes arrow length (see `shape::Arrows()`)
+#' @param procrustes.arr.width procrustes arrow width (see `shape::Arrows()`)
 #' @param label.offset amount by which any point labels should be offset from
 #'   point coordinates in fractions of a character width
 #' @param padding padding at limits of the antigenic map, ignored if xlim or
 #'   ylim set explicitly
 #' @param cex point size expansion factor
+#' @param margins margins in inches for the plot, use `NULL` for default margins from `par("mar")`
 #' @param ... additional arguments, not used
 #'
-#' @family {functions to view maps}
+#' @returns Called for the side effect of plotting the map but invisibly
+#'  returns the map object.
+#'
+#' @family functions to view maps
 #' @export
 #'
 plot.acmap <- function(
@@ -43,6 +56,7 @@ plot.acmap <- function(
   plot_sr  = TRUE,
   plot_labels = FALSE,
   plot_blobs = TRUE,
+  point_opacity = "automatic",
   show_procrustes = TRUE,
   show_error_lines = FALSE,
   plot_stress = FALSE,
@@ -52,14 +66,23 @@ plot.acmap <- function(
   outlier.arrow.col = grid.col,
   fill.alpha    = 0.8,
   outline.alpha = 0.8,
+  procrustes.lwd = 2,
+  procrustes.col = "black",
+  procrustes.arr.type = "triangle",
+  procrustes.arr.length = 0.2,
+  procrustes.arr.width = 0.15,
   label.offset = 0,
   padding = 1,
   cex = 1,
+  margins = rep(0.5, 4),
   ...
   ) {
 
+  # Set parameters
+  map <- x
+
   # Do dimension checks
-  if (mapDimensions(x, optimization_number) != 2) {
+  if (mapDimensions(map, optimization_number) != 2) {
     stop("Plotting is only supported for 2D maps, please try view()")
   }
   if (optimization_number != 1 && plot_blobs) {
@@ -67,27 +90,23 @@ plot.acmap <- function(
   }
 
   # Get coords
-  ag_coords <- agCoords(x, optimization_number)
-  sr_coords <- srCoords(x, optimization_number)
+  ag_coords <- agCoords(map, optimization_number)
+  sr_coords <- srCoords(map, optimization_number)
 
   plot_coords <- c()
   if (plot_ags) plot_coords <- rbind(plot_coords, ag_coords)
   if (plot_sr)  plot_coords <- rbind(plot_coords, sr_coords)
 
-  if (is.null(xlim)) {
-    xlim <- c(
-      floor(min(plot_coords[, 1], na.rm = TRUE)) - padding,
-      ceiling(max(plot_coords[, 1], na.rm = TRUE)) + padding
-    )
-  }
-  if (is.null(ylim)) {
-    ylim <- c(
-      floor(min(plot_coords[, 2], na.rm = TRUE)) - padding,
-      ceiling(max(plot_coords[, 2], na.rm = TRUE)) + padding
-    )
-  }
+  lims <- mapPlotLims(map, optimization_num = optimization_number, padding = padding)
+  if (is.null(xlim)) xlim <- lims$xlim
+  if (is.null(ylim)) ylim <- lims$ylim
 
   # Setup plot
+  if (!is.null(margins)) {
+    oldpar <- graphics::par(no.readonly = TRUE)
+    on.exit(graphics::par(oldpar)) # Restore original parameters on exit
+    graphics::par(mar = margins) # Set user defined margins
+  }
   graphics::plot.new()
   graphics::plot.window(
     xlim = xlim,
@@ -128,7 +147,7 @@ plot.acmap <- function(
 
   # Plot points
   pts <- mapPoints(
-    map                 = x,
+    map                 = map,
     optimization_number = optimization_number
   )
 
@@ -163,7 +182,7 @@ plot.acmap <- function(
   ) {
     warning(strwrap(
       "Changes to point rotation or aspect ratio and special shapes like 'EGG'
-      are ignored when using 'plot.acmap', consider using 'grid.plot.acmap'"
+      are ignored when using 'plot.acmap', consider using 'ggplot.acmap'"
     ))
   }
 
@@ -172,39 +191,29 @@ plot.acmap <- function(
   if (!plot_sr  || missing(sr_coords)) pts$shown[pts$pt_type == "sr"] <- FALSE
 
   ## Get point blobs
-  pt_blobs <- ptTriangulationBlobs(x)
-  if (hasBootstrapBlobs(x)) pt_blobs <- ptBootstrapBlobs(x, optimization_number)
+  pt_blobs <- lapply(seq_len(numPoints(map)), function(map) NULL)
+  if (hasTriangulationBlobs(map)) pt_blobs <- ptTriangulationBlobs(map)
+  if (hasBootstrapBlobs(map)) pt_blobs <- ptBootstrapBlobs(map, optimization_number)
   pts$blob <- !sapply(pt_blobs, is.null)
 
-  ## Transform blobs to match map transform
-  pt_blobs <- lapply(pt_blobs, function(blobs) {
-    lapply(blobs, function(blob) {
-      coords <- applyMapTransform(
-        coords = cbind(blob$x, blob$y),
-        map = x,
-        optimization_number = optimization_number
-      )
-      blob$x <- coords[,1]
-      blob$y <- coords[,2]
-      blob
-    })
-  })
-
   ## Adjust alpha
-  if (!is.null(fill.alpha)) {
-    pts$fill    <- grDevices::adjustcolor(pts$fill,    alpha.f = fill.alpha)
-  }
-  if (!is.null(outline.alpha)) {
-    pts$outline <- grDevices::adjustcolor(pts$outline, alpha.f = outline.alpha)
+  if (point_opacity == "automatic") {
+    if (!is.null(fill.alpha)) {
+      pts$fill    <- grDevices::adjustcolor(pts$fill,    alpha.f = fill.alpha)
+    }
+    if (!is.null(outline.alpha)) {
+      pts$outline <- grDevices::adjustcolor(pts$outline, alpha.f = outline.alpha)
+    }
   }
 
   ## Fade out points not included in procrustes
   if (
-    hasProcrustes(x, optimization_number)
-    && !isFALSE(show_procrustes)
+    point_opacity == "automatic" &&
+    hasProcrustes(map, optimization_number) &&
+    !isFALSE(show_procrustes)
   ) {
 
-    pc_data <- ptProcrustes(x, optimization_number)
+    pc_data <- ptProcrustes(map, optimization_number)
     pc_coords <- rbind(pc_data$ag_coords, pc_data$sr_coords)
     pc_coords_na <- is.na(pc_coords[,1])
 
@@ -217,7 +226,7 @@ plot.acmap <- function(
   }
 
   ## Plot the points
-  pt_order <- ptDrawingOrder(x)
+  pt_order <- ptDrawingOrder(map)
   plotted_pt_order <- pt_order[pts$shown[pt_order]]
   if (plot_blobs) {
     plotted_pt_order <- plotted_pt_order[!pts$blob[plotted_pt_order]]
@@ -228,7 +237,7 @@ plot.acmap <- function(
     pch = get_pch(pts$shape[plotted_pt_order]),
     bg  = pts$fill[plotted_pt_order],
     col = pts$outline[plotted_pt_order],
-    cex = pts$size[plotted_pt_order] * cex * 0.3,
+    cex = pts$size[plotted_pt_order] * cex * 0.37,
     lwd = pts$outline_width[plotted_pt_order],
     xpd = FALSE
   )
@@ -236,15 +245,14 @@ plot.acmap <- function(
   ## Plot blobs
   if (plot_blobs) {
     lapply(pt_order, function(x) {
-      lapply(pt_blobs[[x]], function(blob) {
-        graphics::polygon(
-          x = blob$x,
-          y = blob$y,
-          border = pts$outline[x],
+      if (!is.null(pt_blobs[[x]])) {
+        blob(
+          x = pt_blobs[[x]],
           col = pts$fill[x],
+          border = pts$outline[x],
           lwd = pts$outline_width[x]
         )
-      })
+      }
     })
   }
 
@@ -252,17 +260,17 @@ plot.acmap <- function(
   if (!isFALSE(plot_labels)) {
 
     if (plot_labels == "antigens") {
-      label_pts <- seq_len(numAntigens(x))
+      label_pts <- seq_len(numAntigens(map))
     } else if (plot_labels == "sera") {
-      label_pts <- seq_len(numSera(x)) + numAntigens(x)
+      label_pts <- seq_len(numSera(map)) + numAntigens(map)
     } else {
-      label_pts <- seq_len(numPoints(x))
+      label_pts <- seq_len(numPoints(map))
     }
 
     graphics::text(
       x = pts$coords[label_pts, 1],
       y = pts$coords[label_pts, 2],
-      labels = c(agNames(x), srNames(x))[label_pts],
+      labels = c(agNames(map), srNames(map))[label_pts],
       pos = 3,
       offset = label.offset
     )
@@ -271,26 +279,35 @@ plot.acmap <- function(
 
   ## Add procrustes
   if (
-    hasProcrustes(x, optimization_number)
+    hasProcrustes(map, optimization_number)
     && !isFALSE(show_procrustes)
   ) {
 
-    pc_data <- ptProcrustes(x, optimization_number)
+    # Get procrustes data
+    pc_data <- ptProcrustes(map, optimization_number)
     pc_coords <- rbind(pc_data$ag_coords, pc_data$sr_coords)
-    pc_coords <- applyMapTransform(pc_coords, x, optimization_number)
-    pt_coords <- ptCoords(x, optimization_number)
+    pc_coords <- applyMapTransform(pc_coords, map, optimization_number)
+    pt_coords <- ptCoords(map, optimization_number)
 
-    lapply(seq_len(numPoints(x)), function(i){
+    # Get procrustes graphical options
+    procrustes.lwd <- rep_len(procrustes.lwd, numPoints(map))
+    procrustes.col <- rep_len(procrustes.col, numPoints(map))
+    procrustes.arr.type <- rep_len(procrustes.arr.type, numPoints(map))
+    procrustes.arr.length <- rep_len(procrustes.arr.length, numPoints(map))
+    procrustes.arr.width <- rep_len(procrustes.arr.width, numPoints(map))
+
+    lapply(seq_len(numPoints(map)), function(i){
       shape::Arrows(
         x0 = pt_coords[i, 1],
         y0 = pt_coords[i, 2],
         x1 = pc_coords[i, 1],
         y1 = pc_coords[i, 2],
-        arr.type = "triangle",
+        arr.type = procrustes.arr.type[i],
         arr.adj = 1,
-        arr.length = 0.2,
-        arr.width = 0.15,
-        lwd = 2
+        arr.length = procrustes.arr.length[i],
+        arr.width = procrustes.arr.width[i],
+        lwd = procrustes.lwd[i],
+        col = procrustes.col[i]
       )
     })
 
@@ -299,101 +316,75 @@ plot.acmap <- function(
   ## Plot arrows for points outside bounds
   if (indicate_outliers == "arrows") {
     for (n in which(pts_outside_bounds)) {
+      if (pts$shown[n]) {
 
-      from <- pts$coords[n,]
-      oto  <- pts_orig_coords[n,]
-      tovec <- oto - from
-      tovec <- tovec / sqrt(sum(tovec^2))
-      to <- from + tovec*diff(range(ylim))*0.05
+        from <- pts$coords[n,]
+        oto  <- pts_orig_coords[n,]
+        tovec <- oto - from
+        tovec <- tovec / sqrt(sum(tovec^2))
+        to <- from + tovec*diff(range(ylim))*0.05
 
-      shape::Arrows(
-        x0 = from[1],
-        y0 = from[2],
-        x1 = to[1],
-        y1 = to[2],
-        arr.type = "triangle",
-        arr.width = 0.15,
-        arr.length = 0.2,
-        col = outlier.arrow.col,
-        xpd = TRUE
-      )
+        shape::Arrows(
+          x0 = from[1],
+          y0 = from[2],
+          x1 = to[1],
+          y1 = to[2],
+          arr.type = "triangle",
+          arr.width = 0.15,
+          arr.length = 0.2,
+          col = outlier.arrow.col,
+          xpd = TRUE
+        )
+
+      }
     }
   }
 
   if (indicate_outliers == "arrowheads") {
     for (n in which(pts_outside_bounds)) {
+      if (pts$shown[n]) {
 
-      to <- pts$coords[n,]
-      oto  <- pts_orig_coords[n,]
+        to <- pts$coords[n,]
+        oto  <- pts_orig_coords[n,]
 
-      xval <- to[1]-oto[1]
-      yval <- to[2]-oto[2]
-      radians <- atan(yval / xval)
-      degrees <- 180*radians / pi + 180
-      if (xval < 0) degrees <- degrees + 180
+        xval <- to[1]-oto[1]
+        yval <- to[2]-oto[2]
+        radians <- atan(yval / xval)
+        degrees <- 180*radians / pi + 180
+        if (xval < 0) degrees <- degrees + 180
 
-      shape::Arrowhead(
-        x0 = to[1],
-        y0 = to[2],
-        angle = degrees,
-        arr.type = "triangle",
-        arr.adj = 1,
-        arr.width = 0.20,
-        arr.length = 0.25,
-        lcol = pts$outline[n],
-        arr.col = pts$fill[n],,
-        arr.lwd = 1,
-        xpd = FALSE
-      )
+        shape::Arrowhead(
+          x0 = to[1],
+          y0 = to[2],
+          angle = degrees,
+          arr.type = "triangle",
+          arr.adj = 1,
+          arr.width = 0.20,
+          arr.length = 0.25,
+          lcol = pts$outline[n],
+          arr.col = pts$fill[n],,
+          arr.lwd = 1,
+          xpd = FALSE
+        )
+
+      }
     }
   }
 
   ## Plot error lines
   if (show_error_lines) {
 
-    residual_table <- mapResiduals(x, optimization_number)
-    ag_coords <- agCoords(x, optimization_number)
-    sr_coords <- srCoords(x, optimization_number)
+    # Fetch error lines data
+    error_lines <- ac_errorline_data(keepSingleOptimization(map, optimization_number))
 
-    for (ag_num in seq_len(numAntigens(x))) {
-      for (sr_num in seq_len(numSera(x))) {
-
-        # Fetch variables
-        from <- ag_coords[ag_num, ]
-        to   <- sr_coords[sr_num, ]
-        residual <- residual_table[ag_num, sr_num]
-
-        if (!is.na(residual)) {
-
-          # Calculate the unit vector
-          vec <- to - from
-          vec <- vec / sqrt(sum(vec^2))
-
-          # Draw error lines
-          if (residual > 0) linecol <- "blue"
-          else              linecol <- "red"
-
-          from_end <- from + vec * (residual / 2)
-          to_end   <- to - vec * (residual / 2)
-
-          graphics::lines(
-            x = c(from[1], from_end[1]),
-            y = c(from[2], from_end[2]),
-            col = linecol,
-            xpd = TRUE
-          )
-
-          graphics::lines(
-            x = c(to[1], to_end[1]),
-            y = c(to[2], to_end[2]),
-            col = linecol,
-            xpd = TRUE
-          )
-
-        }
-
-      }
-    }
+    # Add the error lines annotation
+    graphics::segments(
+      x0 = error_lines$x,
+      y0 = error_lines$y,
+      x1 = error_lines$xend,
+      y1 = error_lines$yend,
+      col = ifelse(error_lines$color == 0, "blue", "red")
+    )
 
   }
 
@@ -428,7 +419,7 @@ plot.acmap <- function(
     graphics::text(
       x = xlim[1],
       y = ylim[1],
-      labels = round(mapStress(x, optimization_number), 2),
+      labels = round(mapStress(map, optimization_number), 2),
       family = "mono",
       adj = c(0, -0.5),
       cex = 0.75,
@@ -437,7 +428,7 @@ plot.acmap <- function(
   }
 
   ## Return the map invisibly
-  invisible(x)
+  invisible(map)
 
 }
 
@@ -476,7 +467,9 @@ setup_acmap <- function(
 
   # Set up plot
   if (newplot) graphics::plot.new()
-  graphics::par(mar = mar)
+  oldpar <- graphics::par(no.readonly = TRUE)
+  on.exit(graphics::par(oldpar)) # Restore original parameters on exit
+  graphics::par(mar = mar) # Set user defined margins
   graphics::plot.window(
     xlim = x_range,
     ylim = y_range,
@@ -499,18 +492,18 @@ setup_acmap <- function(
 
 
 # Calculate map limits (not yet exported)
-mapLims <- function(..., antigens = TRUE, sera = TRUE) {
+mapLims <- function(..., antigens = TRUE, sera = TRUE, optimization_num = 1) {
 
   all_coords <- c()
   for (map in list(...)) {
 
-    if (antigens) all_coords <- rbind(all_coords, agCoords(map))
-    if (sera)     all_coords <- rbind(all_coords, srCoords(map))
+    if (antigens) all_coords <- rbind(all_coords, agCoords(map, optimization_num))
+    if (sera)     all_coords <- rbind(all_coords, srCoords(map, optimization_num))
 
     if (!is.null(map$procrustes)) {
 
-      pc_coords_ag <- applyMapTransform(map$procrustes$pc_coords$ag, map)
-      pc_coords_sr <- applyMapTransform(map$procrustes$pc_coords$sr, map)
+      pc_coords_ag <- applyMapTransform(map$procrustes$pc_coords$ag, map, optimization_num)
+      pc_coords_sr <- applyMapTransform(map$procrustes$pc_coords$sr, map, optimization_num)
       if (antigens) all_coords <- rbind(all_coords, pc_coords_ag)
       if (sera)     all_coords <- rbind(all_coords, pc_coords_sr)
     }
@@ -584,9 +577,11 @@ plot_lims <- function(coords, padding = 1, round_even = TRUE) {
 #' @param alpha Blob opacity
 #' @param ... Additional arguments to pass to `polygon()`
 #'
-#' @family {additional plotting functions}
+#' @returns No return value, called for the side effect of plotting the blobs.
+#'
+#' @family additional plotting functions
 #' @export
-blob <- function(x, col, border, lwd, alpha, ...) {
+blob <- function(x, col, border, lwd, alpha = 1, ...) {
   if (!inherits(x, "blob")) stop("Must be an object of class 'blob'")
   blobs <- x
   if (missing(border)) border <- attr(blobs, "outline")

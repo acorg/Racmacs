@@ -75,6 +75,11 @@ rownames(sr_coords2) <- sr_names2
 
 # Create the test maps
 map1 <- acmap(
+  titer_table = matrix(
+    as.character(2^round(runif(nrow(ag_coords1)*nrow(sr_coords1), -1, 10))*10),
+    nrow(ag_coords1),
+    nrow(sr_coords1)
+  ),
   ag_coords = ag_coords1,
   sr_coords = sr_coords1,
   ag_names  = ag_names1,
@@ -83,6 +88,11 @@ map1 <- acmap(
 )
 
 map2 <- acmap(
+  titer_table = matrix(
+    as.character(2^round(runif(nrow(ag_coords2)*nrow(sr_coords2), -1, 10))*10),
+    nrow(ag_coords2),
+    nrow(sr_coords2)
+  ),
   ag_coords = ag_coords2,
   sr_coords = sr_coords2,
   ag_names  = ag_names2,
@@ -129,6 +139,19 @@ test_that("Realign a map to itself", {
 
 })
 
+# Realign a map with NA coordinates
+test_that("Realign a map with NA coordinates", {
+
+  omap1 <- map1
+  omap2 <- map1
+  agCoords(omap1)[1,] <- NA
+  agCoords(omap2)[5,] <- NA
+  srCoords(omap1)[2,] <- NA
+  srCoords(omap2)[4,] <- NA
+  omap1 <- realignMap(omap1, omap2)
+  expect_equal(numAntigens(omap1), numAntigens(omap2))
+
+})
 
 test_that("Procrustes a map to itself", {
 

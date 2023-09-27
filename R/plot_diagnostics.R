@@ -8,9 +8,9 @@
 #' @param ylim The y limits of the plot
 #' @param line_of_equality Should the line x=y be added
 #'
-#' @return Returns the ggplot2 object
+#' @returns Returns the ggplot2 object
 #' @name map-table-distances
-#' @family {map diagnostic functions}
+#' @family map diagnostic functions
 
 #' @export
 #' @rdname map-table-distances
@@ -23,7 +23,10 @@ plot_map_table_distance <- function(
 
   # Calculate distances and types
   map_distances <- mapDistances(map, optimization_number)
-  table_distances <- numeric_min_tabledists(tableDistances(map, optimization_number))
+  table_distances <- numeric_min_tabledists(
+    tabledists = tableDistances(map, optimization_number),
+    dilution_stepsize = dilutionStepsize(map)
+  )
   titer_types <- titertypesTable(map)
 
   # Format data

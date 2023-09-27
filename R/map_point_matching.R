@@ -4,10 +4,10 @@
 #' @param map1 The map to match names from.
 #' @param map2 The map to match names to.
 #'
-#' @return Returns the indices of matching strains in map 2, or NA in the
+#' @returns Returns the indices of matching strains in map 2, or NA in the
 #'   position of strains not found.
 #'
-#' @family {functions to compare maps}
+#' @family functions to compare maps
 #' @name matchStrains
 NULL
 

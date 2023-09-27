@@ -4,7 +4,7 @@
 \name{Racmacs-package}
 \alias{Racmacs}
 \alias{Racmacs-package}
-\title{Racmacs: R Antigenic Cartography Macros}
+\title{Racmacs: Antigenic Cartography Macros}
 \description{
 \subsection{The acmap data object}{
 The fundamental unit of the Racmacs package is the \link{acmap}
@@ -64,10 +64,14 @@ plotted, the main ones include:
 \seealso{
 Useful links:
 \itemize{
-  \item \url{https://acorg.github.io/Racmacs}
-  \item \url{https://github.com/acorg/Racmacs}
+  \item \url{https://acorg.github.io/Racmacs/}
+  \item \url{https://github.com/acorg/Racmacs/}
   \item Report bugs at \url{https://github.com/acorg/Racmacs/issues}
 }
+
+}
+\author{
+\strong{Maintainer}: Sam Wilks \email{sw463@cam.ac.uk}
 
 }
 \keyword{internal}

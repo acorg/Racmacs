@@ -162,3 +162,62 @@
 
 # Racmacs 1.1.35
 * Add antigen and sera attributes: `agLineage()`, `srLineage()`, `agReassortant()`, `srReassortant()`, `agStrings()`, `srStrings()`, `agContinent()`, `agNucleotideSequences()`, `srNucleotideSequences()` 
+
+# Racmacs 1.1.36
+* Fix error in reoptimized-merge
+* `logtiterTableLayers()` function exported
+* Fix error when blobs are smaller than grid-spacing used to calculate them
+* Add the `blobsize()` function for calculating the area/volume of uncertainty blobs
+* Removed function `triangulationBlobSize()` - now use e.g. `sapply(agTriangulationBlobs(map), blobsize)`
+* 3D blob meshes are now separated into a list of contiguous meshes so that number of blobs can be retrieved from the length, i.e. `sapply(agTriangulationBlobs(map), length)`
+
+# Racmacs 1.1.37
+* Fix error where serum column base label would remain after turning titer labels off
+* Set default margins of 0.5 inches when plotting a map
+* Add support for insertions in amino acids sequences
+
+# Racmacs 1.1.38
+* Add option to specify a subset of antigens and sera for which to calculate blobs in the `bootstrapBlobs()` function
+* Add method for plotting a map using ggplot i.e. `ggplot(map)`.
+* When coloring by sequence a more distinct color pallette is used
+
+# Racmacs 1.1.39
+* Correct error when plotting cases where blobs were calculated for only 1 antigen / serum
+* Only show plot outlier arrowheads if point is marked as shown
+* Numeric table distances account for dilution stepsize setting of map
+
+# Racmacs 1.1.40
+* Add some options to view.acmap to set the starting viewer translation, rotation and zoom
+* Add `grid.lwd` option to control grid linewidth in `ggplot(map)`
+* Add antigen and sera names to vector when retreiving antigen and sera attributes like `agFill()`
+
+# Racmacs 1.2.0
+* Add new options and default methods to use when merging titers as described for `RacMerge.options()`
+* Return a more useful error if `bootstrapBlobs()` is run on a map where `bootstrapMap()` has not yet been performed.
+* Add `grid.margin.lwd` option to control grid margin linewidth in `ggplot(map)`
+* Improve user interruption of map optimization runs
+
+# Racmacs 1.2.1
+* Titer merge method changed so that sd limit is implemented before any merging to < values
+* Expose further optimization options as user controllable options
+* Add the option to set lighting using the r3js::light3js() function
+* Add the option to set the viewer background color
+
+# Racmacs 1.2.2
+* Add argument in view.acmap to control set viewer background color
+
+# Racmacs 1.2.3
+* Fix error where light was not being added to the viewer properly
+
+# Racmacs 1.2.4
+* Add arguments to control procrustes arrow appearance in `plot.acmap()`
+
+# Racmacs 1.2.5
+* Allow for shorthand description of shapes e.g. "C" for "CIRCLE" in map .ace files.
+
+# Racmacs 1.2.6
+* Set the default number of cores to use as 2 unless otherwise specified in either RacOptimizer.options, or by setting the global option 'RacOptimizer.num_cores' with e.g. `options(RacOptimizer.num_cores = parallel::detectCores())`.
+
+# Racmacs 1.2.7
+* `on.exit()` calls added to code in `R/map_plot.R` and `inst/shinyapps/RacmacsGUI/app.R` where changes to graphical parameters and user options are made.
+* `snapshotMap()` function removed.

@@ -61,9 +61,10 @@ These functions get and set the sera attributes for a map.
 \seealso{
 \code{agAttributes()}
 
-Other {antigen and sera attribute functions}: 
+Other antigen and sera attribute functions: 
 \code{\link{agAttributes}},
 \code{\link{agGroups}()},
+\code{\link{agHomologousSr}()},
 \code{\link{agLabIDs}()},
 \code{\link{agSequences}()},
 \code{\link{ptAnnotations}},
@@ -72,4 +73,4 @@ Other {antigen and sera attribute functions}:
 \code{\link{srHomologousAgs}()},
 \code{\link{srSequences}()}
 }
-\concept{{antigen and sera attribute functions}}
+\concept{antigen and sera attribute functions}

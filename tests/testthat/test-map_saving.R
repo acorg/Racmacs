@@ -10,7 +10,7 @@ test_that(
     skip_on_os("windows")
 
     # Create a first map and save it
-    h3map <- read.acmap(test_path("../testdata/h3map2004.ace"))
+    h3map <- read.acmap(test_path("../testdata/testmap_large.ace"))
     titertable <- titerTable(h3map)
 
     set.seed(10)

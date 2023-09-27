@@ -15,7 +15,8 @@ arma::mat check_ag_trapped_points(
     const AcOptimization &optimization,
     const arma::mat &tabledists,
     const arma::imat &titertypes,
-    const double &grid_spacing
+    const double &grid_spacing,
+    AcOptimizerOptions options
 ){
 
   // Variables
@@ -28,7 +29,7 @@ arma::mat check_ag_trapped_points(
   trapped_ag_improved_coords.fill(arma::datum::nan);
 
   // Check trapped antigens
-  #pragma omp parallel for schedule(dynamic)
+  #pragma omp parallel for schedule(dynamic) num_threads(options.num_cores)
   for(int ag=0; ag<num_ags; ag++){
 
     // Do a grid search
@@ -62,7 +63,8 @@ arma::mat check_sr_trapped_points(
     const AcOptimization &optimization,
     const arma::mat &tabledists,
     const arma::imat &titertypes,
-    const double &grid_spacing
+    const double &grid_spacing,
+    AcOptimizerOptions options
 ){
 
   // Variables
@@ -75,7 +77,7 @@ arma::mat check_sr_trapped_points(
   trapped_sr_improved_coords.fill(arma::datum::nan);
 
   // Check trapped sera
-  #pragma omp parallel for schedule(dynamic)
+  #pragma omp parallel for schedule(dynamic) num_threads(options.num_cores)
   for(int sr=0; sr<num_sr; sr++){
 
     // Do a grid search
@@ -134,8 +136,8 @@ AcOptimization ac_move_trapped_points(
     arma::mat sr_coords = optimization.get_sr_base_coords();
 
     // Check for any improved coordinates
-    arma::mat ag_trapped_improved_coords = check_ag_trapped_points(optimization, tabledists, titertypes, grid_spacing);
-    arma::mat sr_trapped_improved_coords = check_sr_trapped_points(optimization, tabledists, titertypes, grid_spacing);
+    arma::mat ag_trapped_improved_coords = check_ag_trapped_points(optimization, tabledists, titertypes, grid_spacing, options);
+    arma::mat sr_trapped_improved_coords = check_sr_trapped_points(optimization, tabledists, titertypes, grid_spacing, options);
 
     // Get any improved indices
     arma::uvec ag_trapped_coord_indices = arma::find_finite(ag_trapped_improved_coords);

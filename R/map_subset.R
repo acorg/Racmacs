@@ -143,7 +143,7 @@ get_sr_indices <- function(
 #'
 #' @return Returns a new antigenic map containing only match antigens and sera
 #' @export
-#' @family {functions for working with map data}
+#' @family functions for working with map data
 #'
 subsetMap <- function(
   map,
@@ -221,8 +221,10 @@ subsetSera <- function(
 #' @param map The map data object
 #' @param order The new order of points
 #'
+#' @returns An acmap object with points reordered
+#'
 #' @name orderPoints
-#' @family {functions for working with map data}
+#' @family functions for working with map data
 #'
 
 #' @export
@@ -246,8 +248,10 @@ orderSera <- function(map, order) {
 #' @param antigens Antigens to remove (specified by name or index)
 #' @param sera Sera to remove (specified by name or index)
 #'
+#' @returns An acmap object with points removed
+#'
 #' @name removePoints
-#' @family {functions for working with map data}
+#' @family functions for working with map data
 #'
 
 #' @export
@@ -275,7 +279,7 @@ removeSera <- function(map, sera) {
 #' @param maps A list of map data objects
 #'
 #' @name subsetCommonPoints
-#' @family {functions for working with map data}
+#' @family functions for working with map data
 #'
 
 # Function to subset a list of maps to common antigens

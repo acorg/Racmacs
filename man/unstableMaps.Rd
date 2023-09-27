@@ -23,19 +23,27 @@ possible that points in map are too poorly connected to find a robust
 solution, to check this see \code{mapCohesion()}.
 }
 \seealso{
-Other {map diagnostic functions}: 
+Other map diagnostic functions: 
 \code{\link{agCohesion}()},
 \code{\link{bootstrapBlobs}()},
 \code{\link{bootstrapMap}()},
 \code{\link{checkHemisphering}()},
 \code{\link{dimensionTestMap}()},
+\code{\link{logtiterTable}()},
 \code{\link{map-table-distances}},
 \code{\link{mapBootstrapCoords}},
+\code{\link{mapDistances}()},
 \code{\link{mapRelaxed}()},
+\code{\link{mapResiduals}()},
+\code{\link{pointStress}},
 \code{\link{ptBootstrapBlob}},
 \code{\link{ptBootstrapCoords}()},
 \code{\link{ptLeverage}},
-\code{\link{ptTriangulationBlobsize}},
+\code{\link{ptTriangulationBlob}},
+\code{\link{recalculateStress}()},
+\code{\link{stressTable}()},
+\code{\link{tableColbases}()},
+\code{\link{tableDistances}()},
 \code{\link{triangulationBlobs}()}
 }
-\concept{{map diagnostic functions}}
+\concept{map diagnostic functions}

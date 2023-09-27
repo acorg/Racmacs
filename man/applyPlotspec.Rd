@@ -19,9 +19,9 @@ styles unchanged)
 Copy point style from matching antigens and sera in another acmap
 }
 \seealso{
-Other {map point style functions}: 
+Other map point style functions: 
 \code{\link{ptDrawingOrder}()},
 \code{\link{ptOpacity}},
 \code{\link{ptStyles}}
 }
-\concept{{map point style functions}}
+\concept{map point style functions}

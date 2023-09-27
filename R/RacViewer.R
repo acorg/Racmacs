@@ -4,7 +4,6 @@
 #' This creates an html widget for viewing antigenic maps.
 #'
 #' @param map The map data object
-#' @param plotdata r3js plot data
 #' @param show_procrustes should procrustes lines be shown
 #' @param show_group_legend Show an interactive legend detailing different
 #'   groups as set by `agGroups()` and `srGroups()`
@@ -14,13 +13,16 @@
 #' @param height Height of the widget
 #' @param elementId DOM element ID
 #'
-#' @family {functions to view maps}
+#' @returns An object of class htmlwidget that will intelligently print itself
+#'   into HTML in a variety of contexts including the R console, within R
+#'   Markdown documents, and within Shiny output bindings.
+#'
+#' @family functions to view maps
 #'
 #' @import htmlwidgets
 #' @export
 RacViewer <- function(
   map,
-  plotdata  = NULL,
   show_procrustes = FALSE,
   show_group_legend = FALSE,
   options   = list(),
@@ -45,11 +47,17 @@ RacViewer <- function(
   # Forward data using x
   x <- list(
     mapData  = mapdata,
-    plotdata = jsonlite::toJSON(map$plot),
+    plotdata = jsonlite::toJSON(
+      map$plot
+    ),
+    light = jsonlite::toJSON(
+      map$light,
+      null = "null"
+    ),
     options  = jsonlite::toJSON(
       options,
       auto_unbox = TRUE,
-      null = 'null'
+      null = "null"
     )
   )
 
@@ -83,7 +91,10 @@ RacViewer <- function(
 #' @param quoted Is \code{expr} a quoted expression (with \code{quote()})? This
 #'   is useful if you want to save an expression in a variable.
 #'
-#' @family {shiny app functions}
+#' @returns An output or render function that enables the use of the widget
+#'   within Shiny applications.
+#'
+#' @family shiny app functions
 #'
 #' @name RacViewer-shiny
 #' @export
@@ -104,65 +115,3 @@ renderRacViewer <- function(expr, env = parent.frame(), quoted = FALSE) {
   htmlwidgets::shinyRenderWidget(expr, RacViewerOutput, env, quoted = TRUE)
 }
 
-
-#' Create a map snapshot
-#'
-#' @param map The map data file
-#' @param width Snapshot width
-#' @param height Snapshot height
-#' @param filename File to save image to
-#' @param ... Further parameters to pass to view
-#'
-#' @family {functions to view maps}
-#' @export
-#'
-snapshotMap <- function(
-  map,
-  width = 800,
-  height = 800,
-  filename = NULL,
-  ...
-  ) {
-
-  # Check input
-  check.acmap(map)
-
-  # Generate the widget
-  widget   <- view(map, ...)
-
-  # Save the widget to a temporary file
-  tmpdir  <- tempdir()
-  tmppage <- file.path(tmpdir, "RacmapSnaphot.html")
-  htmlwidgets::saveWidget(widget, file = tmppage)
-  pagepath <- normalizePath(tmppage)
-
-  # Set the path to chrome
-  chrome   <- "/Applications/Google\\ Chrome.app/Contents/MacOS/Google\\ Chrome"
-
-  # Run the screenshot command
-  command <- paste0(
-    "cd ", tmpdir, "; ",
-    chrome,
-    " --headless --disable-gpu --screenshot --window-size=",
-    width, ",", height, " ", pagepath
-  )
-  system(command, ignore.stdout = TRUE, ignore.stderr = TRUE)
-
-  # Get the path to the screenshot generated
-  screenshot <- file.path(tmpdir, "screenshot.png")
-
-  # Save the screenshot to a file or output the base64 img data
-  if (is.null(filename)) {
-
-    system2("base64", screenshot, TRUE)
-
-  } else {
-
-    file.rename(
-      from = screenshot,
-      to   = filename
-    )
-
-  }
-
-}

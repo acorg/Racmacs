@@ -9,13 +9,16 @@ removeOptimizations(map)
 \arguments{
 \item{map}{The acmap object}
 }
+\value{
+An acmap object with all optimizations removed
+}
 \description{
 Remove all optimization run data from a map object
 }
 \seealso{
-Other {functions to work with map optimizations}: 
+Other functions to work with map optimizations: 
 \code{\link{keepOptimizations}()},
 \code{\link{optimizationProperties}},
 \code{\link{sortOptimizations}()}
 }
-\concept{{functions to work with map optimizations}}
+\concept{functions to work with map optimizations}

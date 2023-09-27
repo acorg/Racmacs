@@ -9,16 +9,20 @@ plotspec_getter <- function(pttype, fn) {
       if (pttype == "ag") {
         function(map) {
           check.acmap(map)
-          sapply(map$antigens, function(ag) {
+          output <- sapply(map$antigens, function(ag) {
             fn(ag$plotspec)
           })
+          names(output) <- agNames(map)
+          output
         }
       } else {
         function(map) {
           check.acmap(map)
-          sapply(map$sera, function(sr) {
+          output <- sapply(map$sera, function(sr) {
             fn(sr$plotspec)
           })
+          names(output) <- srNames(map)
+          output
         }
       }
     })
@@ -83,7 +87,7 @@ plotspec_setter <- function(pttype, fn, checker_fn = NULL) {
 #' These functions get and set the styles to use for each point when plotting.
 #'
 #' @name ptStyles
-#' @family {map point style functions}
+#' @family map point style functions
 #' @eval roxygen_tags(
 #'   methods = c(
 #'   "agShown", "srShown", "agShown<-", "srShown<-",
@@ -187,7 +191,9 @@ set_col_opacity <- function(cols, opacity) {
 #' @param map An acmap object
 #' @param value A vector of opacities
 #'
-#' @family {map point style functions}
+#' @returns A numeric vector of point opacities.
+#'
+#' @family map point style functions
 #'
 #' @name ptOpacity
 #'
@@ -221,9 +227,9 @@ set_col_opacity <- function(cols, opacity) {
 #' @param map An acmap object
 #' @param value The point drawing order
 #'
-#' @return Returns the map object with point drawing order information updated
+#' @returns A numeric vector of point drawing order information
 #'
-#' @family {map point style functions}
+#' @family map point style functions
 #'
 #' @name ptDrawingOrder
 #'
@@ -246,3 +252,34 @@ ptDrawingOrder <- function(map) {
   map$pt_drawing_order <- value
   map
 }
+
+
+# Function to lower the drawing order of certain points
+lowerDrawingOrder <- function(
+    map,
+    antigens = FALSE,
+    sera = FALSE
+) {
+
+  # Fetch initial drawing order
+  drawing_order <- ptDrawingOrder(map)
+
+  # Get matched antigen and sera indices
+  antigen_indices <- get_ag_indices(antigens, map)
+  sera_indices <- get_sr_indices(sera, map) + numAntigens(map)
+
+  # Rearrange point drawing order
+  drawing_order <- c(
+    drawing_order[!drawing_order %in% c(antigen_indices, sera_indices)],
+    antigen_indices,
+    sera_indices
+  )
+
+  # Update and return the map
+  ptDrawingOrder(map) <- drawing_order
+  map
+
+}
+
+
+

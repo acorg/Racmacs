@@ -83,9 +83,9 @@ the updated acmap object when using the setter function.
 These functions get and set the styles to use for each point when plotting.
 }
 \seealso{
-Other {map point style functions}: 
+Other map point style functions: 
 \code{\link{applyPlotspec}()},
 \code{\link{ptDrawingOrder}()},
 \code{\link{ptOpacity}}
 }
-\concept{{map point style functions}}
+\concept{map point style functions}

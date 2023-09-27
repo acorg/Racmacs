@@ -22,7 +22,7 @@ Gets or sets map comments for the optimization run.
 Get or set an optimization run comment
 }
 \seealso{
-Other {map optimization attribute functions}: 
+Other map optimization attribute functions: 
 \code{\link{colBases}()},
 \code{\link{mapDimensions}()},
 \code{\link{mapStress}()},
@@ -30,4 +30,4 @@ Other {map optimization attribute functions}:
 \code{\link{ptBaseCoords}()},
 \code{\link{ptCoords}()}
 }
-\concept{{map optimization attribute functions}}
+\concept{map optimization attribute functions}

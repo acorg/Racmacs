@@ -30,7 +30,7 @@ Returns the acmap data object.
 Reads an antigenic map file and converts it into an acmap data object.
 }
 \seealso{
-Other {functions for working with map data}: 
+Other functions for working with map data: 
 \code{\link{acmap}()},
 \code{\link{addOptimization}()},
 \code{\link{agReactivityAdjustments}()},
@@ -49,4 +49,4 @@ Other {functions for working with map data}:
 \code{\link{subsetCommonPoints}},
 \code{\link{subsetMap}()}
 }
-\concept{{functions for working with map data}}
+\concept{functions for working with map data}

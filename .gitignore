@@ -9,9 +9,12 @@
 *.sublime-workspace
 *.o
 *.o.tmp
-src/.vscode/*
+*.code-workspace
+.vscode*
 doc
 inst/doc
 Meta
 tests/testoutput/*
 docs
+/doc/
+/Meta/

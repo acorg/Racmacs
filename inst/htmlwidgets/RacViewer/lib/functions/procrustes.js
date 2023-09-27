@@ -149,19 +149,21 @@ Racmacs.Viewer.prototype.addProcrustesToBaseCoords = function(data){
 
     var arrowheadend;
     var arrowheadlength;
+    var arrowlinewidth;
 
-    if(this.data.dimensions() == 3 && data.dim == 2){
+    if (this.data.dimensions() == 3) {
+        arrowlinewidth = 0.1;
+        arrowheadlength = 0.35;
+    } else {
+        arrowlinewidth = 1.5;
+        arrowheadlength = 0.25;
+    }
+
+    if(this.data.dimensions() == 3 && data.dim == 2) {
         arrowheadend    = "circle";
         arrowheadlength = 0.15;
-
-        // var pt1 = new THREE.Vector3().fromArray(arrow_coords[0][1]);
-        // var pt2 = new THREE.Vector3().fromArray(arrow_coords[1][1]);
-        // var pt3 = new THREE.Vector3().fromArray(arrow_coords[2][1]);
-        // var plane = new THREE.Plane().setFromCoplanarPoints(pt1, pt2, pt3);
-        
     } else {
         arrowheadend    = "arrow";
-        arrowheadlength = 0.25;
     }
 
 
@@ -170,7 +172,7 @@ Racmacs.Viewer.prototype.addProcrustesToBaseCoords = function(data){
         coords : arrow_coords,
         size   : 2.5,
         properties : {
-            lwd : 1.5, 
+            lwd : arrowlinewidth, 
             arrowheadend : arrowheadend,
             arrowheadlength : arrowheadlength
         },

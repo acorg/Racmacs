@@ -1300,12 +1300,12 @@ BEGIN_RCPP
 END_RCPP
 }
 // ac_bootstrap_map
-BootstrapOutput ac_bootstrap_map(AcMap map, std::string method, bool bootstrap_ags, bool bootstrap_sr, bool reoptimize, double ag_noise_sd, double titer_noise_sd, std::string minimum_column_basis, arma::vec fixed_column_bases, arma::vec ag_reactivity_adjustments, int num_optimizations, int num_dimensions, AcOptimizerOptions options);
+BootstrapOutput ac_bootstrap_map(const AcMap map, std::string method, bool bootstrap_ags, bool bootstrap_sr, bool reoptimize, double ag_noise_sd, double titer_noise_sd, std::string minimum_column_basis, arma::vec fixed_column_bases, arma::vec ag_reactivity_adjustments, int num_optimizations, int num_dimensions, AcOptimizerOptions options);
 RcppExport SEXP _Racmacs_ac_bootstrap_map(SEXP mapSEXP, SEXP methodSEXP, SEXP bootstrap_agsSEXP, SEXP bootstrap_srSEXP, SEXP reoptimizeSEXP, SEXP ag_noise_sdSEXP, SEXP titer_noise_sdSEXP, SEXP minimum_column_basisSEXP, SEXP fixed_column_basesSEXP, SEXP ag_reactivity_adjustmentsSEXP, SEXP num_optimizationsSEXP, SEXP num_dimensionsSEXP, SEXP optionsSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< AcMap >::type map(mapSEXP);
+    Rcpp::traits::input_parameter< const AcMap >::type map(mapSEXP);
     Rcpp::traits::input_parameter< std::string >::type method(methodSEXP);
     Rcpp::traits::input_parameter< bool >::type bootstrap_ags(bootstrap_agsSEXP);
     Rcpp::traits::input_parameter< bool >::type bootstrap_sr(bootstrap_srSEXP);
@@ -1337,6 +1337,17 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< int >::type num_optimizations(num_optimizationsSEXP);
     Rcpp::traits::input_parameter< AcOptimizerOptions >::type options(optionsSEXP);
     rcpp_result_gen = Rcpp::wrap(ac_dimension_test_map(titer_table, dimensions_to_test, test_proportion, minimum_column_basis, fixed_column_bases, ag_reactivity_adjustments, num_optimizations, options));
+    return rcpp_result_gen;
+END_RCPP
+}
+// ac_errorline_data
+ErrorLineData ac_errorline_data(const AcMap& map);
+RcppExport SEXP _Racmacs_ac_errorline_data(SEXP mapSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const AcMap& >::type map(mapSEXP);
+    rcpp_result_gen = Rcpp::wrap(ac_errorline_data(map));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -1486,6 +1497,40 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// ac_titer_merge_type
+int ac_titer_merge_type(const std::vector<AcTiter>& titers);
+RcppExport SEXP _Racmacs_ac_titer_merge_type(SEXP titersSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const std::vector<AcTiter>& >::type titers(titersSEXP);
+    rcpp_result_gen = Rcpp::wrap(ac_titer_merge_type(titers));
+    return rcpp_result_gen;
+END_RCPP
+}
+// ac_titer_layer_merge_types
+arma::imat ac_titer_layer_merge_types(const std::vector<AcTiterTable>& titer_layers);
+RcppExport SEXP _Racmacs_ac_titer_layer_merge_types(SEXP titer_layersSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const std::vector<AcTiterTable>& >::type titer_layers(titer_layersSEXP);
+    rcpp_result_gen = Rcpp::wrap(ac_titer_layer_merge_types(titer_layers));
+    return rcpp_result_gen;
+END_RCPP
+}
+// ac_titer_layer_sd
+arma::mat ac_titer_layer_sd(const std::vector<AcTiterTable>& titer_layers, const double dilution_stepsize);
+RcppExport SEXP _Racmacs_ac_titer_layer_sd(SEXP titer_layersSEXP, SEXP dilution_stepsizeSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const std::vector<AcTiterTable>& >::type titer_layers(titer_layersSEXP);
+    Rcpp::traits::input_parameter< const double >::type dilution_stepsize(dilution_stepsizeSEXP);
+    rcpp_result_gen = Rcpp::wrap(ac_titer_layer_sd(titer_layers, dilution_stepsize));
+    return rcpp_result_gen;
+END_RCPP
+}
 // ac_move_trapped_points
 AcOptimization ac_move_trapped_points(AcOptimization optimization, AcTiterTable titertable, double grid_spacing, AcOptimizerOptions options, int max_iterations, double dilution_stepsize);
 RcppExport SEXP _Racmacs_ac_move_trapped_points(SEXP optimizationSEXP, SEXP titertableSEXP, SEXP grid_spacingSEXP, SEXP optionsSEXP, SEXP max_iterationsSEXP, SEXP dilution_stepsizeSEXP) {
@@ -1536,18 +1581,14 @@ BEGIN_RCPP
 END_RCPP
 }
 // ac_point_residuals
-arma::mat ac_point_residuals(AcTiterTable titer_table, std::string min_colbasis, arma::vec fixed_colbases, arma::vec ag_reactivity_adjustments, arma::mat map_dists, double dilution_stepsize);
-RcppExport SEXP _Racmacs_ac_point_residuals(SEXP titer_tableSEXP, SEXP min_colbasisSEXP, SEXP fixed_colbasesSEXP, SEXP ag_reactivity_adjustmentsSEXP, SEXP map_distsSEXP, SEXP dilution_stepsizeSEXP) {
+arma::mat ac_point_residuals(const AcMap& map, const arma::uword& optimization_number);
+RcppExport SEXP _Racmacs_ac_point_residuals(SEXP mapSEXP, SEXP optimization_numberSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< AcTiterTable >::type titer_table(titer_tableSEXP);
-    Rcpp::traits::input_parameter< std::string >::type min_colbasis(min_colbasisSEXP);
-    Rcpp::traits::input_parameter< arma::vec >::type fixed_colbases(fixed_colbasesSEXP);
-    Rcpp::traits::input_parameter< arma::vec >::type ag_reactivity_adjustments(ag_reactivity_adjustmentsSEXP);
-    Rcpp::traits::input_parameter< arma::mat >::type map_dists(map_distsSEXP);
-    Rcpp::traits::input_parameter< double >::type dilution_stepsize(dilution_stepsizeSEXP);
-    rcpp_result_gen = Rcpp::wrap(ac_point_residuals(titer_table, min_colbasis, fixed_colbases, ag_reactivity_adjustments, map_dists, dilution_stepsize));
+    Rcpp::traits::input_parameter< const AcMap& >::type map(mapSEXP);
+    Rcpp::traits::input_parameter< const arma::uword& >::type optimization_number(optimization_numberSEXP);
+    rcpp_result_gen = Rcpp::wrap(ac_point_residuals(map, optimization_number));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -1804,6 +1845,30 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// mesh_volume
+double mesh_volume(const arma::umat& faces, const arma::mat& vertices);
+RcppExport SEXP _Racmacs_mesh_volume(SEXP facesSEXP, SEXP verticesSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const arma::umat& >::type faces(facesSEXP);
+    Rcpp::traits::input_parameter< const arma::mat& >::type vertices(verticesSEXP);
+    rcpp_result_gen = Rcpp::wrap(mesh_volume(faces, vertices));
+    return rcpp_result_gen;
+END_RCPP
+}
+// polygon_area
+double polygon_area(const arma::vec& x, const arma::vec& y);
+RcppExport SEXP _Racmacs_polygon_area(SEXP xSEXP, SEXP ySEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const arma::vec& >::type x(xSEXP);
+    Rcpp::traits::input_parameter< const arma::vec& >::type y(ySEXP);
+    rcpp_result_gen = Rcpp::wrap(polygon_area(x, y));
+    return rcpp_result_gen;
+END_RCPP
+}
 // interp2d
 arma::vec interp2d(arma::mat x, arma::vec gpoints1, arma::vec gpoints2, arma::mat f);
 RcppExport SEXP _Racmacs_interp2d(SEXP xSEXP, SEXP gpoints1SEXP, SEXP gpoints2SEXP, SEXP fSEXP) {
@@ -1941,6 +2006,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_Racmacs_ac_sr_set_group_levels", (DL_FUNC) &_Racmacs_ac_sr_set_group_levels, 2},
     {"_Racmacs_ac_bootstrap_map", (DL_FUNC) &_Racmacs_ac_bootstrap_map, 13},
     {"_Racmacs_ac_dimension_test_map", (DL_FUNC) &_Racmacs_ac_dimension_test_map, 8},
+    {"_Racmacs_ac_errorline_data", (DL_FUNC) &_Racmacs_ac_errorline_data, 1},
     {"_Racmacs_ac_hemi_test", (DL_FUNC) &_Racmacs_ac_hemi_test, 6},
     {"_Racmacs_ac_match_map_ags", (DL_FUNC) &_Racmacs_ac_match_map_ags, 2},
     {"_Racmacs_ac_match_map_sr", (DL_FUNC) &_Racmacs_ac_match_map_sr, 2},
@@ -1952,10 +2018,13 @@ static const R_CallMethodDef CallEntries[] = {
     {"_Racmacs_ac_merge_relaxed_overlay", (DL_FUNC) &_Racmacs_ac_merge_relaxed_overlay, 3},
     {"_Racmacs_ac_merge_frozen_merge", (DL_FUNC) &_Racmacs_ac_merge_frozen_merge, 3},
     {"_Racmacs_ac_merge_incremental", (DL_FUNC) &_Racmacs_ac_merge_incremental, 6},
+    {"_Racmacs_ac_titer_merge_type", (DL_FUNC) &_Racmacs_ac_titer_merge_type, 1},
+    {"_Racmacs_ac_titer_layer_merge_types", (DL_FUNC) &_Racmacs_ac_titer_layer_merge_types, 1},
+    {"_Racmacs_ac_titer_layer_sd", (DL_FUNC) &_Racmacs_ac_titer_layer_sd, 2},
     {"_Racmacs_ac_move_trapped_points", (DL_FUNC) &_Racmacs_ac_move_trapped_points, 6},
     {"_Racmacs_ac_coords_stress", (DL_FUNC) &_Racmacs_ac_coords_stress, 7},
     {"_Racmacs_ac_point_stresses", (DL_FUNC) &_Racmacs_ac_point_stresses, 6},
-    {"_Racmacs_ac_point_residuals", (DL_FUNC) &_Racmacs_ac_point_residuals, 6},
+    {"_Racmacs_ac_point_residuals", (DL_FUNC) &_Racmacs_ac_point_residuals, 2},
     {"_Racmacs_ac_relax_coords", (DL_FUNC) &_Racmacs_ac_relax_coords, 9},
     {"_Racmacs_ac_runOptimizations", (DL_FUNC) &_Racmacs_ac_runOptimizations, 9},
     {"_Racmacs_ac_reactivity_adjustment_stress", (DL_FUNC) &_Racmacs_ac_reactivity_adjustment_stress, 15},
@@ -1974,6 +2043,8 @@ static const R_CallMethodDef CallEntries[] = {
     {"_Racmacs_ac_coord_dists", (DL_FUNC) &_Racmacs_ac_coord_dists, 2},
     {"_Racmacs_parallel_mode", (DL_FUNC) &_Racmacs_parallel_mode, 0},
     {"_Racmacs_ac_coordDistMatrix", (DL_FUNC) &_Racmacs_ac_coordDistMatrix, 2},
+    {"_Racmacs_mesh_volume", (DL_FUNC) &_Racmacs_mesh_volume, 2},
+    {"_Racmacs_polygon_area", (DL_FUNC) &_Racmacs_polygon_area, 2},
     {"_Racmacs_interp2d", (DL_FUNC) &_Racmacs_interp2d, 4},
     {NULL, NULL, 0}
 };

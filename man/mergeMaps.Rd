@@ -80,10 +80,10 @@ antigens and sera into a map without affecting the first one at all (and
 was first implemented in lisp). }
 }
 \seealso{
-Other {map merging functions}: 
+Other map merging functions: 
 \code{\link{RacMerge.options}()},
 \code{\link{htmlMergeReport}()},
 \code{\link{mergeReport}()},
 \code{\link{splitTiterLayers}()}
 }
-\concept{{map merging functions}}
+\concept{map merging functions}

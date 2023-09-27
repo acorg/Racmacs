@@ -14,13 +14,16 @@ reflectMap(map, axis = "x", optimization_number = NULL)
 \item{optimization_number}{The optimization number (or NULL to apply to all
 optimizations)}
 }
+\value{
+An acmap object with reflection applied
+}
 \description{
 Reflects map coordinates
 }
 \seealso{
-Other {functions relating to map transformation}: 
+Other functions relating to map transformation: 
 \code{\link{applyMapTransform}()},
 \code{\link{rotateMap}()},
 \code{\link{translateMap}()}
 }
-\concept{{functions relating to map transformation}}
+\concept{functions relating to map transformation}

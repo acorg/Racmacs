@@ -12,6 +12,7 @@ R3JS.DefaultProperties = function(properties, n) {
 R3JS.DefaultArray = function(array, defaultvalue, n) {
 
     if (array === undefined) array = [defaultvalue];
+    if (!Array.isArray(array)) array = [array];
     if (array.length != n) array = Array(n).fill(array[0]);
     return array;
 
@@ -31,10 +32,10 @@ R3JS.DefaultColor = function(color, n) {
     if (!Array.isArray(color.b)) color.b = [color.b];
     if (!Array.isArray(color.a)) color.a = [color.a];
 
-    if (color.r.length != n) color.r = Array(n).fill(color.r);
-    if (color.g.length != n) color.g = Array(n).fill(color.g);
-    if (color.b.length != n) color.b = Array(n).fill(color.b);
-    if (color.a.length != n) color.a = Array(n).fill(color.a);
+    if (color.r.length != n) color.r = Array(n).fill(color.r[0]);
+    if (color.g.length != n) color.g = Array(n).fill(color.g[0]);
+    if (color.b.length != n) color.b = Array(n).fill(color.b[0]);
+    if (color.a.length != n) color.a = Array(n).fill(color.a[0]);
 
     return color;
 
@@ -90,9 +91,9 @@ R3JS.element.make = function(
     // Apply any additional offset
     var plotdims = viewer.scene.plotdims;
     if(plotobj.properties && plotobj.properties.poffset && plotobj.position) {
-        plotobj.position[0] = plotobj.position[0] + plotobj.properties.poffset[0]*plotdims.size[0]/plotdims.aspect[0];
-        plotobj.position[1] = plotobj.position[1] + plotobj.properties.poffset[1]*plotdims.size[1]/plotdims.aspect[1];
-        plotobj.position[2] = plotobj.position[2] + plotobj.properties.poffset[2]*plotdims.size[2]/plotdims.aspect[2];
+        plotobj.position[0] = plotobj.position[0] + plotobj.properties.poffset[0]*plotdims.size[0];
+        plotobj.position[1] = plotobj.position[1] + plotobj.properties.poffset[1]*plotdims.size[1];
+        plotobj.position[2] = plotobj.position[2] + plotobj.properties.poffset[2]*plotdims.size[2];
     }
 
     if(plotobj.type == "point"){
@@ -116,6 +117,12 @@ R3JS.element.make = function(
     } else if(plotobj.type == "glline"){
         // GL line
         var element = this.constructors.glline(
+            plotobj,
+            viewer
+        );
+    } else if(plotobj.type == "arrow"){
+        // Arrow
+        var element = this.constructors.arrow3d(
             plotobj,
             viewer
         );
@@ -168,12 +175,6 @@ R3JS.element.make = function(
         }
 
     }
-
-    
-
-    // if(element.object.material){
-    //     // element.object = R3JS.utils.separateSides(element.object);
-    // }
 
     // Return the object
     return(element);

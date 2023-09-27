@@ -1,6 +1,7 @@
 
 #include <RcppArmadillo.h>
 #include "acmap_titers.h"
+#include "utils_error.h"
 
 // AcTiter
 AcTiter::AcTiter(){
@@ -53,7 +54,7 @@ AcTiter::AcTiter(
   default:
     // Measurable titer
     type = 1;
-  numeric = std::stod(titer);
+    numeric = std::stod(titer);
   }
 
 }
@@ -328,14 +329,16 @@ arma::vec AcTiterTable::calc_colbases(
 
   // Check input
   if(fixed_colbases.n_elem != nsr()) {
-    char msg [400];
-    std::sprintf(msg, "fixed_colbases length (%d) does not match number of sera (%d)", fixed_colbases.n_elem, nsr());
-    Rf_error(msg);
+    ac_error(
+      "fixed_colbases length (" + std::to_string(fixed_colbases.n_elem) + ")" +
+      "does not match number of sera (" + std::to_string(nsr()) + ")"
+    );
   }
   if(ag_reactivity_adjustments.n_elem != nags()) {
-    char msg [400];
-    std::sprintf(msg, "ag_reactivity_adjustments length (%d) does not match number of antigens (%d)", ag_reactivity_adjustments.n_elem, nags());
-    Rf_error(msg);
+    ac_error(
+      "ag_reactivity_adjustments length (" + std::to_string(ag_reactivity_adjustments.n_elem) + ")" +
+      "does not match number of antigens (" + std::to_string(nags()) + ")"
+    );
   }
   if(arma::accu(titer_types > 0) == 0) return fixed_colbases;
 

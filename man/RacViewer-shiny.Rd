@@ -24,12 +24,17 @@ string and have \code{'px'} appended.}
 \item{quoted}{Is \code{expr} a quoted expression (with \code{quote()})? This
 is useful if you want to save an expression in a variable.}
 }
+\value{
+An output or render function that enables the use of the widget
+within Shiny applications.
+}
 \description{
 Output and render functions for using RacViewer within Shiny
 applications and interactive Rmd documents.
 }
 \seealso{
-Other {shiny app functions}: 
-\code{\link{runGUI}()}
+Other shiny app functions: 
+\code{\link{runGUI}()},
+\code{\link{view.acmap}()}
 }
-\concept{{shiny app functions}}
+\concept{shiny app functions}

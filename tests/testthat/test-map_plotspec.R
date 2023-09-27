@@ -20,23 +20,23 @@ test_that("Test acmap defaults", {
 
   map <- acmap(titer_table = matrix(2^(4:9), 3, 2) * 10)
 
-  expect_equal(agFill(map),             rep("green", 3)       )
-  expect_equal(agOutline(map),          rep("black", 3)       )
-  expect_equal(agAspect(map),           rep(1, 3)             )
-  expect_equal(agRotation(map),         rep(0, 3)             )
-  expect_equal(agOutlineWidth(map),     rep(1, 3)             )
-  expect_equal(agShape(map),            rep("CIRCLE", 3)      )
-  expect_equal(agSize(map),             rep(5, 3)             )
-  expect_equal(agShown(map),            rep(TRUE, 3)          )
+  expect_equal(unname(agFill(map)),             rep("green", 3)       )
+  expect_equal(unname(agOutline(map)),          rep("black", 3)       )
+  expect_equal(unname(agAspect(map)),           rep(1, 3)             )
+  expect_equal(unname(agRotation(map)),         rep(0, 3)             )
+  expect_equal(unname(agOutlineWidth(map)),     rep(1, 3)             )
+  expect_equal(unname(agShape(map)),            rep("CIRCLE", 3)      )
+  expect_equal(unname(agSize(map)),             rep(5, 3)             )
+  expect_equal(unname(agShown(map)),            rep(TRUE, 3)          )
 
-  expect_equal(srFill(map),             rep("transparent", 2) )
-  expect_equal(srOutline(map),          rep("black", 2)       )
-  expect_equal(srAspect(map),           rep(1, 2)             )
-  expect_equal(srRotation(map),         rep(0, 2)             )
-  expect_equal(srOutlineWidth(map),     rep(1, 2)             )
-  expect_equal(srShape(map),            rep("BOX", 2)         )
-  expect_equal(srSize(map),             rep(5, 2)             )
-  expect_equal(srShown(map),            rep(TRUE, 2)          )
+  expect_equal(unname(srFill(map)),             rep("transparent", 2) )
+  expect_equal(unname(srOutline(map)),          rep("black", 2)       )
+  expect_equal(unname(srAspect(map)),           rep(1, 2)             )
+  expect_equal(unname(srRotation(map)),         rep(0, 2)             )
+  expect_equal(unname(srOutlineWidth(map)),     rep(1, 2)             )
+  expect_equal(unname(srShape(map)),            rep("BOX", 2)         )
+  expect_equal(unname(srSize(map)),             rep(5, 2)             )
+  expect_equal(unname(srShown(map)),            rep(TRUE, 2)          )
 
 })
 
@@ -70,8 +70,8 @@ test_that("Edit plotspec details", {
     # Test setting
     map <- agSetterFunction(map, value = test_value)
     map <- srSetterFunction(map, value = test_value)
-    expect_equal(agGetterFunction(map), rep(test_value, numAntigens(map)))
-    expect_equal(srGetterFunction(map), rep(test_value, numSera(map)))
+    expect_equal(unname(agGetterFunction(map)), rep(test_value, numAntigens(map)))
+    expect_equal(unname(srGetterFunction(map)), rep(test_value, numSera(map)))
 
   }
 
@@ -87,8 +87,8 @@ test_that("Applying a plotspec", {
   map2 <- map
   map3 <- map
 
-  agFill(map1) <- "blue"
-  srFill(map1) <- "purple"
+  agFill(map1) <- rainbow(numAntigens(map1))
+  srFill(map1) <- rainbow(numSera(map1))
 
   map2 <- applyPlotspec(map2, map1)
   export.viewer.test(view(map2), "apply_plotspec1.html")
@@ -105,7 +105,7 @@ test_that("Applying a plotspec", {
   map3ps <- applyPlotspec(map3, map1)
   export.viewer.test(view(map3ps), "apply_plotspec2.html")
 
-  expect_equal(agFill(map3ps), c(agFill(map3)[1:2], agFill(map1)[-(1:2)]))
-  expect_equal(srFill(map3ps), c(srFill(map3)[1:2], srFill(map1)[-(1:2)]))
+  expect_equal(agFill(map3ps), c(agFill(map3)[1:2], rev(agFill(map1))[-(1:2)]))
+  expect_equal(srFill(map3ps), c(srFill(map3)[1:2], rev(srFill(map1))[-(1:2)]))
 
 })

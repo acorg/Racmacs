@@ -11,11 +11,14 @@ keepSingleOptimization(map, optimization_number = 1)
 
 \item{optimization_number}{The optimization run to keep}
 }
+\value{
+An acmap object with only one optimization kept
+}
 \description{
 Keep only a single optimization run
 }
 \seealso{
-Other {functions for working with map data}: 
+Other functions for working with map data: 
 \code{\link{acmap}()},
 \code{\link{addOptimization}()},
 \code{\link{agReactivityAdjustments}()},
@@ -34,4 +37,4 @@ Other {functions for working with map data}:
 \code{\link{subsetCommonPoints}},
 \code{\link{subsetMap}()}
 }
-\concept{{functions for working with map data}}
+\concept{functions for working with map data}

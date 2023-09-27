@@ -11,19 +11,22 @@
 
 \item{...}{Additional arguments, passed to print.}
 }
+\value{
+No value returned, simply calls the print method on the object
+}
 \description{
 Default method for viewing objects
 }
 \seealso{
-Other {functions to view maps}: 
+Other functions to view maps: 
 \code{\link{RacViewer.options}()},
 \code{\link{RacViewer}()},
 \code{\link{export_viewer}()},
-\code{\link{grid.plot.acmap}()},
+\code{\link{ggplot.acmap}()},
 \code{\link{mapGadget}()},
 \code{\link{plot.acmap}()},
 \code{\link{setLegend}()},
-\code{\link{snapshotMap}()},
+\code{\link{view.acmap}()},
 \code{\link{view}()}
 }
-\concept{{functions to view maps}}
+\concept{functions to view maps}

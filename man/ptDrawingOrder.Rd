@@ -15,7 +15,7 @@ ptDrawingOrder(map) <- value
 \item{value}{The point drawing order}
 }
 \value{
-Returns the map object with point drawing order information updated
+A numeric vector of point drawing order information
 }
 \description{
 Point drawing order is a vector of indices defining the order in
@@ -24,9 +24,9 @@ are indexed in the same order as antigens then followed by
 sera.
 }
 \seealso{
-Other {map point style functions}: 
+Other map point style functions: 
 \code{\link{applyPlotspec}()},
 \code{\link{ptOpacity}},
 \code{\link{ptStyles}}
 }
-\concept{{map point style functions}}
+\concept{map point style functions}

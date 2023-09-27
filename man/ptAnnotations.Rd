@@ -22,13 +22,17 @@ srAnnotations(map) <- value
 \item{value}{A list of character vectors with annotations information for each
 point}
 }
+\value{
+A character vector of point annotations.
+}
 \description{
 Getting and setting point annotation information
 }
 \seealso{
-Other {antigen and sera attribute functions}: 
+Other antigen and sera attribute functions: 
 \code{\link{agAttributes}},
 \code{\link{agGroups}()},
+\code{\link{agHomologousSr}()},
 \code{\link{agLabIDs}()},
 \code{\link{agSequences}()},
 \code{\link{ptClades}},
@@ -37,4 +41,4 @@ Other {antigen and sera attribute functions}:
 \code{\link{srHomologousAgs}()},
 \code{\link{srSequences}()}
 }
-\concept{{antigen and sera attribute functions}}
+\concept{antigen and sera attribute functions}

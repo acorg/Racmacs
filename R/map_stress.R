@@ -10,11 +10,11 @@
 #' @param map The acmap data object
 #' @param optimization_number The optimization number
 #'
-#' @return Returns a matrix of numeric table distances
+#' @returns Returns a matrix of numeric table distances
 #' @export
 #'
-#' @family {map diagnostic functions}
-#'   {functions relating to map stress calculation}
+#' @family map diagnostic functions
+#' @family functions relating to map stress calculation
 #'
 tableDistances <- function(
   map,
@@ -39,14 +39,14 @@ tableDistances <- function(
 }
 
 # Backend function to get numeric form of table distances
-numeric_min_tabledists <- function(tabledists) {
+numeric_min_tabledists <- function(tabledists, dilution_stepsize) {
 
   thresholded <- substr(tabledists, 1, 1) == ">"
   tabledists[thresholded] <- substr(tabledists[thresholded], 2, nchar(tabledists[thresholded]))
   tabledists[tabledists == "*"] <- NA
   tabledists[tabledists == "."] <- NA
   mode(tabledists) <- "numeric"
-  tabledists[thresholded] <- tabledists[thresholded] + 1
+  tabledists[thresholded] <- tabledists[thresholded] + dilution_stepsize
   tabledists
 
 }
@@ -62,11 +62,11 @@ numeric_min_tabledists <- function(tabledists) {
 #' @param fixed_column_bases Fixed column bases to apply
 #' @param ag_reactivity_adjustments Reactivity adjustments to apply on a per-antigen basis
 #'
-#' @return Returns a numeric vector of the log-converted column bases for the
+#' @returns Returns a numeric vector of the log-converted column bases for the
 #'   table
 #'
-#' @family {map diagnostic functions}
-#'   {functions relating to map stress calculation}
+#' @family map diagnostic functions
+#' @family functions relating to map stress calculation
 #' @export
 #'
 tableColbases <- function(
@@ -99,12 +99,12 @@ tableColbases <- function(
 #' @param map The acmap data object
 #' @param optimization_number The optimization number
 #'
-#' @return Returns a matrix of map distances with antigens as rows and sera as
+#' @returns Returns a matrix of map distances with antigens as rows and sera as
 #'   columns.
 #' @export
 #'
-#' @family {map diagnostic functions}
-#'   {functions relating to map stress calculation}
+#' @family map diagnostic functions
+#' @family functions relating to map stress calculation
 #'
 mapDistances <- function(
   map,
@@ -131,11 +131,11 @@ mapDistances <- function(
 #'
 #' @param map The acmap object
 #'
-#' @return Returns a matrix of titers converted to the log scale
+#' @returns Returns a matrix of titers converted to the log scale
 #' @export
 #'
-#' @family {map diagnostic functions}
-#'   {functions relating to map stress calculation}
+#' @family map diagnostic functions
+#' @family functions relating to map stress calculation
 #'
 logtiterTable <- function(map) {
 
@@ -157,13 +157,13 @@ logtiterTable <- function(map) {
 #' @param optimization_number The optimization number for which to calculate
 #'   stresses
 #'
-#' @return Returns a matrix of stresses, showing how much each antigen and sera
+#' @returns Returns a matrix of stresses, showing how much each antigen and sera
 #'   measurement contributes to stress in the selected or specified
 #'   optimization.
 #' @export
 #'
-#' @family {map diagnostic functions}
-#'   {functions relating to map stress calculation}
+#' @family map diagnostic functions
+#' @family functions relating to map stress calculation
 #'
 stressTable <- function(
   map,
@@ -198,12 +198,12 @@ stressTable <- function(
 #'   like <10 be set to NA
 #' @param optimization_number The optimization number
 #'
-#' @return Returns a matrix of residuals, showing the residual error between
+#' @returns Returns a matrix of residuals, showing the residual error between
 #'   map distance and table distance for each antigen-sera pair.
 #' @export
 #'
-#' @family {map diagnostic functions}
-#'   {functions relating to map stress calculation}
+#' @family map diagnostic functions
+#' @family functions relating to map stress calculation
 #'
 mapResiduals <- function(
   map,
@@ -218,14 +218,7 @@ mapResiduals <- function(
     ))
   }
 
-  residual_matrix <- ac_point_residuals(
-    titer_table = titerTable(map),
-    min_colbasis = minColBasis(map, optimization_number),
-    fixed_colbases = fixedColBases(map, optimization_number),
-    ag_reactivity_adjustments = agReactivityAdjustments(map),
-    map_dists = mapDistances(map, optimization_number),
-    dilution_stepsize = dilutionStepsize(map)
-  )
+  residual_matrix <- ac_point_residuals(map, optimization_number)
 
   if (exclude_nd) {
     titertypes <- titertypesTable(map)
@@ -245,10 +238,10 @@ mapResiduals <- function(
 #' @param map The acmap data object
 #' @param optimization_number The optimization number
 #'
-#' @return Returns the recalculated map stress for a given optimization
+#' @returns Returns the recalculated map stress for a given optimization
 #'
-#' @family {map diagnostic functions}
-#'   {functions relating to map stress calculation}
+#' @family map diagnostic functions
+#' @family functions relating to map stress calculation
 #' @seealso See `pointStress()` for getting the stress of individual points.
 #' @export
 recalculateStress <- function(
@@ -283,9 +276,11 @@ recalculateStress <- function(
 #' @param sera Which sera to check stress for, specified by index or name
 #'   (defaults to all sera).
 #'
+#' @returns A numeric vector of point stresses
+#'
 #' @seealso See `mapStress()` for getting the total map stress directly.
-#' @family {map diagnostic functions}
-#'   {functions relating to map stress calculation}
+#' @family map diagnostic functions
+#' @family functions relating to map stress calculation
 #' @name pointStress
 #'
 

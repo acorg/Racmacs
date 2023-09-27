@@ -142,4 +142,20 @@ std::vector<BootstrapOutput> parse(
 
 }
 
+template <>
+std::vector<SeqInsertion> parse(
+    const Value& v
+){
+
+  std::vector<SeqInsertion> out(v.Size());
+  for (SizeType i = 0; i < v.Size(); i++) {
+    SeqInsertion s;
+    s.position = v[i][0].GetUint();
+    s.insertion = v[i][1].GetString();
+    out[i] = s;
+  }
+  return out;
+
+}
+
 #endif

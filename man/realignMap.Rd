@@ -17,7 +17,7 @@ realignMap(map, target_map, translation = TRUE, scaling = FALSE)
 comparing maps made with different assays)}
 }
 \value{
-Returns the map aligned to the target map
+Returns a map object aligned to the target map
 }
 \description{
 Realigns the coordinates of a map to match a target map as closely as
@@ -27,10 +27,10 @@ Note that all optimization runs will be separately aligned to match as
 closely as possible the first optimization run of the target map.
 }
 \seealso{
-Other {functions to compare maps}: 
+Other functions to compare maps: 
 \code{\link{matchStrains}},
 \code{\link{procrustesData}()},
 \code{\link{procrustesMap}()},
 \code{\link{realignOptimizations}()}
 }
-\concept{{functions to compare maps}}
+\concept{functions to compare maps}

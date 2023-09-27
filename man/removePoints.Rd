@@ -17,11 +17,14 @@ removeSera(map, sera)
 
 \item{sera}{Sera to remove (specified by name or index)}
 }
+\value{
+An acmap object with points removed
+}
 \description{
 Functions to remove antigens and sera from a map
 }
 \seealso{
-Other {functions for working with map data}: 
+Other functions for working with map data: 
 \code{\link{acmap}()},
 \code{\link{addOptimization}()},
 \code{\link{agReactivityAdjustments}()},
@@ -40,4 +43,4 @@ Other {functions for working with map data}:
 \code{\link{subsetCommonPoints}},
 \code{\link{subsetMap}()}
 }
-\concept{{functions for working with map data}}
+\concept{functions for working with map data}

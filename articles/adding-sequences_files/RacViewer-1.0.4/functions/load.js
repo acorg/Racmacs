@@ -3,11 +3,13 @@
 Racmacs.Viewer.prototype.load = function(
     mapData,
     options = {},
-    plotdata
+    plotdata,
+    light
     ){
 
     // Set default options    
     if (options["grid.col"] === undefined) options["grid.col"] = "#cfcfcf";
+    if (options["background.col"] === undefined) options["background.col"] = "#ffffff";
     if (options["point.opacity"] === undefined || options["point.opacity"] === null) {
         options["point.opacity"] = this.styleset.noselections.unhovered.unselected.opacity;
     };
@@ -125,6 +127,32 @@ Racmacs.Viewer.prototype.load = function(
             this.scene.populatePlot({
                 plot: plotdata
             });
+        }
+
+        // Set the background color
+        this.setBackground(options["background.col"]);
+
+        // Lights
+        this.scene.clearLights();
+
+        if (!light || light.length === 0) {
+
+            // Default lighting
+            this.scene.addLight({
+                position: [-1,1,1],
+                lighttype: "directional",
+                intensity: 1.0
+            });
+
+        } else {
+
+            // Add specified lighting
+            for(var i=0; i<light.length; i++){
+
+                this.scene.addLight(light[i]);
+
+            }
+
         }
 
         // Add any boostrap info
@@ -259,8 +287,16 @@ Racmacs.Viewer.prototype.load = function(
         // Update the stress
         this.updateStress(this.data.stress());
 
+        // Set viewpoint
+        if(options.translation) this.scene.setTranslation(options.translation);
+        if(options.rotation)    this.scene.setRotation(options.rotation);
+        if(options.zoom)        this.camera.setZoom(options.zoom);
+
         // Note that content is now loaded
         this.contentLoaded = true;
+
+        // Hack to resize points
+        this.resizePoints(1.0);
 
     }
 

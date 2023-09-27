@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">Racmacs</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.1.35</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.2.7</span>
       </span>
     </div>
 
@@ -62,51 +62,68 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">optimizeAgReactivity</span><span class="op">(</span>
-  <span class="va">map</span>,
-  optimization_number <span class="op">=</span> <span class="fl">1</span>,
-  reactivity_stress_weighting <span class="op">=</span> <span class="fl">1</span>,
-  fixed_ag_reactivities <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="cn">NA</span>, <span class="fu"><a href="acmapAttributes.html">numAntigens</a></span><span class="op">(</span><span class="va">map</span><span class="op">)</span><span class="op">)</span>,
-  start_pars <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fu"><a href="acmapAttributes.html">numAntigens</a></span><span class="op">(</span><span class="va">map</span><span class="op">)</span><span class="op">)</span>,
-  reoptimize <span class="op">=</span> <span class="cn">FALSE</span>,
-  number_of_optimizations <span class="op">=</span> <span class="fl">100</span>,
-  options <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">optimizeAgReactivity</span><span class="op">(</span></span>
+<span>  <span class="va">map</span>,</span>
+<span>  optimization_number <span class="op">=</span> <span class="fl">1</span>,</span>
+<span>  reactivity_stress_weighting <span class="op">=</span> <span class="fl">1</span>,</span>
+<span>  fixed_ag_reactivities <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="cn">NA</span>, <span class="fu"><a href="acmapAttributes.html">numAntigens</a></span><span class="op">(</span><span class="va">map</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>  start_pars <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fu"><a href="acmapAttributes.html">numAntigens</a></span><span class="op">(</span><span class="va">map</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>  reoptimize <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  number_of_optimizations <span class="op">=</span> <span class="fl">100</span>,</span>
+<span>  options <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>map</dt>
 <dd><p>The acmap object</p></dd>
+
+
 <dt>optimization_number</dt>
 <dd><p>The optimization number for which to optimize
 antigen reactivity adjustments</p></dd>
+
+
 <dt>reactivity_stress_weighting</dt>
 <dd><p>The weighting to apply when calculating
 how much antigen reactivity changes should additionally contribute to
 stress in the optimization regime (see details).</p></dd>
+
+
 <dt>fixed_ag_reactivities</dt>
 <dd><p>A vector of fixed antigen reactivities,
 use NA values to distinguish the positions you would still like to
 be optimized.</p></dd>
+
+
 <dt>start_pars</dt>
 <dd><p>A vector of starting parameters to use for the optimizer,
 you can still supply starting parameters for antigens listed in
 <code>fixed_ag_reactivities</code> but they will be ignored.</p></dd>
+
+
 <dt>reoptimize</dt>
 <dd><p>Should the map be reoptimized from scratch (slower but
 more likely to explore other optima) when testing each reactivity adjustment
 or simply relaxed from it's current coordinates (default)</p></dd>
+
+
 <dt>number_of_optimizations</dt>
 <dd><p>If reoptimizing from scratch, how many optimization
 runs should be performed each time.</p></dd>
+
+
 <dt>options</dt>
 <dd><p>A named list of additional options to pass to
 <code><a href="RacOptimizer.options.html">RacOptimizer.options()</a></code></p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>The acmap object is returned with antigen reactivity adjustments
+    
+
+<p>The acmap object is returned with antigen reactivity adjustments
 set to the value calculated in the optimizer. This can be queried with
 <code><a href="agReactivityAdjustments.html">agReactivityAdjustments()</a></code>.</p>
     </div>
@@ -123,7 +140,7 @@ set to the value calculated in the optimizer. This can be queried with
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer></div>

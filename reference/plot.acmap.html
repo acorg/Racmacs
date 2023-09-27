@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">Racmacs</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.1.35</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.2.7</span>
       </span>
     </div>
 
@@ -62,93 +62,179 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="co"># S3 method for acmap</span>
-<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span>
-  <span class="va">x</span>,
-  optimization_number <span class="op">=</span> <span class="fl">1</span>,
-  xlim <span class="op">=</span> <span class="cn">NULL</span>,
-  ylim <span class="op">=</span> <span class="cn">NULL</span>,
-  plot_ags <span class="op">=</span> <span class="cn">TRUE</span>,
-  plot_sr <span class="op">=</span> <span class="cn">TRUE</span>,
-  plot_labels <span class="op">=</span> <span class="cn">FALSE</span>,
-  plot_blobs <span class="op">=</span> <span class="cn">TRUE</span>,
-  show_procrustes <span class="op">=</span> <span class="cn">TRUE</span>,
-  show_error_lines <span class="op">=</span> <span class="cn">FALSE</span>,
-  plot_stress <span class="op">=</span> <span class="cn">FALSE</span>,
-  indicate_outliers <span class="op">=</span> <span class="st">"arrowheads"</span>,
-  grid.col <span class="op">=</span> <span class="st">"grey90"</span>,
-  grid.margin.col <span class="op">=</span> <span class="st">"grey50"</span>,
-  outlier.arrow.col <span class="op">=</span> <span class="va">grid.col</span>,
-  fill.alpha <span class="op">=</span> <span class="fl">0.8</span>,
-  outline.alpha <span class="op">=</span> <span class="fl">0.8</span>,
-  label.offset <span class="op">=</span> <span class="fl">0</span>,
-  padding <span class="op">=</span> <span class="fl">1</span>,
-  cex <span class="op">=</span> <span class="fl">1</span>,
-  <span class="va">...</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="co"># S3 method for acmap</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span></span>
+<span>  <span class="va">x</span>,</span>
+<span>  optimization_number <span class="op">=</span> <span class="fl">1</span>,</span>
+<span>  xlim <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  ylim <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  plot_ags <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  plot_sr <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  plot_labels <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  plot_blobs <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  point_opacity <span class="op">=</span> <span class="st">"automatic"</span>,</span>
+<span>  show_procrustes <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  show_error_lines <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  plot_stress <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  indicate_outliers <span class="op">=</span> <span class="st">"arrowheads"</span>,</span>
+<span>  grid.col <span class="op">=</span> <span class="st">"grey90"</span>,</span>
+<span>  grid.margin.col <span class="op">=</span> <span class="st">"grey50"</span>,</span>
+<span>  outlier.arrow.col <span class="op">=</span> <span class="va">grid.col</span>,</span>
+<span>  fill.alpha <span class="op">=</span> <span class="fl">0.8</span>,</span>
+<span>  outline.alpha <span class="op">=</span> <span class="fl">0.8</span>,</span>
+<span>  procrustes.lwd <span class="op">=</span> <span class="fl">2</span>,</span>
+<span>  procrustes.col <span class="op">=</span> <span class="st">"black"</span>,</span>
+<span>  procrustes.arr.type <span class="op">=</span> <span class="st">"triangle"</span>,</span>
+<span>  procrustes.arr.length <span class="op">=</span> <span class="fl">0.2</span>,</span>
+<span>  procrustes.arr.width <span class="op">=</span> <span class="fl">0.15</span>,</span>
+<span>  label.offset <span class="op">=</span> <span class="fl">0</span>,</span>
+<span>  padding <span class="op">=</span> <span class="fl">1</span>,</span>
+<span>  cex <span class="op">=</span> <span class="fl">1</span>,</span>
+<span>  margins <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">0.5</span>, <span class="fl">4</span><span class="op">)</span>,</span>
+<span>  <span class="va">...</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>x</dt>
 <dd><p>The acmap to plot</p></dd>
+
+
 <dt>optimization_number</dt>
 <dd><p>The optimization number to plot</p></dd>
+
+
 <dt>xlim</dt>
 <dd><p>optional x axis limits</p></dd>
+
+
 <dt>ylim</dt>
 <dd><p>optional y axis limits</p></dd>
+
+
 <dt>plot_ags</dt>
 <dd><p>logical, should antigens be plotted</p></dd>
+
+
 <dt>plot_sr</dt>
 <dd><p>logical, should antigens be plotted</p></dd>
+
+
 <dt>plot_labels</dt>
 <dd><p>should point labels be plotted, can be true, false or
 "antigens" or "sera"</p></dd>
+
+
 <dt>plot_blobs</dt>
 <dd><p>logical, should stress blobs be plotted if present</p></dd>
+
+
+<dt>point_opacity</dt>
+<dd><p>Either "automatic" or "fixed". "fixed" fixes point
+opacity to match those in <code>ptFill()</code> and <code>ptOutline()</code> and will not be
+altered in procrustes plots or by the fill.alpha and outline.alpha
+parameters.</p></dd>
+
+
 <dt>show_procrustes</dt>
 <dd><p>logical, should procrustes lines be shown, if present</p></dd>
+
+
 <dt>show_error_lines</dt>
 <dd><p>logical, should error lines be drawn</p></dd>
+
+
 <dt>plot_stress</dt>
 <dd><p>logical, should map stress be plotted in lower left corner</p></dd>
+
+
 <dt>indicate_outliers</dt>
 <dd><p>how should points outside the plotting region be
 indicated, either FALSE, for not shown, "arrowheads" for small arrowheads
 like in the viewer, or "arrows" for arrows pointing from the edge of the
 plot margin, default is "arrowheads".</p></dd>
+
+
 <dt>grid.col</dt>
 <dd><p>grid line color</p></dd>
+
+
 <dt>grid.margin.col</dt>
 <dd><p>grid margin color</p></dd>
+
+
 <dt>outlier.arrow.col</dt>
 <dd><p>outlier arrow color</p></dd>
+
+
 <dt>fill.alpha</dt>
 <dd><p>alpha for point fill</p></dd>
+
+
 <dt>outline.alpha</dt>
 <dd><p>alpha for point outline</p></dd>
+
+
+<dt>procrustes.lwd</dt>
+<dd><p>procrustes arrow line width</p></dd>
+
+
+<dt>procrustes.col</dt>
+<dd><p>procrustes arrow color</p></dd>
+
+
+<dt>procrustes.arr.type</dt>
+<dd><p>procrustes arrow type (see <code><a href="https://rdrr.io/pkg/shape/man/Arrows.html" class="external-link">shape::Arrows()</a></code>)</p></dd>
+
+
+<dt>procrustes.arr.length</dt>
+<dd><p>procrustes arrow length (see <code><a href="https://rdrr.io/pkg/shape/man/Arrows.html" class="external-link">shape::Arrows()</a></code>)</p></dd>
+
+
+<dt>procrustes.arr.width</dt>
+<dd><p>procrustes arrow width (see <code><a href="https://rdrr.io/pkg/shape/man/Arrows.html" class="external-link">shape::Arrows()</a></code>)</p></dd>
+
+
 <dt>label.offset</dt>
 <dd><p>amount by which any point labels should be offset from
 point coordinates in fractions of a character width</p></dd>
+
+
 <dt>padding</dt>
 <dd><p>padding at limits of the antigenic map, ignored if xlim or
 ylim set explicitly</p></dd>
+
+
 <dt>cex</dt>
 <dd><p>point size expansion factor</p></dd>
+
+
+<dt>margins</dt>
+<dd><p>margins in inches for the plot, use <code>NULL</code> for default margins from <code>par("mar")</code></p></dd>
+
+
 <dt>...</dt>
 <dd><p>additional arguments, not used</p></dd>
+
 </dl></div>
+    <div id="value">
+    <h2>Value</h2>
+    
+
+<p>Called for the side effect of plotting the map but invisibly
+returns the map object.</p>
+    </div>
     <div id="see-also">
     <h2>See also</h2>
     <div class="dont-index"><p>Other functions to view maps: 
 <code><a href="RacViewer.options.html">RacViewer.options</a>()</code>,
 <code><a href="RacViewer.html">RacViewer</a>()</code>,
 <code><a href="export_viewer.html">export_viewer</a>()</code>,
-<code><a href="grid.plot.acmap.html">grid.plot.acmap</a>()</code>,
+<code><a href="ggplot.acmap.html">ggplot.acmap</a>()</code>,
 <code><a href="mapGadget.html">mapGadget</a>()</code>,
 <code><a href="setLegend.html">setLegend</a>()</code>,
-<code><a href="snapshotMap.html">snapshotMap</a>()</code>,
+<code><a href="view.acmap.html">view.acmap</a>()</code>,
 <code><a href="view.default.html">view.default</a>()</code>,
 <code><a href="view.html">view</a>()</code></p></div>
     </div>
@@ -165,7 +251,7 @@ ylim set explicitly</p></dd>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer></div>

@@ -20,7 +20,7 @@ random starting conditions will be added to the acmap object."><meta property="o
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">Racmacs</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.1.35</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.2.7</span>
       </span>
     </div>
 
@@ -68,50 +68,71 @@ random starting conditions will be added to the acmap object.</p>
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">optimizeMap</span><span class="op">(</span>
-  <span class="va">map</span>,
-  <span class="va">number_of_dimensions</span>,
-  <span class="va">number_of_optimizations</span>,
-  minimum_column_basis <span class="op">=</span> <span class="st">"none"</span>,
-  fixed_column_bases <span class="op">=</span> <span class="cn">NULL</span>,
-  titer_weights <span class="op">=</span> <span class="cn">NULL</span>,
-  sort_optimizations <span class="op">=</span> <span class="cn">TRUE</span>,
-  check_convergence <span class="op">=</span> <span class="cn">TRUE</span>,
-  verbose <span class="op">=</span> <span class="cn">TRUE</span>,
-  options <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">optimizeMap</span><span class="op">(</span></span>
+<span>  <span class="va">map</span>,</span>
+<span>  <span class="va">number_of_dimensions</span>,</span>
+<span>  <span class="va">number_of_optimizations</span>,</span>
+<span>  minimum_column_basis <span class="op">=</span> <span class="st">"none"</span>,</span>
+<span>  fixed_column_bases <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  titer_weights <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  sort_optimizations <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  check_convergence <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  verbose <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  options <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>map</dt>
 <dd><p>The acmap data object</p></dd>
+
+
 <dt>number_of_dimensions</dt>
 <dd><p>The number of dimensions for the new map</p></dd>
+
+
 <dt>number_of_optimizations</dt>
 <dd><p>The number of optimization runs to perform</p></dd>
+
+
 <dt>minimum_column_basis</dt>
 <dd><p>The minimum column basis to use (see details)</p></dd>
+
+
 <dt>fixed_column_bases</dt>
 <dd><p>A vector of fixed values to use as column bases
 directly, rather than calculating them from the titer table.</p></dd>
+
+
 <dt>titer_weights</dt>
 <dd><p>An optional matrix of weights to assign each titer when optimizing</p></dd>
+
+
 <dt>sort_optimizations</dt>
 <dd><p>Should optimizations be sorted by stress
 afterwards?</p></dd>
+
+
 <dt>check_convergence</dt>
 <dd><p>Should a basic check for convergence of lowest stress
 optimization runs onto a similar solution be performed.</p></dd>
+
+
 <dt>verbose</dt>
 <dd><p>Should progress messages be reported, see also
 <code><a href="RacOptimizer.options.html">RacOptimizer.options()</a></code></p></dd>
+
+
 <dt>options</dt>
 <dd><p>List of named optimizer options, see <code><a href="RacOptimizer.options.html">RacOptimizer.options()</a></code></p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>Returns the acmap object updated with new optimizations.</p>
+    
+
+<p>Returns the acmap object updated with new optimizations.</p>
     </div>
     <div id="details">
     <h2>Details</h2>
@@ -157,7 +178,7 @@ its current coordinates.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer></div>

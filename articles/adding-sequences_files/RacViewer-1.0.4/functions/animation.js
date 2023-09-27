@@ -1,5 +1,5 @@
 
-Racmacs.Point.prototype.animateToCoords = function(coords){
+Racmacs.Point.prototype.animateToCoords = function(coords, target_steps = 20){
     
     var viewer = this.viewer;
     if(coords.length == 2){ coords.push(0) }
@@ -12,8 +12,15 @@ Racmacs.Point.prototype.animateToCoords = function(coords){
 
     // Set the movement vector
     this.movementVector = targetCoords.sub(startCoords);
-    this.movementVector.multiplyScalar(1 / 20);
-    this.targetSteps  = 20;
+    this.movementVector.multiplyScalar(1 / target_steps);
+    this.targetSteps  = target_steps;
+
+}
+
+Racmacs.Point.prototype.animateThroughCoords = function(coords_array, target_steps = 20, step = 0){
+    
+    this.targetCoordsArray = coords_array;
+    this.animateToCoords(this.targetCoordsArray.shift());
 
 }
 
@@ -21,16 +28,25 @@ Racmacs.Point.prototype.stepToCoords = function(){
     
     if(this.targetSteps == 0){
 
-        // Remove from animated points
-        var viewer = this.viewer;
-        var index = viewer.animated_points.indexOf(this);
-        if(index !== -1){
-            viewer.animated_points.splice(index, 1);
-        }
+        // Step to next coordinate set
+        if (this.targetCoordsArray && this.targetCoordsArray.length > 0) {
 
-        // Remove target coords
-        this.targetCoords = null;
-        this.movementVector = null;
+            this.animateToCoords(this.targetCoordsArray.shift());
+
+        } else {
+
+            // Remove from animated points
+            var viewer = this.viewer;
+            var index = viewer.animated_points.indexOf(this);
+            if(index !== -1){
+                viewer.animated_points.splice(index, 1);
+            }
+
+            // Remove target coords
+            this.targetCoords = null;
+            this.movementVector = null;
+
+        }
 
     } else {
         
@@ -63,6 +79,22 @@ Racmacs.Viewer.prototype.animateToCoords = function(data){
 
     if (data.stress !== undefined) {
         this.updateStress(data.stress);
+    }
+
+}
+
+Racmacs.Viewer.prototype.animateThroughCoords = function(data){
+
+    for(var i=0; i<data.antigens[0].length; i++){
+        this.antigens[i].animateThroughCoords(
+            data.antigens.map(step => step[i])
+        );
+    }
+
+    for(var i=0; i<data.sera[0].length; i++){
+        this.sera[i].animateThroughCoords(
+            data.sera.map(step => step[i])
+        );
     }
 
 }

@@ -53,12 +53,6 @@ Racmacs.Viewer = class RacViewer extends Racmacs.App {
         this.gridholder = new THREE.Object3D();
         this.scene.scene.add(this.gridholder);
 
-        // Add positional light
-        var light       = new THREE.DirectionalLight(0xe0e0e0);
-        light.position.set(-1,1,1).normalize();
-        light.intensity = 1.0;
-        this.scene.scene.add( light );
-
         // Add additional buttons to viewport
         this.addMapButtons();
 

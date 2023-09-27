@@ -10,6 +10,14 @@ R3JS.Viewer.prototype.addToggles = function(){
     toggle_holder.id = "toggle-div";
     viewport.div.appendChild(toggle_holder);
     
+    // Style toggle holder
+    if (viewer.settings.styles && viewer.settings.styles.togglediv) {
+        Object.assign(toggle_holder.style, viewer.settings.styles.togglediv);
+    } else {
+        toggle_holder.style.top = "32px";
+        toggle_holder.style.right = "8px";
+    }
+
     for(var i=0; i<toggles.names.length; i++){
 
         var toggle = document.createElement("div");
@@ -18,6 +26,7 @@ R3JS.Viewer.prototype.addToggles = function(){
         toggle.classList.add('toggle');
         toggle.objects = toggles.objects[i];
         toggle_holder.appendChild(toggle);
+
 
         // Add toggle functions
         toggle.on = false;
@@ -37,11 +46,33 @@ R3JS.Viewer.prototype.addToggles = function(){
 
             // Style button
             if(this.on){
-                this.style.background = "#eeeeee";
-                this.style.color    = "#444444";
+                if(viewer.settings.styles 
+                    && viewer.settings.styles.toggles
+                    && viewer.settings.styles.toggles[this.innerHTML]
+                    && viewer.settings.styles.toggles[this.innerHTML].on){
+
+                    Object.assign(this.style, viewer.settings.styles.toggles[this.innerHTML].on);
+
+                } else {
+
+                    this.style.background = "#eeeeee";
+                    this.style.color    = "#444444";
+
+                }
             } else {
-                this.style.background = "#f6f6f6";
-                this.style.color    = "#cccccc";
+                if(viewer.settings.styles 
+                    && viewer.settings.styles.toggles
+                    && viewer.settings.styles.toggles[this.innerHTML]
+                    && viewer.settings.styles.toggles[this.innerHTML].off){
+
+                    Object.assign(this.style, viewer.settings.styles.toggles[this.innerHTML].off);
+
+                } else {
+
+                    this.style.background = "#f6f6f6";
+                    this.style.color    = "#cccccc";
+                    
+                }
             }
 
             // Re render the scene

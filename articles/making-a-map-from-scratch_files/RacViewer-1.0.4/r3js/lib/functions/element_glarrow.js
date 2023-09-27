@@ -45,10 +45,10 @@ R3JS.element.glarrow = class GLArrow extends R3JS.element.base {
         var line_coords = [].concat(...args.coords);
         this.line = new R3JS.element.gllines_fat({
             coords     : line_coords,
+            segments : true,
             properties : { 
                 lwd   : args.properties.lwd,
-                color : args.properties.color,
-                segments : true
+                color : args.properties.color
             },
             viewer : args.viewer
         });
@@ -263,7 +263,7 @@ R3JS.element.glarrowhead = class GLArrowhead extends R3JS.element.base {
                 viewportHeight: { value: vheight },
                 viewportPixelRatio: { value: pixelratio },
                 sceneRotation: { value: scene.getRotation()[2] },
-                maxpointsize: { value: maxpointsize }
+                maxpointsize: { value: maxpointsize / pixelratio }
             }, 
             vertexShader:   R3JS.Shaders.VertexShaderArrowHead,
             fragmentShader: R3JS.Shaders.FragmentShaderArrowHead,

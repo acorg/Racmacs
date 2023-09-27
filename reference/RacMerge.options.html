@@ -18,7 +18,7 @@ returning a list of option settings."><meta property="og:image" content="https:/
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">Racmacs</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.1.35</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.2.7</span>
       </span>
     </div>
 
@@ -64,22 +64,49 @@ returning a list of option settings.</p>
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">RacMerge.options</span><span class="op">(</span>sd_limit <span class="op">=</span> <span class="fl">1</span>, dilution_stepsize <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">RacMerge.options</span><span class="op">(</span>sd_limit <span class="op">=</span> <span class="cn">NULL</span>, dilution_stepsize <span class="op">=</span> <span class="fl">1</span>, method <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>sd_limit</dt>
 <dd><p>When merging titers, titers that have a standard deviation of
-this amount or greater on the log2 scale will be set to "*" and excluded,
-set to NA to always simply take the GMT regardless of log titer standard deviation</p></dd>
+this amount or greater on the log2 scale will be set to "*" and excluded.
+Setting this to NA removes any limit. The default value will be NA, unless
+the titer merge method is specified as "lispmds" in which case the default
+is 1 and standard deviation is calculated by division by n, instead of n-1,
+in order to maintain backwards compatibility with previous approaches.</p></dd>
+
+
 <dt>dilution_stepsize</dt>
 <dd><p>The dilution stepsize to assume when merging titers (see
 <code><a href="dilutionStepsize.html">dilutionStepsize()</a></code>)</p></dd>
+
+
+<dt>method</dt>
+<dd><p>The titer merging method to use, either a string of "conservative" or "likelihood", or a user defined function. See details.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>Returns a named list of merging options</p>
+    
+
+<p>Returns a named list of merging options</p>
+    </div>
+    <div id="details">
+    <h2>Details</h2>
+    <p>When merging measured titers, the general approach is to take the geometric
+mean and use that as the merged titer, however in particular when &lt; values
+are present there are different options that can be employed. In older
+versions of Racmacs, &lt; values were converted to maximum possible numeric
+titer after accounting for the dilution_stepsize factor, then the geometric
+mean was taken. This approach can be used by specifying the method as
+"likelihood" since, this approach gives a very rough approximation of the
+most likely mean numeric value. In contrast, the "conservative" method and
+current default returns the highest &lt; value that satisfies all the values
+that were measured. As an example merging &lt;10 and 20, (assuming
+dilution_stepsize = 1) would return a value of 10 with the "likelihood"
+method and &lt;40 with the "conservative" method.</p>
     </div>
     <div id="see-also">
     <h2>See also</h2>
@@ -102,7 +129,7 @@ set to NA to always simply take the GMT regardless of log titer standard deviati
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer></div>

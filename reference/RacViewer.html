@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">Racmacs</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.1.35</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.2.7</span>
       </span>
     </div>
 
@@ -62,49 +62,67 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">RacViewer</span><span class="op">(</span>
-  <span class="va">map</span>,
-  plotdata <span class="op">=</span> <span class="cn">NULL</span>,
-  show_procrustes <span class="op">=</span> <span class="cn">FALSE</span>,
-  show_group_legend <span class="op">=</span> <span class="cn">FALSE</span>,
-  options <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span>,
-  width <span class="op">=</span> <span class="cn">NULL</span>,
-  height <span class="op">=</span> <span class="cn">NULL</span>,
-  elementId <span class="op">=</span> <span class="cn">NULL</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">RacViewer</span><span class="op">(</span></span>
+<span>  <span class="va">map</span>,</span>
+<span>  show_procrustes <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  show_group_legend <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  options <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  width <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  height <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  elementId <span class="op">=</span> <span class="cn">NULL</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>map</dt>
 <dd><p>The map data object</p></dd>
-<dt>plotdata</dt>
-<dd><p>r3js plot data</p></dd>
+
+
 <dt>show_procrustes</dt>
 <dd><p>should procrustes lines be shown</p></dd>
+
+
 <dt>show_group_legend</dt>
 <dd><p>Show an interactive legend detailing different
 groups as set by <code><a href="agGroups.html">agGroups()</a></code> and <code><a href="srGroups.html">srGroups()</a></code></p></dd>
+
+
 <dt>options</dt>
 <dd><p>A named list of viewer options supplied to
 <code>racviewer.options()</code></p></dd>
+
+
 <dt>width</dt>
 <dd><p>Width of the widget</p></dd>
+
+
 <dt>height</dt>
 <dd><p>Height of the widget</p></dd>
+
+
 <dt>elementId</dt>
 <dd><p>DOM element ID</p></dd>
+
 </dl></div>
+    <div id="value">
+    <h2>Value</h2>
+    
+
+<p>An object of class htmlwidget that will intelligently print itself
+into HTML in a variety of contexts including the R console, within R
+Markdown documents, and within Shiny output bindings.</p>
+    </div>
     <div id="see-also">
     <h2>See also</h2>
     <div class="dont-index"><p>Other functions to view maps: 
 <code><a href="RacViewer.options.html">RacViewer.options</a>()</code>,
 <code><a href="export_viewer.html">export_viewer</a>()</code>,
-<code><a href="grid.plot.acmap.html">grid.plot.acmap</a>()</code>,
+<code><a href="ggplot.acmap.html">ggplot.acmap</a>()</code>,
 <code><a href="mapGadget.html">mapGadget</a>()</code>,
 <code><a href="plot.acmap.html">plot.acmap</a>()</code>,
 <code><a href="setLegend.html">setLegend</a>()</code>,
-<code><a href="snapshotMap.html">snapshotMap</a>()</code>,
+<code><a href="view.acmap.html">view.acmap</a>()</code>,
 <code><a href="view.default.html">view.default</a>()</code>,
 <code><a href="view.html">view</a>()</code></p></div>
     </div>
@@ -121,7 +139,7 @@ groups as set by <code><a href="agGroups.html">agGroups()</a></code> and <code><
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer></div>

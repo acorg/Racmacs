@@ -5,7 +5,7 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>R Antigenic Cartography Macros • Racmacs</title>
+<title>Antigenic Cartography Macros • Racmacs</title>
 <!-- favicons --><link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
 <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
 <link rel="apple-touch-icon" type="image/png" sizes="180x180" href="apple-touch-icon.png">
@@ -18,8 +18,16 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
 <!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="pkgdown.css" rel="stylesheet">
 <script src="pkgdown.js"></script><link href="extra.css" rel="stylesheet">
-<meta property="og:title" content="R Antigenic Cartography Macros">
-<meta property="og:description" content="A toolkit for making antigenic maps from assay data such as HI assays.">
+<meta property="og:title" content="Antigenic Cartography Macros">
+<meta property="og:description" content="A toolkit for making antigenic maps from immunological assay data,
+    in order to quantify and visualize antigenic differences between different
+    pathogen strains as described in
+    Smith et al. (2004) &lt;doi:10.1126/science.1097211&gt; and used in the World
+    Health Organization influenza vaccine strain selection process. Additional
+    functions allow for the diagnostic evaluation of antigenic maps and an
+    interactive viewer is provided to explore antigenic relationships amongst
+    several strains and incorporate the visualization of associated genetic
+    information.">
 <meta property="og:image" content="https://acorg.github.io/Racmacs/logo.png">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
@@ -41,7 +49,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">Racmacs</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.1.35</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.2.7</span>
       </span>
     </div>
 
@@ -98,45 +106,47 @@
 </h3>
 <p>If not already installed, install the <code>devtools</code> package, this provides functions to help with installation.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"devtools"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"devtools"</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="install-racmacs">Install Racmacs<a class="anchor" aria-label="anchor" href="#install-racmacs"></a>
 </h3>
 <p>Now you can install Racmacs directly from the latest development source code. In future pre-built binary versions will also be included.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># To build from github source</span>
-<span class="fu">devtools</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"acorg/Racmacs"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="co"># To build from github source</span></span>
+<span><span class="fu">devtools</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"acorg/Racmacs"</span><span class="op">)</span></span></code></pre></div>
 <div class="section level4">
 <h4 id="problems-compiling-on-macos">Problems compiling on MacOS<a class="anchor" aria-label="anchor" href="#problems-compiling-on-macos"></a>
 </h4>
-<p>When installing Racmacs on a mac os, compilation will most likely fail under the default setup since the necessary libraries that are linked to cannot be found. The recommended solution, which should both solve this problem and speed up the code, is for mac users to follow the instructions below for setting up your environment to use the gcc compiler. In the future we will try to provide pre-built binary versions of Racmacs for the latest major operating systems and R versions to avoid the need to build the package locally.</p>
+<p>When installing Racmacs on a mac os, compilation will most likely fail under the default setup since the necessary libraries that are linked to cannot be found. The recommended solution, which should both solve this problem and speed up the code, is for mac users to follow the instructions below for setting up your environment to use the gcc and associated fortran compiler.</p>
+<p>In the future we will try to provide pre-built binary versions of Racmacs for the latest major operating systems and R versions to avoid the need to build the package locally.</p>
 </div>
 <div class="section level4">
 <h4 id="building-racmacs-to-run-code-in-parallel">Building Racmacs to run code in parallel<a class="anchor" aria-label="anchor" href="#building-racmacs-to-run-code-in-parallel"></a>
 </h4>
-<p>Racmacs uses <a href="https://www.openmp.org" class="external-link">OpenMP</a> instructions to specify when code, for example map optimization runs, can be run in parallel to increase performance. The resulting speed-up can be significant, but you need to check whether the compiler you use supports OpenMP. The default compiler on mac systems for example is <code>clang</code> which does not support OpenMP and will compile Racmacs as a single-threaded program.</p>
-<p>Luckily in these cases it is relatively easy to install an alternative compiler like <code>gcc</code> which does support OpenMP and will compile Racmacs as a multi-threaded program. To do this you need to first install gcc and then tell R that you would like to use the gcc compiler instead.</p>
-<p><strong>Installing gcc</strong><br>
-The easiest way to install gcc is through <a href="https://brew.sh" class="external-link">homebrew</a>. First download homebrew if you haven’t already then simply run:</p>
-<pre><code>brew install gcc</code></pre>
-<p>This will then install the <code>g++</code> compiler executable</p>
+<p>Racmacs uses <a href="https://www.openmp.org" class="external-link">OpenMP</a> instructions to specify when code can be run in parallel to increase performance. The resulting speed-up can be significant, but you need to check whether the compiler you use supports OpenMP.</p>
+<p>The default compiler on mac systems for example is <code>clang</code> which does not support OpenMP and will fail anyway by default because it does not include a fortran compiler by default.</p>
+<p><strong>Installing gcc and a fortran compiler</strong><br>
+The solution for both OpenMP support and provision of a fortran compiler on a mac system is to follow the guidance from the <a href="https://mac.r-project.org/tools/" class="external-link">R project page for mac</a> and install the official GNU Fortran binaries from F.X.Coudert found <a href="https://github.com/fxcoudert/gfortran-for-macOS/releases" class="external-link">here</a>.</p>
+<p>Note that you have to install the correct version according to your hardware e.g. an intel or M1 mac, and for your correct OS. Also if you have an M1 mac, make sure that you have installed the M1 version of the R installer and not the intel one, otherwise loading the package will fail since R will have been compiled for an intel system and Racmacs for an M1 system.</p>
+<p>The easiest method of installation is through finding the appropriate .dmg file which will contain an automatic installer for you rather than the .tar.xz source versions where you will have to deal with installation yourself.</p>
 <p><strong>Changing the default compiler in R</strong><br>
-To change the default compiler in R, you can specify this in your local <code>Makevars</code> file. This exists in the <code>.R</code> folder in your home folder, i.e. <code>~/.R/Makevars</code>. It is possible you will have to create the <code>.R</code> folder and the <code>Makevars</code> text file.</p>
-<p>Once done, add the following lines to the <code>Makevars</code> file (note that as gcc versions are updated the version number, here 11, may change):</p>
-<pre><code>CXX=/usr/local/bin/g++-11
-CXX1X=/usr/local/bin/g++-11
-CXX11=/usr/local/bin/g++-11
-SHLIB_CXXLD=/usr/local/bin/g++-11
-FC=/usr/local/bin/gfortran-11
-F77=/usr/local/bin/gfortran-11
+Once you have installed your fortran compiler and the packaged gcc compiler you need to change the default compiler in R. To do this you specify it in your local <code>Makevars</code> file. This exists in the <code>.R</code> folder in your home folder, i.e. <code>~/.R/Makevars</code>. It is possible you will have to create the <code>.R</code> folder and the <code>Makevars</code> text file.</p>
+<p>Once done, add the following lines to the <code>Makevars</code> file and update the paths to the appropriate path for each of the respective executables, for example:</p>
+<pre><code>CC=/usr/local/gfortran/bin/gcc
+CXX=/usr/local/gfortran/bin/g++
+CXX1X=/usr/local/gfortran/bin/g++
+CXX11=/usr/local/gfortran/bin/g++
+SHLIB_CXXLD=/usr/local/gfortran/bin/g++
+FC=/usr/local/gfortran/bin/gfortran
+F77=/usr/local/gfortran/bin/gfortran
 MAKE=make -j8
 
 SHLIB_OPENMP_CFLAGS=-fopenmp
 SHLIB_OPENMP_CXXFLAGS=-fopenmp
 SHLIB_OPENMP_FCFLAGS=-fopenmp
 SHLIB_OPENMP_FFLAGS=-fopenmp</code></pre>
-<p>Now when you try and install and build the package from source things should be setup to use g++, with support for OpenMP parallization now included.</p>
+<p>Now when you try and install and build the package from source things should be setup to use g++, with support for OpenMP parallelization now included.</p>
 <p>Finally, to check whether your version of Racmacs has been compiled to work in parallel or not you can run the command <code>Racmacs:::parallel_mode()</code>, which should return <code>TRUE</code>. It’s not a problem if it returns <code>FALSE</code>, optimization code just won’t run in parallel so will take a bit longer.</p>
 </div>
 </div>
@@ -149,6 +159,7 @@ SHLIB_OPENMP_FFLAGS=-fopenmp</code></pre>
     <div class="links">
 <h2 data-toc-skip>Links</h2>
 <ul class="list-unstyled">
+<li><a href="https://cloud.r-project.org/package=Racmacs" class="external-link">View on CRAN</a></li>
 <li><a href="https://github.com/acorg/Racmacs/" class="external-link">Browse source code</a></li>
 <li><a href="https://github.com/acorg/Racmacs/issues" class="external-link">Report a bug</a></li>
 </ul>
@@ -173,14 +184,14 @@ SHLIB_OPENMP_FFLAGS=-fopenmp</code></pre>
 <div class="developers">
 <h2 data-toc-skip>Developers</h2>
 <ul class="list-unstyled">
-<li>Sam Wilks <br><small class="roles"> Maintainer </small>  </li>
+<li>Sam Wilks <br><small class="roles"> Author, maintainer </small>  </li>
 </ul>
 </div>
 
 <div class="dev-status">
 <h2 data-toc-skip>Dev status</h2>
 <ul class="list-unstyled">
-<li><a href="https://github.com/acorg/Racmacs/actions" class="external-link"><img src="https://github.com/acorg/Racmacs/workflows/R-CMD-check/badge.svg" alt="R-CMD-check"></a></li>
+<li><a href="https://github.com/acorg/Racmacs/actions/workflows/R-CMD-check.yaml" class="external-link"><img src="https://github.com/acorg/Racmacs/actions/workflows/R-CMD-check.yaml/badge.svg" alt="R-CMD-check"></a></li>
 </ul>
 </div>
 
@@ -195,7 +206,7 @@ SHLIB_OPENMP_FFLAGS=-fopenmp</code></pre>
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer>

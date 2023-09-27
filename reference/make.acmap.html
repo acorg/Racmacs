@@ -19,7 +19,7 @@ followed by optimizeMap()."><meta property="og:image" content="https://acorg.git
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">Racmacs</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.1.35</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.2.7</span>
       </span>
     </div>
 
@@ -66,56 +66,81 @@ followed by <code><a href="optimizeMap.html">optimizeMap()</a></code>.</p>
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">make.acmap</span><span class="op">(</span>
-  titer_table <span class="op">=</span> <span class="cn">NULL</span>,
-  ag_names <span class="op">=</span> <span class="cn">NULL</span>,
-  sr_names <span class="op">=</span> <span class="cn">NULL</span>,
-  number_of_dimensions <span class="op">=</span> <span class="fl">2</span>,
-  number_of_optimizations <span class="op">=</span> <span class="fl">100</span>,
-  minimum_column_basis <span class="op">=</span> <span class="st">"none"</span>,
-  fixed_column_bases <span class="op">=</span> <span class="cn">NULL</span>,
-  sort_optimizations <span class="op">=</span> <span class="cn">TRUE</span>,
-  check_convergence <span class="op">=</span> <span class="cn">TRUE</span>,
-  verbose <span class="op">=</span> <span class="cn">TRUE</span>,
-  options <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span>,
-  <span class="va">...</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">make.acmap</span><span class="op">(</span></span>
+<span>  titer_table <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  ag_names <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  sr_names <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  number_of_dimensions <span class="op">=</span> <span class="fl">2</span>,</span>
+<span>  number_of_optimizations <span class="op">=</span> <span class="fl">100</span>,</span>
+<span>  minimum_column_basis <span class="op">=</span> <span class="st">"none"</span>,</span>
+<span>  fixed_column_bases <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  sort_optimizations <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  check_convergence <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  verbose <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  options <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  <span class="va">...</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>titer_table</dt>
 <dd><p>A table of titer data</p></dd>
+
+
 <dt>ag_names</dt>
 <dd><p>A vector of antigen names</p></dd>
+
+
 <dt>sr_names</dt>
 <dd><p>A vector of sera names</p></dd>
+
+
 <dt>number_of_dimensions</dt>
 <dd><p>The number of dimensions in the map</p></dd>
+
+
 <dt>number_of_optimizations</dt>
 <dd><p>The number of optimization runs to perform</p></dd>
+
+
 <dt>minimum_column_basis</dt>
 <dd><p>The minimum column basis for the map</p></dd>
+
+
 <dt>fixed_column_bases</dt>
 <dd><p>A vector of fixed values to use as column bases
 directly, rather than calculating them from the titer table.</p></dd>
+
+
 <dt>sort_optimizations</dt>
 <dd><p>Should optimizations be sorted by stress
 afterwards?</p></dd>
+
+
 <dt>check_convergence</dt>
 <dd><p>Should a basic check for convergence of lowest stress
 optimization runs onto a similar solution be performed.</p></dd>
+
+
 <dt>verbose</dt>
 <dd><p>Should progress messages be reported, see also
 <code><a href="RacOptimizer.options.html">RacOptimizer.options()</a></code></p></dd>
+
+
 <dt>options</dt>
 <dd><p>List of named optimizer options, see <code><a href="RacOptimizer.options.html">RacOptimizer.options()</a></code></p></dd>
+
+
 <dt>...</dt>
 <dd><p>Further arguments to pass to <code><a href="acmap.html">acmap()</a></code></p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>Returns an acmap object that has optimization run results.</p>
+    
+
+<p>Returns an acmap object that has optimization run results.</p>
     </div>
     <div id="see-also">
     <h2>See also</h2>
@@ -140,7 +165,7 @@ optimization runs onto a similar solution be performed.</p></dd>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer></div>

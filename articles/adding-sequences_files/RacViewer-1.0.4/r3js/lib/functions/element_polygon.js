@@ -210,10 +210,10 @@ R3JS.element.Polygon3d = class Polygon3d extends R3JS.element.base {
 
         // Set geometry
         var geometry = new THREE.BufferGeometry();
-        geometry.setAttribute( 'position', new THREE.BufferAttribute( position, 3 ) );
-        geometry.setAttribute( 'color',    new THREE.BufferAttribute( color,    3 ) );
+        geometry.setAttribute('position', new THREE.BufferAttribute( position, 3 ));
+        geometry.setAttribute('color', new THREE.BufferAttribute( color, 3 ));
         if(args.normals !== undefined){
-          geometry.setAttribute( 'normal',   new THREE.BufferAttribute( normal,   3 ) );
+          geometry.setAttribute('normal',   new THREE.BufferAttribute( normal, 3 ));
         }
 
         // Set face normals if none provided

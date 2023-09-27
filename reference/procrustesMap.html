@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">Racmacs</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.1.35</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.2.7</span>
       </span>
     </div>
 
@@ -62,49 +62,68 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">procrustesMap</span><span class="op">(</span>
-  <span class="va">map</span>,
-  <span class="va">comparison_map</span>,
-  optimization_number <span class="op">=</span> <span class="fl">1</span>,
-  comparison_optimization_number <span class="op">=</span> <span class="fl">1</span>,
-  antigens <span class="op">=</span> <span class="cn">TRUE</span>,
-  sera <span class="op">=</span> <span class="cn">TRUE</span>,
-  translation <span class="op">=</span> <span class="cn">TRUE</span>,
-  scaling <span class="op">=</span> <span class="cn">FALSE</span>,
-  keep_optimizations <span class="op">=</span> <span class="cn">FALSE</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">procrustesMap</span><span class="op">(</span></span>
+<span>  <span class="va">map</span>,</span>
+<span>  <span class="va">comparison_map</span>,</span>
+<span>  optimization_number <span class="op">=</span> <span class="fl">1</span>,</span>
+<span>  comparison_optimization_number <span class="op">=</span> <span class="fl">1</span>,</span>
+<span>  antigens <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  sera <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  translation <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  scaling <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  keep_optimizations <span class="op">=</span> <span class="cn">FALSE</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>map</dt>
 <dd><p>The acmap data object</p></dd>
+
+
 <dt>comparison_map</dt>
 <dd><p>The acmap data object to procrustes against</p></dd>
+
+
 <dt>optimization_number</dt>
 <dd><p>The map optimization to use in the procrustes
 calculation (other optimization runs are discarded)</p></dd>
+
+
 <dt>comparison_optimization_number</dt>
 <dd><p>The optimization run int the comparison
 map to compare against</p></dd>
+
+
 <dt>antigens</dt>
 <dd><p>Antigens to include (specified by name or index or TRUE/FALSE
 for all/none)</p></dd>
+
+
 <dt>sera</dt>
 <dd><p>Sera to include (specified by name or index or TRUE/FALSE for
 all/none)</p></dd>
+
+
 <dt>translation</dt>
 <dd><p>Should translation be allowed</p></dd>
+
+
 <dt>scaling</dt>
 <dd><p>Should scaling be allowed (generally not recommended unless
 comparing maps made with different assays)</p></dd>
+
+
 <dt>keep_optimizations</dt>
 <dd><p>Should all optimization runs be kept or only the
 one to which the procrustes was applied.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>Returns an acmap object with procrustes information added, which will
+    
+
+<p>Returns an acmap object with procrustes information added, which will
 be shown when the map is plotted. To avoid ambiguity about which
 optimization run the procrustes was applied to, only the optimization run
 specified by <code>optimization_number</code> is kept in the map returned.</p>
@@ -130,7 +149,7 @@ specified by <code>optimization_number</code> is kept in the map returned.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer></div>

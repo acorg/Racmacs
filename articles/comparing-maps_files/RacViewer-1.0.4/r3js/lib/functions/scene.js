@@ -434,7 +434,11 @@ R3JS.Scene = class Scene {
     clearLights(){
 
         for(var i=0; i<this.lights.length; i++){
-            this.scene.remove(this.lights[i]);
+            if(this.lights[i].type == "PointLight") {
+                this.remove(this.lights[i]);
+            } else {
+                this.scene.remove(this.lights[i]);
+            }
         }
         this.lights = [];
 
@@ -443,12 +447,12 @@ R3JS.Scene = class Scene {
     addLight(args){
 
         var light = new R3JS.element.Light(args);
-
-        this.scene.add( light.object );
+        if(light.object.type == "PointLight") {
+            this.add( light.object );
+        } else {
+            this.scene.add( light.object );
+        }
         this.lights.push( light.object );
-
-        // var helper = new THREE.DirectionalLightHelper( light.object, 0.2, 0xFF0000 );
-        // this.scene.add( helper );
 
     }
 

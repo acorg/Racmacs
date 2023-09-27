@@ -83,7 +83,7 @@ Racmacs.App.prototype.showSequences = function(){
 	    sequenceswindow.document.body.style.overflow = "hidden";
 	    sequenceswindow.document.body.style.backgroundColor = "#fff";
 
-	 //    var style = document.createElement("style");
+	    // var style = document.createElement("style");
 		// sequenceswindow.document.head.appendChild(style);
 		// style.sheet.insertRule(".sequences-div div div:nth-child(2n) { background-color: #f6f8fa }", 0);
 
@@ -105,8 +105,9 @@ Racmacs.App.prototype.showSequences = function(){
 Racmacs.App.prototype.hideSequences = function(){
 
 	if(this.sequenceswindow){
-		this.sequenceswindow.close();
+		let sequenceswindow = this.sequenceswindow;
     	this.sequenceswindow = null;
+		sequenceswindow.close();
 	}
 
 	this.sequences = null;
@@ -162,11 +163,11 @@ Racmacs.SequenceTable = class SequenceTable {
 		var plusSelected_deselected_opacity = this.viewer.styleset.noselections.unhovered.unselected.opacity;
 
 		this.tablediv.addEventListener("mouseenter", function(){
-            viewer.graphics.noneSelected.deselected.opacity = plusSelected_deselected_opacity;
+			viewer.styleset.noselections.unhovered.unselected.opacity = plusSelected_deselected_opacity;
             viewer.updatePointStyles();
         });
         this.tablediv.addEventListener("mouseleave", function(){
-            viewer.graphics.noneSelected.deselected.opacity = noneSelected_deselected_opacity;
+        	viewer.styleset.noselections.unhovered.unselected.opacity = noneSelected_deselected_opacity;
             viewer.updatePointStyles();
         });
 
@@ -470,14 +471,14 @@ Racmacs.Viewer.prototype.colorPointsBySequence = function(pos){
 	let ag_sequences = this.data.agSequences();
 	let sr_sequences = this.data.srSequences();
 
-	if(ag_sequences !== null){
+	if(Math.max(...ag_sequences.map(x => x.length)) > 0){
 		points    = points.concat(this.antigens);
 		sequences = sequences.concat(ag_sequences);
 	} else {
 		noseq_points = noseq_points.concat(this.antigens);
 	}
 
-	if(sr_sequences !== null){
+	if(Math.max(...sr_sequences.map(x => x.length)) > 0){
 		points    = points.concat(this.sera);
 		sequences = sequences.concat(sr_sequences);
 	} else {
@@ -486,20 +487,32 @@ Racmacs.Viewer.prototype.colorPointsBySequence = function(pos){
 
     // Get the antigen sequences
     let aas = sequences.map(seq => seq[pos-1]);
+    aas[1] = "-";
     let unique_aas = [];
     aas.map( aa => { if(unique_aas.indexOf(aa) === -1) unique_aas.push(aa) });
 
-    let aa_cols = unique_aas.map((aa, i) => new THREE.Color().setHSL(
-        i/(unique_aas.length + 1), 1, 0.5
-    ));
+    // Set aa color mapping
+    let aa_cols;
+    unique_aas = unique_aas.filter(x => x != "-" && x != ".");
+    if (unique_aas.length <= 8) {
+    	aa_cols = Racmacs.utils.colorPalette.slice(0, unique_aas.length);
+    } else {
+	    aa_cols = unique_aas.map((aa, i) => new THREE.Color().setHSL(
+	        i/(unique_aas.length + 1), 1, 0.5
+	    ));
+    }
 
     // Make missing aas grey
-    aa_cols[unique_aas.indexOf("-")] = new THREE.Color("#cccccc");
+    let null_aa_col = new THREE.Color("#cccccc");
     aa_cols[unique_aas.indexOf(".")] = new THREE.Color("#cccccc");
 
     // Color points by aa
     aas.map((aa, i) => { 
-        var color =  aa_cols[unique_aas.indexOf(aa)];
+    	if (aa == "-" || aa == ".") {
+            var color =  null_aa_col;
+    	} else {
+            var color =  aa_cols[unique_aas.indexOf(aa)];
+        }
         points[i].setFillColor("#"+color.getHexString());
     });
 

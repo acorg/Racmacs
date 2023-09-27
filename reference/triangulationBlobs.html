@@ -20,7 +20,7 @@ changes, see details."><meta property="og:image" content="https://acorg.github.i
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">Racmacs</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.1.35</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.2.7</span>
       </span>
     </div>
 
@@ -56,7 +56,7 @@ changes, see details."><meta property="og:image" content="https://acorg.github.i
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Calculate triangulation blobs data for an antigenic map</h1>
-    <small class="dont-index">Source: <a href="https://github.com/acorg/Racmacs/blob/HEAD/R/rac_blobs.R" class="external-link"><code>R/rac_blobs.R</code></a></small>
+    <small class="dont-index">Source: <a href="https://github.com/acorg/Racmacs/blob/HEAD/R/map_diagnostics_triangulation_blobs.R" class="external-link"><code>R/map_diagnostics_triangulation_blobs.R</code></a></small>
     <div class="hidden name"><code>triangulationBlobs.Rd</code></div>
     </div>
 
@@ -68,43 +68,60 @@ changes, see details.</p>
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">triangulationBlobs</span><span class="op">(</span>
-  <span class="va">map</span>,
-  optimization_number <span class="op">=</span> <span class="fl">1</span>,
-  stress_lim <span class="op">=</span> <span class="fl">1</span>,
-  grid_spacing <span class="op">=</span> <span class="fl">0.25</span>,
-  antigens <span class="op">=</span> <span class="cn">TRUE</span>,
-  sera <span class="op">=</span> <span class="cn">TRUE</span>,
-  .check_relaxation <span class="op">=</span> <span class="cn">TRUE</span>,
-  .options <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">triangulationBlobs</span><span class="op">(</span></span>
+<span>  <span class="va">map</span>,</span>
+<span>  optimization_number <span class="op">=</span> <span class="fl">1</span>,</span>
+<span>  stress_lim <span class="op">=</span> <span class="fl">1</span>,</span>
+<span>  grid_spacing <span class="op">=</span> <span class="fl">0.25</span>,</span>
+<span>  antigens <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  sera <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  .check_relaxation <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  .options <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>map</dt>
 <dd><p>The acmap data object</p></dd>
+
+
 <dt>optimization_number</dt>
 <dd><p>The optimization number to check</p></dd>
+
+
 <dt>stress_lim</dt>
 <dd><p>The blob stress limit</p></dd>
+
+
 <dt>grid_spacing</dt>
 <dd><p>Grid spacing to use when searching map space and
 inferring the blob</p></dd>
+
+
 <dt>antigens</dt>
 <dd><p>Should triangulation blobs be calculated for antigens</p></dd>
+
+
 <dt>sera</dt>
 <dd><p>Should triangulation blobs be calculated for sera</p></dd>
+
+
 <dt>.check_relaxation</dt>
 <dd><p>Should a check be performed that the map is fully
 relaxed (all points in a local optima) before the search is performed</p></dd>
+
+
 <dt>.options</dt>
 <dd><p>List of named optimizer options to use when checking map
 relaxation, see <code><a href="RacOptimizer.options.html">RacOptimizer.options()</a></code></p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>Returns the acmap data object with triangulation blob information added,
+    
+
+<p>Returns the acmap data object with triangulation blob information added,
 which will be shown when the map is plotted</p>
     </div>
     <div id="details">
@@ -130,13 +147,21 @@ you can use other diagnostic functions like <code><a href="bootstrapMap.html">bo
 <code><a href="bootstrapMap.html">bootstrapMap</a>()</code>,
 <code><a href="checkHemisphering.html">checkHemisphering</a>()</code>,
 <code><a href="dimensionTestMap.html">dimensionTestMap</a>()</code>,
+<code><a href="logtiterTable.html">logtiterTable</a>()</code>,
 <code><a href="map-table-distances.html">map-table-distances</a></code>,
 <code><a href="mapBootstrapCoords.html">mapBootstrapCoords</a></code>,
+<code><a href="mapDistances.html">mapDistances</a>()</code>,
 <code><a href="mapRelaxed.html">mapRelaxed</a>()</code>,
+<code><a href="mapResiduals.html">mapResiduals</a>()</code>,
+<code><a href="pointStress.html">pointStress</a></code>,
 <code><a href="ptBootstrapBlob.html">ptBootstrapBlob</a></code>,
 <code><a href="ptBootstrapCoords.html">ptBootstrapCoords</a>()</code>,
 <code><a href="ptLeverage.html">ptLeverage</a></code>,
-<code><a href="ptTriangulationBlobsize.html">ptTriangulationBlobsize</a></code>,
+<code><a href="ptTriangulationBlob.html">ptTriangulationBlob</a></code>,
+<code><a href="recalculateStress.html">recalculateStress</a>()</code>,
+<code><a href="stressTable.html">stressTable</a>()</code>,
+<code><a href="tableColbases.html">tableColbases</a>()</code>,
+<code><a href="tableDistances.html">tableDistances</a>()</code>,
 <code><a href="unstableMaps.html">unstableMaps</a></code></p></div>
     </div>
 
@@ -152,7 +177,7 @@ you can use other diagnostic functions like <code><a href="bootstrapMap.html">bo
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer></div>

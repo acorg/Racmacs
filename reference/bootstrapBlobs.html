@@ -27,7 +27,7 @@ boostrapMap()."><meta property="og:image" content="https://acorg.github.io/Racma
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">Racmacs</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.1.35</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.2.7</span>
       </span>
     </div>
 
@@ -63,7 +63,7 @@ boostrapMap()."><meta property="og:image" content="https://acorg.github.io/Racma
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Calculate bootstrap blob data for an antigenic map</h1>
-    <small class="dont-index">Source: <a href="https://github.com/acorg/Racmacs/blob/HEAD/R/map_diagnostics_bootstrap.R" class="external-link"><code>R/map_diagnostics_bootstrap.R</code></a></small>
+    <small class="dont-index">Source: <a href="https://github.com/acorg/Racmacs/blob/HEAD/R/map_diagnostics_bootstrap_blobs.R" class="external-link"><code>R/map_diagnostics_bootstrap_blobs.R</code></a></small>
     <div class="hidden name"><code>bootstrapBlobs.Rd</code></div>
     </div>
 
@@ -82,35 +82,56 @@ will depend on the number of bootstrap repeats performed, for example whether
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">bootstrapBlobs</span><span class="op">(</span>
-  <span class="va">map</span>,
-  conf.level <span class="op">=</span> <span class="fl">0.68</span>,
-  smoothing <span class="op">=</span> <span class="fl">6</span>,
-  gridspacing <span class="op">=</span> <span class="fl">0.25</span>,
-  method <span class="op">=</span> <span class="st">"ks"</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">bootstrapBlobs</span><span class="op">(</span></span>
+<span>  <span class="va">map</span>,</span>
+<span>  conf.level <span class="op">=</span> <span class="fl">0.68</span>,</span>
+<span>  smoothing <span class="op">=</span> <span class="fl">6</span>,</span>
+<span>  gridspacing <span class="op">=</span> <span class="fl">0.25</span>,</span>
+<span>  antigens <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  sera <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  method <span class="op">=</span> <span class="st">"ks"</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>map</dt>
 <dd><p>The acmap data object</p></dd>
+
+
 <dt>conf.level</dt>
 <dd><p>The proportion of positional variation captured by each blob</p></dd>
+
+
 <dt>smoothing</dt>
 <dd><p>The amount of smoothing to perform when performing the
 kernel density estimate, larger equates to more smoothing</p></dd>
+
+
 <dt>gridspacing</dt>
 <dd><p>grid spacing to use when calculating blobs, smaller values
 will produce more accurate blobs with smoother edges but will take longer
 to calculate.</p></dd>
+
+
+<dt>antigens</dt>
+<dd><p>Should blobs be calculated for antigens</p></dd>
+
+
+<dt>sera</dt>
+<dd><p>Should blobs be calculated for sera</p></dd>
+
+
 <dt>method</dt>
 <dd><p>One of "MASS", the default, or "ks", specifying the algorithm to
 use when calculating blobs in 2D. 3D will always use ks::kde.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>Returns an acmap object that will then show the corresponding bootstrap
+    
+
+<p>Returns an acmap object that will then show the corresponding bootstrap
 blobs when viewed or plotted.</p>
     </div>
     <div id="see-also">
@@ -120,13 +141,21 @@ blobs when viewed or plotted.</p>
 <code><a href="bootstrapMap.html">bootstrapMap</a>()</code>,
 <code><a href="checkHemisphering.html">checkHemisphering</a>()</code>,
 <code><a href="dimensionTestMap.html">dimensionTestMap</a>()</code>,
+<code><a href="logtiterTable.html">logtiterTable</a>()</code>,
 <code><a href="map-table-distances.html">map-table-distances</a></code>,
 <code><a href="mapBootstrapCoords.html">mapBootstrapCoords</a></code>,
+<code><a href="mapDistances.html">mapDistances</a>()</code>,
 <code><a href="mapRelaxed.html">mapRelaxed</a>()</code>,
+<code><a href="mapResiduals.html">mapResiduals</a>()</code>,
+<code><a href="pointStress.html">pointStress</a></code>,
 <code><a href="ptBootstrapBlob.html">ptBootstrapBlob</a></code>,
 <code><a href="ptBootstrapCoords.html">ptBootstrapCoords</a>()</code>,
 <code><a href="ptLeverage.html">ptLeverage</a></code>,
-<code><a href="ptTriangulationBlobsize.html">ptTriangulationBlobsize</a></code>,
+<code><a href="ptTriangulationBlob.html">ptTriangulationBlob</a></code>,
+<code><a href="recalculateStress.html">recalculateStress</a>()</code>,
+<code><a href="stressTable.html">stressTable</a>()</code>,
+<code><a href="tableColbases.html">tableColbases</a>()</code>,
+<code><a href="tableDistances.html">tableDistances</a>()</code>,
 <code><a href="triangulationBlobs.html">triangulationBlobs</a>()</code>,
 <code><a href="unstableMaps.html">unstableMaps</a></code></p></div>
     </div>
@@ -143,7 +172,7 @@ blobs when viewed or plotted.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer></div>

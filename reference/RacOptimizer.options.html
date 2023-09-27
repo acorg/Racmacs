@@ -18,7 +18,7 @@ returning a list of option settings."><meta property="og:image" content="https:/
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">Racmacs</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.1.35</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.2.7</span>
       </span>
     </div>
 
@@ -64,44 +64,99 @@ returning a list of option settings.</p>
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">RacOptimizer.options</span><span class="op">(</span>
-  dim_annealing <span class="op">=</span> <span class="cn">FALSE</span>,
-  method <span class="op">=</span> <span class="st">"L-BFGS"</span>,
-  maxit <span class="op">=</span> <span class="fl">1000</span>,
-  num_cores <span class="op">=</span> <span class="fu">parallel</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/parallel/detectCores.html" class="external-link">detectCores</a></span><span class="op">(</span><span class="op">)</span>,
-  report_progress <span class="op">=</span> <span class="cn">NULL</span>,
-  ignore_disconnected <span class="op">=</span> <span class="cn">FALSE</span>,
-  progress_bar_length <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span><span class="op">)</span><span class="op">$</span><span class="va">width</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">RacOptimizer.options</span><span class="op">(</span></span>
+<span>  dim_annealing <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  method <span class="op">=</span> <span class="st">"L-BFGS"</span>,</span>
+<span>  maxit <span class="op">=</span> <span class="fl">1000</span>,</span>
+<span>  num_basis <span class="op">=</span> <span class="fl">10</span>,</span>
+<span>  armijo_constant <span class="op">=</span> <span class="fl">1e-04</span>,</span>
+<span>  wolfe <span class="op">=</span> <span class="fl">0.9</span>,</span>
+<span>  min_gradient_norm <span class="op">=</span> <span class="fl">1e-06</span>,</span>
+<span>  factr <span class="op">=</span> <span class="fl">1e-15</span>,</span>
+<span>  max_line_search_trials <span class="op">=</span> <span class="fl">50</span>,</span>
+<span>  min_step <span class="op">=</span> <span class="fl">1e-20</span>,</span>
+<span>  max_step <span class="op">=</span> <span class="fl">1e+20</span>,</span>
+<span>  num_cores <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">getOption</a></span><span class="op">(</span><span class="st">"RacOptimizer.num_cores"</span><span class="op">)</span>,</span>
+<span>  report_progress <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  ignore_disconnected <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  progress_bar_length <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span><span class="op">)</span><span class="op">$</span><span class="va">width</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>dim_annealing</dt>
 <dd><p>Should dimensional annealing be performed</p></dd>
+
+
 <dt>method</dt>
 <dd><p>The optimization method to use</p></dd>
+
+
 <dt>maxit</dt>
 <dd><p>The maximum number of iterations to use in the optimizer</p></dd>
+
+
+<dt>num_basis</dt>
+<dd><p>Number of memory points to be stored (default 10).</p></dd>
+
+
+<dt>armijo_constant</dt>
+<dd><p>Controls the accuracy of the line search routine for determining the Armijo condition.</p></dd>
+
+
+<dt>wolfe</dt>
+<dd><p>Parameter for detecting the Wolfe condition.</p></dd>
+
+
+<dt>min_gradient_norm</dt>
+<dd><p>Minimum gradient norm required to continue the optimization.</p></dd>
+
+
+<dt>factr</dt>
+<dd><p>Minimum relative function value decrease to continue the optimization.</p></dd>
+
+
+<dt>max_line_search_trials</dt>
+<dd><p>The maximum number of trials for the line search (before giving up).</p></dd>
+
+
+<dt>min_step</dt>
+<dd><p>The minimum step of the line search.</p></dd>
+
+
+<dt>max_step</dt>
+<dd><p>The maximum step of the line search.</p></dd>
+
+
 <dt>num_cores</dt>
-<dd><p>The number of cores to run in parallel</p></dd>
+<dd><p>The number of cores to run in parallel when running optimizations</p></dd>
+
+
 <dt>report_progress</dt>
 <dd><p>Should progress be reported</p></dd>
+
+
 <dt>ignore_disconnected</dt>
 <dd><p>Should the check for disconnected points be skipped</p></dd>
+
+
 <dt>progress_bar_length</dt>
 <dd><p>Progress bar length when progress is reported</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>Returns a named list of optimizer options</p>
+    
+
+<p>Returns a named list of optimizer options</p>
     </div>
     <div id="details">
     <h2>Details</h2>
     <p>For more details, for example on "dimensional annealing" see
 <code><a href="../articles/intro-to-antigenic-cartography.html">vignette("intro-to-antigenic-cartography")</a></code>. For details on optimizer
 settings like <code>maxit</code> see the underlying optimizer documentation at
-<a href="http://ensmallen.org" class="external-link">ensmallen.org</a>.</p>
+<a href="https://ensmallen.org/" class="external-link">ensmallen.org</a>.</p>
     </div>
     <div id="see-also">
     <h2>See also</h2>
@@ -126,7 +181,7 @@ settings like <code>maxit</code> see the underlying optimizer documentation at
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer></div>

@@ -1,5 +1,5 @@
 
-function get_sprite_texture(shape){
+R3JS.Sprites = function(shape, viewport){
     
     // Get shape data
     if(shape == "ball"){

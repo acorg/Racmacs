@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">Racmacs</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.1.35</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.2.7</span>
       </span>
     </div>
 
@@ -258,6 +258,88 @@
 <ul><li>Add antigen and sera attributes: <code><a href="../reference/agAttributes.html">agLineage()</a></code>, <code><a href="../reference/srAttributes.html">srLineage()</a></code>, <code><a href="../reference/agAttributes.html">agReassortant()</a></code>, <code><a href="../reference/srAttributes.html">srReassortant()</a></code>, <code><a href="../reference/agAttributes.html">agStrings()</a></code>, <code><a href="../reference/srAttributes.html">srStrings()</a></code>, <code><a href="../reference/agAttributes.html">agContinent()</a></code>, <code><a href="../reference/agSequences.html">agNucleotideSequences()</a></code>, <code><a href="../reference/srSequences.html">srNucleotideSequences()</a></code>
 </li>
 </ul></div>
+    <div class="section level2">
+<h2 class="page-header" data-toc-text="1.1.36" id="racmacs-1136">Racmacs 1.1.36<a class="anchor" aria-label="anchor" href="#racmacs-1136"></a></h2>
+<ul><li>Fix error in reoptimized-merge</li>
+<li>
+<code><a href="../reference/logtiterTableLayers.html">logtiterTableLayers()</a></code> function exported</li>
+<li>Fix error when blobs are smaller than grid-spacing used to calculate them</li>
+<li>Add the <code><a href="../reference/blobsize.html">blobsize()</a></code> function for calculating the area/volume of uncertainty blobs</li>
+<li>Removed function <code>triangulationBlobSize()</code> - now use e.g. <code>sapply(agTriangulationBlobs(map), blobsize)</code>
+</li>
+<li>3D blob meshes are now separated into a list of contiguous meshes so that number of blobs can be retrieved from the length, i.e. <code>sapply(agTriangulationBlobs(map), length)</code>
+</li>
+</ul></div>
+    <div class="section level2">
+<h2 class="page-header" data-toc-text="1.1.37" id="racmacs-1137">Racmacs 1.1.37<a class="anchor" aria-label="anchor" href="#racmacs-1137"></a></h2>
+<ul><li>Fix error where serum column base label would remain after turning titer labels off</li>
+<li>Set default margins of 0.5 inches when plotting a map</li>
+<li>Add support for insertions in amino acids sequences</li>
+</ul></div>
+    <div class="section level2">
+<h2 class="page-header" data-toc-text="1.1.38" id="racmacs-1138">Racmacs 1.1.38<a class="anchor" aria-label="anchor" href="#racmacs-1138"></a></h2>
+<ul><li>Add option to specify a subset of antigens and sera for which to calculate blobs in the <code><a href="../reference/bootstrapBlobs.html">bootstrapBlobs()</a></code> function</li>
+<li>Add method for plotting a map using ggplot i.e. <code>ggplot(map)</code>.</li>
+<li>When coloring by sequence a more distinct color pallette is used</li>
+</ul></div>
+    <div class="section level2">
+<h2 class="page-header" data-toc-text="1.1.39" id="racmacs-1139">Racmacs 1.1.39<a class="anchor" aria-label="anchor" href="#racmacs-1139"></a></h2>
+<ul><li>Correct error when plotting cases where blobs were calculated for only 1 antigen / serum</li>
+<li>Only show plot outlier arrowheads if point is marked as shown</li>
+<li>Numeric table distances account for dilution stepsize setting of map</li>
+</ul></div>
+    <div class="section level2">
+<h2 class="page-header" data-toc-text="1.1.40" id="racmacs-1140">Racmacs 1.1.40<a class="anchor" aria-label="anchor" href="#racmacs-1140"></a></h2>
+<ul><li>Add some options to view.acmap to set the starting viewer translation, rotation and zoom</li>
+<li>Add <code>grid.lwd</code> option to control grid linewidth in <code>ggplot(map)</code>
+</li>
+<li>Add antigen and sera names to vector when retreiving antigen and sera attributes like <code><a href="../reference/ptStyles.html">agFill()</a></code>
+</li>
+</ul></div>
+    <div class="section level2">
+<h2 class="page-header" data-toc-text="1.2.0" id="racmacs-120">Racmacs 1.2.0<a class="anchor" aria-label="anchor" href="#racmacs-120"></a></h2>
+<ul><li>Add new options and default methods to use when merging titers as described for <code><a href="../reference/RacMerge.options.html">RacMerge.options()</a></code>
+</li>
+<li>Return a more useful error if <code><a href="../reference/bootstrapBlobs.html">bootstrapBlobs()</a></code> is run on a map where <code><a href="../reference/bootstrapMap.html">bootstrapMap()</a></code> has not yet been performed.</li>
+<li>Add <code>grid.margin.lwd</code> option to control grid margin linewidth in <code>ggplot(map)</code>
+</li>
+<li>Improve user interruption of map optimization runs</li>
+</ul></div>
+    <div class="section level2">
+<h2 class="page-header" data-toc-text="1.2.1" id="racmacs-121">Racmacs 1.2.1<a class="anchor" aria-label="anchor" href="#racmacs-121"></a></h2>
+<ul><li>Titer merge method changed so that sd limit is implemented before any merging to &lt; values</li>
+<li>Expose further optimization options as user controllable options</li>
+<li>Add the option to set lighting using the r3js::light3js() function</li>
+<li>Add the option to set the viewer background color</li>
+</ul></div>
+    <div class="section level2">
+<h2 class="page-header" data-toc-text="1.2.2" id="racmacs-122">Racmacs 1.2.2<a class="anchor" aria-label="anchor" href="#racmacs-122"></a></h2>
+<ul><li>Add argument in view.acmap to control set viewer background color</li>
+</ul></div>
+    <div class="section level2">
+<h2 class="page-header" data-toc-text="1.2.3" id="racmacs-123">Racmacs 1.2.3<a class="anchor" aria-label="anchor" href="#racmacs-123"></a></h2>
+<ul><li>Fix error where light was not being added to the viewer properly</li>
+</ul></div>
+    <div class="section level2">
+<h2 class="page-header" data-toc-text="1.2.4" id="racmacs-124">Racmacs 1.2.4<a class="anchor" aria-label="anchor" href="#racmacs-124"></a></h2>
+<ul><li>Add arguments to control procrustes arrow appearance in <code><a href="../reference/plot.acmap.html">plot.acmap()</a></code>
+</li>
+</ul></div>
+    <div class="section level2">
+<h2 class="page-header" data-toc-text="1.2.5" id="racmacs-125">Racmacs 1.2.5<a class="anchor" aria-label="anchor" href="#racmacs-125"></a></h2>
+<ul><li>Allow for shorthand description of shapes e.g. “C” for “CIRCLE” in map .ace files.</li>
+</ul></div>
+    <div class="section level2">
+<h2 class="page-header" data-toc-text="1.2.6" id="racmacs-126">Racmacs 1.2.6<a class="anchor" aria-label="anchor" href="#racmacs-126"></a></h2>
+<ul><li>Set the default number of cores to use as 2 unless otherwise specified in either RacOptimizer.options, or by setting the global option ‘RacOptimizer.num_cores’ with e.g. <code>options(RacOptimizer.num_cores = parallel::detectCores())</code>.</li>
+</ul></div>
+    <div class="section level2">
+<h2 class="page-header" data-toc-text="1.2.7" id="racmacs-127">Racmacs 1.2.7<small>2023-09-04</small><a class="anchor" aria-label="anchor" href="#racmacs-127"></a></h2>
+<ul><li>
+<code><a href="https://rdrr.io/r/base/on.exit.html" class="external-link">on.exit()</a></code> calls added to code in <code>R/map_plot.R</code> and <code>inst/shinyapps/RacmacsGUI/app.R</code> where changes to graphical parameters and user options are made.</li>
+<li>
+<code>snapshotMap()</code> function removed.</li>
+</ul></div>
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
@@ -272,7 +354,7 @@
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer></div>

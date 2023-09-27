@@ -18,7 +18,7 @@ in the selected or specified optimization."><meta property="og:image" content="h
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">Racmacs</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.1.35</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.2.7</span>
       </span>
     </div>
 
@@ -64,34 +64,47 @@ in the selected or specified optimization.</p>
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">relaxMap</span><span class="op">(</span>
-  <span class="va">map</span>,
-  optimization_number <span class="op">=</span> <span class="fl">1</span>,
-  fixed_antigens <span class="op">=</span> <span class="cn">FALSE</span>,
-  fixed_sera <span class="op">=</span> <span class="cn">FALSE</span>,
-  titer_weights <span class="op">=</span> <span class="cn">NULL</span>,
-  options <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">relaxMap</span><span class="op">(</span></span>
+<span>  <span class="va">map</span>,</span>
+<span>  optimization_number <span class="op">=</span> <span class="fl">1</span>,</span>
+<span>  fixed_antigens <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  fixed_sera <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  titer_weights <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  options <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>map</dt>
 <dd><p>The acmap object</p></dd>
+
+
 <dt>optimization_number</dt>
 <dd><p>The optimization number to relax</p></dd>
+
+
 <dt>fixed_antigens</dt>
 <dd><p>Antigens to set fixed positions for when relaxing</p></dd>
+
+
 <dt>fixed_sera</dt>
 <dd><p>Sera to set fixed positions for when relaxing</p></dd>
+
+
 <dt>titer_weights</dt>
 <dd><p>An optional matrix of weights to assign each titer when optimizing</p></dd>
+
+
 <dt>options</dt>
 <dd><p>List of named optimizer options, see <code><a href="RacOptimizer.options.html">RacOptimizer.options()</a></code></p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>Returns an acmap object with the optimization relaxed.</p>
+    
+
+<p>Returns an acmap object with the optimization relaxed.</p>
     </div>
     <div id="see-also">
     <h2>See also</h2>
@@ -118,7 +131,7 @@ starting coordinates.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer></div>

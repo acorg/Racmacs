@@ -20,6 +20,7 @@ Racmacs.Viewer.prototype.setGrid = function(
 	// Create the grid element
     var element = new R3JS.element.gllines_fat({
         coords : gridcoords,
+        segments : true,
         properties : {
             color : {
                 r : Array(gridcoords.length).fill(grid_color.r),
@@ -27,8 +28,7 @@ Racmacs.Viewer.prototype.setGrid = function(
                 b : Array(gridcoords.length).fill(grid_color.b)
             },
             mat : "line",
-            lwd : 1,
-            segments : true
+            lwd : 1
         },
         viewer : this
     });

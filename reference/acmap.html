@@ -18,7 +18,7 @@ data in the Racmacs package."><meta property="og:image" content="https://acorg.g
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">Racmacs</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.1.35</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.2.7</span>
       </span>
     </div>
 
@@ -64,39 +64,54 @@ data in the Racmacs package.</p>
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">acmap</span><span class="op">(</span>
-  ag_names <span class="op">=</span> <span class="cn">NULL</span>,
-  sr_names <span class="op">=</span> <span class="cn">NULL</span>,
-  titer_table <span class="op">=</span> <span class="cn">NULL</span>,
-  ag_coords <span class="op">=</span> <span class="cn">NULL</span>,
-  sr_coords <span class="op">=</span> <span class="cn">NULL</span>,
-  check_duplicates <span class="op">=</span> <span class="cn">TRUE</span>,
-  <span class="va">...</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">acmap</span><span class="op">(</span></span>
+<span>  ag_names <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  sr_names <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  titer_table <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  ag_coords <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  sr_coords <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  check_duplicates <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  <span class="va">...</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>ag_names</dt>
 <dd><p>Antigen names</p></dd>
+
+
 <dt>sr_names</dt>
 <dd><p>Sera names</p></dd>
+
+
 <dt>titer_table</dt>
 <dd><p>Table of titer data</p></dd>
+
+
 <dt>ag_coords</dt>
 <dd><p>Antigenic coordinates for an optimization run record
 (optional)</p></dd>
+
+
 <dt>sr_coords</dt>
 <dd><p>Sera coordinates for an optimization run record (optional)</p></dd>
+
+
 <dt>check_duplicates</dt>
 <dd><p>Issue a warning if duplicate antigen or sera names
 are found</p></dd>
+
+
 <dt>...</dt>
 <dd><p>Further arguments passed to <code><a href="addOptimization.html">addOptimization()</a></code></p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>Returns the new acmap object</p>
+    
+
+<p>Returns the new acmap object</p>
     </div>
     <div id="details">
     <h2>Details</h2>
@@ -142,7 +157,7 @@ antigen similarity from the acmap titer data.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer></div>

@@ -55,7 +55,7 @@ Racmacs.Point.prototype.showHemisphering = function(data){
 		// Create the actual object you will add to the scene
 		this.hemisphering = new this.viewer.mapElements.procrustes({
 	        coords       : coords,
-	        size         : 4,
+	        size         : 3,
 	        doubleheaded : doubleheaded,
 	        properties : { 
 	            lwd : 2,

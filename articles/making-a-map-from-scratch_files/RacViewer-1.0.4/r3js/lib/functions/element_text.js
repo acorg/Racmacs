@@ -9,11 +9,6 @@ R3JS.element.constructors.text = function(
 
     // Apply any additional offset
     var plotdims = viewer.scene.plotdims;
-    if(plotobj.properties.poffset){
-        plotobj.position[0] = plotobj.position[0] + plotobj.properties.poffset[0]*plotdims.size[0]/plotdims.aspect[0];
-        plotobj.position[1] = plotobj.position[1] + plotobj.properties.poffset[1]*plotdims.size[1]/plotdims.aspect[1];
-        plotobj.position[2] = plotobj.position[2] + plotobj.properties.poffset[2]*plotdims.size[2]/plotdims.aspect[2];
-    }
 
     // Create the object
     if(plotobj.rendering == "geometry"){
@@ -32,8 +27,10 @@ R3JS.element.constructors.text = function(
         var element = new R3JS.element.htmltext({
             text   : plotobj.text,
             coords : plotobj.position,
+            size   : plotobj.size[0],
             alignment : plotobj.alignment,
             offset     : plotobj.offset,
+            style      : plotobj.style,
             properties : R3JS.Material(plotobj.properties)
         });
 
@@ -72,7 +69,7 @@ R3JS.element.htmltext = class htmltext extends R3JS.element.base {
 	    }
 	    
 	    // Set other styles and content
-	    textdiv.style.fontSize = args.size*100+"%";
+	    textdiv.style.fontSize = args.size+"px";
 	    textdiv.textContent    = args.text;
 	    R3JS.apply_style(textdiv, args.style);
 
@@ -118,7 +115,7 @@ R3JS.element.htmltext = class htmltext extends R3JS.element.base {
 
 
 // Make geometric text
-R3JS.element.text = class htmltext extends R3JS.element.base {
+R3JS.element.text = class geotext extends R3JS.element.base {
 
     constructor(args){
 
@@ -133,6 +130,7 @@ R3JS.element.text = class htmltext extends R3JS.element.base {
         args.alignment[0] = -args.alignment[0]/2 + 0.5;
         args.alignment[1] = -args.alignment[1]/2 + 0.5;
 
+        console.log(args.text);
         var shapes    = R3JS.fonts.helvetiker.generateShapes( args.text, 1, 4 );
         var textShape  = new THREE.ShapeGeometry( shapes );
 
@@ -161,6 +159,14 @@ R3JS.element.text = class htmltext extends R3JS.element.base {
 
         var text = new THREE.Mesh( textShape, matLite );
         text.position.set(args.coords[0], args.coords[1], args.coords[2]);
+
+
+        // Apply text rotation
+        if (args.properties.rotation !== undefined) {
+            if (args.properties.rotation[0] !== 0) text.rotateX(args.properties.rotation[0]);
+            if (args.properties.rotation[1] !== 0) text.rotateY(args.properties.rotation[1]);
+            if (args.properties.rotation[2] !== 0) text.rotateZ(args.properties.rotation[2]);
+        }
 
         // Size text
         text.scale.set(args.size, args.size, args.size);

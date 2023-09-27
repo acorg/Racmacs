@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">Racmacs</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.1.35</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.2.7</span>
       </span>
     </div>
 
@@ -62,55 +62,94 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="co"># S3 method for acmap</span>
-<span class="fu"><a href="view.html">view</a></span><span class="op">(</span>
-  <span class="va">x</span>,
-  optimization_number <span class="op">=</span> <span class="fl">1</span>,
-  <span class="va">...</span>,
-  .jsCode <span class="op">=</span> <span class="cn">NULL</span>,
-  .jsData <span class="op">=</span> <span class="cn">NULL</span>,
-  select_ags <span class="op">=</span> <span class="cn">NULL</span>,
-  select_sr <span class="op">=</span> <span class="cn">NULL</span>,
-  show_procrustes <span class="op">=</span> <span class="cn">NULL</span>,
-  show_diagnostics <span class="op">=</span> <span class="cn">NULL</span>,
-  num_optimizations <span class="op">=</span> <span class="fl">1</span>,
-  options <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="co"># S3 method for acmap</span></span>
+<span><span class="fu"><a href="view.html">view</a></span><span class="op">(</span></span>
+<span>  <span class="va">x</span>,</span>
+<span>  optimization_number <span class="op">=</span> <span class="fl">1</span>,</span>
+<span>  <span class="va">...</span>,</span>
+<span>  .jsCode <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  .jsData <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  select_ags <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  select_sr <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  show_procrustes <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  show_diagnostics <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  num_optimizations <span class="op">=</span> <span class="fl">1</span>,</span>
+<span>  options <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>x</dt>
 <dd><p>The acmap data object</p></dd>
+
+
 <dt>optimization_number</dt>
 <dd><p>The optimization number to view</p></dd>
+
+
 <dt>...</dt>
 <dd><p>Additional arguments to be passed to <code><a href="RacViewer.html">RacViewer()</a></code></p></dd>
+
+
 <dt>.jsCode</dt>
 <dd><p>Additional javascript code to be run after map has been loaded
 and rendered</p></dd>
+
+
 <dt>.jsData</dt>
 <dd><p>Any data to supply to the .jsCode function</p></dd>
+
+
 <dt>select_ags</dt>
 <dd><p>A vector of antigen indices to select in the plot</p></dd>
+
+
 <dt>select_sr</dt>
 <dd><p>A vector of serum indices to select in the plot</p></dd>
+
+
 <dt>show_procrustes</dt>
 <dd><p>If the map contains procrustes information, should
 procrustes lines be shown by default?</p></dd>
+
+
 <dt>show_diagnostics</dt>
 <dd><p>If the map contains diagnostics information like
 stress blobs or hemisphering, should it be shown by default?</p></dd>
+
+
 <dt>num_optimizations</dt>
 <dd><p>Number of optimization runs to send to the viewer
 for inclusion in the "optimizations" pane.</p></dd>
+
+
 <dt>options</dt>
 <dd><p>A named list of viewer options to pass to
 <code><a href="RacViewer.options.html">RacViewer.options()</a></code></p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>Returns the htmlwidget object</p>
+    
+
+<p>Returns an htmlwidget object</p>
+    </div>
+    <div id="see-also">
+    <h2>See also</h2>
+    <div class="dont-index"><p>Other functions to view maps: 
+<code><a href="RacViewer.options.html">RacViewer.options</a>()</code>,
+<code><a href="RacViewer.html">RacViewer</a>()</code>,
+<code><a href="export_viewer.html">export_viewer</a>()</code>,
+<code><a href="ggplot.acmap.html">ggplot.acmap</a>()</code>,
+<code><a href="mapGadget.html">mapGadget</a>()</code>,
+<code><a href="plot.acmap.html">plot.acmap</a>()</code>,
+<code><a href="setLegend.html">setLegend</a>()</code>,
+<code><a href="view.default.html">view.default</a>()</code>,
+<code><a href="view.html">view</a>()</code></p>
+<p>Other shiny app functions: 
+<code><a href="RacViewer-shiny.html">RacViewer-shiny</a></code>,
+<code><a href="runGUI.html">runGUI</a>()</code></p></div>
     </div>
 
   </div>
@@ -125,7 +164,7 @@ for inclusion in the "optimizations" pane.</p></dd>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer></div>

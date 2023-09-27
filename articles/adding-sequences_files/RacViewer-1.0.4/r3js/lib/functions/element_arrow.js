@@ -57,26 +57,22 @@ R3JS.element.constructors.arrow3d = function(
     scene
     ){
 
-    // // Setup object
-    // if(plotobj.properties.lwd > 1){
-    //     var element = new R3JS.element.gllines_fat({
-    //         coords : plotobj.position,
-    //         properties : plotobj.properties,
-    //         viewport : scene.viewer.viewport
-    //     });
-    // } else {
-    //     var element = new R3JS.element.gllines_thin({
-    //         coords : plotobj.position,
-    //         properties : plotobj.properties
-    //     });
-    // }
-    // return(element);
-    throw("Arrow not made");
+    // Set object properties
+    plotobj.properties.arrowheadlength = plotobj.arrowhead_length[0];
+    plotobj.properties.arrowheadwidth = plotobj.arrowhead_width[0];
+
+    // Create element
+    var element = new R3JS.element.arrow3d({
+        coords : [plotobj.position.from, plotobj.position.to],
+        properties : plotobj.properties
+    });
+
+    return(element);
 
 }
 
 
-// Make a 2D arrow object
+// Make a 3D arrow object
 R3JS.element.arrow3d = class arrow3d extends R3JS.element.base {
 
     constructor(args){
@@ -93,7 +89,7 @@ R3JS.element.arrow3d = class arrow3d extends R3JS.element.base {
         var geometry = R3JS.Geometries.line3d({
             from : args.coords[0],
             to   : args.coords[1],
-            lwd  : args.properties.lwd*0.05,
+            lwd  : args.properties.lwd,
             lend : args.properties.lend,
             arrow : {
                 headlength : args.properties.arrowheadlength,

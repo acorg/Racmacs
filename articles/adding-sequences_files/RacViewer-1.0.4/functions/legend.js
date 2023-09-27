@@ -28,38 +28,40 @@ Racmacs.Viewer.prototype.showLegend = function(){
     var ag_group_outline = this.data.agGroupLevelOutline();
 
     ag_group_levels.map((level, i) => {
-    	
-    	var entry = document.createElement("div");
-    	if (i != 0) entry.style.marginTop = "6px";
-    	
-    	var point = document.createElement("div");
-    	point.style.height = "16px";
-    	point.style.width = "16px";
-    	point.style.boxSizing = "border-box";
-    	point.style.border = "solid 1px " + ag_group_outline[i];
-    	point.style.borderRadius = "8px";
-    	point.style.marginRight = "4px";
-    	point.style.background = ag_group_fill[i];
-    	point.style.display = "inline-block";
-    	point.style.verticalAlign = "middle";
-    	point.addEventListener("mouseup", e => {
-    		var ags = [];
-    		ag_group_values.map((x, j) => x == i && ags.push(j));
-    		this.deselectAll();
-    		this.selectAntigensByIndices(ags);
-    	});
+        if (ag_group_values.indexOf(i) != -1) {
 
-    	var label = document.createElement("div");
-    	label.style.fontFamily = "sans-serif";
-    	label.style.fontSize = "16px";
-    	label.style.display = "inline-block";
-    	label.style.verticalAlign = "middle";
-    	label.innerHTML = level;
+        	var entry = document.createElement("div");
+        	if (i != 0) entry.style.marginTop = "6px";
+        	
+        	var point = document.createElement("div");
+        	point.style.height = "16px";
+        	point.style.width = "16px";
+        	point.style.boxSizing = "border-box";
+        	point.style.border = "solid 1.5px " + ag_group_outline[i];
+        	point.style.borderRadius = "8px";
+        	point.style.marginRight = "4px";
+        	point.style.background = ag_group_fill[i];
+        	point.style.display = "inline-block";
+        	point.style.verticalAlign = "middle";
+        	point.addEventListener("mouseup", e => {
+        		var ags = [];
+        		ag_group_values.map((x, j) => x == i && ags.push(j));
+        		this.deselectAll();
+        		this.selectAntigensByIndices(ags);
+        	});
 
-    	entry.appendChild(point);
-    	entry.appendChild(label);
-    	this.group_legend.appendChild(entry);
+        	var label = document.createElement("div");
+        	label.style.fontFamily = "sans-serif";
+        	label.style.fontSize = "16px";
+        	label.style.display = "inline-block";
+        	label.style.verticalAlign = "middle";
+        	label.innerHTML = level;
 
+        	entry.appendChild(point);
+        	entry.appendChild(label);
+        	this.group_legend.appendChild(entry);
+
+        }
     });
 
     // Set spacer
@@ -77,37 +79,39 @@ Racmacs.Viewer.prototype.showLegend = function(){
     var sr_group_outline = sr_group_levels.map((level, i) => this.data.srOutline(sr_group_values.indexOf(i)));
 
     sr_group_levels.map((level, i) => {
+    	if (sr_group_values.indexOf(i) != -1) {
     	
-    	var entry = document.createElement("div");
-    	if (i != 0) entry.style.marginTop = "6px";
-    	
-    	var point = document.createElement("div");
-    	point.style.height = "15px";
-    	point.style.width = "15px";
-    	point.style.boxSizing = "border-box";
-    	point.style.border = "solid 1px " + sr_group_outline[i];
-    	point.style.marginRight = "5px";
-    	point.style.background = sr_group_fill[i];
-    	point.style.display = "inline-block";
-    	point.style.verticalAlign = "middle";
-    	point.addEventListener("mouseup", e => {
-    		var srs = [];
-    		sr_group_values.map((x, j) => x == i && srs.push(j));
-    		this.deselectAll();
-    		this.selectSeraByIndices(srs);
-    	});
+            var entry = document.createElement("div");
+        	if (i != 0) entry.style.marginTop = "6px";
+        	
+        	var point = document.createElement("div");
+        	point.style.height = "15px";
+        	point.style.width = "15px";
+        	point.style.boxSizing = "border-box";
+        	point.style.border = "solid 1.5px " + sr_group_outline[i];
+        	point.style.marginRight = "5px";
+        	point.style.background = sr_group_fill[i];
+        	point.style.display = "inline-block";
+        	point.style.verticalAlign = "middle";
+        	point.addEventListener("mouseup", e => {
+        		var srs = [];
+        		sr_group_values.map((x, j) => x == i && srs.push(j));
+        		this.deselectAll();
+        		this.selectSeraByIndices(srs);
+        	});
 
-    	var label = document.createElement("div");
-    	label.style.fontFamily = "sans-serif";
-    	label.style.fontSize = "16px";
-    	label.style.display = "inline-block";
-    	label.style.verticalAlign = "middle";
-    	label.innerHTML = level;
+        	var label = document.createElement("div");
+        	label.style.fontFamily = "sans-serif";
+        	label.style.fontSize = "16px";
+        	label.style.display = "inline-block";
+        	label.style.verticalAlign = "middle";
+        	label.innerHTML = level;
 
-    	entry.appendChild(point);
-    	entry.appendChild(label);
-    	this.group_legend.appendChild(entry);
+        	entry.appendChild(point);
+        	entry.appendChild(label);
+        	this.group_legend.appendChild(entry);
 
+        }
     });
 
 }

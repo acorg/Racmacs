@@ -21,7 +21,7 @@ points are trapped together in a local optima."><meta property="og:image" conten
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">Racmacs</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.1.35</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.2.7</span>
       </span>
     </div>
 
@@ -70,33 +70,44 @@ points are trapped together in a local optima.</p>
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">moveTrappedPoints</span><span class="op">(</span>
-  <span class="va">map</span>,
-  optimization_number <span class="op">=</span> <span class="fl">1</span>,
-  grid_spacing <span class="op">=</span> <span class="fl">0.25</span>,
-  max_iterations <span class="op">=</span> <span class="fl">10</span>,
-  options <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">moveTrappedPoints</span><span class="op">(</span></span>
+<span>  <span class="va">map</span>,</span>
+<span>  optimization_number <span class="op">=</span> <span class="fl">1</span>,</span>
+<span>  grid_spacing <span class="op">=</span> <span class="fl">0.25</span>,</span>
+<span>  max_iterations <span class="op">=</span> <span class="fl">10</span>,</span>
+<span>  options <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>map</dt>
 <dd><p>The acmap data object</p></dd>
+
+
 <dt>optimization_number</dt>
 <dd><p>The map optimization number to apply it to</p></dd>
+
+
 <dt>grid_spacing</dt>
 <dd><p>Grid spacing in antigenic units of the search grid to use
 when searching for more optimal positions</p></dd>
+
+
 <dt>max_iterations</dt>
 <dd><p>The maximum number of interations of searching for
 trapped points then relaxing the map to be performed</p></dd>
+
+
 <dt>options</dt>
 <dd><p>List of named optimizer options, see <code><a href="RacOptimizer.options.html">RacOptimizer.options()</a></code></p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>Returns the acmap object with updated coordinates (if any trapped
+    
+
+<p>Returns the acmap object with updated coordinates (if any trapped
 points found)</p>
     </div>
     <div id="details">
@@ -128,7 +139,7 @@ more trapped points are found or <code>max_iterations</code> is reached.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer></div>

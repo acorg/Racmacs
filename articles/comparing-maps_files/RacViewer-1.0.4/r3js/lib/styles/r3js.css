@@ -1,11 +1,7 @@
 
-/* Set body styles */
-body {
-	font-family: sans-serif, "Arial";
-}
-
 /* Key div styles */
 .r3jsviewer {
+	font-family: sans-serif, "Arial";
 	width    : 100%;
     height   : 100%;
     position : relative;
@@ -19,7 +15,7 @@ body {
     border: none;
 }
 
-#viewport {
+.r3jsviewer #viewport {
     position : absolute;
     top      : 0;
     bottom   : 0;
@@ -27,7 +23,7 @@ body {
     right    : 0;
 }
 
-.viewport-placeholder{
+.r3jsviewer .viewport-placeholder{
     position   : absolute;
     top        : 0;
     bottom     : 0;
@@ -37,7 +33,7 @@ body {
     padding: 10px;
 }
 
-#hover-info-div {
+.r3jsviewer #hover-info-div {
 	position : absolute;
     top : 4px;
     left : 4px;
@@ -47,47 +43,47 @@ body {
     font-size : 80%;
 }
 
-#transform-info-div {
+.r3jsviewer #transform-info-div {
     position : absolute;
-    bottom : 0;
-    left : 0;
-    right: 0;
+    bottom : 8px;
+    left : 8px;
     min-height: 100px;
     padding : 10px;
     padding-left: 20px;
-    background : rgba(0, 102, 153, 0.95);
+    border-radius: 4px;
+    background : #eeeeee;
     font-family : sans-serif, "Arial";
     font-size : 80%;
     font-weight: bolder;
-    color: #ffffff;
+    color: #333333;
 }
 
-#transform-info-div #rotation-info-div,
-#transform-info-div #translation-info-div {
+.r3jsviewer #transform-info-div #rotation-info-div,
+.r3jsviewer #transform-info-div #translation-info-div {
     position: relative;
 }
 
-#transform-info-div #rotation-info-div::before,
-#transform-info-div #translation-info-div::before,
-#transform-info-div #zoom-info-div::before {
+.r3jsviewer #transform-info-div #rotation-info-div::before,
+.r3jsviewer #transform-info-div #translation-info-div::before,
+.r3jsviewer #transform-info-div #zoom-info-div::before {
     width: 80px;
     display: inline-block;
     margin-top: 8px;
 }
 
-#transform-info-div #rotation-info-div::before {
+.r3jsviewer #transform-info-div #rotation-info-div::before {
     content: "Rotation:";
 }
 
-#transform-info-div #translation-info-div::before {
+.r3jsviewer #transform-info-div #translation-info-div::before {
     content: "Translation:";
 }
 
-#transform-info-div #zoom-info-div::before {
+.r3jsviewer #transform-info-div #zoom-info-div::before {
     content: "Zoom:";
 }
 
-#transform-info-div .transform-input {
+.r3jsviewer #transform-info-div .transform-input {
     font-family: monospace;
     height: 2em;
     width: 60px;
@@ -98,38 +94,40 @@ body {
     border-radius: 4px;
     border: none;
     text-align: right;
-    background: hsl(200, 60%, 85%);
+    background: #ffffff;
 }
 
-#info-div {
+.r3jsviewer .transform-input:focus {
+    outline: none;
+}
+
+.r3jsviewer #info-div {
 	position : absolute;
-  top : 4px;
-  left : 4px;
-  padding : 4px;
-  background : #ffffff;
-  font-family : sans-serif, "Arial";
-  font-size : 80%;
-  cursor: auto;
-  z-index: 100;
+    top : 4px;
+    left : 4px;
+    padding : 4px;
+    background : #ffffff;
+    font-family : sans-serif, "Arial";
+    font-size : 80%;
+    cursor: auto;
+    z-index: 100;
 }
 
-#info-div th{
+.r3jsviewer #info-div th{
 	text-align: left;
 }
 
-#info-div td{
+.r3jsviewer #info-div td{
 	font-size: 80%;
 }
 
-#toggle-div {
+.r3jsviewer #toggle-div {
 	position    : absolute;
-    top         : 32px;
-    right       : 8px;
     font-family : sans-serif, "Arial";
 }
 
 
-.toggle {
+.r3jsviewer .toggle {
 	font-size     : 80%;
     margin        : 8px;
     margin-bottom : 12px;
@@ -138,7 +136,7 @@ body {
     cursor        : default;
 }
 
-.transform-div {
+.r3jsviewer .transform-div {
 	position: absolute;
 	left: 6px;
 	bottom: 6px;
@@ -147,7 +145,7 @@ body {
 }
 
 /* General classes */
-.not-selectable {
+.r3jsviewer .not-selectable {
 	-webkit-user-select: none; /* Safari 3.1+ */
   -moz-user-select: none; /* Firefox 2+ */
   -ms-user-select: none; /* IE 10+ */
@@ -156,14 +154,14 @@ body {
 
 
 /* Top-left glyphs */
-.glyph-holder {
+.r3jsviewer .glyph-holder {
 	position : absolute;
     top  : 8px;
     right : 5px;
     z-index: 100;
 }
 
-.glyph-btn {
+.r3jsviewer .glyph-btn {
 	display: inline-block;
 	cursor : pointer;
 	margin-right : 8px;
@@ -173,7 +171,7 @@ body {
     user-select: none; /* Standard syntax */
 }
 
-.glyph-btn:hover {
+.r3jsviewer .glyph-btn:hover {
 	color : #33cccc;
 }
 

@@ -18,7 +18,7 @@ with colors things like which titers are the maximum for each sera."><meta prope
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">Racmacs</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.1.35</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.2.7</span>
       </span>
     </div>
 
@@ -64,16 +64,28 @@ with colors things like which titers are the maximum for each sera.</p>
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">htmlAdjustedTiterTable</span><span class="op">(</span><span class="va">map</span>, optimization_number <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">htmlAdjustedTiterTable</span><span class="op">(</span><span class="va">map</span>, optimization_number <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>map</dt>
 <dd><p>An acmap object</p></dd>
+
+
 <dt>optimization_number</dt>
-<dd><p>The optimization number from which to take the antigen reactivity adjustments</p></dd>
+<dd><p>The optimization number from which to take the
+antigen reactivity adjustments.</p></dd>
+
 </dl></div>
+    <div id="value">
+    <h2>Value</h2>
+    
+
+<p>A list() with a Rac_html_merge_report and shiny.tag class that can
+be converted into an HTML string via as.character() and saved to a file
+with save_html().</p>
+    </div>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
@@ -87,7 +99,7 @@ with colors things like which titers are the maximum for each sera.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer></div>

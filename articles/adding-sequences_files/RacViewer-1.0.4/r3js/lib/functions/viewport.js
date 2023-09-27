@@ -98,6 +98,48 @@ R3JS.Viewport = class Viewport{
               input.addEventListener("change", oninputfn);
             }
 
+            var copylink = document.createElement("div");
+            copylink.style.display = "inline-block";
+            copylink.style.marginLeft = "5px";
+            copylink.style.cursor = "pointer";
+            copylink.innerHTML = "+";
+
+            // var arrow = new SVGShape("0 0 601 591", copypath);
+
+            // copylink.append(arrow.div);
+            // arrow.div.style.width = "10px";
+            // arrow.div.style.position = "relative";
+            // arrow.div.style.top = "1px";
+            // arrow.div.style.color = "white";
+
+            copylink.addEventListener("mousedown", e => {
+              // arrow.div.style.top = "0";
+              // arrow.div.style.width = "8px";
+            });
+
+            copylink.addEventListener("mouseup", e => {
+
+              var copyval = "";
+              for (const axis of ["x", "y", "z"]) {
+                copyval = copyval + this.transform_info[transform][axis].value;
+                if (axis != "z") copyval = copyval + ", ";
+              }
+
+              navigator.clipboard.write([
+                new ClipboardItem({
+                    "text/plain": Promise.resolve(copyval),
+                }),
+              ]);
+
+            });
+
+            copylink.addEventListener("mouseout", e => {
+              // arrow.div.style.top = "1px";
+              // arrow.div.style.width = "10px";
+            });
+
+            this.transform_info[transform].div.appendChild(copylink);
+
         }
 
         // Create zoom info

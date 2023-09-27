@@ -22,7 +22,7 @@ methods you can apply."><meta property="og:image" content="https://acorg.github.
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">Racmacs</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.1.35</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.2.7</span>
       </span>
     </div>
 
@@ -72,50 +72,71 @@ methods you can apply.</p>
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">bootstrapMap</span><span class="op">(</span>
-  <span class="va">map</span>,
-  <span class="va">method</span>,
-  bootstrap_repeats <span class="op">=</span> <span class="fl">1000</span>,
-  bootstrap_ags <span class="op">=</span> <span class="cn">TRUE</span>,
-  bootstrap_sr <span class="op">=</span> <span class="cn">TRUE</span>,
-  reoptimize <span class="op">=</span> <span class="cn">TRUE</span>,
-  optimizations_per_repeat <span class="op">=</span> <span class="fl">100</span>,
-  ag_noise_sd <span class="op">=</span> <span class="fl">0.7</span>,
-  titer_noise_sd <span class="op">=</span> <span class="fl">0.7</span>,
-  options <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">bootstrapMap</span><span class="op">(</span></span>
+<span>  <span class="va">map</span>,</span>
+<span>  <span class="va">method</span>,</span>
+<span>  bootstrap_repeats <span class="op">=</span> <span class="fl">1000</span>,</span>
+<span>  bootstrap_ags <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  bootstrap_sr <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  reoptimize <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  optimizations_per_repeat <span class="op">=</span> <span class="fl">100</span>,</span>
+<span>  ag_noise_sd <span class="op">=</span> <span class="fl">0.7</span>,</span>
+<span>  titer_noise_sd <span class="op">=</span> <span class="fl">0.7</span>,</span>
+<span>  options <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>map</dt>
 <dd><p>The map object</p></dd>
+
+
 <dt>method</dt>
 <dd><p>One of "resample", "bayesian" or "noisy" (see details)</p></dd>
+
+
 <dt>bootstrap_repeats</dt>
 <dd><p>The number of bootstrap repeats to perform</p></dd>
+
+
 <dt>bootstrap_ags</dt>
 <dd><p>For "resample" and "bayesian" methods, whether to apply bootstrapping across antigens</p></dd>
+
+
 <dt>bootstrap_sr</dt>
 <dd><p>For "resample" and "bayesian" methods, whether to apply bootstrapping across sera</p></dd>
+
+
 <dt>reoptimize</dt>
 <dd><p>Should the whole map be reoptimized with each bootstrap run. If FALSE,
 the map is simply relaxed from it's current optimization with each run.</p></dd>
+
+
 <dt>optimizations_per_repeat</dt>
 <dd><p>When re-optimizing the map from scratch, the
 number of optimization runs to perform</p></dd>
+
+
 <dt>ag_noise_sd</dt>
 <dd><p>The standard deviation (on the log titer scale) of measurement noise
 applied per antigen when using the "noisy" method</p></dd>
+
+
 <dt>titer_noise_sd</dt>
 <dd><p>The standard deviation (on the log titer scale) of measurement noise
 applied per titer when using the "noisy" method</p></dd>
+
+
 <dt>options</dt>
 <dd><p>Map optimizer options, see <code><a href="RacOptimizer.options.html">RacOptimizer.options()</a></code></p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>Returns the map object updated with bootstrap information</p>
+    
+
+<p>Returns the map object updated with bootstrap information</p>
     </div>
     <div id="details">
     <h2>Details</h2>
@@ -169,13 +190,21 @@ noise you may expect in your data and set these parameters accordingly.</p>
 <code><a href="bootstrapBlobs.html">bootstrapBlobs</a>()</code>,
 <code><a href="checkHemisphering.html">checkHemisphering</a>()</code>,
 <code><a href="dimensionTestMap.html">dimensionTestMap</a>()</code>,
+<code><a href="logtiterTable.html">logtiterTable</a>()</code>,
 <code><a href="map-table-distances.html">map-table-distances</a></code>,
 <code><a href="mapBootstrapCoords.html">mapBootstrapCoords</a></code>,
+<code><a href="mapDistances.html">mapDistances</a>()</code>,
 <code><a href="mapRelaxed.html">mapRelaxed</a>()</code>,
+<code><a href="mapResiduals.html">mapResiduals</a>()</code>,
+<code><a href="pointStress.html">pointStress</a></code>,
 <code><a href="ptBootstrapBlob.html">ptBootstrapBlob</a></code>,
 <code><a href="ptBootstrapCoords.html">ptBootstrapCoords</a>()</code>,
 <code><a href="ptLeverage.html">ptLeverage</a></code>,
-<code><a href="ptTriangulationBlobsize.html">ptTriangulationBlobsize</a></code>,
+<code><a href="ptTriangulationBlob.html">ptTriangulationBlob</a></code>,
+<code><a href="recalculateStress.html">recalculateStress</a>()</code>,
+<code><a href="stressTable.html">stressTable</a>()</code>,
+<code><a href="tableColbases.html">tableColbases</a>()</code>,
+<code><a href="tableDistances.html">tableDistances</a>()</code>,
 <code><a href="triangulationBlobs.html">triangulationBlobs</a>()</code>,
 <code><a href="unstableMaps.html">unstableMaps</a></code></p></div>
     </div>
@@ -192,7 +221,7 @@ noise you may expect in your data and set these parameters accordingly.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer></div>

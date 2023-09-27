@@ -18,8 +18,8 @@ Racmacs.App.prototype.onMoveTrappedPoints     = function(){ console.log("Find tr
 Racmacs.App.prototype.onCheckHemisphering     = function(){ console.log("Check hemisphering") }
 Racmacs.App.prototype.onAddTriangulationBlobs = function(args){ console.log(args) }
 Racmacs.App.prototype.onProcrustes            = function(args){ console.log(args) }
-Racmacs.App.prototype.onSelectPoint           = function(axis){ console.log("Point selected") }
-Racmacs.App.prototype.onDeselectPoint         = function(axis){ console.log("Point deselected") }
+Racmacs.App.prototype.onSelectPoint           = function(){ console.log("Point selected") }
+Racmacs.App.prototype.onDeselectPoint         = function(){ console.log("Point deselected") }
 
 // Manipulating the control panel
 Racmacs.App.prototype.showControlPanel = function(){
@@ -126,24 +126,76 @@ Racmacs.App.prototype.selectByPointIndices = function(indices){
 
 }
 
-Racmacs.App.prototype.selectPointsByIndices = function(indices){
+Racmacs.App.prototype.deselectAllPoints = function(fire_handler = true){
 
-    indices.map( i => this.points[i].select() );
-
-}
-
-Racmacs.App.prototype.selectAntigensByIndices = function(indices){
-
-    indices.map( i => this.antigens[i].select() );
+    this.points.map( p => p.deselect(fire_handler) );
 
 }
 
-Racmacs.App.prototype.selectSeraByIndices = function(indices){
+Racmacs.App.prototype.selectPointsByIndices = function(indices, fire_handler = true){
 
-    indices.map( i => this.sera[i].select() );
+    indices.map( i => this.points[i].select(fire_handler) );
 
 }
 
+Racmacs.App.prototype.selectAntigensByIndices = function(indices, fire_handler = true){
+
+    indices.map( i => this.antigens[i].select(fire_handler) );
+
+}
+
+Racmacs.App.prototype.selectSeraByIndices = function(indices, fire_handler = true){
+
+    indices.map( i => this.sera[i].select(fire_handler) );
+
+}
+
+Racmacs.App.prototype.selectAntigensByName = function(names, fire_handler = true){
+
+    this.antigens.map( p => names.indexOf(p.name) !== -1 ? p.select(fire_handler): null );
+
+}
+
+Racmacs.App.prototype.selectSeraByName = function(names, fire_handler = true){
+
+    this.sera.map( p => names.indexOf(p.name) !== -1 ? p.select(fire_handler): null );
+
+}
+
+
+// Showing and hiding
+Racmacs.App.prototype.hideAllPoints = function(fire_handler = true){
+
+    this.points.map( p => p.hide() );
+
+}
+
+Racmacs.App.prototype.hideAllAntigens = function(fire_handler = true){
+
+    this.antigens.map( p => p.hide() );
+
+}
+
+Racmacs.App.prototype.hideAllSera = function(fire_handler = true){
+    
+    this.sera.map( p => p.hide() );
+
+}
+
+Racmacs.App.prototype.showAntigensByName = function(names, fire_handler = true){
+
+    this.antigens.map( p => names.indexOf(p.name) !== -1 ? p.show(fire_handler): null );
+
+}
+
+Racmacs.App.prototype.showSeraByName = function(names, fire_handler = true){
+
+    this.sera.map( p => names.indexOf(p.name) !== -1 ? p.show(fire_handler): null );
+
+}
+
+
+// Transformations
 Racmacs.App.prototype.reflect = function(axis){
 
     // this.scene.reflect(axis);

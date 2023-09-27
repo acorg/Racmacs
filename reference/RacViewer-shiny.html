@@ -18,7 +18,7 @@ applications and interactive Rmd documents."><meta property="og:image" content="
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">Racmacs</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.1.35</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.2.7</span>
       </span>
     </div>
 
@@ -64,31 +64,48 @@ applications and interactive Rmd documents.</p>
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">RacViewerOutput</span><span class="op">(</span><span class="va">outputId</span>, width <span class="op">=</span> <span class="st">"100%"</span>, height <span class="op">=</span> <span class="st">"100%"</span><span class="op">)</span>
-
-<span class="fu">renderRacViewer</span><span class="op">(</span><span class="va">expr</span>, env <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sys.parent.html" class="external-link">parent.frame</a></span><span class="op">(</span><span class="op">)</span>, quoted <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">RacViewerOutput</span><span class="op">(</span><span class="va">outputId</span>, width <span class="op">=</span> <span class="st">"100%"</span>, height <span class="op">=</span> <span class="st">"100%"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">renderRacViewer</span><span class="op">(</span><span class="va">expr</span>, env <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sys.parent.html" class="external-link">parent.frame</a></span><span class="op">(</span><span class="op">)</span>, quoted <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>outputId</dt>
 <dd><p>output variable to read from</p></dd>
+
+
 <dt>width, height</dt>
 <dd><p>Must be a valid CSS unit (like <code>'100%'</code>,
 <code>'400px'</code>, <code>'auto'</code>) or a number, which will be coerced to a
 string and have <code>'px'</code> appended.</p></dd>
+
+
 <dt>expr</dt>
 <dd><p>An expression that generates a RacViewer</p></dd>
+
+
 <dt>env</dt>
 <dd><p>The environment in which to evaluate <code>expr</code>.</p></dd>
+
+
 <dt>quoted</dt>
 <dd><p>Is <code>expr</code> a quoted expression (with <code><a href="https://rdrr.io/r/base/substitute.html" class="external-link">quote()</a></code>)? This
 is useful if you want to save an expression in a variable.</p></dd>
+
 </dl></div>
+    <div id="value">
+    <h2>Value</h2>
+    
+
+<p>An output or render function that enables the use of the widget
+within Shiny applications.</p>
+    </div>
     <div id="see-also">
     <h2>See also</h2>
     <div class="dont-index"><p>Other shiny app functions: 
-<code><a href="runGUI.html">runGUI</a>()</code></p></div>
+<code><a href="runGUI.html">runGUI</a>()</code>,
+<code><a href="view.acmap.html">view.acmap</a>()</code></p></div>
     </div>
 
   </div>
@@ -103,7 +120,7 @@ is useful if you want to save an expression in a variable.</p></dd>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer></div>

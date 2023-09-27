@@ -359,7 +359,16 @@ Racmacs.utils.lineTowardsPoint = function(
 
 }
 
-
+Racmacs.utils.colorPalette = [
+  new THREE.Color("#ff0004"),
+  new THREE.Color("#0084f0"),
+  new THREE.Color("#14ed0c"),
+  new THREE.Color("#d000f0"),
+  new THREE.Color("#ff7f00"),
+  new THREE.Color("#ffff33"),
+  new THREE.Color("#cc4b00"),
+  new THREE.Color("#ff7ac1")
+];
 
 //     inputs: [
 //         { id: "numruns",     label : "Number of optimisations" },

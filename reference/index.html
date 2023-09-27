@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">Racmacs</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.1.35</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.2.7</span>
       </span>
     </div>
 
@@ -232,9 +232,9 @@
         </td>
         <td><p>Get individual point stress</p></td>
       </tr><tr><td>
-          <p><code><a href="ptBootstrapBlob.html">agBootstrapBlob()</a></code> <code><a href="ptBootstrapBlob.html">srBootstrapBlob()</a></code> </p>
+          <p><code><a href="ptBootstrapBlob.html">agBootstrapBlob()</a></code> <code><a href="ptBootstrapBlob.html">srBootstrapBlob()</a></code> <code><a href="ptBootstrapBlob.html">agBootstrapBlobs()</a></code> <code><a href="ptBootstrapBlob.html">srBootstrapBlobs()</a></code> <code><a href="ptBootstrapBlob.html">ptBootstrapBlobs()</a></code> </p>
         </td>
-        <td><p>Get antigen or serum blob information</p></td>
+        <td><p>Get antigen or serum bootstrap blob information</p></td>
       </tr><tr><td>
           <p><code><a href="ptBootstrapCoords.html">ptBootstrapCoords()</a></code> <code><a href="ptBootstrapCoords.html">agBootstrapCoords()</a></code> <code><a href="ptBootstrapCoords.html">srBootstrapCoords()</a></code> </p>
         </td>
@@ -244,9 +244,9 @@
         </td>
         <td><p>Calculate point leverage</p></td>
       </tr><tr><td>
-          <p><code><a href="ptTriangulationBlobsize.html">agTriangulationBlobSize()</a></code> <code><a href="ptTriangulationBlobsize.html">srTriangulationBlobSize()</a></code> </p>
+          <p><code><a href="ptTriangulationBlob.html">agTriangulationBlob()</a></code> <code><a href="ptTriangulationBlob.html">srTriangulationBlob()</a></code> <code><a href="ptTriangulationBlob.html">agTriangulationBlobs()</a></code> <code><a href="ptTriangulationBlob.html">srTriangulationBlobs()</a></code> <code><a href="ptTriangulationBlob.html">ptTriangulationBlobs()</a></code> </p>
         </td>
-        <td><p>Fetch information on triangulation blob size</p></td>
+        <td><p>Get antigen or serum triangulation blob information</p></td>
       </tr><tr><td>
           <p><code><a href="recalculateStress.html">recalculateStress()</a></code> </p>
         </td>
@@ -288,9 +288,9 @@
         </td>
         <td><p>Export the map viewer</p></td>
       </tr><tr><td>
-          <p><code><a href="grid.plot.acmap.html">grid.plot.acmap()</a></code> </p>
+          <p><code><a href="ggplot.acmap.html">ggplot(<i>&lt;acmap&gt;</i>)</a></code> </p>
         </td>
-        <td><p>Plot an antigenic map using the grid system</p></td>
+        <td><p>Plot an antigenic map using ggplot</p></td>
       </tr><tr><td>
           <p><code><a href="mapGadget.html">mapGadget()</a></code> </p>
         </td>
@@ -303,10 +303,6 @@
           <p><code><a href="setLegend.html">setLegend()</a></code> </p>
         </td>
         <td><p>Set acmap legend</p></td>
-      </tr><tr><td>
-          <p><code><a href="snapshotMap.html">snapshotMap()</a></code> </p>
-        </td>
-        <td><p>Create a map snapshot</p></td>
       </tr><tr><td>
           <p><code><a href="view.html">view()</a></code> </p>
         </td>
@@ -375,6 +371,10 @@
           <p><code><a href="agGroups.html">agGroups()</a></code> <code><a href="agGroups.html">`agGroups&lt;-`()</a></code> </p>
         </td>
         <td><p>Getting and setting antigen groups</p></td>
+      </tr><tr><td>
+          <p><code><a href="agHomologousSr.html">agHomologousSr()</a></code> </p>
+        </td>
+        <td><p>Get homologous sera for each antigen</p></td>
       </tr><tr><td>
           <p><code><a href="agLabIDs.html">agLabIDs()</a></code> <code><a href="agLabIDs.html">`agLabIDs&lt;-`()</a></code> </p>
         </td>
@@ -544,6 +544,10 @@ corresponding to one of the layers</p></td>
           <p><code><a href="blob.html">blob()</a></code> </p>
         </td>
         <td><p>Plot a blob object</p></td>
+      </tr><tr><td>
+          <p><code><a href="blobsize.html">blobsize()</a></code> </p>
+        </td>
+        <td><p>Calculate size of a blob object</p></td>
       </tr></tbody><tbody><tr><th colspan="2">
           <h2 id="using-the-shiny-app">Using the shiny app <a href="#using-the-shiny-app" class="anchor" aria-hidden="true"></a></h2>
           <p class="section-desc"></p>
@@ -556,6 +560,10 @@ corresponding to one of the layers</p></td>
           <p><code><a href="runGUI.html">runGUI()</a></code> </p>
         </td>
         <td><p>Open the Racmacs GUI</p></td>
+      </tr><tr><td>
+          <p><code><a href="view.acmap.html">view(<i>&lt;acmap&gt;</i>)</a></code> </p>
+        </td>
+        <td><p>Viewing racmap objects</p></td>
       </tr></tbody><tbody><tr><th colspan="2">
           <h2 id="viewing-titers">Viewing titers <a href="#viewing-titers" class="anchor" aria-hidden="true"></a></h2>
           <p class="section-desc"></p>
@@ -589,7 +597,7 @@ corresponding to one of the layers</p></td>
           <p class="section-desc"></p>
         </th>
       </tr></tbody><tbody><tr><td>
-          <p><code><a href="deprecated_functions.html">stressBlobs()</a></code> <code><a href="deprecated_functions.html">agStressBlobSize()</a></code> <code><a href="deprecated_functions.html">srStressBlobSize()</a></code> </p>
+          <p><code><a href="deprecated_functions.html">stressBlobs()</a></code> </p>
         </td>
         <td><p>Deprecated functions</p></td>
       </tr></tbody></table></div>
@@ -605,7 +613,7 @@ corresponding to one of the layers</p></td>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer></div>

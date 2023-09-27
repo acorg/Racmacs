@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">Racmacs</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.1.35</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.2.7</span>
       </span>
     </div>
 
@@ -62,28 +62,37 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">ptBootstrapCoords</span><span class="op">(</span><span class="va">map</span>, <span class="va">point</span><span class="op">)</span>
-
-<span class="fu">agBootstrapCoords</span><span class="op">(</span><span class="va">map</span>, <span class="va">antigen</span><span class="op">)</span>
-
-<span class="fu">srBootstrapCoords</span><span class="op">(</span><span class="va">map</span>, <span class="va">serum</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">ptBootstrapCoords</span><span class="op">(</span><span class="va">map</span>, <span class="va">point</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">agBootstrapCoords</span><span class="op">(</span><span class="va">map</span>, <span class="va">antigen</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">srBootstrapCoords</span><span class="op">(</span><span class="va">map</span>, <span class="va">serum</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>map</dt>
 <dd><p>An acmap object</p></dd>
+
+
 <dt>point</dt>
 <dd><p>The point from which to get the bootstrap coords (numbered
 antigens then sera)</p></dd>
+
+
 <dt>antigen</dt>
 <dd><p>The antigen to get the bootstrap coords</p></dd>
+
+
 <dt>serum</dt>
 <dd><p>The serum from which to get the bootstrap coords</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>Returns a matrix of coordinates for the point in each of the
+    
+
+<p>Returns a matrix of coordinates for the point in each of the
 bootstrap runs</p>
     </div>
     <div id="see-also">
@@ -94,12 +103,20 @@ bootstrap runs</p>
 <code><a href="bootstrapMap.html">bootstrapMap</a>()</code>,
 <code><a href="checkHemisphering.html">checkHemisphering</a>()</code>,
 <code><a href="dimensionTestMap.html">dimensionTestMap</a>()</code>,
+<code><a href="logtiterTable.html">logtiterTable</a>()</code>,
 <code><a href="map-table-distances.html">map-table-distances</a></code>,
 <code><a href="mapBootstrapCoords.html">mapBootstrapCoords</a></code>,
+<code><a href="mapDistances.html">mapDistances</a>()</code>,
 <code><a href="mapRelaxed.html">mapRelaxed</a>()</code>,
+<code><a href="mapResiduals.html">mapResiduals</a>()</code>,
+<code><a href="pointStress.html">pointStress</a></code>,
 <code><a href="ptBootstrapBlob.html">ptBootstrapBlob</a></code>,
 <code><a href="ptLeverage.html">ptLeverage</a></code>,
-<code><a href="ptTriangulationBlobsize.html">ptTriangulationBlobsize</a></code>,
+<code><a href="ptTriangulationBlob.html">ptTriangulationBlob</a></code>,
+<code><a href="recalculateStress.html">recalculateStress</a>()</code>,
+<code><a href="stressTable.html">stressTable</a>()</code>,
+<code><a href="tableColbases.html">tableColbases</a>()</code>,
+<code><a href="tableDistances.html">tableDistances</a>()</code>,
 <code><a href="triangulationBlobs.html">triangulationBlobs</a>()</code>,
 <code><a href="unstableMaps.html">unstableMaps</a></code></p></div>
     </div>
@@ -116,7 +133,7 @@ bootstrap runs</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer></div>

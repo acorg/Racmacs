@@ -18,7 +18,7 @@ option settings."><meta property="og:image" content="https://acorg.github.io/Rac
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">Racmacs</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.1.35</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.2.7</span>
       </span>
     </div>
 
@@ -64,18 +64,22 @@ option settings.</p>
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">RacViewer.options</span><span class="op">(</span>
-  point.opacity <span class="op">=</span> <span class="cn">NA</span>,
-  viewer.controls <span class="op">=</span> <span class="st">"hidden"</span>,
-  grid.display <span class="op">=</span> <span class="st">"static"</span>,
-  grid.col <span class="op">=</span> <span class="st">"#cfcfcf"</span>,
-  show.names <span class="op">=</span> <span class="cn">FALSE</span>,
-  show.errorlines <span class="op">=</span> <span class="cn">FALSE</span>,
-  show.connectionlines <span class="op">=</span> <span class="cn">FALSE</span>,
-  show.titers <span class="op">=</span> <span class="cn">FALSE</span>,
-  xlim <span class="op">=</span> <span class="cn">NULL</span>,
-  ylim <span class="op">=</span> <span class="cn">NULL</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">RacViewer.options</span><span class="op">(</span></span>
+<span>  point.opacity <span class="op">=</span> <span class="cn">NA</span>,</span>
+<span>  viewer.controls <span class="op">=</span> <span class="st">"hidden"</span>,</span>
+<span>  grid.display <span class="op">=</span> <span class="st">"static"</span>,</span>
+<span>  grid.col <span class="op">=</span> <span class="st">"#cfcfcf"</span>,</span>
+<span>  background.col <span class="op">=</span> <span class="st">"#ffffff"</span>,</span>
+<span>  show.names <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  show.errorlines <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  show.connectionlines <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  show.titers <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  xlim <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  ylim <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  translation <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span><span class="op">)</span>,</span>
+<span>  rotation <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span><span class="op">)</span>,</span>
+<span>  zoom <span class="op">=</span> <span class="cn">NULL</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -83,41 +87,78 @@ option settings.</p>
     <dl><dt>point.opacity</dt>
 <dd><p>Default opacity for unselected points, or "inherit" to take
 opacity from the color values themselves.</p></dd>
+
+
 <dt>viewer.controls</dt>
 <dd><p>Should viewer controls be shown or hidden by default?</p></dd>
+
+
 <dt>grid.display</dt>
 <dd><p>For 3d maps, should the grid be fixed in the background
 or enclose and rotate along with the map</p></dd>
+
+
 <dt>grid.col</dt>
 <dd><p>Color to use for the grid shown behind the map</p></dd>
+
+
+<dt>background.col</dt>
+<dd><p>Color for the viewer background</p></dd>
+
+
 <dt>show.names</dt>
 <dd><p>Toggle name labels on, can be true or false or "antigens"
 or "sera"</p></dd>
+
+
 <dt>show.errorlines</dt>
 <dd><p>Toggle error lines on</p></dd>
+
+
 <dt>show.connectionlines</dt>
 <dd><p>Toggle connection lines on</p></dd>
+
+
 <dt>show.titers</dt>
 <dd><p>Toggle titer labels on</p></dd>
+
+
 <dt>xlim</dt>
 <dd><p>x limits to zoom the plot to</p></dd>
+
+
 <dt>ylim</dt>
 <dd><p>y limits to zoom the plot to</p></dd>
+
+
+<dt>translation</dt>
+<dd><p>Plot starting translation</p></dd>
+
+
+<dt>rotation</dt>
+<dd><p>Plot starting rotation as an XYZ Euler rotation</p></dd>
+
+
+<dt>zoom</dt>
+<dd><p>Plot starting zoom factor</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>Returns a named list of viewer options</p>
+    
+
+<p>Returns a named list of viewer options</p>
     </div>
     <div id="see-also">
     <h2>See also</h2>
     <div class="dont-index"><p>Other functions to view maps: 
 <code><a href="RacViewer.html">RacViewer</a>()</code>,
 <code><a href="export_viewer.html">export_viewer</a>()</code>,
-<code><a href="grid.plot.acmap.html">grid.plot.acmap</a>()</code>,
+<code><a href="ggplot.acmap.html">ggplot.acmap</a>()</code>,
 <code><a href="mapGadget.html">mapGadget</a>()</code>,
 <code><a href="plot.acmap.html">plot.acmap</a>()</code>,
 <code><a href="setLegend.html">setLegend</a>()</code>,
-<code><a href="snapshotMap.html">snapshotMap</a>()</code>,
+<code><a href="view.acmap.html">view.acmap</a>()</code>,
 <code><a href="view.default.html">view.default</a>()</code>,
 <code><a href="view.html">view</a>()</code></p></div>
     </div>
@@ -134,7 +175,7 @@ or "sera"</p></dd>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer></div>

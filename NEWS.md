@@ -221,3 +221,6 @@
 # Racmacs 1.2.7
 * `on.exit()` calls added to code in `R/map_plot.R` and `inst/shinyapps/RacmacsGUI/app.R` where changes to graphical parameters and user options are made.
 * `snapshotMap()` function removed.
+
+# Racmacs 1.2.8
+* Function `splitTiterLayers()` now exported.

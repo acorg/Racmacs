@@ -296,7 +296,10 @@ RacMerge.options <- function(
 #'
 #' @param map An acmap object with titer table layers
 #'
+#' @returns A list of acmap objects
+#'
 #' @family map merging functions
+#' @export
 #'
 splitTiterLayers <- function(
   map

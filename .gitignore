@@ -10,6 +10,7 @@
 *.o
 *.o.tmp
 *.code-workspace
+*.afdesign
 .vscode*
 doc
 inst/doc

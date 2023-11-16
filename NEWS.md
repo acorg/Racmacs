@@ -224,3 +224,4 @@
 
 # Racmacs 1.2.8
 * Function `splitTiterLayers()` now exported.
+* Use `readxl::read_excel()` for reading excel files instead of `gdata::read.xls()`

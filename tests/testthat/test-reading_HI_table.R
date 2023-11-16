@@ -25,6 +25,16 @@ test_that("Reading a .csv table", {
 
 })
 
+# Read an .xlsx file
+test_that("Reading an .xlsx file", {
+
+  expect_equal(
+    read.titerTable(test_path("../testdata/titer_tables/titer_table1.xlsx")),
+    read.titerTable(test_path("../testdata/titer_tables/titer_table1.csv"))
+  )
+
+})
+
 # Read file with asterisks
 test_that("Reading a table with asterisks", {
 

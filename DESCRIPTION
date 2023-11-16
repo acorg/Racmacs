@@ -47,7 +47,7 @@ Suggests:
     rstudioapi,
     plotly,
     geometry,
-    gdata,
+    readxl,
     stringr,
     tibble,
     tidyr,

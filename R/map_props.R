@@ -107,6 +107,7 @@ titerTable <- function(map) {
 #' @returns Returns a character matrix of titers.
 #'
 #' @name titerTableFlat
+#' @family map attribute functions
 #'
 
 #' @rdname titerTableFlat

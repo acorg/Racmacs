@@ -30,3 +30,16 @@ titers through \verb{titerTable<-()} titer table layers are lost. These function
 allow you to manipulate the flat version without affecting the titer table
 layers information.
 }
+\seealso{
+Other map attribute functions: 
+\code{\link{acmapAttributes}},
+\code{\link{adjustedLogTiterTable}()},
+\code{\link{adjustedTiterTable}()},
+\code{\link{dilutionStepsize}()},
+\code{\link{logtiterTableLayers}()},
+\code{\link{mapDescription}()},
+\code{\link{mapName}()},
+\code{\link{titerTableLayers}()},
+\code{\link{titerTable}()}
+}
+\concept{map attribute functions}

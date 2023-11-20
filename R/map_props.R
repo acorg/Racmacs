@@ -101,7 +101,13 @@ titerTable <- function(map) {
 #' allow you to manipulate the flat version without affecting the titer table
 #' layers information.
 #'
+#' @param map The acmap object
+#' @param value A character matrix of titers to set
+#'
+#' @returns Returns a character matrix of titers.
+#'
 #' @name titerTableFlat
+#'
 
 #' @rdname titerTableFlat
 titerTableFlat <- function(map) {

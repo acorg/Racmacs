@@ -9,6 +9,14 @@ titerTableFlat(map)
 
 titerTableFlat(map) <- value
 }
+\arguments{
+\item{map}{The acmap object}
+
+\item{value}{A character matrix of titers to set}
+}
+\value{
+Returns a character matrix of titers.
+}
 \description{
 These are underlying functions to get and set the "flat" version of the titer
 table only. When a map is merged, the titer tables are merged but a record of

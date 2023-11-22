@@ -53,7 +53,8 @@ Suggests:
     tidyr,
     base64enc,
     lifecycle,
-    MCMCpack
+    MCMCpack,
+    spelling
 LinkingTo: 
     Rcpp, 
     RcppArmadillo, 
@@ -67,3 +68,4 @@ VignetteBuilder: knitr
 URL: https://acorg.github.io/Racmacs/, https://github.com/acorg/Racmacs/
 BugReports: https://github.com/acorg/Racmacs/issues
 License: AGPL-3
+Language: en-GB

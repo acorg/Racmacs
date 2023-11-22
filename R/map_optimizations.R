@@ -107,7 +107,7 @@ listOptimizations <- function(map) {
 
 #' Get optimization details from an acmap object
 #'
-#' Gets the details associated with the currently selected or specifed acmap
+#' Gets the details associated with the currently selected or specified acmap
 #' optimization as a list.
 #'
 #' @param map The acmap data object

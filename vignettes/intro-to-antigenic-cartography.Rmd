@@ -100,7 +100,7 @@ __Bias__
 While antigenic maps generally do a good job of accounting for random assay noise they are still vulnerable to systematic assay bias, for example if a strain tends to just react with low titers in general in the assay this will often cause the strain to move away antigenically, since low serum titers can also be associated with antigenic change.
 
 __Effect of outliers__  
-Depending on how much data goes into making a map it can be more or less vulnerable to outliers in the data. Even maps with quite a lot of data can be vulnerable to for example the odd sera that justs reacts to everything in the assay for example. This is a good thing to look for and be aware of.
+Depending on how much data goes into making a map it can be more or less vulnerable to outliers in the data. Even maps with quite a lot of data can be vulnerable to for example the odd sera that just reacts to everything in the assay for example. This is a good thing to look for and be aware of.
 
 __Map uncertainty__  
 Again, especially with little data, you may see patterns of antigenic difference suggested in the map but how strongly these differences are supported by the data can vary, sometimes hinging on reactivity seen in a single antigen or serum or even titer. We continue to develop methods like "noisy bootstrapping" of the maps to help better understand the level of uncertainty in such cases.

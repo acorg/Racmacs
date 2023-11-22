@@ -20,7 +20,7 @@ moveTrappedPoints(
 \item{grid_spacing}{Grid spacing in antigenic units of the search grid to use
 when searching for more optimal positions}
 
-\item{max_iterations}{The maximum number of interations of searching for
+\item{max_iterations}{The maximum number of iterations of searching for
 trapped points then relaxing the map to be performed}
 
 \item{options}{List of named optimizer options, see \code{RacOptimizer.options()}}

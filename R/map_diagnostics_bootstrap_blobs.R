@@ -11,7 +11,7 @@
 #' in the bootstrap repeats. Note however that the accuracy of these estimates
 #' will depend on the number of bootstrap repeats performed, for example whether
 #' 100 or 1000 repeats were performed in the initial calculations using
-#' `boostrapMap()`.
+#' `bootstrapMap()`.
 #'
 #' @param map The acmap data object
 #' @param conf.level The proportion of positional variation captured by each blob

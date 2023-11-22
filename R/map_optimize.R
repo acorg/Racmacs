@@ -520,7 +520,7 @@ mapRelaxed <- function(
 #' @param optimization_number The map optimization number
 #' @param grid_spacing When doing a grid search of more optimal point positions
 #'   the grid spacing to use
-#' @param stress_lim The stess difference to use when classifying a point as
+#' @param stress_lim The stress difference to use when classifying a point as
 #'   "hemisphering" or not
 #' @param options A named list of options to pass to `RacOptimizer.options()`
 #'
@@ -602,7 +602,7 @@ checkHemisphering <- function(
 #' @param optimization_number The map optimization number to apply it to
 #' @param grid_spacing Grid spacing in antigenic units of the search grid to use
 #'   when searching for more optimal positions
-#' @param max_iterations The maximum number of interations of searching for
+#' @param max_iterations The maximum number of iterations of searching for
 #'   trapped points then relaxing the map to be performed
 #' @param options List of named optimizer options, see `RacOptimizer.options()`
 #'

@@ -42,7 +42,7 @@ vector of values.
 
 Note that although the output from \code{colBases()} might be the same in a case
 where a minimum column basis was set or a case where column bases were set
-explcitely, when a minimum column basis is set, the column bases will still
+explicitly, when a minimum column basis is set, the column bases will still
 depend on the log titers recorded against a given sera, so changing the
 titers may therefore change the actual column bases calculated. For fixed
 column bases case, column bases will remain fixed at their values

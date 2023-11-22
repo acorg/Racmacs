@@ -29,7 +29,7 @@ ptTriangulationBlobs(map, optimization_number = 1)
 \item{serum}{The serum to get the blob for}
 }
 \value{
-Returns an object of class "blob" that can be plotted using the \code{blob()} funciton.
+Returns an object of class "blob" that can be plotted using the \code{blob()} function.
 }
 \description{
 Get antigen or serum triangulation blob information for plotting with the \code{blob()} function.

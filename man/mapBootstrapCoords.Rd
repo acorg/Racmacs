@@ -22,7 +22,7 @@ the bootstrap runs
 }
 \description{
 This can be used to get information about the bootstrap run results
-after \code{boostrapMap()} has been run.
+after \code{bootstrapMap()} has been run.
 }
 \seealso{
 Other map diagnostic functions: 

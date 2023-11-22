@@ -48,7 +48,7 @@ blobs that are calculated to encompass 95\% of the positional variation seen
 in the bootstrap repeats. Note however that the accuracy of these estimates
 will depend on the number of bootstrap repeats performed, for example whether
 100 or 1000 repeats were performed in the initial calculations using
-\code{boostrapMap()}.
+\code{bootstrapMap()}.
 }
 \seealso{
 Other map diagnostic functions: 

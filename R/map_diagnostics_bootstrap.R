@@ -26,7 +26,7 @@
 #' @details ## Bootstrapping methods
 #'
 #'   __"resample"__:
-#'   The [resample boostrap](https://en.wikipedia.org/wiki/Bootstrapping_(statistics)#Case_resampling)
+#'   The [resample bootstrap](https://en.wikipedia.org/wiki/Bootstrapping_(statistics)#Case_resampling)
 #'   is the most standard bootstrap method, a random resample of the titer table data is
 #'   taken _with replacement_. Depending on your specification, resampling is applied across
 #'   either individual antigens, individual sera or both antigens and sera.
@@ -53,7 +53,7 @@
 #'  The noisy bootstrap, sometimes termed a
 #'  [smooth bootstrap](https://en.wikipedia.org/wiki/Bootstrapping_(statistics)#Smooth_bootstrap)
 #'  involved adding normally distributed noise to each observation. The distribution of this noise can
-#'  be parametrised through the `ag_noise_sd` and `titer_noise_sd` arguments. `titer_noise_sd` refers to the
+#'  be parameterised through the `ag_noise_sd` and `titer_noise_sd` arguments. `titer_noise_sd` refers to the
 #'  standard deviation (on the log scale) of noise added to each individual titer measurement in the table,
 #'  while `antigen_noise_sd` refers to the standard deviation of noise applied to titers for each antigen.
 #'  The reason for this distinction is that we have noticed with repeat measurements of influenza data there
@@ -158,7 +158,7 @@ hasBootstrapData <- function(map, optimization_number) {
 #' Get bootstrap coordinates associated with a map
 #'
 #' This can be used to get information about the bootstrap run results
-#' after `boostrapMap()` has been run.
+#' after `bootstrapMap()` has been run.
 #'
 #' @param map The map object
 #'

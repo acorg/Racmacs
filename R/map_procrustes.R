@@ -208,7 +208,7 @@ hasProcrustes <- function(map, optimization_number = 1) {
 
 #' Realigns optimizations in the map
 #'
-#' Realigns all map optimizations through rotatation and translation to match
+#' Realigns all map optimizations through rotation and translation to match
 #' point positions as closely as possible to the first optimization run. This
 #' is done by default when optimizing a map and makes comparing point positions
 #' in each optimization run much easier to do by eye.

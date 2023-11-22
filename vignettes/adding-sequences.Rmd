@@ -46,7 +46,7 @@ srSequences(map) <- sr_sequences
 
 ```
 
-Note that when adding the sequence data, the expected format is a dense character matrix, any row or column names are ignored and it is assumed that there will be a row corresponding to the sequence for each antigen or sera. Missing sequences for an antigen or sera are encoded by a row of dashes `-`. Sequence positions will be labelled by column number, starting from 1, and there's currently not yet support for labelling sequence positions differently by column name or anything like that but it might be added in the future.
+Note that when adding the sequence data, the expected format is a dense character matrix, any row or column names are ignored and it is assumed that there will be a row corresponding to the sequence for each antigen or sera. Missing sequences for an antigen or sera are encoded by a row of dashes `-`. Sequence positions will be labelled by column number, starting from 1, and there's currently not yet support for labeling sequence positions differently by column name or anything like that but it might be added in the future.
 
 ## Viewing sequence data
 Now that sequence data has been added to the map object, it will be available to view alongside the map when `view()` is called on the map object.

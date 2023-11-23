@@ -7,15 +7,15 @@ Racmacs.Viewer.prototype.load = function(
     light
     ){
 
-    // Set default options    
+    // Set default options
     if (options["grid.col"] === undefined) options["grid.col"] = "#cfcfcf";
     if (options["background.col"] === undefined) options["background.col"] = "#ffffff";
     if (options["point.opacity"] === undefined || options["point.opacity"] === null) {
         options["point.opacity"] = this.styleset.noselections.unhovered.unselected.opacity;
     };
 
-    if(options.maintain_viewpoint){ 
-        var selected_points = this.getSelectedPointIndices(); 
+    if(options.maintain_viewpoint){
+        var selected_points = this.getSelectedPointIndices();
         var selected_projection = this.data.projection();
     }
 
@@ -155,7 +155,7 @@ Racmacs.Viewer.prototype.load = function(
 
         }
 
-        // Add any boostrap info
+        // Add any bootstrap info
         var bootstrap = this.data.bootstrap();
         if(bootstrap !== undefined){
             this.showBootstrapPoints(bootstrap);
@@ -171,10 +171,10 @@ Racmacs.Viewer.prototype.load = function(
 
         // Set camera zoom
         if(this.data.numProjections() > 0 && !options.maintain_viewpoint) {
-        
+
             var zoom = this.data.getViewerSetting("zoom");
             if(zoom === null){
-                
+
                 var scale = this.scene.getWorldScale();
                 xlim = [xlim[0]*scale[0], xlim[1]*scale[0]];
                 ylim = [ylim[0]*scale[1], ylim[1]*scale[1]];
@@ -227,7 +227,7 @@ Racmacs.Viewer.prototype.load = function(
             this.colorpanel.showColorByGroup();
 
         } else {
-            
+
             this.colorpanel.hideColorByGroup();
 
         }
@@ -257,8 +257,8 @@ Racmacs.Viewer.prototype.load = function(
         this.updatePointStyles();
 
         // Reselect any points
-        if(options.maintain_viewpoint){ 
-            this.selectByPointIndices(selected_points); 
+        if(options.maintain_viewpoint){
+            this.selectByPointIndices(selected_points);
             this.switchToProjection(selected_projection);
         }
 

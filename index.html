@@ -49,7 +49,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">Racmacs</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.2.7</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.2.8</span>
       </span>
     </div>
 
@@ -102,24 +102,35 @@
 <h2 id="installation-instructions">Installation instructions<a class="anchor" aria-label="anchor" href="#installation-instructions"></a>
 </h2>
 <div class="section level3">
-<h3 id="install-the-devtools-package">Install the devtools package<a class="anchor" aria-label="anchor" href="#install-the-devtools-package"></a>
+<h3 id="installing-the-latest-cran-release">Installing the latest CRAN release<a class="anchor" aria-label="anchor" href="#installing-the-latest-cran-release"></a>
 </h3>
-<p>If not already installed, install the <code>devtools</code> package, this provides functions to help with installation.</p>
+<p>Pre-compiled version of Racmacs can now be installed directly from CRAN with:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"devtools"</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"Racmacs"</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level3">
-<h3 id="install-racmacs">Install Racmacs<a class="anchor" aria-label="anchor" href="#install-racmacs"></a>
+<h3 id="installing-the-latest-development-release">Installing the latest development release<a class="anchor" aria-label="anchor" href="#installing-the-latest-development-release"></a>
 </h3>
-<p>Now you can install Racmacs directly from the latest development source code. In future pre-built binary versions will also be included.</p>
+<p>The latest developmental release of Racmacs can be installed from github but may require some setting up of your compiler toolchain as described below.</p>
+<div class="section level4">
+<h4 id="install-the-devtools-package">Install the devtools package<a class="anchor" aria-label="anchor" href="#install-the-devtools-package"></a>
+</h4>
+<p>If not already installed, install the <code>devtools</code> package, this provides functions to help with installation.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"devtools"</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="section level4">
+<h4 id="install-racmacs">Install Racmacs<a class="anchor" aria-label="anchor" href="#install-racmacs"></a>
+</h4>
+<p>Now you can install Racmacs directly from the latest development source code. In future pre-built binary versions will also be included.</p>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># To build from github source</span></span>
 <span><span class="fu">devtools</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"acorg/Racmacs"</span><span class="op">)</span></span></code></pre></div>
+</div>
 <div class="section level4">
 <h4 id="problems-compiling-on-macos">Problems compiling on MacOS<a class="anchor" aria-label="anchor" href="#problems-compiling-on-macos"></a>
 </h4>
 <p>When installing Racmacs on a mac os, compilation will most likely fail under the default setup since the necessary libraries that are linked to cannot be found. The recommended solution, which should both solve this problem and speed up the code, is for mac users to follow the instructions below for setting up your environment to use the gcc and associated fortran compiler.</p>
-<p>In the future we will try to provide pre-built binary versions of Racmacs for the latest major operating systems and R versions to avoid the need to build the package locally.</p>
 </div>
 <div class="section level4">
 <h4 id="building-racmacs-to-run-code-in-parallel">Building Racmacs to run code in parallel<a class="anchor" aria-label="anchor" href="#building-racmacs-to-run-code-in-parallel"></a>
@@ -192,6 +203,7 @@ SHLIB_OPENMP_FFLAGS=-fopenmp</code></pre>
 <h2 data-toc-skip>Dev status</h2>
 <ul class="list-unstyled">
 <li><a href="https://github.com/acorg/Racmacs/actions/workflows/R-CMD-check.yaml" class="external-link"><img src="https://github.com/acorg/Racmacs/actions/workflows/R-CMD-check.yaml/badge.svg" alt="R-CMD-check"></a></li>
+<li><a href="https://CRAN.R-project.org/package=Racmacs" class="external-link"><img src="https://www.r-pkg.org/badges/version/Racmacs" alt="CRAN status"></a></li>
 </ul>
 </div>
 

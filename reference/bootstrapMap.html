@@ -22,7 +22,7 @@ methods you can apply."><meta property="og:image" content="https://acorg.github.
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">Racmacs</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.2.7</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.2.8</span>
       </span>
     </div>
 
@@ -146,7 +146,7 @@ applied per titer when using the "noisy" method</p></dd>
 
 
 <p><strong>"resample"</strong>:
-The <a href="https://en.wikipedia.org/wiki/Bootstrapping_(statistics)#Case_resampling" class="external-link">resample boostrap</a>
+The <a href="https://en.wikipedia.org/wiki/Bootstrapping_(statistics)#Case_resampling" class="external-link">resample bootstrap</a>
 is the most standard bootstrap method, a random resample of the titer table data is
 taken <em>with replacement</em>. Depending on your specification, resampling is applied across
 either individual antigens, individual sera or both antigens and sera.
@@ -171,7 +171,7 @@ want to stick with the "resample" method.</p>
 The noisy bootstrap, sometimes termed a
 <a href="https://en.wikipedia.org/wiki/Bootstrapping_(statistics)#Smooth_bootstrap" class="external-link">smooth bootstrap</a>
 involved adding normally distributed noise to each observation. The distribution of this noise can
-be parametrised through the <code>ag_noise_sd</code> and <code>titer_noise_sd</code> arguments. <code>titer_noise_sd</code> refers to the
+be parameterised through the <code>ag_noise_sd</code> and <code>titer_noise_sd</code> arguments. <code>titer_noise_sd</code> refers to the
 standard deviation (on the log scale) of noise added to each individual titer measurement in the table,
 while <code>antigen_noise_sd</code> refers to the standard deviation of noise applied to titers for each antigen.
 The reason for this distinction is that we have noticed with repeat measurements of influenza data there

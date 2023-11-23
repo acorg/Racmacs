@@ -179,7 +179,7 @@
 # Racmacs 1.1.38
 * Add option to specify a subset of antigens and sera for which to calculate blobs in the `bootstrapBlobs()` function
 * Add method for plotting a map using ggplot i.e. `ggplot(map)`.
-* When coloring by sequence a more distinct color pallette is used
+* When coloring by sequence a more distinct color palette is used
 
 # Racmacs 1.1.39
 * Correct error when plotting cases where blobs were calculated for only 1 antigen / serum
@@ -189,7 +189,7 @@
 # Racmacs 1.1.40
 * Add some options to view.acmap to set the starting viewer translation, rotation and zoom
 * Add `grid.lwd` option to control grid linewidth in `ggplot(map)`
-* Add antigen and sera names to vector when retreiving antigen and sera attributes like `agFill()`
+* Add antigen and sera names to vector when retrieving antigen and sera attributes like `agFill()`
 
 # Racmacs 1.2.0
 * Add new options and default methods to use when merging titers as described for `RacMerge.options()`
@@ -221,3 +221,7 @@
 # Racmacs 1.2.7
 * `on.exit()` calls added to code in `R/map_plot.R` and `inst/shinyapps/RacmacsGUI/app.R` where changes to graphical parameters and user options are made.
 * `snapshotMap()` function removed.
+
+# Racmacs 1.2.8
+* Function `splitTiterLayers()` now exported.
+* Use `readxl::read_excel()` for reading excel files instead of `gdata::read.xls()`

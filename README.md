@@ -1,6 +1,7 @@
 
 <!-- badges: start -->
 [![R-CMD-check](https://github.com/acorg/Racmacs/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/acorg/Racmacs/actions/workflows/R-CMD-check.yaml)
+[![CRAN status](https://www.r-pkg.org/badges/version/Racmacs)](https://CRAN.R-project.org/package=Racmacs)
 <!-- badges: end -->
 
 <img src="man/figures/logo.png" align="right" style="width:200px; margin-top:40px">
@@ -11,13 +12,23 @@ The Racmacs package provides a toolkit for making antigenic maps from assay data
 For an introduction to antigenic cartography, see the article [an introduction to antigenic cartography](https://acorg.github.io/Racmacs/articles/intro-to-antigenic-cartography.html). For a general introduction to using Racmacs to make an antigenic map from titer data see the article [making an antigenic map from titer data](https://acorg.github.io/Racmacs/articles/making-a-map-from-scratch.html). For documentation of the functions available see the [references](https://acorg.github.io/Racmacs/reference/index.html) section.
 
 ## Installation instructions
-### Install the devtools package
+### Installing the latest CRAN release
+Pre-compiled version of Racmacs can now be installed directly from CRAN with:
+```R
+install.packages("Racmacs")
+```
+
+### Installing the latest development release
+The latest developmental release of Racmacs can be installed from github but may require some setting up
+of your compiler toolchain as described below.
+
+#### Install the devtools package
 If not already installed, install the `devtools` package, this provides functions to help with installation.
 ```R
 install.packages("devtools")
 ```
 
-### Install Racmacs
+#### Install Racmacs
 Now you can install Racmacs directly from the latest development source code. In future pre-built binary versions will 
 also be included.
 
@@ -28,8 +39,6 @@ devtools::install_github("acorg/Racmacs")
 
 #### Problems compiling on MacOS
 When installing Racmacs on a mac os, compilation will most likely fail under the default setup since the necessary libraries that are linked to cannot be found. The recommended solution, which should both solve this problem and speed up the code, is for mac users to follow the instructions below for setting up your environment to use the gcc and associated fortran compiler.
-
-In the future we will try to provide pre-built binary versions of Racmacs for the latest major operating systems and R versions to avoid the need to build the package locally.
 
 #### Building Racmacs to run code in parallel
 Racmacs uses [OpenMP](https://www.openmp.org) instructions to specify when code can be run in parallel to increase performance. The resulting speed-up can be significant, but you need to check whether the compiler you use supports OpenMP.

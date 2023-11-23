@@ -16,7 +16,7 @@ Returns a matrix of numeric table distances
 }
 \description{
 Takes the acmap object and, assuming the column bases associated with the
-currently selected or specifed optimization, returns the table distances
+currently selected or specified optimization, returns the table distances
 calculated from the titer data. For more information on column bases and
 their role in antigenic cartography see
 \code{vignette("intro-to-antigenic-cartography")}

@@ -23,6 +23,7 @@ Other map attribute functions:
 \code{\link{dilutionStepsize}()},
 \code{\link{mapDescription}()},
 \code{\link{mapName}()},
+\code{\link{titerTableFlat}()},
 \code{\link{titerTableLayers}()},
 \code{\link{titerTable}()}
 }

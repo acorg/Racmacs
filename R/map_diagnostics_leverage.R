@@ -4,7 +4,7 @@
 #' These functions attempt to estimate leverage of each antigen, sera or titer
 #' by removing it from the data, relaxing the map, then calculating the rmsd of
 #' the procrustes comparison between the original and newly relaxed map. Column
-#' bases will be recalculated unless you have specifed them as fixed with
+#' bases will be recalculated unless you have specified them as fixed with
 #' `fixedColBases()`.
 #'
 #' @param map An acmap object

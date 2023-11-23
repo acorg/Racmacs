@@ -36,6 +36,12 @@ For this example we will be reading the titer data from the first antigenic map 
 # Load the Racmacs package
 library(Racmacs)
 
+# Set an option for the number of computer cores to run in parallel when optimizing maps
+# The default when running on CRAN is to use 2
+options(RacOptimizer.num_cores = 1)
+# However you can also set the number of cores to the maximum number like this
+# options(RacOptimizer.num_cores = parallel::detectCores())
+
 # Read in the titer table
 path_to_titer_file <- system.file("extdata/h3map2004_hitable.csv", package = "Racmacs")
 titer_table        <- read.titerTable(path_to_titer_file)
@@ -56,7 +62,7 @@ map <- acmap(
 )
 ```
 
-The resulting object, that we've given the name `map` in this case, only has properties associated with the table. If the table had column names and row names, serum and antigen names are inferred from these. Alternatively, you can set these explicitely when creating the map with the `ag_names` and `sr_names` arguments.
+The resulting object, that we've given the name `map` in this case, only has properties associated with the table. If the table had column names and row names, serum and antigen names are inferred from these. Alternatively, you can set these explicitly when creating the map with the `ag_names` and `sr_names` arguments.
 
 ## Running optimizations
 Although we now have the acmap object there is no "map" yet as such, since we need to invoke the optimiser function to try and determine the antigenic map that best represents the patterns of reactivity seen in the titer table. To do this we call the function `optimizeMap()` on the acmap object we've made, specifying the number of optimization runs and other parameters like the minimum column basis and number of dimensions.

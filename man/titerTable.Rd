@@ -3,17 +3,11 @@
 \name{titerTable}
 \alias{titerTable}
 \alias{titerTable<-}
-\alias{titerTableFlat}
-\alias{titerTableFlat<-}
 \title{Getting and setting map titers}
 \usage{
 titerTable(map)
 
 titerTable(map) <- value
-
-titerTableFlat(map)
-
-titerTableFlat(map) <- value
 }
 \arguments{
 \item{map}{The acmap object}
@@ -28,18 +22,6 @@ Functions to get and set the map titer table. Note that when setting the
 titer table like this any titer table layer information is lost, this is
 normally not a problem unless the map is a result of merging two titer tables
 together previously and you then go on the merge the titers again.
-
-These are underlying functions to get and set the "flat" version of the titer
-table only. When a map is merged, the titer tables are merged but a record of
-the original titers associated with each map are kept as titer table layers
-so that information on the original set of titers that made up the merge is
-not lost. At the same time, the merged titer version of the titer table is
-created and saved as the titer_table_flat attribute. When you access titers
-through the \code{titerTable()} function, the flat version of the titer table is
-retrieved (only really a relevant distinction for merged maps). When you set
-titers through \verb{titerTable<-()} titer table layers are lost. These functions
-allow you to manipulate the flat version without effecting the titer table
-layers information.
 }
 \seealso{
 \code{\link[=adjustedTiterTable]{adjustedTiterTable()}}, \code{\link[=htmlTiterTable]{htmlTiterTable()}}
@@ -52,6 +34,7 @@ Other map attribute functions:
 \code{\link{logtiterTableLayers}()},
 \code{\link{mapDescription}()},
 \code{\link{mapName}()},
+\code{\link{titerTableFlat}()},
 \code{\link{titerTableLayers}()}
 }
 \concept{map attribute functions}

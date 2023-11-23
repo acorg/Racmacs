@@ -1,8 +1,8 @@
 Package: Racmacs
 Type: Package
 Title: Antigenic Cartography Macros
-Version: 1.2.7
-Date: 2023-09-01
+Version: 1.2.8
+Date: 2023-11-22
 Authors@R: 
   c(person(given = "Sam",
            family = "Wilks",
@@ -47,13 +47,14 @@ Suggests:
     rstudioapi,
     plotly,
     geometry,
-    gdata,
+    readxl,
     stringr,
     tibble,
     tidyr,
     base64enc,
     lifecycle,
-    MCMCpack
+    MCMCpack,
+    spelling
 LinkingTo: 
     Rcpp, 
     RcppArmadillo, 
@@ -67,3 +68,4 @@ VignetteBuilder: knitr
 URL: https://acorg.github.io/Racmacs/, https://github.com/acorg/Racmacs/
 BugReports: https://github.com/acorg/Racmacs/issues
 License: AGPL-3
+Language: en-GB

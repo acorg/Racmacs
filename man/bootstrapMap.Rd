@@ -57,7 +57,7 @@ methods you can apply.
 \subsection{Bootstrapping methods}{
 
 \strong{"resample"}:
-The \href{https://en.wikipedia.org/wiki/Bootstrapping_(statistics)#Case_resampling}{resample boostrap}
+The \href{https://en.wikipedia.org/wiki/Bootstrapping_(statistics)#Case_resampling}{resample bootstrap}
 is the most standard bootstrap method, a random resample of the titer table data is
 taken \emph{with replacement}. Depending on your specification, resampling is applied across
 either individual antigens, individual sera or both antigens and sera.
@@ -84,7 +84,7 @@ want to stick with the "resample" method.
 The noisy bootstrap, sometimes termed a
 \href{https://en.wikipedia.org/wiki/Bootstrapping_(statistics)#Smooth_bootstrap}{smooth bootstrap}
 involved adding normally distributed noise to each observation. The distribution of this noise can
-be parametrised through the \code{ag_noise_sd} and \code{titer_noise_sd} arguments. \code{titer_noise_sd} refers to the
+be parameterised through the \code{ag_noise_sd} and \code{titer_noise_sd} arguments. \code{titer_noise_sd} refers to the
 standard deviation (on the log scale) of noise added to each individual titer measurement in the table,
 while \code{antigen_noise_sd} refers to the standard deviation of noise applied to titers for each antigen.
 The reason for this distinction is that we have noticed with repeat measurements of influenza data there

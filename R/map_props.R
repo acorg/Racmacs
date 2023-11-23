@@ -98,18 +98,25 @@ titerTable <- function(map) {
 #' through the `titerTable()` function, the flat version of the titer table is
 #' retrieved (only really a relevant distinction for merged maps). When you set
 #' titers through `titerTable<-()` titer table layers are lost. These functions
-#' allow you to manipulate the flat version without effecting the titer table
+#' allow you to manipulate the flat version without affecting the titer table
 #' layers information.
 #'
+#' @param map The acmap object
+#' @param value A character matrix of titers to set
+#'
+#' @returns Returns a character matrix of titers.
+#'
 #' @name titerTableFlat
+#' @family map attribute functions
+#'
 
-#' @rdname titerTable
+#' @rdname titerTableFlat
 titerTableFlat <- function(map) {
   check.acmap(map)
   map$titer_table_flat
 }
 
-#' @rdname titerTable
+#' @rdname titerTableFlat
 `titerTableFlat<-` <- function(map, value) {
   check.acmap(map)
   check.dimensions(value, map)

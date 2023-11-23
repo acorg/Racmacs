@@ -2,7 +2,7 @@
 #' Return calculated table distances for an acmap
 #'
 #' Takes the acmap object and, assuming the column bases associated with the
-#' currently selected or specifed optimization, returns the table distances
+#' currently selected or specified optimization, returns the table distances
 #' calculated from the titer data. For more information on column bases and
 #' their role in antigenic cartography see
 #' `vignette("intro-to-antigenic-cartography")`
@@ -233,7 +233,7 @@ mapResiduals <- function(
 #' Recalculate the stress associated with an acmap optimization
 #'
 #' Recalculates the stress associated with the currently selected or
-#' user-specifed optimization.
+#' user-specified optimization.
 #'
 #' @param map The acmap data object
 #' @param optimization_number The optimization number

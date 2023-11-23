@@ -10,6 +10,9 @@ splitTiterLayers(map)
 \arguments{
 \item{map}{An acmap object with titer table layers}
 }
+\value{
+A list of acmap objects
+}
 \description{
 Split a map made up from titer layers into a list of separate maps each with a titer table
 corresponding to one of the layers

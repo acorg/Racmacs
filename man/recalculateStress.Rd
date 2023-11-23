@@ -16,7 +16,7 @@ Returns the recalculated map stress for a given optimization
 }
 \description{
 Recalculates the stress associated with the currently selected or
-user-specifed optimization.
+user-specified optimization.
 }
 \seealso{
 See \code{pointStress()} for getting the stress of individual points.

@@ -29,16 +29,18 @@ read.titerTable <- function(filepath) {
   } else if (grepl("\\.xls$", filepath) | grepl("\\.xlsx$", filepath)) {
 
     # Check gdata package installed
-    package_required("gdata")
+    package_required("readxl")
 
     # Read from xls
-    titer_table <- gdata::read.xls(
-      xls              = filepath,
-      row.names        = 1,
-      check.names      = FALSE,
-      stringsAsFactors = FALSE,
-      colClasses       = "character"
+    titer_table_tibble <- readxl::read_excel(
+      path = filepath,
+      col_types = "text",
+      .name_repair = "minimal"
     )
+
+    # Convert to a character matrix
+    titer_table <- as.matrix(titer_table_tibble[,-1])
+    rownames(titer_table) <- titer_table_tibble[[1]]
 
   } else if (grepl("\\.txt$", filepath)) {
 

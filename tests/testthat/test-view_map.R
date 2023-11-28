@@ -144,7 +144,7 @@ test_that("Viewing a 3D map with sphere outlines", {
 test_that("Exporting a map viewer", {
 
   tmp <- tempfile(fileext = ".html")
-  export_viewer(map, tmp)
+  export_viewer(map, tmp, selfcontained = FALSE)
   expect_true(file.exists(tmp))
   unlink(tmp)
 

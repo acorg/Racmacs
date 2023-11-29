@@ -1,4 +1,5 @@
 # Racmacs 1.2.9
+* Use a safer format for errors and messages
 
 # Racmacs 1.2.8
 * Function `splitTiterLayers()` now exported.

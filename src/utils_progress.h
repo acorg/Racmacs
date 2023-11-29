@@ -64,7 +64,7 @@ class AcProgressBar: public ProgressBar{
         REprintf("\n");
       }
 
-      REprintf(msg);
+      REprintf("%s", msg);
       REprintf("\n");
 
     }

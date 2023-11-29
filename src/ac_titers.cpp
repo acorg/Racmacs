@@ -22,7 +22,7 @@ void check_valid_titer(
       ) {
 
       std::string msg = "Invalid titer '"+titer+"'";
-      Rf_error(msg.c_str());
+      Rf_error("%s", msg.c_str());
 
     }
 

@@ -2,7 +2,7 @@ Package: Racmacs
 Type: Package
 Title: Antigenic Cartography Macros
 Version: 1.2.9
-Date: 2023-11-22
+Date: 2023-11-30
 Authors@R: 
   c(person(given = "Sam",
            family = "Wilks",

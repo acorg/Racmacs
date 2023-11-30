@@ -4,7 +4,7 @@
 
 Resubmission to fix failing CRAN checks:
 
-- One test is skipped if pandoc is not available on the system
+- One test is skipped if pandoc is not available on the test system
 - Some changes made to try and address the warning "format string is not a 
 string literal (potentially insecure) [-Wformat-security]", although note 
 that Rcpp also throws this warning on r-devel-linux-x86_64-fedora-clang and 

@@ -2,5 +2,11 @@
 
 0 errors | 0 warnings | 1 note
 
-Package was archived because the function `gdata::read.xls()` was removed, this 
-is now replaced in this version by using `readxl::read_excel()` function.
+Resubmission to fix failing CRAN checks:
+
+- One test is skipped if pandoc is not available on the test system
+- Vignettes only evaluate code if pandoc is available
+- Some changes made to try and address the warning "format string is not a 
+  string literal (potentially insecure) [-Wformat-security]", although note 
+  that Rcpp also currently throws this warning on 
+  r-devel-linux-x86_64-fedora-clang and r-devel-linux-x86_64-debian-clang

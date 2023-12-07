@@ -143,8 +143,9 @@ test_that("Viewing a 3D map with sphere outlines", {
 # Exporting the viewer
 test_that("Exporting a map viewer", {
 
+  if (!rmarkdown::pandoc_available()) skip()
   tmp <- tempfile(fileext = ".html")
-  export_viewer(map, tmp)
+  export_viewer(map, tmp, selfcontained = FALSE)
   expect_true(file.exists(tmp))
   unlink(tmp)
 

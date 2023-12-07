@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">Racmacs</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.2.8</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.2.9</span>
       </span>
     </div>
 
@@ -57,6 +57,275 @@
     </div>
 
     <div class="section level2">
+<h2 class="page-header" data-toc-text="1.2.9" id="racmacs-129">Racmacs 1.2.9<small>2023-11-30</small><a class="anchor" aria-label="anchor" href="#racmacs-129"></a></h2>
+<ul><li>Use a safer format for errors and messages</li>
+</ul></div>
+    <div class="section level2">
+<h2 class="page-header" data-toc-text="1.2.8" id="racmacs-128">Racmacs 1.2.8<small>2023-11-23</small><a class="anchor" aria-label="anchor" href="#racmacs-128"></a></h2>
+<ul><li>Function <code><a href="../reference/splitTiterLayers.html">splitTiterLayers()</a></code> now exported.</li>
+<li>Use <code><a href="https://readxl.tidyverse.org/reference/read_excel.html" class="external-link">readxl::read_excel()</a></code> for reading excel files instead of <code>gdata::read.xls()</code>
+</li>
+</ul></div>
+    <div class="section level2">
+<h2 class="page-header" data-toc-text="1.2.7" id="racmacs-127">Racmacs 1.2.7<small>2023-09-04</small><a class="anchor" aria-label="anchor" href="#racmacs-127"></a></h2>
+<ul><li>
+<code><a href="https://rdrr.io/r/base/on.exit.html" class="external-link">on.exit()</a></code> calls added to code in <code>R/map_plot.R</code> and <code>inst/shinyapps/RacmacsGUI/app.R</code> where changes to graphical parameters and user options are made.</li>
+<li>
+<code>snapshotMap()</code> function removed.</li>
+</ul></div>
+    <div class="section level2">
+<h2 class="page-header" data-toc-text="1.2.6" id="racmacs-126">Racmacs 1.2.6<a class="anchor" aria-label="anchor" href="#racmacs-126"></a></h2>
+<ul><li>Set the default number of cores to use as 2 unless otherwise specified in either RacOptimizer.options, or by setting the global option ‘RacOptimizer.num_cores’ with e.g. <code>options(RacOptimizer.num_cores = parallel::detectCores())</code>.</li>
+</ul></div>
+    <div class="section level2">
+<h2 class="page-header" data-toc-text="1.2.5" id="racmacs-125">Racmacs 1.2.5<a class="anchor" aria-label="anchor" href="#racmacs-125"></a></h2>
+<ul><li>Allow for shorthand description of shapes e.g. “C” for “CIRCLE” in map .ace files.</li>
+</ul></div>
+    <div class="section level2">
+<h2 class="page-header" data-toc-text="1.2.4" id="racmacs-124">Racmacs 1.2.4<a class="anchor" aria-label="anchor" href="#racmacs-124"></a></h2>
+<ul><li>Add arguments to control procrustes arrow appearance in <code><a href="../reference/plot.acmap.html">plot.acmap()</a></code>
+</li>
+</ul></div>
+    <div class="section level2">
+<h2 class="page-header" data-toc-text="1.2.3" id="racmacs-123">Racmacs 1.2.3<a class="anchor" aria-label="anchor" href="#racmacs-123"></a></h2>
+<ul><li>Fix error where light was not being added to the viewer properly</li>
+</ul></div>
+    <div class="section level2">
+<h2 class="page-header" data-toc-text="1.2.2" id="racmacs-122">Racmacs 1.2.2<a class="anchor" aria-label="anchor" href="#racmacs-122"></a></h2>
+<ul><li>Add argument in view.acmap to control set viewer background color</li>
+</ul></div>
+    <div class="section level2">
+<h2 class="page-header" data-toc-text="1.2.1" id="racmacs-121">Racmacs 1.2.1<a class="anchor" aria-label="anchor" href="#racmacs-121"></a></h2>
+<ul><li>Titer merge method changed so that sd limit is implemented before any merging to &lt; values</li>
+<li>Expose further optimization options as user controllable options</li>
+<li>Add the option to set lighting using the r3js::light3js() function</li>
+<li>Add the option to set the viewer background color</li>
+</ul></div>
+    <div class="section level2">
+<h2 class="page-header" data-toc-text="1.2.0" id="racmacs-120">Racmacs 1.2.0<a class="anchor" aria-label="anchor" href="#racmacs-120"></a></h2>
+<ul><li>Add new options and default methods to use when merging titers as described for <code><a href="../reference/RacMerge.options.html">RacMerge.options()</a></code>
+</li>
+<li>Return a more useful error if <code><a href="../reference/bootstrapBlobs.html">bootstrapBlobs()</a></code> is run on a map where <code><a href="../reference/bootstrapMap.html">bootstrapMap()</a></code> has not yet been performed.</li>
+<li>Add <code>grid.margin.lwd</code> option to control grid margin linewidth in <code>ggplot(map)</code>
+</li>
+<li>Improve user interruption of map optimization runs</li>
+</ul></div>
+    <div class="section level2">
+<h2 class="page-header" data-toc-text="1.1.40" id="racmacs-1140">Racmacs 1.1.40<a class="anchor" aria-label="anchor" href="#racmacs-1140"></a></h2>
+<ul><li>Add some options to view.acmap to set the starting viewer translation, rotation and zoom</li>
+<li>Add <code>grid.lwd</code> option to control grid linewidth in <code>ggplot(map)</code>
+</li>
+<li>Add antigen and sera names to vector when retrieving antigen and sera attributes like <code><a href="../reference/ptStyles.html">agFill()</a></code>
+</li>
+</ul></div>
+    <div class="section level2">
+<h2 class="page-header" data-toc-text="1.1.39" id="racmacs-1139">Racmacs 1.1.39<a class="anchor" aria-label="anchor" href="#racmacs-1139"></a></h2>
+<ul><li>Correct error when plotting cases where blobs were calculated for only 1 antigen / serum</li>
+<li>Only show plot outlier arrowheads if point is marked as shown</li>
+<li>Numeric table distances account for dilution stepsize setting of map</li>
+</ul></div>
+    <div class="section level2">
+<h2 class="page-header" data-toc-text="1.1.38" id="racmacs-1138">Racmacs 1.1.38<a class="anchor" aria-label="anchor" href="#racmacs-1138"></a></h2>
+<ul><li>Add option to specify a subset of antigens and sera for which to calculate blobs in the <code><a href="../reference/bootstrapBlobs.html">bootstrapBlobs()</a></code> function</li>
+<li>Add method for plotting a map using ggplot i.e. <code>ggplot(map)</code>.</li>
+<li>When coloring by sequence a more distinct color palette is used</li>
+</ul></div>
+    <div class="section level2">
+<h2 class="page-header" data-toc-text="1.1.37" id="racmacs-1137">Racmacs 1.1.37<a class="anchor" aria-label="anchor" href="#racmacs-1137"></a></h2>
+<ul><li>Fix error where serum column base label would remain after turning titer labels off</li>
+<li>Set default margins of 0.5 inches when plotting a map</li>
+<li>Add support for insertions in amino acids sequences</li>
+</ul></div>
+    <div class="section level2">
+<h2 class="page-header" data-toc-text="1.1.36" id="racmacs-1136">Racmacs 1.1.36<a class="anchor" aria-label="anchor" href="#racmacs-1136"></a></h2>
+<ul><li>Fix error in reoptimized-merge</li>
+<li>
+<code><a href="../reference/logtiterTableLayers.html">logtiterTableLayers()</a></code> function exported</li>
+<li>Fix error when blobs are smaller than grid-spacing used to calculate them</li>
+<li>Add the <code><a href="../reference/blobsize.html">blobsize()</a></code> function for calculating the area/volume of uncertainty blobs</li>
+<li>Removed function <code>triangulationBlobSize()</code> - now use e.g. <code>sapply(agTriangulationBlobs(map), blobsize)</code>
+</li>
+<li>3D blob meshes are now separated into a list of contiguous meshes so that number of blobs can be retrieved from the length, i.e. <code>sapply(agTriangulationBlobs(map), length)</code>
+</li>
+</ul></div>
+    <div class="section level2">
+<h2 class="page-header" data-toc-text="1.1.35" id="racmacs-1135">Racmacs 1.1.35<a class="anchor" aria-label="anchor" href="#racmacs-1135"></a></h2>
+<ul><li>Add antigen and sera attributes: <code><a href="../reference/agAttributes.html">agLineage()</a></code>, <code><a href="../reference/srAttributes.html">srLineage()</a></code>, <code><a href="../reference/agAttributes.html">agReassortant()</a></code>, <code><a href="../reference/srAttributes.html">srReassortant()</a></code>, <code><a href="../reference/agAttributes.html">agStrings()</a></code>, <code><a href="../reference/srAttributes.html">srStrings()</a></code>, <code><a href="../reference/agAttributes.html">agContinent()</a></code>, <code><a href="../reference/agSequences.html">agNucleotideSequences()</a></code>, <code><a href="../reference/srSequences.html">srNucleotideSequences()</a></code>
+</li>
+</ul></div>
+    <div class="section level2">
+<h2 class="page-header" data-toc-text="1.1.34" id="racmacs-1134">Racmacs 1.1.34<a class="anchor" aria-label="anchor" href="#racmacs-1134"></a></h2>
+<ul><li>Add support for getting and setting serum species with <code><a href="../reference/srAttributes.html">srSpecies()</a></code>.</li>
+<li>Redundant attributes <code>agNamesAbbreviated</code>, <code>agNamesFull</code>, <code>srNamesAbbreviated</code>, <code>srNamesFull</code> removed</li>
+</ul></div>
+    <div class="section level2">
+<h2 class="page-header" data-toc-text="1.1.33" id="racmacs-1133">Racmacs 1.1.33<a class="anchor" aria-label="anchor" href="#racmacs-1133"></a></h2>
+<ul><li>Add some basic support for viewing 1D maps</li>
+<li>Fix an issue viewing sequence data where sequence data is not present for all antigens / sera</li>
+<li>Fix an error reoptimize merging maps with no optimizations</li>
+<li>Add verbosity argument to <code><a href="../reference/mergeMaps.html">mergeMaps()</a></code>
+</li>
+<li>Verbosity argument also suppresses optimization progress messages</li>
+<li>Issue a warning if duplicate antigen or serum names are found when creating a map</li>
+</ul></div>
+    <div class="section level2">
+<h2 class="page-header" data-toc-text="1.1.32" id="racmacs-1132">Racmacs 1.1.32<a class="anchor" aria-label="anchor" href="#racmacs-1132"></a></h2>
+<ul><li>Disconnected maps now return an error rather than a warning</li>
+<li>
+<code><a href="../reference/pointStress.html">agStressPerTiter()</a></code> and <code><a href="../reference/pointStress.html">srStressPerTiter()</a></code> now return a matrix with columns corresponding to stress per titer when nd values are excluded and when they are included</li>
+<li>Corrected error when coloring maps by stress or showing error lines with disconnected points</li>
+<li>If a titer table has column or row names but not sera or antigen names provided, names will be taken from the row and column names when creating a map.</li>
+<li>Add support for reading maps with brotli compression</li>
+<li>
+<code><a href="../reference/agSequences.html">agSequences()</a></code> and <code><a href="../reference/srSequences.html">srSequences()</a></code> now works when the stored sequences have different lengths or are missing for some points</li>
+<li>Correct error where maps with duplicate antigen or serum names would not optimize</li>
+</ul></div>
+    <div class="section level2">
+<h2 class="page-header" data-toc-text="1.1.31" id="racmacs-1131">Racmacs 1.1.31<a class="anchor" aria-label="anchor" href="#racmacs-1131"></a></h2>
+<ul><li>Added checks for disconnected groups of points and functions <code><a href="../reference/mapCohesion.html">mapCohesion()</a></code>, <code><a href="../reference/mapCohesion.html">agCohesion()</a></code>, <code><a href="../reference/mapCohesion.html">srCohesion()</a></code> to diagnose poorly connected groups of points</li>
+<li>Add support for point transparency set either through <code>agOpacity()</code> and <code>srOpacity()</code> or appropriate hex code to the point fill or outline attribute e.g. <code>"#FF000099"</code>.</li>
+</ul></div>
+    <div class="section level2">
+<h2 class="page-header" data-toc-text="1.1.30" id="racmacs-1130">Racmacs 1.1.30<a class="anchor" aria-label="anchor" href="#racmacs-1130"></a></h2>
+<ul><li>Added support for setting indices of homologous antigens for sera with <code><a href="../reference/srHomologousAgs.html">srHomologousAgs()</a></code>
+</li>
+</ul></div>
+    <div class="section level2">
+<h2 class="page-header" data-toc-text="1.1.29" id="racmacs-1129">Racmacs 1.1.29<a class="anchor" aria-label="anchor" href="#racmacs-1129"></a></h2>
+<ul><li>
+<code><a href="../reference/mergeMaps.html">mergeMaps()</a></code> now accepts maps as either separate arguments <code>mergeMaps(map1, map2)</code> or as a list <code>mergeMaps(list(map1, map2))</code>
+</li>
+<li>Additional checks for antigen and serum attribute inputs</li>
+<li>Error corrected where merging maps with multiple titer layers caused session to crash</li>
+</ul></div>
+    <div class="section level2">
+<h2 class="page-header" data-toc-text="1.1.28" id="racmacs-1128">Racmacs 1.1.28<a class="anchor" aria-label="anchor" href="#racmacs-1128"></a></h2>
+<ul><li>
+<code><a href="../reference/pointStress.html">agStress()</a></code> and <code><a href="../reference/pointStress.html">srStress()</a></code> fixed to work with NA coordinates</li>
+<li>Correct error when calculating <code><a href="../reference/pointStress.html">agStressPerTiter()</a></code> and <code><a href="../reference/pointStress.html">srStressPerTiter()</a></code> with missing titers.</li>
+<li>Antigen/Sera sequence and date information now write to json fields in line with acmacs-web.</li>
+<li>Add attribute getters and setters <code><a href="../reference/ptAnnotations.html">agAnnotations()</a></code>, <code><a href="../reference/ptAnnotations.html">srAnnotations()</a></code>, <code><a href="../reference/agLabIDs.html">agLabIDs()</a></code>
+</li>
+</ul></div>
+    <div class="section level2">
+<h2 class="page-header" data-toc-text="1.1.27" id="racmacs-1127">Racmacs 1.1.27<a class="anchor" aria-label="anchor" href="#racmacs-1127"></a></h2>
+<ul><li>
+<code><a href="../reference/logtiterTable.html">logtiterTable()</a></code> nows returns a table with named columns and rows</li>
+<li>Fix issue showing individual bootstrap points in 3D</li>
+<li>Add option <code>show_group_legend</code> to <code><a href="../reference/view.html">view()</a></code> to show interactive legend based on <code><a href="../reference/agGroups.html">agGroups()</a></code> and <code><a href="../reference/srGroups.html">srGroups()</a></code> point groupings</li>
+<li>Add ability in viewer to filter and color antigens and sera by group</li>
+</ul></div>
+    <div class="section level2">
+<h2 class="page-header" data-toc-text="1.1.26" id="racmacs-1126">Racmacs 1.1.26<a class="anchor" aria-label="anchor" href="#racmacs-1126"></a></h2>
+<ul><li>Add option to select the algorithm MASS::kde2d or ks::kde for calculating 2D density blobs.</li>
+<li>Add functions to help plot and inspect bootstrap blobs, <code><a href="../reference/ptBootstrapBlob.html">agBootstrapBlob()</a></code>, <code><a href="../reference/ptBootstrapBlob.html">srBootstrapBlob()</a></code>, <code><a href="../reference/ptBootstrapCoords.html">agBootstrapCoords()</a></code>, <code><a href="../reference/ptBootstrapCoords.html">srBootstrapCoords()</a></code>, <code><a href="../reference/blob.html">blob()</a></code>
+</li>
+</ul></div>
+    <div class="section level2">
+<h2 class="page-header" data-toc-text="1.1.25" id="racmacs-1125">Racmacs 1.1.25<a class="anchor" aria-label="anchor" href="#racmacs-1125"></a></h2>
+<ul><li>Throw an error instead of crashing when trying to do procrustes on maps with duplicate antigen/sera names/ids</li>
+<li>Add option to extend density blobs for e.g. bootstrapBlobs to extend beyond the range of the actual coordinates.</li>
+</ul></div>
+    <div class="section level2">
+<h2 class="page-header" data-toc-text="1.1.24" id="racmacs-1124">Racmacs 1.1.24<a class="anchor" aria-label="anchor" href="#racmacs-1124"></a></h2>
+<ul><li>Regions outside of plot border will now be masked when running <code><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot()</a></code> on a map</li>
+</ul></div>
+    <div class="section level2">
+<h2 class="page-header" data-toc-text="1.1.23" id="racmacs-1123">Racmacs 1.1.23<a class="anchor" aria-label="anchor" href="#racmacs-1123"></a></h2>
+<ul><li>Fix <code><a href="../reference/subsetMap.html">subsetMap()</a></code> to also subset ag reactivity adjustments!</li>
+</ul></div>
+    <div class="section level2">
+<h2 class="page-header" data-toc-text="1.1.22" id="racmacs-1122">Racmacs 1.1.22<a class="anchor" aria-label="anchor" href="#racmacs-1122"></a></h2>
+<ul><li>
+<code>agReactivityAdjustments</code> now becomes a property of the base acmap object rather than individual optimization runs</li>
+</ul></div>
+    <div class="section level2">
+<h2 class="page-header" data-toc-text="1.1.21" id="racmacs-1121">Racmacs 1.1.21<a class="anchor" aria-label="anchor" href="#racmacs-1121"></a></h2>
+<ul><li>Full precision used in rapidjson when parsing doubles to load and save maps</li>
+<li>Added <code><a href="../reference/acmapAttributes.html">numSeraGroups()</a></code> function</li>
+<li>Added “extra” field for antigens and sera, and corresponding <code><a href="../reference/agAttributes.html">agExtra()</a></code> and <code><a href="../reference/srAttributes.html">srExtra()</a></code> functions</li>
+<li>Antigen and serum groups will now be maintained and merged when running <code><a href="../reference/mergeMaps.html">mergeMaps()</a></code>
+</li>
+<li>Where maps have shared <code><a href="../reference/dilutionStepsize.html">dilutionStepsize()</a></code> settings, this will be applied to the merged map. Alternatively a warning will be issued and a default setting of 1 applied where they have different <code><a href="../reference/dilutionStepsize.html">dilutionStepsize()</a></code> settings.</li>
+<li>Add attribute getter <code><a href="../reference/acmapAttributes.html">numLayers()</a></code> for returning the number of titer table layers in a map.</li>
+<li>
+<code>titerTable()&lt;-</code> will now throw an error if the titer table applied does not have the same dimensions as the map in terms of number of antigens and sera</li>
+<li>When maps are merged the <code>mapName</code> will be used to name the titer table layers, layer names can also be get and set directly using the new <code><a href="../reference/layerNames.html">layerNames()</a></code> function</li>
+</ul></div>
+    <div class="section level2">
+<h2 class="page-header" data-toc-text="1.1.20" id="racmacs-1120">Racmacs 1.1.20<a class="anchor" aria-label="anchor" href="#racmacs-1120"></a></h2>
+<ul><li>Slight re-implementation of dimensional annealing to not report progress bar multiple times.</li>
+<li>Added ability to include and exclude antigens and sera when optimizing in the javascript viewer by alt clicking the name in the browser or the titer in the interactive titer table.</li>
+<li>Added ability in the javascript viewer to change the antigen reactivity adjustment by selecting the antigen and editing the value as it appears in the <code>diagnostics</code> tab.</li>
+<li>Use quicker algorithm for calculating 2d density blobs</li>
+<li>Dimension testing now calculates proportion of titers to exclude as test set as proportion of measured titers, not proportion of detectable titers.</li>
+<li>Fixes an error when only one blob would be displayed in the viewer in cases where more than one blob was associated with a point</li>
+<li>Speed improvements to the calculation of contour blobs from point densities in 2-dimensions</li>
+<li>Added the option to set a description field for the map with the <code><a href="../reference/mapDescription.html">mapDescription()</a></code> function</li>
+</ul></div>
+    <div class="section level2">
+<h2 class="page-header" data-toc-text="1.1.19" id="racmacs-1119">Racmacs 1.1.19<a class="anchor" aria-label="anchor" href="#racmacs-1119"></a></h2>
+<ul><li>Add option to <code><a href="../reference/procrustesData.html">procrustesData()</a></code> to included only specific antigens or sera, as can already be done for <code><a href="../reference/procrustesMap.html">procrustesMap()</a></code>
+</li>
+<li>Add methods to calculate point leverage, the effect of removing different strains and sera from the map, <code><a href="../reference/ptLeverage.html">agLeverage()</a></code>, <code><a href="../reference/ptLeverage.html">srLeverage()</a></code>, <code><a href="../reference/ptLeverage.html">titerLeverage()</a></code>
+</li>
+<li>Change the <code><a href="../reference/view.acmap.html">view.acmap()</a></code> method to allow for an option <code>num_optimizations</code> to specify how many optimizations to send to the viewer.</li>
+<li>Add an option for and basic check by default for convergence of solutions when running map optimizations.</li>
+</ul></div>
+    <div class="section level2">
+<h2 class="page-header" data-toc-text="1.1.18" id="racmacs-1118">Racmacs 1.1.18<a class="anchor" aria-label="anchor" href="#racmacs-1118"></a></h2>
+<ul><li>Add option to edit titers in the titer table view and fix previous error that had been introduced stopping the table view</li>
+<li>Fix the map viewer stress calculations to account for the new “dilution stepsize” setting</li>
+<li>Add option to get and set antigen reactivity in the viewer</li>
+<li>Fix an error that was causing NAs to appear in transformed coordinates in linux builds</li>
+</ul></div>
+    <div class="section level2">
+<h2 class="page-header" data-toc-text="1.1.17" id="racmacs-1117">Racmacs 1.1.17<a class="anchor" aria-label="anchor" href="#racmacs-1117"></a></h2>
+<ul><li>Added <code><a href="../reference/htmlMergeReport.html">htmlMergeReport()</a></code> showing how titers were merged as a formatted html table.</li>
+<li>Added <code><a href="../reference/htmlTiterTable.html">htmlTiterTable()</a></code> for visualizing an html formatted titer table</li>
+<li>Added functions for getting titers after applying antigen reactivity adjustments set with <code>agReactivityAdjustments()&lt;-</code>, namely <code><a href="../reference/adjustedTiterTable.html">adjustedTiterTable()</a></code>, <code><a href="../reference/adjustedLogTiterTable.html">adjustedLogTiterTable()</a></code>, <code><a href="../reference/htmlAdjustedTiterTable.html">htmlAdjustedTiterTable()</a></code>
+</li>
+<li>Details are no longer saved in map json if they are map defaults</li>
+<li>Added an option to round titers to the nearest unit when outputting (for e.g. listmds compatibility)</li>
+<li>Adds the ability to apply and set scaling on an optimization</li>
+<li>Add option to optimize from scratch when performing optimizeAgReactivity</li>
+<li>Fix an error when performing procrustes with some coordinates set to NA</li>
+<li>Fix an error where transforming na coordinates in the viewer would give a numeric value</li>
+<li>Add an option to use arrowheads rather than arrows to show outlier points when plotting</li>
+</ul></div>
+    <div class="section level2">
+<h2 class="page-header" data-toc-text="1.1.16" id="racmacs-1116">Racmacs 1.1.16<a class="anchor" aria-label="anchor" href="#racmacs-1116"></a></h2>
+<ul><li>Fix error when minimum column basis is set to higher than any measurable titer</li>
+<li>Points not included in a procrustes will now be faded out when plotted with <code><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot()</a></code>, similar to the behaviour already implemented in the <code><a href="../reference/view.html">view()</a></code> function.</li>
+<li>Added the ability to set merge options when merging maps, controlling for example how much standard deviation there has to be between merged titers before the merged titer gets excluded as unreliable.</li>
+<li>Added <code><a href="../reference/mergeReport.html">mergeReport()</a></code> and <code><a href="../reference/htmlMergeReport.html">htmlMergeReport()</a></code> to output formatted tables showing how different titers have been merged in a merged map.</li>
+<li>Functions like <code><a href="../reference/logtiterTable.html">logtiterTable()</a></code> and <code><a href="../reference/mergeMaps.html">mergeMaps()</a></code> now take account of the dilutionStepsize map setting</li>
+<li>Implement a new titer type ‘.’, like ’*’ but to represent titers that are missing as a result of antigen sera combinations not being present in merged tables</li>
+<li>Fix error calculating bootstrap blobs and showing from a bootstrapped map where “resample” method was used</li>
+</ul></div>
+    <div class="section level2">
+<h2 class="page-header" data-toc-text="1.1.15" id="racmacs-1115">Racmacs 1.1.15<a class="anchor" aria-label="anchor" href="#racmacs-1115"></a></h2>
+<ul><li>Add option to set <code><a href="../reference/dilutionStepsize.html">dilutionStepsize()</a></code> for cases where dilution series did not follow 2-fold dilution steps</li>
+</ul></div>
+    <div class="section level2">
+<h2 class="page-header" data-toc-text="1.1.14" id="racmacs-1114">Racmacs 1.1.14<a class="anchor" aria-label="anchor" href="#racmacs-1114"></a></h2>
+<ul><li>Add option to save map in uncompressed format</li>
+<li>Add option to output json in pretty format</li>
+<li>Set default grid margin color to slightly darker than the grid color</li>
+<li>Correct error showing column bases in the viewer</li>
+</ul></div>
+    <div class="section level2">
+<h2 class="page-header" data-toc-text="1.1.13" id="racmacs-1113">Racmacs 1.1.13<a class="anchor" aria-label="anchor" href="#racmacs-1113"></a></h2>
+<ul><li>Add option in <code><a href="../reference/plot.acmap.html">plot.acmap()</a></code> to draw stress lines</li>
+<li>Add xlim and ylim options to <code><a href="../reference/view.acmap.html">view.acmap()</a></code> to control how maps are displayed</li>
+<li>Add check to procrustes that there are sufficient matching points</li>
+</ul></div>
+    <div class="section level2">
+<h2 class="page-header" data-toc-text="1.1.12" id="racmacs-1112">Racmacs 1.1.12<a class="anchor" aria-label="anchor" href="#racmacs-1112"></a></h2>
+<ul><li>Fix error in Racmacs when calculating antigen and sera mean stress per titer</li>
+<li>Fix error in viewer code when accounting for antigen reactivity adjustments in stress calculations</li>
+</ul></div>
+    <div class="section level2">
 <h2 class="page-header" data-toc-text="1.1.11" id="racmacs-1111">Racmacs 1.1.11<a class="anchor" aria-label="anchor" href="#racmacs-1111"></a></h2>
 <ul><li>Added a <code>NEWS.md</code> file to track changes to the package.</li>
 <li>Added test and correction for error where coordinates of under-constrained points were set to NaN for the first optimization run only, not all.</li>
@@ -80,271 +349,6 @@
 <li>Update the way point stress and residual is calculated for the stress and residual error table</li>
 <li>Added option to plot.acmap to indicate points outside of plot limits with an arrow</li>
 <li>Fixed error when performing dimensional annealing</li>
-</ul></div>
-    <div class="section level2">
-<h2 class="page-header" data-toc-text="1.1.12" id="racmacs-1112">Racmacs 1.1.12<a class="anchor" aria-label="anchor" href="#racmacs-1112"></a></h2>
-<ul><li>Fix error in Racmacs when calculating antigen and sera mean stress per titer</li>
-<li>Fix error in viewer code when accounting for antigen reactivity adjustments in stress calculations</li>
-</ul></div>
-    <div class="section level2">
-<h2 class="page-header" data-toc-text="1.1.13" id="racmacs-1113">Racmacs 1.1.13<a class="anchor" aria-label="anchor" href="#racmacs-1113"></a></h2>
-<ul><li>Add option in <code><a href="../reference/plot.acmap.html">plot.acmap()</a></code> to draw stress lines</li>
-<li>Add xlim and ylim options to <code><a href="../reference/view.acmap.html">view.acmap()</a></code> to control how maps are displayed</li>
-<li>Add check to procrustes that there are sufficient matching points</li>
-</ul></div>
-    <div class="section level2">
-<h2 class="page-header" data-toc-text="1.1.14" id="racmacs-1114">Racmacs 1.1.14<a class="anchor" aria-label="anchor" href="#racmacs-1114"></a></h2>
-<ul><li>Add option to save map in uncompressed format</li>
-<li>Add option to output json in pretty format</li>
-<li>Set default grid margin color to slightly darker than the grid color</li>
-<li>Correct error showing column bases in the viewer</li>
-</ul></div>
-    <div class="section level2">
-<h2 class="page-header" data-toc-text="1.1.15" id="racmacs-1115">Racmacs 1.1.15<a class="anchor" aria-label="anchor" href="#racmacs-1115"></a></h2>
-<ul><li>Add option to set <code><a href="../reference/dilutionStepsize.html">dilutionStepsize()</a></code> for cases where dilution series did not follow 2-fold dilution steps</li>
-</ul></div>
-    <div class="section level2">
-<h2 class="page-header" data-toc-text="1.1.16" id="racmacs-1116">Racmacs 1.1.16<a class="anchor" aria-label="anchor" href="#racmacs-1116"></a></h2>
-<ul><li>Fix error when minimum column basis is set to higher than any measurable titer</li>
-<li>Points not included in a procrustes will now be faded out when plotted with <code><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot()</a></code>, similar to the behaviour already implemented in the <code><a href="../reference/view.html">view()</a></code> function.</li>
-<li>Added the ability to set merge options when merging maps, controlling for example how much standard deviation there has to be between merged titers before the merged titer gets excluded as unreliable.</li>
-<li>Added <code><a href="../reference/mergeReport.html">mergeReport()</a></code> and <code><a href="../reference/htmlMergeReport.html">htmlMergeReport()</a></code> to output formatted tables showing how different titers have been merged in a merged map.</li>
-<li>Functions like <code><a href="../reference/logtiterTable.html">logtiterTable()</a></code> and <code><a href="../reference/mergeMaps.html">mergeMaps()</a></code> now take account of the dilutionStepsize map setting</li>
-<li>Implement a new titer type ‘.’, like ’*’ but to represent titers that are missing as a result of antigen sera combinations not being present in merged tables</li>
-<li>Fix error calculating bootstrap blobs and showing from a bootstrapped map where “resample” method was used</li>
-</ul></div>
-    <div class="section level2">
-<h2 class="page-header" data-toc-text="1.1.17" id="racmacs-1117">Racmacs 1.1.17<a class="anchor" aria-label="anchor" href="#racmacs-1117"></a></h2>
-<ul><li>Added <code><a href="../reference/htmlMergeReport.html">htmlMergeReport()</a></code> showing how titers were merged as a formatted html table.</li>
-<li>Added <code><a href="../reference/htmlTiterTable.html">htmlTiterTable()</a></code> for visualizing an html formatted titer table</li>
-<li>Added functions for getting titers after applying antigen reactivity adjustments set with <code>agReactivityAdjustments()&lt;-</code>, namely <code><a href="../reference/adjustedTiterTable.html">adjustedTiterTable()</a></code>, <code><a href="../reference/adjustedLogTiterTable.html">adjustedLogTiterTable()</a></code>, <code><a href="../reference/htmlAdjustedTiterTable.html">htmlAdjustedTiterTable()</a></code>
-</li>
-<li>Details are no longer saved in map json if they are map defaults</li>
-<li>Added an option to round titers to the nearest unit when outputting (for e.g. listmds compatibility)</li>
-<li>Adds the ability to apply and set scaling on an optimization</li>
-<li>Add option to optimize from scratch when performing optimizeAgReactivity</li>
-<li>Fix an error when performing procrustes with some coordinates set to NA</li>
-<li>Fix an error where transforming na coordinates in the viewer would give a numeric value</li>
-<li>Add an option to use arrowheads rather than arrows to show outlier points when plotting</li>
-</ul></div>
-    <div class="section level2">
-<h2 class="page-header" data-toc-text="1.1.18" id="racmacs-1118">Racmacs 1.1.18<a class="anchor" aria-label="anchor" href="#racmacs-1118"></a></h2>
-<ul><li>Add option to edit titers in the titer table view and fix previous error that had been introduced stopping the table view</li>
-<li>Fix the map viewer stress calculations to account for the new “dilution stepsize” setting</li>
-<li>Add option to get and set antigen reactivity in the viewer</li>
-<li>Fix an error that was causing NAs to appear in transformed coordinates in linux builds</li>
-</ul></div>
-    <div class="section level2">
-<h2 class="page-header" data-toc-text="1.1.19" id="racmacs-1119">Racmacs 1.1.19<a class="anchor" aria-label="anchor" href="#racmacs-1119"></a></h2>
-<ul><li>Add option to <code><a href="../reference/procrustesData.html">procrustesData()</a></code> to included only specific antigens or sera, as can already be done for <code><a href="../reference/procrustesMap.html">procrustesMap()</a></code>
-</li>
-<li>Add methods to calculate point leverage, the effect of removing different strains and sera from the map, <code><a href="../reference/ptLeverage.html">agLeverage()</a></code>, <code><a href="../reference/ptLeverage.html">srLeverage()</a></code>, <code><a href="../reference/ptLeverage.html">titerLeverage()</a></code>
-</li>
-<li>Change the <code><a href="../reference/view.acmap.html">view.acmap()</a></code> method to allow for an option <code>num_optimizations</code> to specify how many optimizations to send to the viewer.</li>
-<li>Add an option for and basic check by default for convergence of solutions when running map optimizations.</li>
-</ul></div>
-    <div class="section level2">
-<h2 class="page-header" data-toc-text="1.1.20" id="racmacs-1120">Racmacs 1.1.20<a class="anchor" aria-label="anchor" href="#racmacs-1120"></a></h2>
-<ul><li>Slight re-implementation of dimensional annealing to not report progress bar multiple times.</li>
-<li>Added ability to include and exclude antigens and sera when optimizing in the javascript viewer by alt clicking the name in the browser or the titer in the interactive titer table.</li>
-<li>Added ability in the javascript viewer to change the antigen reactivity adjustment by selecting the antigen and editing the value as it appears in the <code>diagnostics</code> tab.</li>
-<li>Use quicker algorithm for calculating 2d density blobs</li>
-<li>Dimension testing now calculates proportion of titers to exclude as test set as proportion of measured titers, not proportion of detectable titers.</li>
-<li>Fixes an error when only one blob would be displayed in the viewer in cases where more than one blob was associated with a point</li>
-<li>Speed improvements to the calculation of contour blobs from point densities in 2-dimensions</li>
-<li>Added the option to set a description field for the map with the <code><a href="../reference/mapDescription.html">mapDescription()</a></code> function</li>
-</ul></div>
-    <div class="section level2">
-<h2 class="page-header" data-toc-text="1.1.21" id="racmacs-1121">Racmacs 1.1.21<a class="anchor" aria-label="anchor" href="#racmacs-1121"></a></h2>
-<ul><li>Full precision used in rapidjson when parsing doubles to load and save maps</li>
-<li>Added <code><a href="../reference/acmapAttributes.html">numSeraGroups()</a></code> function</li>
-<li>Added “extra” field for antigens and sera, and corresponding <code><a href="../reference/agAttributes.html">agExtra()</a></code> and <code><a href="../reference/srAttributes.html">srExtra()</a></code> functions</li>
-<li>Antigen and serum groups will now be maintained and merged when running <code><a href="../reference/mergeMaps.html">mergeMaps()</a></code>
-</li>
-<li>Where maps have shared <code><a href="../reference/dilutionStepsize.html">dilutionStepsize()</a></code> settings, this will be applied to the merged map. Alternatively a warning will be issued and a default setting of 1 applied where they have different <code><a href="../reference/dilutionStepsize.html">dilutionStepsize()</a></code> settings.</li>
-<li>Add attribute getter <code><a href="../reference/acmapAttributes.html">numLayers()</a></code> for returning the number of titer table layers in a map.</li>
-<li>
-<code>titerTable()&lt;-</code> will now throw an error if the titer table applied does not have the same dimensions as the map in terms of number of antigens and sera</li>
-<li>When maps are merged the <code>mapName</code> will be used to name the titer table layers, layer names can also be get and set directly using the new <code><a href="../reference/layerNames.html">layerNames()</a></code> function</li>
-</ul></div>
-    <div class="section level2">
-<h2 class="page-header" data-toc-text="1.1.22" id="racmacs-1122">Racmacs 1.1.22<a class="anchor" aria-label="anchor" href="#racmacs-1122"></a></h2>
-<ul><li>
-<code>agReactivityAdjustments</code> now becomes a property of the base acmap object rather than individual optimization runs</li>
-</ul></div>
-    <div class="section level2">
-<h2 class="page-header" data-toc-text="1.1.23" id="racmacs-1123">Racmacs 1.1.23<a class="anchor" aria-label="anchor" href="#racmacs-1123"></a></h2>
-<ul><li>Fix <code><a href="../reference/subsetMap.html">subsetMap()</a></code> to also subset ag reactivity adjustments!</li>
-</ul></div>
-    <div class="section level2">
-<h2 class="page-header" data-toc-text="1.1.24" id="racmacs-1124">Racmacs 1.1.24<a class="anchor" aria-label="anchor" href="#racmacs-1124"></a></h2>
-<ul><li>Regions outside of plot border will now be masked when running <code><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot()</a></code> on a map</li>
-</ul></div>
-    <div class="section level2">
-<h2 class="page-header" data-toc-text="1.1.25" id="racmacs-1125">Racmacs 1.1.25<a class="anchor" aria-label="anchor" href="#racmacs-1125"></a></h2>
-<ul><li>Throw an error instead of crashing when trying to do procrustes on maps with duplicate antigen/sera names/ids</li>
-<li>Add option to extend density blobs for e.g. bootstrapBlobs to extend beyond the range of the actual coordinates.</li>
-</ul></div>
-    <div class="section level2">
-<h2 class="page-header" data-toc-text="1.1.26" id="racmacs-1126">Racmacs 1.1.26<a class="anchor" aria-label="anchor" href="#racmacs-1126"></a></h2>
-<ul><li>Add option to select the algorithm MASS::kde2d or ks::kde for calculating 2D density blobs.</li>
-<li>Add functions to help plot and inspect bootstrap blobs, <code><a href="../reference/ptBootstrapBlob.html">agBootstrapBlob()</a></code>, <code><a href="../reference/ptBootstrapBlob.html">srBootstrapBlob()</a></code>, <code><a href="../reference/ptBootstrapCoords.html">agBootstrapCoords()</a></code>, <code><a href="../reference/ptBootstrapCoords.html">srBootstrapCoords()</a></code>, <code><a href="../reference/blob.html">blob()</a></code>
-</li>
-</ul></div>
-    <div class="section level2">
-<h2 class="page-header" data-toc-text="1.1.27" id="racmacs-1127">Racmacs 1.1.27<a class="anchor" aria-label="anchor" href="#racmacs-1127"></a></h2>
-<ul><li>
-<code><a href="../reference/logtiterTable.html">logtiterTable()</a></code> nows returns a table with named columns and rows</li>
-<li>Fix issue showing individual bootstrap points in 3D</li>
-<li>Add option <code>show_group_legend</code> to <code><a href="../reference/view.html">view()</a></code> to show interactive legend based on <code><a href="../reference/agGroups.html">agGroups()</a></code> and <code><a href="../reference/srGroups.html">srGroups()</a></code> point groupings</li>
-<li>Add ability in viewer to filter and color antigens and sera by group</li>
-</ul></div>
-    <div class="section level2">
-<h2 class="page-header" data-toc-text="1.1.28" id="racmacs-1128">Racmacs 1.1.28<a class="anchor" aria-label="anchor" href="#racmacs-1128"></a></h2>
-<ul><li>
-<code><a href="../reference/pointStress.html">agStress()</a></code> and <code><a href="../reference/pointStress.html">srStress()</a></code> fixed to work with NA coordinates</li>
-<li>Correct error when calculating <code><a href="../reference/pointStress.html">agStressPerTiter()</a></code> and <code><a href="../reference/pointStress.html">srStressPerTiter()</a></code> with missing titers.</li>
-<li>Antigen/Sera sequence and date information now write to json fields in line with acmacs-web.</li>
-<li>Add attribute getters and setters <code><a href="../reference/ptAnnotations.html">agAnnotations()</a></code>, <code><a href="../reference/ptAnnotations.html">srAnnotations()</a></code>, <code><a href="../reference/agLabIDs.html">agLabIDs()</a></code>
-</li>
-</ul></div>
-    <div class="section level2">
-<h2 class="page-header" data-toc-text="1.1.29" id="racmacs-1129">Racmacs 1.1.29<a class="anchor" aria-label="anchor" href="#racmacs-1129"></a></h2>
-<ul><li>
-<code><a href="../reference/mergeMaps.html">mergeMaps()</a></code> now accepts maps as either separate arguments <code>mergeMaps(map1, map2)</code> or as a list <code>mergeMaps(list(map1, map2))</code>
-</li>
-<li>Additional checks for antigen and serum attribute inputs</li>
-<li>Error corrected where merging maps with multiple titer layers caused session to crash</li>
-</ul></div>
-    <div class="section level2">
-<h2 class="page-header" data-toc-text="1.1.30" id="racmacs-1130">Racmacs 1.1.30<a class="anchor" aria-label="anchor" href="#racmacs-1130"></a></h2>
-<ul><li>Added support for setting indices of homologous antigens for sera with <code><a href="../reference/srHomologousAgs.html">srHomologousAgs()</a></code>
-</li>
-</ul></div>
-    <div class="section level2">
-<h2 class="page-header" data-toc-text="1.1.31" id="racmacs-1131">Racmacs 1.1.31<a class="anchor" aria-label="anchor" href="#racmacs-1131"></a></h2>
-<ul><li>Added checks for disconnected groups of points and functions <code><a href="../reference/mapCohesion.html">mapCohesion()</a></code>, <code><a href="../reference/mapCohesion.html">agCohesion()</a></code>, <code><a href="../reference/mapCohesion.html">srCohesion()</a></code> to diagnose poorly connected groups of points</li>
-<li>Add support for point transparency set either through <code>agOpacity()</code> and <code>srOpacity()</code> or appropriate hex code to the point fill or outline attribute e.g. <code>"#FF000099"</code>.</li>
-</ul></div>
-    <div class="section level2">
-<h2 class="page-header" data-toc-text="1.1.32" id="racmacs-1132">Racmacs 1.1.32<a class="anchor" aria-label="anchor" href="#racmacs-1132"></a></h2>
-<ul><li>Disconnected maps now return an error rather than a warning</li>
-<li>
-<code><a href="../reference/pointStress.html">agStressPerTiter()</a></code> and <code><a href="../reference/pointStress.html">srStressPerTiter()</a></code> now return a matrix with columns corresponding to stress per titer when nd values are excluded and when they are included</li>
-<li>Corrected error when coloring maps by stress or showing error lines with disconnected points</li>
-<li>If a titer table has column or row names but not sera or antigen names provided, names will be taken from the row and column names when creating a map.</li>
-<li>Add support for reading maps with brotli compression</li>
-<li>
-<code><a href="../reference/agSequences.html">agSequences()</a></code> and <code><a href="../reference/srSequences.html">srSequences()</a></code> now works when the stored sequences have different lengths or are missing for some points</li>
-<li>Correct error where maps with duplicate antigen or serum names would not optimize</li>
-</ul></div>
-    <div class="section level2">
-<h2 class="page-header" data-toc-text="1.1.33" id="racmacs-1133">Racmacs 1.1.33<a class="anchor" aria-label="anchor" href="#racmacs-1133"></a></h2>
-<ul><li>Add some basic support for viewing 1D maps</li>
-<li>Fix an issue viewing sequence data where sequence data is not present for all antigens / sera</li>
-<li>Fix an error reoptimize merging maps with no optimizations</li>
-<li>Add verbosity argument to <code><a href="../reference/mergeMaps.html">mergeMaps()</a></code>
-</li>
-<li>Verbosity argument also suppresses optimization progress messages</li>
-<li>Issue a warning if duplicate antigen or serum names are found when creating a map</li>
-</ul></div>
-    <div class="section level2">
-<h2 class="page-header" data-toc-text="1.1.34" id="racmacs-1134">Racmacs 1.1.34<a class="anchor" aria-label="anchor" href="#racmacs-1134"></a></h2>
-<ul><li>Add support for getting and setting serum species with <code><a href="../reference/srAttributes.html">srSpecies()</a></code>.</li>
-<li>Redundant attributes <code>agNamesAbbreviated</code>, <code>agNamesFull</code>, <code>srNamesAbbreviated</code>, <code>srNamesFull</code> removed</li>
-</ul></div>
-    <div class="section level2">
-<h2 class="page-header" data-toc-text="1.1.35" id="racmacs-1135">Racmacs 1.1.35<a class="anchor" aria-label="anchor" href="#racmacs-1135"></a></h2>
-<ul><li>Add antigen and sera attributes: <code><a href="../reference/agAttributes.html">agLineage()</a></code>, <code><a href="../reference/srAttributes.html">srLineage()</a></code>, <code><a href="../reference/agAttributes.html">agReassortant()</a></code>, <code><a href="../reference/srAttributes.html">srReassortant()</a></code>, <code><a href="../reference/agAttributes.html">agStrings()</a></code>, <code><a href="../reference/srAttributes.html">srStrings()</a></code>, <code><a href="../reference/agAttributes.html">agContinent()</a></code>, <code><a href="../reference/agSequences.html">agNucleotideSequences()</a></code>, <code><a href="../reference/srSequences.html">srNucleotideSequences()</a></code>
-</li>
-</ul></div>
-    <div class="section level2">
-<h2 class="page-header" data-toc-text="1.1.36" id="racmacs-1136">Racmacs 1.1.36<a class="anchor" aria-label="anchor" href="#racmacs-1136"></a></h2>
-<ul><li>Fix error in reoptimized-merge</li>
-<li>
-<code><a href="../reference/logtiterTableLayers.html">logtiterTableLayers()</a></code> function exported</li>
-<li>Fix error when blobs are smaller than grid-spacing used to calculate them</li>
-<li>Add the <code><a href="../reference/blobsize.html">blobsize()</a></code> function for calculating the area/volume of uncertainty blobs</li>
-<li>Removed function <code>triangulationBlobSize()</code> - now use e.g. <code>sapply(agTriangulationBlobs(map), blobsize)</code>
-</li>
-<li>3D blob meshes are now separated into a list of contiguous meshes so that number of blobs can be retrieved from the length, i.e. <code>sapply(agTriangulationBlobs(map), length)</code>
-</li>
-</ul></div>
-    <div class="section level2">
-<h2 class="page-header" data-toc-text="1.1.37" id="racmacs-1137">Racmacs 1.1.37<a class="anchor" aria-label="anchor" href="#racmacs-1137"></a></h2>
-<ul><li>Fix error where serum column base label would remain after turning titer labels off</li>
-<li>Set default margins of 0.5 inches when plotting a map</li>
-<li>Add support for insertions in amino acids sequences</li>
-</ul></div>
-    <div class="section level2">
-<h2 class="page-header" data-toc-text="1.1.38" id="racmacs-1138">Racmacs 1.1.38<a class="anchor" aria-label="anchor" href="#racmacs-1138"></a></h2>
-<ul><li>Add option to specify a subset of antigens and sera for which to calculate blobs in the <code><a href="../reference/bootstrapBlobs.html">bootstrapBlobs()</a></code> function</li>
-<li>Add method for plotting a map using ggplot i.e. <code>ggplot(map)</code>.</li>
-<li>When coloring by sequence a more distinct color palette is used</li>
-</ul></div>
-    <div class="section level2">
-<h2 class="page-header" data-toc-text="1.1.39" id="racmacs-1139">Racmacs 1.1.39<a class="anchor" aria-label="anchor" href="#racmacs-1139"></a></h2>
-<ul><li>Correct error when plotting cases where blobs were calculated for only 1 antigen / serum</li>
-<li>Only show plot outlier arrowheads if point is marked as shown</li>
-<li>Numeric table distances account for dilution stepsize setting of map</li>
-</ul></div>
-    <div class="section level2">
-<h2 class="page-header" data-toc-text="1.1.40" id="racmacs-1140">Racmacs 1.1.40<a class="anchor" aria-label="anchor" href="#racmacs-1140"></a></h2>
-<ul><li>Add some options to view.acmap to set the starting viewer translation, rotation and zoom</li>
-<li>Add <code>grid.lwd</code> option to control grid linewidth in <code>ggplot(map)</code>
-</li>
-<li>Add antigen and sera names to vector when retrieving antigen and sera attributes like <code><a href="../reference/ptStyles.html">agFill()</a></code>
-</li>
-</ul></div>
-    <div class="section level2">
-<h2 class="page-header" data-toc-text="1.2.0" id="racmacs-120">Racmacs 1.2.0<a class="anchor" aria-label="anchor" href="#racmacs-120"></a></h2>
-<ul><li>Add new options and default methods to use when merging titers as described for <code><a href="../reference/RacMerge.options.html">RacMerge.options()</a></code>
-</li>
-<li>Return a more useful error if <code><a href="../reference/bootstrapBlobs.html">bootstrapBlobs()</a></code> is run on a map where <code><a href="../reference/bootstrapMap.html">bootstrapMap()</a></code> has not yet been performed.</li>
-<li>Add <code>grid.margin.lwd</code> option to control grid margin linewidth in <code>ggplot(map)</code>
-</li>
-<li>Improve user interruption of map optimization runs</li>
-</ul></div>
-    <div class="section level2">
-<h2 class="page-header" data-toc-text="1.2.1" id="racmacs-121">Racmacs 1.2.1<a class="anchor" aria-label="anchor" href="#racmacs-121"></a></h2>
-<ul><li>Titer merge method changed so that sd limit is implemented before any merging to &lt; values</li>
-<li>Expose further optimization options as user controllable options</li>
-<li>Add the option to set lighting using the r3js::light3js() function</li>
-<li>Add the option to set the viewer background color</li>
-</ul></div>
-    <div class="section level2">
-<h2 class="page-header" data-toc-text="1.2.2" id="racmacs-122">Racmacs 1.2.2<a class="anchor" aria-label="anchor" href="#racmacs-122"></a></h2>
-<ul><li>Add argument in view.acmap to control set viewer background color</li>
-</ul></div>
-    <div class="section level2">
-<h2 class="page-header" data-toc-text="1.2.3" id="racmacs-123">Racmacs 1.2.3<a class="anchor" aria-label="anchor" href="#racmacs-123"></a></h2>
-<ul><li>Fix error where light was not being added to the viewer properly</li>
-</ul></div>
-    <div class="section level2">
-<h2 class="page-header" data-toc-text="1.2.4" id="racmacs-124">Racmacs 1.2.4<a class="anchor" aria-label="anchor" href="#racmacs-124"></a></h2>
-<ul><li>Add arguments to control procrustes arrow appearance in <code><a href="../reference/plot.acmap.html">plot.acmap()</a></code>
-</li>
-</ul></div>
-    <div class="section level2">
-<h2 class="page-header" data-toc-text="1.2.5" id="racmacs-125">Racmacs 1.2.5<a class="anchor" aria-label="anchor" href="#racmacs-125"></a></h2>
-<ul><li>Allow for shorthand description of shapes e.g. “C” for “CIRCLE” in map .ace files.</li>
-</ul></div>
-    <div class="section level2">
-<h2 class="page-header" data-toc-text="1.2.6" id="racmacs-126">Racmacs 1.2.6<a class="anchor" aria-label="anchor" href="#racmacs-126"></a></h2>
-<ul><li>Set the default number of cores to use as 2 unless otherwise specified in either RacOptimizer.options, or by setting the global option ‘RacOptimizer.num_cores’ with e.g. <code>options(RacOptimizer.num_cores = parallel::detectCores())</code>.</li>
-</ul></div>
-    <div class="section level2">
-<h2 class="page-header" data-toc-text="1.2.7" id="racmacs-127">Racmacs 1.2.7<small>2023-09-04</small><a class="anchor" aria-label="anchor" href="#racmacs-127"></a></h2>
-<ul><li>
-<code><a href="https://rdrr.io/r/base/on.exit.html" class="external-link">on.exit()</a></code> calls added to code in <code>R/map_plot.R</code> and <code>inst/shinyapps/RacmacsGUI/app.R</code> where changes to graphical parameters and user options are made.</li>
-<li>
-<code>snapshotMap()</code> function removed.</li>
-</ul></div>
-    <div class="section level2">
-<h2 class="page-header" data-toc-text="1.2.8" id="racmacs-128">Racmacs 1.2.8<small>2023-11-23</small><a class="anchor" aria-label="anchor" href="#racmacs-128"></a></h2>
-<ul><li>Function <code><a href="../reference/splitTiterLayers.html">splitTiterLayers()</a></code> now exported.</li>
-<li>Use <code><a href="https://readxl.tidyverse.org/reference/read_excel.html" class="external-link">readxl::read_excel()</a></code> for reading excel files instead of <code>gdata::read.xls()</code>
-</li>
 </ul></div>
   </div>
 

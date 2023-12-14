@@ -75,6 +75,7 @@ Other map optimization functions:
 \code{\link{RacOptimizer.options}()},
 \code{\link{make.acmap}()},
 \code{\link{moveTrappedPoints}()},
+\code{\link{optimizeSubsetAgsIndividually}()},
 \code{\link{randomizeCoords}()},
 \code{\link{relaxMapOneStep}()},
 \code{\link{relaxMap}()}

@@ -29,6 +29,7 @@ Other map optimization functions:
 \code{\link{make.acmap}()},
 \code{\link{moveTrappedPoints}()},
 \code{\link{optimizeMap}()},
+\code{\link{optimizeSubsetAgsIndividually}()},
 \code{\link{relaxMapOneStep}()},
 \code{\link{relaxMap}()}
 }

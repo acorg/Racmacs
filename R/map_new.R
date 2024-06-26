@@ -39,7 +39,7 @@ acmap <- function(
 ) {
 
   # Check input
-  ellipsis::check_dots_used()
+  rlang::check_dots_used()
   titer_table <- table_arg_deprecated(titer_table, ...)
 
   # Infer the number of antigens and sera

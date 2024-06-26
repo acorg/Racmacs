@@ -201,7 +201,7 @@ make.acmap <- function(
   ) {
 
   # Check arguments
-  ellipsis::check_dots_used()
+  rlang::check_dots_used()
 
   # Make the chart
   map <- acmap(

@@ -31,13 +31,12 @@ Imports:
     htmltools,
     rmarchingcubes,
     shape,
-    ellipsis,
     MASS,
     magrittr,
     igraph,
     dplyr,
     vctrs,
-    rlang
+    rlang (>= 1.0.0)
 LazyData: TRUE
 Suggests: 
     testthat,

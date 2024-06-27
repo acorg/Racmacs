@@ -12,7 +12,7 @@
 <link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png">
 <link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png">
 <link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png">
-<!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script><!-- Bootstrap --><link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.4.0/flatly/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
+<!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script><!-- Bootstrap --><link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.4.0/flatly/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script><!-- bootstrap-toc --><link rel="stylesheet" href="../bootstrap-toc.css">
 <script src="../bootstrap-toc.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
@@ -265,8 +265,8 @@ transformation below. Other transformations could be used but error in
 the HI assay varies approximately normally on the log scale, as do
 differences in response magnitude between ferrets so there is some
 justification for this.</p>
-<div class="figure">
-<img src="figures/intro_fig2.png" alt=""><p class="caption">Log titer conversion</p>
+<div class="float">
+<img src="figures/intro_fig2.png" alt="Log titer conversion"><div class="figcaption">Log titer conversion</div>
 </div>
 <p><strong>Column bases</strong><br>
 The log titer table represents something like a similarity matrix, since
@@ -320,8 +320,8 @@ minimum column basis of “640”. In this case it has a knock-on effect not
 only on increasing the assumed column basis for the “BN” sera, but also
 “BE” and “HK”. The latter two are probably not desirable, but
 illustrates the way it works.</p>
-<div class="figure">
-<img src="figures/intro_fig4.png" alt=""><p class="caption">Applying different minimum column bases</p>
+<div class="float">
+<img src="figures/intro_fig4.png" alt="Applying different minimum column bases"><div class="figcaption">Applying different minimum column bases</div>
 </div>
 <p>You can probably tell that this is not a pretty way to account for
 this potential issue, happily in most cases - even if exactly homologous
@@ -343,8 +343,8 @@ missing values in the distance table since what may seem like a full
 distance table at first is actually at best only half since we have no
 measure of antigen-antigen or serum-serum distances, as illustrated
 below.</p>
-<div class="figure">
-<img src="figures/intro_fig5.png" alt=""><p class="caption">Comparing to a full distance table</p>
+<div class="float">
+<img src="figures/intro_fig5.png" alt="Comparing to a full distance table"><div class="figcaption">Comparing to a full distance table</div>
 </div>
 <p>A further complication is that generally there are many thresholded
 or “censored” titers such as “&lt;10”. These then become similarly
@@ -485,7 +485,7 @@ length for the specified number of randomisations.<a href="#fnref3" class="footn
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.9.</p>
 </div>
 
       </footer>
